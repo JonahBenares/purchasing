@@ -36,16 +36,16 @@
                         </button>
                     </h5>                            
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>" target='_blank'>
+                <form method='POST' action='upload_excel_pr' enctype="multipart/form-data" target='_blank'>
                     <div class="modal-body">
                         <div class="form-group">
                             Browse your computer:
-                            <input type="file" name="" class="form-control">
+                            <input type="file" name="excelfile_pr" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
-                        <a href="<?php echo base_url(); ?>index.php/pr/purchase_request"  class="btn btn-primary ">Proceed</a>
+                        <!-- <a href="<?php echo base_url(); ?>index.php/pr/purchase_request"  class="btn btn-primary ">Proceed</a> -->
                     </div>
                 </form>
             </div>
