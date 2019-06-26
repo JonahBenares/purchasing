@@ -38,7 +38,7 @@
                         <div class="sparkline8-hd">
                             <div class="main-sparkline8-hd">
                                 <form>
-                                    <h4>PR no: <b>PR-3092-1298</b></h4>
+                                    <h4>PR no: <b><?php echo $pr_no; ?></b></h4>
                                     <table class="table table-bordered">
                                         <tr>
                                             <td width="15%"><a href="" ></a>

@@ -36,16 +36,45 @@ class Pr extends CI_Controller {
     }
 
     public function purchase_request(){  
+        $prid = $this->uri->segment(3);
+        $data['pr_id']=$prid;
+        $data['head']=$this->super_model->select_row_where("pr_head", "pr_id", $prid);
+        $data['details']=$this->super_model->select_row_where("pr_details", "pr_id", $prid);
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('pr/purchase_request');
+        $this->load->view('pr/purchase_request',$data);
         $this->load->view('template/footer');
     }
 
+    public function save_groupings(){
+        $prid = $this->input->post('pr_id');
+        $count_item = $this->input->post('count_item');
+
+        for($x=1;$x<$count_item;$x++){
+            $pr_details_id =  $this->input->post('pr_details_id'.$x);
+            $group =  $this->input->post('group'.$x);
+
+            $data = array(
+                'grouping_id'=>$group
+            );
+
+            $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
+        }
+
+        $data_head = array(
+            'pr_no'=>$this->input->post('new_pr'),
+        );
+        $this->super_model->update_where("pr_head", $data_head, "pr_id", $prid);
+
+        redirect(base_url().'pr/pr_group/'.$prid);
+    }
+
     public function pr_group(){  
+        $prid = $this->uri->segment(3);
+        $data['pr_no']=$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $prid);
         $this->load->view('template/header');
         $this->load->view('template/navbar');        
-        $this->load->view('pr/pr_group');
+        $this->load->view('pr/pr_group',$data);
         $this->load->view('template/footer');
     }
     
