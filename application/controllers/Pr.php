@@ -84,6 +84,7 @@ class Pr extends CI_Controller {
         $urgency_no = trim($objPHPExcel->getActiveSheet()->getCell('I9')->getValue());
 
         $data_head = array(
+            'pr_id'=>$pr_id,
             'user_pr_no'=>$pr_no,
             'purchase_request'=>$pr,
             'date_prepared'=>$date_prepared,
@@ -103,7 +104,7 @@ class Pr extends CI_Controller {
                 $uom = trim($objPHPExcel->getActiveSheet()->getCell('C'.$x)->getValue());
                 $part_no = trim($objPHPExcel->getActiveSheet()->getCell('D'.$x)->getValue());
                 $description = trim($objPHPExcel->getActiveSheet()->getCell('E'.$x)->getValue());
-                $date_needed = trim($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue());
+                $date_needed = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue()));
                 $data_items = array(
                     'pr_id'=>$pr_id,
                     'item_description'=>$description,
