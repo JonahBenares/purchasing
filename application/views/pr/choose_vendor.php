@@ -9,10 +9,13 @@
                         <div class="sparkline8-hd">
                             <div class="main-sparkline8-hd">
                                 <form>
-                                    <label>Choose Category:</label>
-                                    <select class="form-control">
-                                        <option class="capital">--choose categogry--</option>
-                                    </select>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="20%"><label>Choose Category:</label></td>
+                                            <td width="60%"><input type='text' name='category' class='form-control '></td>
+                                            <td width="20%"><input type='submit' value='Search' class="btn btn-success btn-block"></td>
+                                        </tr>
+                                    </table>
                                     <br>
                                     Vendor List
                                     <table class="table table-bordered">                                        

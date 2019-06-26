@@ -71,7 +71,30 @@ class Pr extends CI_Controller {
 
     public function pr_group(){  
         $prid = $this->uri->segment(3);
+        $data['pr_id']=$prid;
         $data['pr_no']=$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $prid);
+
+        foreach($this->super_model->custom_query("SELECT DISTINCT grouping_id FROM pr_details WHERE pr_id = '$prid'") AS $groups){
+            $data['group'][] = array(
+                'group'=>$groups->grouping_id
+            );
+
+        }
+
+       foreach($this->super_model->custom_query("SELECT item_description, grouping_id FROM pr_details WHERE pr_id = '$prid'") AS $items){
+            $data['items'][] = array(
+                'group_id'=>$items->grouping_id,
+                'item_desc'=>$items->item_description
+            );
+        }
+
+
+       foreach($this->super_model->custom_query("SELECT vendor_id,grouping_id FROM pr_vendors WHERE pr_id = '$prid'") AS $vendor){
+            $data['vendor'][] = array(
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor->vendor_id),
+                'group_id'=>$vendor->grouping_id,
+            );
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');        
         $this->load->view('pr/pr_group',$data);

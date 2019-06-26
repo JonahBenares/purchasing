@@ -1,3 +1,4 @@
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/pr.js"></script>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -40,60 +41,29 @@
                                 <form>
                                     <h4>PR no: <b><?php echo $pr_no; ?></b></h4>
                                     <table class="table table-bordered">
+
+                                        <?php foreach($group AS $gr){ ?>
                                         <tr>
                                             <td width="15%"><a href="" ></a>
-
-                                                <li class="dropdown" style="list-style:none;margin:0px;width:100%"> 
-                                                    <a style="width:100%;text-align: left; letter-spacing: 1px;font-size: 13px; font-weight: 700" data-toggle="dropdown" href="#">
-                                                        <h3 class="m-b-0"><b>Group 1</b></h3>
-                                                    </a>
-                                                    <ul class="dropdown-menu dropdown-alerts animated fadeInLeft" style="width:350px;top:30px;border:1px solid #ffb17f;left:0px;">
-                                                        <span class="arrow-top2"></span>
-                                                        <li style="padding:5px">
-                                                            <b>Item List</b>
-                                                            <table class="table table-hover table-bordered" style="margin:0px">
-                                                                <tr>
-                                                                    <td width="1%"><strong>1</strong></td>
-                                                                    <td>
-                                                                        <label style="color:#555;font-weight: 600"></label >
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><strong>2</strong></td>
-                                                                    <td>
-                                                                        <label style="color:#555;font-weight: 600"></label >
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><strong>3</strong></td>
-                                                                    <td>
-                                                                        <label style="color:#555;font-weight: 600"></label >
-                                                                    </td>
-                                                                </tr>
-
-                                                            </table>
-                                                        </li>
-                                                    </ul>
-                                                </li>
+                                            <h3 class="m-b-0"><b>Group <?php echo $gr['group']; ?></b></h3>
                                             </td>
-                                            <td width="75%">
+                                            <td width="32%">
+                                                <?php foreach($items AS $it){ 
+                                                    if($gr['group'] == $it['group_id']){
+                                                        echo "-" . $it['item_desc'] . "<br>";
+                                                    }
+                                                } ?>
+                                            </td>
+                                            <td width="32%">
                                                 - Arising Builders Hardware and Construction Supply<br>
                                                 - CJ KARR Industrial Sales And Service<br>
                                                 - Compresstech Resources, Inc.<br>
                                                 - Dawson Technology PTY LTD.<br>
                                             </td>
-                                            <td width="10%"><a href="" onclick="choose_vendor('<?php echo base_url(); ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a></td>
+                                            <td width="10%"><a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $gr['group']; ?>','<?php echo $pr_id; ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a></td>
                                         </tr>
-                                        
-                                        <tr>
-                                            <td width="15%"><a href=""><h3 class="m-b-0"><b>Group 2</b></h3></a></td>
-                                            <td width="75%">
-                                                - First Pilipinas Power and Automation, Inc<br>
-                                                - Gini GTB Industrial Network Inc./AsiaPhil<br>
-                                                - Hardware and Industrial Solutions Incorporated<br>
-                                            </td>
-                                            <td width="10%"><a href="" onclick="choose_vendor('<?php echo base_url(); ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a></td>
-                                        </tr>
+                                        <?php } ?>
+                                      
                                     </table>
                                     <center><a href="<?php echo base_url(); ?>index.php/rfq/rfq_list" class="btn btn-primary btn-md p-l-100 p-r-100">Proceed</a></center>
                                 </form>
