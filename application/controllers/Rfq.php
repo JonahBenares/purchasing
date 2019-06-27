@@ -49,6 +49,29 @@ class Rfq extends CI_Controller {
         $this->load->view('template/footer');
     }  
 
+    public function rfq_outgoing(){
+        $this->load->view('template/header');
+        $this->load->view('rfq/rfq_outgoing');
+        $this->load->view('template/footer');
+    } 
+    public function rfq_incoming(){
+        $this->load->view('template/header');
+        $this->load->view('rfq/rfq_incoming');
+        $this->load->view('template/footer');
+    } 
+    public function served_rfq(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('rfq/served_rfq');
+        $this->load->view('template/footer');
+    } 
+    public function cancelled_rfq(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('rfq/cancelled_rfq');
+        $this->load->view('template/footer');
+    } 
+
 }
 
 ?>
