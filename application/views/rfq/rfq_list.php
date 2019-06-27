@@ -138,28 +138,35 @@
                                             <th width="5%"><input type="checkbox" class="form-control" name="" onClick="toggle_multi(this)"></th>
                                             <th width="10%">RFQ #</th>
                                             <th width="10%">PR #</th>
-                                            <th>Supplier</th>
+                                            <th>Vendor</th>
                                             <th width="10%">RFQ Date</th>
                                             <th width="30%">Items</th>
-                                            <th width="10%">Notes</th>
+                                           
                                             <th width="15%"><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php foreach($head AS $h){ ?>
                                         <tr>
                                             <td>
                                             <input type="checkbox" class="form-control rfq_list" name="rfq[]" value=""></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo $h['rfq_no']; ?></td>
+                                            <td><?php echo $h['pr_no']; ?></td>
+                                            <td><?php echo $h['vendor']; ?></td>
+                                           
                                             <td>
-                                                <span style='text-align: left;'> 45345</span>
+                                                <span style='text-align: left;'> <?php echo date('m.j.y', strtotime($h['rfq_date'])); ?></span>
                                             </td>
-                                            <td style='font-size: 12px'></td>
+                                            <td style='font-size: 12px'>
+                                                <?php foreach($items AS $it){ 
+                                                    if($h['rfq_id']==$it['rfq_id']){
+                                                        echo "- ". $it['item'] . "<br>";
+                                                    } 
+                                                 } ?>
+                                            </td>
                                             <td>
                                                 <center>
-                                                    <a href="javascript:void(0)" onclick="" class="btn btn-custon-three btn-warning btn-xs">
+                                                    <a href="<?php echo base_url(); ?>rfq/rfq_outgoing/<?php echo $h['rfq_id']; ?>" target='_blank' class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                      <a class="duplicateRFQ btn btn-custon-three btn-info btn-xs" title="Duplicate" data-toggle="modal" data-target="#duplicateRFQ" data-id="">
@@ -174,7 +181,8 @@
                                                     </a>
                                                 </center>
                                             </td>
-                                        </tr>                                       
+                                        </tr>  
+                                        <?php } ?>                                     
                                     </tbody>
                                 </table>
 

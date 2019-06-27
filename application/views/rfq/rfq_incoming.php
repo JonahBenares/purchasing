@@ -140,10 +140,10 @@
 	    		<center>
 			    	<div class="btn-group">
 						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>					
-						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
-						<a  href='<?php echo base_url(); ?>rfq/override_rfq/' onclick="return confirm('Are you sure you want to override RFQ?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Override <u><b>RFQ</b></u></a>
+						<!-- <a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a> -->
+					<!-- 	<a  href='<?php echo base_url(); ?>rfq/override_rfq/' onclick="return confirm('Are you sure you want to override RFQ?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Override <u><b>RFQ</b></u></a> -->
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save"> 	
-							<a  href='<?php echo base_url(); ?>rfq/save_revisions/' onclick="return confirm('Are you sure you want to save revisions?')" class="btn btn-info btn-md p-l-25 p-r-25"> Save <b>Revisions</b></a>
+						<!--	<a  href='<?php echo base_url(); ?>rfq/save_revisions/' onclick="return confirm('Are you sure you want to save revisions?')" class="btn btn-info btn-md p-l-25 p-r-25"> Save <b>Revisions</b></a> -->
 					</div>
 					<h4 class="text-white"> <b>INCOMING</b> RFQ</h4>
 					<p class="text-white">Instructions: When printing REQUEST FOR QUOTATION make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
@@ -185,26 +185,31 @@
 		    		<tr><td colspan="20" align="center"><b>REQUEST FOR QUOTATION</b></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
-		    			<td class="f13" colspan="2">Date:</td>
-		    			<td class="f13 bor-btm" colspan="8"></td>
+		    			<td class="f13" colspan="2">Date: </td>
+		    			<td class="f13 bor-btm" colspan="9"><?php echo date('F j, Y', strtotime($rfq_date)); ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">RFQ No.:</td>
-		    			<td class="f13 bor-btm" colspan="6"></td>
+		    			<td class="f13" colspan="2">RFQ No.:</td>
+		    			<td class="f13 bor-btm" colspan="6"><?php echo $rfq_no; ?></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"></td></tr>
 		    		<tr>
 		    			<td class="f13" colspan="2">Supplier:</td>
-		    			<td class="f13 bor-btm" colspan="8"></td>
+		    			<td class="f13 bor-btm" colspan="9"><?php echo $vendor; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">Tel. No.:</td>
-		    			<td class="f13 bor-btm" colspan="6"></td>
+		    			<td class="f13" colspan="2">Tel. No.:</td>
+		    			<td class="f13 bor-btm" colspan="6"><?php echo $phone; ?></td>
 		    		</tr>
 		    		<tr id="printnotes">
 		    			<td class="f13" colspan="2">Notes:</td>
-		    			<td class="f13 bor-btm" colspan="8"></td>
+					 	<td class="f13 bor-btm" colspan="9">
+					 	<?php echo $notes; ?>
+					 	</td>
+		    			
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">PR No.:</td>
-		    			<td class="f13 bor-btm" colspan="6"></td>
+		    			<td class="f13" colspan="2">PR No:</td>
+    					<td class="f13 bor-btm" colspan="6">
+			    			<?php echo $pr_no; ?>
+		    			</td>   		
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"></td></tr>	    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
@@ -218,10 +223,13 @@
 		    						<td class="f13" align="center"><b>Brand/Offer</b></td>
 		    						<td class="f13" align="center" width="20%"><b>Unit Price</b></td>
 		    						<!-- <td class="f13 reco" align="center" width="5%"><b><span class="fa fa-bars"></span></b></td> -->
+		    					<?php 
+		    					$x=1;
+		    					foreach($items AS $it) {  ?>
 		    					<tr>
-		    						<td class="f13" align="center" rowspan='3'></td>
-		    						<td class="f13" align="center" rowspan='3'></td>
-		    						<td class="f13" align="center" rowspan='3' style='width:35%'></td>
+		    						<td class="f13" align="center" rowspan='3'><?php echo $x; ?></td>
+		    						<td class="f13" align="center" rowspan='3'><?php echo $it->uom; ?></td>
+		    						<td class="f13" align="center" rowspan='3' style='width:35%'><?php echo $it->item_desc; ?></td>
 		    						<td class="f13" align="center">
 		    							<textarea rows="1" name="" class="sel-des emphasis" ></textarea>
 		    						</td>
@@ -245,7 +253,10 @@
 		    							<input type="text" name="price" class="sel-des emphasis" autocomplete="off">	    							
 		    						</td>
 		    					</tr>
+
 		    					<input type='hidden' name='detail_id<?php echo $x; ?>' value=''>
+		    						<?php 
+		    						$x++; } ?>
 		    						<tr>
 		    						<td class="f13" align="center" style='width:5%' rowspan="3"></td>
 		    						<td class="f13" align="center" style='width:5%'  rowspan="3" ></td>
@@ -318,7 +329,7 @@
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="18">&nbsp; f. Vat 
 		    				<input type="checkbox" name="vat" value='1' class='emphasis' > 
-		    				<span class='fa fa-check'></span>"
+		    				<span class='fa fa-check'></span>
 		    				</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
@@ -343,15 +354,15 @@
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="4">
-		    				<center></center>
+		    				<center><?php echo $prepared; ?></center>
 		    			</td>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="4">
-		    				<center></center>
+		    				<center><?php echo $noted; ?></center>
 		    			</td>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="4">
-		    				<center></center>
+		    				<center><?php echo $approved; ?></center>
 		    			</td>
 		    			<td class="f13" colspan="2"></td>
 		    		</tr>  	

@@ -84,14 +84,18 @@
     </style>
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>rfq/'>  
+    	<form method='POST' action='<?php echo base_url(); ?>rfq/save_rfq'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
 						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-						<a  href='<?php echo base_url(); ?>rfq/override_rfq/' onclick="return confirm('Are you sure you want to override RFQ?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Override <u><b>RFQ</b></u></a>
+						<!-- <a  href='<?php echo base_url(); ?>rfq/override_rfq/' onclick="return confirm('Are you sure you want to override RFQ?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Override <u><b>RFQ</b></u></a> -->
+						<?php if($saved==1){ ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
+						<a  href="<?php echo base_url(); ?>rfq/rfq_incoming/<?php echo $rfq_id; ?>" class="btn btn-primary btn-md p-l-50 p-r-50">RFQ Incoming</a>
+						<?php } else if($saved==0){ ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">  		
+						<?php } ?>
 					</div>
 					<h4 class="text-white"><b>OUTGOING</b> RFQ</h4>
 					<p class="text-white">Instructions: When printing REQUEST FOR QUOTATION make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
@@ -133,31 +137,37 @@
 		    		<tr><td colspan="20" align="center"><b>REQUEST FOR QUOTATION</b></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
-		    			<td class="f13" colspan="2">Date:</td>
-		    			<td class="f13 bor-btm" colspan="9"></td>
+		    			<td class="f13" colspan="2">Date: </td>
+		    			<td class="f13 bor-btm" colspan="9"><?php echo date('F j, Y', strtotime($rfq_date)); ?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="2">RFQ No.:</td>
-		    			<td class="f13 bor-btm" colspan="6"></td>
+		    			<td class="f13 bor-btm" colspan="6"><?php echo $rfq_no; ?></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"></td></tr>
 		    		<tr>
 		    			<td class="f13" colspan="2">Supplier:</td>
-		    			<td class="f13 bor-btm" colspan="9"></td>
+		    			<td class="f13 bor-btm" colspan="9"><?php echo $vendor; ?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="2">Tel. No.:</td>
-		    			<td class="f13 bor-btm" colspan="6"></td>
+		    			<td class="f13 bor-btm" colspan="6"><?php echo $phone; ?></td>
 		    		</tr>
 		    		<tr id="printnotes">
 		    			<td class="f13" colspan="2">Notes:</td>
+    					
+    					<?php if($saved==0){ ?>
     					<td class="f13" colspan="9">
 		    			 <textarea name="notes" rows='1' cols='25' style='width:100%;border: 0px; border-bottom: 2px solid red'></textarea>
 		    			</td>
+    					 <?php } else { ?>
+    					 	<td class="f13 bor-btm" colspan="9">
+    					 	<?php echo $notes; ?>
+    					 	</td>
+    					<?php } ?>
+		    			
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="2">PR No:</td>
-    					<td class="f13" colspan="6">
-			    			<select name='pr_no' class="emphasis" style='width:100%;border: 0px; border-bottom: 2px solid red' required>
-                                <option value='' selected>-Select PR Number-</option>
-                        	</select>
+    					<td class="f13 bor-btm" colspan="6">
+			    			<?php echo $pr_no; ?>
 		    			</td>   		
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"></td></tr>	    		
@@ -172,13 +182,18 @@
 		    						<td class="f13" align="center"><b>Brand/Offer</b></td>
 		    						<td class="f13" align="center"><b>Unit Price</b></td>
 		    					</tr>
+		    					<?php 
+		    					$x=1;
+		    					foreach($items AS $it) {  ?>
 		    					<tr>
-		    						<td class="f13" align="center">1</td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="left" style='width:40%;padding-left: 2px'></td>
+		    						<td class="f13" align="center"><?php echo $x; ?></td>
+		    						<td class="f13" align="center"><?php echo $it->uom; ?></td>
+		    						<td class="f13" align="left" style='width:40%;padding-left: 2px'><?php echo $it->item_desc; ?></td>
 		    						<td class="f13" align="center" style='width:40%;'></td>
 		    						<td class="f13" align="center" style='width:10%'></td>
 		    					</tr>
+		    					<?php $x++;
+		    					} ?>
 		    				</table>
 		    			</td>
 		    		</tr>
@@ -186,7 +201,11 @@
 		    		<tr>		    			
 		    			
 		    			<td class="f13" colspan="20">1. Quotation must be submitted on or before
+		    			<?php if($saved==0){ ?>
 		    			<input class="emphasis" type="date" name="due_date" style='border: 0px; border-bottom: 2px solid red' value="">
+		    			<?php } else {
+		    				echo (!empty($due) ? date('F j, Y', strtotime($due)) : '' );
+		    			} ?>
 		    			</td></tr>	    	
 		    		<tr><td class="f13" colspan="20">2. Please Fill - Up :</td></tr>	    	
 		    		<tr>
@@ -267,20 +286,40 @@
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="4">
-		    			<center></center>
+		    			<center><?php if($saved==0){ 
+		    			 	echo $_SESSION['fullname']; 
+		    			 } else {
+		    			 	echo $prepared;
+		    			 } ?></center>
 		    			</td>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="4">
-		    			<select name='noted' class="select-des emphasis">
+		    			<center>
+		    			<?php if($saved==0){ ?>
+			    			<select name='noted' class="select-des emphasis">
 			    			<option value=''>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>' <?php echo (!empty($noted_by) ? (($emp->employee_id == $noted_by) ? ' selected' : '') : ''); ?>><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 		    			</select>
-		    			<center></center>
+		    			<?php } else {
+		    				echo $noted;
+		    			} ?>
+		    			</center>
 		    			</td>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="4">
+		    				<?php if($saved==0){ ?>
 		    				<select name='approved' class="select-des emphasis">
 			    			<option value=''>-Select Employee-</option>
-		    			</select><center></center>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>' <?php echo (!empty($approved_by) ? (($emp->employee_id == $approved_by) ? ' selected' : '') : ''); ?>><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+		    			</select>
+		    				<?php } else {
+		    				echo $approved;
+		    				} ?>
+		    			<center></center>
 		    			</td>
 		    			<td class="f13" colspan="2"></td>
 		    		</tr>  	

@@ -38,9 +38,9 @@
                     <div class="sparkline8-list shadow-reset">
                         <div class="sparkline8-hd">
                             <div class="main-sparkline8-hd">
-                                <form>
+                                <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq">
                                     <h4>PR no: <b><?php echo $pr_no; ?></b></h4>
-                                    <table class="table table-bordered"  action="<?php echo base_url(); ?>pr/create_rfq">
+                                    <table class="table table-bordered" >
 
                                         <?php foreach($group AS $gr){ ?>
                                         <tr>
@@ -67,7 +67,7 @@
                                       
                                     </table>
                                     <input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
-                                    <center><input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value='Create RFQ'></center>
+                                    <center><input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
                                 </form>
                             </div>
                         </div>
