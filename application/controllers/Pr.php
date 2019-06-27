@@ -184,12 +184,58 @@ class Pr extends CI_Controller {
         $this->load->view('pr/pr_group',$data);
         $this->load->view('template/footer');
     }
+
+    public function search_vendor(){
+        $category = $this->input->post('category');
+        $pr_id = $this->input->post('pr_id');
+        $group = $this->input->post('group');
+
+        redirect(base_url().'pr/choose_vendor/'.$pr_id.'/'.$group.'/'.$category);
+        
+    }
     
     public function choose_vendor(){
+        $prid = $this->uri->segment(3);
+        $group = $this->uri->segment(4);
+        $category = $this->uri->segment(5);
+        $data['prid'] = $prid;
+        $data['group'] = $group;
+        $data['category']=$category;
+        $data['vendor'] = $this->super_model->custom_query("SELECT vendor_id, vendor_name, product_services FROM vendor_head WHERE product_services LIKE '%$category%'");
         $this->load->view('template/header');
-        $this->load->view('pr/choose_vendor');
+        $this->load->view('pr/choose_vendor', $data);
         $this->load->view('template/footer');
     }
+
+    public function insert_vendor(){
+        $pr_id = $this->input->post('pr_id');
+        $group = $this->input->post('group');
+        $vendor = $this->input->post('vendor_id');
+
+        foreach($vendor as $ven){
+            $data = array(
+                'pr_id'=>$pr_id,
+                'vendor_id'=>$ven,
+                'grouping_id'=>$group
+            );
+
+            $this->super_model->insert_into('pr_vendors', $data);
+        } ?>
+
+           <script>
+                  window.onunload = refreshParent;
+                function refreshParent() {
+                    window.opener.location.reload();
+                }
+                window.close();
+                
+            </script>
+        <?php 
+     }
+
+     public function create_rfq(){
+        
+     }
 }
 
 ?>

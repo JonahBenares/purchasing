@@ -40,7 +40,7 @@
                             <div class="main-sparkline8-hd">
                                 <form>
                                     <h4>PR no: <b><?php echo $pr_no; ?></b></h4>
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered"  action="<?php echo base_url(); ?>pr/create_rfq">
 
                                         <?php foreach($group AS $gr){ ?>
                                         <tr>
@@ -55,17 +55,19 @@
                                                 } ?>
                                             </td>
                                             <td width="32%">
-                                                - Arising Builders Hardware and Construction Supply<br>
-                                                - CJ KARR Industrial Sales And Service<br>
-                                                - Compresstech Resources, Inc.<br>
-                                                - Dawson Technology PTY LTD.<br>
+                                                 <?php foreach($vendor AS $ven){ 
+                                                    if($gr['group'] == $ven['group_id']){
+                                                        echo "-" . $ven['vendor'] . "<br>";
+                                                    }
+                                                } ?>
                                             </td>
                                             <td width="10%"><a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $gr['group']; ?>','<?php echo $pr_id; ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a></td>
                                         </tr>
                                         <?php } ?>
                                       
                                     </table>
-                                    <center><a href="<?php echo base_url(); ?>index.php/rfq/rfq_list" class="btn btn-primary btn-md p-l-100 p-r-100">Proceed</a></center>
+                                    <input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+                                    <center><input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value='Create RFQ'></center>
                                 </form>
                             </div>
                         </div>

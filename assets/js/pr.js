@@ -3,5 +3,5 @@ function prAdditem(baseurl,id) {
 }
 
 function choose_vendor(baseurl, group, prid) {
-    window.open(baseurl+"index.php/pr/choose_vendor/"+prid+"/"+group, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
+    window.open(baseurl+"index.php/pr/choose_vendor/"+prid+"/"+group, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=800,height=500");
 }
