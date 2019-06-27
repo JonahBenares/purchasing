@@ -43,11 +43,113 @@ class Rfq extends CI_Controller {
 
 
 	public function rfq_list(){
+        foreach($this->super_model->select_all_order_by("rfq_head", "rfq_date", "DESC") AS $head){
+
+            $data['head'][]= array(
+                'rfq_id'=>$head->rfq_id,
+                'rfq_no'=>$head->rfq_no,
+                'pr_id'=>$head->pr_id,
+                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id),
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id),
+                'rfq_date'=>$head->rfq_date,
+                
+            );
+        }
+
+
+         foreach($this->super_model->select_all("rfq_details") AS $it){
+                $data['items'][] = array(
+                    'rfq_id'=>$it->rfq_id,
+                    'item'=>$it->item_desc,
+                );
+            }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('rfq/rfq_list');
+        $this->load->view('rfq/rfq_list',$data);
         $this->load->view('template/footer');
     }  
+
+    public function rfq_outgoing(){
+        $rfq_id=$this->uri->segment(3);
+        $data['rfq_id']=$rfq_id;
+        foreach($this->super_model->select_row_where('rfq_head', 'rfq_id', $rfq_id) AS $head){
+            $data['rfq_date']= $head->rfq_date;
+            $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id);
+            $data['phone']= $this->super_model->select_column_where("vendor_head", "phone_number", "vendor_id", $head->vendor_id);
+            $data['rfq_no']= $head->rfq_no;
+            $data['pr_no']= $this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id);
+            $data['notes']= $head->notes;
+            $data['noted']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->noted_by);
+            $data['approved']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->approved_by);
+            $data['prepared']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->prepared_by);
+            $data['due']= $head->quotation_date;
+            $data['saved']= $head->saved;
+        }
+
+        $data['items'] = $this->super_model->select_row_where('rfq_details', 'rfq_id', $rfq_id);
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
+        $this->load->view('template/header');
+        $this->load->view('rfq/rfq_outgoing',$data);
+        $this->load->view('template/footer');
+    } 
+
+    public function save_rfq(){
+        $rfq_id = $this->input->post('rfq_id');
+        $notes = $this->input->post('notes');
+        $due = $this->input->post('due');
+        $noted = $this->input->post('noted');
+        $approved = $this->input->post('approved');
+
+        $data = array(
+            'notes'=>$notes,
+            'quotation_date'=>$due,
+            'noted_by'=>$noted,
+            'approved_by'=>$approved,
+            'saved'=>1,
+            'prepared_by'=>$_SESSION['user_id']
+        );
+        if($this->super_model->update_where("rfq_head", $data, "rfq_id", $rfq_id)){
+             redirect(base_url().'rfq/rfq_outgoing/'.$rfq_id);
+        }
+
+    }
+
+
+    public function rfq_incoming(){
+        $rfq_id=$this->uri->segment(3);
+        $data['rfq_id']=$rfq_id;
+        foreach($this->super_model->select_row_where('rfq_head', 'rfq_id', $rfq_id) AS $head){
+            $data['rfq_date']= $head->rfq_date;
+            $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id);
+            $data['phone']= $this->super_model->select_column_where("vendor_head", "phone_number", "vendor_id", $head->vendor_id);
+            $data['rfq_no']= $head->rfq_no;
+            $data['pr_no']= $this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id);
+            $data['notes']= $head->notes;
+            $data['noted']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->noted_by);
+            $data['approved']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->approved_by);
+            $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $head->prepared_by);
+            $data['due']= $head->quotation_date;
+            $data['saved']= $head->saved;
+        }
+
+         $data['items'] = $this->super_model->select_row_where('rfq_details', 'rfq_id', $rfq_id);
+        
+        $this->load->view('template/header');
+        $this->load->view('rfq/rfq_incoming',$data);
+        $this->load->view('template/footer');
+    } 
+    public function served_rfq(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('rfq/served_rfq');
+        $this->load->view('template/footer');
+    } 
+    public function cancelled_rfq(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('rfq/cancelled_rfq');
+        $this->load->view('template/footer');
+    } 
 
 }
 

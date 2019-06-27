@@ -8,29 +8,40 @@
                     <div class="sparkline8-list shadow-reset">
                         <div class="sparkline8-hd">
                             <div class="main-sparkline8-hd">
-                                <form>
-                                    <label>Choose Category:</label>
-                                    <select class="form-control">
-                                        <option class="capital">--choose categogry--</option>
-                                    </select>
-                                    <br>
-                                    Vendor List
-                                    <table class="table table-bordered">                                        
+                                <form method='POST' action="<?php echo base_url(); ?>pr/search_vendor">
+                                    <table width="100%">
                                         <tr>
-                                            <td width="10%"><input type="checkbox" name="" class="form-control"></td>
-                                            <td width="90%">Vendor Name</td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox" name="" class="form-control"></td>
-                                            <td>Arising Builders Hardware and Construction Supply</td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox" name="" class="form-control"></td>
-                                            <td>Vendor Name</td>
+                                            <td width="20%"><label>Choose Category:</label></td>
+                                            <td width="60%"><input type='text' name='category' class='form-control '></td>
+                                            <td width="20%"><input type='submit' value='Search' class="btn btn-success btn-block"></td>
                                         </tr>
                                     </table>
-                                    <center><a href="" class="btn btn-primary btn-md btn-block">Save</a></center>
+                                    <input type='hidden' name='pr_id' value='<?php echo $prid; ?>'>
+                                    <input type='hidden' name='group' value='<?php echo $group; ?>'>
                                 </form>
+                                <br>
+                                <form method='POST' action="<?php echo base_url(); ?>/pr/insert_vendor">
+                                <table width="100%">
+                                    <tr>
+                                        <td width="20%">Searched Category:</td>
+                                        <td><h3><b><?php echo $category; ?></b></h3></td>
+                                    </tr>
+                                </table>
+                                <br>
+                                Vendor List
+                                <table class="table table-bordered">     
+
+                                <?php foreach($vendor AS $v){ ?>                                  
+                                    <tr>
+                                        <td width="10%"><input type="checkbox" name="vendor_id[]" value="<?php echo $v->vendor_id; ?>" class="form-control"></td>
+                                        <td width="90%"><?php echo $v->vendor_name; ?></td>
+                                    </tr>
+                                <?php } ?>
+                                </table>
+                                <center><input type='submit' class="btn btn-primary btn-md btn-block" value='Save'></center>  
+                                <input type='hidden' name='pr_id' value='<?php echo $prid; ?>'>
+                                <input type='hidden' name='group' value='<?php echo $group; ?>'>   
+                                </form>                         
                             </div>
                         </div>
                     </div>

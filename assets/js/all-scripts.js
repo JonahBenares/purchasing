@@ -57,9 +57,6 @@ function isNumberKey(txt, evt){
     return true;
 }
 
-function choose_vendor(baseurl) {
-    window.open(baseurl+"index.php/pr/choose_vendor/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
-}
 
 
 

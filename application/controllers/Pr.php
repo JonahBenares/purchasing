@@ -120,24 +120,183 @@ class Pr extends CI_Controller {
     }
 
     public function purchase_request(){  
+        $prid = $this->uri->segment(3);
+        $data['pr_id']=$prid;
+        $data['head']=$this->super_model->select_row_where("pr_head", "pr_id", $prid);
+        $data['details']=$this->super_model->select_row_where("pr_details", "pr_id", $prid);
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('pr/purchase_request');
+        $this->load->view('pr/purchase_request',$data);
         $this->load->view('template/footer');
     }
 
+    public function save_groupings(){
+        $prid = $this->input->post('pr_id');
+        $count_item = $this->input->post('count_item');
+
+        for($x=1;$x<$count_item;$x++){
+            $pr_details_id =  $this->input->post('pr_details_id'.$x);
+            $group =  $this->input->post('group'.$x);
+
+            $data = array(
+                'grouping_id'=>$group
+            );
+
+            $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
+        }
+
+        $data_head = array(
+            'pr_no'=>$this->input->post('new_pr'),
+        );
+        $this->super_model->update_where("pr_head", $data_head, "pr_id", $prid);
+
+        redirect(base_url().'pr/pr_group/'.$prid);
+    }
+
     public function pr_group(){  
+        $prid = $this->uri->segment(3);
+        $data['pr_id']=$prid;
+        $data['pr_no']=$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $prid);
+
+        foreach($this->super_model->custom_query("SELECT DISTINCT grouping_id FROM pr_details WHERE pr_id = '$prid'") AS $groups){
+            $data['group'][] = array(
+                'group'=>$groups->grouping_id
+            );
+
+        }
+
+       foreach($this->super_model->custom_query("SELECT item_description, grouping_id FROM pr_details WHERE pr_id = '$prid'") AS $items){
+            $data['items'][] = array(
+                'group_id'=>$items->grouping_id,
+                'item_desc'=>$items->item_description
+            );
+        }
+
+
+       foreach($this->super_model->custom_query("SELECT vendor_id,grouping_id FROM pr_vendors WHERE pr_id = '$prid'") AS $vendor){
+            $data['vendor'][] = array(
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor->vendor_id),
+                'group_id'=>$vendor->grouping_id,
+            );
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');        
-        $this->load->view('pr/pr_group');
+        $this->load->view('pr/pr_group',$data);
         $this->load->view('template/footer');
+    }
+
+    public function search_vendor(){
+        $category = $this->input->post('category');
+        $pr_id = $this->input->post('pr_id');
+        $group = $this->input->post('group');
+
+        redirect(base_url().'pr/choose_vendor/'.$pr_id.'/'.$group.'/'.$category);
+        
     }
     
     public function choose_vendor(){
+        $prid = $this->uri->segment(3);
+        $group = $this->uri->segment(4);
+        $category = $this->uri->segment(5);
+        $data['prid'] = $prid;
+        $data['group'] = $group;
+        $data['category']=$category;
+        $data['vendor'] = $this->super_model->custom_query("SELECT vendor_id, vendor_name, product_services FROM vendor_head WHERE product_services LIKE '%$category%'");
         $this->load->view('template/header');
-        $this->load->view('pr/choose_vendor');
+        $this->load->view('pr/choose_vendor', $data);
         $this->load->view('template/footer');
     }
+
+    public function insert_vendor(){
+        $pr_id = $this->input->post('pr_id');
+        $group = $this->input->post('group');
+        $vendor = $this->input->post('vendor_id');
+
+        foreach($vendor as $ven){
+            $data = array(
+                'pr_id'=>$pr_id,
+                'vendor_id'=>$ven,
+                'grouping_id'=>$group
+            );
+
+            $this->super_model->insert_into('pr_vendors', $data);
+        } ?>
+
+           <script>
+                  window.onunload = refreshParent;
+                function refreshParent() {
+                    window.opener.location.reload();
+                }
+                window.close();
+                
+            </script>
+        <?php 
+     }
+
+     public function create_rfq(){
+        $prid=$this->input->post('pr_id');
+        $timestamp = date("Y-m-d H:i:s");
+
+
+        foreach($this->super_model->select_row_where("pr_vendors", "pr_id", $prid) AS $vendors){
+                $rows_head = $this->super_model->count_rows("rfq_head");
+                if($rows_head==0){
+                    $rfq_id=1;
+                } else {
+                    $max = $this->super_model->get_max("rfq_head", "rfq_id");
+                    $rfq_id = $max+1;
+                }
+
+                $rfq_format = date("Ym");
+                $rfqdet=date('Y-m');
+                $rows=$this->super_model->count_custom_where("rfq_head","create_date LIKE '$rfqdet%'");
+                if($rows==0){
+                    $rfq_no= $rfq_format."-1001";
+                } else {
+                    $series = $this->super_model->get_max("rfq_series", "series","year_month LIKE '$rfqdet%'");
+                    $next=$series+1;
+                    $rfq_no = $rfq_format."-".$next;
+                }
+
+                $rfqdetails=explode("-", $rfq_no);
+                $rfq_prefix1=$rfqdetails[0];
+                $rfq_prefix=$rfq_prefix1;
+                $series = $rfqdetails[1];
+
+                $rfq_data= array(
+                    'year_month'=>$rfq_prefix,
+                    'series'=>$series
+                );
+                $this->super_model->insert_into("rfq_series", $rfq_data);
+
+
+                $data_head = array(
+                    'rfq_id'=>$rfq_id,
+                    'rfq_no'=>$rfq_no,
+                    'vendor_id'=>$vendors->vendor_id,
+                    'pr_id'=>$prid,
+                    'rfq_date'=>$timestamp,
+                    'prepared_by'=>$_SESSION['user_id'],
+                    'create_date'=>$timestamp
+                );
+                $this->super_model->insert_into("rfq_head", $data_head);
+
+                foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid' AND grouping_id = '$vendors->grouping_id'") AS $details){
+                    $data_details = array(
+                        'rfq_id'=>$rfq_id,
+                        'pr_details_id'=>$details->pr_details_id,
+                        'item_desc'=>$details->item_description,
+                        'uom'=>$details->uom,
+
+                    );
+                    $this->super_model->insert_into("rfq_details", $data_details);
+                }
+
+        }
+
+        redirect(base_url().'rfq/rfq_list/');
+     }
+
 }
 
 ?>
