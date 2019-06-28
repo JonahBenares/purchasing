@@ -61,9 +61,13 @@
                                         <?php 
                                             foreach($pr_head AS $c){ 
                                                 $item='';
+                                                $cancelled_by='';
+                                                $reason='';
                                                 foreach($items AS $it){ 
                                                     if($c['pr_id']==$it['pr_id']){
                                                         $item .="<b>- ".$it['item_name']."<br> ";
+                                                        $cancelled_by .="<b>- ".$it['cancelled_by']."<br> ";
+                                                        $reason .="<b>- ".$it['reason']."<br> ";
                                                     }
                                                 }
                                         ?>                                         
@@ -72,8 +76,8 @@
                                                 <td><?php echo $c['pr_date']; ?></td>
                                                 <td><?php echo $item; ?></td>
                                                 <td ><center><?php echo $c['urgency_num']; ?></center></td>
-                                                <td><?php echo $c['cancelled_by']; ?></td>
-                                                <td><?php echo $c['reason']; ?></td>
+                                                <td><?php echo $cancelled_by; ?></td>
+                                                <td><?php echo $reason; ?></td>
                                                 <td>
                                                     <center>
 

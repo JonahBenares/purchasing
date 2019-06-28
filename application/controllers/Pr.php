@@ -354,6 +354,8 @@ class Pr extends CI_Controller {
                     $data['items'][] = array(
                         'pr_id'=>$item->pr_id,
                         'item_name'=>$item->item_description,
+                        'cancelled_by'=>$this->super_model->select_column_where('users','fullname','user_id',$item->cancelled_by),
+                        'reason'=>$item->cancelled_reason,
                     );
                 }
 
@@ -363,8 +365,6 @@ class Pr extends CI_Controller {
                     'pr_date'=>$heads->date_prepared,
                     'urgency_num'=>$heads->urgency,
                     'requestor'=>$heads->requestor,
-                    'reason'=>$heads->cancelled_reason,
-                    'cancelled_by'=>$this->super_model->select_column_where('users','fullname','user_id',$heads->cancelled_by),
                 );
               
             }
