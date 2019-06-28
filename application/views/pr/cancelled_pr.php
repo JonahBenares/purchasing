@@ -52,27 +52,41 @@
                                                 <th>Date Received</th>
                                                 <th>Item</th>
                                                 <th>Urgency Number</th>
-                                                <th>Urgency Description</th>
-                                                <th>Requestor</th>
+                                                <th>Cancelled By</th>
+                                                <th>Reason</th>
                                                 <th><center><span class="fa fa-bars"></span></center></th>
                                             </tr>
                                         </thead>
-                                        <tbody>                                          
+                                        <tbody> 
+                                        <?php 
+                                            foreach($pr_head AS $c){ 
+                                                $item='';
+                                                $cancelled_by='';
+                                                $reason='';
+                                                foreach($items AS $it){ 
+                                                    if($c['pr_id']==$it['pr_id']){
+                                                        $item .="<b>- ".$it['item_name']."<br> ";
+                                                        $cancelled_by .="<b>- ".$it['cancelled_by']."<br> ";
+                                                        $reason .="<b>- ".$it['reason']."<br> ";
+                                                    }
+                                                }
+                                        ?>                                         
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td ><center></center></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><?php echo $c['pr_no']; ?></td>
+                                                <td><?php echo $c['pr_date']; ?></td>
+                                                <td><?php echo $item; ?></td>
+                                                <td ><center><?php echo $c['urgency_num']; ?></center></td>
+                                                <td><?php echo $cancelled_by; ?></td>
+                                                <td><?php echo $reason; ?></td>
                                                 <td>
                                                     <center>
 
-                                                        <a href="<?php echo base_url(); ?>pr/purchase_request/" class="btn btn-custon-three btn-warning btn-xs"><span class="fa fa-eye"></span>
+                                                        <a href="<?php echo base_url(); ?>pr/purchase_request/<?php echo $c['pr_id']; ?>" class="btn btn-custon-three btn-warning btn-xs"><span class="fa fa-eye"></span>
                                                         </a>
                                                     </center>
                                                 </td>
-                                            </tr>                   
+                                            </tr> 
+                                        <?php } ?>                  
                                         </tbody>
                                     </table>
                                 </div>                           

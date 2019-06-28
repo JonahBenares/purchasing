@@ -152,7 +152,7 @@ class Pr extends CI_Controller {
         $prid = $this->uri->segment(3);
         $data['pr_id']=$prid;
         $data['head']=$this->super_model->select_row_where("pr_head", "pr_id", $prid);
-        $data['details']=$this->super_model->select_custom_where("pr_details", "pr_id='$prid' AND cancelled='0'");
+        $data['details']=$this->super_model->select_custom_where("pr_details", "pr_id='$prid'");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('pr/purchase_request',$data);
@@ -345,7 +345,34 @@ class Pr extends CI_Controller {
     public function cancelled_pr(){  
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('pr/cancelled_pr');
+        $count = $this->super_model->count_custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pd.cancelled = '1'");
+        if($count!=0){
+          
+            foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pd.cancelled = '1' GROUP BY pr_no") AS $heads){
+                
+                foreach($this->super_model->select_custom_where('pr_details',"pr_id='$heads->pr_id' AND cancelled='1'") AS $item){
+                    $data['items'][] = array(
+                        'pr_id'=>$item->pr_id,
+                        'item_name'=>$item->item_description,
+                        'cancelled_by'=>$this->super_model->select_column_where('users','fullname','user_id',$item->cancelled_by),
+                        'reason'=>$item->cancelled_reason,
+                    );
+                }
+
+                $data['pr_head'][] = array(
+                    'pr_id'=>$heads->pr_id,
+                    'pr_no'=>$heads->pr_no,
+                    'pr_date'=>$heads->date_prepared,
+                    'urgency_num'=>$heads->urgency,
+                    'requestor'=>$heads->requestor,
+                );
+              
+            }
+        }else {
+            $data['pr_head']=array();
+        }
+
+        $this->load->view('pr/cancelled_pr',$data);
         $this->load->view('template/footer');
     }
 
