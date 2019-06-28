@@ -165,8 +165,8 @@
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                                 <div class="header-right-info">
+                                    <button class="btn default btn-sm default-marg animated headShake infinite">Download PR Format</button>
                                     <ul class="nav navbar-nav mai-top-nav header-right-menu">
-
                                         <li class="nav-item">
                                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
                                                 <span class="adminpro-icon adminpro-user-rounded header-riht-inf"></span>

@@ -5837,6 +5837,7 @@ div#sparklinedask2, div#sparklinedask1 {
 
 .text-white{color: #fff!important}
 .text-red{color: red!important}
+.text-black{color: #000!important}
 .capital{text-transform: uppercase;}
 
 .btn-link-shad{
@@ -5861,4 +5862,18 @@ div#sparklinedask2, div#sparklinedask1 {
 .tr-red{
 	background-color: #e65050;
 	color: white
+}
+.default {
+  border-color: #e7e7e7!important;
+  background: none; 
+  color: white!important;
+}
+
+.default:hover {
+  background: #e7e7e7!important;
+  color: black!important;
+}
+
+.default-marg{
+	margin: 15px 0px 0px 180px;
 }

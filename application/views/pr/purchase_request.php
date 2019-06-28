@@ -128,7 +128,7 @@
                                                 <td><?php echo (!empty($det->date_needed) ? date('F j, Y', strtotime($det->date_needed)) : ''); ?></td>
                                                 <?php if(empty($h->pr_no)){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
-                                                    <select class="form-control" name='group<?php echo $x; ?>' required>
+                                                    <select class="form-control text-black" name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>
                                                         <?php foreach($letters AS $let){ ?>
                                                         <option value='<?php echo $let; ?>'><?php echo $let; ?></option>
