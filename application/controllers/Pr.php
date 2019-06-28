@@ -38,7 +38,8 @@ public function pending_forrfq(){
     public function pr_list(){  
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('pr/pr_list');
+        $data['pr_head']=$this->super_model->select_custom_where("pr_head","cancelled='0' ORDER BY date_prepared ASC");
+        $this->load->view('pr/pr_list',$data);
         $this->load->view('template/footer');
     }
 
@@ -81,7 +82,7 @@ public function pending_forrfq(){
         }
 
         $pr = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue());
-        $date_prepared = trim($objPHPExcel->getActiveSheet()->getCell('C8')->getValue());
+        $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
         /*$date_issued = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());*/
         $pr_no = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
         $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue());
@@ -126,15 +127,52 @@ public function pending_forrfq(){
         echo "<script>alert('Successfully Uploaded!'); window.location = 'purchase_request/$pr_id';</script>";
     }
 
+    public function cancel_pr(){
+        $pr_id=$this->input->post('pr_id');
+        $date=date('Y-m-d H:i:s');
+        $data=array(
+            'cancelled'=>1,
+            'cancelled_by'=>$_SESSION['user_id'],
+            'cancelled_reason'=>$this->input->post('reason'),
+            'cancelled_date'=>$date,
+        );
+        
+        if($this->super_model->update_where('pr_head', $data, 'pr_id', $pr_id)){
+            foreach($this->super_model->select_custom_where('pr_details',"pr_id='$pr_id'") AS $up){
+                $data_det=array(
+                    'cancelled'=>1,
+                );
+                $this->super_model->update_where('pr_details', $data, 'pr_details_id', $up->pr_details_id);
+            }
+            echo "<script>alert('Successfully Cancelled!'); window.location ='".base_url()."index.php/pr/pr_list';</script>";
+        }
+    }
+
     public function purchase_request(){  
         $prid = $this->uri->segment(3);
         $data['pr_id']=$prid;
         $data['head']=$this->super_model->select_row_where("pr_head", "pr_id", $prid);
-        $data['details']=$this->super_model->select_row_where("pr_details", "pr_id", $prid);
+        $data['details']=$this->super_model->select_custom_where("pr_details", "pr_id='$prid' AND cancelled='0'");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('pr/purchase_request',$data);
         $this->load->view('template/footer');
+    }
+
+    public function cancel_item(){
+        $details_id=$this->input->post('details_id');
+        $pr_id=$this->input->post('pr');
+        $date=date('Y-m-d H:i:s');
+        $data=array(
+            'cancelled'=>1,
+            'cancelled_reason'=>$this->input->post('reason'),
+            'cancelled_by'=>$_SESSION['user_id'],
+            'cancelled_date'=>$date
+        );
+
+        if($this->super_model->update_where("pr_details", $data, "pr_details_id", $details_id)){
+            redirect(base_url().'pr/purchase_request/'.$pr_id);
+        }
     }
 
     public function save_groupings(){
