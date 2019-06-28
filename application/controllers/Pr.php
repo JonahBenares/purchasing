@@ -152,7 +152,21 @@ class Pr extends CI_Controller {
         $prid = $this->uri->segment(3);
         $data['pr_id']=$prid;
         $data['head']=$this->super_model->select_row_where("pr_head", "pr_id", $prid);
-        $data['details']=$this->super_model->select_custom_where("pr_details", "pr_id='$prid'");
+        /*$data['details']=*/
+        foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid'") AS $det){
+            $data['cancelled']=$det->cancelled;
+            $data['details'][]=array(
+                'pr_details_id'=>$det->pr_details_id,
+                'quantity'=>$det->quantity,
+                'uom'=>$det->uom,
+                'item_description'=>$det->item_description,
+                'date_needed'=>$det->date_needed,
+                'grouping_id'=>$det->grouping_id,
+                'cancelled_by'=>$this->super_model->select_column_where("users",'fullname','user_id',$det->cancelled_by),
+                'cancelled_date'=>$det->cancelled_date,
+                'cancelled'=>$det->cancelled,
+            ); 
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('pr/purchase_request',$data);

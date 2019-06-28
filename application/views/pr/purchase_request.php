@@ -112,7 +112,11 @@
                                                 <th>Item Description</th>
                                                 <th>Date Needed</th>
                                                 <th>Group</th>
+                                                <?php if($cancelled==0){ ?>
                                                 <th><center><span class="fa fa-bars"></span></center></th>
+                                                <?php } else { ?>
+                                                <th>Cancelled By / Cancelled Date</th>
+                                                <?php } ?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -121,13 +125,13 @@
                                             $letters = range('A', 'Z');
                                             foreach($details AS $det){ 
                                         ?>
-                                        <?php if($det->cancelled==1){ ?>
+                                        <?php if($det['cancelled']==1){ ?>
                                             <tr class="tr-red">
                                                 <td><?php echo $x; ?></td>
-                                                <td><?php echo $det->quantity; ?></td>
-                                                <td><?php echo $det->uom; ?></td>
-                                                <td><?php echo $det->item_description; ?></td>
-                                                <td><?php echo (!empty($det->date_needed) ? date('F j, Y', strtotime($det->date_needed)) : ''); ?></td>
+                                                <td><?php echo $det['quantity']; ?></td>
+                                                <td><?php echo $det['uom']; ?></td>
+                                                <td><?php echo $det['item_description']; ?></td>
+                                                <td><?php echo (!empty($det['date_needed']) ? date('F j, Y', strtotime($det['date_needed'])) : ''); ?></td>
                                                 <?php if(empty($h->pr_no)){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
                                                     <select class="form-control" name='group<?php echo $x; ?>' required>
@@ -138,19 +142,17 @@
                                                     </select>
                                                 </td>
                                                 <?php }else { ?>
-                                                <td align="center"><?php echo $det->grouping_id; ?></td>
+                                                <td align="center"><?php echo $det['grouping_id']; ?></td>
                                                 <?php } ?>
-                                                <td align="center">
-                                                    <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $det->pr_details_id; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
-                                                </td>
+                                                <td><?php echo $det['cancelled_by']." / ".date('m.d.y', strtotime($det['cancelled_date']));?></td>
                                             </tr>
                                         <?php } else { ?>
                                             <tr>
                                                 <td><?php echo $x; ?></td>
-                                                <td><?php echo $det->quantity; ?></td>
-                                                <td><?php echo $det->uom; ?></td>
-                                                <td><?php echo $det->item_description; ?></td>
-                                                <td><?php echo (!empty($det->date_needed) ? date('F j, Y', strtotime($det->date_needed)) : ''); ?></td>
+                                                <td><?php echo $det['quantity']; ?></td>
+                                                <td><?php echo $det['uom']; ?></td>
+                                                <td><?php echo $det['item_description']; ?></td>
+                                                <td><?php echo (!empty($det['date_needed']) ? date('F j, Y', strtotime($det['date_needed'])) : ''); ?></td>
                                                 <?php if(empty($h->pr_no)){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
                                                     <select class="form-control" name='group<?php echo $x; ?>' required>
@@ -161,14 +163,14 @@
                                                     </select>
                                                 </td>
                                                 <?php }else { ?>
-                                                <td align="center"><?php echo $det->grouping_id; ?></td>
+                                                <td align="center"><?php echo $det['grouping_id']; ?></td>
                                                 <?php } ?>
                                                 <td align="center">
-                                                    <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $det->pr_details_id; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
+                                                    <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
-                                            <input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $det->pr_details_id; ?>">
+                                            <input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $det['pr_details_id']; ?>">
                                         <?php $x++; } ?>
                                           
                                         </tbody>
