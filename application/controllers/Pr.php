@@ -27,7 +27,7 @@ class Pr extends CI_Controller {
 
 	}
 
-public function pending_forrfq(){  
+    public function pending_forrfq(){  
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('pr/pending_forrfq');
@@ -278,7 +278,7 @@ public function pending_forrfq(){
         <?php 
      }
 
-     public function create_rfq(){
+    public function create_rfq(){
         $prid=$this->input->post('pr_id');
         $timestamp = date("Y-m-d H:i:s");
 
@@ -340,7 +340,14 @@ public function pending_forrfq(){
         }
 
         redirect(base_url().'rfq/rfq_list/');
-     }
+    }
+
+    public function cancelled_pr(){  
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('pr/cancelled_pr');
+        $this->load->view('template/footer');
+    }
 
 }
 

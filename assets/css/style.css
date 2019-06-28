@@ -5858,3 +5858,7 @@ div#sparklinedask2, div#sparklinedask1 {
 .bor-red{
 	border-bottom: 2px solid red!important;
 }
+.tr-red{
+	background-color: #e65050;
+	color: white
+}
