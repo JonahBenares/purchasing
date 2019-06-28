@@ -54,7 +54,7 @@
                                             <td><i>PR No. (User):</i></td>
                                             <td><?php echo $h->user_pr_no; ?></td>
                                             <td><i>New PR (Purchasing):</i></td>
-                                            <td style="padding: 0px!important"><input type="text" class="form-control" name="new_pr" required></td>
+                                            <td style="padding: 0px!important;" class="bor-red" ><input type="text" class="form-control" name="new_pr" required></td>
                                         </tr>
                                         <tr>
                                             <td><i>Enduse:</i></td>
@@ -88,7 +88,7 @@
                                                 <td><?php echo $det->uom; ?></td>
                                                 <td><?php echo $det->item_description; ?></td>
                                                 <td><?php echo (!empty($det->date_needed) ? date('F j, Y', strtotime($det->date_needed)) : ''); ?></td>
-                                                <td style="padding: 0px!important">
+                                                <td style="padding: 0px!important" class="bor-red" >
                                                     <select class="form-control" name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>
                                                         <?php foreach($letters AS $let){ ?>
