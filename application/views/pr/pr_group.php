@@ -55,9 +55,12 @@
                                                 } ?>
                                             </td>
                                             <td width="32%">
-                                                 <?php foreach($vendor AS $ven){ 
-                                                    if($gr['group'] == $ven['group_id']){
-                                                        echo "-" . $ven['vendor'] . "<br>";
+                                                 <?php 
+                                                 if(!empty($vendor)){
+                                                     foreach($vendor AS $ven){ 
+                                                        if($gr['group'] == $ven['group_id']){
+                                                            echo "-" . $ven['vendor'] . "<br>";
+                                                        }
                                                     }
                                                 } ?>
                                             </td>
