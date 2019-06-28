@@ -1,3 +1,9 @@
+<script type="text/javascript">
+    $(document).on("click", ".cancelPR", function () {
+         var pr_id = $(this).data('id');
+         $(".modal #pr_id").val(pr_id);
+    });
+</script>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -50,7 +56,31 @@
                 </form>
             </div>
         </div>
-    </div>  
+    </div> 
+    <div id="cancelPR" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header header-color-modal bg-color-1">
+                    <h4 class="modal-title">Cancel PR</h4>
+                    <div class="modal-close-area modal-close-df">
+                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                    </div>
+                </div>
+                <form method="POST" action = "<?php echo base_url();?>pr/cancel_pr">
+                    <div class="modal-body-lowpad">
+                        <div class="form-group">
+                            <p class="m-b-0">Reason for Cancelling PR:</p>
+                            <textarea name="reason" class="form-control"></textarea>
+                        </div>
+                        <center>       
+                            <input type='hidden' name='pr_id' id = "pr_id">                 
+                            <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
     <div class="admin-dashone-data-table-area">
         <div class="container-fluid">
              <form name="myform" action="<?php echo base_url(); ?>index.php/aoq/" method="post">
@@ -65,6 +95,8 @@
                                         <a type='button' class="btn btn-custon-three btn-primary"  data-toggle="modal" data-target="#import_pr"> 
                                             <span class="fa fa-plus p-l-0"></span> Add PR
                                         </a>
+                                        <a href="<?php echo base_url(); ?>pr/pending_forrfq" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-clock-o"></span> Pending for RFQ</a>
+
                                         <a href="<?php echo base_url(); ?>pr/cancelled_pr" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PR</a>
                                     </div>
                                 </div>
@@ -78,31 +110,32 @@
                                                 <th>Date Received</th>
                                                 <th>Department</th>
                                                 <th>Urgency Number</th>
-                                                <th>Urgency Description</th>
                                                 <th>Requestor</th>
                                                
                                                 <th><center><span class="fa fa-bars"></span></center></th>
                                             </tr>
                                         </thead>
-                                        <tbody>                                       
+                                        <tbody> 
+                                            <?php foreach($pr_head AS $p){ ?>                                      
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td ><center></center></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><?php echo $p->pr_no;?></td>
+                                                <td><?php echo $p->date_prepared;?></td>
+                                                <td><?php echo $p->department;?></td>
+                                                <td ><center><?php echo $p->urgency;?></center></td>
+                                                <td><?php echo $p->requestor;?></td>
                                                 <td>
                                                     <center>
-                                                        <a href="<?php echo base_url(); ?>index.php/pr/purchase_request/" class="btn btn-custon-three btn-warning btn-xs">
+                                                        <a href="<?php echo base_url(); ?>index.php/pr/purchase_request/<?php echo $p->pr_id?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                         </a>
-                                                        <a href="<?php echo base_url(); ?>index.php/pr/cancel_pr/" class="btn btn-custon-three btn-danger btn-xs">
+                                                        <a class="cancelPR btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPR" data-id="<?php echo $p->pr_id; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
+                                                        <!-- <a href="<?php echo base_url(); ?>index.php/pr/cancel_pr/<?php echo $p->pr_id?>" class="btn btn-custon-three btn-danger btn-xs">
                                                             <span class="p-l-0 fa fa-ban"></span>
-                                                        </a>
+                                                        </a> -->
                                                     </center>
                                                 </td>
-                                            </tr>                      
+                                            </tr> 
+                                            <?php } ?>                    
                                         </tbody>
                                     </table>
                                 </div>                           
