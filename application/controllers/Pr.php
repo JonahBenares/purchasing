@@ -27,13 +27,13 @@ class Pr extends CI_Controller {
 
 	}
 
-
-    public function pending_forrfq(){  
+public function pending_forrfq(){  
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('pr/pending_forrfq');
         $this->load->view('template/footer');
     }
+    
 
     public function pr_list(){  
         $this->load->view('template/header');
