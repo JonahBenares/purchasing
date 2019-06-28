@@ -92,7 +92,6 @@
                                             <?php } else { ?>
                                                 <td><?php echo $h->pr_no; ?></td> 
                                             <?php } ?>
-                                            <td style="padding: 0px!important;" class="bor-red" ><input type="text" class="form-control" name="new_pr" required></td>
                                         </tr>
                                         <tr>
                                             <td><i>Enduse:</i></td>
