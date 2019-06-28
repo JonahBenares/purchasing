@@ -152,7 +152,7 @@ class Pr extends CI_Controller {
         $prid = $this->uri->segment(3);
         $data['pr_id']=$prid;
         $data['head']=$this->super_model->select_row_where("pr_head", "pr_id", $prid);
-        $data['details']=$this->super_model->select_custom_where("pr_details", "pr_id='$prid' AND cancelled='0'");
+        $data['details']=$this->super_model->select_custom_where("pr_details", "pr_id='$prid'");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('pr/purchase_request',$data);
@@ -345,7 +345,8 @@ class Pr extends CI_Controller {
     public function cancelled_pr(){  
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('pr/cancelled_pr');
+        $data['cancelled']=$this->super_model->select_custom_where('pr_head',"cancelled='1' ORDER BY date_prepared ASC");
+        $this->load->view('pr/cancelled_pr',$data);
         $this->load->view('template/footer');
     }
 
