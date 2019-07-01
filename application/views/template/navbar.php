@@ -165,7 +165,7 @@
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                                 <div class="header-right-info">
-                                    <a href='<?php echo base_url(); ?>uploads/Purchase Request.xlsx' class="btn default btn-sm default-marg animated headShake infinite">Download PR Format</a>
+                                    <a href='<?php echo base_url(); ?>uploads/format/Purchase Request.xlsx' class="btn default btn-sm default-marg animated headShake infinite">Download PR Format</a>
                                     <!-- <a href="../uploads/Purchase Request.xlsx" class="btn default btn-sm default-marg animated headShake infinite">Download PR Format</a> -->
                                     <ul class="nav navbar-nav mai-top-nav header-right-menu">
                                         <li class="nav-item">

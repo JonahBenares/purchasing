@@ -46,18 +46,12 @@
                             <div class="main-sparkline8-hd">
                                 <form method="POST" action="<?php echo base_url(); ?>pr/">
                                     <table class="table table-bordered" >
+                                        <!-- <?php 
+                                            foreach($pending AS $it){  echo $it['count_group'];
+                                        ?>
                                         <tr>
-                                            <td rowspan="2" width="11%">PRasdasd</td>
-                                            <td width="15%"><a href="" ></a><h3 class="m-b-0"><b>asdasdasd</b></h3></td>
-                                            <td width="32%">asdasd</td>
-                                            <td width="32%">asdasd</td>
-                                            <td width="10%">
-                                                <a href="" onclick="choose_vendor()" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
-                                                <center><input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
-                                            </td>
-                                        </tr>     
-                                        <tr>
-                                            <td width="15%"><a href="" ></a><h3 class="m-b-0"><b>asdasdasd</b></h3></td>
+                                            <td rowspan="<?php echo $it['count_group'] ?>" width="11%"><?php //echo $it['pr'];?></td>
+                                            <td width="15%"><a href="" ></a><h3 class="m-b-0"><b>Group <?php echo $it['group'];?></b></h3></td>
                                             <td width="32%">asdasd</td>
                                             <td width="32%">asdasd</td>
                                             <td width="10%">
@@ -65,19 +59,37 @@
                                                 <center><input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
                                             </td>
                                         </tr>
-
-
+                                        <?php } ?>  -->    
+                                        <?php foreach($head AS $h){ ?>
                                         <tr>
-                                            <td rowspan="4" width="11%">PRasdasd</td>
-                                            <td width="15%"><a href="" ></a><h3 class="m-b-0"><b>asdasdasd</b></h3></td>
-                                            <td width="32%">asdasd</td>
-                                            <td width="32%">asdasd</td>
-                                            <td width="10%">
-                                                <a href="" onclick="choose_vendor()" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
-                                                <center><input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
+                                            <td width="11%"><?php echo $h['pr_no'];?></td>
+                                            <td style="padding: 0px!important">
+                                                <table class="table-bordered" width="100%">
+                                                    <?php foreach($det AS $d){
+                                                        if($h['pr_id']==$d['pr_id']){
+                                                            $item='';
+                                                            foreach($items AS $it){ 
+                                                                if($d['pr_id']==$it['pr_id']){
+                                                                    $item .="<b>- ".$it['item']."<br>";
+                                                                }
+                                                            }
+                                                            $item = substr($item, 0, -2);
+                                                     ?>
+                                                    <tr>
+                                                        <td width="15%"><a href="" ></a><h3 class="m-b-0"><b><?php echo $d['group'];?></b></h3></td>
+                                                        <td width="32%"><?php echo $item; ?></td>
+                                                        <td width="32%">asdasd</td>
+                                                        <td width="10%">
+                                                            <a href="" onclick="choose_vendor()" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
+                                                            <center><input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
+                                                        </td>
+                                                    </tr>
+                                                <?php } } ?>
+                                                </table>
                                             </td>
-                                        </tr>     
-                                        <tr>
+                                        </tr> 
+                                        <?php } ?>    
+                                        <!-- <tr>
                                             <td width="15%"><a href="" ></a><h3 class="m-b-0"><b>asdasdasd</b></h3></td>
                                             <td width="32%">asdasd</td>
                                             <td width="32%">asdasd</td>
@@ -103,7 +115,7 @@
                                                 <a href="" onclick="choose_vendor()" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
                                                 <center><input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
                                             </td>
-                                        </tr>                               
+                                        </tr>            -->                    
                                     </table>
                                 </form>
                             </div>

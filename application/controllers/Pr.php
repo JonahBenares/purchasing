@@ -30,7 +30,115 @@ class Pr extends CI_Controller {
     public function pending_forrfq(){  
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('pr/pending_forrfq');
+
+        /*foreach($this->super_model->custom_query("SELECT DISTINCT pr_id, vendor_id,rfq_id FROM rfq_head") as $r){
+            $rfq[] = array(
+                'rfq_id'=>$r->rfq_id,
+                'pr_id'=>$r->pr_id,
+                'vendor_id'=>$r->vendor_id,
+            );
+        }
+
+        foreach($rfq AS $i){
+            foreach($this->super_model->custom_query("SELECT DISTINCT pr_id, vendor_id FROM pr_vendors  WHERE pr_id = '$i[pr_id]' AND vendor_id = '$i[vendor_id]'") AS $q){
+
+                foreach($this->super_model->select_custom_where("rfq_details","rfq_id='$i[rfq_id]'") AS $d){
+                    $grouping=$this->super_model->select_column_where("pr_details","grouping_id","pr_details_id",$d->pr_details_id);
+                    $count_group = $this->super_model->count_rows_where("rfq_details","pr_details_id",$d->pr_details_id);
+                    $pr_no=$this->super_model->select_column_where("pr_head","pr_no","pr_id",$q->pr_id);
+                    $vendor=$this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$q->vendor_id);
+                    $data['pending'][]=array(
+                        'pr'=>$pr_no,
+                        'group'=>$grouping,
+                        'count_group'=>$count_group,
+                        'items'=>$d->item_desc,
+                    );
+                }
+            }
+        }*/
+
+       /* foreach($this->super_model->custom_query("SELECT * FROM rfq_head rh INNER JOIN pr_vendors pv ON rh.pr_id = pv.pr_id WHERE rh.pr_id = pv.pr_id AND rh.vendor_id = pv.vendor_id") AS $pending){
+
+            $rfq[] = array(
+                'pr_id'=>$pending->pr_id,
+                'vendor_id'=>$pending->vendor_id
+            );
+        }
+
+
+        foreach($rfq AS $res){
+            foreach($this->super_model->select_custom_where("pr_vendors","pr_id='$res[pr_id]' AND vendor_id = '$res[vendor_id]'") AS $pv){
+                foreach($this->super_model->select_row_where("pr_details","pr_id",$pv->pr_id) AS $t){
+                    $count_group = $this->super_model->count_rows_where("pr_vendors","grouping_id",$t->grouping_id);
+                }
+                $pr_no=$this->super_model->select_column_where("pr_head","pr_no","pr_id",$pv->pr_id);
+                $vendor=$this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$pv->vendor_id);
+                $data['pending'][]=array(
+                    'pr'=>$pr_no,
+                    'group'=>$pv->grouping_id,
+                    'count_group'=>$count_group,
+                    'vendor'=>$vendor,
+                    'items'=>$d->item_desc,
+                );
+            }
+        }*/
+        
+        /*if($count!=0){*/
+
+            /*foreach($this->super_model->select_all("pr_vendors") AS $r) {
+                foreach($this->super_model->custom_query("SELECT * FROM rfq_head WHERE pr_id ='$r->pr_id' AND vendor_id='$r->vendor_id'") AS $p){
+                    if($p->pr_id==0 && $p->vendor_id==0){
+
+                        $pr_no=$this->super_model->select_column_where("pr_head","pr_no","pr_id",$r->pr_id);  
+                        $vendor=$this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$r->vendor_id); 
+
+                        foreach($this->super_model->select_row_where("pr_details","pr_id",$r->pr_id) AS $a){
+                            $grouping=$this->super_model->select_column_custom_where("pr_vendors","grouping_id","pr_id='$p->pr_id' AND grouping_id='$a->grouping_id'");
+                        }
+                    }
+                }
+                foreach($this->super_model->select_custom_where("rfq_details","rfq_id='$r->rfq_id'") AS $d){
+                    $count_group = $this->super_model->count_rows_where("rfq_details","pr_details_id",$d->pr_details_id);
+                    $data['pending'][]=array(
+                        'pr'=>$pr_no,
+                        'group'=>$grouping,
+                        'count_group'=>$count_group,
+                        'vendor'=>$vendor,
+                        'items'=>$d->item_desc,
+                    );
+                }
+            }*/
+        
+        /*}else {
+            $data['pending']=array();
+        }*/
+
+        foreach($this->super_model->select_all("pr_head") AS $r){  
+            $data['head'][]=array(
+                'pr_id'=>$r->pr_id,
+                'pr_no'=>$r->pr_no
+            );
+            foreach($this->super_model->select_custom_where("pr_details","pr_id = '$r->pr_id'") AS $p){
+                $count = $this->super_model->count_custom_where("rfq_head","pr_id='$p->pr_id'");
+                if($count==0){
+                    $data['items'][]=array(
+                        'pr_id'=>$p->pr_id,
+                        'item'=>$p->item_description,
+                    );
+
+                    $data['det'][]=array(
+                        'pr_id'=>$p->pr_id,
+                        'group'=>$p->grouping_id,
+                        'item'=>$p->item_description,
+                    );
+                }else {
+                    $data['items']=array();
+                    $data['det']=array();
+                    $data['head']=array();
+                }
+            }
+        }
+        $this->load->view('pr/pending_forrfq',$data);
         $this->load->view('template/footer');
     }
     
