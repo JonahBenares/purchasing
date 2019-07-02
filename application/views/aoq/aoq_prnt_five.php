@@ -727,13 +727,13 @@
 		    			<td colspan="5" class="f10 bor-btm" align="center"></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="5" class="f10 bor-btm" align="center">
-		    			<select name='approved' required>
+		    			<select name='approved' required style="width: 100%">
 			    			<option value=''>-Select-</option>
 		    			</select>
 		    			</td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="5" class="f10 bor-btm" align="center">
-		    				<select name='noted' required>
+		    				<select name='noted' required style="width: 100%">
 			    			<option value=''>-Select-</option>
 		    			</select>
 		    			</td>
