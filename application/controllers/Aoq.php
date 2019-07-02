@@ -55,6 +55,18 @@ class Aoq extends CI_Controller {
         $this->load->view('template/footer');
     } 
 
+    public function aoq_prnt_four(){
+        $this->load->view('template/header');
+        $this->load->view('aoq/aoq_prnt_four');
+        $this->load->view('template/footer');
+    } 
+
+    public function aoq_prnt_five(){
+        $this->load->view('template/header');
+        $this->load->view('aoq/aoq_prnt_five');
+        $this->load->view('template/footer');
+    } 
+
     public function aoq_prnt2(){
         $this->load->view('template/header_aoq');
         $this->load->view('aoq/aoq_prnt2');

@@ -34,7 +34,7 @@ class Pr extends CI_Controller {
       
         foreach($this->super_model->custom_query("SELECT pv.pr_id, pv.grouping_id FROM pr_vendors pv INNER JOIN rfq_head rh ON pv.pr_id = rh.pr_id WHERE pv.vendor_id = rh.vendor_id GROUP BY pv.pr_id, pv.grouping_id") AS $ven){
             echo "SELECT pr_id, grouping_id FROM pr_details WHERE pr_id = '$ven->pr_id' AND grouping_id != '$ven->grouping_id' GROUP BY pr_id, grouping_id";
-            foreach($this->super_model->custom_query( grouping_id != '$ven->grouping_id' GROUP BY pr_id, grouping_id") AS $det){
+            foreach($this->super_model->custom_query( grouping_id != '$ven->grouping_id' GROUP BY pr_id, grouping_id) AS $det){
                 $norfq[] = array(
                     'pr_id'=>$det->pr_id,
                     'grouping_id'=>$det->grouping_id
