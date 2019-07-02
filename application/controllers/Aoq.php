@@ -45,7 +45,7 @@ class Aoq extends CI_Controller {
 	public function aoq_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('aoq/aoq_list',$data);
+        $this->load->view('aoq/aoq_list');
         $this->load->view('template/footer');
     }  
 
