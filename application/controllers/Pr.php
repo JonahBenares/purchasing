@@ -30,17 +30,25 @@ class Pr extends CI_Controller {
     public function pending_forrfq(){  
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $sql="SELECT pr_id, grouping_id FROM pr_details WHERE pr_id = '$ven->pr_id' AND";
+        $gr="SELECT pr_id, grouping_id FROM pr_details WHERE ";
       
-        foreach($this->super_model->custom_query("SELECT pv.pr_id, pv.grouping_id FROM pr_vendors pv INNER JOIN rfq_head rh ON pv.pr_id = rh.pr_id WHERE pv.vendor_id = rh.vendor_id GROUP BY pv.pr_id, pv.grouping_id") AS $ven){
-            echo "SELECT pr_id, grouping_id FROM pr_details WHERE pr_id = '$ven->pr_id' AND grouping_id != '$ven->grouping_id' GROUP BY pr_id, grouping_id";
-            foreach($this->super_model->custom_query( grouping_id != '$ven->grouping_id' GROUP BY pr_id, grouping_id) AS $det){
-                $norfq[] = array(
+     
+
+            foreach($this->super_model->custom_query("SELECT pr_details_id, pr_id, grouping_id FROM pr_details") AS $det){
+                foreach($this->super_model->custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id != '$det->grouping_id' GROUP BY pr_id, grouping_id") AS $rfq){
+              //  echo "**".$it->pr_details_id . "<br>";
+                 $norfq[] = array(
                     'pr_id'=>$det->pr_id,
                     'grouping_id'=>$det->grouping_id
                 );
             }
+           
         }
+          
+        
+
+    
+      
         
         foreach($norfq AS $key){
             $it='';
@@ -392,6 +400,7 @@ class Pr extends CI_Controller {
                     'rfq_no'=>$rfq_no,
                     'vendor_id'=>$vendors->vendor_id,
                     'pr_id'=>$prid,
+                    'grouping_id'=>$vendors->grouping_id,
                     'rfq_date'=>$timestamp,
                     'prepared_by'=>$_SESSION['user_id'],
                     'create_date'=>$timestamp
@@ -403,6 +412,7 @@ class Pr extends CI_Controller {
                         'rfq_id'=>$rfq_id,
                         'pr_details_id'=>$details->pr_details_id,
                         'item_desc'=>$details->item_description,
+                        'quantity'=>$details->quantity,
                         'uom'=>$details->uom,
 
                     );

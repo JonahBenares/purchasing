@@ -41,6 +41,71 @@ class Aoq extends CI_Controller {
 
 	}
 
+    public function add_aoq(){
+        $rfq = $this->input->post('rfq');
+        
+        $rfq_id1 = $rfq[0];
+        //echo $rfq_id1;
+        $pr_id = $this->super_model->select_column_where("rfq_head", "pr_id", "rfq_id", $rfq_id1);
+
+       $rows_head = $this->super_model->count_rows("aoq_head");
+        if($rows_head==0){
+            $aoq_id=1;
+        } else {
+            $max = $this->super_model->get_max("aoq_head", "aoq_id");
+            $aoq_id = $max+1;
+        }
+        $aoq_date = date('Y-m-d');
+
+        foreach($this->super_model->select_row_where("pr_head", "pr_id", $pr_id) AS $pr){
+            $head = array(
+                'aoq_id'=>$aoq_id,
+                'aoq_date'=>$aoq_date,
+                'pr_id'=>$pr_id,
+                'department'=>$pr->department,
+                'purpose'=>$pr->purpose,
+                'enduse'=>$pr->enduse,
+                'requestor'=>$pr->requestor
+            );
+
+            $this->super_model->insert_into("aoq_head", $head);
+        }
+        $where="SELECT * FROM rfq_details WHERE";
+        foreach($rfq AS $r){
+            $vendor_id = $this->super_model->select_column_where("rfq_head", "vendor_id", "rfq_id", $r);
+            $vendors = array(
+                'aoq_id'=>$aoq_id,
+                'vendor_id'=>$vendor_id,
+                'rfq_id'=>$r
+            );
+            $this->super_model->insert_into("aoq_vendors", $vendors);
+
+            $where.=" rfq_id = '$r' OR";
+        }
+
+        $sql=substr($where, 0, -3);
+        $sql .= " GROUP BY item_desc";
+       // echo $sql;
+       foreach($this->super_model->custom_query($sql) AS $items){
+          $items = array(
+            'aoq_id'=>$aoq_id,
+            'item_description'=>$items->item_desc,
+            'quantity'=>$items->quantity,
+            'uom'=>$items->uom
+          );
+          $this->super_model->insert_into("aoq_items", $items);
+       }
+
+
+        $count = count($rfq);
+        if($count<=3){
+            redirect(base_url().'aoq/aoq_prnt'.$aoq_id);
+        } else if($count==4){
+            redirect(base_url().'aoq/aoq_prnt_four'.$aoq_id);
+        } else if($count==5){
+            redirect(base_url().'aoq/aoq_prnt_five'.$aoq_id);
+        }
+    }
 
 	public function aoq_list(){
         $this->load->view('template/header');
@@ -50,8 +115,35 @@ class Aoq extends CI_Controller {
     }  
 
     public function aoq_prnt(){
+        $aoq_id= $this->uri->segment(3);
+    
+        foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
+            $data['head'][] =  array(
+                'aoq_date'=>$head->aoq_date,
+                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id),
+                'department'=>$head->department,
+                'purpose'=>$head->purpose,
+                'enduse'=>$head->enduse,
+                'requestor'=>$head->requestor
+
+            );
+        }
+
+        foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $ven){
+           
+            $data['vendors'][] = array(
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $ven->vendor_id),
+                'phone'=>$this->super_model->select_column_where("vendor_head", "phone_number", "vendor_id", $ven->vendor_id),
+                'contact'=>$this->super_model->select_column_where("vendor_head", "contact_person", "vendor_id", $ven->vendor_id),
+            );
+        }
+
+        $data['items'] = $this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id);
+           
+       
+
         $this->load->view('template/header');
-        $this->load->view('aoq/aoq_prnt');
+        $this->load->view('aoq/aoq_prnt',$data);
         $this->load->view('template/footer');
     } 
 

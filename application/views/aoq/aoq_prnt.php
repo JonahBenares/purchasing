@@ -165,6 +165,34 @@
 			background: #fff!important;
 		}
     </style>
+    <script>
+    	function calculateAmount(count, vendor, position){
+    
+		   var quantity = document.getElementById("quantity_"+count).value;
+		   var price = document.getElementById("price_"+count+"_"+vendor+"_"+position).value;
+		   var amount = parseFloat(price) * parseFloat(quantity);
+		   document.getElementById("amount_"+count+"_"+vendor+"_"+position).value  =amount;
+		
+		}
+
+		function isNumberKey(txt, evt){
+		   var charCode = (evt.which) ? evt.which : evt.keyCode;
+		    if (charCode == 46) {
+		        //Check if the text already contains the . character
+		        if (txt.value.indexOf('.') === -1) {
+		            return true;
+		        } else {
+		            return false;
+		        }
+		    } else {
+		        if (charCode > 31
+		             && (charCode < 48 || charCode > 57))
+		            return false;
+		    }
+		    return true;
+		}
+
+    </script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/animate.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
@@ -176,7 +204,7 @@
 	    		<center>
 			    	<div class="btn-group">
 						<a href="<?php echo base_url(); ?>aoq/aoq_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-							<input type='submit' class="btn btn-info btn-md p-l-100 p-r-100" value='Done'>
+							<!-- <input type='submit' class="btn btn-info btn-md p-l-100 p-r-100" value='Done'> -->
 							<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
 					</div>
@@ -209,49 +237,44 @@
 		    			<td width="5%"><br></td>
 		    		</tr>		    		
 		    		<tr><td class="f10" colspan="21"  align="center"><h5><b>ABSTRACT OF QUOTATION</b></h5></td></tr>
+		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td class="f10" colspan="2" align="right">Department: &nbsp;</td>
-		    			<td class="f10" colspan="9"></td>		    			
+		    			<td class="f10" colspan="9"><?php echo $h['department']; ?></td>		    			
 		    			<td class="f10" colspan="2" align="right">Date: &nbsp;</td>
-		    			<td class="f10" colspan="8"></td>
+		    			<td class="f10" colspan="8"><?php echo $h['aoq_date']; ?></td>
 		    		</tr>	
 		    		<tr>
 		    			<td class="f10" colspan="2" align="right">Purpose: &nbsp;</td>
-		    			<td class="f10" colspan="9"></td>		    			
+		    			<td class="f10" colspan="9"><?php echo $h['purpose'];; ?></td>		    			
 		    			<td class="f10" colspan="2" align="right">PR #: &nbsp;</td>
-		    			<td class="f10" colspan="8"> </td>
+		    			<td class="f10" colspan="8"><?php echo $h['pr_no'];; ?> </td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f10" colspan="2" align="right">Enduse: &nbsp;</td>
-		    			<td class="f10" colspan="9"></td>		    			
+		    			<td class="f10" colspan="9"><?php echo $h['enduse'];; ?></td>		    			
 		    			<td class="f10" colspan="2" align="right">Date Needed: &nbsp;</td>
 		    			<td class="f10" colspan="8"></td>
 		    		</tr>	
 		    		<tr>
 		    			<td class="f10" colspan="2" align="right">Requested by: &nbsp;</td>
-		    			<td class="f10" colspan="19"></td>
+		    			<td class="f10" colspan="19"><?php echo $h['requestor'];; ?></td>
 		    		</tr>
+		    		<?php } ?>
 		    		<tr>
 		    			<td class="f10" colspan="6" align="center">
 		    				<!-- <button id="add_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-id="">
 							  <span class="fa fa-plus"></span> Add Item
 							</button>	 -->						
 		    			</td>
+		    			<?php foreach($vendors AS $ven) { ?>
 		    			<td colspan="5" class="f10 table-borbold"  align="center">
-		    				<b>Supplier name</b><br>
-		    				Contact Person<br>
-		    				Phone NUmber
+		    				<b><?php echo $ven['vendor']; ?></b><br>
+		    				<?php echo $ven['phone']; ?><br>
+		    				<?php echo $ven['contact']; ?>
 		    			</td>
-		    			<td colspan="5" class="f10 table-borbold"  align="center">
-		    				<b>Supplier name</b><br>
-		    				Contact Person<br>
-		    				Phone NUmber
-		    			</td>
-		    			<td colspan="5" class="f10 table-borbold"  align="center">
-		    				<b>Supplier name</b><br>
-		    				Contact Person<br>
-		    				Phone NUmber
-		    			</td>
+		    			<?php } ?>
+		    			
 		    		</tr>
 		    		<tr>
 		    			<td class="f9 table-borbold" align="center"><b>#</td>
@@ -271,22 +294,31 @@
 		    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
 		    		</tr>
+
+		    		<?php
+		    		$x=1; 
+		    		foreach($items AS $it){ ?>
+		    			<input type='hidden' name='quantity_<?php echo $x; ?>' id="quantity_<?php echo $x; ?>" value='<?php echo $it->quantity; ?>'>
 		    		<tr style='border:2px solid #000'>
-		    			<td class="f10 table-borreg" align="center"></td>
-		    			<td class="f10 table-borreg" align="left" colspan="3"></td>
-		    			<td class="f10 table-borreg" align="center"></td>
-		    			<td class="f10 table-borreg" align="center"></td>
+		    			<td class="f10 table-borreg" align="center"><?php echo $x; ?></td>
+		    			<td class="f10 table-borreg" align="left" colspan="3"><?php echo $it->item_description; ?></td>
+		    			<td class="f10 table-borreg" align="center"><?php echo $it->quantity; ?></td>
+		    			<td class="f10 table-borreg" align="center"><?php echo $it->uom; ?></td>
+
+
+		    		<!-------------------------- VENDOR 1 ------------------------>
 		    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
 		    				<table class="" width="100%" style='border:0px solid #000;'>						
 		    					<tr>
 			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_1_1" rows="1"></textarea>
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_1_1" name="price_<?php echo $x; ?>_1_1" 
+			    						onblur="calculateAmount(<?php echo $x; ?>, '1','1')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_1_1" name="amount_<?php echo $x; ?>_1_1">
 			    					</td>
 			    					<td width="40%" class="bor-btm bor-right">
 			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
@@ -294,13 +326,14 @@
 			    				</tr>
 			    				<tr>
 			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_1_2" rows="1"></textarea>
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_1_2" name="price_<?php echo $x; ?>_1_2"
+			    						onblur="calculateAmount(<?php echo $x; ?>, '1','2')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_1_2" name="amount_<?php echo $x; ?>_1_2">
 			    					</td>
 			    					<td width="40%" class="bor-btm bor-right">
 			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
@@ -308,13 +341,65 @@
 			    				</tr>
 			    				<tr>
 			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_1_3" rows="1"></textarea>
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_1_3" name="price_<?php echo $x; ?>_1_3"
+			    						onblur="calculateAmount(<?php echo $x; ?>, '1','3')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_1_3" name="amount_<?php echo $x; ?>_1_3">
+			    					</td>
+			    					<td width="40%" class="bor-btm bor-right"
+			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    					</td>
+			    				</tr>
+		    				</table>		    			
+		    			</td>
+
+		    			<!-------------------------- VENDOR 2 ------------------------>
+		    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
+		    				<table class="" width="100%" style='border:0px solid #000;'>						
+		    					<tr>
+			    					<td width="40%" class="bor-btm bor-right">
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_2_1" rows="1"></textarea>
+			    					</td>
+			    					<td width="20%" class="bor-btm bor-right f10" align="center">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_2_1" name="price_<?php echo $x; ?>_2_1"
+			    						onblur="calculateAmount(<?php echo $x; ?>, '2','1')" onkeypress="return isNumberKey(this, event)">
+			    					</td>
+			    					<td width="20%" class="bor-btm bor-right" align="center">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_2_1" name="amount_<?php echo $x; ?>_2_1">
+			    					</td>
+			    					<td width="40%" class="bor-btm bor-right">
+			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    					</td>
+			    				</tr>
+			    				<tr>
+			    					<td width="40%" class="bor-btm bor-right">
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_2_2" rows="1"></textarea>
+			    					</td>
+			    					<td width="20%" class="bor-btm bor-right f10" align="center">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_2_2" name="price_<?php echo $x; ?>_2_2"
+			    						onblur="calculateAmount(<?php echo $x; ?>, '2','2')" onkeypress="return isNumberKey(this, event)">
+			    					</td>
+			    					<td width="20%" class="bor-btm bor-right" align="center">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_2_2" name="amount_<?php echo $x; ?>_2_2">
+			    					</td>
+			    					<td width="40%" class="bor-btm bor-right">
+			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    					</td>
+			    				</tr>
+			    				<tr>
+			    					<td width="40%" class="bor-btm bor-right">
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_2_3" rows="1"></textarea>
+			    					</td>
+			    					<td width="20%" class="bor-btm bor-right f10" align="center">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_2_3" name="price_<?php echo $x; ?>_2_3"
+			    						onblur="calculateAmount(<?php echo $x; ?>, '2','3')" onkeypress="return isNumberKey(this, event)">
+			    					</td>
+			    					<td width="20%" class="bor-btm bor-right" align="center">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_2_3" name="amount_<?php echo $x; ?>_2_3">
 			    					</td>
 			    					<td width="40%" class="bor-btm bor-right">
 			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
@@ -322,17 +407,20 @@
 			    				</tr>
 		    				</table>		    			
 		    			</td>
+
+		    			<!-------------------------- VENDOR 3 ------------------------>
 		    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
 		    				<table class="" width="100%" style='border:0px solid #000;'>						
 		    					<tr>
 			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_3_1" rows="1"></textarea>
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_3_1" name="price_<?php echo $x; ?>_3_1"
+			    						onblur="calculateAmount(<?php echo $x; ?>, '3','1')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_3_1" name="amount_<?php echo $x; ?>_3_1">
 			    					</td>
 			    					<td width="40%" class="bor-btm bor-right">
 			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
@@ -340,13 +428,14 @@
 			    				</tr>
 			    				<tr>
 			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_3_2" rows="1"></textarea>
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_3_2" name="price_<?php echo $x; ?>_3_2"
+			    						onblur="calculateAmount(<?php echo $x; ?>, '3','2')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_3_2" name="amount_<?php echo $x; ?>_3_2">
 			    					</td>
 			    					<td width="40%" class="bor-btm bor-right">
 			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
@@ -354,13 +443,14 @@
 			    				</tr>
 			    				<tr>
 			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_3_3" rows="1"></textarea>
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_3_3" name="offer_<?php echo $x; ?>_3_3"
+			    						onblur="calculateAmount(<?php echo $x; ?>, '3','3')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_3_3" name="amount_<?php echo $x; ?>_3_3">
 			    					</td>
 			    					<td width="40%" class="bor-btm bor-right">
 			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
@@ -368,197 +458,12 @@
 			    				</tr>
 		    				</table>		    			
 		    			</td>
-		    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
-		    				<table class="" width="100%" style='border:0px solid #000;'>						
-		    					<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-		    				</table>		    			
-		    			</td>
+
 		    		</tr>	
-		    		<tr style='border:2px solid #000'>
-		    			<td class="f10 table-borreg" align="center"></td>
-		    			<td class="f10 table-borreg" align="left" colspan="3"></td>
-		    			<td class="f10 table-borreg" align="center"></td>
-		    			<td class="f10 table-borreg" align="center"></td>
-		    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
-		    				<table class="" width="100%" style='border:0px solid #000;'>						
-		    					<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-		    				</table>		    			
-		    			</td>
-		    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
-		    				<table class="" width="100%" style='border:0px solid #000;'>						
-		    					<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-		    				</table>		    			
-		    			</td>
-		    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
-		    				<table class="" width="100%" style='border:0px solid #000;'>						
-		    					<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-		    				</table>		    			
-		    			</td>
-		    		</tr>		    	
+
+		    	<?php $x++;
+		    	} ?>
+
 		    		<tr>
 		    			<td class="f10 table-borreg" align="center"><br></td>
 		    			<td class="f10 table-borreg" align="left" colspan="3"></td>

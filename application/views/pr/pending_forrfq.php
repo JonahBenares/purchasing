@@ -44,7 +44,7 @@
                         </div>  
                         <div class="sparkline8-hd">
                             <div class="main-sparkline8-hd">
-                                <form method="POST" action="<?php echo base_url(); ?>pr/">
+                                
                                     <table class="table table-bordered" >
                                         <tr>
                                             <th>PR No.</th>
@@ -60,6 +60,7 @@
                                             
                                         </tr>
                                     <?php foreach($head as $h){ ?>
+                                        <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq">
                                         <tr>
                                             <td width="11%"><?php echo $h['pr_no']; ?></td>
                                             <td style="padding: 0px!important">
@@ -73,6 +74,7 @@
                                                             <?php if(empty($h['vendor'])){ ?>
                                                             <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $h['group']; ?>','<?php echo $h['pr_id']; ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
                                                         <?php } else { ?>
+                                                            <input type='hidden' name='pr_id' value='<?php echo $h['pr_id']; ?>'>
                                                             <input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
                                                         <?php } ?>
                                                         </td>
@@ -81,6 +83,7 @@
                                                 </table>
                                             </td>
                                         </tr> 
+                                         </form>
                                         <?php } ?>
                                         <!-- <tr>
                                             <td width="15%"><a href="" ></a><h3 class="m-b-0"><b>asdasdasd</b></h3></td>
@@ -110,7 +113,7 @@
                                             </td>
                                         </tr>            -->                    
                                     </table>
-                                </form>
+                               
                             </div>
                         </div>
                     </div>

@@ -83,7 +83,22 @@
             </div>
         </div>
     </div> -->
-  
+   <script type="text/javascript">
+ $( document ).ready(function() {
+    $("#createAOQ").attr("disabled", true);
+    var $checkboxes = $('input[type="checkbox"]');
+    $checkboxes.change(function(){
+        var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
+        if(countCheckedCheckboxes  > 5){
+           this.checked = false;
+           alert('You can only choose up to 5 RFQs.');
+        } 
+         if(countCheckedCheckboxes  >= 1){
+            $('#createAOQ').removeAttr("disabled");
+         }
+    });
+ });
+</script>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -149,7 +164,7 @@
                                         <?php foreach($head AS $h){ ?>
                                         <tr>
                                             <td>
-                                            <input type="checkbox" class="form-control rfq_list" name="rfq[]" value=""></td>
+                                            <input type="checkbox" class="form-control rfq_list" name="rfq[]" value="<?php echo $h['rfq_id']; ?>"></td>
                                             <td><?php echo $h['rfq_no']; ?></td>
                                             <td><?php echo $h['pr_no']; ?></td>
                                             <td><?php echo $h['vendor']; ?></td>
