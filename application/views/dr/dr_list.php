@@ -80,40 +80,27 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        if(!empty($head)){
-                                         foreach($head AS $h){ ?>
-                                        
                                         <tr>
-                                            <td><?php echo date('F j, Y', strtotime($h['create_date'])); ?></td>
-                                            <td><?php echo $h['dr_no']; ?></td>
-                                            <td><?php if($h['direct_purchase'] == 0 ){
-                                                    echo 'Purchase Order';
-                                                    } else if($h['direct_purchase'] == 1){
-                                                        echo 'Direct Purchase w/ RFD';
-                                                    } else if($h['direct_purchase'] == 2){
-                                                        echo 'Direct Purchase w/o RFD';
-                                                    } ?></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>Purchase Order
+                                                Direct Purchase
+                                                Direct Purchase w/o RFD
+                                            </td>
                                             <td>
                                                 <center>
-                                                    <?php if($h['direct_purchase'] ==0 ){ ?>
-                                                        <a href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $h['po_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                        <a href="<?php echo base_url(); ?>po/delivery_receipt/" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
-                                                    <?php } else if($h['direct_purchase'] == 1){ ?>
-                                                         <a href="<?php echo base_url(); ?>rfdis/rfdis_dr/<?php echo $h['rfd_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                         <a href="<?php echo base_url(); ?>rfdis/rfdis_dr/" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
-                                                     <?php } else if($h['direct_purchase'] == 2){ ?>
-                                                         <a href="<?php echo base_url(); ?>dr/dr_prnt/<?php echo $h['dr_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                         <a href="<?php echo base_url(); ?>dr/dr_prnt/" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
-                                                    <?php } ?>
                                                 </center>
                                             </td>
-                                        </tr>      
-                                        <?php } 
-                                        }?>                           
+                                        </tr>                        
                                     </tbody>
                                 </table>
 

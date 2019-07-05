@@ -99,11 +99,7 @@
 	    		<center>
 			    	<div class="btn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-						<!-- <input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save"> -->
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
-
-						<!-- <input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	 -->
-
 					</div>
 					<p class="text-white">Instructions: When printing DELIVERY RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
@@ -144,26 +140,24 @@
 		    		<tr><td colspan="20" align="center"><h5><b class="text-red">DELIVERY RECEIPT</b></h5></td></tr>
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
 		    		<tr>
-		    			<td colspan="13" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no; ?></b></td>
+		    			<td colspan="13" class="all-border "><b class="text-red nomarg">DR No. </b></td>
 		    			<td colspan="7" class="all-border " align="right"><b style="color: blue;margin-right: 5px">Direct Purchase</b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20" class="all-border "><b class="nomarg">Date :  <?php echo date('F j, Y', strtotime($date)); ?></b></td>		    			
+		    			<td colspan="20" class="all-border "><b class="nomarg">Date :  </b></td>		    			
 		    		</tr>
 		    		<!-- loop here start-->
-		    		<?php foreach($details AS $det){ ?>
 		    		<tr>
-		    			<td colspan="13" class="all-border"><b class="nomarg"><?php echo $det['notes']; ?></b></td>
-		    			<td colspan="7" class="all-border"><b class="nomarg">Requestor: <?php echo $det['requestor']; ?></b></td>
+		    			<td colspan="13" class="all-border"><b class="nomarg">notes</b></td>
+		    			<td colspan="7" class="all-border"><b class="nomarg">Requestor: </b></td>
 		    		</tr>		    		
 		    		<tr>
-		    			<td colspan="13" class="all-border bor-btm2"><b class="nomarg">Purpose: <?php echo $det['purpose']; ?></b></td>
-		    			<td colspan="7" class="all-border bor-btm2"><b class="nomarg">Enduse: <?php echo $det['enduse']; ?></b></td>
+		    			<td colspan="13" class="all-border bor-btm2"><b class="nomarg">Purpose: </b></td>
+		    			<td colspan="7" class="all-border bor-btm2"><b class="nomarg">Enduse: </b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" class="all-border "><b class="nomarg"><br></b></td>		    			
 		    		</tr>
-		    		<?php } ?>
 		    		<!-- loop here end-->
 		    		<tr>
 		    			<td class="all-border" align="center"><b class="nomarg">#</b></td>
@@ -175,19 +169,16 @@
 		    			<td class="all-border" align="center" colspan="3"><b class="nomarg">Remarks</b></td>
 		    		</tr>
 		    		<!-- <loop  start-->
-		    		<?php
-		    		$a=1;
-		    		 foreach($items AS $it) { ?>
+
 		       		<tr>
-		    			<td class="all-border" align="center"><?php echo $a; ?></td>
-		    			<td class="all-border" align="left" colspan="6"><?php echo $vendor; ?></td>
-		    			<td class="all-border" align="left" colspan="6"><?php echo $it['item'] . ", " . $it['specs']; ?></td>
-		    			<td class="all-border" align="center"><?php echo number_format($it['quantity']); ?></td>
 		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center" colspan="2"><?php echo $it['unit']; ?></td>
+		    			<td class="all-border" align="left" colspan="6"></td>
+		    			<td class="all-border" align="left" colspan="6"></td>
+		    			<td class="all-border" align="center"></td>
+		    			<td class="all-border" align="center"></td>
+		    			<td class="all-border" align="center" colspan="2"></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>		    	
-		    		<?php $a++; } ?>	
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
@@ -236,7 +227,6 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
-	    	<input type='hidden' name='rfq_id' value='>'>
     	</form>
     </div>
     <script type="text/javascript">

@@ -1,5 +1,3 @@
-    
-    <?php $CI =& get_instance(); ?>
     <style type="text/css">
         html, body.materialdesign {
             background: #2d2c2c;
@@ -27,21 +25,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        $x=1; 
-                                        foreach($items AS $it) {  ?>
-                                            <input type='hidden' name='item_id<?php echo $x; ?>' value='<?php echo $it->item_id; ?>'>
+                                            <input type='hidden' name='item_id' value=''>
                                         <tr>
-                                            <td><?php echo $CI->getname("item_name", "item", "item_id", $it->item_id) . ", " .$CI->getname("item_specs", "item", "item_id", $it->item_id); ?></td>
-                                            <td class="td" style="padding-left: 0px!important;"><input type="text" class="form-control" name="quantity<?php echo $x; ?>" onkeypress="return isNumberKey(this, event)" autocomplete='off'></td>
-                                            <td class="td" style="padding-left: 0px!important;"><input type="text" class="form-control" name="price<?php echo $x; ?>" onkeypress="return isNumberKey(this, event)" autocomplete='off'></td>
-                                        </tr>       
-                                        <?php 
-                                        $x++; } ?>      
+                                            <td></td>
+                                            <td class="td" style="padding-left: 0px!important;"><input type="text" class="form-control" name="quantity" onkeypress="return isNumberKey(this, event)" autocomplete='off'></td>
+                                            <td class="td" style="padding-left: 0px!important;"><input type="text" class="form-control" name="price" onkeypress="return isNumberKey(this, event)" autocomplete='off'></td>
+                                        </tr>          
                                     </tbody>
                                 </table>
-                                <input type='hidden' name='count_item' value="<?php echo $x; ?>">
-                                <input type='hidden' name='rfd_id' value='<?php echo $rfd_id; ?>'>
                                 <input type='submit' class="btn btn-primary btn-block" value='Save'>
                             </div>
                         </form>

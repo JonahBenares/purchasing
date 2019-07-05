@@ -21,11 +21,7 @@
 
                                     <h5 class="nomarg">
                                          <select name='supplier' id='supplier' class="form-control"  onchange='chooseSupplier()'>
-
                                             <option value='' selected>-Select Supplier-</option>
-                                            <?php foreach($supplier AS $sup){ ?>
-                                                <option value="<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
-                                            <?php } ?>
                                         </select>
                                     </h5>
                                 </div>
@@ -36,28 +32,22 @@
                                         <select name='items' id='items' class="form-control">
                                         </select>
                                     </b></h5>
-                                </div>
-                            
+                                </div>                            
                                 <div class="form-group">
                                     <h5 class="nomarg">Delivered:</h5>
                                     <h5 class="nomarg"><b>
                                         <input type="number" name="delivered" class="form-control">
-                                    </b></h5>
-                                  
-                                </div>
-                            
+                                    </b></h5>                                  
+                                </div>                            
                                 <div class="form-group">
                                     <h5 class="nomarg">Remarks:</h5>
-
-                                    <h5 class="nomarg"><b>
+                                    <h5 class="nomarg">
+                                        <b>
                                         <textarea type="text" name="remarks" class="form-control"></textarea>
-                                    </b></h5>
-
-                                   
+                                        </b>
+                                    </h5>                                   
                                 </div>
                                 <input type="submit" class="btn btn-primary btn-block" value="Save changes">
-                                <input type="hidden" name="dr_id" value="<?php echo $dr_id; ?>">
-                                <input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
                             </div>
                         </form>
                         </div>   

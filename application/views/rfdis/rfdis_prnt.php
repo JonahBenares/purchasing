@@ -127,11 +127,6 @@
 					<h5 class="nomarg"><b>
 						 <select name='requested_by' class="form-control">
                             <option value='' selected>-Select Employee-</option>
-                            <?php foreach($employee AS $emp){ ?>
-                                <option value="<?php echo $emp->employee_id; ?>">
-                                <?php echo $emp->employee_name; ?>
-                                </option>
-                            <?php }  ?> 
                         </select>
 					</b></h5>
 				</div>
@@ -140,11 +135,6 @@
 					<h5 class="nomarg"><b>
 						<select name='purpose' class="form-control">
                             <option value='' selected>-Select Purpose-</option>
-                            <?php foreach($purpose AS $purp){ ?>
-                                <option value="<?php echo $purp->purpose_id; ?>">
-                                <?php echo $purp->purpose_name; ?>
-                                </option>
-                            <?php }  ?> 
                         </select>
 					</b></h5>
 				</div>
@@ -154,18 +144,12 @@
 					<h5 class="nomarg"><b>
 						 <select name='enduse' class="form-control">
                             <option value='' selected>-Select End Use-</option>
-                            <?php foreach($enduse AS $end){ ?>
-                                <option value="<?php echo $end->enduse_id; ?>">
-                                <?php echo $end->enduse_name; ?>
-                                </option>
-                            <?php }  ?> 
                         </select>
 					</b></h5>
 				</div>
 				
 				</div>
 				<div class="modal-footer">
-					<input type='hidden' name='rfd_id' value='<?php echo $rfd_id; ?>'>
 					<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 				</div>
 			</form>
@@ -178,13 +162,9 @@
 	    		<center>
 			    	<div class="btn-group">
 						<a href="" onclick = "javascript:window.open('', '_parent', '').close();" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-						<?php if($saved==0) { ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
-						<?php } else { ?> 
-						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
-						<a  href="<?php echo base_url(); ?>rfdis/rfdis_dr/<?php echo $rfd_id; ?>" class="btn btn-warning btn-md p-l-100 p-r-100" target="_blank"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
-						<?php } ?>
-						
+						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
+						<a  href="<?php echo base_url(); ?>rfdis/rfdis_dr/" class="btn btn-warning btn-md p-l-50 p-r-50" target="_blank"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>						
 					</div>
 					<p class="text-white">Instructions: When printing DELIVERY RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
@@ -219,40 +199,38 @@
 		    		</tr>
 		    		<tr><td colspan="20" align="center"><h5><b>REQUEST FOR DISBURSEMENT</b></h5></td></tr>
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
-		    		<?php foreach($rfd as $r){ ?>
 		    		<tr>
 		    			<td colspan="3"><b class="nomarg">Company:</b></td>
 		    			<td colspan="9" class="bor-btm">
-		    				<b class='nomarg'><?php echo $r->company; ?></b>
+		    				<b class='nomarg'></b>
 		    			</td>
 		    			<td colspan="3" align="right"><b class="nomarg">APV No.:</b></td>
-		    			<td colspan="5" class="bor-btm"><b class='nomarg'><?php echo $r->apv_no; ?></b></td>
+		    			<td colspan="5" class="bor-btm"><b class='nomarg'></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><b class="nomarg">Pay To:</b></td>
-		    			<td colspan="9" class="bor-btm"><b class="nomarg"><?php echo $CI->getname("vendor_name", "vendor_head", "vendor_id", $r->pay_to); ?></b></td>
+		    			<td colspan="9" class="bor-btm"><b class="nomarg"></b></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Date:</b></td>
-		    			<td colspan="5" class="bor-btm"><b class='nomarg'><?php echo date('F j, Y', strtotime($r->rfd_date)); ?></b></td>
+		    			<td colspan="5" class="bor-btm"><b class='nomarg'></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><b class="nomarg">Check Name:</b></td>
-		    			<td colspan="9" class="bor-btm"><b class='nomarg'><?php echo $r->check_name; ?></b></td>
+		    			<td colspan="9" class="bor-btm"><b class='nomarg'></b></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Due Date:</b></td>
-		    			<td colspan="5" class="bor-btm"><b class='nomarg'><?php echo date('F j, Y', strtotime($r->due_date)); ?></b></td>
+		    			<td colspan="5" class="bor-btm"><b class='nomarg'></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td class="bor-btm" align="center"><?php echo (($r->cash == 1) ? "<span class='fa fa-check'></span>" : ""); ?></td>
+		    			<td class="bor-btm" align="center"><span class='fa fa-check'></span></td>
 		    			<td><b class="nomarg">Cash</b></td>
-		    			<td class="bor-btm" align="center"><?php echo (($r->check == 1) ? "<span class='fa fa-check'></span>" : ""); ?></td>
+		    			<td class="bor-btm" align="center"><span class='fa fa-check'></span></td>
 		    			<td><b class="nomarg">Check</b></td>
 		    			<td></td>
 		    			<td colspan="2"><b class="nomarg">Bank / no.</b></td>
-		    			<td colspan="4" class="bor-btm"><b class='nomarg'><?php echo $r->bank_no; ?></b></td>
+		    			<td colspan="4" class="bor-btm"><b class='nomarg'></b></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Check Due:</b></td>
-		    			<td colspan="5" class="bor-btm"><b class='nomarg'><?php echo date('F j, Y', strtotime($r->check_date)); ?></b></td>
+		    			<td colspan="5" class="bor-btm"><b class='nomarg'></b></td>
 		    		</tr>
-		    		<?php } ?>
 		    		<tr>
 		    			<td colspan="20"><br></td>
 		    		</tr>
@@ -267,92 +245,65 @@
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">
 		    				<b class="nomarg">Payment for: 
-		    					<?php if($saved==0){ ?>
-		    				<a class="btn btn-xs btn-primary" id="hidde" onclick="additemrfd('<?php echo base_url(); ?>','<?php echo $rfd_id; ?>','<?php echo $supplier_id; ?>')" >Add Item/s</a>
-		    					<?php } ?>
+		    				<a class="btn btn-xs btn-primary" id="hidde" onclick="additemrfd('')" >Add Item/s</a>
 		    				</b>
 		    			</td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
-		    		<?php 
-		    		if(!empty($items)){
-		    		foreach($items AS $it){ 
-		    			$total = $it['quantity'] * $it['price'];
-		    			$gross[]=$total;?>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">		    				
-		    				<div style="padding-left: 10px"><b class="nomarg"><?php echo number_format($it['quantity']) .", ". $it['item'] . ", " . $it['specs']. ", @Php ". number_format($it['price'],2) . " per " . $it['unit']; ?></b></div>
+		    				<div style="padding-left: 10px"><b class="nomarg"></b></div>
 		    			</td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b><?php echo number_format($total,2); ?></b></span>
+		    				<span class="nomarg" id=''><b></b></span>
 		    			</td>
 		    		</tr>
-		    		<?php }
-
-		    		if($vat==1){
-		    			$less_amount = array_sum($gross) / 1.12 * ($ewt/100);
-		    		}else {
-		    			$less_amount = array_sum($gross) * ($ewt/100);
-		    		}
-
-		    		$net = array_sum($gross) - $less_amount;
-		    		 ?>
-		    		 <input type='hidden' name='gross' value='<?php echo array_sum($gross); ?>'>
-		    		 <input type='hidden' name='less_amount' value='<?php echo $less_amount; ?>'>
-		    		 <input type='hidden' name='net' value='<?php echo $net; ?>'>
 		    		<tr>
 
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: <?php echo number_format($ewt); ?>% EWT<br>
-		    				<?php echo (($vat==1) ? 'Vatable' : 'Non-vatable'); ?></b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: 67% EWT<br>
+		    				Vatable Non-vatable</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><b><?php echo number_format($less_amount,2); ?></b></span>
+		    				<span class="nomarg" id=''><b></b></span>
 		    			</td>
 		    		</tr>
-		    		<?php } ?>
 		    		<tr id="hide">
 
 		    			<td align="left" colspan="12" >
 		    				<b class="nomarg">
-		    					<?php if($saved==0){ ?>
 		    					<button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-xs btn-primary" onclick="" >Add Purpose/ EndUse/ Requestor</button>
-		    					<?php } ?>
 		    				</b>
 		    			</td>
 		    			<td colspan="5" class="bor-right"></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>		    
-		    		<?php 
-		    		if(!empty($rfdpurp)){
-		    		foreach($rfdpurp AS $pp) { ?>		
 		    		<tr>
 		    			<td align="left" colspan="12" >
-		    				<div style="padding-left:10px"><b class="nomarg"><?php echo $pp['notes']; ?></b></div>
+		    				<div style="padding-left:10px"><b class="nomarg"></b></div>
 		    			</td>
 		    			<td colspan="5" class="bor-right"></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
 		    		<tr>
 		    			<td align="left" colspan="12" >
-		    				<div style="padding-left:10px">Purpose: <b class="nomarg"><?php echo $pp['purpose']; ?></b></div>
+		    				<div style="padding-left:10px">Purpose: <b class="nomarg"></b></div>
 		    			</td>
 		    			<td colspan="5" class="bor-right">
-		    				<?php if($saved==0){ ?>
-		    					<a href="<?php echo base_url(); ?>rfdis/delete_purpose/<?php echo $pp['rfd_purpose_id']; ?>/<?php echo $rfd_id ?>" onclick="return confirm('Are you sure you want to delete purpose?')" class="btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
-		    				<?php } ?></td>
+		    				<a href="<?php echo base_url(); ?>rfdis/delete_purpose/" onclick="return confirm('Are you sure you want to delete purpose?')" class="btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
+		    			</td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
 		    		<tr>
 		    			<td align="left" colspan="12" >
-		    				<div style="padding-left:10px">End Use: <b class="nomarg"><?php echo $pp['enduse']; ?></b></div>
+		    				<div style="padding-left:10px">End Use: <b class="nomarg"></b></div>
 		    			</td>
 		    			<td colspan="5" class="bor-right"></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
 		    		<tr>
 		    			<td align="left" colspan="12" >
-		    				<div style="padding-left:10px">Requestor: <b class="nomarg"><?php echo $pp['requestor']; ?></b></div>
+		    				<div style="padding-left:10px">Requestor: <b class="nomarg"></b></div>
 		    			</td>
 		    			<td colspan="5" class="bor-right"></td>
 		    			<td align="right" colspan="3"></td>
@@ -362,16 +313,12 @@
 		    			<td align="center" colspan="5" class="bor-right"><br></td>
 		    			<td align="center" colspan="3"><br></td>
 		    		</tr>
-		    		<?php } 
-		    	    } ?>
 		    		<tr>
 		    			<td align="left" colspan="7" ><b class="nomarg"></b></td>
 		    			<td align="right" colspan="10" class="bor-right"><b class="nomarg" style="font-weight: 900">Total Amount Due</b></td>
 		    			<td align="right" colspan="3" style="border-bottom: 2px solid #000">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<?php if(!empty($items)){ ?>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($net,2); ?></b></span>
-		    				<?php } ?>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
@@ -387,54 +334,32 @@
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
-		    			<td colspan="5"><b class="nomarg"><?php echo $_SESSION['fullname']; ?></b></td>
+		    			<td colspan="5"><b class="nomarg"></b></td>
 		    			<td colspan="5">
 		    			<b>
-		    			<?php if($saved==0){ ?>
-		    			<select name='checked' class="select-des emphasis">
+		    			<select name='checked' class="select-des emphasis" style="width: 90%">
 			    			<option value=''>-Select Employee-</option>
-			    			<?php foreach($employee AS $emp){ ?>
-			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-			    			<?php } ?>
 		    			</select>
-		    			<?php } else {
-		    				echo $checked;
-		    			} ?>
 		    			</b>
 		    			</td>
 		    			<td colspan="5">
 		    			<b>
-		    			<?php if($saved==0){ ?>
-		    			<select name='endorsed' class="select-des emphasis">
+		    			<select name='endorsed' class="select-des emphasis" style="width: 90%">
 			    			<option value=''>-Select Employee-</option>
-			    			<?php foreach($employee AS $emp){ ?>
-			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-			    			<?php } ?>
 		    			</select>
-		    			<?php } else {
-		    				echo $endorsed;
-		    			} ?>
 		    			</b>
 		    			</td>
 		    			<td colspan="5">
 		    			<b>
-		    			<?php if($saved==0){ ?>
-		    			<select name='approved' class="select-des emphasis">
+		    			<select name='approved' class="select-des emphasis" style="width: 90%">
 			    			<option value=''>-Select Employee-</option>
-			    			<?php foreach($employee AS $emp){ ?>
-			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-			    			<?php } ?>
 		    			</select>
-		    			<?php } else {
-		    				echo $approved;
-		    			} ?>
 		    			</b>
 		    			</td>
 		    		</tr>	    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
-	    	<input type='hidden' name='rfd_id' value='<?php echo $rfd_id; ?>'>
     	</form>
     </div>
     <script type="text/javascript">
