@@ -198,6 +198,9 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/mixins.css">
     <script src="<?php echo base_url(); ?>assets/js/all-scripts.js"></script> 
+    <?php if($saved==0){
+    	$url = base_url()."aoq/save_aoq";
+    } ?>
     <div  class="pad">
     	<form method='POST' action='<?php echo $url ?>'>
     		<div id="prnt_btn">
@@ -307,18 +310,21 @@
 
 
 		    		<!-------------------------- VENDOR 1 ------------------------>
+		    			<?php
+		    			$v=1; 
+		    			foreach($vendors AS $ven) { ?>
 		    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
 		    				<table class="" width="100%" style='border:0px solid #000;'>						
 		    					<tr>
 			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_1_1" rows="1"></textarea>
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_1" rows="1"></textarea>
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_1_1" name="price_<?php echo $x; ?>_1_1" 
-			    						onblur="calculateAmount(<?php echo $x; ?>, '1','1')" onkeypress="return isNumberKey(this, event)">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_1" name="price_<?php echo $x; ?>_<?php echo $v; ?>_1" 
+			    						onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'1')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_1_1" name="amount_<?php echo $x; ?>_1_1">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_1" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_1">
 			    					</td>
 			    					<td width="40%" class="bor-btm bor-right">
 			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
@@ -326,14 +332,14 @@
 			    				</tr>
 			    				<tr>
 			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_1_2" rows="1"></textarea>
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_2" rows="1"></textarea>
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_1_2" name="price_<?php echo $x; ?>_1_2"
-			    						onblur="calculateAmount(<?php echo $x; ?>, '1','2')" onkeypress="return isNumberKey(this, event)">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_2" name="price_<?php echo $x; ?>_<?php echo $v; ?>_2"
+			    						onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'2')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_1_2" name="amount_<?php echo $x; ?>_1_2">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_2" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_2">
 			    					</td>
 			    					<td width="40%" class="bor-btm bor-right">
 			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
@@ -341,14 +347,13 @@
 			    				</tr>
 			    				<tr>
 			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_1_3" rows="1"></textarea>
+			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_3" rows="1"></textarea>
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_1_3" name="price_<?php echo $x; ?>_1_3"
-			    						onblur="calculateAmount(<?php echo $x; ?>, '1','3')" onkeypress="return isNumberKey(this, event)">
+			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_3" name="price_<?php echo $x; ?>_<?php echo $v; ?>_3" onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'3')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_1_3" name="amount_<?php echo $x; ?>_1_3">
+			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_3" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_3">
 			    					</td>
 			    					<td width="40%" class="bor-btm bor-right"
 			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
@@ -356,9 +361,14 @@
 			    				</tr>
 		    				</table>		    			
 		    			</td>
-
+		    			<input type='hidden' name='item_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->aoq_items_id; ?>'>
+		    			<input type='hidden' name='vendor_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $ven['vendor_id']; ?>'>
+		    			<?php 
+		    			$v++;
+		    			} ?>
+		    			
 		    			<!-------------------------- VENDOR 2 ------------------------>
-		    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
+		    			<!-- <td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
 		    				<table class="" width="100%" style='border:0px solid #000;'>						
 		    					<tr>
 			    					<td width="40%" class="bor-btm bor-right">
@@ -407,9 +417,9 @@
 			    				</tr>
 		    				</table>		    			
 		    			</td>
-
+ -->
 		    			<!-------------------------- VENDOR 3 ------------------------>
-		    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
+		    		<!-- 	<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
 		    				<table class="" width="100%" style='border:0px solid #000;'>						
 		    					<tr>
 			    					<td width="40%" class="bor-btm bor-right">
@@ -458,11 +468,14 @@
 			    				</tr>
 		    				</table>		    			
 		    			</td>
-
+ -->
 		    		</tr>	
 
 		    	<?php $x++;
 		    	} ?>
+		    	<input type='hidden' name='item_count' value='<?php echo $x; ?>'>
+		    	<input type='hidden' name='vendor_count' value='<?php echo $v; ?>'>
+		    	<input type='hidden' name='aoq_id' value='<?php echo $aoq_id; ?>'>
 
 		    		<tr>
 		    			<td class="f10 table-borreg" align="center"><br></td>
@@ -556,12 +569,12 @@
 		    			<td colspan="3" class="f10 bor-btm" align="center"></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="3" class="f10 bor-btm" align="center">
-		    			<select name='approved' required class='emphasis' style="width: 100%">
+		    			<select name='approved' class='emphasis' style="width: 100%">
 			    			<option value=''>-Select-</option>
 		    			</select>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="3" class="f10 bor-btm" align="center">
-		    				<select name='noted' required class='emphasis' style="width: 100%">
+		    				<select name='noted' class='emphasis' style="width: 100%">
 			    			<option value=''>-Select-</option>
 		    			</select>
 		    			</td>

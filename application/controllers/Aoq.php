@@ -99,11 +99,11 @@ class Aoq extends CI_Controller {
 
         $count = count($rfq);
         if($count<=3){
-            redirect(base_url().'aoq/aoq_prnt'.$aoq_id);
+            redirect(base_url().'aoq/aoq_prnt/'.$aoq_id);
         } else if($count==4){
-            redirect(base_url().'aoq/aoq_prnt_four'.$aoq_id);
+            redirect(base_url().'aoq/aoq_prnt_four/'.$aoq_id);
         } else if($count==5){
-            redirect(base_url().'aoq/aoq_prnt_five'.$aoq_id);
+            redirect(base_url().'aoq/aoq_prnt_five/'.$aoq_id);
         }
     }
 
@@ -116,7 +116,8 @@ class Aoq extends CI_Controller {
 
     public function aoq_prnt(){
         $aoq_id= $this->uri->segment(3);
-    
+        $data['aoq_id']=$aoq_id;
+        $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $data['head'][] =  array(
                 'aoq_date'=>$head->aoq_date,
@@ -132,6 +133,7 @@ class Aoq extends CI_Controller {
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $ven){
            
             $data['vendors'][] = array(
+                'vendor_id'=>$ven->vendor_id,
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $ven->vendor_id),
                 'phone'=>$this->super_model->select_column_where("vendor_head", "phone_number", "vendor_id", $ven->vendor_id),
                 'contact'=>$this->super_model->select_column_where("vendor_head", "contact_person", "vendor_id", $ven->vendor_id),
@@ -158,6 +160,49 @@ class Aoq extends CI_Controller {
         $this->load->view('aoq/aoq_prnt_five');
         $this->load->view('template/footer');
     } 
+
+    public function save_aoq(){
+        $aoq_id = $this->input->post('aoq_id');
+        $item_count = $this->input->post('item_count');
+        $vendor_count = $this->input->post('vendor_count');
+        $aoq_date = date('Y-m-d');
+        
+            for($x=1;$x<$item_count;$x++){
+                for($v=1;$v<$vendor_count;$v++){
+                    for($a=1;$a<=3;$a++){
+
+                    $offer = $this->input->post('offer_'.$x.'_'.$v.'_'.$a);
+                    $up = $this->input->post('price_'.$x.'_'.$v.'_'.$a);
+                    $amount = $this->input->post('amount_'.$x.'_'.$v.'_'.$a);
+                    $vendor = $this->input->post('vendor_'.$x.'_'.$v);
+                    $item = $this->input->post('item_'.$x.'_'.$v);
+
+                    //echo $offer. " = " . 'offer_'.$x.'_'.$v.'_'.$a . '<br><br>';
+                    //echo $up. " = " . 'price_'.$x.'_'.$v.'_'.$a . '<br><br>';
+                    if(!empty($offer)){
+                        $offers = array(
+                            'aoq_id'=>$aoq_id,
+                            'vendor_id'=>$vendor,
+                            'aoq_items_id'=>$item,
+                            'offer'=>$offer,
+                            'unit_price'=>$up,
+                            'amount'=>$amount,
+                        );
+
+                        //print_r($offers);
+
+                        $this->super_model->insert_into("aoq_offers", $offers);
+                    }
+                    }
+                }
+            }
+
+        $head = array(
+            'aoq_date'=>$aoq_date,
+            'saved'=>1
+        );
+        $this->super_model->update_where("aoq_head", $head, "aoq_id", $aoq_id);
+    }
 
     public function aoq_prnt2(){
         $this->load->view('template/header_aoq');
