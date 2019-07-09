@@ -15,7 +15,7 @@
         	padding: 0px 2px;
         }
         .served{
-        	background-image: url('../../assets/img/served_aoq.png')!important;
+        	background-image: url('<?php echo base_url(); ?>assets/img/served_aoq.png')!important;
         	background-repeat:no-repeat!important;
         	background-size: contain!important;
         	background-position: center center!important;
@@ -81,13 +81,13 @@
 				color: red!important;
 			}
 			.yellow-back{
-			background-image: url('../../assets/img/yellow.png')!important;
+			background-image: url('<?php echo base_url(); ?>assets/img/yellow.png')!important;
 			}
 			.green-back{
-				background-image: url('../../assets/img/green.png')!important;
+				background-image: url('<?php echo base_url(); ?>assets/img/green.png')!important;
 			}
 			.served{
-	        	background-image: url('../../assets/img/served_aoq.png')!important;
+	        	background-image: url('<?php echo base_url(); ?>assets/img/served_aoq.png')!important;
 	        	background-repeat:no-repeat!important;
 	        	background-size: contain!important;
 	        	background-position: center center!important;
@@ -100,10 +100,10 @@
 			color: red;
 		}
 		.yellow-back{
-			background-image: url('../../assets/img/yellow.png');
+			background-image: url('<?php echo base_url(); ?>assets/img/yellow.png');
 		}
 		.green-back{
-			background-image: url('../../assets/img/green.png');
+			background-image: url('<?php echo base_url(); ?>assets/img/green.png');
 		}
 		.v-al{
 			vertical-align: text-top;
