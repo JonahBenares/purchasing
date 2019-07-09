@@ -141,12 +141,24 @@ class Aoq extends CI_Controller {
         }
 
         $data['items'] = $this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id);
+
+        foreach($this->super_model->select_row_where("aoq_offers","aoq_id",$aoq_id) AS $off){
+            $data['offers'][] = array(
+                'vendor_id'=>$off->vendor_id,
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
+                'item_id'=>$off->aoq_items_id,
+                'offer'=>$off->offer,
+                'price'=>$off->unit_price,
+                'amount'=>$off->amount
+            );
+        }
            
        
 
         $this->load->view('template/header');
         $this->load->view('aoq/aoq_prnt',$data);
         $this->load->view('template/footer');
+        
     } 
 
     public function aoq_prnt_four(){
