@@ -168,7 +168,7 @@ class Pr extends CI_Controller {
             'date_imported'=>date('Y-m-d H:i:s'),
             'imported_by'=>$_SESSION['user_id'],
         );
-
+        
         if($this->super_model->insert_into("pr_head", $data_head)){
             $highestRow = $objPHPExcel->getActiveSheet()->getHighestRow(); 
             for($x=14;$x<=$highestRow;$x++){

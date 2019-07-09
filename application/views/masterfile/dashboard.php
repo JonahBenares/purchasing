@@ -129,8 +129,8 @@
                         </div>
                     </div>                    
                 </div>     
-                <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 desplay-n-tablet">
-                    <div class="dashone-adminprowrap shadow-reset mg-b-30" style="height: 285px;max-height: 285px " >
+                <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 desplay-n-tablet ">
+                    <div class="dashone-adminprowrap shadow-reset mg-b-30 pulse" style="height: 285px;max-height: 285px " >
                         <div class="dash-adminpro-project-title">
                             <h2 class="m-b-0" >
                                 <b>
@@ -150,19 +150,19 @@
                                                     </button>
                                                 </h5>                                                
                                             </div>
-                                            <form>
+                                            <form  method='POST' action='<?php echo base_url(); ?>index.php/masterfile/insert_reminder'>
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         Reminder:
-                                                        <textarea class="form-control" rows="5" placeholder="...."></textarea>
+                                                        <textarea class="form-control" name = "reminder" rows="5" placeholder="...."></textarea>
                                                     </div>
                                                     <div class="form-group">
-                                                        Date:
-                                                        <input type="date" class="form-control" name="">
+                                                        Due Date:
+                                                        <input type="date" class="form-control" name="due_date">
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">                                            
-                                                    <button type="button" class="btn btn-primary btn-block">Save</button>
+                                                    <button type="submit" class="btn btn-primary btn-block">Save</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -172,14 +172,27 @@
                         </div>
                         <div style="overflow-y: scroll;height: 255px;max-height: 255px  ">
                             <!-- loop here -->
+                            <?php 
+                                foreach($reminder AS $r){ 
+                                    if($r['done']==0){ 
+                            ?>
                             <div class="row m-t-5" style="width: 100%">
                                 <div class="col-lg-12">
                                     <div class="project-dashone-phara pad-5 reminder-style">
-                                        <h3 class="nomarg">Note Here</h3>
-                                        <p class="">December 16, 1990 | <small>Jonah Faye Benares</small></p>
+                                        <div class="row">
+                                            <div class="col-lg-1">
+                                                <a href="<?php echo base_url(); ?>masterfile/reminder_done/<?php echo $r['reminder_id']; ?>" class="btn btn-xs btn-info btn-custon-three"> <span class="fa fa-check"></span></a> 
+                                            </div>
+                                            <div class="col-lg-11">
+                                                <h3 class="nomarg"><?php echo $r['notes'];?>                                       
+                                                </h3>
+                                                <p class=""><?php echo date("F d, Y",strtotime($r['due_date']));?>   | <small><?php echo $r['remind'];?></small></p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>     
+                            </div> 
+                            <?php } } ?>    
                             <!-- loop here --> 
 
                                   

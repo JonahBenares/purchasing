@@ -46,6 +46,9 @@
 		.bor-btm{
 			border-bottom: 1px solid #000!important;
 		}
+		.bor-btm-red{
+			border-bottom: 2px solid red!important;
+		}
 		.bor-right{
 			border-right: 1px solid #000!important;
 		}
@@ -395,7 +398,7 @@
 				    						<?php echo number_format($of['price'],2); ?>
 				    					</td>
 				    					<?php if($awarded==0){ ?>
-				    					<td width="20%" class="bor-btm bor-right" align="center">				    						
+				    					<td width="20%" class="bor-btm-red bor-right" align="center">				    						
 				    						<?php echo number_format($of['amount'],2); ?><br>
 				    						<input type="radio" name="award_<?php echo $a; ?>" value="1" >
 				    					</td> 
@@ -406,7 +409,7 @@
 					    				<?php } 
 
 					    				if($awarded==0){  ?>
-				    					<td width="40%" class="bor-btm bor-right">
+				    					<td width="40%" class="bor-btm-red bor-right">
 				    						<textarea type="text" class="form-control f10" name="comments_<?php echo $a; ?>" rows="1"></textarea>
 				    					</td>
 				    					<?php } else { ?>
