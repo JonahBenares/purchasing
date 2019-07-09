@@ -55,12 +55,9 @@ function getPRInfo()
             dataType: 'json',
             success: function(response){
               
-               document.getElementById("purpose").innerHTML  = response.purpose;
-               document.getElementById("enduse").innerHTML  = response.enduse;
-               document.getElementById("requestor").innerHTML  = response.requestor;
-                document.getElementById("purpose_id").value  = response.purpose_id;
-               document.getElementById("enduse_id").value  = response.enduse_id;
-               document.getElementById("requested_by").value  = response.requestor_id;
+               document.getElementById("purpose").value  = response.purpose;
+               document.getElementById("enduse").value  = response.enduse;
+               document.getElementById("requestor").value  = response.requestor;
             
            }
         }); 

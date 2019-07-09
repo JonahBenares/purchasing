@@ -87,36 +87,38 @@
 					</h5>					
 				</div>
 				<form method="POST" action="<?php echo base_url(); ?>po/add_pr">
+					<?php foreach($head AS $h) { ?>
 					<div class="modal-body">
 						<div class="form-group">
 							<h5 class="nomarg">PR NO:</h5>
 							<select name='pr' id='pr' class="form-control" onchange='getPRInfo()'>
-							<option value="" selected=""></option>
+								<option value="" selected="">-Choose PR-</option>
+								<?php foreach($pr AS $p){ ?>
+								<option value="<?php echo $p['pr_id']; ?>"><?php echo $p['pr_no']; ?></option>
+								<?php } ?>
 							</select>
 						</div>
 						<div class="form-group">
 							<h5 class="nomarg">Requestor:</h5>
-							<h5 class="nomarg"><b><span id='requestor'></span></b></h5>
+							<h5 class="nomarg"><b><input type name='requestor' id='requestor' readonly="readonly" class='form-control'></b></h5>
 						</div>
 						<div class="form-group">
 							<h5 class="nomarg">Purpose:</h5>
-							<h5 class="nomarg"><b><span id='purpose'></span></b></h5>
+							<h5 class="nomarg"><b><input type name='purpose' id='purpose' readonly="readonly" class='form-control'></b></h5>
 						</div>
 
 						<div class="form-group">
 							<h5 class="nomarg">Enduse:</h5>
-							<h5 class="nomarg"><b><span id='enduse'></span></b></h5>
+							<h5 class="nomarg"><b><input type name='enduse' id='enduse' readonly="readonly" class='form-control'></span></b></h5>
 						</div>
 						<input type="hidden" class="form-control" name="po_id" id="po_id">
 					</div>
 					<div class="modal-footer">
 					<input type="submit" class="btn btn-primary btn-block" value='Add'>
-					<input type='hidden' name='enduse_id' id='enduse_id' >
-					<input type='hidden' name='purpose_id' id='purpose_id' >
-					<input type='hidden' name='requested_by' id='requested_by'>
 					</div>
-					
+					<?php } ?>
 					<input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
+					<input type='hidden' name='po_id' id='po_id' value="<?php echo $po_id; ?>">
 				</form>
 			</div>
 		</div>
@@ -170,35 +172,37 @@
 		    		<tr><td class="f13" colspan="20" align="center">Plant Site: Purok San Jose, Barangay Calumangan, Bago City</td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
+		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg"><b></b></h6></td>
-		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: </b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg"><b><?php echo date('F j, Y', strtotime($h['po_date'])); ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: <?php echo $h['po_no']; ?></b></h6></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Supplier:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['vendor']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Address:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['address']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Contact Person:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['contact']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Telephone #:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['phone']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
+		    		<?php } ?>
 		    		<tr id="pr-btn">
 		    			<td colspan="20" style="padding-left: 10px">
 
-		    				<a class="addPR btn btn-primary btn-xs" data-toggle="modal" href="#add-pr" data-id="">
+		    				<a class="addPR btn btn-primary btn-xs" data-toggle="modal" href="#add-pr" data-id="<?php echo $po_id; ?>">
 							  Add PR
 							</a>
 		    			</td>
