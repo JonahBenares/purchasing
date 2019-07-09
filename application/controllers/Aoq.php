@@ -109,7 +109,31 @@ class Aoq extends CI_Controller {
 	public function aoq_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('aoq/aoq_list');
+        $count = $this->super_model->count_rows_where("aoq_head","saved",'1');
+        if($count!=0){
+            foreach($this->super_model->select_custom_where("aoq_head", "saved='1'") AS $list){
+                $supplier='';
+                foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$list->aoq_id' GROUP BY vendor_id") AS $offer){
+                    $supplier.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "<br> ";
+                }
+                $sup = substr($supplier, 0, -2);
+
+                $data['heads'][]=array(
+                    'aoq_id'=>$list->aoq_id,
+                    'date'=>$list->aoq_date,
+                    'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$list->pr_id),
+                    'supplier'=>$sup,
+                    'department'=>$list->department,
+                    'enduse'=>$list->enduse,
+                    'requestor'=>$list->requestor,
+                    'saved'=>$list->saved,
+                    'awarded'=>$list->awarded,
+                );
+            }
+        }else {
+            $data['heads']=array();
+        }
+        $this->load->view('aoq/aoq_list',$data);
         $this->load->view('template/footer');
     }  
 

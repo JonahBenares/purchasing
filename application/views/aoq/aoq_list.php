@@ -57,27 +57,31 @@
                                             <th>Department</th>
                                             <th>Enduse</th>
                                             <th>Requestor</th>
-                                            <th>Date Needed</th>
                                             <th>Status</th>
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php foreach($heads AS $h){ ?>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><span class='label label-primary'> Refer To Manila </span></td>
+                                            <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
+                                            <td><?php echo $h['pr_no']; ?></td>
+                                            <td><?php echo $h['supplier']; ?></td>
+                                            <td><?php echo $h['department']; ?></td>
+                                            <td><?php echo $h['enduse']; ?></td>
+                                            <td><?php echo $h['requestor']; ?></td>
                                             <td>
-                                                <span class='label label-warning'> For TE </span>
-                                                <span class='label label-success'>Completed</span>
+                                                <?php  
+                                                    if($h['saved'] == '1' && $h['awarded'] =='0') { 
+                                                        echo "<span class='label label-warning'> For TE </span>";
+                                                    } else if($h['saved'] == '1' && $h['awarded'] =='1'){
+                                                        echo "<span class='label label-success'>Completed</span";
+                                                    }
+                                                ?>
                                             </td>
                                             <td>
                                                 <center>
-                                                    <a href="<?php echo base_url(); ?>aoq/aoq_prnt_five/" class="btn btn-custon-three btn-warning btn-xs" >
+                                                    <a href="<?php echo base_url(); ?>aoq/aoq_prnt/<?php echo $h['aoq_id'];?>" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                     <a href="<?php echo base_url(); ?>aoq/refer_mnl/" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL"><span class="fa fa-location-arrow"></span>
@@ -86,7 +90,8 @@
                                                     </a>
                                                 </center>
                                             </td>
-                                        </tr>                            
+                                        </tr>  
+                                        <?php } ?>                          
                                     </tbody>
                                 </table>
 
