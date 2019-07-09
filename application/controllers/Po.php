@@ -54,6 +54,19 @@ class Po extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function getsupplier(){
+
+        $supplier = $this->input->post('supplier');
+        $address= $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $supplier);
+        $phone= $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $supplier);
+        $contact= $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $supplier);
+        
+        $return = array('address' => $address, 'phone' => $phone, 'contact' => $contact);
+        echo json_encode($return);
+    
+    }
+
+
     public function view_history(){
         $this->load->view('template/header');      
         $this->load->view('po/view_history');
