@@ -92,7 +92,7 @@
 						<!-- <a  href='<?php echo base_url(); ?>rfq/override_rfq/' onclick="return confirm('Are you sure you want to override RFQ?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Override <u><b>RFQ</b></u></a> -->
 						<?php if($saved==1){ ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
-						<a  href="<?php echo base_url(); ?>rfq/rfq_incoming/<?php echo $rfq_id; ?>" class="btn btn-primary btn-md p-l-50 p-r-50">RFQ Incoming</a>
+						<!-- <a  href="<?php echo base_url(); ?>rfq/rfq_incoming/<?php echo $rfq_id; ?>" class="btn btn-primary btn-md p-l-50 p-r-50">RFQ Incoming</a> -->
 						<?php } else if($saved==0){ ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">  		
 						<?php } ?>
@@ -141,7 +141,9 @@
 		    			<td class="f13 bor-btm" colspan="9"><?php echo date('F j, Y', strtotime($rfq_date)); ?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="2">RFQ No.:</td>
-		    			<td class="f13 bor-btm" colspan="6"><?php echo $rfq_no; ?></td>
+		    			<td class="f13 bor-btm" colspan="3"><?php echo $rfq_no; ?></td>
+		    			<td class="f13" colspan="1">Urg:</td>		    			
+		    			<td class="f13 bor-btm" colspan="2">X Y Z</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"></td></tr>
 		    		<tr>
