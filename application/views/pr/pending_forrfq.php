@@ -59,7 +59,7 @@
                                             </th>
                                             
                                         </tr>
-                                    <?php foreach($head as $h){ ?>
+                                    <?php if(!empty($head)){ foreach($head as $h){ ?>
                                         <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq">
                                         <tr>
                                             <td width="11%"><?php echo $h['pr_no']; ?></td>
@@ -71,7 +71,7 @@
                                                         <td width="30%"><?php echo $h['item']; ?></td>
                                                         <td width="30%"><?php echo $h['vendor']; ?></td>
                                                         <td width="15%">
-                                                            <?php if(empty($h['vendor'])){ ?>
+                                                        <?php if(empty($h['vendor'])){ ?>
                                                             <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $h['group']; ?>','<?php echo $h['pr_id']; ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
                                                         <?php } else { ?>
                                                             <input type='hidden' name='pr_id' value='<?php echo $h['pr_id']; ?>'>
@@ -84,7 +84,7 @@
                                             </td>
                                         </tr> 
                                          </form>
-                                        <?php } ?>
+                                        <?php } } ?>
                                         <!-- <tr>
                                             <td width="15%"><a href="" ></a><h3 class="m-b-0"><b>asdasdasd</b></h3></td>
                                             <td width="32%">asdasd</td>
