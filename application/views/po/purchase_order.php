@@ -76,6 +76,52 @@
 		}
     </style>
 
+	<div class="modal fade" id="add-pr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add PR
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</h5>					
+				</div>
+				<form method="POST" action="<?php echo base_url(); ?>po/add_pr">
+					<div class="modal-body">
+						<div class="form-group">
+							<h5 class="nomarg">PR NO:</h5>
+							<select name='pr' id='pr' class="form-control" onchange='getPRInfo()'>
+							<option value="" selected=""></option>
+							</select>
+						</div>
+						<div class="form-group">
+							<h5 class="nomarg">Requestor:</h5>
+							<h5 class="nomarg"><b><span id='requestor'></span></b></h5>
+						</div>
+						<div class="form-group">
+							<h5 class="nomarg">Purpose:</h5>
+							<h5 class="nomarg"><b><span id='purpose'></span></b></h5>
+						</div>
+
+						<div class="form-group">
+							<h5 class="nomarg">Enduse:</h5>
+							<h5 class="nomarg"><b><span id='enduse'></span></b></h5>
+						</div>
+						<input type="hidden" class="form-control" name="po_id" id="po_id">
+					</div>
+					<div class="modal-footer">
+					<input type="submit" class="btn btn-primary btn-block" value='Add'>
+					<input type='hidden' name='enduse_id' id='enduse_id' >
+					<input type='hidden' name='purpose_id' id='purpose_id' >
+					<input type='hidden' name='requested_by' id='requested_by'>
+					</div>
+					
+					<input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
+				</form>
+			</div>
+		</div>
+	</div>
+
 	
 
     <div  class="pad">
