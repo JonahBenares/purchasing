@@ -150,19 +150,19 @@
                                                     </button>
                                                 </h5>                                                
                                             </div>
-                                            <form>
+                                            <form  method='POST' action='<?php echo base_url(); ?>index.php/masterfile/insert_reminder'>
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         Reminder:
-                                                        <textarea class="form-control" rows="5" placeholder="...."></textarea>
+                                                        <textarea class="form-control" name = "reminder" rows="5" placeholder="...."></textarea>
                                                     </div>
                                                     <div class="form-group">
-                                                        Date:
-                                                        <input type="date" class="form-control" name="">
+                                                        Due Date:
+                                                        <input type="date" class="form-control" name="due_date">
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">                                            
-                                                    <button type="button" class="btn btn-primary btn-block">Save</button>
+                                                    <button type="submit" class="btn btn-primary btn-block">Save</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -172,23 +172,27 @@
                         </div>
                         <div style="overflow-y: scroll;height: 255px;max-height: 255px  ">
                             <!-- loop here -->
+                            <?php 
+                                foreach($reminder AS $r){ 
+                                    if($r['done']==0){ 
+                            ?>
                             <div class="row m-t-5" style="width: 100%">
                                 <div class="col-lg-12">
                                     <div class="project-dashone-phara pad-5 reminder-style">
                                         <div class="row">
                                             <div class="col-lg-1">
-                                                <a href="" class="btn btn-xs btn-info btn-custon-three"> <span class="fa fa-check"></span></a> 
+                                                <a href="<?php echo base_url(); ?>masterfile/reminder_done/<?php echo $r['reminder_id']; ?>" class="btn btn-xs btn-info btn-custon-three"> <span class="fa fa-check"></span></a> 
                                             </div>
                                             <div class="col-lg-11">
-                                                <h3 class="nomarg">Note Here                                        
+                                                <h3 class="nomarg"><?php echo $r['notes'];?>                                       
                                                 </h3>
-                                                <p class="">December 16, 1990 | <small>Jonah Faye Benares</small></p>
+                                                <p class=""><?php echo date("F d, Y",strtotime($r['due_date']));?>   | <small><?php echo $r['remind'];?></small></p>
                                             </div>
                                         </div>
-                                        
                                     </div>
                                 </div>
-                            </div>     
+                            </div> 
+                            <?php } } ?>    
                             <!-- loop here --> 
 
                                   
