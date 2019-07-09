@@ -129,8 +129,8 @@
                         </div>
                     </div>                    
                 </div>     
-                <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 desplay-n-tablet">
-                    <div class="dashone-adminprowrap shadow-reset mg-b-30" style="height: 285px;max-height: 285px " >
+                <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 desplay-n-tablet ">
+                    <div class="dashone-adminprowrap shadow-reset mg-b-30 pulse" style="height: 285px;max-height: 285px " >
                         <div class="dash-adminpro-project-title">
                             <h2 class="m-b-0" >
                                 <b>
@@ -175,8 +175,17 @@
                             <div class="row m-t-5" style="width: 100%">
                                 <div class="col-lg-12">
                                     <div class="project-dashone-phara pad-5 reminder-style">
-                                        <h3 class="nomarg">Note Here</h3>
-                                        <p class="">December 16, 1990 | <small>Jonah Faye Benares</small></p>
+                                        <div class="row">
+                                            <div class="col-lg-1">
+                                                <a href="" class="btn btn-xs btn-info btn-custon-three"> <span class="fa fa-check"></span></a> 
+                                            </div>
+                                            <div class="col-lg-11">
+                                                <h3 class="nomarg">Note Here                                        
+                                                </h3>
+                                                <p class="">December 16, 1990 | <small>Jonah Faye Benares</small></p>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>     
