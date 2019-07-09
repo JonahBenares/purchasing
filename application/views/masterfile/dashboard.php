@@ -37,7 +37,7 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- pr and for te -->
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
                     <div class="income-dashone-total user-monthly shadow-reset nt-mg-b-30">
                         <div class="income-title">
                             <div class="main-income-head">
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
                     <div class="income-dashone-total income-monthly shadow-reset nt-mg-b-30 res-mg-t-30">
                         <div class="income-title">
                             <div class="main-income-head">
@@ -129,13 +129,12 @@
                         </div>
                     </div>                    
                 </div>     
-
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 desplay-n-tablet">
-                    <div class="dashone-adminprowrap shadow-reset mg-b-30" style="height: 326px;max-height: 326px " >
+                <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 desplay-n-tablet">
+                    <div class="dashone-adminprowrap shadow-reset mg-b-30" style="height: 285px;max-height: 285px " >
                         <div class="dash-adminpro-project-title">
                             <h2 class="m-b-0" >
                                 <b>
-                                    High-Urgency PRs 
+                                    <span>Reminder</span>
                                     <button type="button" class="btn btn-primary btn-xs pull-right btn-custon-three" data-toggle="modal" data-target="#remindermowdal">
                                         <span class="fa fa-plus"></span>
                                     </button>
@@ -157,6 +156,10 @@
                                                         Reminder:
                                                         <textarea class="form-control" rows="5" placeholder="...."></textarea>
                                                     </div>
+                                                    <div class="form-group">
+                                                        Date:
+                                                        <input type="date" class="form-control" name="">
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">                                            
                                                     <button type="button" class="btn btn-primary btn-block">Save</button>
@@ -169,11 +172,11 @@
                         </div>
                         <div style="overflow-y: scroll;height: 255px;max-height: 255px  ">
                             <!-- loop here -->
-                            <div class="row m-t-5" style="width: 310px">
+                            <div class="row m-t-5" style="width: 100%">
                                 <div class="col-lg-12">
                                     <div class="project-dashone-phara pad-5 reminder-style">
-                                        <p>32423</p>
-                                        <p class="">234234</p>
+                                        <h3 class="nomarg">Note Here</h3>
+                                        <p class="">December 16, 1990 | <small>Jonah Faye Benares</small></p>
                                     </div>
                                 </div>
                             </div>     
