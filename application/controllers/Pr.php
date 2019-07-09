@@ -30,43 +30,41 @@ class Pr extends CI_Controller {
     public function pending_forrfq(){  
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $gr="SELECT pr_id, grouping_id FROM pr_details WHERE ";
-      
-     
+        //$gr="SELECT pr_id, grouping_id FROM pr_details WHERE ";
+        foreach($this->super_model->custom_query("SELECT pr_details_id, pr_id, grouping_id FROM pr_details GROUP BY pr_id, grouping_id") AS $det){
+            $count = $this->super_model->count_custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' GROUP BY pr_id, grouping_id");
+            if($count==0){
+                //foreach($this->super_model->custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id != '$det->pr_id' AND grouping_id != '$det->grouping_id' GROUP BY pr_id, grouping_id") AS $rfq){
+                    //echo "**".$it->pr_details_id . "<br>";
+                    $norfq[] = array(
+                        'pr_id'=>$det->pr_id,
+                        'grouping_id'=>$det->grouping_id
+                    );
+                //}
+            }
+        }
+        if(!empty($norfq)){
+            foreach($norfq AS $key){
+                $it='';
+                $ven='';
+                foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$key[pr_id]' AND grouping_id = '$key[grouping_id]'") AS $items){
+                    $it .= ' - ' . $items->item_description . "<br>";
+                }
 
-            foreach($this->super_model->custom_query("SELECT pr_details_id, pr_id, grouping_id FROM pr_details") AS $det){
-                foreach($this->super_model->custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id != '$det->grouping_id' GROUP BY pr_id, grouping_id") AS $rfq){
-              //  echo "**".$it->pr_details_id . "<br>";
-                 $norfq[] = array(
-                    'pr_id'=>$det->pr_id,
-                    'grouping_id'=>$det->grouping_id
+                foreach($this->super_model->select_custom_where("pr_vendors", "pr_id = '$key[pr_id]' AND grouping_id = '$key[grouping_id]'") AS $vendors){
+                    $ven .= ' - ' . $this->super_model->select_column_where('vendor_head','vendor_name', 'vendor_id', $vendors->vendor_id) . "<br>";
+                }
+
+                $data['head'][] = array(
+                    'pr_id'=>$key['pr_id'],
+                    'pr_no'=>$this->super_model->select_column_custom_where("pr_head", "pr_no", "pr_id = '$key[pr_id]'"),
+                    'group'=>$key['grouping_id'],
+                    'item'=>$it,
+                    'vendor'=>$ven
                 );
             }
-           
-        }
-          
-        
-
-    
-      
-        
-        foreach($norfq AS $key){
-            $it='';
-            $ven='';
-           foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$key[pr_id]' AND grouping_id = '$key[grouping_id]'") AS $items){
-                $it .= ' - ' . $items->item_description . "<br>";
-           }
-
-           foreach($this->super_model->select_custom_where("pr_vendors", "pr_id = '$key[pr_id]' AND grouping_id = '$key[grouping_id]'") AS $vendors){
-                $ven .= ' - ' . $this->super_model->select_column_where('vendor_head','vendor_name', 'vendor_id', $vendors->vendor_id) . "<br>";
-           }
-           $data['head'][] = array(
-              'pr_id'=>$key['pr_id'],
-              'pr_no'=>$this->super_model->select_column_custom_where("pr_head", "pr_no", "pr_id = '$key[pr_id]'"),
-              'group'=>$key['grouping_id'],
-              'item'=>$it,
-              'vendor'=>$ven
-           );
+        }else {
+            $data['head']=array();
         }
 
 
