@@ -39,11 +39,46 @@ class Masterfile extends CI_Controller {
     }
 
     public function dashboard(){
-        
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('masterfile/dashboard');
+        foreach($this->super_model->select_all_order_by("reminder","due_date","ASC") AS $rem){
+            $data['reminder'][] = array(
+                'reminder_id'=>$rem->reminder_id,
+                'notes'=>$rem->notes,
+                'due_date'=>$rem->due_date,
+                'done'=>$rem->done,
+                'remind'=>$this->super_model->select_column_where("users","fullname","user_id",$rem->user_id),
+            );
+        }
+        $this->load->view('masterfile/dashboard',$data);
         $this->load->view('template/footer');
+    }
+
+    public function insert_reminder(){
+        $reminder = trim($this->input->post('reminder')," ");
+        $due_date = trim($this->input->post('due_date')," ");
+        $create_date = date("Y-m-d H:i:s");
+        $user_id = $_SESSION['user_id'];
+        $data = array(
+            'notes'=>$reminder,
+            'due_date'=>$due_date,
+            'create_date'=>$create_date,
+            'user_id'=>$user_id,
+        );
+        if($this->super_model->insert_into("reminder", $data)){
+            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."index.php/masterfile/dashboard'; </script>";
+        }
+    }
+
+    public function reminder_done(){
+        $reminder_id=$this->uri->segment(3);
+        $data=array(
+            'done'=>1,
+        );
+        
+        if($this->super_model->update_where('reminder', $data, 'reminder_id', $reminder_id)){
+            echo "<script>alert('Successfully Done!'); window.location ='".base_url()."index.php/masterfile/dashboard';</script>";
+        }
     }
 
     public function login(){
