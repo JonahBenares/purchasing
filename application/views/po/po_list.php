@@ -49,7 +49,8 @@
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
                             <select name="supplier" id='supplierrep' onchange="chooseSupplierrep()" class="form-control">
-                            <option value='' selected>-Choose Supplier/Vendor-</option>
+                                 <option value='' selected="selected">-Choose Supplier/Vendor-</option>
+                               
                             </select>
                         </div>
                         <div class="form-group">
@@ -102,6 +103,9 @@
                             <p class="m-b-0">Supplier:</p>
                             <select name="supplier" id='supplier' onchange="chooseSupplier()" class="form-control">
                             <option value='' selected>-Choose Supplier/Vendor-</option>
+                             <?php foreach($vendor AS $ven){ ?>
+                                <option value='<?php echo $ven->vendor_id; ?>'><?php echo $ven->vendor_name; ?></option>
+                            <?php } ?>
                             </select>
                         </div>
                         <div class="form-group">

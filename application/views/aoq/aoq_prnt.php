@@ -14,7 +14,7 @@
         	}
         }
         .served{
-        	background-image: url('../../assets/img/served_aoq.png')!important;
+        	background-image: url('<?php echo base_url(); ?>assets/img/served_aoq.png')!important;
         	background-repeat:no-repeat!important;
         	background-size: contain!important;
         	background-position: center center!important;
@@ -76,13 +76,13 @@
 				border-right: 1px solid #000!important;
 			}
 			.yellow-back{
-			background-image: url('../../assets/img/yellow.png')!important;
+			background-image: url('<?php echo base_url(); ?>assets/img/yellow.png')!important;
 			}
 			.green-back{
-				background-image: url('../../assets/img/green.png')!important;
+				background-image: url('<?php echo base_url(); ?>assets/img/green.png')!important;
 			}
 			.served{
-	        	background-image: url('../../assets/img/served_aoq.png')!important;
+	        	background-image: url('<?php echo base_url(); ?>assets/img/served_aoq.png')!important;
 	        	background-repeat:no-repeat!important;
 	        	background-size: contain!important;
 	        	background-position: center center!important;
@@ -95,10 +95,10 @@
 			color: red;
 		}
 		.yellow-back{
-			background-image: url('../../../assets/img/yellow.png');
+			background-image: url('<?php echo base_url(); ?>assets/img/yellow.png');
 		}
 		.green-back{
-			background-image: url('../../../assets/img/green.png');
+			background-image: url('<?php echo base_url(); ?>assets/img/green.png');
 		}
 		.emphasis{
 			border-bottom: 2px solid red;
@@ -201,7 +201,7 @@
     <?php if($saved==0){
     	$url = base_url()."aoq/save_aoq";
     } else { 
-    	$url = base_url()."aoq/awards_aoq";
+    	$url = base_url()."aoq/award_aoq";
      } ?>
     <div  class="pad">
     	<form method='POST' action='<?php echo $url ?>'>
@@ -364,7 +364,7 @@
 				    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_3" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_3">
 				    					</td>
 				    					<td width="40%" class="bor-btm bor-right"
-				    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+				    						
 				    					</td>
 				    				</tr>
 			    				</table>		    			
@@ -375,143 +375,61 @@
 			    			$v++;
 			    			}
 		    			} else { 
+		    				
 		    				foreach($vendors AS $ven) {
 		    				
 			    				 ?>
 		    					
 			    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
 			    				<table class="" width="100%" style='border:0px solid #000;'>		
-			    				<?php 	foreach($offers AS $of){
+			    				<?php 	
+			    				$a=1;
+			    				foreach($offers AS $of){
 		    						if($ven['vendor_id'] == $of['vendor_id'] && $it->aoq_items_id == $of['item_id']){ ?>				
 			    					<tr>
 				    					<td width="40%" class="bor-btm bor-right">
 				    						<?php echo $of['offer']; ?>
 				    					</td>
-				    					<td width="20%" class="bor-btm bor-right f10 yellow-back" align="center">
+				    					<td width="20%" class="bor-btm bor-right f10 <?php echo (($of['price']==$of['min']) ? 'yellow-back' : ''); ?> " align="center">
 				    						<?php echo number_format($of['price'],2); ?>
 				    					</td>
-				    					<td width="20%" class="bor-btm bor-right green-back" align="center">				    						
+				    					<?php if($awarded==0){ ?>
+				    					<td width="20%" class="bor-btm bor-right" align="center">				    						
 				    						<?php echo number_format($of['amount'],2); ?><br>
-				    						<input type="radio" name="">
-				    					</td>
+				    						<input type="radio" name="award_<?php echo $a; ?>" value="1" >
+				    					</td> 
+				    					<?php } else { ?>
+				    						<td width="20%" class="bor-btm bor-right <?php echo (($of['recommended'] == 1) ? 'green-back': ''); ?>" align="center">				    						
+					    						<?php echo number_format($of['amount'],2); ?><br>
+					    					</td> 
+					    				<?php } 
+
+					    				if($awarded==0){  ?>
 				    					<td width="40%" class="bor-btm bor-right">
-				    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+				    						<textarea type="text" class="form-control f10" name="comments_<?php echo $a; ?>" rows="1"></textarea>
 				    					</td>
+				    					<?php } else { ?>
+				    						<td width="40%" class="bor-btm bor-right">
+				    							<?php echo $of['comments']; ?>
+				    						</td>
+				    					<?php } ?>
 				    				</tr>
+				    				<input type='hidden' name='offerid_<?php echo $a; ?>' value="<?php echo $of['aoq_offer_id']; ?>">
 				    				<?php }
+				    				$a++;
 				    				}
 				    				?>
+				    			<input type='hidden' name='count_offer' value='<?php echo $a; ?>'>
 			    				</table>		    			
 			    			</td>
 			    		
 			    			<?php 
-			    					
+			    			
 			    			}
 
 		    			 } ?>
 		    			
-		    			<!-------------------------- VENDOR 2 ------------------------>
-		    			<!-- <td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
-		    				<table class="" width="100%" style='border:0px solid #000;'>						
-		    					<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_2_1" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_2_1" name="price_<?php echo $x; ?>_2_1"
-			    						onblur="calculateAmount(<?php echo $x; ?>, '2','1')" onkeypress="return isNumberKey(this, event)">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_2_1" name="amount_<?php echo $x; ?>_2_1">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_2_2" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_2_2" name="price_<?php echo $x; ?>_2_2"
-			    						onblur="calculateAmount(<?php echo $x; ?>, '2','2')" onkeypress="return isNumberKey(this, event)">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_2_2" name="amount_<?php echo $x; ?>_2_2">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_2_3" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_2_3" name="price_<?php echo $x; ?>_2_3"
-			    						onblur="calculateAmount(<?php echo $x; ?>, '2','3')" onkeypress="return isNumberKey(this, event)">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_2_3" name="amount_<?php echo $x; ?>_2_3">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-		    				</table>		    			
-		    			</td>
- -->
-		    			<!-------------------------- VENDOR 3 ------------------------>
-		    		<!-- 	<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
-		    				<table class="" width="100%" style='border:0px solid #000;'>						
-		    					<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_3_1" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_3_1" name="price_<?php echo $x; ?>_3_1"
-			    						onblur="calculateAmount(<?php echo $x; ?>, '3','1')" onkeypress="return isNumberKey(this, event)">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_3_1" name="amount_<?php echo $x; ?>_3_1">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_3_2" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_3_2" name="price_<?php echo $x; ?>_3_2"
-			    						onblur="calculateAmount(<?php echo $x; ?>, '3','2')" onkeypress="return isNumberKey(this, event)">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_3_2" name="amount_<?php echo $x; ?>_3_2">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_3_3" rows="1"></textarea>
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_3_3" name="offer_<?php echo $x; ?>_3_3"
-			    						onblur="calculateAmount(<?php echo $x; ?>, '3','3')" onkeypress="return isNumberKey(this, event)">
-			    					</td>
-			    					<td width="20%" class="bor-btm bor-right" align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_3_3" name="amount_<?php echo $x; ?>_3_3">
-			    					</td>
-			    					<td width="40%" class="bor-btm bor-right">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-		    				</table>		    			
-		    			</td>
- -->
+		    		
 		    		</tr>	
 
 		    	<?php $x++;
@@ -612,14 +530,28 @@
 		    			<td colspan="3" class="f10 bor-btm" align="center"></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="3" class="f10 bor-btm" align="center">
-		    			<select name='approved' class='emphasis' style="width: 100%">
+		    			<?php if($saved==0){ ?>
+		    			<select name='approved' class='emphasis'>
 			    			<option value=''>-Select-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 		    			</select>
+		    			<?php } else {
+		    				echo $approved;
+		    			} ?>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="3" class="f10 bor-btm" align="center">
-		    				<select name='noted' class='emphasis' style="width: 100%">
+		    			<?php if($saved==0){ ?>
+		    				<select name='noted' class='emphasis'>
 			    			<option value=''>-Select-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 		    			</select>
+		    			<?php } else {
+		    				echo $noted;
+		    			}?>
 		    			</td>
 		    			<td colspan="1" class="f10" align="left"><br></td>
 		    		</tr>
