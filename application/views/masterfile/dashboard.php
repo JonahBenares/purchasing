@@ -170,7 +170,7 @@
                                 </div>
                             </h2>                            
                         </div>
-                        <div style="overflow-y: scroll;height: 255px;max-height: 255px  ">
+                        <div style="overflow-y: scroll;height: 200px;max-height: 200px  ">
                             <!-- loop here -->
                             <?php 
                                 foreach($reminder AS $r){ 
