@@ -112,6 +112,7 @@ class Aoq extends CI_Controller {
         $count = $this->super_model->count_rows_where("aoq_head","saved",'1');
         if($count!=0){
             foreach($this->super_model->select_custom_where("aoq_head", "saved='1'") AS $list){
+                $rows = $this->super_model->count_rows_where("aoq_vendors","aoq_id",$list->aoq_id);
                 $supplier='';
                 foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$list->aoq_id' GROUP BY vendor_id") AS $offer){
                     $supplier.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "<br> ";
@@ -127,6 +128,7 @@ class Aoq extends CI_Controller {
                     'enduse'=>$list->enduse,
                     'requestor'=>$list->requestor,
                     'saved'=>$list->saved,
+                    'rows'=>$rows,
                     'awarded'=>$list->awarded,
                 );
             }
