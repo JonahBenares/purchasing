@@ -258,19 +258,19 @@
 		    		</tr>	
 		    		<tr>
 		    			<td class="f10" colspan="2" align="right">Purpose: &nbsp;</td>
-		    			<td class="f10" colspan="9"><?php echo $h['purpose'];; ?></td>		    			
+		    			<td class="f10" colspan="9"><?php echo $h['purpose']; ?></td>		    			
 		    			<td class="f10" colspan="2" align="right">PR #: &nbsp;</td>
-		    			<td class="f10" colspan="8"><?php echo $h['pr_no'];; ?> </td>
+		    			<td class="f10" colspan="8"><?php echo $h['pr_no']; ?> </td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f10" colspan="2" align="right">Enduse: &nbsp;</td>
-		    			<td class="f10" colspan="9"><?php echo $h['enduse'];; ?></td>		    			
+		    			<td class="f10" colspan="9"><?php echo $h['enduse']; ?></td>		    			
 		    			<td class="f10" colspan="2" align="right">Date Needed: &nbsp;</td>
 		    			<td class="f10" colspan="8"></td>
 		    		</tr>	
 		    		<tr>
 		    			<td class="f10" colspan="2" align="right">Requested by: &nbsp;</td>
-		    			<td class="f10" colspan="19"><?php echo $h['requestor'];; ?></td>
+		    			<td class="f10" colspan="19"><?php echo $h['requestor']; ?></td>
 		    		</tr>
 		    		<?php } ?>
 		    		<tr>
@@ -366,7 +366,7 @@
 				    					<td width="20%" class="bor-btm bor-right" align="center">
 				    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_3" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_3">
 				    					</td>
-				    					<td width="40%" class="bor-btm bor-right"
+				    					<td width="40%" class="bor-btm bor-right">
 				    						
 				    					</td>
 				    				</tr>
@@ -583,6 +583,7 @@
 		    		<tr><td class="f10" colspan="21" align="center"><br></td></tr>
 		    	</table>		    
 	    	</div>
+	    	<input type='hidden' name='count' value="3">
 	    	</form>
 	    	<br>
 	    	<br>
