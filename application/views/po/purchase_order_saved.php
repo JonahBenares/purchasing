@@ -98,9 +98,9 @@
 						<a href="<?php echo base_url(); ?>po/po_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
 						<a  href='<?php echo base_url(); ?>po/revise_po/' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>PO</b></u></a>
-						<a  href="<?php echo base_url(); ?>po/delivery_receipt" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
+						<a  href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $po_id; ?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
 						<a  href="<?php echo base_url(); ?>po/rfd_prnt" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
+							
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
@@ -175,11 +175,27 @@
 		    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
 		    			<td colspan="3" class="all-border" align="center"></td>
 		    		</tr>
+		    		<?php
+		    		$x=1; 
+		    		foreach($items AS $it){ 
+		    			$gtotal[] = $it->unit_price * $it->amount; ?>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b><?php echo number_format($it->quantity); ?></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
+		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"><?php echo $it->offer; ?></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b><?php echo $it->unit_price; ?></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
+		    		</tr>	
+		    		<?php 
+		    		$x++; } ?>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg">items</b></td>
+		    			<td colspan="12" class="bor-right" align="left">
+		    				<p class="nomarg"><br></p>
+		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
 		    		</tr>	
@@ -187,21 +203,15 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
-		    		</tr>
-		    		<tr>
-		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="12" class="bor-right" align="left">
+		    				<?php foreach($allpr AS $pr){ ?>
 		    				<p class="nomarg">
-		    					Enduse: bulig<br>
-		    					Purpose: bulig<br>
-		    					Requestor: bulig<br>
-		    					PR no.: bulig<br>
-		    				</p>
+		    					Enduse: <?php echo $pr['enduse']; ?><br>
+		    					Purpose: <?php echo $pr['purpose']; ?><br>
+		    					Requestor: <?php echo $pr['requestor']; ?><br>
+		    					PR no.: <?php echo $pr['pr_no']; ?><br>
+		    				</p><br>
+		    				<?php } ?>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
@@ -216,7 +226,7 @@
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-		    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'></span></b></td>
+		    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),2); ?></span></b></td>
 		    		</tr>
 			    	<tr>
 		    			<td class="f13" colspan="20" align="center" style="padding: 10px!important">
@@ -252,12 +262,12 @@
 		    				<i></i>
 		    			</td>
 		    		</tr>
-		    		<tr>
+		    	<!-- 	<tr>
 		    			<td colspan="2"><h6 class="nomarg text-red"><b>Cancel Date:</b></h6></td>
 		    			<td colspan="4"><h6 class="nomarg text-red"><b></b></h6></td>
 		    			<td colspan="2" align="right"><h6 class="nomarg text-red"><b>Reason:</b></h6></td>
 		    			<td colspan="12"><h6 class="nomarg text-red"><b></b></h6></td>
-		    		</tr>
+		    		</tr> -->
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<br>Terms & Conditions:<br>
@@ -285,9 +295,9 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2"></td>
-		    			<td colspan="7"><b></b></td>
+		    			<td colspan="7"><b><?php echo $prepared; ?></b></td>
 		    			<td colspan="2"></td>
-		    			<td colspan="7"><b></b></td>
+		    			<td colspan="7"><b><?php echo $approved; ?></b></td>
 		    			<td colspan="2"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>

@@ -154,6 +154,7 @@ class Po extends CI_Controller {
                     'offer'=>$this->input->post('offer'.$x),
                     'quantity'=>$qty,
                     'uom'=>$this->input->post('uom'.$x),
+                    'unit_price'=>$this->input->post('price'.$x),
                     'amount'=>$this->input->post('tprice'.$x),
                 );
 
@@ -214,7 +215,7 @@ class Po extends CI_Controller {
 
     public function purchase_order_saved(){
         $po_id = $this->uri->segment(3);
-
+        $data['po_id'] = $po_id;
          foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
             $data['head'][] = array(
                 'po_date'=>$h->po_date,
@@ -227,6 +228,18 @@ class Po extends CI_Controller {
             $data['saved']=$h->saved;
             $data['notes']=$h->notes;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
+            $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+        }
+
+        $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
+      
+        foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $ppr){
+            $data['allpr'][]= array(
+                'pr_no'=>$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $ppr->pr_id),
+                'enduse'=>$ppr->enduse,
+                'purpose'=>$ppr->purpose,
+                'requestor'=>$ppr->requestor
+            );
         }
 
 
@@ -242,6 +255,7 @@ class Po extends CI_Controller {
     }
 
     public function delivery_receipt(){
+        $po_id = $this->uri->segment(3); 
         $this->load->view('template/header');        
         $this->load->view('po/delivery_receipt');
         $this->load->view('template/footer');

@@ -95,7 +95,19 @@
                                         </tr>
                                         <tr>
                                             <td><i>Enduse:</i></td>
-                                            <td colspan="3"><b class="capital"><?php echo $h->enduse; ?> </b></td>
+                                            <td colspan="1"><b class="capital"><?php echo $h->enduse; ?> </b></td>
+                                            <td><i>Processing Code:</i></td>
+                                            <td style="padding: 0px!important" class="bor-red">
+                                                <select name = "process" class = "form-control">
+                                                    <option value = "">--Select Processing Code--</option>
+                                                    <?php 
+                                                        $code = range('X', 'Z'); 
+                                                        foreach($code AS $c){
+                                                    ?>
+                                                    <option value = "<?php echo $c; ?>"><?php echo $c; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><i>Purpose:</i></td>
