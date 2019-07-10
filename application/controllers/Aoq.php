@@ -261,7 +261,7 @@ class Aoq extends CI_Controller {
             );
         }
          
-          $x=0;
+        $x=0;
         foreach($this->super_model->select_row_where("aoq_offers","aoq_id",$aoq_id) AS $off){  
            if(!empty($allprice)){
                 foreach($allprice AS $var=>$key){
@@ -277,7 +277,6 @@ class Aoq extends CI_Controller {
                 $min=0;
             }
 
-      
             $data['offers'][] = array(
                 'aoq_offer_id'=>$off->aoq_offer_id,
                 'vendor_id'=>$off->vendor_id,
@@ -300,7 +299,79 @@ class Aoq extends CI_Controller {
 
     public function aoq_prnt_five(){
         $this->load->view('template/header');
-        $this->load->view('aoq/aoq_prnt_five');
+        $aoq_id= $this->uri->segment(3);
+        $data['aoq_id']=$aoq_id;
+        $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
+        $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
+
+        $noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
+        $approved_id=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
+
+        $data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $noted_id);
+        $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $approved_id);
+        foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
+            $data['head'][] =  array(
+                'aoq_date'=>$head->aoq_date,
+                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id),
+                'department'=>$head->department,
+                'purpose'=>$head->purpose,
+                'enduse'=>$head->enduse,
+                'requestor'=>$head->requestor
+
+            );
+        }
+
+        foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $ven){
+            $data['vendors'][] = array(
+                'vendor_id'=>$ven->vendor_id,
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $ven->vendor_id),
+                'phone'=>$this->super_model->select_column_where("vendor_head", "phone_number", "vendor_id", $ven->vendor_id),
+                'contact'=>$this->super_model->select_column_where("vendor_head", "contact_person", "vendor_id", $ven->vendor_id),
+            );
+        }
+
+        $data['items'] = $this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id);
+
+        foreach($this->super_model->select_row_where("aoq_offers","aoq_id",$aoq_id) AS $off){
+            $allprice[] = array(
+                'item_id'=>$off->aoq_items_id,
+                'price'=>$off->unit_price,
+            );
+        }
+         
+        $x=0;
+        foreach($this->super_model->select_row_where("aoq_offers","aoq_id",$aoq_id) AS $off){  
+           if(!empty($allprice)){
+                foreach($allprice AS $var=>$key){
+                    foreach($key AS $v=>$k){
+                       
+                        if($key['item_id']==$off->aoq_items_id){
+                            $minprice[$x][] = $key['price'];
+                        }
+                    }               
+                }
+                $min=min($minprice[$x]);
+            } else {
+                $min=0;
+            }
+
+            $data['offers'][] = array(
+                'aoq_offer_id'=>$off->aoq_offer_id,
+                'vendor_id'=>$off->vendor_id,
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
+                'item_id'=>$off->aoq_items_id,
+                'offer'=>$off->offer,
+                'price'=>$off->unit_price,
+                'amount'=>$off->amount,
+                'min'=>$min,
+                'recommended'=>$off->recommended,
+                'comments'=>$off->comments
+            );
+            $x++;
+        }
+
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
+        $this->load->view('aoq/aoq_prnt_five',$data);
         $this->load->view('template/footer');
     } 
 
@@ -310,18 +381,15 @@ class Aoq extends CI_Controller {
         $vendor_count = $this->input->post('vendor_count');
         $aoq_date = date('Y-m-d');
         $count=$this->input->post('count');
-
-            for($x=1;$x<$item_count;$x++){
-                for($v=1;$v<$vendor_count;$v++){
-                    for($a=1;$a<=3;$a++){
-
+        for($x=1;$x<$item_count;$x++){
+            for($v=1;$v<$vendor_count;$v++){
+                for($a=1;$a<=3;$a++){
                     $offer = $this->input->post('offer_'.$x.'_'.$v.'_'.$a);
                     $up = $this->input->post('price_'.$x.'_'.$v.'_'.$a);
                     $amount = $this->input->post('amount_'.$x.'_'.$v.'_'.$a);
                     $vendor = $this->input->post('vendor_'.$x.'_'.$v);
                     $item = $this->input->post('item_'.$x.'_'.$v);
                     $quantity = $this->input->post('quantity_'.$x.'_'.$v);
-
                     //echo $offer. " = " . 'offer_'.$x.'_'.$v.'_'.$a . '<br><br>';
                     //echo $up. " = " . 'price_'.$x.'_'.$v.'_'.$a . '<br><br>';
                     if(!empty($offer)){
@@ -334,15 +402,12 @@ class Aoq extends CI_Controller {
                             'quantity'=>$quantity,
                             'amount'=>$amount,
                         );
-
                         //print_r($offers);
-
                         $this->super_model->insert_into("aoq_offers", $offers);
-                    }
                     }
                 }
             }
-
+        }
         $head = array(
             'noted_by'=>$this->input->post('noted'),
             'approved_by'=>$this->input->post('approved'),
@@ -354,6 +419,8 @@ class Aoq extends CI_Controller {
                 redirect(base_url().'aoq/aoq_prnt/'.$aoq_id, 'refresh');
             }else if($count==4){
                 redirect(base_url().'aoq/aoq_prnt_four/'.$aoq_id, 'refresh');
+            }else if($count==5){
+                redirect(base_url().'aoq/aoq_prnt_five/'.$aoq_id, 'refresh');
             }
         }
     }
@@ -379,6 +446,8 @@ class Aoq extends CI_Controller {
             redirect(base_url().'aoq/aoq_prnt/'.$aoq_id, 'refresh');
         }else if($count==4){
             redirect(base_url().'aoq/aoq_prnt_four/'.$aoq_id, 'refresh');
+        }else if($count==5){
+            redirect(base_url().'aoq/aoq_prnt_five/'.$aoq_id, 'refresh');
         }
     }
 
