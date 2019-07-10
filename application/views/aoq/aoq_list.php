@@ -81,9 +81,19 @@
                                             </td>
                                             <td>
                                                 <center>
+                                                    <?php if($h['rows']<=3){ ?>
                                                     <a href="<?php echo base_url(); ?>aoq/aoq_prnt/<?php echo $h['aoq_id'];?>" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
                                                         <span class="fa fa-eye"></span>
                                                     </a>
+                                                    <?php } else if($h['rows']==4){ ?>
+                                                    <a href="<?php echo base_url(); ?>aoq/aoq_prnt_four/<?php echo $h['aoq_id'];?>" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } else if($h['rows']==5){ ?>
+                                                    <a href="<?php echo base_url(); ?>aoq/aoq_prnt_five/<?php echo $h['aoq_id'];?>" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } ?>
                                                     <a href="<?php echo base_url(); ?>aoq/refer_mnl/" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL"><span class="fa fa-location-arrow"></span>
                                                     </a>
                                                     <a href="<?php echo base_url(); ?>aoq/update_served/" class="btn btn-custon-three btn-success btn-xs"  onclick="return confirm('Are you sure?')" title="Served"><span class="fa fa-archive"></span>
