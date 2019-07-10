@@ -270,6 +270,7 @@ class Pr extends CI_Controller {
 
         $data_head = array(
             'pr_no'=>$this->input->post('new_pr'),
+            'processing_code'=>$this->input->post('process'),
         );
         $this->super_model->update_where("pr_head", $data_head, "pr_id", $prid);
 
@@ -359,66 +360,59 @@ class Pr extends CI_Controller {
     public function create_rfq(){
         $prid=$this->input->post('pr_id');
         $timestamp = date("Y-m-d H:i:s");
-
+        $rfq_format = date("Ym");
+        $rfqdet=date('Y-m');
+        $rows=$this->super_model->count_custom_where("rfq_head","create_date LIKE '$rfqdet%'");
+        if($rows==0){
+            $rfq_no= $rfq_format."-1001";
+        } else {
+            $series = $this->super_model->get_max("rfq_series", "series","year_month LIKE '$rfqdet%'");
+            $next=$series+1;
+            $rfq_no = $rfq_format."-".$next;
+        }
+        $rfqdetails=explode("-", $rfq_no);
+        $rfq_prefix1=$rfqdetails[0];
+        $rfq_prefix2=$rfqdetails[1];
+        $rfq_prefix=$rfq_prefix1;
+        $series=$rfq_prefix2;
+        $rfq_data= array(
+            'year_month'=>$rfq_prefix,
+            'series'=>$series
+        );
+        $this->super_model->insert_into("rfq_series", $rfq_data);
 
         foreach($this->super_model->select_row_where("pr_vendors", "pr_id", $prid) AS $vendors){
-                $rows_head = $this->super_model->count_rows("rfq_head");
-                if($rows_head==0){
-                    $rfq_id=1;
-                } else {
-                    $max = $this->super_model->get_max("rfq_head", "rfq_id");
-                    $rfq_id = $max+1;
-                }
-
-                $rfq_format = date("Ym");
-                $rfqdet=date('Y-m');
-                $rows=$this->super_model->count_custom_where("rfq_head","create_date LIKE '$rfqdet%'");
-                if($rows==0){
-                    $rfq_no= $rfq_format."-1001";
-                } else {
-                    $series = $this->super_model->get_max("rfq_series", "series","year_month LIKE '$rfqdet%'");
-                    $next=$series+1;
-                    $rfq_no = $rfq_format."-".$next;
-                }
-
-                $rfqdetails=explode("-", $rfq_no);
-                $rfq_prefix1=$rfqdetails[0];
-                $rfq_prefix=$rfq_prefix1;
-                $series = $rfqdetails[1];
-
-                $rfq_data= array(
-                    'year_month'=>$rfq_prefix,
-                    'series'=>$series
-                );
-                $this->super_model->insert_into("rfq_series", $rfq_data);
-
-
-                $data_head = array(
+            $rows_head = $this->super_model->count_rows("rfq_head");
+            if($rows_head==0){
+                $rfq_id=1;
+            } else {
+                $max = $this->super_model->get_max("rfq_head", "rfq_id");
+                $rfq_id = $max+1;
+            }
+            $new_rfq = $rfq_no."-".$vendors->grouping_id;
+            $data_head = array(
+                'rfq_id'=>$rfq_id,
+                'rfq_no'=>$new_rfq,
+                'vendor_id'=>$vendors->vendor_id,
+                'pr_id'=>$prid,
+                'grouping_id'=>$vendors->grouping_id,
+                'rfq_date'=>$timestamp,
+                'prepared_by'=>$_SESSION['user_id'],
+                'create_date'=>$timestamp
+            );
+            $this->super_model->insert_into("rfq_head", $data_head);
+            foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid' AND grouping_id = '$vendors->grouping_id'") AS $details){
+                $data_details = array(
                     'rfq_id'=>$rfq_id,
-                    'rfq_no'=>$rfq_no,
-                    'vendor_id'=>$vendors->vendor_id,
-                    'pr_id'=>$prid,
-                    'grouping_id'=>$vendors->grouping_id,
-                    'rfq_date'=>$timestamp,
-                    'prepared_by'=>$_SESSION['user_id'],
-                    'create_date'=>$timestamp
+                    'pr_details_id'=>$details->pr_details_id,
+                    'item_desc'=>$details->item_description,
+                    'quantity'=>$details->quantity,
+                    'uom'=>$details->uom,
+
                 );
-                $this->super_model->insert_into("rfq_head", $data_head);
-
-                foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid' AND grouping_id = '$vendors->grouping_id'") AS $details){
-                    $data_details = array(
-                        'rfq_id'=>$rfq_id,
-                        'pr_details_id'=>$details->pr_details_id,
-                        'item_desc'=>$details->item_description,
-                        'quantity'=>$details->quantity,
-                        'uom'=>$details->uom,
-
-                    );
-                    $this->super_model->insert_into("rfq_details", $data_details);
-                }
-
+                $this->super_model->insert_into("rfq_details", $data_details);
+            }
         }
-
         redirect(base_url().'rfq/rfq_list/');
     }
 
