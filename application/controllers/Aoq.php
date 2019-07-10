@@ -247,6 +247,7 @@ class Aoq extends CI_Controller {
                     $vendor = $this->input->post('vendor_'.$x.'_'.$v);
                     $item = $this->input->post('item_'.$x.'_'.$v);
                     $quantity = $this->input->post('quantity_'.$x.'_'.$v);
+                    $uom = $this->input->post('uom'.$x.'_'.$v);
 
                     //echo $offer. " = " . 'offer_'.$x.'_'.$v.'_'.$a . '<br><br>';
                     //echo $up. " = " . 'price_'.$x.'_'.$v.'_'.$a . '<br><br>';
@@ -259,6 +260,7 @@ class Aoq extends CI_Controller {
                             'unit_price'=>$up,
                             'quantity'=>$quantity,
                             'amount'=>$amount,
+                            'uom'=>$uom
                         );
 
                         //print_r($offers);

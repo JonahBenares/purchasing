@@ -85,7 +85,7 @@ function addItemPo(baseurl,pr) {
     window.open(baseurl+"index.php/po/add_itempo/"+pr, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=800,height=500");
 }
 
-function changePrice(count,countPR){
+function changePrice(count){
    var price = document.getElementById("price"+count).value;
    var qty = document.getElementById("quantity"+count).value;
    var tprice = parseFloat(price) * parseFloat(qty);

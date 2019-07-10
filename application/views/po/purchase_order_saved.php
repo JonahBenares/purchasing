@@ -44,6 +44,9 @@
 		.bor-btm{
 			border-bottom: 1px solid #000;
 		}
+		.bor-right{
+			border-right: 1px solid #000;
+		}
 		.sel-des{
 			border: 0px!important;
 		}
@@ -86,47 +89,6 @@
 			margin: 0px 2px 0px 2px;
 		}
     </style>
-    <!-- Modal -->
-	<div class="modal fade" id="add-pr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Add PR
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-						</button>
-					</h5>					
-				</div>
-				<form method="POST" action="<?php echo base_url(); ?>po/add_pr">
-					<div class="modal-body">
-						<div class="form-group">
-							<p class="nomarg">PR NO:</p>
-							<select name='pr' id='pr' class="form-control" onchange='getPRInfo()'>
-							<option value="" selected=""></option>
-							</select>
-						</div>
-						<div class="form-group">
-							<p class="nomarg">Requestor:</p>
-							<span id='requestor'></span>
-						</div>
-						<div class="form-group">
-							<p class="nomarg">Purpose:</p>
-							<span id='purpose'></span>
-						</div>
-						<div class="form-group">
-							<p class="nomarg">Enduse:</p>
-							<span id='enduse'></span>
-						</div>
-						<input type="hidden" class="form-control" name="po_id" id="po_id">
-					</div>
-					<div class="modal-footer">
-					</div>
-					
-					<input type='hidden' name='baseurl' id='baseurl' value="">
-				</form>
-			</div>
-		</div>
-	</div>
 
     <div  class="pad ">
     	<form method='POST' action='<?php echo base_url(); ?>po/po_complete'>  
@@ -177,132 +139,85 @@
 		    		<tr><td class="f13" colspan="20" align="center">Plant Site: Purok San Jose, Barangay Calumangan, Bago City</td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
+		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg"><b></b></h6></td>
-		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: </b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg"><b><?php echo date('F j, Y', strtotime($h['po_date'])); ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: <?php echo $h['po_no']; ?></b></h6></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Supplier:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['vendor']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Address:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['address']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Contact Person:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['contact']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Telephone #:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['phone']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
-		    	
-		    		<!-- LOOp Here -->  	
-
+		    		<?php } ?>
+		    		<!-- LOOp Here -->  
+					<tr>
+		    			<td colspan="" class="all-border" align="center"><b>#</b></td>
+		    			<td colspan="" class="all-border" align="center"><b>Qty</b></td>
+		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
+		    			<td colspan="12" class="all-border" align="center"><b>Description</b></td>
+		    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
+		    			<td colspan="3" class="all-border" align="center"></td>
+		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="20" align="center" style="padding: 10px!important">
-		    				<table  class="table-bodrdered" width="100%" style="border:1px solid #000;">
-		    					<tr>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    		</tr>
-					    		<tr>
-					    			<td class="" colspan="2" align="Left">&nbsp;PR No:</td>
-					    			<td class="" colspan="12" align="Left"></td>
-					    			<td class="" colspan="6" align="right">Requestor: &nbsp;</td>
-					    		</tr>
-					    		<tr>
-					    			<td class="" colspan="2" align="Left">&nbsp;Purpose:</td>
-					    			<td class="" colspan="18" align="Left"></td>
-					    		</tr>
-					    		<tr>
-					    			<td class="" colspan="2" align="Left">&nbsp;Enduse:</td>
-					    			<td class="" colspan="18" align="Left"></td>
-					    		</tr>
-					    	<!--	<tr id="item-btn">
-					    			<td colspan="20" style="padding-left: 10px">
-					    				<button type="button" class="btn btn-info btn-xs" onclick="addItemPo() ">
-										  Add Item/s
-										</button>
-					    			</td>
-					    		</tr>-->
-		    					<tr>
-					    			<td colspan="" class="all-border" align="center"><b>#</b></td>
-					    			<td colspan="" class="all-border" align="center"><b>Qty</b></td>
-					    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
-					    			<td colspan="12" class="all-border" align="center"><b>Description</b></td>
-					    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
-					    			<td colspan="3" class="all-border" align="center"></td>
-					    		</tr>
-					    		<tr>
-					    			<td colspan="" class="all-border" align="center"><b></b></td>
-					    			<td colspan="" class="all-border" align="center"><b></b></td>
-					    			<td colspan="" class="all-border" align="center"><b></b></td>
-					    			<td colspan="12" class="all-border" align="left"><b class="nomarg"></b></td>
-					    			<td colspan="2" class="all-border" align="center"><b>></b></td>
-					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"></b></td>		
-					    		</tr>					    	
-		    				</table>
-			    		</td>
-			    	</tr>
-			    	
-			    	<tr>
-		    			<td class="f13" colspan="20" align="center" style="padding: 10px!important">
-		    				<table  class="table-bodrdered" width="100%" style="border:0px solid #000;">
-		    					<tr>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    			<td width="5%"></td>
-					    		</tr>
-					    		<tr>
-					    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'></span></b></td>
-					    		</tr>
-		    				</table>
-			    		</td>
-			    		<input type="hidden" name = "prepared_by" value = "<?php echo $_SESSION['user_id'];?>">
-			    	</tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg">items</b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
+		    		</tr>	
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="12" class="bor-right" align="left">
+		    				<p class="nomarg">
+		    					Enduse: bulig<br>
+		    					Purpose: bulig<br>
+		    					Requestor: bulig<br>
+		    					PR no.: bulig<br>
+		    				</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
+		    		</tr>	
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
+		    		</tr>	
+		    		<tr>
+		    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
+		    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'></span></b></td>
+		    		</tr>
 			    	<tr>
 		    			<td class="f13" colspan="20" align="center" style="padding: 10px!important">
 		    				<table  class="table-bodrdered" width="100%" style="border:0px solid #000;">
