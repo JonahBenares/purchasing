@@ -229,7 +229,7 @@
                                                 <!-- <td><a class="btn-link txt-primary" onclick="viewHistory()"></a></td> -->
                                                 <td><?php echo $head['supplier']; ?></td>
                                                 <td><?php echo $head['pr']; ?></td>
-                                                <td><?php echo (($head['rfd']==0) ? '<span class="label label-warning">Pending RFD</span>' : ''); ?></td>
+                                                <td><?php //echo (($head['rfd']==0) ? '<span class="label label-warning">Pending RFD</span>' : ''); ?></td>
                                                 <td><!-- Repeat Order Purchase Request --></td>
                                                 <td>
                                                     <center>
