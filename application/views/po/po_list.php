@@ -233,15 +233,15 @@
                                                 <td><!-- Repeat Order Purchase Request --></td>
                                                 <td>
                                                     <center>
-                                                        <a href="<?php echo base_url(); ?>po/update_done/" class="btn btn-custon-three btn-success btn-xs" title='Done PO'>
+                                                        <a href="<?php echo base_url(); ?>po/update_done/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-success btn-xs" title='Done PO'>
                                                             <span class="fa fa-check"></span>
                                                         </a>
                                                         <?php if($head['saved']==0){ ?>
-                                                        <a href="<?php echo base_url(); ?>po/purchase_order" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <a href="<?php echo base_url(); ?>po/purchase_order/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
                                                         <?php }else { ?>
-                                                        <a href="<?php echo base_url(); ?>po/purchase_order_saved/" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <a href="<?php echo base_url(); ?>po/purchase_order_saved/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
                                                         <?php } ?>
