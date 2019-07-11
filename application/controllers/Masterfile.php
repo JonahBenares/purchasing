@@ -66,7 +66,7 @@ class Masterfile extends CI_Controller {
             'user_id'=>$user_id,
         );
         if($this->super_model->insert_into("reminder", $data)){
-            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."index.php/masterfile/dashboard'; </script>";
+            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."masterfile/dashboard'; </script>";
         }
     }
 
@@ -77,7 +77,7 @@ class Masterfile extends CI_Controller {
         );
         
         if($this->super_model->update_where('reminder', $data, 'reminder_id', $reminder_id)){
-            echo "<script>alert('Successfully Done!'); window.location ='".base_url()."index.php/masterfile/dashboard';</script>";
+            echo "<script>alert('Successfully Done!'); window.location ='".base_url()."masterfile/dashboard';</script>";
         }
     }
 
@@ -100,7 +100,7 @@ class Masterfile extends CI_Controller {
                'logged_in'=> TRUE
             );
             $this->session->set_userdata($newdata);
-            redirect(base_url().'index.php/masterfile/dashboard/');
+            redirect(base_url().'masterfile/dashboard/');
         }
         else{
             $this->session->set_flashdata('error_msg', 'Username And Password Do not Exist!');
@@ -114,7 +114,7 @@ class Masterfile extends CI_Controller {
         $this->load->view('masterfile/login');
         $this->load->view('template/footer');
         echo "<script>alert('You have successfully logged out.'); 
-        window.location ='".base_url()."index.php/masterfile/index'; </script>";
+        window.location ='".base_url()."masterfile/index'; </script>";
     }
 
     public function employee_list(){
@@ -143,7 +143,7 @@ class Masterfile extends CI_Controller {
             'position'=>$position,
         );
         if($this->super_model->insert_into("employees", $data)){
-            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."index.php/masterfile/employee_list'; </script>";
+            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."masterfile/employee_list'; </script>";
         }
     }
 
@@ -173,7 +173,7 @@ class Masterfile extends CI_Controller {
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('employees', 'employee_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/employee_list'; </script>";
+                window.location ='".base_url()."masterfile/employee_list'; </script>";
         }
     }
    
@@ -191,7 +191,7 @@ class Masterfile extends CI_Controller {
             'unit_name'=>$unit
         );
         if($this->super_model->insert_into("unit", $data)){
-            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."index.php/masterfile/unit_list'; </script>";
+            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."masterfile/unit_list'; </script>";
         }
     }
 
@@ -218,7 +218,7 @@ class Masterfile extends CI_Controller {
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('unit', 'unit_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/unit_list'; </script>";
+                window.location ='".base_url()."masterfile/unit_list'; </script>";
         }
     }
     
