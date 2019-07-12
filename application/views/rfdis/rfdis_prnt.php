@@ -245,7 +245,7 @@
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">
 		    				<b class="nomarg">Payment for: 
-		    				<a class="btn btn-xs btn-primary" id="hidde" onclick="additemrfd('')" >Add Item/s</a>
+		    				<a class="btn btn-xs btn-primary" id="hidde" onclick="additemrfd('<?php echo base_url(); ?>')" >Add Item/s</a>
 		    				</b>
 		    			</td>
 		    			<td align="right" colspan="3"></td>

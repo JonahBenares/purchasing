@@ -58,31 +58,45 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php 
+                                            if(!empty($header)){
+                                                foreach($header AS $head){ 
+                                        ?>
                                         <tr>
-                                            <td></td>
-                                            <td>                          
-                                                <a class="btn-link txt-primary" onclick="viewHistory('')">ITEM</a>
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><span class="label label-warning">Pending RFD</span></td>
-                                            <td>Repeat Order Purchase Request</td>
+                                            <td><?php echo date('F j, Y', strtotime($head['po_date'])); ?></td>
+                                            <td><?php echo $head['po_no'];?></td>
+                                            <!-- <td><a class="btn-link txt-primary" onclick="viewHistory()"></a></td> -->
+                                            <td><?php echo $head['supplier']; ?></td>
+                                            <td><?php echo $head['pr']; ?></td>
+                                            <td><?php //echo (($head['rfd']==0) ? '<span class="label label-warning">Pending RFD</span>' : ''); ?></td>
+                                            <td><!-- Repeat Order Purchase Request --></td>
                                             <td>
                                                 <center>
-                                                    <a href="<?php echo base_url(); ?>po/reporder_prnt/" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                    <a href="<?php echo base_url(); ?>po/update_done/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-success btn-xs" title='Done PO'>
+                                                        <span class="fa fa-check"></span>
+                                                    </a>
+                                                    <?php if($head['saved']==0){ ?>
+                                                    <a href="<?php echo base_url(); ?>po/purchase_order/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
-                                                    <a href="<?php echo base_url(); ?>po/purchase_order_saved/" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                    <?php }else { ?>
+                                                    <a href="<?php echo base_url(); ?>po/purchase_order_saved/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
+                                                    <?php } ?>
+                                                    <!-- <a href="<?php echo base_url(); ?>po/reporder_prnt/" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a> -->
                                                     <a class="cancelDuplicatePO btn btn-custon-three btn-info btn-xs" data-toggle="modal" data-target="#cancelDuplicatePO" data-id="" title="Cancel and Duplicate">
                                                         <span class="fa fa-ban"></span> 
                                                         <span class="fa fa-files-o"></span>
                                                     </a>
                                                     <a class="cancelPO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPO" data-id=""><span class="fa fa-ban" title="Cancel"></span></a>
+                                                    <!--<a href="" class="btn btn-custon-three btn-danger btn-xs"  data-toggle="modal" data-target="#cancelPO" title="WITH MODAL REASON">Cancel</a>-->
                                                 </center>
                                             </td>
-                                        </tr>                                  
+                                        </tr> 
+                                        <?php } } ?>                                  
                                     </tbody>
                                 </table>
 
