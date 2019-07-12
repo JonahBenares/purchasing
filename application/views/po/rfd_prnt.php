@@ -99,13 +99,16 @@
     </style>
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>po/'>  
+    	<form method='POST' action='<?php echo base_url(); ?>po/save_rfd'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+						<?php if($rows_dr!=0){ ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
+					<?php } else { ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
+					<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing DELIVERY RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
@@ -151,7 +154,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><b class="nomarg">Pay To:</b></td>
-		    			<td colspan="9" class="bor-btm"><b class="nomarg"></b></td>
+		    			<td colspan="9" class="bor-btm"><b class="nomarg"><?php echo $vendor; ?></b></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Date:</b></td>
 		    			<td colspan="5" class="bor-btm"><input type="date" style="width:100%" name="rfd_date" ></td>
 		    		</tr>
@@ -191,48 +194,61 @@
 		    			<td align="left" colspan="17" class="bor-right"><b class="nomarg">Payment for:</b></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
+		    		<?php foreach($items AS $it){ 
+		    			$subtotal[] = $it['total']; ?>
 			    		<tr>
 			    			<td align="left" colspan="17" class="bor-right">
-			    				<b class="nomarg">quantity $it['uom'] $it['item'] $it['item_specs'] $it['uom']</b>
+			    				<b class="nomarg"><?php echo number_format($it['quantity']) ." ".$it['uom'] ." " . $it['offer'] . ", ". $it['item'] . "  @ ". $it['price'] ." per ".  $it['uom']; ?></b>
 			    			</td>
 			    			<td align="right" colspan="3">
 			    				<span class="pull-left nomarg">₱</span>
-			    				<span class="nomarg" id=''><b></b></span>
+			    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],2); ?></b></span>
 			    			</td>
 			    		</tr>
+			    	<?php } ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Subtotal</b></td>
 		    			<td align="right" colspan="3" class=" bor-top">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format(array_sum($subtotal),2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php 
+		    		$percent=$ewt/100;
+		    		if($vat==1){
+		    			$less= (array_sum($subtotal)/1.12)*$percent;
+		    			$gtotal = array_sum($subtotal)-$less;
+		    		} else {
+		    			$less= array_sum($subtotal)*$percent;
+		    			$gtotal = array_sum($subtotal)-$less;
+		    		} ?>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: 8% EWT</b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: <?php echo number_format($ewt); ?>% EWT</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($less,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Vatable Non-Vatable</b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo (($vat==1) ? 'Vatable' : 'Non-Vatable'); ?></b></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
+		    		<?php foreach($pr AS $p){ ?>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">
-		    				<b class="nomarg">Purpose: </b>
-		    			</td>
-		    			<td align="right" colspan="3"></td>
-		    		</tr>
-		    		<tr>
-		    			<td align="left" colspan="17" class="bor-right">
-		    				<b class="nomarg">End Use: </b>
+		    				<b class="nomarg">Purpose: <?php echo $p['purpose']; ?></b>
 		    			</td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">
-		    				<b class="nomarg">Requestor: </b>
+		    				<b class="nomarg">End Use:  <?php echo $p['enduse']; ?></b>
+		    			</td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<tr>
+		    			<td align="left" colspan="17" class="bor-right">
+		    				<b class="nomarg">Requestor:  <?php echo $p['requestor'] . "; Item# ". $p['item_no']; ?></b>
 		    			</td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
@@ -240,12 +256,14 @@
 		    			<td align="center" colspan="17" class="bor-right"><br></td>
 		    			<td align="center" colspan="3"><br></td>
 		    		</tr>
+		    		<?php } ?>
+		    		
 		    		<tr>
 		    			<td align="left" colspan="7" ><b class="nomarg">P.O. No: </b></td>
 		    			<td align="right" colspan="10" class="bor-right"><b class="nomarg" style="font-weight: 900">Total Amount Due</b></td>
 		    			<td align="right" colspan="3" style="border-bottom: 2px solid #000">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
@@ -261,25 +279,34 @@
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
-		    			<td colspan="5"><b class="nomarg"></b></td>
+		    			<td colspan="5"><b class="nomarg"><?php echo $_SESSION['fullname']; ?></b></td>
 		    			<td colspan="5">
 		    			<b>
-		    			<select name='checked' class="select-des emphasis" style="width:90%">
-			    			<option value=''>-Select Employee-</option>
+		    			<select name='checked' class="select-des emphasis" required style="width:90%">
+			    			<option value='' selected>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 		    			</select>
 		    			</b>
 		    			</td>
 		    			<td colspan="5">
 		    			<b>
-		    			<select name='endorsed' class="select-des emphasis" style="width:90%">
+		    			<select name='endorsed' class="select-des emphasis" required style="width:90%">
 			    			<option value=''>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 		    			</select>
 		    			</b>
 		    			</td>
 		    			<td colspan="5">
 		    			<b>
-		    			<select name='approved' class="select-des emphasis" style="width:90%">
+		    			<select name='approved' class="select-des emphasis" required style="width:90%">
 			    			<option value=''>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 		    			</select>
 		    			</b>
 		    			</td>
@@ -288,7 +315,8 @@
 		    	</table>		    
 	    	</div>
 	    	<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
-	    	<input type='hidden' name='supplier_id' value='<?php echo $supplier_id; ?>'>
+	    	<input type='hidden' name='pay_to' value='<?php echo $vendor_id; ?>'>
+	    	<input type='hidden' name='total_amount' value='<?php echo $gtotal; ?>'>
     	</form>
     </div>
     <script type="text/javascript">

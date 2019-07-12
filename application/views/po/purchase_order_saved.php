@@ -1,3 +1,6 @@
+	<?php
+	$ci =& get_instance();
+	?>
   	<script src="<?php echo base_url(); ?>assets/js/po.js"></script> 
   	<head>
         <meta charset="utf-8">
@@ -99,7 +102,7 @@
 						<a  href='<?php echo base_url(); ?>po/revise_po/' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>PO</b></u></a>
 						<a  href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $po_id; ?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
-						<a  href="<?php echo base_url(); ?>po/rfd_prnt" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
+						<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
 							
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100 and the option: Background graphics is checked</p>
@@ -183,7 +186,7 @@
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo number_format($it->quantity); ?></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
-		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"><?php echo $it->offer; ?></b></td>
+		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"><?php echo $it->offer .", ". $ci->get_name("item_description", "aoq_items", "aoq_items_id = '$it->aoq_items_id'"); ?></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b><?php echo $it->unit_price; ?></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
 		    		</tr>	

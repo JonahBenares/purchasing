@@ -142,9 +142,10 @@ class Po extends CI_Controller {
     public function save_po(){
         $po_id = $this->input->post('po_id');
         $count_item = $this->input->post('count_item');
-
+        $a=1;
         for($x=1; $x<$count_item;$x++){
             $qty=$this->input->post('quantity'.$x);
+            
             if($qty!=0){
                 $data=array(
                     'pr_id'=>$this->super_model->select_column_where('aoq_head', 'pr_id', 'aoq_id', $this->input->post('aoq_id'.$x)),
@@ -156,16 +157,32 @@ class Po extends CI_Controller {
                     'uom'=>$this->input->post('uom'.$x),
                     'unit_price'=>$this->input->post('price'.$x),
                     'amount'=>$this->input->post('tprice'.$x),
+                    'item_no'=>$a
                 );
 
                 $this->super_model->insert_into("po_items", $data);
+             $a++;
             }
+            
         }
 
+      
+
+        $rows_dr = $this->super_model->count_custom_where("po_head","dr_no is not NULL");
+        if($rows_dr==0){
+            $dr_no=1000;
+        } else {
+            $max = $this->super_model->get_max("po_head", "dr_no");
+            $dr_no = $max+1;
+        }
+
+       
         $head = array(
+            'dr_no'=>$dr_no,
             'approved_by'=>$this->input->post('approved'),
             'saved'=>1
         );
+      
 
         if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
             redirect(base_url().'po/purchase_order_saved/'.$po_id);
@@ -248,6 +265,11 @@ class Po extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function get_name($column, $table, $where){
+        $col = $this->super_model->select_column_custom_where($table, $column, $where);
+        return $col;
+    }
+
     public function view_history(){
         $this->load->view('template/header');      
         $this->load->view('po/view_history');
@@ -256,15 +278,125 @@ class Po extends CI_Controller {
 
     public function delivery_receipt(){
         $po_id = $this->uri->segment(3); 
+        $data['head']= $this->super_model->select_row_where('po_head', 'po_id', $po_id);
+        $user_id= $this->super_model->select_column_where("po_head", "user_id", "po_id", $po_id);
+        $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
+
+        foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
+             $itemno='';
+            foreach($this->super_model->select_row_where('po_items', 'pr_id', $pr->pr_id) AS $it){
+                $itemno .= $it->item_no . ", ";
+            }
+            $item_no = substr($itemno, 0, -2);
+            $data['pr'][]=array(
+                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $pr->pr_id),
+                'enduse'=>$pr->enduse,
+                'purpose'=>$pr->purpose,
+                'requestor'=>$pr->requestor,
+                'item_no'=>$item_no
+            );
+        }
+
+        foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
+           $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
+            $data['items'][]= array(
+                'item_no'=>$items->item_no,
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
+                'item'=>$this->super_model->select_column_where("aoq_items", "item_description", "aoq_items_id", $items->aoq_items_id),
+                'offer'=>$items->offer,
+                'quantity'=>$items->quantity,
+                'uom'=>$items->uom,
+            );
+        }
         $this->load->view('template/header');        
-        $this->load->view('po/delivery_receipt');
+        $this->load->view('po/delivery_receipt',$data);
         $this->load->view('template/footer');
     }
 
-    public function rfd_prnt(){     
+    public function rfd_prnt(){   
+        $po_id = $this->uri->segment(3);   
+        $data['rows_dr'] = $this->super_model->select_count("rfd","po_id",$po_id);
+        $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
+        $data['po_id']= $po_id;
+        $data['vendor_id']= $vendor_id;
+        $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
+        $data['ewt']= $this->super_model->select_column_where("vendor_head", "ewt", "vendor_id", $vendor_id);
+        $data['vat']= $this->super_model->select_column_where("vendor_head", "vat", "vendor_id", $vendor_id);
+
+         foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
+            $total = $items->unit_price*$items->quantity;
+            $data['items'][]= array(
+                'item_no'=>$items->item_no,
+                'item'=>$this->super_model->select_column_where("aoq_items", "item_description", "aoq_items_id", $items->aoq_items_id),
+                'offer'=>$items->offer,
+                'quantity'=>$items->quantity,
+                'price'=>$items->unit_price,
+                'total'=>$total,
+                'uom'=>$items->uom,
+            );
+        }
+
+          foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
+             $itemno='';
+            foreach($this->super_model->select_row_where('po_items', 'pr_id', $pr->pr_id) AS $it){
+                $itemno .= $it->item_no . ", ";
+            }
+            $item_no = substr($itemno, 0, -2);
+            $data['pr'][]=array(
+                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $pr->pr_id),
+                'enduse'=>$pr->enduse,
+                'purpose'=>$pr->purpose,
+                'requestor'=>$pr->requestor,
+                'item_no'=>$item_no
+            );
+        }
+
+        foreach($this->super_model->select_row_where('rfd', 'po_id', $po_id) AS $r){
+            $data['rfd'][]= array(
+                'company'=>$r->company,
+                'pay_to'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $r->pay_to),
+                'check_name'=>$r->check_name,
+                'apv_no'=>$r->apv_no,
+                'rfd_date'=>$r->rfd_date,
+                'due_date'=>$r->due_date,
+                'check_due'=>$r->check_due,
+                'cash'=>$r->cash,
+                'bank_no'=>$r->bank_no
+            );
+            $data['checked']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->checked_by);
+            $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
+            $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->approved_by);
+        }
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
+
         $this->load->view('template/header');        
-        $this->load->view('po/rfd_prnt');
+        $this->load->view('po/rfd_prnt',$data);
         $this->load->view('template/footer');
+    }
+
+    public function save_rfd(){
+        $po_id= $this->input->post('po_id');
+        $data = array(
+            'po_id'=>$po_id,
+            'apv_no'=>$this->input->post('apv_no'),
+            'rfd_date'=>$this->input->post('rfd_date'),
+            'due_date'=>$this->input->post('due_date'),
+            'check_due'=>$this->input->post('check_due'),
+            'company'=>$this->input->post('company'),
+            'pay_to'=>$this->input->post('pay_to'),
+            'check_name'=>$this->input->post('check_name'),
+            'cash_check'=>$this->input->post('cash'),
+            'bank_no'=>$this->input->post('bank_no'),
+            'total_amount'=>$this->input->post('total_amount'),
+            'checked_by'=>$this->input->post('checked'),
+            'endorsed_by'=>$this->input->post('endorsed'),
+            'approved_by'=>$this->input->post('approved'),
+            'user_id'=>$_SESSION['user_id']
+        );
+
+         if($this->super_model->insert_into("rfd", $data)){
+            redirect(base_url().'po/rfd_prnt/'.$po_id, 'refresh');
+        }
     }
 
     public function reporder_prnt(){

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 11, 2019 at 03:15 AM
+-- Generation Time: Jul 12, 2019 at 02:31 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -786,18 +786,6 @@ INSERT INTO `item` (`item_id`, `item_name`, `item_specs`, `brand_name`, `unit_id
 -- --------------------------------------------------------
 
 --
--- Table structure for table `po_dr`
---
-
-CREATE TABLE IF NOT EXISTS `po_dr` (
-`dr_id` int(11) NOT NULL,
-  `po_id` int(11) NOT NULL,
-  `dr_no` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `po_head`
 --
 
@@ -805,6 +793,7 @@ CREATE TABLE IF NOT EXISTS `po_head` (
 `po_id` int(11) NOT NULL,
   `po_date` varchar(20) DEFAULT NULL,
   `po_no` varchar(50) DEFAULT NULL,
+  `dr_no` varchar(50) DEFAULT NULL,
   `vendor_id` int(11) NOT NULL DEFAULT '0',
   `notes` text,
   `user_id` int(11) NOT NULL DEFAULT '0',
@@ -816,8 +805,8 @@ CREATE TABLE IF NOT EXISTS `po_head` (
 -- Dumping data for table `po_head`
 --
 
-INSERT INTO `po_head` (`po_id`, `po_date`, `po_no`, `vendor_id`, `notes`, `user_id`, `approved_by`, `saved`) VALUES
-(1, '2019-07-10', 'pr1234', 16, '', 1, 118, 1);
+INSERT INTO `po_head` (`po_id`, `po_date`, `po_no`, `dr_no`, `vendor_id`, `notes`, `user_id`, `approved_by`, `saved`) VALUES
+(1, '2019-07-10', 'pr1234', '1003', 16, '', 1, 24, 1);
 
 -- --------------------------------------------------------
 
@@ -835,18 +824,18 @@ CREATE TABLE IF NOT EXISTS `po_items` (
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
   `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `uom` varchar(50) DEFAULT NULL,
-  `amount` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `item_no` int(11) DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `po_items`
 --
 
-INSERT INTO `po_items` (`po_items_id`, `pr_id`, `po_id`, `aoq_offer_id`, `aoq_items_id`, `offer`, `quantity`, `unit_price`, `uom`, `amount`) VALUES
-(4, 1, 1, 1, 1, 'offer1', '50.00', '1.00', '', '50.00'),
-(5, 1, 1, 10, 2, 'offer4', '75.00', '4.00', '', '300.00'),
-(6, 2, 1, 20, 3, 'keyboard offer2', '5.00', '150.00', '', '750.00'),
-(7, 2, 1, 29, 4, 'keyboard offer5', '3.00', '100.00', '', '300.00');
+INSERT INTO `po_items` (`po_items_id`, `pr_id`, `po_id`, `aoq_offer_id`, `aoq_items_id`, `offer`, `quantity`, `unit_price`, `uom`, `amount`, `item_no`) VALUES
+(17, 1, 1, 1, 1, 'offer1', '50.00', '1.00', '', '50.00', 1),
+(18, 1, 1, 10, 2, 'offer4', '75.00', '4.00', '', '300.00', 2),
+(19, 2, 1, 29, 4, 'keyboard offer5', '3.00', '100.00', '', '300.00', 3);
 
 -- --------------------------------------------------------
 
@@ -1006,6 +995,38 @@ INSERT INTO `reminder` (`reminder_id`, `user_id`, `notes`, `create_date`, `due_d
 (1, 1, 'Test notes', '2019-07-09 11:25:28', '2019-07-07', 1),
 (2, 1, 'Ts', '2019-07-09 11:33:47', '2019-07-08', 1),
 (3, 1, 'testing', '2019-07-09 11:40:34', '2019-07-17', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rfd`
+--
+
+CREATE TABLE IF NOT EXISTS `rfd` (
+`rfd_id` int(11) NOT NULL,
+  `po_id` int(11) NOT NULL DEFAULT '0',
+  `apv_no` varchar(50) DEFAULT NULL,
+  `rfd_date` varchar(20) DEFAULT NULL,
+  `due_date` varchar(20) DEFAULT NULL,
+  `check_due` varchar(20) DEFAULT NULL,
+  `company` varchar(255) DEFAULT NULL,
+  `pay_to` int(11) NOT NULL DEFAULT '0',
+  `check_name` varchar(255) DEFAULT NULL,
+  `cash_check` int(11) NOT NULL DEFAULT '0' COMMENT '1=cash, 2= check',
+  `bank_no` varchar(100) DEFAULT NULL,
+  `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `checked_by` int(11) NOT NULL DEFAULT '0',
+  `endorsed_by` int(11) NOT NULL DEFAULT '0',
+  `approved_by` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rfd`
+--
+
+INSERT INTO `rfd` (`rfd_id`, `po_id`, `apv_no`, `rfd_date`, `due_date`, `check_due`, `company`, `pay_to`, `check_name`, `cash_check`, `bank_no`, `total_amount`, `checked_by`, `endorsed_by`, `approved_by`, `user_id`) VALUES
+(2, 1, '67890', '2019-07-11', '2019-07-18', '2019-07-25', 'CENPRI', 16, 'AMT Computer Solutions', 1, '12345', '643.50', 24, 41, 118, 1);
 
 -- --------------------------------------------------------
 
@@ -2061,12 +2082,6 @@ ALTER TABLE `item`
  ADD PRIMARY KEY (`item_id`);
 
 --
--- Indexes for table `po_dr`
---
-ALTER TABLE `po_dr`
- ADD PRIMARY KEY (`dr_id`);
-
---
 -- Indexes for table `po_head`
 --
 ALTER TABLE `po_head`
@@ -2113,6 +2128,12 @@ ALTER TABLE `pr_vendors`
 --
 ALTER TABLE `reminder`
  ADD PRIMARY KEY (`reminder_id`);
+
+--
+-- Indexes for table `rfd`
+--
+ALTER TABLE `rfd`
+ ADD PRIMARY KEY (`rfd_id`);
 
 --
 -- Indexes for table `rfq_details`
@@ -2191,11 +2212,6 @@ MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=121;
 ALTER TABLE `item`
 MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=533;
 --
--- AUTO_INCREMENT for table `po_dr`
---
-ALTER TABLE `po_dr`
-MODIFY `dr_id` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `po_head`
 --
 ALTER TABLE `po_head`
@@ -2204,7 +2220,7 @@ MODIFY `po_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `po_items`
 --
 ALTER TABLE `po_items`
-MODIFY `po_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `po_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `po_pr`
 --
@@ -2235,6 +2251,11 @@ MODIFY `pr_vendors_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 ALTER TABLE `reminder`
 MODIFY `reminder_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `rfd`
+--
+ALTER TABLE `rfd`
+MODIFY `rfd_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `rfq_details`
 --
