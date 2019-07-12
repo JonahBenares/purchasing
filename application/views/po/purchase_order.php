@@ -90,7 +90,10 @@
 					</h5>					
 				</div>
 				<form method="POST" action="<?php echo base_url(); ?>po/add_pr">
-					<?php foreach($head AS $h) { ?>
+					<?php
+					if(!empty($head)){
+					 foreach($head AS $h) { ?>
+					
 					<div class="modal-body">
 						<div class="form-group">
 							<h5 class="nomarg">PR NO:</h5>
@@ -119,7 +122,8 @@
 					<div class="modal-footer">
 					<input type="submit" class="btn btn-primary btn-block" value='Add'>
 					</div>
-					<?php } ?>
+					<?php } 
+				} ?>
 					<input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
 					<input type='hidden' name='po_id' id='po_id' value="<?php echo $po_id; ?>">
 				</form>
@@ -224,6 +228,7 @@
 		    		</tr>
 		    		<?php 
 		    		$x=1;
+		    		if(!empty($items)){
 		    		foreach($items AS $it){ 
 		    			$gtotal[] = $it['total']; ?>
 		    		<tr>
@@ -237,10 +242,14 @@
 		    		<input type='hidden' name='aoq_id<?php echo $x; ?>' value="<?php echo $it['aoq_id']; ?>">
 		    		<input type='hidden' name='aoq_offer_id<?php echo $x; ?>' value="<?php echo $it['aoq_offer_id']; ?>">
 		    		<input type='hidden' name='aoq_items_id<?php echo $x; ?>' value="<?php echo $it['aoq_items_id']; ?>">
+		    		<input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $it['pr_details_id']; ?>">
 		    		<input type='hidden' name='offer<?php echo $x; ?>' value="<?php echo $it['offer']; ?>">
 		    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
 		    		<?php 
-		    		$x++; } ?>
+		    		$x++; } 
+		    		} else {
+		    			$gtotal=array();
+		    		} ?>
 		    		<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    		<tr>
 		    			<td colspan="" class=" bor-right" align="center"></td>
@@ -257,7 +266,9 @@
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="13" class="bor-btm bor-right" align="left">
-		    			<?php foreach($allpr AS $p){ ?>
+		    			<?php 
+		    			if(!empty($allpr)){
+		    			foreach($allpr AS $p){ ?>
 		    				<p class="nomarg">
 		    					Enduse: <?php echo $p['enduse']; ?><br>
 		    					Purpose: <?php echo $p['purpose']; ?><br>
@@ -265,7 +276,8 @@
 		    					PR no.: <?php echo $p['pr_no']; ?><br>
 		    				</p>
 		    				<br>
-		    			<?php } ?>
+		    			<?php }
+		    			} ?>
 		    			</td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>

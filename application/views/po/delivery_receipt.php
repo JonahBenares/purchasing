@@ -139,7 +139,7 @@
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
-		    			<td colspan="10" class="all-border "><b class="text-red nomarg">DR No. <?php echo $h->dr_no; ?></b></td>
+		    			<td colspan="10" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no; ?></b></td>
 		    			<td colspan="10" class="all-border "><b class="nomarg">PO No: <?php echo $h->po_no; ?></b></td>
 		    		</tr>
 		    		

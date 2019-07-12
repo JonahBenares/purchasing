@@ -37,38 +37,9 @@ class Po extends CI_Controller {
     public function po_list(){
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');   
-        $this->load->view('template/navbar'); 
-        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po='0' ORDER BY po_id DESC") AS $head){
-             //$rfd=$this->super_model->count_rows_where("po_dr","po_id",$head->po_id);
-             $pr='';
-            foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
-                $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
-                $pr .= "-".$pr_no."<br>";
-            }
-            $data['header'][]=array(
-                'po_id'=>$head->po_id,
-                'po_date'=>$head->po_date,
-                'po_no'=>$head->po_no,
-                'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
-                'supplier_id'=>$head->vendor_id,
-                'saved'=>$head->saved,
-                'pr'=>$pr,
-                //'rfd'=>$rfd,
-            );
-        }    
+        $this->load->view('template/navbar');     
         $this->load->view('po/po_list',$data);
         $this->load->view('template/footer');
-    }
-
-    public function update_done(){
-        $poid=$this->uri->segment(3);
-        $data = array(
-            'done_po'=>1
-        );
-
-        if($this->super_model->update_where("po_head", $data, "po_id", $poid)){
-            redirect(base_url().'po/po_list/', 'refresh');
-        }
     }
 
     public function create_po(){
@@ -140,6 +111,7 @@ class Po extends CI_Controller {
                     'aoq_id'=>$off->aoq_id,
                     'aoq_offer_id'=>$off->aoq_offer_id,
                     'aoq_items_id'=>$off->aoq_items_id,
+                    'pr_details_id'=>$off->pr_details_id,
                     'item_name'=>$this->super_model->select_column_where('aoq_items', 'item_description', 'aoq_items_id', $off->aoq_items_id),
                     'offer'=>$off->offer,
                     'price'=>$off->unit_price,
@@ -181,6 +153,7 @@ class Po extends CI_Controller {
                     'po_id'=>$po_id,
                     'aoq_offer_id'=>$this->input->post('aoq_offer_id'.$x),
                     'aoq_items_id'=>$this->input->post('aoq_items_id'.$x),
+                    'pr_details_id'=>$this->input->post('pr_details_id'.$x),
                     'offer'=>$this->input->post('offer'.$x),
                     'quantity'=>$qty,
                     'uom'=>$this->input->post('uom'.$x),
@@ -197,17 +170,22 @@ class Po extends CI_Controller {
 
       
 
-        $rows_dr = $this->super_model->count_custom_where("po_head","dr_no is not NULL");
+        $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
             $dr_no=1000;
         } else {
-            $max = $this->super_model->get_max("po_head", "dr_no");
+            $max = $this->super_model->get_max("po_dr", "dr_no");
             $dr_no = $max+1;
         }
 
-       
+        $dr = array(
+            'po_id'=>$po_id,
+            'dr_no'=>$dr_no
+        );
+        $this->super_model->insert_into("po_dr", $dr);
+
         $head = array(
-            'dr_no'=>$dr_no,
+        
             'approved_by'=>$this->input->post('approved'),
             'saved'=>1
         );
@@ -308,6 +286,7 @@ class Po extends CI_Controller {
     public function delivery_receipt(){
         $po_id = $this->uri->segment(3); 
         $data['head']= $this->super_model->select_row_where('po_head', 'po_id', $po_id);
+        $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
         $user_id= $this->super_model->select_column_where("po_head", "user_id", "po_id", $po_id);
         $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
 
@@ -346,6 +325,7 @@ class Po extends CI_Controller {
         $po_id = $this->uri->segment(3);   
         $data['rows_dr'] = $this->super_model->select_count("rfd","po_id",$po_id);
         $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
+        $data['po_no']= $this->super_model->select_column_where("po_head", "po_no", "po_id", $po_id);
         $data['po_id']= $po_id;
         $data['vendor_id']= $vendor_id;
         $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
@@ -381,17 +361,17 @@ class Po extends CI_Controller {
         }
 
         foreach($this->super_model->select_row_where('rfd', 'po_id', $po_id) AS $r){
-            $data['rfd'][]= array(
-                'company'=>$r->company,
-                'pay_to'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $r->pay_to),
-                'check_name'=>$r->check_name,
-                'apv_no'=>$r->apv_no,
-                'rfd_date'=>$r->rfd_date,
-                'due_date'=>$r->due_date,
-                'check_due'=>$r->check_due,
-                'cash'=>$r->cash,
-                'bank_no'=>$r->bank_no
-            );
+            
+            $data['company']=$r->company;
+            $data['pay_to']=$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $r->pay_to);
+            $data['check_name']=$r->check_name;
+            $data['apv_no']=$r->apv_no;
+            $data['rfd_date']=$r->rfd_date;
+            $data['due_date']=$r->due_date;
+            $data['check_due']=$r->check_due;
+            $data['cash']=$r->cash_check;
+            $data['bank_no']=$r->bank_no;
+            
             $data['checked']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->checked_by);
             $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
             $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->approved_by);
@@ -449,28 +429,9 @@ class Po extends CI_Controller {
 
 
     public function done_po(){
-        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');        
-        $this->load->view('template/navbar');
-        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po='1' ORDER BY po_id DESC") AS $head){
-             //$rfd=$this->super_model->count_rows_where("po_dr","po_id",$head->po_id);
-             $pr='';
-            foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
-                $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
-                $pr .= "-".$pr_no."<br>";
-            }
-            $data['header'][]=array(
-                'po_id'=>$head->po_id,
-                'po_date'=>$head->po_date,
-                'po_no'=>$head->po_no,
-                'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
-                'supplier_id'=>$head->vendor_id,
-                'saved'=>$head->saved,
-                'pr'=>$pr,
-                //'rfd'=>$rfd,
-            );
-        }  
-        $this->load->view('po/done_po',$data);
+        $this->load->view('template/navbar'); 
+        $this->load->view('po/done_po');
         $this->load->view('template/footer');
     }
 
