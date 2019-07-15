@@ -37,7 +37,8 @@ class Po extends CI_Controller {
     public function po_list(){
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');   
-        $this->load->view('template/navbar');     
+        $this->load->view('template/navbar');
+             
         $this->load->view('po/po_list',$data);
         $this->load->view('template/footer');
     }
