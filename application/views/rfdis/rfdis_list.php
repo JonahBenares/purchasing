@@ -53,6 +53,9 @@
                             <p class="m-b-0">Pay To :</p>
                             <select name='pay_to' class="form-control" required>
                                 <option value='' selected="">-Select Vendor-</option>
+                                <?php foreach($vendor AS $v){ ?>
+                                <option value='<?php echo $v->vendor_id; ?>'><?php echo $v->vendor_name; ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                       
@@ -99,7 +102,6 @@
     </div>
     <div class="admin-dashone-data-table-area">
         <div class="container-fluid">
-         <form name="myform" action="<?php echo base_url(); ?>index.php/aoq/add_aoq" method="post">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="sparkline8-list shadow-reset">
@@ -163,7 +165,6 @@
                         </div>
                     </div>
                 </div>
-                 </form>
             </div>
         </div>
     </div>
