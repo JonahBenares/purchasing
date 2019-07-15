@@ -226,7 +226,7 @@
 		    		<!-- loop here end-->
 		    		<tr>
 		    			<td colspan="20" class="all-border "><b class="nomarg">
-		    				<a href="javascript:void()" onclick="additemdr('')" class="btn btn-xs btn-primary">Add Item/s</a></b>
+		    				<a href="javascript:void()" onclick="additemdr('<?php echo base_url(); ?>')" class="btn btn-xs btn-primary">Add Item/s</a></b>
 		    			</td>		    			
 		    		</tr>
 		    		<tr>
