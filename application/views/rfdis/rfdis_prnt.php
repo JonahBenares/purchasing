@@ -388,22 +388,26 @@
 		    			</td>
 		    			<td colspan="5">
 		    			<b>
+		    			<?php if($saved==0){ ?>
 		    			<select name='endorsed' class="select-des emphasis">
 			    			<option value=''>-Select Employee-</option>
 			    			<?php foreach($employee AS $emp){ ?>
 			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
 			    			<?php } ?>
 		    			</select>
+		    			<?php } else { echo $endorsed; } ?>
 		    			</b>
 		    			</td>
 		    			<td colspan="5">
 		    			<b>
+		    			<?php if($saved==0){ ?>
 		    			<select name='approved' class="select-des emphasis">
 			    			<option value=''>-Select Employee-</option>
 			    			<?php foreach($employee AS $emp){ ?>
 			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
 			    			<?php } ?>
 		    			</select>
+		    		<?php } else { echo $approved; } ?>
 		    			</b>
 		    			</td>
 		    		</tr>	    		

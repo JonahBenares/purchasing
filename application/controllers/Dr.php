@@ -42,9 +42,10 @@ class Dr extends CI_Controller {
 	}
 
     public function dr_list(){   
+        $data['head']= $this->super_model->select_all_order_by("po_dr", "dr_date", "DESC");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('dr/dr_list');
+        $this->load->view('dr/dr_list',$data);
         $this->load->view('template/footer');
     }
 

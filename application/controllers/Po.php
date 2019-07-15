@@ -413,6 +413,11 @@ class Po extends CI_Controller {
 
     public function save_rfd(){
         $po_id= $this->input->post('po_id');
+
+        $dr_data = array(
+            'dr_date'=>$this->input->post('rfd_date')
+        );
+        $this->super_model->update_where("po_dr", $dr_data, "po_id", $po_id);
         $data = array(
             'po_id'=>$po_id,
             'apv_no'=>$this->input->post('apv_no'),
@@ -428,7 +433,8 @@ class Po extends CI_Controller {
             'checked_by'=>$this->input->post('checked'),
             'endorsed_by'=>$this->input->post('endorsed'),
             'approved_by'=>$this->input->post('approved'),
-            'user_id'=>$_SESSION['user_id']
+            'user_id'=>$_SESSION['user_id'],
+            'saved'=>1
         );
 
          if($this->super_model->insert_into("rfd", $data)){
