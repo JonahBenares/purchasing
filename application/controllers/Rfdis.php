@@ -41,9 +41,16 @@ class Rfdis extends CI_Controller {
 
 	}
 
+     public function get_name($column, $table, $where){
+        $col = $this->super_model->select_column_custom_where($table, $column, $where);
+        return $col;
+    }
+
 	public function rfdis_list(){	
+        $data['head']= $this->super_model->select_all_order_by("rfd", "rfd_date", "DESC");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
+
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         $this->load->view('rfdis/rfdis_list',$data);
         $this->load->view('template/footer');

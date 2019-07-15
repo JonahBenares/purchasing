@@ -1,88 +1,4 @@
- <!-- 
 
-    <div id="cancelRFQ" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header header-color-modal bg-color-1">
-                    <h4 class="modal-title">Cancel RFQ</h4>
-                    <div class="modal-close-area modal-close-df">
-                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
-                    </div>
-                </div>
-                <form method="POST" action = "<?php echo base_url();?>rfq/cancel_rfq">
-                    <div class="modal-body-lowpad">
-                        <div class="form-group">
-                            <p class="m-b-0">Reason for Cancelling RFQ:</p>
-                            <textarea name="reason" class="form-control"></textarea>
-                        </div>
-                        <center>       
-                            <input type = "hidden" id='rfq_id' name='rfq_id' >                 
-                            <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
-                        </center>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="reviseRFQ" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header header-color-modal bg-color-1">
-                    <h4 class="modal-title">Revise RFQ</h4>
-                    <div class="modal-close-area modal-close-df">
-                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
-                    </div>
-                </div>
-                <form method="POST" action = "<?php echo base_url();?>rfq/revise_rfq">
-                    <div class="modal-body-lowpad">
-                        <div class="form-group">
-                            <p class="m-b-0">Reason for Revising RFQ:</p>
-                            <textarea name="reason" class="form-control"></textarea>
-                        </div>
-                        <center>       
-                            <input type = "hidden" id='rfq_id' name='rfq_id' >                 
-                            <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
-                        </center>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="duplicateRFQ" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header header-color-modal bg-color-1">
-                    <h4 class="modal-title">Duplicate RFQ</h4>
-                    <div class="modal-close-area modal-close-df">
-                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
-                    </div>
-                </div>
-                <form method="POST" action = "<?php echo base_url();?>rfq/duplicate_rfq">
-                    <div class="modal-body-lowpad">
-                        <div class="form-group">
-                            <p class="m-b-0">PR No:</p>
-                            <select name='pr_no' class="form-control">
-                                <option value="" selected=""></option>
-                                <?php foreach($pr AS $p){ ?>
-                                <option value="<?php echo $p->pr_id; ?>"><?php echo $p->pr_no; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                         <div class="form-group">
-                            <p class="m-b-0">Notes:</p>
-                             <textarea name="notes" class="form-control"></textarea>
-                        </div>
-                        <center>       
-                            <input type = "hidden" id='rfq_id' name='rfq_id' >                 
-                            <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
-                        </center>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> -->
    <script type="text/javascript">
  $( document ).ready(function() {
     $("#createAOQ").attr("disabled", true);
@@ -161,10 +77,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($head AS $h){ ?>
+                                        <?php
+                                        if(!empty($head)){
+                                         foreach($head AS $h){ ?>
+                                        
                                         <tr>
                                             <td>
-                                            <input type="checkbox" class="form-control rfq_list" name="rfq[]" value="<?php echo $h['rfq_id']; ?>"></td>
+                                                <?php if($h['saved']==1){ ?>
+                                                 <input type="checkbox" class="form-control rfq_list" name="rfq[]" value="<?php echo $h['rfq_id']; ?>">
+                                             <?php } ?>
+                                            </td>
                                             <td><?php echo $h['rfq_no']; ?></td>
                                             <td><?php echo $h['pr_no']; ?></td>
                                             <td><?php echo $h['vendor']; ?></td>
@@ -197,7 +119,8 @@
                                                 </center>
                                             </td>
                                         </tr>  
-                                        <?php } ?>                                     
+                                        <?php }
+                                        } ?>                                     
                                     </tbody>
                                 </table>
 

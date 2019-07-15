@@ -43,6 +43,9 @@ class Rfq extends CI_Controller {
 
 
 	public function rfq_list(){
+
+        $head_count = $this->super_model->count_rows("rfq_head");
+        if($head_count!=0){
         foreach($this->super_model->select_all_order_by("rfq_head", "rfq_date", "DESC") AS $head){
 
             $data['head'][]= array(
@@ -52,6 +55,7 @@ class Rfq extends CI_Controller {
                 'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id),
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id),
                 'rfq_date'=>$head->rfq_date,
+                'saved'=>$head->saved
                 
             );
         }
@@ -63,6 +67,9 @@ class Rfq extends CI_Controller {
                     'item'=>$it->item_desc,
                 );
             }
+        } else {
+            $data= array();
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('rfq/rfq_list',$data);
@@ -79,6 +86,7 @@ class Rfq extends CI_Controller {
             $data['rfq_no']= $head->rfq_no;
             $data['pr_no']= $this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id);
             $data['notes']= $head->notes;
+            $data['code']= $head->processing_code;
             $data['noted']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->noted_by);
             $data['approved']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->approved_by);
             $data['prepared']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->prepared_by);

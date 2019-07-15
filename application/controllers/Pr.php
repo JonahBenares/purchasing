@@ -362,6 +362,7 @@ class Pr extends CI_Controller {
         $timestamp = date("Y-m-d H:i:s");
         $rfq_format = date("Ym");
         $rfqdet=date('Y-m');
+        $code = $this->super_model->select_column_where('pr_head','processing_code','pr_id',$prid);
         $rows=$this->super_model->count_custom_where("rfq_head","create_date LIKE '$rfqdet%'");
         if($rows==0){
             $rfq_no= $rfq_format."-1001";
@@ -397,6 +398,7 @@ class Pr extends CI_Controller {
                 'pr_id'=>$prid,
                 'grouping_id'=>$vendors->grouping_id,
                 'rfq_date'=>$timestamp,
+                'processing_code'=>$code,
                 'prepared_by'=>$_SESSION['user_id'],
                 'create_date'=>$timestamp
             );

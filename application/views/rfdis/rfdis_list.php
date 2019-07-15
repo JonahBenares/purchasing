@@ -1,3 +1,6 @@
+     <?php
+    $ci =& get_instance();
+    ?>
      <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -35,7 +38,7 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>index.php/rfdis/create_rfd">
+                <form method="POST" action = "<?php echo base_url();?>rfdis/create_rfd">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">RFD Date:</p>
@@ -127,25 +130,34 @@
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
-                                    <tbody>                                       
+                                    <tbody>    
+                                    <?php foreach($head AS $h){ ?>                                   
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo date('F j, Y', strtotime($h->rfd_date)); ?></td>
+                                            <td><?php echo $h->company; ?></td>
+                                            <td><?php echo $ci->get_name("vendor_name", "vendor_head", "vendor_id = '$h->pay_to'"); ?></td>
+                                            <td><?php echo $h->apv_no; ?></td>
+                                            <td><?php echo number_format($h->total_amount,2); ?></td>
+                                            <td><?php if($h->rfd_type ==0){
+                                                echo "Purchase Order";
+                                            } else {
+                                                echo "Direct Purchase";
+                                            } ?></td>
                                             <td>
                                                 <center>
+                                                <?php if($h->rfd_type==1){ ?>
                                                 <a href="<?php echo base_url(); ?>rfdis/rfdis_prnt/" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                     <span class="fa fa-eye"></span>
                                                 </a>
-                                                 <a href="<?php echo base_url(); ?>po/rfd_prnt/" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                <?php } else { ?>
+                                                 <a href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $h->po_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                 <span class="fa fa-eye"></span>
                                                  </a>
+                                                <?php } ?>
                                                 </center>
                                             </td>
-                                        </tr>                   
+                                        </tr>         
+                                    <?php } ?>          
                                     </tbody>
                                 </table>
 
