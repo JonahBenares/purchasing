@@ -60,7 +60,7 @@
                                             
                                         </tr>
                                     <?php if(!empty($head)){ foreach($head as $h){ ?>
-                                        <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq">
+                                        <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq_group">
                                         <tr>
                                             <td width="11%"><?php echo $h['pr_no']; ?></td>
                                             <td style="padding: 0px!important">
@@ -75,6 +75,7 @@
                                                             <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $h['group']; ?>','<?php echo $h['pr_id']; ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
                                                         <?php } else { ?>
                                                             <input type='hidden' name='pr_id' value='<?php echo $h['pr_id']; ?>'>
+                                                            <input type='hidden' name='group' value='<?php echo $h['group']; ?>'>
                                                             <input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
                                                         <?php } ?>
                                                         </td>

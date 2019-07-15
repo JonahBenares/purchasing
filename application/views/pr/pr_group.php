@@ -70,6 +70,7 @@
                                       
                                     </table>
                                     <input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+                                    
                                     <center><input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
                                 </form>
                             </div>

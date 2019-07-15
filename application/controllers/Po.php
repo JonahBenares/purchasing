@@ -109,6 +109,7 @@ class Po extends CI_Controller {
         $po_id = $this->uri->segment(3);
         $data['po_id'] = $po_id;
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
+        $data['vendor_id']=$vendor_id;
         foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
             $data['head'][] = array(
                 'po_date'=>$h->po_date,
@@ -131,6 +132,7 @@ class Po extends CI_Controller {
         }
 
         foreach($this->super_model->select_row_where("po_pr", "po_id" , $po_id) AS $popr){
+            //echo "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'<br>";
             // /echo "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'";
             foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'") AS $off){
 
@@ -226,10 +228,13 @@ class Po extends CI_Controller {
 
     public function add_pr(){
         $po_id=$this->input->post('po_id');
+        $vendor_id =$this->input->post('vendor_id');
+        $pr_id = $this->input->post('pr');
+        $aoq_id = $this->super_model->custom_query_single("aoq_id","SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_vendors av ON ah.aoq_id = av.aoq_id WHERE ah.pr_id = '$pr_id' AND av.vendor_id = '$vendor_id'");
         $data = array(
             'po_id'=>$po_id,
-            'pr_id'=>$this->input->post('pr'),
-            'aoq_id'=>$this->super_model->select_column_where('aoq_head', 'aoq_id', 'pr_id', $this->input->post('pr')),
+            'pr_id'=>$pr_id,
+            'aoq_id'=>$aoq_id,
             'enduse'=>$this->input->post('enduse'),
             'purpose'=>$this->input->post('purpose'),
             'requestor'=>$this->input->post('requestor')
@@ -320,7 +325,7 @@ class Po extends CI_Controller {
 
         foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
              $itemno='';
-            foreach($this->super_model->select_row_where('po_items', 'pr_id', $pr->pr_id) AS $it){
+            foreach($this->super_model->select_custom_where("po_items", "pr_id= '$pr->pr_id' AND po_id='$po_id'") AS $it){
                 $itemno .= $it->item_no . ", ";
             }
             $item_no = substr($itemno, 0, -2);

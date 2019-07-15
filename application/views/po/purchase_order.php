@@ -117,7 +117,7 @@
 							<h5 class="nomarg">Enduse:</h5>
 							<h5 class="nomarg"><b><input type name='enduse' id='enduse' readonly="readonly" class='form-control'></span></b></h5>
 						</div>
-						<input type="hidden" class="form-control" name="po_id" id="po_id">
+						
 					</div>
 					<div class="modal-footer">
 					<input type="submit" class="btn btn-primary btn-block" value='Add'>
@@ -126,6 +126,7 @@
 				} ?>
 					<input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
 					<input type='hidden' name='po_id' id='po_id' value="<?php echo $po_id; ?>">
+					<input type='hidden' name='vendor_id' id='vendor_id' value="<?php echo $vendor_id; ?>">
 				</form>
 			</div>
 		</div>

@@ -216,7 +216,7 @@
 							<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
 							<?php if($saved==0){ ?>
 								<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save AOQ">
-							<?php } else { ?>
+							<?php } else if ($saved==1 && $awarded==0){ ?>
 								<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Award">
 							<?php } ?>
 					</div>
