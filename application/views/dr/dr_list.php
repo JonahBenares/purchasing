@@ -80,9 +80,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php foreach($head AS $h){ ?>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo $h['dr_date']; ?></td>
+                                            <td><?php echo $h['dr_no']; ?></td>
                                             <td>Purchase Order
                                                 Direct Purchase
                                                 Direct Purchase w/o RFD
@@ -100,7 +101,8 @@
                                                         </a>
                                                 </center>
                                             </td>
-                                        </tr>                        
+                                        </tr>  
+                                        <?php } ?>                      
                                     </tbody>
                                 </table>
 

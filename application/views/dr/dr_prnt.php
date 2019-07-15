@@ -105,7 +105,7 @@
 						</h5>					
 					</div>
 					<div class="modal-body">
-					<form method='POST' action="<?php echo base_url(); ?>dr/add_purpose">
+					<form method='POST' action="<?php echo base_url(); ?>dr/add_dr_purpose">
 					<div class="form-group">
 						<h5 class="nomarg">Notes:</h5>
 						<h5 class="nomarg"><b>
@@ -115,25 +115,27 @@
 					<div class="form-group">
 						<h5 class="nomarg">Requestor:</h5>
 						<h5 class="nomarg"><b>
-							  <select name='requested_by' class="form-control">
-                            <option value='' selected>-Select Employee-</option>
-                        </select>
+							<select name='requested_by' class="form-control">
+	                            <option value='' selected>-Select Employee-</option>
+	                            <?php foreach($employee AS $emp){ ?>
+	                            <option value="<?php echo $emp->employee_id; ?>">
+	                            	<?php echo $emp->employee_name; ?>
+	                            </option>
+	                            <?php }  ?> 
+	                        </select>
 						</b></h5>
 					</div>
 					<div class="form-group">
 						<h5 class="nomarg">Purpose:</h5>
 						<h5 class="nomarg"><b>
-							<select name='purpose' class="form-control">
-                            <option value='' selected>-Select Purpose-</option>
-                        </select>
+							<input type="text" name='purpose' class="form-control">
 						</b></h5>
 					</div>
+
 					<div class="form-group">
 						<h5 class="nomarg">Enduse:</h5>
 						<h5 class="nomarg"><b>
-							  <select name='enduse' class="form-control">
-                            <option value='' selected>-Select End Use-</option>
-                        </select>
+							 <input type="text" name='enduse' class="form-control">
 						</b></h5>
 					</div>
 					
@@ -150,9 +152,12 @@
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+			    		<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+			    		<?php if($saved==0){ ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
+						<?php }else { ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
+						<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing DELIVERY RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
@@ -193,40 +198,47 @@
 		    		<tr><td colspan="20" align="center"><h5><b class="text-red">DELIVERY RECEIPT</b></h5></td></tr>
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
 		    		<tr>
-		    			<td colspan="13" class="all-border "><b class="text-red nomarg">DR No. </b></td>
+		    			<td colspan="13" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no; ?></b></td>
 		    			<td colspan="7" class="all-border " align="right"><b style="color: blue;margin-right: 5px">Direct Purchase</b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20" class="all-border "><b class="nomarg">Date :  </b></td>		    			
+		    			<td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($date)); ?></b></td>		    			
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" class="all-border "><b class="nomarg">
+		    				<?php if($saved==0){ ?>
 		    				<button type="button" data-toggle="modal" data-target="#addpur" class="btn btn-xs btn-primary" onclick="" >Add Purpose/ EndUse/ Requestor</button></b>
+		    				<?php } ?>
 		    			</td>		    			
 		    		</tr>
 		    		
 		    		<!-- loop here start-->
-
+		    		<?php foreach($details AS $d){ ?>
 		    		<tr>
-		    			<td colspan="13" class="all-border"><b class="nomarg">Item #4: </b></td>
+		    			<td colspan="13" class="all-border"><b class="nomarg"><?php echo $d['notes']; ?> </b></td>
 		    			<td colspan="7" class="all-border">
-		    				<b class="nomarg">Requestor: </b>
+		    				<b class="nomarg">Requestor: <?php echo $d['requestor']; ?></b>
 		    				<div class="pull-right m-r-10">
-		    					<a href="<?php echo base_url(); ?>dr/delete_purpose/" onclick="return confirm('Are you sure you want to delete purpose?')" class="btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
+		    					<?php if($saved==0){ ?>
+		    					<a href="<?php echo base_url(); ?>dr/delete_purpose/<?php echo $d['dr_details_id']; ?>/<?php echo $dr_id ?>" onclick="return confirm('Are you sure you want to delete purpose?')" class="btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
+		    					<?php } ?>
 		    				</div>
 		    			</td>
 		    		</tr>		    		
 		    		<tr>
-		    			<td colspan="13" class="all-border bor-btm2"><b class="nomarg">Purpose: </b></td>
-		    			<td colspan="7" class="all-border bor-btm2"><b class="nomarg">Enduse: </b></td>
+		    			<td colspan="13" class="all-border bor-btm2"><b class="nomarg">Purpose: <?php echo $d['purpose']; ?></b></td>
+		    			<td colspan="7" class="all-border bor-btm2"><b class="nomarg">Enduse: <?php echo $d['enduse']; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="21" class="all-border "><b class="nomarg"></td>
 		    		</tr>
+		    		<?php } ?>
 		    		<!-- loop here end-->
 		    		<tr>
 		    			<td colspan="20" class="all-border "><b class="nomarg">
-		    				<a href="javascript:void()" onclick="additemdr('<?php echo base_url(); ?>')" class="btn btn-xs btn-primary">Add Item/s</a></b>
+		    				<?php if($saved==0){ ?>
+		    				<a href="javascript:void()" onclick="additemdr('<?php echo base_url(); ?>','<?php echo $dr_id; ?>')" class="btn btn-xs btn-primary">Add Item/s</a></b>
+		    				<?php } ?>
 		    			</td>		    			
 		    		</tr>
 		    		<tr>
@@ -242,18 +254,26 @@
 		    			</td>
 		    		</tr>
 		    		<!-- <loop  start-->
+		    		<?php
+		    			$a=1;
+			    		if(!empty($items)){
+			    			foreach($items AS $it){ 
+		    		?>
 		       		<tr>
+		    			<td class="all-border" align="center"><?php echo $a; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $it['supplier']; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $it['item'] . ', ' . $it['specs']; ?></td>
+		    			<td class="all-border" align="center"><?php echo $it['quantity']; ?></td>
 		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="left" colspan="6"><br></td>
-		    			<td class="all-border" align="left" colspan="6"></td>
-		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center" colspan="2"></td>
-		    			<td class="all-border" align="center" colspan="2"></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $it['unit']; ?></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $it['remarks']; ?></td>
 		    			<td class="all-border" align="center" >
-		    				<a href="<?php echo base_url(); ?>dr/delete_dritem/" onclick="return confirm('Are you sure you want to delete item?')" class="btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
+		    				<?php if($saved==0){ ?>
+		    				<a href="<?php echo base_url(); ?>dr/delete_dritem/<?php echo $it['id']; ?>/<?php echo $dr_id ?>" onclick="return confirm('Are you sure you want to delete item?')" class="btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
+		    				<?php } ?>
 		    			</td>
 		    		</tr>
+		    		<?php $a++; } } ?> 	
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
@@ -265,7 +285,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td colspan="6" class="bor-btm"><b><br></b></td>
+		    			<td colspan="6" class="bor-btm"><b><br><?php echo $_SESSION['fullname']; ?></b></td>
 		    			<td colspan="5"></td>
 		    			<td colspan="6" class="bor-btm"></td>
 		    			<td colspan="2"></td>
@@ -302,6 +322,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
+	    	<input type='hidden' name='dr_id' value='<?php echo $dr_id; ?>'>
     	</form>
     </div>
     <script type="text/javascript">

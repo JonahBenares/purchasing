@@ -22,6 +22,9 @@
                                     <h5 class="nomarg">
                                          <select name='supplier' id='supplier' class="form-control"  onchange='chooseSupplier()'>
                                             <option value='' selected>-Select Supplier-</option>
+                                             <?php foreach($supplier AS $sup){ ?>
+                                                <option value="<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
+                                            <?php } ?>
                                         </select>
                                     </h5>
                                 </div>
@@ -48,6 +51,8 @@
                                     </h5>                                   
                                 </div>
                                 <input type="submit" class="btn btn-primary btn-block" value="Save changes">
+                                <input type="hidden" name="dr_id" value="<?php echo $dr_id; ?>">
+                                <input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
                             </div>
                         </form>
                         </div>   

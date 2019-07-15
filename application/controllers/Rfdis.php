@@ -41,16 +41,9 @@ class Rfdis extends CI_Controller {
 
 	}
 
-     public function get_name($column, $table, $where){
-        $col = $this->super_model->select_column_custom_where($table, $column, $where);
-        return $col;
-    }
-
 	public function rfdis_list(){	
-        $data['head']= $this->super_model->select_all_order_by("rfd", "rfd_date", "DESC");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         $this->load->view('rfdis/rfdis_list',$data);
         $this->load->view('template/footer');
@@ -238,7 +231,6 @@ class Rfdis extends CI_Controller {
 
     public function rfdis_dr(){           
         $this->load->view('template/header');
-
         $rfd_id=$this->uri->segment(3);
         $dr_id =$this->super_model->select_column_where('po_dr', 'dr_id', 'rfd_id', $rfd_id);
         $supplier_id =$this->super_model->select_column_where('rfd', 'pay_to', 'rfd_id', $rfd_id);
