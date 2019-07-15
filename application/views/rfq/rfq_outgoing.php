@@ -143,7 +143,7 @@
 		    			<td class="f13" colspan="2">RFQ No.:</td>
 		    			<td class="f13 bor-btm" colspan="3"><?php echo $rfq_no; ?></td>
 		    			<td class="f13" colspan="1">Urg:</td>		    			
-		    			<td class="f13 bor-btm" colspan="2">X Y Z</td>
+		    			<td class="f13 bor-btm" colspan="2"><?php echo $code; ?></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"></td></tr>
 		    		<tr>

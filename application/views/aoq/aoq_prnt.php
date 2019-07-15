@@ -338,7 +338,7 @@
 				    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_1" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_1">
 				    					</td>
 				    					<td width="40%" class="bor-btm bor-right">
-				    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+				    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
 				    					</td>
 				    				</tr>
 				    				<tr>
@@ -353,7 +353,7 @@
 				    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_2" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_2">
 				    					</td>
 				    					<td width="40%" class="bor-btm bor-right">
-				    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+				    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
 				    					</td>
 				    				</tr>
 				    				<tr>
