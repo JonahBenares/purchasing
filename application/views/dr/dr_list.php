@@ -89,8 +89,8 @@
                                                     echo "Purchase Order";
                                                 } else if($h->dr_type==1){
                                                     echo "Direct Purchase";
-                                                } else if($h->dr_type==1){
-                                                    echo "No RFD";
+                                                } else if($h->dr_type==2){
+                                                    echo "Direct Purchase w/o RFD";
                                                 } 
                                                 ?>
                                             </td>
@@ -105,7 +105,7 @@
                                                          <a href="<?php echo base_url(); ?>rfdis/rfdis_dr/<?php echo $h->rfd_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
-                                                    <?php } else if($h->dr_type==1){ ?>
+                                                    <?php } else if($h->dr_type==2){ ?>
                                                          <a href="<?php echo base_url(); ?>dr/dr_prnt/<?php echo $h->dr_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>

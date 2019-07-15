@@ -45,15 +45,6 @@ class Dr extends CI_Controller {
         $data['head']= $this->super_model->select_all_order_by("po_dr", "dr_date", "DESC");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $data['head'] = array();
-        foreach($this->super_model->select_all('po_dr') AS $head){
-            $data['head'][]=array(
-                'dr_id'=>$head->dr_id,
-                'dr_no'=>$head->dr_no,
-                'dr_date'=>$head->dr_date,
-                'dr_type'=>$head->dr_type,
-            );
-        }
         $this->load->view('dr/dr_list',$data);
         $this->load->view('template/footer');
     }
