@@ -140,24 +140,26 @@
 		    		<tr><td colspan="20" align="center"><h5><b class="text-red">DELIVERY RECEIPT</b></h5></td></tr>
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
 		    		<tr>
-		    			<td colspan="13" class="all-border "><b class="text-red nomarg">DR No. </b></td>
+		    			<td colspan="13" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no; ?></b></td>
 		    			<td colspan="7" class="all-border " align="right"><b style="color: blue;margin-right: 5px">Direct Purchase</b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20" class="all-border "><b class="nomarg">Date :  </b></td>		    			
+		    			<td colspan="20" class="all-border "><b class="nomarg">Date :  <?php echo date('F j, Y', strtotime($date)); ?></b></td>		    			
 		    		</tr>
 		    		<!-- loop here start-->
+		    		<?php foreach($details AS $d){ ?>
 		    		<tr>
-		    			<td colspan="13" class="all-border"><b class="nomarg">notes</b></td>
-		    			<td colspan="7" class="all-border"><b class="nomarg">Requestor: </b></td>
+		    			<td colspan="13" class="all-border"><b class="nomarg"><?php echo $d['notes']; ?></b></td>
+		    			<td colspan="7" class="all-border"><b class="nomarg">Requestor: <?php echo $d['requestor']; ?></b></td>
 		    		</tr>		    		
 		    		<tr>
-		    			<td colspan="13" class="all-border bor-btm2"><b class="nomarg">Purpose: </b></td>
-		    			<td colspan="7" class="all-border bor-btm2"><b class="nomarg">Enduse: </b></td>
+		    			<td colspan="13" class="all-border bor-btm2"><b class="nomarg">Purpose: <?php echo $d['purpose']; ?></b></td>
+		    			<td colspan="7" class="all-border bor-btm2"><b class="nomarg">Enduse: <?php echo $d['enduse']; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" class="all-border "><b class="nomarg"><br></b></td>		    			
 		    		</tr>
+		    		<?php } ?>
 		    		<!-- loop here end-->
 		    		<tr>
 		    			<td class="all-border" align="center"><b class="nomarg">#</b></td>
@@ -169,16 +171,17 @@
 		    			<td class="all-border" align="center" colspan="3"><b class="nomarg">Remarks</b></td>
 		    		</tr>
 		    		<!-- <loop  start-->
-
+		    		<?php $x = 1; foreach($items AS $i){ ?>
 		       		<tr>
+		    			<td class="all-border" align="center"><?php echo $x; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $vendor; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $i['item'] . ", " . $i['specs']; ?></td>
+		    			<td class="all-border" align="center"><?php echo number_format($i['quantity'],2); ?></td>
 		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="left" colspan="6"></td>
-		    			<td class="all-border" align="left" colspan="6"></td>
-		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center" colspan="2"></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $i['unit']; ?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
-		    		</tr>		    	
+		    		</tr>	
+		    		<?php } ?>	    	
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
@@ -190,7 +193,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td colspan="6" class="bor-btm"><b><br></b></td>
+		    			<td colspan="6" class="bor-btm"><b><br><?php echo $_SESSION['fullname']; ?></b></td>
 		    			<td colspan="5"></td>
 		    			<td colspan="6" class="bor-btm"></td>
 		    			<td colspan="2"></td>

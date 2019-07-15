@@ -38,9 +38,36 @@ class Po extends CI_Controller {
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');   
         $this->load->view('template/navbar');
-             
+        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' ORDER BY po_id DESC") AS $head){
+             $rfd=$this->super_model->count_rows_where("po_dr","po_id",$head->po_id);
+             $pr='';
+            foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
+                $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
+                $pr .= "-".$pr_no."<br>";
+            }
+            $data['header'][]=array(
+                'po_id'=>$head->po_id,
+                'po_date'=>$head->po_date,
+                'po_no'=>$head->po_no,
+                'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
+                'supplier_id'=>$head->vendor_id,
+                'saved'=>$head->saved,
+                'pr'=>$pr,
+                'rfd'=>$rfd,
+            );
+        }        
         $this->load->view('po/po_list',$data);
         $this->load->view('template/footer');
+    }
+
+    public function update_done(){
+        $poid=$this->uri->segment(3);
+        $data = array(
+            'done_po'=>1
+        );
+        if($this->super_model->update_where("po_head", $data, "po_id", $poid)){
+            redirect(base_url().'po/po_list/', 'refresh');
+        }
     }
 
     public function create_po(){
@@ -430,9 +457,28 @@ class Po extends CI_Controller {
 
 
     public function done_po(){
+        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');        
         $this->load->view('template/navbar'); 
-        $this->load->view('po/done_po');
+        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po='1' ORDER BY po_id DESC") AS $head){
+             $rfd=$this->super_model->count_rows_where("po_dr","po_id",$head->po_id);
+             $pr='';
+            foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
+                $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
+                $pr .= "-".$pr_no."<br>";
+            }
+            $data['header'][]=array(
+                'po_id'=>$head->po_id,
+                'po_date'=>$head->po_date,
+                'po_no'=>$head->po_no,
+                'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
+                'supplier_id'=>$head->vendor_id,
+                'saved'=>$head->saved,
+                'pr'=>$pr,
+                'rfd'=>$rfd,
+            );
+        }  
+        $this->load->view('po/done_po',$data);
         $this->load->view('template/footer');
     }
 

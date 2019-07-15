@@ -168,7 +168,7 @@
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
 						<?php } else { ?> 
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
-						<a  href="<?php echo base_url(); ?>rfdis/rfdis_dr/" class="btn btn-warning btn-md p-l-50 p-r-50" target="_blank"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>		
+						<a  href="<?php echo base_url(); ?>rfdis/rfdis_dr/<?php echo $rfd_id; ?>" class="btn btn-warning btn-md p-l-50 p-r-50" target="_blank"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>		
 						<?php } ?>				
 					</div>
 					<p class="text-white">Instructions: When printing DELIVERY RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>

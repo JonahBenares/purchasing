@@ -225,13 +225,44 @@ class Rfdis extends CI_Controller {
                 'dr_no'=>$dr_no,
             );
             $this->super_model->insert_into("po_dr", $po_dr);
-            redirect(base_url().'rfdis/rfdis_dr/'.$rfd_id, 'refresh');
+            redirect(base_url().'rfdis/rfdis_prnt/'.$rfd_id, 'refresh');
         }
     }
 
     public function rfdis_dr(){           
         $this->load->view('template/header');
-        $this->load->view('rfdis/rfdis_dr');
+
+        $rfd_id=$this->uri->segment(3);
+        $dr_id =$this->super_model->select_column_where('po_dr', 'dr_id', 'rfd_id', $rfd_id);
+        $supplier_id =$this->super_model->select_column_where('rfd', 'pay_to', 'rfd_id', $rfd_id);
+        $data['vendor']= $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $supplier_id);
+        foreach($this->super_model->select_row_where("po_dr", "rfd_id", $rfd_id) AS $head){
+            $data['dr_no']=$head->dr_no;
+            $data['date']=$this->super_model->select_column_where("rfd","rfd_date","rfd_id",$rfd_id);
+        }
+
+        foreach($this->super_model->select_row_where("rfd_purpose", "rfd_id", $rfd_id) AS $details){
+            $data['details'][] = array(
+                'notes'=>$details->notes,
+                'purpose'=>$details->purpose,
+                'requestor'=>$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $details->requestor),
+                'enduse'=>$details->enduse,
+            );
+        }
+
+
+        foreach($this->super_model->select_row_where("rfd_items", "rfd_id", $rfd_id) AS $items){
+            $unit_id = $this->super_model->select_column_where('item', 'unit_id', 'item_id', $items->item_id);
+            $data['items'][] = array(
+                'item'=>$this->super_model->select_column_where('item', 'item_name', 'item_id', $items->item_id),
+                'specs'=>$this->super_model->select_column_where('item', 'item_specs', 'item_id', $items->item_id),
+                'quantity'=>$items->quantity,
+                'price'=>$items->unit_price,
+                'unit'=>$this->super_model->select_column_where('unit', 'unit_name', 'unit_id', $unit_id),
+            );
+        }
+
+        $this->load->view('rfdis/rfdis_dr',$data);
         $this->load->view('template/footer');
     }
 
