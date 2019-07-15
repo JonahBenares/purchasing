@@ -267,7 +267,9 @@
 		    		?>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">		    				
-		    				<div style="padding-left: 10px"><b class="nomarg"><?php echo number_format($it['quantity']) .", ". $it['item'] . ", " . $it['specs']. ", @Php ". number_format($it['price'],2) . " per " . $it['unit']; ?></b></div>
+		    				<div style="padding-left: 10px">
+		    					<a href="<?php echo base_url(); ?>rfdis/" onclick="return confirm('Are you sure you want to delete item?')" class="btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
+		    					<b class="nomarg"><?php echo number_format($it['quantity']) .", ". $it['item'] . ", " . $it['specs']. ", @Php ". number_format($it['price'],2) . " per " . $it['unit']; ?></b></div>
 		    			</td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
