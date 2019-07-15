@@ -267,7 +267,9 @@
 		    		?>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">		    				
-		    				<div style="padding-left: 10px"><b class="nomarg"><?php echo number_format($it['quantity']) .", ". $it['item'] . ", " . $it['specs']. ", @Php ". number_format($it['price'],2) . " per " . $it['unit']; ?></b></div>
+		    				<div style="padding-left: 10px">
+		    					<a href="<?php echo base_url(); ?>rfdis/" onclick="return confirm('Are you sure you want to delete item?')" class="btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
+		    					<b class="nomarg"><?php echo number_format($it['quantity']) .", ". $it['item'] . ", " . $it['specs']. ", @Php ". number_format($it['price'],2) . " per " . $it['unit']; ?></b></div>
 		    			</td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
@@ -388,22 +390,26 @@
 		    			</td>
 		    			<td colspan="5">
 		    			<b>
+		    			<?php if($saved==0){ ?>
 		    			<select name='endorsed' class="select-des emphasis">
 			    			<option value=''>-Select Employee-</option>
 			    			<?php foreach($employee AS $emp){ ?>
 			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
 			    			<?php } ?>
 		    			</select>
+		    			<?php } else { echo $endorsed; } ?>
 		    			</b>
 		    			</td>
 		    			<td colspan="5">
 		    			<b>
+		    			<?php if($saved==0){ ?>
 		    			<select name='approved' class="select-des emphasis">
 			    			<option value=''>-Select Employee-</option>
 			    			<?php foreach($employee AS $emp){ ?>
 			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
 			    			<?php } ?>
 		    			</select>
+		    		<?php } else { echo $approved; } ?>
 		    			</b>
 		    			</td>
 		    		</tr>	    		

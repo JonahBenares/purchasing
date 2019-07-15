@@ -81,6 +81,7 @@ class Rfdis extends CI_Controller {
             'due_date'=>$due_date,
             'check_due'=>$check_due,
             'user_id'=>$user_id,
+            'rfd_type'=>1
         );
         if($this->super_model->insert_into("rfd", $data)){
             echo "<script>alert('Successfully Added!'); window.location ='".base_url()."rfdis/rfdis_prnt/$rfd_id'; </script>";
@@ -199,6 +200,7 @@ class Rfdis extends CI_Controller {
 
     public function save_rfdis(){
         $rfd_id=$this->input->post('rfd_id');
+        $date = $this->super_model->select_column_where('rfd', 'rfd_date', 'rfd_id', $rfd_id);
         $data = array(
             'total_amount'=>$this->input->post('net'),
             'checked_by'=>$this->input->post('checked'),
@@ -223,6 +225,8 @@ class Rfdis extends CI_Controller {
                 'dr_id'=>$dr_id,
                 'rfd_id'=>$rfd_id,
                 'dr_no'=>$dr_no,
+                'dr_date'=>$date,
+                'dr_type'=>1
             );
             $this->super_model->insert_into("po_dr", $po_dr);
             redirect(base_url().'rfdis/rfdis_prnt/'.$rfd_id, 'refresh');
