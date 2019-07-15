@@ -22,7 +22,7 @@
         	padding:0px 250px 0px 250px
         }
         .cancel{
-        	background-image: url('../../assets/img/cancel.png')!important;
+        	background-image: url('<?php echo base_url(); ?>assets/img/cancel.png')!important;
         	background-repeat:no-repeat!important;
         	background-size: contain!important;
         	background-position: center center!important;
@@ -73,7 +73,7 @@
 				border-right: 1px solid #000;
 			}
 			.cancel{
-	        	background-image: url('../assets/img/cancel.png')!important;
+	        	background-image: url('<?php echo base_url(); ?>assets/img/cancel.png')!important;
 	        	background-repeat:no-repeat!important;
 	        	background-size: contain!important;
 	        	background-position: center center!important;

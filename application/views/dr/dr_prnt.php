@@ -20,7 +20,7 @@
             font-size:12px!important;
         }
         .cancel{
-        	background-image: url('../../assets/img/cancel.png')!important;
+        	background-image: url('<?php echo base_url(); ?>assets/img/cancel.png')!important;
         	background-repeat:no-repeat!important;
         	background-size: contain!important;
         	background-position: center center!important;
@@ -68,7 +68,7 @@
 				color: red!important;
 			}
 			.cancel{
-	        	background-image: url('../../assets/img/cancel.png')!important;
+	        	background-image: url('<?php echo base_url(); ?>assets/img/cancel.png')!important;
 	        	background-repeat:no-repeat!important;
 	        	background-size: contain!important;
 	        	background-position: center center!important;
@@ -226,7 +226,7 @@
 		    		<!-- loop here end-->
 		    		<tr>
 		    			<td colspan="20" class="all-border "><b class="nomarg">
-		    				<a href="javascript:void()" onclick="additemdr('')" class="btn btn-xs btn-primary">Add Item/s</a></b>
+		    				<a href="javascript:void()" onclick="additemdr('<?php echo base_url(); ?>')" class="btn btn-xs btn-primary">Add Item/s</a></b>
 		    			</td>		    			
 		    		</tr>
 		    		<tr>
