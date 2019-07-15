@@ -27,7 +27,7 @@
         	}
         }
         .cancel{
-        	background-image: url('../../assets/img/cancel.png')!important;
+        	background-image: url('<?php echo base_url(); ?>assets/img/cancel.png')!important;
         	background-repeat:no-repeat!important;
         	background-size: contain!important;
         	background-position: center center!important;
@@ -62,7 +62,7 @@
 	            font-size:12px!important;
 	        }
 	        .cancel{
-	        	background-image: url('../../assets/img/cancel.png')!important;
+	        	background-image: url('<?php echo base_url(); ?>assets/img/cancel.png')!important;
 	        	background-repeat:no-repeat!important;
 	        	background-size: contain!important;
 	        	background-position: center center!important;
