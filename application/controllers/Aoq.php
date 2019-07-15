@@ -91,7 +91,8 @@ class Aoq extends CI_Controller {
             'aoq_id'=>$aoq_id,
             'item_description'=>$items->item_desc,
             'quantity'=>$items->quantity,
-            'uom'=>$items->uom
+            'uom'=>$items->uom,
+            'pr_details_id'=>$items->pr_details_id
           );
           $this->super_model->insert_into("aoq_items", $items);
        }
@@ -392,6 +393,8 @@ class Aoq extends CI_Controller {
                     $vendor = $this->input->post('vendor_'.$x.'_'.$v);
                     $item = $this->input->post('item_'.$x.'_'.$v);
                     $quantity = $this->input->post('quantity_'.$x.'_'.$v);
+                    $uom = $this->input->post('uom_'.$x.'_'.$v);
+                    $pr_details_id = $this->input->post('pr_details_id_'.$x.'_'.$v);
                     //echo $offer. " = " . 'offer_'.$x.'_'.$v.'_'.$a . '<br><br>';
                     //echo $up. " = " . 'price_'.$x.'_'.$v.'_'.$a . '<br><br>';
                     if(!empty($offer)){
@@ -399,6 +402,7 @@ class Aoq extends CI_Controller {
                             'aoq_id'=>$aoq_id,
                             'vendor_id'=>$vendor,
                             'aoq_items_id'=>$item,
+                            'pr_details_id'=>$pr_details_id,
                             'offer'=>$offer,
                             'unit_price'=>$up,
                             'quantity'=>$quantity,
