@@ -306,7 +306,7 @@
 		    			<td class="f13" colspan="3"></td>
 
 		    		</tr>	
-		    		<tr>
+		    		<!-- <tr>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="5">&nbsp; d. Item's Warranty</td>
 		    			<td class="f13" colspan="3"></td>
@@ -331,7 +331,7 @@
 		    				<input type="checkbox" name="vat" value='1' class='emphasis' > 
 		    				<span class='fa fa-check'></span>
 		    				</td>
-		    		</tr>
+		    		</tr> -->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>

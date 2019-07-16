@@ -242,7 +242,7 @@
 		    			<td class="f13" colspan="3"></td>
 
 		    		</tr>	
-		    		<tr>
+		    		<!-- <tr>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="5">&nbsp; e. Company's TIN Number</td>
 		    			<td class="f13" colspan="3"></td>
@@ -261,7 +261,7 @@
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="18">&nbsp; f. Vat <input type="checkbox" name=""> ||  non-Vat <input type="checkbox" name=""></td>
-		    		</tr>
+		    		</tr> -->
 		    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 
