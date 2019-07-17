@@ -46,6 +46,18 @@ class Pod extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function delivery_receipt(){
+        $this->load->view('template/header');  
+        $this->load->view('pod/delivery_receipt');
+        $this->load->view('template/footer');
+    }
+
+    public function rfd_prnt(){
+        $this->load->view('template/header');  
+        $this->load->view('pod/rfd_prnt');
+        $this->load->view('template/footer');
+    }
+
 }
 
 ?>
