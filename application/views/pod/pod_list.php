@@ -88,7 +88,7 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>index.php/po/create_po">
+                <form method="POST" action = "<?php echo base_url();?>index.php/pod/create_po">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Date:</p>
@@ -198,8 +198,8 @@
                                     <a type='button' class="btn btn-custon-three btn-info" data-toggle="modal" data-target="#addrepPO">
                                         <span class="fa fa-repeat p-l-0 "> </span> Add Repeat Order
                                     </a>
-                                    <a href="<?php echo base_url(); ?>po/done_po" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Done POD</a> 
-                                    <a href="<?php echo base_url(); ?>po/cancelled_po" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled POD</a>
+                                    <a href="<?php echo base_url(); ?>pod/done_pod" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Done POD</a> 
+                                    <a href="<?php echo base_url(); ?>pod/cancelled_pod" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled POD</a>
                                     </div>
                                 </div>
                             </div>                       
@@ -218,24 +218,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php foreach($header AS $h){ ?>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><?php echo date("F d, Y",strtotime($h['po_date'])); ?></td>
+                                                <td><?php echo $h['po_no'];?></td>
+                                                <td><?php echo $h['supplier']; ?></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td>
                                                     <center>
-                                                        <a href="<?php echo base_url(); ?>po/update_done/" class="btn btn-custon-three btn-success btn-xs" title='Done PO'>
+                                                        <a href="<?php echo base_url(); ?>pod/update_done/<?php echo $h['po_id']?>" class="btn btn-custon-three btn-success btn-xs" title='Done PO'>
                                                             <span class="fa fa-check"></span>
                                                         </a>
-                                                        <a href="<?php echo base_url(); ?>pod/po_direct/" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <a href="<?php echo base_url(); ?>pod/po_direct/<?php echo $h['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
-                                                        <a href="<?php echo base_url(); ?>po/purchase_order_saved/" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <!-- <a href="<?php echo base_url(); ?>po/purchase_order_saved/" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
-                                                        </a>
+                                                        </a> -->
                                                         <a class="cancelDuplicatePO btn btn-custon-three btn-info btn-xs" data-toggle="modal" data-target="#cancelDuplicatePO" data-id="" title="Cancel and Duplicate">
                                                             <span class="fa fa-ban"></span> 
                                                             <span class="fa fa-files-o"></span>
@@ -244,6 +245,7 @@
                                                     </center>
                                                 </td>
                                             </tr>   
+                                            <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>                           

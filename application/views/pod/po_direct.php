@@ -79,15 +79,18 @@
 		}
     </style>
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>po/save_po'>  
+    	<form method='POST' action='<?php echo base_url(); ?>pod/save_po'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="abtn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
+						<?php if($saved==0){ ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" value="Save">	
-						<a  href="<?php echo base_url(); ?>pod/delivery_receipt/" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
-						<a  href="<?php echo base_url(); ?>pod/rfd_prnt/" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
+						<?php } else { ?>
+						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
+						<a  href="<?php echo base_url(); ?>pod/delivery_receipt/<?php echo $po_id;?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
+						<a  href="<?php echo base_url(); ?>pod/rfd_prnt/<?php echo $po_id;?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
+						<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
@@ -127,36 +130,40 @@
 		    		<tr><td colspan="20" align="center">
 		    			<br><h4 class="nomarg"><b>PURCHASE ORDER</b></h4><small>D I R E C T</small></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
+		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg"><b></b></h6></td>
-		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: </b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg"><b><?php echo date('F j, Y', strtotime($h['po_date'])); ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: <?php echo $h['po_no']; ?></b></h6></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Supplier:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['vendor']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Address:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['address']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Contact Person:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['contact']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Telephone #:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['phone']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
+		    		<?php } ?>
 		    		<tr id="pr-btn">
 		    			<td colspan="20" style="padding-left: 10px">
-		    				<a class="addPR btn btn-primary btn-xs" onclick="additempod('<?php echo base_url(); ?>')">
+		    				<?php if($saved==0){ ?>
+		    				<a class="addPR btn btn-primary btn-xs" onclick="additempod('<?php echo base_url(); ?>','<?php echo $po_id; ?>','<?php echo $supplier_id; ?>')">
 							  Add Item
 							</a>
+							<?php }?>
 		    			</td>
 		    		</tr>	
 		    		<!-- LOOp Here --> 
@@ -168,14 +175,29 @@
 		    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
 		    			<td colspan="2" class="all-border" align="center"></td>
 		    		</tr>
+		    		<?php 
+		    			$x=1;
+		    			if(!empty($items)){
+		    				foreach($items AS $it){  
+		    					$gtotal[] = $it['total']; 
+		    		?>
 		    		<tr>
-		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b><?php if($saved==0){ ?><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['quantity']; ?>' max='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"><?php }else { echo $it['quantity']; } ?></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['uom']; ?></b></td>
+		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"><?php echo $it['item']; ?></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b><?php if($saved==0){ ?><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it['price']; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ><?php }else { echo $it['price']; } ?></b></td>
+		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><?php if($saved==0){ ?><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it['total'],2); ?>" style='text-align:right;' readonly><?php }else { echo number_format($it['total'],2); } ?></b></td>
 		    		</tr>
+		    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
+		    		<input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $it['po_items_id']; ?>">
+		    		<?php 
+		    			$x++; } } 
+		    			else { 
+		    				$gtotal=array(); 
+		    			} 
+		    		?>
+		    		<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    		<tr>
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
@@ -184,8 +206,6 @@
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    		</tr>
-
-
 		    		<tr>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
@@ -204,7 +224,7 @@
 		    		</tr>		    		
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'></span></b></td>
+					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),2); ?></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">
@@ -213,14 +233,23 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
+		    				<?php if($saved==0){ ?>
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
 							 Add Terms & Conditions:
 							</button>
+							<?php } ?>
 		    				<br>Terms & Conditions:<br>
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
-		    				4. Payment term: COD<br>	  	
+		    				4. Payment term: COD<br>	
+		    				<?php 
+		    					$no=5;
+			    				foreach($tc AS $t){ 
+			    					echo $no.". " . $t->tc_desc."<br>";
+			    					$no++; 
+			    				} 
+		    				?>	  	
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
@@ -240,12 +269,18 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2"></td>
-		    			<td colspan="7"><b></b></td>
+		    			<td colspan="7"><b><?php echo $prepared; ?></b></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="7"><b>
+		    			<?php if($saved==0){ ?>
 		    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
 			    			<option value=''>-Select-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 		    			</select></b></td>
+		    			<?php }else { ?>
+		    			<?php echo $approved; } ?>
 		    			<td colspan="2"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
@@ -265,6 +300,7 @@
 		    		<tr><td colspan="20"><br></td></tr>
 		    	</table>	    
 	    	</div>
+	    	<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
     	</form>
     	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -277,7 +313,7 @@
 						</h5>
 						
 					</div>
-					<form method="POST" action="<?php echo base_url(); ?>po/add_tc">
+					<form method="POST" action="<?php echo base_url(); ?>pod/add_tc">
 						<div class="modal-body">
 							<div class="form-group">
 								Terms & Conditions:

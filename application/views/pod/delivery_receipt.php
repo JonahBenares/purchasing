@@ -137,12 +137,13 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr><td colspan="20" align="center"><h5><b class="text-red">DELIVERY RECEIPT</b></h5></td></tr>
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
+		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
-		    			<td colspan="10" class="all-border "><b class="text-red nomarg">DR No. </b></td>
-		    			<td colspan="10" class="all-border "><b class="nomarg">PO No: </b></td>
+		    			<td colspan="10" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no; ?></b></td>
+		    			<td colspan="10" class="all-border "><b class="nomarg">PO No: <?php echo $h->po_no; ?></b></td>
 		    		</tr>
 		    		
-		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : </b></td></tr>
+		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date("F d, Y",strtotime($h->po_date)); ?></b></td></tr>
 		    		<tr>
 		    			<td colspan="20" align="center"><br></td>
 		    		</tr>
@@ -159,6 +160,7 @@
 		    		<tr>
 		    			<td colspan="20" align="center"><br></td>
 		    		</tr>
+		    		<?php } ?>
 		    		<!-- Loop -->
 
 		    		<tr>
@@ -170,15 +172,17 @@
 		    			<td class="all-border" align="center" colspan="2"><b class="nomarg">UOM</b></td>
 		    			<td class="all-border" align="center" colspan="3"><b class="nomarg">Remarks</b></td>
 		    		</tr>
+		    		<?php foreach($items AS $i){ ?>
 		       		<tr>
-		    			<td class="all-border" align="center"><br></td>
-		    			<td class="all-border" align="left" colspan="6"></td>
-		    			<td class="all-border" align="left" colspan="6"></td>
+		    			<td class="all-border" align="center"><br><?php echo $i['item_no'];?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $i['vendor'];?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $i['item'];?></td>
+		    			<td class="all-border" align="center"><?php echo $i['quantity'];?></td>
 		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center" colspan="2"></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $i['uom'];?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
+		    		<?php } ?>
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
@@ -190,7 +194,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td colspan="6" class="bor-btm"><b><br></b></td>
+		    			<td colspan="6" class="bor-btm"><b><br><?php echo $_SESSION['fullname']; ?></b></td>
 		    			<td colspan="5"></td>
 		    			<td colspan="6" class="bor-btm"></td>
 		    			<td colspan="2"></td>
