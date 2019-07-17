@@ -196,7 +196,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>		    			
 		    			
-		    			<td class="f13" colspan="20">1. Quotation must be submitted on or before <b>January 01, 1990</b>
+		    			<td class="f13" colspan="20">1. Quotation must be submitted on or before <b><?php echo date("F d, Y", strtotime($due)); ?></b>
 		    			</td></tr>	    	
 		    		<tr><td class="f13" colspan="20">2. Please Fill - Up :</td></tr>	    	
 		    		<tr>
@@ -290,9 +290,9 @@
 		    			 } ?></center>
 		    			</td>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="4"><center>Someone Here</center></td>
+		    			<td class="f13" colspan="4"><center><?php echo $noted; ?></center></td>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="4"><center>Someone Here</center></td>
+		    			<td class="f13" colspan="4"><center><?php echo $approved; ?></center></td>
 		    			<td class="f13" colspan="2"></td>
 		    		</tr>  	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	

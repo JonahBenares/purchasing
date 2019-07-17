@@ -55,6 +55,7 @@ class Rfq extends CI_Controller {
                 'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id),
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id),
                 'rfq_date'=>$head->rfq_date,
+                'notes'=>$head->notes,
                 'saved'=>$head->saved
                 
             );
@@ -75,6 +76,18 @@ class Rfq extends CI_Controller {
         $this->load->view('rfq/rfq_list',$data);
         $this->load->view('template/footer');
     }  
+
+    public function add_notes(){
+        $rfq_id = $this->input->post('rfq_id');
+        $notes = $this->input->post('notes');
+        $data = array(
+            'notes'=>$notes,
+        );
+        if($this->super_model->update_where("rfq_head", $data, "rfq_id", $rfq_id)){
+             redirect(base_url().'rfq/rfq_list');
+        }
+
+    }
 
     public function rfq_outgoing(){
         $rfq_id=$this->uri->segment(3);

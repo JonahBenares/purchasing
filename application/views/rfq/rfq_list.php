@@ -14,6 +14,12 @@
          }
     });
  });
+
+$(document).on("click", "#addnotes_button", function () {
+     var rfq_id = $(this).attr("data-id");
+     $("#rfq_id").val(rfq_id);
+
+});
 </script>
     <div class="modal fade" id="addnotes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -25,12 +31,13 @@
                         </button>
                     </h5>                    
                 </div>
-                <form>
+                <form method='POST' action="<?php echo base_url(); ?>rfq/add_notes">
                     <div class="modal-body">
-                        <textarea rows="5" class="form-control" placeholder="..."></textarea>
+                        <textarea rows="5" class="form-control" placeholder="..." name = "notes"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-block">Save changes</button>
+                        <input type="hidden" name="rfq_id" id="rfq_id" >
+                        <button type="submit" class="btn btn-primary btn-block">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -122,10 +129,10 @@
                                                     } 
                                                  } ?>
                                             </td>
-                                            <td><small>notes here</small></td>
+                                            <td><small><?php echo $h['notes']; ?></small></td>
                                             <td>
                                                 <center>
-                                                    <a class="reviseRFQ btn btn-custon-three btn-secondary btn-xs" title="Add Notes" data-toggle="modal" data-target="#addnotes" data-id="">
+                                                    <a class="reviseRFQ btn btn-custon-three btn-secondary btn-xs" title="Add Notes" data-toggle="modal" data-target="#addnotes" id="addnotes_button" data-id="<?php echo $h['rfq_id']; ?>">
                                                         <span class="fa fa-plus"></span>
                                                     </a>
                                                     <a href="<?php echo base_url(); ?>rfq/rfq_outgoing/<?php echo $h['rfq_id']; ?>" target='_blank' class="btn btn-custon-three btn-warning btn-xs">
