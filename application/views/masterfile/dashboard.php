@@ -173,8 +173,10 @@
                         <div style="overflow-y: scroll;height: 200px;max-height: 200px  ">
                             <!-- loop here -->
                             <?php 
+                            if(!empty($reminder)){
                                 foreach($reminder AS $r){ 
                                     if($r['done']==0){ 
+                            
                             ?>
                             <div class="row m-t-5" style="width: 100%">
                                 <div class="col-lg-12">
@@ -192,7 +194,7 @@
                                     </div>
                                 </div>
                             </div> 
-                            <?php } } ?>    
+                            <?php } } }?>    
                             <!-- loop here --> 
 
                                   
