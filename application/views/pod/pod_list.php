@@ -79,7 +79,7 @@
             </div>
         </div>
     </div> -->
-    <!-- <div id="addPO" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+    <div id="addPOD" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header header-color-modal bg-color-1">
@@ -132,7 +132,7 @@
                 </form>
             </div>
         </div>
-    </div> -->
+    </div>
     <!-- <div id="cancelPO" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -192,7 +192,7 @@
                                     <h1>POD List</h1>
                                     <small>PURCHASE ORDER <b>DIRECT</b></small>
                                     <div class="sparkline8-outline-icon">
-                                    <a type='button' class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#addPO">
+                                    <a type='button' class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#addPOD">
                                         <span class="fa fa-plus p-l-0"></span> Add POD
                                     </a>
                                     <a type='button' class="btn btn-custon-three btn-info" data-toggle="modal" data-target="#addrepPO">
