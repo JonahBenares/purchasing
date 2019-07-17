@@ -41,14 +41,19 @@ class Masterfile extends CI_Controller {
     public function dashboard(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        foreach($this->super_model->select_all_order_by("reminder","due_date","ASC") AS $rem){
-            $data['reminder'][] = array(
-                'reminder_id'=>$rem->reminder_id,
-                'notes'=>$rem->notes,
-                'due_date'=>$rem->due_date,
-                'done'=>$rem->done,
-                'remind'=>$this->super_model->select_column_where("users","fullname","user_id",$rem->user_id),
-            );
+        $count = $this->super_model->count_rows("reminder");
+        if($count!=0){
+            foreach($this->super_model->select_all_order_by("reminder","due_date","ASC") AS $rem){
+                $data['reminder'][] = array(
+                    'reminder_id'=>$rem->reminder_id,
+                    'notes'=>$rem->notes,
+                    'due_date'=>$rem->due_date,
+                    'done'=>$rem->done,
+                    'remind'=>$this->super_model->select_column_where("users","fullname","user_id",$rem->user_id),
+                );
+            }
+        } else {
+            $data=array();
         }
         $this->load->view('masterfile/dashboard',$data);
         $this->load->view('template/footer');
