@@ -97,8 +97,8 @@
                                             <td><i>Enduse:</i></td>
                                             <td colspan="1"><b class="capital"><?php echo $h->enduse; ?> </b></td>
                                             <td><i>Processing Code:</i></td>
+                                            <?php if(empty($h->processing_code)){ ?>
                                             <td style="padding: 0px!important" class="bor-red">
-                                                <?php if(empty($h->processing_code)){ ?>
                                                 <select name = "process" class = "form-control">
                                                     <option value = "">--Select Processing Code--</option>
                                                     <?php 
@@ -108,9 +108,10 @@
                                                     <option value = "<?php echo $c; ?>"><?php echo $c; ?></option>
                                                     <?php } ?>
                                                 </select>
-                                                <?php }else { ?>
-                                                <?php echo $h->processing_code; } ?>
                                             </td>
+                                            <?php }else { ?>
+                                            <td><?php echo $h->processing_code; ?></td>
+                                            <?php } ?>
                                         </tr>
                                         <tr>
                                             <td><i>Purpose:</i></td>

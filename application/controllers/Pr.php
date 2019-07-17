@@ -297,10 +297,22 @@ class Pr extends CI_Controller {
         }
 
 
-       foreach($this->super_model->custom_query("SELECT vendor_id,grouping_id FROM pr_vendors WHERE pr_id = '$prid'") AS $vendor){
+        foreach($this->super_model->custom_query("SELECT vendor_id,grouping_id,noted_by,approved_by,due_date FROM pr_vendors WHERE pr_id = '$prid'") AS $vendor){
             $data['vendor'][] = array(
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor->vendor_id),
                 'group_id'=>$vendor->grouping_id,
+                'noted_by'=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $vendor->noted_by),
+                'approved_by'=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $vendor->approved_by),
+                'due_date'=>$vendor->due_date,
+            );
+        }
+
+        foreach($this->super_model->custom_query("SELECT grouping_id,noted_by,approved_by,due_date FROM pr_vendors WHERE pr_id = '$prid' GROUP BY noted_by") AS $ven){
+            $data['vendor_app'][] = array(
+                'group_id'=>$ven->grouping_id,
+                'noted_by'=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $ven->noted_by),
+                'approved_by'=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $ven->approved_by),
+                'due_date'=>$ven->due_date,
             );
         }
         $this->load->view('template/header');
@@ -322,6 +334,7 @@ class Pr extends CI_Controller {
         $prid = $this->uri->segment(3);
         $group = $this->uri->segment(4);
         $category = $this->uri->segment(5);
+        $data['employees'] = $this->super_model->select_all_order_by("employees","employee_name",'ASC');
         $data['prid'] = $prid;
         $data['group'] = $group;
         $data['category']=$category;
@@ -334,12 +347,18 @@ class Pr extends CI_Controller {
     public function insert_vendor(){
         $pr_id = $this->input->post('pr_id');
         $group = $this->input->post('group');
+        $due_date = $this->input->post('due_date');
+        $noted_by = $this->input->post('noted_by');
+        $approved_by = $this->input->post('approved_by');
         $vendor = $this->input->post('vendor_id');
 
         foreach($vendor as $ven){
             $data = array(
                 'pr_id'=>$pr_id,
                 'vendor_id'=>$ven,
+                'due_date'=>$due_date,
+                'noted_by'=>$noted_by,
+                'approved_by'=>$approved_by,
                 'grouping_id'=>$group
             );
 
@@ -397,6 +416,9 @@ class Pr extends CI_Controller {
                 'vendor_id'=>$vendors->vendor_id,
                 'pr_id'=>$prid,
                 'grouping_id'=>$vendors->grouping_id,
+                'noted_by'=>$vendors->noted_by,
+                'approved_by'=>$vendors->approved_by,
+                'quotation_date'=>$vendors->due_date,
                 'rfq_date'=>$timestamp,
                 'processing_code'=>$code,
                 'prepared_by'=>$_SESSION['user_id'],
