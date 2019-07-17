@@ -52,6 +52,11 @@
                                     <span class="mini-dn">Abstract of Quotation</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
+                                <a href="<?php echo base_url(); ?>index.php/pod/pod_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
+                                    <i class="fa big-icon fa-shopping-cart"></i>
+                                    <span class="mini-dn">Purchase Order <b>Direct</b></span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
                                 <a href="<?php echo base_url(); ?>index.php/po/po_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
                                     <i class="fa big-icon fa-shopping-cart"></i>
                                     <span class="mini-dn">Purchase Order</span> 

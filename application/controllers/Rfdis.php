@@ -120,6 +120,7 @@ class Rfdis extends CI_Controller {
         foreach($this->super_model->select_row_where("rfd_items", "rfd_id", $rfd_id) AS $items){
             $unit_id = $this->super_model->select_column_where('item', 'unit_id', 'item_id', $items->item_id);
             $data['items'][]= array(
+                'rfd_items_id'=>$items->rfd_items_id,
                 'item'=>$this->super_model->select_column_where('item', 'item_name', 'item_id', $items->item_id),
                 'specs'=>$this->super_model->select_column_where('item', 'item_specs', 'item_id', $items->item_id),
                 'unit'=>$this->super_model->select_column_where('unit', 'unit_name', 'unit_id', $unit_id),
@@ -178,6 +179,15 @@ class Rfdis extends CI_Controller {
             
         </script>
         <?php
+    }
+
+    public function delete_item(){
+        $id=$this->uri->segment(3);
+        $rfd_id=$this->uri->segment(4);
+        if($this->super_model->delete_where("rfd_items", "rfd_items_id", $id)){
+            redirect(base_url().'rfdis/rfdis_prnt/'.$rfd_id, 'refresh');
+
+        }
     }
 
     public function add_rfd_purpose(){

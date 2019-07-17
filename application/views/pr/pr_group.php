@@ -47,14 +47,14 @@
                                             <td width="15%"><a href="" ></a>
                                             <h3 class="m-b-0"><b>Group <?php echo $gr['group']; ?></b></h3>
                                             </td>
-                                            <td width="32%">
+                                            <td width="17%">
                                                 <?php foreach($items AS $it){ 
                                                     if($gr['group'] == $it['group_id']){
                                                         echo "-" . $it['item_desc'] . "<br>";
                                                     }
                                                 } ?>
                                             </td>
-                                            <td width="32%">
+                                            <td width="17%">
                                                  <?php 
                                                  if(!empty($vendor)){
                                                      foreach($vendor AS $ven){ 
@@ -63,6 +63,17 @@
                                                         }
                                                     }
                                                 } ?>
+                                            </td>
+                                            <td width="20%">
+                                                <?php 
+                                                 if(!empty($vendor_app)){
+                                                    foreach($vendor_app AS $venap){ 
+                                                        if($gr['group'] == $venap['group_id']){ 
+                                                ?>
+                                                <h6 class="nomarg">Due Date: <b class="txt-primary"><?php echo date("F d, Y", strtotime($venap['due_date'])); ?></b></h6>
+                                                <h6 class="nomarg">Noted by: <b class="txt-primary"><?php echo $venap['noted_by']; ?></b></h6>
+                                                <h6 class="nomarg">Approved by: <b class="txt-primary"><?php echo $venap['approved_by']; ?></b></h6>
+                                                <?php } } } ?>
                                             </td>
                                             <td width="10%"><a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $gr['group']; ?>','<?php echo $pr_id; ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a></td>
                                         </tr>

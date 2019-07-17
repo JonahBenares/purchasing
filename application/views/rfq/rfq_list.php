@@ -15,6 +15,27 @@
     });
  });
 </script>
+    <div class="modal fade" id="addnotes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Notes
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>                    
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <textarea rows="5" class="form-control" placeholder="..."></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-block">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>  
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -67,12 +88,12 @@
                                     <thead>
                                         <tr>
                                             <th width="5%"><input type="checkbox" class="form-control" name="" onClick="toggle_multi(this)"></th>
-                                            <th width="10%">RFQ #</th>
+                                            <th width="13%">RFQ #</th>
                                             <th width="10%">PR #</th>
                                             <th>Vendor</th>
                                             <th width="10%">RFQ Date</th>
-                                            <th width="30%">Items</th>
-                                           
+                                            <th width="25%">Items</th>
+                                            <th width="10%">Notes</th> 
                                             <th width="15%"><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
@@ -101,19 +122,20 @@
                                                     } 
                                                  } ?>
                                             </td>
+                                            <td><small>notes here</small></td>
                                             <td>
                                                 <center>
+                                                    <a class="reviseRFQ btn btn-custon-three btn-secondary btn-xs" title="Add Notes" data-toggle="modal" data-target="#addnotes" data-id="">
+                                                        <span class="fa fa-plus"></span>
+                                                    </a>
                                                     <a href="<?php echo base_url(); ?>rfq/rfq_outgoing/<?php echo $h['rfq_id']; ?>" target='_blank' class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                     </a>
-                                                     <a class="duplicateRFQ btn btn-custon-three btn-info btn-xs" title="Duplicate" data-toggle="modal" data-target="#duplicateRFQ" data-id="">
+                                                    <a class="duplicateRFQ btn btn-custon-three btn-info btn-xs" title="Duplicate" data-toggle="modal" data-target="#duplicateRFQ" data-id="">
                                                         <span class="fa fa-files-o"></span>
+                                                    </a>                                                    
+                                                    <a class="cancelRFQ btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelRFQ" data-id=""><span class="fa fa-ban" title="Cancel"></span>
                                                     </a>
-                                                      <a class="reviseRFQ btn btn-custon-three btn-secondary btn-xs" title="Revise" data-toggle="modal" data-target="#reviseRFQ" data-id="">
-                                                        <span class="fa fa-pencil"></span>
-                                                    </a>
-                                                     <a class="cancelRFQ btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelRFQ" data-id=""><span class="fa fa-ban" title="Cancel"></span></a>
-
                                                     <a href="<?php echo base_url(); ?>rfq/" class="btn btn-custon-three btn-success btn-xs" onclick="return confirm('Are you sure?')" title="Served"><span class=" fa fa-archive"></span>
                                                     </a>
                                                 </center>

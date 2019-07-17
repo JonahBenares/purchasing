@@ -9,6 +9,39 @@
                         <div class="sparkline8-hd">
                             <div class="main-sparkline8-hd">
                                 <form method='POST' action="<?php echo base_url(); ?>pr/search_vendor">
+                                    <!-- <div style="padding:10px; background: #ffd9cead">
+                                        <table width="100%">
+                                            <tr>
+                                                <td width="33%">Due Date:</td>
+                                                <td width="1%"></td>
+                                                <td width="33%">Noted by:</td>
+                                                <td width="1%"></td>
+                                                <td width="33%">Approved by:</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="33%"><input type="date" class="form-control" name="due_date"></td>
+                                                <td width="1%"></td>
+                                                <td width="33%">
+                                                    <select class="form-control" name="noted_by">
+                                                        <option value = "">--Select Noted By--</option>
+                                                        <?php foreach($employees AS $e){ ?>
+                                                        <option value = '<?php echo $e->employee_id; ?>'><?php echo $e->employee_name; ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </td>
+                                                <td width="1%"></td>
+                                                <td width="33%">
+                                                    <select class="form-control" name="approved_by">
+                                                        <option value = "">--Select Approved By--</option>
+                                                        <?php foreach($employees AS $e){ ?>
+                                                        <option value = '<?php echo $e->employee_id; ?>'><?php echo $e->employee_name; ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <br> -->
                                     <table width="100%">
                                         <tr>
                                             <td width="20%"><label>Choose Category:</label></td>
@@ -21,6 +54,39 @@
                                 </form>
                                 <br>
                                 <form method='POST' action="<?php echo base_url(); ?>/pr/insert_vendor">
+                                <div style="padding:10px; background: #ffd9cead">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="33%">Due Date:</td>
+                                            <td width="1%"></td>
+                                            <td width="33%">Noted by:</td>
+                                            <td width="1%"></td>
+                                            <td width="33%">Approved by:</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="33%"><input type="date" class="form-control" name="due_date"></td>
+                                            <td width="1%"></td>
+                                            <td width="33%">
+                                                <select class="form-control" name="noted_by">
+                                                    <option value = "">--Select Noted By--</option>
+                                                    <?php foreach($employees AS $e){ ?>
+                                                    <option value = '<?php echo $e->employee_id; ?>'><?php echo $e->employee_name; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </td>
+                                            <td width="1%"></td>
+                                            <td width="33%">
+                                                <select class="form-control" name="approved_by">
+                                                    <option value = "">--Select Approved By--</option>
+                                                    <?php foreach($employees AS $e){ ?>
+                                                    <option value = '<?php echo $e->employee_id; ?>'><?php echo $e->employee_name; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <br>
                                 <table width="100%">
                                     <tr>
                                         <td width="20%">Searched Category:</td>

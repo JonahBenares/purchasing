@@ -47,6 +47,9 @@
 		.bor-btm{
 			border-bottom: 1px solid #000;
 		}
+		.all-bor{
+			border: 1px solid #000;
+		}
 		.sel-des{
 			border: 0px!important;
 		}
@@ -102,7 +105,7 @@
 				</center>
 			</div>
 	    	<div style="background: #fff;">    		  			
-		    	<table class="table-borsdered" width="100%" style="border:2px solid #000">
+		    	<table class="table-bordesred" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
@@ -114,7 +117,7 @@
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
-		    			<td width="5%"><br></td>
+		    			<td width="3%"><br></td>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
@@ -154,17 +157,8 @@
 		    			<td class="f13 bor-btm" colspan="6"><?php echo $phone; ?></td>
 		    		</tr>
 		    		<tr id="printnotes">
-		    			<td class="f13" colspan="2">Notes:</td>
-    					
-    					<?php if($saved==0){ ?>
-    					<td class="f13" colspan="9">
-		    			 <textarea name="notes" rows='1' cols='25' style='width:100%;border: 0px; border-bottom: 2px solid red'></textarea>
-		    			</td>
-    					 <?php } else { ?>
-    					 	<td class="f13 bor-btm" colspan="9">
-    					 	<?php echo $notes; ?>
-    					 	</td>
-    					<?php } ?>
+		    			<td class="f13" colspan="2"></td>
+    					<td class="f13" colspan="9"></td>
 		    			
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="2">PR No:</td>
@@ -202,19 +196,16 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>		    			
 		    			
-		    			<td class="f13" colspan="20">1. Quotation must be submitted on or before
-		    			<?php if($saved==0){ ?>
-		    			<input class="emphasis" type="date" name="due_date" style='border: 0px; border-bottom: 2px solid red' value="">
-		    			<?php } else {
-		    				echo (!empty($due) ? date('F j, Y', strtotime($due)) : '' );
-		    			} ?>
+		    			<td class="f13" colspan="20">1. Quotation must be submitted on or before <b>January 01, 1990</b>
 		    			</td></tr>	    	
 		    		<tr><td class="f13" colspan="20">2. Please Fill - Up :</td></tr>	    	
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="5">- a. Price Validity</td>
 		    			<td class="f13" colspan="3"></td>
-		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13 all-bor" colspan="1"></td>	
+		    			<td class="f13 all-bor p-l-10" colspan="2">30 Days</td>	
+		    			<td class="f13 all-bor" colspan="4"></td>
 		    			<td class="f13" colspan="3"></td>
 
 		    		</tr>
@@ -222,7 +213,9 @@
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="5">- b. Payment Terms</td>
 		    			<td class="f13" colspan="3"></td>
-		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13 all-bor" colspan="1"></td>	
+		    			<td class="f13 all-bor p-l-10" colspan="2">N30</td>	
+		    			<td class="f13 all-bor" colspan="4"></td>
 		    			<td class="f13" colspan="3"></td>
 
 		    		</tr>	
@@ -230,7 +223,9 @@
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="5">- c. Date of Delivery</td>
 		    			<td class="f13" colspan="3"></td>
-		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13 all-bor" colspan="1"></td>	
+		    			<td class="f13 all-bor p-l-10" colspan="2">Xstock</td>	
+		    			<td class="f13 all-bor" colspan="4"></td>
 		    			<td class="f13" colspan="3"></td>
 
 		    		</tr>	
@@ -242,7 +237,7 @@
 		    			<td class="f13" colspan="3"></td>
 
 		    		</tr>	
-		    		<tr>
+		    		<!-- <tr>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="5">&nbsp; e. Company's TIN Number</td>
 		    			<td class="f13" colspan="3"></td>
@@ -261,7 +256,7 @@
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="18">&nbsp; f. Vat <input type="checkbox" name=""> ||  non-Vat <input type="checkbox" name=""></td>
-		    		</tr>
+		    		</tr> -->
 		    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 
@@ -295,34 +290,9 @@
 		    			 } ?></center>
 		    			</td>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="4">
-		    			<center>
-		    			<?php if($saved==0){ ?>
-			    			<select name='noted' class="select-des emphasis">
-			    			<option value=''>-Select Employee-</option>
-			    			<?php foreach($employee AS $emp){ ?>
-			    				<option value='<?php echo $emp->employee_id; ?>' <?php echo (!empty($noted_by) ? (($emp->employee_id == $noted_by) ? ' selected' : '') : ''); ?>><?php echo $emp->employee_name; ?></option>
-			    			<?php } ?>
-		    			</select>
-		    			<?php } else {
-		    				echo $noted;
-		    			} ?>
-		    			</center>
-		    			</td>
+		    			<td class="f13" colspan="4"><center>Someone Here</center></td>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="4">
-		    				<?php if($saved==0){ ?>
-		    				<select name='approved' class="select-des emphasis">
-			    			<option value=''>-Select Employee-</option>
-			    			<?php foreach($employee AS $emp){ ?>
-			    				<option value='<?php echo $emp->employee_id; ?>' <?php echo (!empty($approved_by) ? (($emp->employee_id == $approved_by) ? ' selected' : '') : ''); ?>><?php echo $emp->employee_name; ?></option>
-			    			<?php } ?>
-		    			</select>
-		    				<?php } else {
-		    				echo $approved;
-		    				} ?>
-		    			<center></center>
-		    			</td>
+		    			<td class="f13" colspan="4"><center>Someone Here</center></td>
 		    			<td class="f13" colspan="2"></td>
 		    		</tr>  	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
