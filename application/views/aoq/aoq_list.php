@@ -70,6 +70,9 @@
                                             <td><?php echo $h['department']; ?></td>
                                             <td><?php echo $h['enduse']; ?></td>
                                             <td><?php echo $h['requestor']; ?></td>
+                                            <?php if($h['refer_mnl']=='1') { ?>
+                                            <td><span class='label label-primary'> Refer To Manila </span></td>
+                                            <?php }else { ?>
                                             <td>
                                                 <?php  
                                                     if($h['saved'] == '1' && $h['awarded'] =='0') { 
@@ -79,6 +82,7 @@
                                                     }
                                                 ?>
                                             </td>
+                                            <?php } ?>
                                             <td>
                                                 <center>
                                                     <?php if($h['rows']<=3){ ?>
@@ -94,7 +98,9 @@
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                     <?php } ?>
-                                                    <a href="<?php echo base_url(); ?>aoq/refer_mnl/" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL"><span class="fa fa-location-arrow"></span>
+                                                    <?php if($h['refer_mnl']=='0' && $h['saved'] == '1' && $h['awarded'] =='0') { ?>
+                                                    <a href="<?php echo base_url(); ?>aoq/refer_mnl/<?php echo $h['aoq_id'];?>" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL"><span class="fa fa-location-arrow"></span>
+                                                    <?php } ?>
                                                     </a>
                                                     <a href="<?php echo base_url(); ?>aoq/update_served/" class="btn btn-custon-three btn-success btn-xs"  onclick="return confirm('Are you sure?')" title="Served"><span class="fa fa-archive"></span>
                                                     </a>
