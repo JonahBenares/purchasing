@@ -76,7 +76,7 @@ class Pod extends CI_Controller {
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');   
         $this->load->view('template/navbar');
-        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND po_type = '1' ORDER BY po_id DESC") AS $head){
+        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND po_type = '1' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
             /*$rfd=$this->super_model->count_rows_where("po_dr","po_id",$head->po_id);*/
             $data['header'][]=array(
                 'po_id'=>$head->po_id,
@@ -160,10 +160,34 @@ class Pod extends CI_Controller {
                 'total'=>$total,
             );
         }
+
+        foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $purpose){
+            $data['popurp'][]= array(
+                'po_pr_id'=>$purpose->po_pr_id,
+                'notes'=>$purpose->notes,
+                'purpose'=>$purpose->purpose,
+                'enduse'=>$purpose->enduse,
+                'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $purpose->requestor)
+            );
+        }
         $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('pod/po_direct',$data);
         $this->load->view('template/footer');
+    }
+
+    public function add_po_purpose(){
+        $po_id = $this->input->post('po_id');
+        $data= array(
+            'po_id'=>$po_id,
+            'purpose'=>$this->input->post('purpose'),
+            'requestor'=>$this->input->post('requested_by'),
+            'enduse'=>$this->input->post('enduse'),
+            'notes'=>$this->input->post('notes')
+        );
+        if($this->super_model->insert_into("po_pr", $data)){
+            redirect(base_url().'pod/po_direct/'.$po_id, 'refresh');
+        }
     }
 
     public function save_po(){
@@ -237,6 +261,14 @@ class Pod extends CI_Controller {
                 'uom'=>$it->uom,
             );
         }
+
+        foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
+            $data['purp'][]=array(
+                'enduse'=>$pr->enduse,
+                'purpose'=>$pr->purpose,
+                'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $pr->requestor)
+            );
+        }
         $this->load->view('pod/delivery_receipt',$data);
         $this->load->view('template/footer');
     }
@@ -278,6 +310,14 @@ class Pod extends CI_Controller {
             $data['checked']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->checked_by);
             $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
             $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->approved_by);
+        }
+
+        foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
+            $data['purp'][]=array(
+                'enduse'=>$pr->enduse,
+                'purpose'=>$pr->purpose,
+                'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $pr->requestor)
+            );
         }
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC"); 
         $this->load->view('pod/rfd_prnt',$data);
@@ -341,10 +381,41 @@ class Pod extends CI_Controller {
     }
 
     public function cancelled_pod(){
+        $data['header']=array();
+        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');        
         $this->load->view('template/navbar');
-        $this->load->view('pod/cancelled_pod');
+        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND po_type = '1' AND cancelled = '1' ORDER BY po_id DESC") AS $head){
+            $data['header'][]=array(
+                'po_id'=>$head->po_id,
+                'po_date'=>$head->po_date,
+                'po_no'=>$head->po_no,
+                'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
+                'supplier_id'=>$head->vendor_id,
+                'saved'=>$head->saved,
+                'cancelled'=>$head->cancelled,
+                'cancel_reason'=>$head->cancel_reason,
+                'cancelled_date'=>$head->cancelled_date,
+            );
+        }
+        $this->load->view('pod/cancelled_pod', $data);
         $this->load->view('template/footer');
+    }
+
+    public function cancel_po(){
+        $po_id=$this->input->post('po_id');
+        $reason=$this->input->post('reason');
+        $create = date('Y-m-d H:i:s');
+        $data = array(
+            'cancelled'=>1,
+            'cancelled_by'=>$_SESSION['user_id'],
+            'cancel_reason'=>$reason,
+            'cancelled_date'=>$create
+        );
+
+        if($this->super_model->update_where("po_head", $data, "po_id", $po_id)){
+            redirect(base_url().'pod/pod_list', 'refresh');
+        }
     }
 }
 

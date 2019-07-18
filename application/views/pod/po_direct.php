@@ -78,6 +78,58 @@
 			margin: 0px 2px 0px 2px;
 		}
     </style>
+    <div class="modal fade" id="addpurp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add 
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</h5>					
+				</div>
+				<div class="modal-body">
+				<form method='POST' action="<?php echo base_url(); ?>pod/add_po_purpose">
+				<div class="form-group">
+					<h5 class="nomarg">Notes:</h5>
+					<h5 class="nomarg"><b>
+						<input type='text' name='notes' class="form-control">
+					</b></h5>
+				</div>
+				<div class="form-group">
+					<h5 class="nomarg">Requestor:</h5>
+					<h5 class="nomarg"><b>
+						<select name='requested_by' class="form-control">
+                            <option value='' selected>-Select Employee-</option>
+                            <?php foreach($employee AS $emp){ ?>
+			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+                        </select>
+					</b></h5>
+				</div>
+				<div class="form-group">
+					<h5 class="nomarg">Purpose:</h5>
+					<h5 class="nomarg"><b>
+						<input type="text" name='purpose' class="form-control">
+					</b></h5>
+				</div>
+
+				<div class="form-group">
+					<h5 class="nomarg">Enduse:</h5>
+					<h5 class="nomarg"><b>
+						 <input type="text" name='enduse' class="form-control">
+					</b></h5>
+				</div>
+				
+				</div>
+				<div class="modal-footer">
+					<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+					<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
     <div  class="pad">
     	<form method='POST' action='<?php echo base_url(); ?>pod/save_po'>  
     		<div  id="prnt_btn">
@@ -206,16 +258,27 @@
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    		</tr>
+
 		    		<tr>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="13" class="bor-btm bor-right" align="left">
 	    				<p class="nomarg">
-	    					Enduse: <br>
-	    					Purpose: <br>
-	    					Requestor: <br>
-	    					PR no.: <br>
+	    					<?php if($saved==0){ ?>
+	    					<button type="button" data-toggle="modal" data-target="#addpurp" class="btn btn-xs btn-primary" onclick="" >Add Purpose/ Enduse/ Requestor</button>
+	    					<?php } ?>
+	    					<br>
+	    					<?php 
+				    			if(!empty($popurp)){
+				    				foreach($popurp AS $pp) { 
+				    		?>
+	    					Enduse: <?php echo $pp['enduse']; ?><br>
+	    					Purpose: <?php echo $pp['purpose']; ?><br>
+	    					Requestor: <?php echo $pp['requestor']; ?><br>
+	    					Notes: <?php echo $pp['notes']; ?><br>
+	    					<br>
+	    					<?php } } ?>
 	    				</p>
 	    				<br>
 		    			</td>
