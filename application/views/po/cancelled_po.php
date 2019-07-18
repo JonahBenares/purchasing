@@ -136,21 +136,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php foreach($header AS $h){ ?>
                                             <tr>
+                                                <td><?php echo date("F d, Y",strtotime($h['po_date'])); ?></td>
+                                                <td><?php echo $h['po_no'];?></td>
+                                                <td><?php echo $h['supplier']; ?></td>
                                                 <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><?php echo date("F d, Y",strtotime($h['cancelled_date'])); ?></td>
+                                                <td><?php echo $h['cancel_reason']; ?></td>
                                                 <td>
                                                     <center>
-                                                         <a href="<?php echo base_url(); ?>po/purchase_order_saved/" class="btn btn-custon-three btn-warning btn-xs">
+                                                         <a href="<?php echo base_url(); ?>po/purchase_order_saved/<?php echo $h['po_id']?>" class="btn btn-custon-three btn-warning btn-xs">
                                                             <span class="fa fa-eye"></span>
                                                         </a>
                                                     </center>
                                                 </td>
-                                            </tr>                     
+                                            </tr>  
+                                            <?php } ?>                   
                                         </tbody>
                                     </table>
                                 </div>                           

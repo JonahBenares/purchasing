@@ -133,7 +133,7 @@
             </div>
         </div>
     </div>
-    <!-- <div id="cancelPO" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+    <div id="cancelPO" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header header-color-modal bg-color-1">
@@ -142,7 +142,7 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>po/">
+                <form method="POST" action = "<?php echo base_url();?>pod/cancel_po">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Reason for Cancelling PO:</p>
@@ -156,7 +156,7 @@
                 </form>
             </div>
         </div>
-    </div> -->
+    </div>
     <!-- <div id="cancelDuplicatePO" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -241,7 +241,7 @@
                                                             <span class="fa fa-ban"></span> 
                                                             <span class="fa fa-files-o"></span>
                                                         </a>
-                                                        <a class="cancelPO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPO" data-id=""><span class="fa fa-ban" title="Cancel"></span></a>
+                                                        <a class="cancelPO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPO" data-id="<?php echo $h['po_id']; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                     </center>
                                                 </td>
                                             </tr>   

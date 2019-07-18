@@ -28,17 +28,48 @@ class Po extends CI_Controller {
 	}
 
     public function cancelled_po(){
+        $data['header']=array();
+        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');        
         $this->load->view('template/navbar');
-        $this->load->view('po/cancelled_po');
+        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND po_type = '0' AND cancelled = '1' ORDER BY po_id DESC") AS $head){
+            $data['header'][]=array(
+                'po_id'=>$head->po_id,
+                'po_date'=>$head->po_date,
+                'po_no'=>$head->po_no,
+                'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
+                'supplier_id'=>$head->vendor_id,
+                'saved'=>$head->saved,
+                'cancelled'=>$head->cancelled,
+                'cancel_reason'=>$head->cancel_reason,
+                'cancelled_date'=>$head->cancelled_date,
+            );
+        }
+        $this->load->view('po/cancelled_po',$data);
         $this->load->view('template/footer');
+    }
+
+    public function cancel_po(){
+        $po_id=$this->input->post('po_id');
+        $reason=$this->input->post('reason');
+        $create = date('Y-m-d H:i:s');
+        $data = array(
+            'cancelled'=>1,
+            'cancelled_by'=>$_SESSION['user_id'],
+            'cancel_reason'=>$reason,
+            'cancelled_date'=>$create
+        );
+
+        if($this->super_model->update_where("po_head", $data, "po_id", $po_id)){
+            redirect(base_url().'po/po_list', 'refresh');
+        }
     }
     
     public function po_list(){
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');   
         $this->load->view('template/navbar');
-        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' ORDER BY po_id DESC") AS $head){
+        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND po_type = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
              $rfd=$this->super_model->count_rows_where("po_dr","po_id",$head->po_id);
              $pr='';
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){

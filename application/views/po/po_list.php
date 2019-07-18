@@ -143,7 +143,7 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>po/">
+                <form method="POST" action = "<?php echo base_url();?>po/cancel_po">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Reason for Cancelling PO:</p>
@@ -252,7 +252,7 @@
                                                             <span class="fa fa-ban"></span> 
                                                             <span class="fa fa-files-o"></span>
                                                         </a>
-                                                        <a class="cancelPO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPO" data-id=""><span class="fa fa-ban" title="Cancel"></span></a>
+                                                        <a class="cancelPO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPO" data-id="<?php echo $head['po_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                         <!--<a href="" class="btn btn-custon-three btn-danger btn-xs"  data-toggle="modal" data-target="#cancelPO" title="WITH MODAL REASON">Cancel</a>-->
                                                     </center>
                                                 </td>

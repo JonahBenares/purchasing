@@ -23,3 +23,9 @@ function changePrice(count){
    
      document.getElementById("grandtotal").innerHTML  =grandtotal;
 }
+
+$(document).on("click", ".cancelPO", function () {
+     var po_id = $(this).data('id');
+     $(".modal #po_id").val(po_id);
+  
+});

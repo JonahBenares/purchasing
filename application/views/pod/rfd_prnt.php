@@ -170,7 +170,7 @@
 		    				<?php if($rows_dr==0){ ?>
 		    				<input type="date" style="width:100%" name="rfd_date" >
 		    				<?php } else {
-		    					echo $rfd_date;
+		    					echo date('F j, Y', strtotime($rfd_date));
 		    				} ?>
 		    			</td>
 		    		</tr>
@@ -188,7 +188,7 @@
 		    				<?php if($rows_dr==0){ ?>
 		    					<input type="date" style="width:100%" name="due_date" >
 		    				<?php } else {
-		    					echo $due_date;
+		    					echo date('F j, Y', strtotime($due_date));
 		    				} ?>
 		    			</td>
 		    		</tr>
@@ -224,7 +224,7 @@
 		    				<?php if($rows_dr==0){ ?>
 		    				<input type="date" style="width:100%" name="check_due" >
 		    				<?php } else {
-		    					echo $check_due;
+		    					echo date('F j, Y', strtotime($check_due));
 		    				} ?>
 		    			</td>
 		    		</tr>

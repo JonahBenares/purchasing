@@ -17,8 +17,8 @@
                                 <ul class="breadcome-menu">
                                     <li><a href="<?php echo base_url(); ?>index.php/masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
                                     </li>
-                                    <li><a href="<?php echo base_url(); ?>index.php/po/po_list">PO List </a> <span class="bread-slash">/</span></li>
-                                    <li><span class="bread-blod">Cancelled PO List</span></li>
+                                    <li><a href="<?php echo base_url(); ?>index.php/po/po_list">POD List </a> <span class="bread-slash">/</span></li>
+                                    <li><span class="bread-blod">Cancelled POD List</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header header-color-modal bg-color-1">
-                    <h4 class="modal-title">Cancel PO</h4>
+                    <h4 class="modal-title">Cancel POD</h4>
                     <div class="modal-close-area modal-close-df">
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
@@ -109,8 +109,8 @@
                         <div class="sparkline8-list shadow-reset">
                             <div class="sparkline8-hd" style="background: #ff6262">
                                 <div class="main-sparkline8-hd">
-                                    <h1 class="text-white">CANCELLED PO List</h1>
-                                    <small class="text-white">PURCHASE ORDER</small>
+                                    <h1 class="text-white">CANCELLED POD List</h1>
+                                    <small class="text-white">PURCHASE ORDER DIRECT</small>
                                     <div class="sparkline8-outline-icon">
                                         <h2><span class="fa fa-ban"></span></h2>
                                     <!-- <input type='button' class="btn btn-custon-three btn-primary" value='Add PO'  data-toggle="modal" data-target="#addPO">  -->
@@ -136,21 +136,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php foreach($header AS $h){ ?>
                                             <tr>
+                                                <td><?php echo date("F d, Y",strtotime($h['po_date'])); ?></td>
+                                                <td><?php echo $h['po_no'];?></td>
+                                                <td><?php echo $h['supplier']; ?></td>
                                                 <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><?php echo date("F d, Y",strtotime($h['cancelled_date'])); ?></td>
+                                                <td><?php echo $h['cancel_reason']; ?></td>
                                                 <td>
                                                     <center>
-                                                         <a href="<?php echo base_url(); ?>po/purchase_order_saved/" class="btn btn-custon-three btn-warning btn-xs">
+                                                        <a href="<?php echo base_url(); ?>pod/po_direct/<?php echo $h['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
                                                     </center>
                                                 </td>
-                                            </tr>                     
+                                            </tr>
+                                            <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>                           
