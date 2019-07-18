@@ -131,6 +131,7 @@ class Aoq extends CI_Controller {
                     'saved'=>$list->saved,
                     'rows'=>$rows,
                     'awarded'=>$list->awarded,
+                    'refer_mnl'=>$list->refer_mnl
                 );
             }
         }else {
@@ -139,6 +140,66 @@ class Aoq extends CI_Controller {
         $this->load->view('aoq/aoq_list',$data);
         $this->load->view('template/footer');
     }  
+
+    public function refer_mnl(){
+        $aoq_id=$this->uri->segment(3);
+        $data = array(
+            'refer_date'=>date('Y-m-d H:i:s'),
+            'refer_mnl'=>1
+        );
+        if($this->super_model->update_where("aoq_head", $data, "aoq_id", $aoq_id)){
+            $to='stephineseverino.cenpri@gmail.com';
+            $subject="REFERED TO MANILA";
+            $message='';
+            $message.="REFERED TO MANILA: <br><br>";
+            foreach($this->super_model->select_custom_where("aoq_head", "aoq_id = '$aoq_id' AND saved='1' AND refer_mnl = '1'") AS $list){
+                $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$list->pr_id);
+                $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$list->pr_id);
+                $message.="<div style='border:2px solid; font-size:12px'>";
+                $message.="<table style='width:100%; border-collapse:collapse; font-size:12'>";
+                $message.="<td style='width:10%;'>PR No.: </td><td style='width:40%;'>".$pr_no."</td>";
+                $message.="<td style='width:10%;'>Purpose: </td><td style='width:40%;'>".$list->purpose."</td>";
+                $message.="</tr><tr>";
+                $message.="<td  style='width:10%;'>Department: </td><td style='width:40%;'>".$list->department."</td>";
+                $message.="<td  style='width:10%;'>End-Use: </td><td style='width:40%;'>".$list->enduse."</td>";
+                $message.="</tr><tr>";
+                $message.="<td  style='width:10%;'>Requestor: </td><td style='width:40%;'>".$list->requestor."</td>";
+                $message.="</tr>";
+                $message.="</table>";
+
+                $message.="<table style='width:100%; border-collapse:collapse; font-size:12;border:1px solid #000'>";
+                $message.="<thead>";
+                $message.="<tr>";
+                $message.="<th width='2%' align='left' style='border:1px solid #000'>".'#'."</th>";
+                $message.="<th width='60%' align='left' style='border:1px solid #000'>".'Item Name'."</th>";
+                $message.="<th width='19%' align='left' style='border:1px solid #000'>".'Quantity'."</th>";
+                $message.="<th width='19%' align='left' style='border:1px solid #000'>".'UOM'."</th>";
+                $message.="</tr>";
+                $message.="</thead>";
+                $message.="<tbody>";
+                $x=1;
+                foreach($this->super_model->select_custom_where("aoq_items", "aoq_id = '$aoq_id'") AS $item){
+                    $message.="<tr>";
+                    $message.="<td style='border:1px solid #000'>".$x."</td>";
+                    $message.="<td style='border:1px solid #000'>".$item->item_description."</td>";
+                    $message.="<td style='border:1px solid #000'>".$item->quantity."</td>";
+                    $message.="<td style='border:1px solid #000'>".$item->uom."</td>";
+                    $message.="</tr>";
+                    $x++;
+                }
+                $message.="</tbody>";
+                $message.="</table>";
+                $message.="</div><br>";
+            }
+            //echo $message;
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers .= 'From: <jonah.narazo@gmail.com>' . "\r\n";
+            var_dump(mail($to,$subject,$message,$headers));
+
+            redirect(base_url().'aoq/aoq_list', 'refresh');
+        }
+    }
 
     public function aoq_prnt(){
         $aoq_id= $this->uri->segment(3);
