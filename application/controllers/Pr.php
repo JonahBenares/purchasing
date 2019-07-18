@@ -148,16 +148,28 @@ class Pr extends CI_Controller {
         $pr = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue());
         $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
         /*$date_issued = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());*/
-        $pr_no = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
+        //$pr_no = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
         $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue());
         $enduse = trim($objPHPExcel->getActiveSheet()->getCell('C12')->getValue());
         $department = trim($objPHPExcel->getActiveSheet()->getCell('I7')->getValue());
-        $requestor = trim($objPHPExcel->getActiveSheet()->getCell('I8')->getValue());
-        $urgency_no = trim($objPHPExcel->getActiveSheet()->getCell('I9')->getValue());
+        $dept_code = trim($objPHPExcel->getActiveSheet()->getCell('I8')->getValue());
+        $requestor = trim($objPHPExcel->getActiveSheet()->getCell('I9')->getValue());
+        $urgency_no = trim($objPHPExcel->getActiveSheet()->getCell('I10')->getValue());
+
+        $series_rows = $this->super_model->count_rows("pr_series");
+        if($series_rows==0){
+            $pr_series=1000;
+        } else {
+            $max_series=$this->super_model->get_max("pr_series", "series_no");
+            $pr_series=$max_series+1;
+        }
+
+
+        $pr_no = $dept_code.date('y')."-".$pr_series;
 
         $data_head = array(
             'pr_id'=>$pr_id,
-            'user_pr_no'=>$pr_no,
+            'pr_no'=>$pr_no,
             'purchase_request'=>$pr,
             'date_prepared'=>$date_prepared,
             'enduse'=>$enduse,
@@ -169,6 +181,11 @@ class Pr extends CI_Controller {
             'imported_by'=>$_SESSION['user_id'],
         );
         
+        $data_series = array(
+            'series_no'=>$pr_series
+        );
+        $this->super_model->insert_into("pr_series", $data_series);
+
         if($this->super_model->insert_into("pr_head", $data_head)){
             $highestRow = $objPHPExcel->getActiveSheet()->getHighestRow(); 
             for($x=14;$x<=$highestRow;$x++){
@@ -216,6 +233,7 @@ class Pr extends CI_Controller {
         $prid = $this->uri->segment(3);
         $data['pr_id']=$prid;
         $data['head']=$this->super_model->select_row_where("pr_head", "pr_id", $prid);
+        $data['saved']=$this->super_model->select_column_where("pr_head",'saved','pr_id',$prid);
         /*$data['details']=*/
         foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid'") AS $det){
             $data['cancelled']=$det->cancelled;
@@ -269,7 +287,6 @@ class Pr extends CI_Controller {
         }
 
         $data_head = array(
-            'pr_no'=>$this->input->post('new_pr'),
             'processing_code'=>$this->input->post('process'),
         );
         $this->super_model->update_where("pr_head", $data_head, "pr_id", $prid);
@@ -422,7 +439,8 @@ class Pr extends CI_Controller {
                 'rfq_date'=>$timestamp,
                 'processing_code'=>$code,
                 'prepared_by'=>$_SESSION['user_id'],
-                'create_date'=>$timestamp
+                'create_date'=>$timestamp,
+                'saved'=>1
             );
             $this->super_model->insert_into("rfq_head", $data_head);
             foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid' AND grouping_id = '$vendors->grouping_id'") AS $details){

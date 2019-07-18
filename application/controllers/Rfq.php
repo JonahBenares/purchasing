@@ -56,7 +56,7 @@ class Rfq extends CI_Controller {
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id),
                 'rfq_date'=>$head->rfq_date,
                 'notes'=>$head->notes,
-                'saved'=>$head->saved
+                'completed'=>$head->completed
                 
             );
         }
@@ -135,6 +135,15 @@ class Rfq extends CI_Controller {
 
     }
 
+    public function complete_rfq(){
+         $rfq_id=$this->uri->segment(3);
+          $data = array(
+            'completed'=>1
+          );
+        if($this->super_model->update_where("rfq_head", $data, "rfq_id", $rfq_id)){
+             redirect(base_url().'rfq/rfq_list/', 'refresh');
+        }
+    }
 
     public function rfq_incoming(){
         $rfq_id=$this->uri->segment(3);

@@ -84,18 +84,8 @@
                                             <td><b class="text-red capital"><?php echo $h->urgency; ?></b></td>
                                         </tr>
                                         <tr>
-                                            <td><i>PR No. (User):</i></td>
-                                            <td><?php echo $h->user_pr_no; ?></td>
-                                            <td><i>New PR (Purchasing):</i></td>
-                                            <?php if(empty($h->pr_no)){ ?>
-                                                <td style="padding: 0px!important" class="bor-red"><input type="text" class="form-control" name="new_pr" required></td>
-                                            <?php } else { ?>
-                                                <td><?php echo $h->pr_no; ?></td> 
-                                            <?php } ?>
-                                        </tr>
-                                        <tr>
-                                            <td><i>Enduse:</i></td>
-                                            <td colspan="1"><b class="capital"><?php echo $h->enduse; ?> </b></td>
+                                            <td><i>PR No.:</i></td>
+                                            <td><?php echo $h->pr_no; ?></td>
                                             <td><i>Processing Code:</i></td>
                                             <?php if(empty($h->processing_code)){ ?>
                                             <td style="padding: 0px!important" class="bor-red">
@@ -112,6 +102,11 @@
                                             <?php }else { ?>
                                             <td><?php echo $h->processing_code; ?></td>
                                             <?php } ?>
+                                        </tr>
+                                        <tr>
+                                            <td><i>Enduse:</i></td>
+                                            <td colspan="3"><b class="capital"><?php echo $h->enduse; ?> </b></td>
+                                           
                                         </tr>
                                         <tr>
                                             <td><i>Purpose:</i></td>
@@ -169,7 +164,7 @@
                                                 <td><?php echo $det['uom']; ?></td>
                                                 <td><?php echo $det['item_description']; ?></td>
                                                 <td><?php echo (!empty($det['date_needed']) ? date('F j, Y', strtotime($det['date_needed'])) : ''); ?></td>
-                                                <?php if(empty($h->pr_no)){ ?>
+                                                <?php if($saved==0){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
                                                     <select class="form-control" name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>
@@ -193,7 +188,7 @@
                                     </table>
                                      <input type='hidden' name='count_item' value="<?php echo $x; ?>">
                                     <input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
-                                    <?php if(empty($h->pr_no)){ ?>
+                                    <?php if($saved==0){ ?>
                                     <center><input type='submit' name='save_groupings' value='Save Groupings' class="btn btn-primary btn-md p-l-100 p-r-100"></center>
                                     <?php } ?>
 

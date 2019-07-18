@@ -111,7 +111,7 @@ $(document).on("click", "#addnotes_button", function () {
                                         
                                         <tr>
                                             <td>
-                                                <?php if($h['saved']==1){ ?>
+                                                <?php if($h['completed']==1){ ?>
                                                  <input type="checkbox" class="form-control rfq_list" name="rfq[]" value="<?php echo $h['rfq_id']; ?>">
                                              <?php } ?>
                                             </td>
@@ -132,15 +132,19 @@ $(document).on("click", "#addnotes_button", function () {
                                             <td><small><?php echo $h['notes']; ?></small></td>
                                             <td>
                                                 <center>
+                                                      <a href="<?php echo base_url(); ?>rfq/rfq_outgoing/<?php echo $h['rfq_id']; ?>" target='_blank' class="btn btn-custon-three btn-warning btn-xs" title="View RFQ Complete">
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
                                                     <a class="reviseRFQ btn btn-custon-three btn-secondary btn-xs" title="Add Notes" data-toggle="modal" data-target="#addnotes" id="addnotes_button" data-id="<?php echo $h['rfq_id']; ?>">
                                                         <span class="fa fa-plus"></span>
                                                     </a>
-                                                    <a href="<?php echo base_url(); ?>rfq/rfq_outgoing/<?php echo $h['rfq_id']; ?>" target='_blank' class="btn btn-custon-three btn-warning btn-xs">
-                                                        <span class="fa fa-eye"></span>
+                                                  <?php if($h['completed']==0){ ?>
+                                                     <a href="<?php echo base_url(); ?>rfq/complete_rfq/<?php echo $h['rfq_id']; ?>" class="cancelRFQ btn btn-custon-three btn-info btn-xs"  onclick="return confirm('Are you sure?')"><span class="fa fa-check" title="Canvass Complete"></span>
                                                     </a>
-                                                    <a class="duplicateRFQ btn btn-custon-three btn-info btn-xs" title="Duplicate" data-toggle="modal" data-target="#duplicateRFQ" data-id="">
+                                                <?php } ?>
+                                                  <!--   <a class="duplicateRFQ btn btn-custon-three btn-info btn-xs" title="Duplicate" data-toggle="modal" data-target="#duplicateRFQ" data-id="">
                                                         <span class="fa fa-files-o"></span>
-                                                    </a>                                                    
+                                                    </a>      -->                                               
                                                     <a class="cancelRFQ btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelRFQ" data-id=""><span class="fa fa-ban" title="Cancel"></span>
                                                     </a>
                                                     <a href="<?php echo base_url(); ?>rfq/" class="btn btn-custon-three btn-success btn-xs" onclick="return confirm('Are you sure?')" title="Served"><span class=" fa fa-archive"></span>
