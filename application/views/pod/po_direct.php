@@ -89,7 +89,7 @@
 					</h5>					
 				</div>
 				<div class="modal-body">
-				<form method='POST' action="<?php echo base_url(); ?>rfdis/add_rfd_purpose">
+				<form method='POST' action="<?php echo base_url(); ?>pod/add_po_purpose">
 				<div class="form-group">
 					<h5 class="nomarg">Notes:</h5>
 					<h5 class="nomarg"><b>
@@ -101,6 +101,9 @@
 					<h5 class="nomarg"><b>
 						<select name='requested_by' class="form-control">
                             <option value='' selected>-Select Employee-</option>
+                            <?php foreach($employee AS $emp){ ?>
+			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
                         </select>
 					</b></h5>
 				</div>
@@ -120,7 +123,7 @@
 				
 				</div>
 				<div class="modal-footer">
-					<input type='hidden' name='rfd_id' value='<?php echo $rfd_id; ?>'>
+					<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
 					<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 				</div>
 			</form>
@@ -255,18 +258,27 @@
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    		</tr>
+
 		    		<tr>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="13" class="bor-btm bor-right" align="left">
 	    				<p class="nomarg">
-	    					<button type="button" data-toggle="modal" data-target="#addpurp" class="btn btn-xs btn-primary" onclick="" >Add Purpose/ EndUse/ Requestor</button>
+	    					<?php if($saved==0){ ?>
+	    					<button type="button" data-toggle="modal" data-target="#addpurp" class="btn btn-xs btn-primary" onclick="" >Add Purpose/ Enduse/ Requestor</button>
+	    					<?php } ?>
 	    					<br>
-	    					Enduse: <br>
-	    					Purpose: <br>
-	    					Requestor: <br>
-	    					Notes: <br>
+	    					<?php 
+				    			if(!empty($popurp)){
+				    				foreach($popurp AS $pp) { 
+				    		?>
+	    					Enduse: <?php echo $pp['enduse']; ?><br>
+	    					Purpose: <?php echo $pp['purpose']; ?><br>
+	    					Requestor: <?php echo $pp['requestor']; ?><br>
+	    					Notes: <?php echo $pp['notes']; ?><br>
+	    					<br>
+	    					<?php } } ?>
 	    				</p>
 	    				<br>
 		    			</td>

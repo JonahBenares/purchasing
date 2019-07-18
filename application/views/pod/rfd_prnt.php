@@ -284,21 +284,22 @@
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo (($vat==1) ? 'Vatable' : 'Non-Vatable'); ?></b></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
+		    		<?php foreach($purp AS $pp){ ?>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">
-		    				<b class="nomarg">Purpose: </b>
+		    				<b class="nomarg">Purpose: <?php echo $pp['purpose']; ?></b>
 		    			</td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">
-		    				<b class="nomarg">End Use:  </b>
+		    				<b class="nomarg">End Use:  <?php echo $pp['enduse']; ?></b>
 		    			</td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">
-		    				<b class="nomarg">Requestor:  </b>
+		    				<b class="nomarg">Requestor:  <?php echo $pp['requestor']; ?></b>
 		    			</td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
@@ -306,6 +307,7 @@
 		    			<td align="center" colspan="17" class="bor-right"><br></td>
 		    			<td align="center" colspan="3"><br></td>
 		    		</tr>
+		    		<?php } ?>
 		    		
 		    		<tr>
 		    			<td align="left" colspan="7" ><b class="nomarg">P.O. No: <?php echo $po_no; ?></b></td>

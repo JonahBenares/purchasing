@@ -147,20 +147,22 @@
 		    		<tr>
 		    			<td colspan="20" align="center"><br></td>
 		    		</tr>
+		    		<?php foreach($purp AS $p){ ?>
 		    		<tr>
-		    			<td colspan="20" class="all-border"><b class="nomarg">Purpose: </b></td>
+		    			<td colspan="20" class="all-border"><b class="nomarg">Purpose: <?php echo $p['purpose']; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20" class="all-border"><b class="nomarg">End Use: </b></td>
+		    			<td colspan="20" class="all-border"><b class="nomarg">End Use: <?php echo $p['enduse']; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="10" class="all-border"><b class="nomarg">Requestor: </b></td>
+		    			<td colspan="10" class="all-border"><b class="nomarg">Requestor: <?php echo $p['requestor']; ?></b></td>
 		    			<td colspan="10" class="all-border "><b class="nomarg">PR No: </b></td>
 		    		</tr>
+		    		
 		    		<tr>
 		    			<td colspan="20" align="center"><br></td>
 		    		</tr>
-		    		<?php } ?>
+		    		<?php } } ?>
 		    		<!-- Loop -->
 
 		    		<tr>

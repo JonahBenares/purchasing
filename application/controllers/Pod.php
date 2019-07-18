@@ -160,10 +160,34 @@ class Pod extends CI_Controller {
                 'total'=>$total,
             );
         }
+
+        foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $purpose){
+            $data['popurp'][]= array(
+                'po_pr_id'=>$purpose->po_pr_id,
+                'notes'=>$purpose->notes,
+                'purpose'=>$purpose->purpose,
+                'enduse'=>$purpose->enduse,
+                'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $purpose->requestor)
+            );
+        }
         $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('pod/po_direct',$data);
         $this->load->view('template/footer');
+    }
+
+    public function add_po_purpose(){
+        $po_id = $this->input->post('po_id');
+        $data= array(
+            'po_id'=>$po_id,
+            'purpose'=>$this->input->post('purpose'),
+            'requestor'=>$this->input->post('requested_by'),
+            'enduse'=>$this->input->post('enduse'),
+            'notes'=>$this->input->post('notes')
+        );
+        if($this->super_model->insert_into("po_pr", $data)){
+            redirect(base_url().'pod/po_direct/'.$po_id, 'refresh');
+        }
     }
 
     public function save_po(){
@@ -237,6 +261,14 @@ class Pod extends CI_Controller {
                 'uom'=>$it->uom,
             );
         }
+
+        foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
+            $data['purp'][]=array(
+                'enduse'=>$pr->enduse,
+                'purpose'=>$pr->purpose,
+                'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $pr->requestor)
+            );
+        }
         $this->load->view('pod/delivery_receipt',$data);
         $this->load->view('template/footer');
     }
@@ -278,6 +310,14 @@ class Pod extends CI_Controller {
             $data['checked']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->checked_by);
             $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
             $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->approved_by);
+        }
+
+        foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
+            $data['purp'][]=array(
+                'enduse'=>$pr->enduse,
+                'purpose'=>$pr->purpose,
+                'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $pr->requestor)
+            );
         }
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC"); 
         $this->load->view('pod/rfd_prnt',$data);
