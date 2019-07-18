@@ -210,14 +210,14 @@
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<?php } ?>
-		    		<tr id="pr-btn">
+		    		<!-- <tr id="pr-btn">
 		    			<td colspan="20" style="padding-left: 10px">
 
 		    				<a class="addPR btn btn-primary btn-xs" data-toggle="modal" href="#add-pr" data-id="<?php echo $po_id; ?>">
 							  Add PR
 							</a>
 		    			</td>
-		    		</tr>	
+		    		</tr>	 -->
 		    		<!-- LOOp Here --> 
 					<tr>
 		    			<td colspan="" class="all-border" align="center"><b>#</b></td>
@@ -228,13 +228,15 @@
 		    			<td colspan="2" class="all-border" align="center"></td>
 		    		</tr>
 		    		<?php 
+		    		$gtotal=array();
 		    		$x=1;
 		    		if(!empty($items)){
-		    		foreach($items AS $it){ 
+		    		foreach($items AS $it){
+		    			if($it['balance']!=0){ 
 		    			$gtotal[] = $it['total']; ?>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['quantity']; ?>' max='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' max='<?php echo $it['balance']; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['uom']; ?></b></td>
 		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"><?php echo $it['offer']. ", ".$it['item_name']; ?></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it['price']; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
@@ -246,8 +248,10 @@
 		    		<input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $it['pr_details_id']; ?>">
 		    		<input type='hidden' name='offer<?php echo $x; ?>' value="<?php echo $it['offer']; ?>">
 		    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
-		    		<?php 
-		    		$x++; } 
+			    		<?php 
+			    		$x++; 
+		    				} 
+		    			}
 		    		} else {
 		    			$gtotal=array();
 		    		} ?>

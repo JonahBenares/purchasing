@@ -1,8 +1,45 @@
+function chooseSupplierPR(){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'po/getsupplierPR';
+    var supplier = document.getElementById("supplier").value;
+    $.ajax({
+            type: 'POST',
+            url: redirect,
+            data: 'supplier='+supplier,
+            success: function(data){
+                $("#prno").html(data);
+           }
+    }); 
+}
+
+function choosePR()
+{
+
+   var loc= document.getElementById("baseurl").value;
+   var redirect = loc+'po/getPRinformation';
+    var prid = document.getElementById("prno").value;
+
+      $.ajax({
+            type: 'POST',
+            url: redirect,
+            data: 'prid='+prid,
+            dataType: 'json',
+            success: function(response){
+              
+               document.getElementById("purpose").innerHTML  = response.purpose;
+               document.getElementById("enduse").innerHTML  = response.enduse;
+               document.getElementById("requestor").innerHTML  = response.requestor;
+               document.getElementById("aoq_id").value  = response.aoq_id;
+            
+           }
+        }); 
+}
+
 function chooseSupplier()
 {
 
    var loc= document.getElementById("baseurl").value;
-   var redirect = loc+'index.php/po/getsupplier';
+   var redirect = loc+'po/getsupplier';
     var supplier = document.getElementById("supplier").value;
 
       $.ajax({

@@ -406,6 +406,7 @@ class Aoq extends CI_Controller {
                             'offer'=>$offer,
                             'unit_price'=>$up,
                             'quantity'=>$quantity,
+                            'balance'=>$quantity,
                             'amount'=>$amount,
                             'uom'=>$uom
                         );

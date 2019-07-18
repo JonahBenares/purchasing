@@ -101,31 +101,33 @@
                         </div>
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
-                            <select name="vendor" id='supplier' onchange="chooseSupplier()" class="form-control">
+                            <select name="vendor" id='supplier' onchange="chooseSupplierPR()" class="form-control">
                             <option value='' selected>-Choose Supplier/Vendor-</option>
                              <?php foreach($vendor AS $ven){ ?>
                                 <option value='<?php echo $ven->vendor_id; ?>'><?php echo $ven->vendor_name; ?></option>
                             <?php } ?>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <p class="m-b-0">Address:</p>
-                            <b><span id='address'></span></b>
-                        </div>
-                        <div class="form-group">
-                            <p class="m-b-0">Contact Person:</p>
-                            <b><span id='contact'></span></b>
-                        </div>
-                        <div class="form-group">
-                            <p class="m-b-0">Telephone #:</p>
-                            <b><span id='phone'></span></b>
-                        </div>
                          <div class="form-group">
-                            <p class="m-b-0">Notes:</p>
-                            <textarea name="notes" class="form-control"></textarea>
+                            <p class="m-b-0">PR No.:</p>
+                            <select name="prno" id='prno' onchange="choosePR()" class="form-control">
+                           </select>
                         </div>
+                        <div class="form-group">
+                            <p class="m-b-0">Purpose:</p>
+                            <b><span id='purpose'></span></b>
+                        </div>
+                        <div class="form-group">
+                            <p class="m-b-0">Enduse:</p>
+                            <b><span id='enduse'></span></b>
+                        </div>
+                        <div class="form-group">
+                            <p class="m-b-0">Requestor:</p>
+                            <b><span id='requestor'></span></b>
+                        </div>
+                      
                         <center>
-                           
+                           <input type="hidden" name="aoq_id" id="aoq_id">
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
                         </center>
                     </div>

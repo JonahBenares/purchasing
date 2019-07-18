@@ -74,7 +74,7 @@ class Po extends CI_Controller {
              $pr='';
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
                 $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
-                $pr .= "-".$pr_no."<br>";
+                $pr .= $pr_no."<br>";
             }
             $data['header'][]=array(
                 'po_id'=>$head->po_id,
@@ -109,6 +109,19 @@ class Po extends CI_Controller {
             $max = $this->super_model->get_max("po_head", "po_id");
             $po_id = $max+1;
         }
+        $pr_id = $this->input->post('prno');
+        
+
+        $data_details = array(
+            'po_id'=>$po_id,
+            'pr_id'=>$pr_id,
+            'aoq_id'=>$this->input->post('aoq_id'),
+            'enduse'=>$this->super_model->select_column_where('pr_head', 'enduse', 'pr_id', $pr_id),
+            'purpose'=>$this->super_model->select_column_where('pr_head', 'purpose', 'pr_id', $pr_id),
+            'requestor'=>$this->super_model->select_column_where('pr_head', 'requestor', 'pr_id', $pr_id),
+
+        );
+        $this->super_model->insert_into("po_pr", $data_details);
 
         $data= array(
             'po_id'=>$po_id,
@@ -122,6 +135,33 @@ class Po extends CI_Controller {
         if($this->super_model->insert_into("po_head", $data)){
              redirect(base_url().'po/purchase_order/'.$po_id);
         }
+    }
+
+
+    public function getsupplierPR(){
+        $supplier = $this->input->post('supplier');
+        echo '<option value="">-Select PR No-</option>';
+        foreach($this->super_model->custom_query("SELECT ah.pr_id, ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE vendor_id = '$supplier' AND recommended = '1' GROUP BY ah.pr_id") AS $row){
+
+            echo '<option value="'. $row->pr_id."_".$row->aoq_id .'">'. $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $row->pr_id) .'</option>';
+      
+         }
+    }
+
+     public function getPRinformation(){
+
+        $prid = $this->input->post('prid');
+        $prexp = explode('_',$prid);
+        $pr_id=$prexp[0];
+        $aoq_id=$prexp[1];
+        $purpose= $this->super_model->select_column_where('pr_head', 'purpose', 'pr_id', $pr_id);
+        $enduse= $this->super_model->select_column_where('pr_head', 'enduse', 'pr_id', $pr_id);
+        $requestor= $this->super_model->select_column_where('pr_head', 'requestor', 'pr_id', $pr_id);
+
+        
+        $return = array('purpose' => $purpose, 'enduse' => $enduse, 'requestor' => $requestor, 'aoq_id'=>$aoq_id);
+        echo json_encode($return);
+    
     }
 
     public function getsupplier(){
@@ -176,7 +216,7 @@ class Po extends CI_Controller {
                     'item_name'=>$this->super_model->select_column_where('aoq_items', 'item_description', 'aoq_items_id', $off->aoq_items_id),
                     'offer'=>$off->offer,
                     'price'=>$off->unit_price,
-                    'quantity'=>$off->quantity,
+                    'balance'=>$off->balance,
                     'amount'=>$off->amount,
                     'uom'=>$off->uom,
                     'total'=>$total
@@ -224,6 +264,14 @@ class Po extends CI_Controller {
                 );
 
                 $this->super_model->insert_into("po_items", $data);
+
+                $curr_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id', $this->input->post('aoq_offer_id'.$x));
+                $new_balance = $curr_balance-$qty;
+
+                $data_aoq = array(
+                    'balance'=>$new_balance
+                );
+                $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
              $a++;
             }
             
