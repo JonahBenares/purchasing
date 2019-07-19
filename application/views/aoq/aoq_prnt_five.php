@@ -226,7 +226,7 @@
 							<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
 							<?php if($saved==0){ ?>
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
-							<?php } else { ?>
+							<?php } else if ($saved==1 && $awarded==0){ ?>
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Award">
 							<a href="<?php echo base_url(); ?>aoq/export_aoq_prnt_five/" class="btn btn-primary btn-md p-l-100 p-r-100"><span class="fa fa-export"></span> Export</a>
 							<?php } ?>
@@ -397,7 +397,7 @@
 			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_1" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_1">
 			    					</td>
 			    					<td colspan="2" class="bor-btm bor-right text-red ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
 			    					</td>
 			    				</tr>
 			    				<tr>
@@ -412,7 +412,7 @@
 			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_2" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_2">
 			    					</td>
 			    					<td colspan="2" class="bor-btm bor-right text-red ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
 			    					</td>
 			    				</tr>
 			    				<tr>
@@ -426,13 +426,14 @@
 			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_3" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_3">
 			    					</td>
 			    					<td colspan="2" class="bor-btm bor-right text-red ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
 			    					</td>
 			    				</tr>
 		    				</table>
 		    			</td>
 		    			<input type='hidden' name='quantity_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->quantity; ?>'>
 		    			<input type='hidden' name='item_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->aoq_items_id; ?>'>
+		    			<input type='hidden' name='pr_details_id_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->pr_details_id; ?>'>
 		    			<input type='hidden' name='vendor_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $ven['vendor_id']; ?>'>
 		    			<?php $v++; } }else { ?>
 		    			<?php  

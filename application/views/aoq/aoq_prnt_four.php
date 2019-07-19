@@ -212,7 +212,7 @@
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
 						<?php if($saved==0){ ?>
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save AOQ">
-						<?php } else { ?>
+						<?php } else if ($saved==1 && $awarded==0){ ?>
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Award">
 						<?php } ?>
 					</div>
@@ -363,7 +363,7 @@
 			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_1" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_1">
 			    					</td>
 			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
 			    					</td>
 			    				</tr>
 			    				<tr class="bor-btm">
@@ -378,7 +378,7 @@
 			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_2" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_2">
 			    					</td>
 			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
 			    					</td>
 			    				</tr>
 			    				<tr class="bor-btm">
@@ -392,13 +392,14 @@
 			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_3" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_3">
 			    					</td>
 			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
+			    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
 			    					</td>
 			    				</tr>
 		    				</table>
 		    			</td>
 		    			<input type='hidden' name='quantity_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->quantity; ?>'>
 		    			<input type='hidden' name='item_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->aoq_items_id; ?>'>
+		    			<input type='hidden' name='pr_details_id_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->pr_details_id; ?>'>
 		    			<input type='hidden' name='vendor_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $ven['vendor_id']; ?>'>
 		    			<?php $v++; } }else{ ?>
 		    			<?php  
