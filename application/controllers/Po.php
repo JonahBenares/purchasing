@@ -69,7 +69,7 @@ class Po extends CI_Controller {
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');   
         $this->load->view('template/navbar');
-        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND po_type = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
+        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
              $rfd=$this->super_model->count_rows_where("po_dr","po_id",$head->po_id);
              $pr='';
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
@@ -102,38 +102,53 @@ class Po extends CI_Controller {
     }
 
     public function create_po(){
-      $rows_head = $this->super_model->count_rows("po_head");
+        $rows_head = $this->super_model->count_rows("po_head");
         if($rows_head==0){
             $po_id=1;
         } else {
             $max = $this->super_model->get_max("po_head", "po_id");
             $po_id = $max+1;
         }
-        $pr_id = $this->input->post('prno');
-        
 
-        $data_details = array(
-            'po_id'=>$po_id,
-            'pr_id'=>$pr_id,
-            'aoq_id'=>$this->input->post('aoq_id'),
-            'enduse'=>$this->super_model->select_column_where('pr_head', 'enduse', 'pr_id', $pr_id),
-            'purpose'=>$this->super_model->select_column_where('pr_head', 'purpose', 'pr_id', $pr_id),
-            'requestor'=>$this->super_model->select_column_where('pr_head', 'requestor', 'pr_id', $pr_id),
+        if(empty($this->input->post('dp'))){
+            $pr_id = $this->input->post('prno');
+            $data_details = array(
+                'po_id'=>$po_id,
+                'pr_id'=>$pr_id,
+                'aoq_id'=>$this->input->post('aoq_id'),
+                'enduse'=>$this->super_model->select_column_where('pr_head', 'enduse', 'pr_id', $pr_id),
+                'purpose'=>$this->super_model->select_column_where('pr_head', 'purpose', 'pr_id', $pr_id),
+                'requestor'=>$this->super_model->select_column_where('pr_head', 'requestor', 'pr_id', $pr_id),
 
-        );
-        $this->super_model->insert_into("po_pr", $data_details);
+            );
+            $this->super_model->insert_into("po_pr", $data_details);
+            $data= array(
+                'po_id'=>$po_id,
+                'po_date'=>$this->input->post('po_date'),
+                'po_no'=>$this->input->post('po_no'),
+                'vendor_id'=>$this->input->post('vendor'),
+                'notes'=>$this->input->post('notes'),
+                'po_type'=>0,
+                'user_id'=>$_SESSION['user_id']
+            );  
 
-        $data= array(
-            'po_id'=>$po_id,
-            'po_date'=>$this->input->post('po_date'),
-            'po_no'=>$this->input->post('po_no'),
-            'vendor_id'=>$this->input->post('vendor'),
-            'notes'=>$this->input->post('notes'),
-            'user_id'=>$_SESSION['user_id']
-        );  
+            if($this->super_model->insert_into("po_head", $data)){
+                 redirect(base_url().'po/purchase_order/'.$po_id);
+            }
+        }else {
+            $data= array(
+                'po_id'=>$po_id,
+                'po_date'=>$this->input->post('po_date'),
+                'po_no'=>$this->input->post('po_no'),
+                'vendor_id'=>$this->input->post('vendor'),
+                'notes'=>$this->input->post('notes'),
+                'po_type'=>1,
+                'user_id'=>$_SESSION['user_id']
+            );  
 
-        if($this->super_model->insert_into("po_head", $data)){
-             redirect(base_url().'po/purchase_order/'.$po_id);
+            if($this->super_model->insert_into("po_head", $data)){
+                 redirect(base_url().'pod/po_direct/'.$po_id);
+            }
         }
     }
 
