@@ -41,7 +41,13 @@
                                 <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq">
                                     <h4>PR no: <b><?php echo $pr_no; ?></b></h4>
                                     <table class="table table-bordered" >
-
+                                        <tr>
+                                            <th>Group</th>
+                                            <th>Items</th>
+                                            <th>Supplier</th>
+                                            <th><small>Due Date, Noted by, Approved by</small></th>
+                                            <th><span class="fa fa-bars"></span></th>
+                                        </tr>
                                         <?php foreach($group AS $gr){ ?>
                                         <tr>
                                             <td width="15%"><a href="" ></a>
