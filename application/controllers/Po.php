@@ -83,6 +83,7 @@ class Po extends CI_Controller {
                 'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
                 'supplier_id'=>$head->vendor_id,
                 'saved'=>$head->saved,
+                'po_type'=>$head->po_type,
                 'pr'=>$pr,
                 'rfd'=>$rfd,
                 'po_type'=>$head->po_type
@@ -263,7 +264,8 @@ class Po extends CI_Controller {
         $a=1;
         for($x=1; $x<$count_item;$x++){
             $qty=$this->input->post('quantity'.$x);
-            
+            $revise = $this->super_model->select_column_where("po_head",'revised','po_id',$po_id);
+            $saved = $this->super_model->select_column_where("po_head",'saved','po_id',$po_id);
             if($qty!=0){
                 $data=array(
                     'pr_id'=>$this->super_model->select_column_where('aoq_head', 'pr_id', 'aoq_id', $this->input->post('aoq_id'.$x)),
@@ -279,7 +281,11 @@ class Po extends CI_Controller {
                     'item_no'=>$a
                 );
 
-                $this->super_model->insert_into("po_items", $data);
+                if($revise==0){
+                    $this->super_model->insert_into("po_items", $data);
+                }else{
+                    $this->super_model->update_where("po_items", $data, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
+                }
 
                 $curr_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id', $this->input->post('aoq_offer_id'.$x));
                 $new_balance = $curr_balance-$qty;
@@ -312,7 +318,8 @@ class Po extends CI_Controller {
         $head = array(
         
             'approved_by'=>$this->input->post('approved'),
-            'saved'=>1
+            'saved'=>1,
+            'revised'=>0
         );
       
 
@@ -378,6 +385,8 @@ class Po extends CI_Controller {
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
             );
             $data['saved']=$h->saved;
+            $data['revised']=$h->revised;
+            $data['po_no']=$h->po_no;
             $data['notes']=$h->notes;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
@@ -398,6 +407,60 @@ class Po extends CI_Controller {
         $this->load->view('template/header');        
         $this->load->view('po/purchase_order_saved',$data);
         $this->load->view('template/footer');
+    }
+
+    public function revise_po(){
+        $po_id=$this->uri->segment(3);
+        $data = array(
+            'saved'=>0,
+            'revised'=>1
+        );
+        if($this->super_model->update_where("po_head", $data, "po_id", $po_id)){
+            redirect(base_url().'po/purchase_order_saved/'.$po_id);
+        }
+    }
+
+    public function upload_revise(){
+        $po_id = $this->input->post('po_id');
+        $po_no = $this->input->post('po_no');
+        $error_ext=0;
+        $dest= realpath(APPPATH . '../uploads/');
+        if(!empty($_FILES['revise_img']['name'])){
+             $revise_img= basename($_FILES['revise_img']['name']);
+             $revise_img=explode('.',$revise_img);
+             $ext1=$revise_img[1];
+            
+            if($ext1=='php' || ($ext1!='png' && $ext1 != 'jpg' && $ext1!='jpeg')){
+                $error_ext++;
+            } else {
+                 $filename=$po_no.'.'.$ext1;
+                 move_uploaded_file($_FILES["revise_img"]['tmp_name'], $dest.'/'.$filename);
+            }
+        } else {
+            $filename="";
+        }
+
+        $count_item = $this->input->post('count_item');
+        $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
+        foreach($this->super_model->select_row_where("po_pr", "po_id" , $po_id) AS $popr){
+            foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'") AS $off){
+                for($x=1; $x<$count_item;$x++){
+                    $qty = $this->input->post('qty'.$x);
+                    $data_aoq =  array(
+                        'balance'=>$qty,
+                    );
+                    $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
+                }
+            }
+        }
+
+        $data=array(
+            'revise_attachment'=>$filename,
+        );
+        if($this->super_model->update_where("po_head", $data, "po_id", $po_id)){
+            redirect(base_url().'po/purchase_order/'.$po_id);
+        }
+
     }
 
     public function get_name($column, $table, $where){
