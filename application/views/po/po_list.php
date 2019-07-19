@@ -245,8 +245,16 @@
                                                 <!-- <td><a class="btn-link txt-primary" onclick="viewHistory()"></a></td> -->
                                                 <td><?php echo $head['supplier']; ?></td>
                                                 <td><?php echo $head['pr']; ?></td>
-                                                <td><?php //echo (($head['rfd']==0) ? '<span class="label label-warning">Pending RFD</span>' : ''); ?></td>
-                                                <td><!-- Repeat Order Purchase Request --></td>
+                                                <td><?php echo (($head['rfd']==0) ? '<span class="label label-warning">Pending RFD</span>' : '<span class="label label-success">Completed</span>'); ?></td>
+                                                <td><?php
+                                                    if($head['po_type']==0){
+                                                        echo "Purchase Request";
+                                                    } else if($head['po_type']==1){
+                                                        echo "Direct Purchase";
+                                                    } else if($head['po_type']==2){
+                                                        echo "Repeat Order";
+                                                    }
+                                                ?></td>
                                                 <td>
                                                     <center>
                                                         <a href="<?php echo base_url(); ?>po/update_done/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-success btn-xs" title='Done PO'>
