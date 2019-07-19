@@ -1,4 +1,14 @@
     <script src="<?php echo base_url(); ?>assets/js/po.js"></script> 
+    <script type="text/javascript">
+        function Change() {
+            if((document.getElementById('check').checked)) {
+                document.getElementById('show_hide').style.visibility="hidden";
+            }
+            else {
+                document.getElementById('show_hide').style.visibility="visible";
+            }
+        }
+    </script>
      <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -100,6 +110,9 @@
                             <input type="text" name="po_no" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
+                            <u><p class="m-b-0"><input type="checkbox" name="dp" onclick="Change()" id="check" value = '1'> Direct Purchase </p></u>
+                        </div>
+                        <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
                             <select name="vendor" id='supplier' onchange="chooseSupplierPR()" class="form-control">
                             <option value='' selected>-Choose Supplier/Vendor-</option>
@@ -108,24 +121,25 @@
                             <?php } ?>
                             </select>
                         </div>
-                         <div class="form-group">
-                            <p class="m-b-0">PR No.:</p>
-                            <select name="prno" id='prno' onchange="choosePR()" class="form-control">
-                           </select>
+                        <div id="show_hide">
+                            <div class="form-group">
+                                <p class="m-b-0">PR No.:</p>
+                                <select name="prno" id='prno' onchange="choosePR()" class="form-control">
+                               </select>
+                            </div>
+                            <div class="form-group">
+                                <p class="m-b-0">Purpose:</p>
+                                <b><span id='purpose'></span></b>
+                            </div>
+                            <div class="form-group">
+                                <p class="m-b-0">Enduse:</p>
+                                <b><span id='enduse'></span></b>
+                            </div>
+                            <div class="form-group">
+                                <p class="m-b-0">Requestor:</p>
+                                <b><span id='requestor'></span></b>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <p class="m-b-0">Purpose:</p>
-                            <b><span id='purpose'></span></b>
-                        </div>
-                        <div class="form-group">
-                            <p class="m-b-0">Enduse:</p>
-                            <b><span id='enduse'></span></b>
-                        </div>
-                        <div class="form-group">
-                            <p class="m-b-0">Requestor:</p>
-                            <b><span id='requestor'></span></b>
-                        </div>
-                      
                         <center>
                            <input type="hidden" name="aoq_id" id="aoq_id">
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
