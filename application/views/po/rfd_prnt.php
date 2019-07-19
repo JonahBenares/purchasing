@@ -372,6 +372,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
+	    	<input type='hidden' name='po_type' value='<?php echo $po_type; ?>'>
 	    	<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
 	    	<input type='hidden' name='pay_to' value='<?php echo $vendor_id; ?>'>
 	    	<input type='hidden' name='total_amount' value='<?php echo $gtotal; ?>'>

@@ -78,7 +78,7 @@
                                                     if($h['saved'] == '1' && $h['awarded'] =='0') { 
                                                         echo "<span class='label label-warning'> For TE </span>";
                                                     } else if($h['saved'] == '1' && $h['awarded'] =='1'){
-                                                        echo "<span class='label label-success'>Completed</span";
+                                                        echo "<span class='label label-success'>Awarded</span";
                                                     }
                                                 ?>
                                             </td>

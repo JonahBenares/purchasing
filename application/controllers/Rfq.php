@@ -62,7 +62,7 @@ class Rfq extends CI_Controller {
         }
 
 
-         foreach($this->super_model->select_all("rfq_details") AS $it){
+         foreach($this->super_model->custom_query("SELECT rd.* FROM rfq_details rd INNER JOIN pr_details pd ON rd.pr_details_id = pd.pr_details_id WHERE pd.cancelled=0") AS $it){
                 $data['items'][] = array(
                     'rfq_id'=>$it->rfq_id,
                     'item'=>$it->item_desc,

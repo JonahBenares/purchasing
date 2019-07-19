@@ -147,15 +147,16 @@
                                             } ?></td>
                                             <td>
                                                 <center>
-                                                <?php if($h->rfd_type==1){ ?>
+                                                        <a href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $h->po_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                <span class="fa fa-eye"></span>
+                                                 </a>
+                                             <!--    <?php if($h->rfd_type==1){ ?>
                                                 <a href="<?php echo base_url(); ?>rfdis/rfdis_prnt/<?php echo $h->rfd_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                     <span class="fa fa-eye"></span>
                                                 </a>
-                                                <?php } else { ?>
-                                                 <a href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $h->po_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
-                                                <span class="fa fa-eye"></span>
-                                                 </a>
-                                                <?php } ?>
+                                                <?php } else { ?> -->
+                                             
+                                               <!--  <?php } ?> -->
                                                 </center>
                                             </td>
                                         </tr>         
