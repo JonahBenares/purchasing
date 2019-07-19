@@ -70,7 +70,7 @@ class Aoq extends CI_Controller {
 
             $this->super_model->insert_into("aoq_head", $head);
         }
-        $where="SELECT * FROM rfq_details WHERE";
+        $where="SELECT rd.* FROM rfq_details rd INNER JOIN pr_details pd ON rd.pr_details_id = pd.pr_details_id WHERE (";
         foreach($rfq AS $r){
             $vendor_id = $this->super_model->select_column_where("rfq_head", "vendor_id", "rfq_id", $r);
             $vendors = array(
@@ -84,8 +84,8 @@ class Aoq extends CI_Controller {
         }
 
         $sql=substr($where, 0, -3);
-        $sql .= " GROUP BY item_desc";
-       // echo $sql;
+        $sql .= ") AND pd.cancelled = 0 GROUP BY item_desc";
+        echo $sql;
        foreach($this->super_model->custom_query($sql) AS $items){
           $items = array(
             'aoq_id'=>$aoq_id,
@@ -116,7 +116,11 @@ class Aoq extends CI_Controller {
                 $rows = $this->super_model->count_rows_where("aoq_vendors","aoq_id",$list->aoq_id);
                 $supplier='';
                 foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$list->aoq_id' GROUP BY vendor_id") AS $offer){
-                    $supplier.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "<br> ";
+                    if($offer->recommended==1){
+                        $supplier.="<span style='background-color:#b5e61d;'>-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "</span><br> ";
+                    } else {
+                        $supplier.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "<br> ";
+                    }
                 }
                 $sup = substr($supplier, 0, -2);
 

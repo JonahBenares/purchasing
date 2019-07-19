@@ -87,7 +87,7 @@
                                             <td><i>PR No.:</i></td>
                                             <td><?php echo $h->pr_no; ?></td>
                                             <td><i>Processing Code:</i></td>
-                                            <?php if(empty($h->processing_code)){ ?>
+                                            <?php if($saved==0){ ?>
                                             <td style="padding: 0px!important" class="bor-red">
                                                 <select name = "process" class = "form-control">
                                                     <option value = "">--Select Processing Code--</option>
@@ -155,7 +155,7 @@
                                                 <?php }else { ?>
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
                                                 <?php } ?>
-                                                <td><?php echo $det['cancelled_by']." / ".date('m.d.y', strtotime($det['cancelled_date']));?></td>
+                                                <td><?php echo $det['cancelled_reason'] . " by ". $det['cancelled_by']." / ".date('m.d.y', strtotime($det['cancelled_date']));?></td>
                                             </tr>
                                         <?php } else { ?>
                                             <tr>

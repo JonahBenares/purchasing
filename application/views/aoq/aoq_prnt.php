@@ -379,7 +379,10 @@
 			    			<input type='hidden' name='vendor_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $ven['vendor_id']; ?>'>
 			    			<?php 
 			    			$v++;
-			    			}
+			    			} ?>
+			    			<input type='text' name='vendor_count' value='<?php echo $v; ?>'>
+
+		    		<?php 
 		    			} else { 
 		    				
 		    				foreach($vendors AS $ven) {
@@ -402,7 +405,7 @@
 				    					<?php if($awarded==0){ ?>
 				    					<td width="20%" class="bor-btm-red bor-right" align="center">				    						
 				    						<?php echo number_format($of['amount'],2); ?><br>
-				    						<input type="radio" name="award_<?php echo $a; ?>" value="1" >
+				    						<input type="checkbox" name="award_<?php echo $a; ?>" value="1" >
 				    					</td> 
 				    					<?php } else { ?>
 				    						<td width="20%" class="bor-btm bor-right <?php echo (($of['recommended'] == 1) ? 'green-back': ''); ?>" align="center">				    						
@@ -441,10 +444,9 @@
 		    	<?php $x++;
 		    	} ?>
 		    	<input type='hidden' name='item_count' value='<?php echo $x; ?>'>
-		    	<input type='hidden' name='vendor_count' value='<?php echo $v; ?>'>
+		    	
 		    	<input type='hidden' name='aoq_id' value='<?php echo $aoq_id; ?>'>
 
-		    		<tr>
 		    			<td class="f10 table-borreg" align="center"><br></td>
 		    			<td class="f10 table-borreg" align="left" colspan="3"></td>
 		    			<td class="f10 table-borreg" align="center"></td>
