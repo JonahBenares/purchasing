@@ -32,7 +32,7 @@ class Po extends CI_Controller {
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');        
         $this->load->view('template/navbar');
-        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND po_type = '0' AND cancelled = '1' ORDER BY po_id DESC") AS $head){
+        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND cancelled = '1' ORDER BY po_id DESC") AS $head){
             $data['header'][]=array(
                 'po_id'=>$head->po_id,
                 'po_date'=>$head->po_date,
