@@ -287,6 +287,7 @@ class Pr extends CI_Controller {
         }
 
         $data_head = array(
+            'saved'=>1,
             'processing_code'=>$this->input->post('process'),
         );
         $this->super_model->update_where("pr_head", $data_head, "pr_id", $prid);
