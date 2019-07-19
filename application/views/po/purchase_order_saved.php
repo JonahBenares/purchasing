@@ -28,6 +28,12 @@
         	background-size: contain!important;
         	background-position: center center!important;
         }
+        .amend{
+        	background-image: url('<?php echo base_url(); ?>assets/img/amendment.png')!important;
+        	background-repeat:no-repeat!important;
+        	background-size: contain!important;
+        	background-position: center center!important;
+        }
         .pad{
         	padding:0px 250px 0px 250px
         }
@@ -73,6 +79,12 @@
 	        	background-size: contain!important;
 	        	background-position: center center!important;
 	        }
+	        .amend{
+	        	background-image: url('<?php echo base_url(); ?>assets/img/amendment.png')!important;
+	        	background-repeat:no-repeat!important;
+	        	background-size: contain!important;
+	        	background-position: center center!important;
+	        }
 		}
 		.text-white{
 			color: #fff;
@@ -93,22 +105,47 @@
 		}
     </style>
 
+	<!-- Modal -->
+	<div class="modal fade" id="uploadApproval" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Upload Approval
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</h5>					
+				</div>
+				<form>
+					<div class="modal-body">
+						<input type="file" name="" class="form-control">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary btn-block">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
     <div  class="pad ">
     	<form method='POST' action='<?php echo base_url(); ?>po/po_complete'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="abtn-group">
-						<a href="<?php echo base_url(); ?>po/po_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+						<a href="<?php echo base_url(); ?>po/po_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
 						<a  href='<?php echo base_url(); ?>po/revise_po/' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>PO</b></u></a>
 						<a  href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $po_id; ?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
 						<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
+
+						<a  href="#" class="btn btn-primary btn-md p-l-25 p-r-25" data-toggle="modal" data-target="#uploadApproval"><span class="fa fa-upload"></span> Upload <u><b>Approval</b></u></a>
 							
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;" >  <!-- add class cancel -->
+	    	<div style="background: #fff;" class="amend" >  <!-- add class or amend cancel -->
 		    	<table class="table-borddered" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
