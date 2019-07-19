@@ -245,6 +245,7 @@ class Pr extends CI_Controller {
                 'date_needed'=>$det->date_needed,
                 'grouping_id'=>$det->grouping_id,
                 'cancelled_by'=>$this->super_model->select_column_where("users",'fullname','user_id',$det->cancelled_by),
+                'cancelled_reason'=>$det->cancelled_reason,
                 'cancelled_date'=>$det->cancelled_date,
                 'cancelled'=>$det->cancelled,
             ); 
@@ -287,6 +288,7 @@ class Pr extends CI_Controller {
         }
 
         $data_head = array(
+            'saved'=>1,
             'processing_code'=>$this->input->post('process'),
         );
         $this->super_model->update_where("pr_head", $data_head, "pr_id", $prid);

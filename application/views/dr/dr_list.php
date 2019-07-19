@@ -82,7 +82,7 @@
                                     <tbody>
                                         <?php foreach($head AS $h){ ?>
                                         <tr>
-                                            <td><?php echo date('F j, Y', strtotime($h->dr_date)); ?></td>
+                                            <td><?php echo (!empty($h->dr_date) ? date('F j, Y', strtotime($h->dr_date)) : ''); ?></td>
                                             <td><?php echo $h->dr_no; ?></td>
                                             <td><?php
                                                 if($h->dr_type==0){

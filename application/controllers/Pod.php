@@ -218,6 +218,7 @@ class Pod extends CI_Controller {
         }
 
         $dr = array(
+            'dr_type'=>1,
             'po_id'=>$po_id,
             'dr_no'=>$dr_no
         );

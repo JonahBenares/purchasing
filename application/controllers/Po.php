@@ -70,7 +70,7 @@ class Po extends CI_Controller {
         $this->load->view('template/header');   
         $this->load->view('template/navbar');
         foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
-             $rfd=$this->super_model->count_rows_where("po_dr","po_id",$head->po_id);
+             $rfd=$this->super_model->count_rows_where("rfd","po_id",$head->po_id);
              $pr='';
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
                 $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
@@ -86,6 +86,7 @@ class Po extends CI_Controller {
                 'po_type'=>$head->po_type,
                 'pr'=>$pr,
                 'rfd'=>$rfd,
+                'po_type'=>$head->po_type
             );
         }        
         $this->load->view('po/po_list',$data);
@@ -516,6 +517,7 @@ class Po extends CI_Controller {
         $data['rows_dr'] = $this->super_model->select_count("rfd","po_id",$po_id);
         $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
         $data['po_no']= $this->super_model->select_column_where("po_head", "po_no", "po_id", $po_id);
+        $data['po_type']= $this->super_model->select_column_where("po_head", "po_type", "po_id", $po_id);
         $data['po_id']= $po_id;
         $data['vendor_id']= $vendor_id;
         $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
@@ -595,6 +597,7 @@ class Po extends CI_Controller {
             'checked_by'=>$this->input->post('checked'),
             'endorsed_by'=>$this->input->post('endorsed'),
             'approved_by'=>$this->input->post('approved'),
+            'rfd_type'=>$this->input->post('po_type'),
             'user_id'=>$_SESSION['user_id'],
             'saved'=>1
         );
