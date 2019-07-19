@@ -116,12 +116,21 @@
 						</button>
 					</h5>					
 				</div>
-				<form>
+				<form enctype="multipart/form-data" method = "POST" action = '<?php echo base_url(); ?>po/upload_revise'>
 					<div class="modal-body">
-						<input type="file" name="" class="form-control">
+						<input type="file" name="revise_img" class="form-control">
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary btn-block">Save changes</button>
+						<?php
+			    		$x=1; 
+			    		foreach($items AS $it){ ?>
+							<input type='hidden' name='aoq_offer_id<?php echo $x; ?>' value="<?php echo $it->aoq_offer_id; ?>">
+							<input type='hidden' name='qty<?php echo $x; ?>' value="<?php echo $it->quantity; ?>">
+						<?php $x++; } ?>
+						<input type='hidden' name='count_item' value="<?php echo $x; ?>">
+						<input type="hidden" name="po_id" value = "<?php echo $po_id; ?>">
+						<input type="hidden" name="po_no" value = "<?php echo $po_no; ?>">
+						<button type="submit" class="btn btn-primary btn-block">Save changes</button>
 					</div>
 				</form>
 			</div>
@@ -134,18 +143,22 @@
 	    		<center>
 			    	<div class="abtn-group">
 						<a href="<?php echo base_url(); ?>po/po_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
-						<a  href='<?php echo base_url(); ?>po/revise_po/' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
-						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>PO</b></u></a>
+						<a  href='<?php echo base_url(); ?>po/revise_po/<?php echo $po_id; ?>' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
+						
+						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b><?php if($revised==0){ echo 'PO'; }else { echo 'RFA'; } ?></b></u></a>
+						<?php if($revised==0){ ?>
 						<a  href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $po_id; ?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
 						<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
-
+						<?php } ?>
+						<?php if($revised==1){ ?>
 						<a  href="#" class="btn btn-primary btn-md p-l-25 p-r-25" data-toggle="modal" data-target="#uploadApproval"><span class="fa fa-upload"></span> Upload <u><b>Approval</b></u></a>
+						<?php } ?>
 							
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;" class="amend" >  <!-- add class or amend cancel -->
+	    	<div style="background: #fff;" class="<?php if($revised==1){ echo 'amend'; }?>" >  <!-- add class or amend cancel -->
 		    	<table class="table-borddered" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
