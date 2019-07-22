@@ -550,7 +550,7 @@
 		    			foreach($vendors AS $ven) { ?>
 		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="item_warranty<?php echo $q; ?>"></td>
 		    			<td colspan="3" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
-		    			<<?php  $q++; } 
+		    			<?php  $q++; } 
 		    			} else { 
 		    				foreach($vendors AS $ven) { ?>
 		    				<td colspan="2" class="f10 bor-btm" align="left"><?php echo $ven['warranty']; ?></td>
@@ -603,7 +603,7 @@
 		    			</select>
 		    			<?php } else {
 		    				echo $noted;
-		    			}?>
+		    			} ?>
 		    			</td>
 		    			<td colspan="1" class="f10" align="left"><br></td>
 		    		</tr>

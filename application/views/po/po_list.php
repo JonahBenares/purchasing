@@ -245,7 +245,13 @@
                                                 <!-- <td><a class="btn-link txt-primary" onclick="viewHistory()"></a></td> -->
                                                 <td><?php echo $head['supplier']; ?></td>
                                                 <td><?php echo $head['pr']; ?></td>
-                                                <td><?php echo (($head['rfd']==0) ? '<span class="label label-warning">Pending RFD</span>' : '<span class="label label-success">Completed</span>'); ?></td>
+                                                <td><?php 
+
+                                                if($head['revised']==1) {
+                                                    echo '<span class="label label-warning">Request for Revision</span>';
+                                                } else {
+                                                    echo (($head['rfd']==0) ? '<span class="label label-warning">Pending RFD</span>' : '<span class="label label-success">Completed</span>'); 
+                                                    } ?></td>
                                                 <td><?php
                                                     if($head['po_type']==0){
                                                         echo "Purchase Request";

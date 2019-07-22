@@ -86,7 +86,8 @@ class Po extends CI_Controller {
                 'po_type'=>$head->po_type,
                 'pr'=>$pr,
                 'rfd'=>$rfd,
-                'po_type'=>$head->po_type
+                'po_type'=>$head->po_type,
+                'revised'=>$head->revised
             );
         }        
         $this->load->view('po/po_list',$data);
@@ -412,7 +413,6 @@ class Po extends CI_Controller {
     public function revise_po(){
         $po_id=$this->uri->segment(3);
         $data = array(
-            'saved'=>0,
             'revised'=>1
         );
         if($this->super_model->update_where("po_head", $data, "po_id", $po_id)){
@@ -455,6 +455,7 @@ class Po extends CI_Controller {
         }
 
         $data=array(
+            'saved'=>0,
             'revise_attachment'=>$filename,
         );
         if($this->super_model->update_where("po_head", $data, "po_id", $po_id)){
