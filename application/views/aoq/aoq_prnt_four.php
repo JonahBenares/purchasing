@@ -485,50 +485,94 @@
 		    		<tr>
 		    			<td class="" align="center">a.</td>
 		    			<td colspan="8" class="f10" align="center">Price Validity</td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<?php
+		    			if($saved==0){
+		    			$q=1; 
+		    			foreach($vendors AS $ven) { ?>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name="price_validity<?php echo $q; ?>"></td>
+		    			<td colspan="2" class="f10" align="left"><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
+		    			<?php 
+		    				$q++; } }else { 
+		    				foreach($vendors AS $ven) { 
+		    			?>
+		    			<td colspan="4" class="f10  bor-btm" align="left"><?php echo $ven['validity']; ?></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<?php } } ?> 
+		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>		    			
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
-		    			<td colspan="2" class="f10" align="left"><br></td>
+		    			<td colspan="2" class="f10" align="left"><br></td> -->
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">b.</td>
 		    			<td colspan="8" class="f10" align="center">Payment Terms</td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<?php
+		    			if($saved==0){
+		    			$q=1; 
+		    			foreach($vendors AS $ven) { ?>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name="payment_terms<?php echo $q; ?>"></td>
+		    			<td colspan="2" class="f10" align="left"><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
+		    			<?php 
+		    				$q++; } }else { 
+		    				foreach($vendors AS $ven) { 
+		    			?>
+		    			<td colspan="4" class="f10 bor-btm" align="left"><?php echo $ven['terms']; ?></td>
+		    			<td colspan="2" class="f10" align="left"></td>
+		    			<?php } } ?> 
+		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
-		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
-		    			<td colspan="2" class="f10" align="left"><br></td>
+		    			<td colspan="2" class="f10" align="left"><br></td> -->
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">c.</td>
 		    			<td colspan="8" class="f10" align="center">Date of Delivery</td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<?php
+		    			if($saved==0){
+		    			$q=1; 
+		    			foreach($vendors AS $ven) { ?>
+		    			<td colspan="4" class="f10 " align="left"><input type="date" class="btn-block" name="delivery_date<?php echo $q; ?>"></td>
+		    			<td colspan="2" class="f10" align="left"><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"</td>
+		    			<?php 
+		    				$q++; } }else { 
+		    				foreach($vendors AS $ven) { 
+		    			?>
+		    			<td colspan="4" class="f10  bor-btm" align="left"><?php echo date('F j, Y', strtotime($ven['delivery_date'])); ?></td>
+		    			<td colspan="2" class="f10" align="left"><br></td>
+		    			<?php } } ?> 
+		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
-		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
-		    			<td colspan="2" class="f10" align="left"><br></td>
+		    			<td colspan="2" class="f10" align="left"><br></td> -->
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">d.</td>
 		    			<td colspan="8" class="f10" align="center">Item's Warranty</td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<?php
+		    			if($saved==0){
+		    			$q=1; 
+		    			foreach($vendors AS $ven) { ?>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name="item_warranty<?php echo $q; ?>"></td>
+		    			<td colspan="2" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"</td>
+		    			<?php 
+		    				$q++; } }else { 
+		    				foreach($vendors AS $ven) { 
+		    			?>
+		    			<td colspan="4" class="f10  bor-btm" align="left"><?php echo $ven['warranty']; ?></td>
+		    			<td colspan="2" class="f10" align="left"><br></td>
+		    			<?php } } ?> 
+		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
-		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
-		    			<td colspan="2" class="f10" align="left"><br></td>
+		    			<td colspan="2" class="f10" align="left"><br></td> -->
 		    		</tr>
 		    		<tr><td class="f10" colspan="33" align="center"><br></td></tr>
 		    		<tr>

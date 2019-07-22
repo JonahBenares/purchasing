@@ -319,10 +319,15 @@ class Aoq extends CI_Controller {
 
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $ven){
             $data['vendors'][] = array(
+                'id'=>$ven->aoq_vendors_id,
                 'vendor_id'=>$ven->vendor_id,
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $ven->vendor_id),
                 'phone'=>$this->super_model->select_column_where("vendor_head", "phone_number", "vendor_id", $ven->vendor_id),
                 'contact'=>$this->super_model->select_column_where("vendor_head", "contact_person", "vendor_id", $ven->vendor_id),
+                'validity'=>$ven->price_validity,
+                'terms'=>$ven->payment_terms,
+                'delivery_date'=>$ven->delivery_date,
+                'warranty'=>$ven->item_warranty,
             );
         }
 
@@ -397,10 +402,15 @@ class Aoq extends CI_Controller {
 
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $ven){
             $data['vendors'][] = array(
+                'id'=>$ven->aoq_vendors_id,
                 'vendor_id'=>$ven->vendor_id,
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $ven->vendor_id),
                 'phone'=>$this->super_model->select_column_where("vendor_head", "phone_number", "vendor_id", $ven->vendor_id),
                 'contact'=>$this->super_model->select_column_where("vendor_head", "contact_person", "vendor_id", $ven->vendor_id),
+                'validity'=>$ven->price_validity,
+                'terms'=>$ven->payment_terms,
+                'delivery_date'=>$ven->delivery_date,
+                'warranty'=>$ven->item_warranty,
             );
         }
 
