@@ -292,21 +292,6 @@
 		    				<?php echo $ven['contact']; ?>
 		    			</td>
 		    			<?php } ?>
-		    			<!-- <td colspan="7" class="f10 table-borbold"  align="center">
-		    				<b>Supplier name</b><br>
-		    				Contact Person<br>
-		    				Phone Number
-		    			</td>
-		    			<td colspan="7" class="f10 table-borbold"  align="center">
-		    				<b>Supplier name</b><br>
-		    				Contact Person<br>
-		    				Phone Number
-		    			</td>
-		    			<td colspan="7" class="f10 table-borbold"  align="center">
-		    				<b>Supplier name</b><br>
-		    				Contact Person<br>
-		    				Phone Number
-		    			</td> -->
 		    		</tr>
 		    		<tr>
 		    			<td class="f9 table-borbold "align="center"><b class="p-r-10 p-l-10">#</td>
@@ -401,8 +386,10 @@
 		    			<input type='hidden' name='item_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->aoq_items_id; ?>'>
 		    			<input type='hidden' name='pr_details_id_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->pr_details_id; ?>'>
 		    			<input type='hidden' name='vendor_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $ven['vendor_id']; ?>'>
-		    			<?php $v++; } }else{ ?>
-		    			<?php  
+		    			<?php $v++; }  ?>
+		    			<input type='hidden' name='vendor_count' value='<?php echo $v; ?>'>
+		    			<?php 
+		    				}else{ 
 		    				foreach($vendors AS $ven) {
 		    			?>
 		    			<td colspan="7" style='border:1px solid #000;vertical-align: text-top;' >
@@ -421,7 +408,8 @@
 			    					<?php if($awarded==0){ ?>
 			    					<td style='width:28%'  class="bor-btm-red bor-right f10 " align="center">
 			    						<?php echo number_format($of['amount'],2); ?><br>
-				    					<input type="radio" name="award_<?php echo $a; ?>" value="1" >
+				    					<!-- <input type="radio" name="award_<?php echo $a; ?>" value="1" > -->
+				    					<input type="checkbox" name="award_<?php echo $a; ?>" value="1" >
 			    					</td>
 			    					<?php } else { ?>
 			    					<td width="28%" class="bor-btm bor-right <?php echo (($of['recommended'] == 1) ? 'green-back': ''); ?>" align="center">
@@ -447,150 +435,11 @@
 				    			<input type='hidden' name='count_offer' value='<?php echo $a; ?>'>
 		    				</table>
 		    			</td>
-
 		    			<?php } } ?>
-		    			<!-- <td colspan="7" style='border:1px solid #000;vertical-align: text-top;' >
-		    				<table class="table-borsdered" width="100%" style='border:0px solid #000'>						
-		    					<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-		    				</table>
-		    			</td>
-		    			<td colspan="7" style='border:1px solid #000;vertical-align: text-top;' >
-		    				<table class="table-borsdered" width="100%" style='border:0px solid #000'>						
-		    					<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-		    				</table>
-		    			</td>
-		    			<td colspan="7" style='border:1px solid #000;vertical-align: text-top;' >
-		    				<table class="table-borsdered" width="100%" style='border:0px solid #000'>						
-		    					<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-			    				<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" name="">
-			    					</td>
-			    					<td  class="bor-right text-red f10 ">
-			    						<textarea type="text" class="form-control f10" name="" rows="1"></textarea>
-			    					</td>
-			    				</tr>
-		    				</table>
-		    			</td> -->
 		    		<tr>
 		    		<?php $x++; } ?>
 		    		<input type='hidden' name='item_count' value='<?php echo $x; ?>'>
-			    	<input type='hidden' name='vendor_count' value='<?php echo $v; ?>'>
+			    	<!-- <input type='hidden' name='vendor_count' value='<?php echo $v; ?>'> -->
 			    	<input type='hidden' name='aoq_id' value='<?php echo $aoq_id; ?>'>
 			    	<tr>
 		    			<td class="f10 table-borreg" align="center"></td>
@@ -636,49 +485,49 @@
 		    		<tr>
 		    			<td class="" align="center">a.</td>
 		    			<td colspan="8" class="f10" align="center">Price Validity</td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>		    			
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">b.</td>
 		    			<td colspan="8" class="f10" align="center">Payment Terms</td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">c.</td>
 		    			<td colspan="8" class="f10" align="center">Date of Delivery</td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">d.</td>
 		    			<td colspan="8" class="f10" align="center">Item's Warranty</td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><br></td>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    		</tr>
 		    		<tr><td class="f10" colspan="33" align="center"><br></td></tr>
@@ -696,7 +545,7 @@
 		    		<tr><td class="f10" colspan="33" align="center"><br></td></tr>
 		    		<tr>
 		    			<td colspan="2"  class="" align="center"></td>
-		    			<td colspan="5" class="f10 bor-btm" align="center">name</td>
+		    			<td colspan="5" class="f10 bor-btm" align="center"><?php echo $_SESSION['fullname'];?></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="6" class="f10 bor-btm" align="center"></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
