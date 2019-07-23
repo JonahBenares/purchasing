@@ -54,7 +54,25 @@
                                 </form>
                                 <br>
                                 <form method='POST' action="<?php echo base_url(); ?>/pr/insert_vendor">
-                                <div style="padding:10px; background: #ffd9cead">
+                               
+                                <table width="100%">
+                                    <tr>
+                                        <td width="20%">Searched Category:</td>
+                                        <td><h3><b><?php echo $category; ?></b></h3></td>
+                                    </tr>
+                                </table>
+                                <br>
+                                Vendor List
+                                <table class="table table-bordered">     
+
+                                <?php foreach($vendor AS $v){ ?>                                  
+                                    <tr>
+                                        <td width="10%"><input type="checkbox" name="vendor_id[]" value="<?php echo $v->vendor_id; ?>" class="form-control"></td>
+                                        <td width="90%"><?php echo $v->vendor_name; ?></td>
+                                    </tr>
+                                <?php } ?>
+                                </table>
+                                 <div style="padding:10px; background: #ffd9cead">
                                     <table width="100%">
                                         <tr>
                                             <td width="33%">Due Date:</td>
@@ -87,23 +105,6 @@
                                     </table>
                                 </div>
                                 <br>
-                                <table width="100%">
-                                    <tr>
-                                        <td width="20%">Searched Category:</td>
-                                        <td><h3><b><?php echo $category; ?></b></h3></td>
-                                    </tr>
-                                </table>
-                                <br>
-                                Vendor List
-                                <table class="table table-bordered">     
-
-                                <?php foreach($vendor AS $v){ ?>                                  
-                                    <tr>
-                                        <td width="10%"><input type="checkbox" name="vendor_id[]" value="<?php echo $v->vendor_id; ?>" class="form-control"></td>
-                                        <td width="90%"><?php echo $v->vendor_name; ?></td>
-                                    </tr>
-                                <?php } ?>
-                                </table>
                                 <center><input type='submit' class="btn btn-primary btn-md btn-block" value='Save'></center>  
                                 <input type='hidden' name='pr_id' value='<?php echo $prid; ?>'>
                                 <input type='hidden' name='group' value='<?php echo $group; ?>'>   

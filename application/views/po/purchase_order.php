@@ -135,16 +135,27 @@
 	
 
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>po/save_po'>  
+    	<?php 
+    	if($revised=='r'){
+    		$url=base_url().'po/save_po_revised';
+    	} else {
+    		$url=base_url().'po/save_po';
+    	}
+    	?>
+    	<form method='POST' action='<?php echo $url; ?>'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="abtn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
 						<?php if($saved==1){ ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
-					<?php } else { ?>
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
-					<?php } ?>
+					<?php } else {
+						if($revised=='r'){ ?>
+							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save Revision">	
+						<?php } else { ?>
+							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
+						<?php }
+					 } ?>
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
@@ -382,6 +393,7 @@
 						<div class="modal-footer">
 							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 						</div>
+
 					</form>
 				</div>
 			</div>
