@@ -194,15 +194,18 @@ class Pr extends CI_Controller {
                 $part_no = trim($objPHPExcel->getActiveSheet()->getCell('D'.$x)->getValue());
                 $description = trim($objPHPExcel->getActiveSheet()->getCell('E'.$x)->getValue());
                 $date_needed = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue()));
-                $data_items = array(
-                    'pr_id'=>$pr_id,
-                    'item_description'=>$description,
-                    'uom'=>$uom,
-                    'quantity'=>$qty,
-                    'part_no'=>$part_no,
-                    'date_needed'=>$date_needed,
-                );
-                $this->super_model->insert_into("pr_details", $data_items);
+                if(!empty($qty)){
+                    $data_items = array(
+                        'pr_id'=>$pr_id,
+                        'item_description'=>$description,
+                        'uom'=>$uom,
+                        'quantity'=>$qty,
+                        'part_no'=>$part_no,
+                        'date_needed'=>$date_needed,
+                    );
+
+                    $this->super_model->insert_into("pr_details", $data_items);
+                }
             }
         }
         echo "<script>alert('Successfully Uploaded!'); window.location = 'purchase_request/$pr_id';</script>";
