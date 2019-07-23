@@ -38,7 +38,7 @@
 			font-size:12px!important;
 		}
 		.f10{
-			font-size:11px!important;
+			font-size:12px!important;
 		}
 		.f9{
 			font-size:9px!important;
