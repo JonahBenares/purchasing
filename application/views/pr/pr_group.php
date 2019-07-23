@@ -60,12 +60,12 @@
                                                     }
                                                 } ?>
                                             </td>
-                                            <td width="17%">
-                                                 <?php 
-                                                 if(!empty($vendor)){
+                                            <td width="17%">                                                
+                                                <?php 
+                                                if(!empty($vendor)){
                                                      foreach($vendor AS $ven){ 
                                                         if($gr['group'] == $ven['group_id']){
-                                                            echo "-" . $ven['vendor'] . "<br>";
+                                                            echo "<button class='btn btn-xs btn-danger'><span class='fa fa-times'></span></button> - " . $ven['vendor'] . "<br>";
                                                         }
                                                     }
                                                 } ?>
