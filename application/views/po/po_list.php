@@ -59,8 +59,7 @@
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
                             <select name="supplier" id='supplierrep' onchange="chooseSupplierrep()" class="form-control">
-                                 <option value='' selected="selected">-Choose Supplier/Vendor-</option>
-                               
+                                 <option value='' selected="selected">-Choose Supplier/Vendor-</option>                               
                             </select>
                         </div>
                         <div class="form-group">
@@ -241,8 +240,8 @@
                                             ?>
                                             <tr>
                                                 <td><?php echo date('F j, Y', strtotime($head['po_date'])); ?></td>
-                                                <td><?php echo $head['po_no'];?></td>
-                                                <!-- <td><a class="btn-link txt-primary" onclick="viewHistory()"></a></td> -->
+                                               <!--  <td></td> -->
+                                                <td><a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>')"><?php echo $head['po_no'];?></a></td>
                                                 <td><?php echo $head['supplier']; ?></td>
                                                 <td><?php echo $head['pr']; ?></td>
                                                 <td><?php 
