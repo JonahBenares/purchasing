@@ -160,5 +160,5 @@ $(document).on("click", "#polink_button", function () {
 
 
 function viewHistory(baseurl,id,po_no) {
-    window.open(baseurl+"index.php/po/view_history/"+id+"/"+po_no, "_blank","toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
+    window.open(baseurl+"po/view_history/"+id+"/"+po_no, "_blank","toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
 }

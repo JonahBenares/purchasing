@@ -69,7 +69,7 @@ class Po extends CI_Controller {
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');   
         $this->load->view('template/navbar');
-        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
+        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND served = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
              $rfd=$this->super_model->count_rows_where("rfd","po_id",$head->po_id);
              $pr='';
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
@@ -87,17 +87,20 @@ class Po extends CI_Controller {
                 'pr'=>$pr,
                 'rfd'=>$rfd,
                 'po_type'=>$head->po_type,
-                'revised'=>$head->revised
+                'revised'=>$head->revised,
+                'revision_no'=>$head->revision_no
             );
         }        
         $this->load->view('po/po_list',$data);
         $this->load->view('template/footer');
     }
 
-    public function update_done(){
+    public function serve_po(){
         $poid=$this->uri->segment(3);
         $data = array(
-            'done_po'=>1
+            'served'=>1,
+            'date_served'=>date('Y-m-d H:i:s'),
+            'served_by'=>$_SESSION['user_id']
         );
         if($this->super_model->update_where("po_head", $data, "po_id", $poid)){
             redirect(base_url().'po/po_list/', 'refresh');
@@ -818,11 +821,11 @@ class Po extends CI_Controller {
     }
 
 
-    public function done_po(){
+    public function served_po(){
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');        
         $this->load->view('template/navbar'); 
-        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po='1' ORDER BY po_id DESC") AS $head){
+        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND served='1' ORDER BY po_id DESC") AS $head){
              $rfd=$this->super_model->count_rows_where("po_dr","po_id",$head->po_id);
              $pr='';
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
@@ -840,7 +843,7 @@ class Po extends CI_Controller {
                 'rfd'=>$rfd,
             );
         }  
-        $this->load->view('po/done_po',$data);
+        $this->load->view('po/served_po',$data);
         $this->load->view('template/footer');
     }
 

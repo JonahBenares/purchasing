@@ -60,7 +60,7 @@
                         <div class="sparkline8-hd p-b-0" >
                             <div class="main-sparkline8-hd">
                                 <h1><button onclick="goBack()" class=" btn btn-xs btn-success"><span class="fa fa-arrow-left"></span></button>
-                                    PR Summary <b style="color:blue">Date Here</b>
+                                    PR Summary <b style="color:blue"><?php echo $date; ?></b>
                                 </h1>
                                 <small class="p-l-25">&nbsp;PURCHASE REQUEST</small> 
                                 <div class="sparkline8-outline-icon">
@@ -88,36 +88,33 @@
                                             <th>WH Stocks</th>
                                             <th>Item NO.</th>
                                             <th>Qty</th>
+                                            <th>UOM</th>
                                             <th>Description</th>
                                             <th>Ro/ with AOQ </th>
                                             <th>Status Remarks</th>
-                                            <th>Status
-                                            <!-- Pending
-												For Approval
-												Partial
-												Fully Served
-												Cancelled -->
-											</th>
+                                            <th>Status</th>
                                             <th>Remarks</th>
                                             <th>End User's Comments</th>	
                                             <th align="center"><span class="fa fa-bars"></span></th>										
                                         </tr>
                                        
                                     </thead>
-                                    <tbody>                          
+                                    <tbody>    
+                                    <?php foreach($pr AS $p) { ?>                      
                                         <tr>
+                                            <td><?php echo date('F j, Y', strtotime($p['date_prepared'])); ?></td>
+                                            <td><?php echo $p['purpose']; ?></td>
+                                            <td><?php echo $p['enduse']; ?></td>
+                                            <td><?php echo $p['pr_no']; ?></td>
+                                            <td><?php echo $p['requestor']; ?></td>
                                             <td></td>
                                             <td></td>
+                                            <td><?php echo $p['qty']; ?></td>
+                                            <td><?php echo $p['uom']; ?></td>
+                                            <td><?php echo $p['item_description']; ?></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo $p['status_remarks']; ?></td>
+                                            <td><?php echo $p['status']; ?></td>
                                             <td></td>
                                             <td></td>
                                             <td>
@@ -127,7 +124,8 @@
                                                     </button>                                                 
                                                 </div>
                                             </td>
-                                        </tr>                   
+                                        </tr>    
+                                    <?php } ?>               
                                     </tbody>
                                 </table>
                             </div>                           
