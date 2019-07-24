@@ -196,7 +196,9 @@ class Po extends CI_Controller {
 
     public function purchase_order(){
         $po_id = $this->uri->segment(3);
-        $data['revised'] = $this->uri->segment(4);
+        $revised = $this->uri->segment(4);
+        $data['revised'] = $revised;
+
         $data['po_id'] = $po_id;
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         $data['vendor_id']=$vendor_id;
@@ -221,26 +223,44 @@ class Po extends CI_Controller {
             );
         }
 
-        foreach($this->super_model->select_row_where("po_pr", "po_id" , $po_id) AS $popr){
-            //echo "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'<br>";
-            // /echo "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'";
-            foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'") AS $off){
+        if(empty($revised)){
+            foreach($this->super_model->select_row_where("po_pr", "po_id" , $po_id) AS $popr){
+             
+                foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'") AS $off){
 
-                $total = $off->unit_price*$off->quantity;
-                $data['items'][] =  array(
-                    'aoq_id'=>$off->aoq_id,
-                    'aoq_offer_id'=>$off->aoq_offer_id,
-                    'aoq_items_id'=>$off->aoq_items_id,
-                    'pr_details_id'=>$off->pr_details_id,
-                    'item_name'=>$this->super_model->select_column_where('aoq_items', 'item_description', 'aoq_items_id', $off->aoq_items_id),
-                    'offer'=>$off->offer,
-                    'price'=>$off->unit_price,
-                    'balance'=>$off->balance,
-                    'amount'=>$off->amount,
-                    'uom'=>$off->uom,
-                    'total'=>$total
-                );
-            }
+                    $total = $off->unit_price*$off->quantity;
+                    $data['items'][] =  array(
+                        'aoq_id'=>$off->aoq_id,
+                        'aoq_offer_id'=>$off->aoq_offer_id,
+                        'aoq_items_id'=>$off->aoq_items_id,
+                        'pr_details_id'=>$off->pr_details_id,
+                        'item_name'=>$this->super_model->select_column_where('aoq_items', 'item_description', 'aoq_items_id', $off->aoq_items_id),
+                        'offer'=>$off->offer,
+                        'price'=>$off->unit_price,
+                        'balance'=>$off->balance,
+                        'amount'=>$off->amount,
+                        'uom'=>$off->uom,
+                        'total'=>$total
+                    );
+                }
+             } 
+        } else {
+             foreach($this->super_model->select_row_where("po_items", "po_id" , $po_id) AS $off){
+                  $total = $off->unit_price*$off->quantity;
+                    $data['items'][] =  array(
+                        'aoq_id'=>$this->super_model->select_column_where('po_pr', 'aoq_id', 'po_id', $po_id),
+                        'aoq_offer_id'=>$off->aoq_offer_id,
+                        'aoq_items_id'=>$off->aoq_items_id,
+                        'pr_details_id'=>$off->pr_details_id,
+                        'item_name'=>$this->super_model->select_column_where('aoq_items', 'item_description', 'aoq_items_id', $off->aoq_items_id),
+                        'offer'=>$off->offer,
+                        'price'=>$off->unit_price,
+                        'balance'=>$off->quantity,
+                        'amount'=>$off->amount,
+                        'uom'=>$off->uom,
+                        'total'=>$total
+                    );
+             }
         }
 
         foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $ppr){
@@ -335,11 +355,11 @@ class Po extends CI_Controller {
         $count_item = $this->input->post('count_item');
         $date= date('Y-m-d H:i:s');
 
-        $max_revision = $this->super_model->get_max("po_head", "revision_no");
-        $revision_no = $max_revision+1;
-
+       
 
         /**************** DUPLICATE TO REVISED TABLE PO HEAD/PO PR AND PO ITEMS ***************/
+
+        $rev_no = $this->super_model->select_column_where("po_head",'revision_no','po_id',$po_id);
 
         foreach($this->super_model->select_row_where("po_head","po_id",$po_id) AS $head){
             $data_head = array(
@@ -355,7 +375,7 @@ class Po extends CI_Controller {
                 "saved"=>$head->saved,
                 "done_po"=>$head->done_po,
                 "date_revised"=>$head->date_revised,
-                "revision_no"=>$revision_no,
+                "revision_no"=>$head->revision_no,
                 "revise_attachment"=>$head->revise_attachment,
 
             );
@@ -373,7 +393,7 @@ class Po extends CI_Controller {
                 "purpose"=>$popr->purpose,
                 "requestor"=>$popr->requestor,
                 "notes"=>$popr->notes,
-                "revision_no"=>$revision_no
+                "revision_no"=>$rev_no
             );
             $this->super_model->insert_into("po_pr_revised", $data_popr);
         }
@@ -393,16 +413,40 @@ class Po extends CI_Controller {
                 "uom"=>$poitems->uom,
                 "amount"=>$poitems->amount,
                 "item_no"=>$poitems->item_no,
-                "revision_no"=>$revision_no,
+                "revision_no"=>$rev_no
             );
             $this->super_model->insert_into("po_items_revised", $data_items);
+        }
+
+        foreach($this->super_model->select_row_where("po_dr","po_id",$po_id) AS $podr){
+            $data_dr = array(
+                "dr_id"=>$podr->dr_id,
+                "po_id"=>$podr->po_id,
+                "dr_no"=>$podr->dr_no,
+                "revision_no"=>$rev_no
+            );
+            $this->super_model->insert_into("po_dr_revised", $data_dr);
         }
 
         /*************************************************************************/
 
         $a=1;
         for($x=1; $x<$count_item;$x++){
+
+
             $qty=$this->input->post('quantity'.$x);
+
+                $old_qty = $this->super_model->select_column_where('po_items', 'quantity', 'aoq_offer_id', $this->input->post('aoq_offer_id'.$x));
+                $curr_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id', $this->input->post('aoq_offer_id'.$x));
+                $get_old_balance = $curr_balance + $old_qty;
+
+                // echo "curr = ". $curr_balance . " + " . $old_qty . " ** " . $this->input->post('aoq_offer_id'.$x)."<br><br>";
+
+                $data_old_balance = array(
+                    'balance'=>$get_old_balance
+                );
+
+                $this->super_model->update_where("aoq_offers", $data_old_balance, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
            
             $saved = $this->super_model->select_column_where("po_head",'saved','po_id',$po_id);
             if($qty!=0){
@@ -424,11 +468,13 @@ class Po extends CI_Controller {
                 $this->super_model->update_where("po_items", $data, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
                 
 
-                $curr_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id', $this->input->post('aoq_offer_id'.$x));
-                $new_balance = $curr_balance-$qty;
+                $new_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id', $this->input->post('aoq_offer_id'.$x));
+
+                //echo $new_balance . " - " . $qty . "<br>";
+                $balance = $new_balance-$qty;
 
                 $data_aoq = array(
-                    'balance'=>$new_balance
+                    'balance'=>$balance
                 );
                 $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
              $a++;
@@ -445,9 +491,13 @@ class Po extends CI_Controller {
             $dr_no = $max+1;
         }
 
+         $max_revision = $this->super_model->get_max("po_head", "revision_no");
+        $revision_no = $max_revision+1;
+
 
         $dr = array(
-            'dr_no'=>$dr_no
+            'dr_no'=>$dr_no,
+            'revision_no'=>$revision_no
         );
         $this->super_model->update_where("po_dr", $dr, "po_id",$po_id);
 
@@ -524,6 +574,7 @@ class Po extends CI_Controller {
             );
             $data['saved']=$h->saved;
             $data['revised']=$h->revised;
+            $data['revision_no']=$h->revision_no;
             $data['po_no']=$h->po_no;
             $data['notes']=$h->notes;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
@@ -579,17 +630,18 @@ class Po extends CI_Controller {
 
         $count_item = $this->input->post('count_item');
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
-        foreach($this->super_model->select_row_where("po_pr", "po_id" , $po_id) AS $popr){
+      /*  foreach($this->super_model->select_row_where("po_pr", "po_id" , $po_id) AS $popr){
             foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'") AS $off){
                 for($x=1; $x<$count_item;$x++){
                     $qty = $this->input->post('qty'.$x);
+                    //$new_balance = $off->balance +$qty;
                     $data_aoq =  array(
                         'balance'=>$qty,
                     );
                     $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
                 }
             }
-        }
+        }*/
 
         $data=array(
             'saved'=>0,
@@ -615,6 +667,7 @@ class Po extends CI_Controller {
     public function delivery_receipt(){
         $po_id = $this->uri->segment(3); 
         $data['head']= $this->super_model->select_row_where('po_head', 'po_id', $po_id);
+        $data['revision_no']= $this->super_model->select_column_where("po_dr", "revision_no", "po_id", $po_id);
         $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
         $user_id= $this->super_model->select_column_where("po_head", "user_id", "po_id", $po_id);
         $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);

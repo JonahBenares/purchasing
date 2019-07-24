@@ -140,7 +140,7 @@
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td colspan="10" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no; ?></b></td>
-		    			<td colspan="10" class="all-border "><b class="nomarg">PO No: <?php echo $h->po_no; ?></b></td>
+		    			<td colspan="10" class="all-border "><b class="nomarg">PO No: <?php echo $h->po_no . (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
 		    		</tr>
 		    		
 		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($h->po_date)); ?></b></td></tr>
