@@ -60,8 +60,27 @@ class Reports extends CI_Controller {
                     $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served DR# ".$dr_no;
                 }
             } else {
-                $status = 'Pending';
-                $status_remarks = '';
+                $cancelled_items = $this->super_model->select_column_where('pr_details', 'cancelled', 'pr_details_id', $pr->pr_details_id);
+                if($cancelled_items==1){
+                    $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr->pr_details_id);
+                    $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr->pr_details_id);
+                    $status = 'Cancelled';
+                    $status_remarks = $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));
+                } else {
+
+                    $count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
+                    $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
+                    $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'");
+                    if($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0){
+                        $status = 'Pending';
+                        $status_remarks = 'For canvassing';
+                    } else if($count_rfq!=0 && $count_aoq!=0 && $count_aoq_awarded==0){ 
+
+                         $aoq_date = $this->super_model->custom_query_single("SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'","aoq_date");
+                         $status = 'Pending';
+                         $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date)) ;
+                    }
+                }
             }
             $data['pr'][] = array(
                 'date_prepared'=>$pr->date_prepared,
