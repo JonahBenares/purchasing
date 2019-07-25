@@ -241,7 +241,7 @@
                                             <tr>
                                                 <td><?php echo date('F j, Y', strtotime($head['po_date'])); ?></td>
                                                <!--  <td></td> -->
-                                                <td><a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>')"><?php echo $head['po_no'] . (($head['revision_no']!=0) ? ".r".$head['revision_no'] : "");?></a></td>
+                                                <td><a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>','<?php echo $head['po_id']; ?>','<?php echo $head['po_no']; ?>')"><?php echo $head['po_no'] . (($head['revision_no']!=0) ? ".r".$head['revision_no'] : "");?></a></td>
                                                 <td><?php echo $head['supplier']; ?></td>
                                                 <td><?php echo $head['pr']; ?></td>
                                                 <td><?php 

@@ -661,9 +661,63 @@ class Po extends CI_Controller {
         return $col;
     }
 
+    public function purchase_order_saved_r(){
+        $this->load->view('template/header'); 
+        $po_id=$this->uri->segment(3);
+        $revise_no=$this->uri->segment(4);
+        $data['po_id']=$po_id;
+        foreach($this->super_model->select_custom_where('po_head_revised', "po_id = '$po_id'") AS $h){
+            $data['head'][] = array(
+                'po_date'=>$h->po_date,
+                'po_no'=>$h->po_no,
+                'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $h->vendor_id),
+                'address'=>$this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $h->vendor_id),
+                'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
+                'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
+            );
+            $data['saved']=$h->saved;
+            $data['revised']=$h->revised;
+            $data['revision_no']=$h->revision_no;
+            $data['po_no']=$h->po_no;
+            $data['notes']=$h->notes;
+            $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
+            $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+        }
+
+        $data['items'] = $this->super_model->select_row_where('po_items_revised', 'po_id', $po_id);
+        foreach($this->super_model->select_row_where("po_pr_revised", "po_id", $po_id) AS $ppr){
+            $data['allpr'][]= array(
+                'pr_no'=>$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $ppr->pr_id),
+                'enduse'=>$ppr->enduse,
+                'purpose'=>$ppr->purpose,
+                'requestor'=>$ppr->requestor
+            );
+        }       
+        $this->load->view('po/purchase_order_saved_r',$data);
+        $this->load->view('template/footer');
+    }
+
     public function view_history(){
-        $this->load->view('template/header');      
-        $this->load->view('po/view_history');
+        $this->load->view('template/header'); 
+        $poid=$this->uri->segment(3);
+        $po_no=$this->uri->segment(4);
+        $data['po_no']=$po_no;
+        $data['po_id']=$poid;
+
+        $row = $this->super_model->count_rows_where("po_head_revised", "po_id",$poid);
+        if($row!=0){
+            foreach($this->super_model->select_custom_where("po_head_revised", "po_id = '$poid'") AS $rev){
+                $data['revise'][]=array(
+                    'po_id'=>$poid,
+                    'po_no'=>$rev->po_no,
+                    'revised_date'=>$rev->date_revised,
+                    'revision_no'=>$rev->revision_no,
+                );
+            }
+        }else {
+            $data['revise']=array();
+        }     
+        $this->load->view('po/view_history',$data);
         $this->load->view('template/footer');
     }
 
