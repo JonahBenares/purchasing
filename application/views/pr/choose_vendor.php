@@ -53,7 +53,7 @@
                                     <input type='hidden' name='group' value='<?php echo $group; ?>'>
                                 </form>
                                 <br>
-                                <form method='POST' action="<?php echo base_url(); ?>/pr/insert_vendor">
+                                <form method='POST' action="<?php echo base_url(); ?>pr/insert_vendor">
                                
                                 <table width="100%">
                                     <tr>
@@ -82,13 +82,17 @@
                                             <td width="33%">Approved by:</td>
                                         </tr>
                                         <tr>
+                                            <?php if(empty($due_date)){ ?>
                                             <td width="33%"><input type="date" class="form-control" name="due_date"></td>
+                                            <?php } else { ?>
+                                            <td width="33%"><input type="date" class="form-control" name="due_date" value = "<?php echo $due_date;?>"></td>
+                                            <?php } ?>
                                             <td width="1%"></td>
                                             <td width="33%">
                                                 <select class="form-control" name="noted_by">
                                                     <option value = "">--Select Noted By--</option>
                                                     <?php foreach($employees AS $e){ ?>
-                                                    <option value = '<?php echo $e->employee_id; ?>'><?php echo $e->employee_name; ?></option>
+                                                    <option value = '<?php echo $e->employee_id; ?>' <?php echo (($noted_by == $e->employee_id) ? ' selected' : '');?>><?php echo $e->employee_name; ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </td>
@@ -97,7 +101,7 @@
                                                 <select class="form-control" name="approved_by">
                                                     <option value = "">--Select Approved By--</option>
                                                     <?php foreach($employees AS $e){ ?>
-                                                    <option value = '<?php echo $e->employee_id; ?>'><?php echo $e->employee_name; ?></option>
+                                                    <option value = '<?php echo $e->employee_id; ?>' <?php echo (($approved_by == $e->employee_id) ? ' selected' : '');?>><?php echo $e->employee_name; ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </td>

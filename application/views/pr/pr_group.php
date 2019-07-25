@@ -64,11 +64,11 @@
                                                 <?php 
                                                 if(!empty($vendor)){
                                                      foreach($vendor AS $ven){ 
-                                                        if($gr['group'] == $ven['group_id']){
-                                                            echo "<button class='btn btn-xs btn-danger'><span class='fa fa-times'></span></button> - " . $ven['vendor'] . "<br>";
-                                                        }
-                                                    }
-                                                } ?>
+                                                        if($gr['group'] == $ven['group_id']){ 
+                                                            //echo "<a href = '' class='btn btn-xs btn-danger'><span class='fa fa-times'></span></a> - " . $ven['vendor'] . "<br>";
+                                                ?>
+                                                    <a href = '<?php echo base_url(); ?>pr/delete_vendor/<?php echo $pr_id; ?>/<?php echo $ven['pr_vendors_id']; ?>' class='btn btn-xs btn-danger' onclick="confirmationDelete(this);return false;"><span class='fa fa-times'></span></a> - <?php echo $ven['vendor'] . "<br>" ?>
+                                                <?php } } } ?>
                                             </td>
                                             <td width="20%">
                                                 <?php 

@@ -319,8 +319,9 @@ class Pr extends CI_Controller {
         }
 
 
-        foreach($this->super_model->custom_query("SELECT vendor_id,grouping_id,noted_by,approved_by,due_date FROM pr_vendors WHERE pr_id = '$prid'") AS $vendor){
+        foreach($this->super_model->custom_query("SELECT vendor_id,grouping_id,noted_by,approved_by,due_date,pr_vendors_id FROM pr_vendors WHERE pr_id = '$prid'") AS $vendor){
             $data['vendor'][] = array(
+                'pr_vendors_id'=>$vendor->pr_vendors_id,
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor->vendor_id),
                 'group_id'=>$vendor->grouping_id,
                 'noted_by'=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $vendor->noted_by),
@@ -343,6 +344,15 @@ class Pr extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function delete_vendor(){
+        $pr_id=$this->uri->segment(3);
+        $pr_vendors_id=$this->uri->segment(4);
+        if($this->super_model->delete_where('pr_vendors', 'pr_vendors_id', $pr_vendors_id)){
+            echo "<script>alert('Succesfully Deleted'); 
+                window.location ='".base_url()."pr/pr_group/$pr_id'; </script>";
+        }
+    }
+
     public function search_vendor(){
         $category = $this->input->post('category');
         $pr_id = $this->input->post('pr_id');
@@ -361,6 +371,9 @@ class Pr extends CI_Controller {
         $data['group'] = $group;
         $data['category']=$category;
         $data['vendor'] = $this->super_model->custom_query("SELECT vendor_id, vendor_name, product_services FROM vendor_head WHERE product_services LIKE '%$category%'");
+        $data['due_date']=$this->super_model->select_column_custom_where("pr_vendors",'due_date',"pr_id = '$prid' AND grouping_id='$group'");
+        $data['noted_by']=$this->super_model->select_column_custom_where("pr_vendors",'noted_by',"pr_id = '$prid' AND grouping_id='$group'");
+        $data['approved_by']=$this->super_model->select_column_custom_where("pr_vendors",'approved_by',"pr_id = '$prid' AND grouping_id='$group'");
         $this->load->view('template/header');
         $this->load->view('pr/choose_vendor', $data);
         $this->load->view('template/footer');
@@ -373,19 +386,28 @@ class Pr extends CI_Controller {
         $noted_by = $this->input->post('noted_by');
         $approved_by = $this->input->post('approved_by');
         $vendor = $this->input->post('vendor_id');
-
-        foreach($vendor as $ven){
+        $count = $this->super_model->count_custom_where('pr_vendors',"pr_id='$pr_id' AND grouping_id='$group'");
+        if($count==0){
+            foreach($vendor as $ven){
+                $data = array(
+                    'pr_id'=>$pr_id,
+                    'vendor_id'=>$ven,
+                    'due_date'=>$due_date,
+                    'noted_by'=>$noted_by,
+                    'approved_by'=>$approved_by,
+                    'grouping_id'=>$group
+                );
+                $this->super_model->insert_into('pr_vendors', $data);
+            } 
+        } else {
             $data = array(
-                'pr_id'=>$pr_id,
-                'vendor_id'=>$ven,
                 'due_date'=>$due_date,
                 'noted_by'=>$noted_by,
-                'approved_by'=>$approved_by,
-                'grouping_id'=>$group
+                'approved_by'=>$approved_by
             );
-
-            $this->super_model->insert_into('pr_vendors', $data);
-        } ?>
+            $this->super_model->update_custom_where('pr_vendors', $data,"pr_id='$pr_id' AND grouping_id='$group'");
+        } 
+        ?>
 
            <script>
                   window.onunload = refreshParent;
@@ -396,7 +418,7 @@ class Pr extends CI_Controller {
                 
             </script>
         <?php 
-     }
+    }
 
     public function create_rfq(){
         $prid=$this->input->post('pr_id');
