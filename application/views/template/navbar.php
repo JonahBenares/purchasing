@@ -231,7 +231,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
-                            <a href="<?php echo base_url(); ?>index.php/reports/po_report"  class="btn btn-primary " target="_blank">Proceed</a>
+                            <!-- <a href="<?php echo base_url(); ?>index.php/reports/po_report"  class="btn btn-primary " target="_blank">Proceed</a> -->
                         </div>
                     </form>
                 </div>
