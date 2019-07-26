@@ -225,7 +225,7 @@
 		    		<tr id="pr-btn">
 		    			<td colspan="20" style="padding-left: 10px">
 		    				<div class="btn-group" id="prhide">
-			    				<a class="addPR btn btn-primary btn-xs" onclick="addPo()" data-id="">
+			    				<a class="addPR btn btn-primary btn-xs" onclick="addPo('<?php echo base_url(); ?>')" data-id="">
 								  Add PO
 								</a>
 							<!-- 	<a class="addPR btn btn-warning btn-xs" data-toggle="modal" href="#add-pr" data-id="" data-target="#add-pr">

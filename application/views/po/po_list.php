@@ -81,7 +81,7 @@
                         <center>
                            
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Proceed">
-                            <!-- <a href="<?php echo base_url(); ?>index.php/po/reporder_prnt" class="dropdown-item">Repeat Order</a> -->
+                            <a href="<?php echo base_url(); ?>index.php/po/reporder_prnt" class="dropdown-item">Repeat Order</a>
                         </center>
                     </div>
                     <input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
@@ -214,7 +214,7 @@
                                     <a type='button' class="btn btn-custon-three btn-info" data-toggle="modal" data-target="#addrepPO">
                                         <span class="fa fa-repeat p-l-0 "> </span> Add Repeat Order
                                     </a>
-                                    <a href="<?php echo base_url(); ?>po/served_po" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Served PO</a> 
+                                    <a href="<?php echo base_url(); ?>po/served_po" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Done PO</a> 
                                     <a href="<?php echo base_url(); ?>po/cancelled_po" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PO</a>
                                     </div>
                                 </div>
@@ -262,7 +262,7 @@
                                                 ?></td>
                                                 <td>
                                                     <center>
-                                                        <a href="<?php echo base_url(); ?>po/serve_po/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-success btn-xs" title='Serve PO'  onclick="return confirm('Are you sure you want to serve PO?')">
+                                                        <a href="<?php echo base_url(); ?>po/serve_po/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-success btn-xs" title='Done PO'  onclick="return confirm('Are you sure PO is done?')">
                                                             <span class="fa fa-check"></span>
                                                         </a>
                                                         <?php if($head['saved']==0){ ?>
