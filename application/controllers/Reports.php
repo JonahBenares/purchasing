@@ -117,6 +117,7 @@ class Reports extends CI_Controller {
                 }
             }
             $data['pr'][] = array(
+                'pr_details_id'=>$pr->pr_details_id,
                 'date_prepared'=>$pr->date_prepared,
                 'pr_no'=>$pr->pr_no,
                 'purpose'=>$pr->purpose,
@@ -129,14 +130,541 @@ class Reports extends CI_Controller {
                 'status'=>$status,
                 'status_remarks'=>$status_remarks,
                 'unserved_qty'=>$unserved_qty,
-                'unserved_uom'=>$unserved_uom
-
+                'unserved_uom'=>$unserved_uom,
+                'remarks'=>$pr->add_remarks
             );
         }
 
         $this->load->view('template/header');        
         $this->load->view('reports/pr_report',$data);
         $this->load->view('template/footer');
+    }
+
+    public function search_pr(){
+        if(!empty($this->input->post('year'))){
+            $data['year'] = $this->input->post('year');
+        } else {
+            $data['year']= "null";
+        }
+
+        if(!empty($this->input->post('month'))){
+            $data['month'] = $this->input->post('month');
+        } else {
+            $data['month']= "null";
+        }
+
+        if(!empty($this->input->post('date_receive'))){
+            $data['date_receive'] = $this->input->post('date_receive');
+        } else {
+            $data['date_receive']= "null";
+        }
+
+        if(!empty($this->input->post('purpose'))){
+            $data['purpose1'] = $this->input->post('purpose');
+        } else {
+            $data['purpose1']= "null";
+        }
+
+        if(!empty($this->input->post('enduse'))){
+            $data['enduse1'] = $this->input->post('enduse');
+        } else {
+            $data['enduse1'] = "null";
+        }
+
+        if(!empty($this->input->post('pr_no'))){
+            $data['pr_no1'] = $this->input->post('pr_no');
+        } else {
+            $data['pr_no1'] = "null";
+        }
+
+        if(!empty($this->input->post('requestor'))){
+            $data['requestor'] = $this->input->post('requestor');
+        } else {
+            $data['requestor'] = "null";
+        } 
+
+        if(!empty($this->input->post('description'))){
+            $data['description'] = $this->input->post('description');
+        } else {
+            $data['description'] = "null";
+        } 
+
+        $sql="";
+        $filter = " ";
+
+        if(!empty($this->input->post('date_receive'))){
+            $date_receive = $this->input->post('date_receive');
+            $sql.=" ph.date_prepared LIKE '%$date_receive%' AND";
+            $filter .= "Date Received/Emailed - ".$date_receive.", ";
+        }
+
+        if(!empty($this->input->post('purpose'))){
+            $purpose = $this->input->post('purpose');
+            $sql.=" ph.purpose LIKE '%$purpose%' AND";
+            $filter .= "Purpose - ".$purpose.", ";
+        }
+
+        if(!empty($this->input->post('enduse'))){
+            $enduse = $this->input->post('enduse');
+            $sql.=" ph.enduse LIKE '%$enduse%' AND";
+            $filter .= "Enduse - ".$enduse.", ";
+        }
+
+        if(!empty($this->input->post('pr_no'))){
+            $pr_no = $this->input->post('pr_no');
+            $sql.=" ph.pr_no LIKE '%$pr_no%' AND";
+            $filter .= "Pr No. - ".$this->super_model->select_column_where('pr_head', 'pr_no', 
+                        'pr_id', $pr_no).", ";
+        }
+
+        if(!empty($this->input->post('requestor'))){
+            $requestor = $this->input->post('requestor');
+            $sql.=" ph.requestor LIKE '%$requestor%' AND";
+            $filter .= "Requestor - ".$requestor.", ";
+        }
+
+        if(!empty($this->input->post('description'))){
+            $description = $this->input->post('description');
+            $sql.=" pd.item_description LIKE '%$description%' AND";
+            $filter .= "Item Description - ".$description.", ";
+        }
+
+        $query=substr($sql, 0, -3);
+        $data['filt']=substr($filter, 0, -2);
+        $year=$this->uri->segment(3);
+        $month=$this->uri->segment(4);
+        $data['year']=$year;
+        $data['month']=$month;
+        if(empty($month)){
+            $date = $year;
+        } else {
+         $date = $year."-".$month;
+        }
+        $data['date']=date('F Y', strtotime($date));
+
+        foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ".$query) AS $pr){
+            $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
+            $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'");
+            $unserved_qty=0;
+            $unserved_uom='';
+            if($sum_po_qty!=0){
+                if($sum_po_qty < $pr->quantity){
+                      $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
+                    if($count_rfd == 0){
+                        $status = 'PO Done';
+                        $status_remarks = 'Pending RFD - Partial';
+                    } else {
+                        $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
+                        $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
+                        $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
+                        $served_uom = $this->super_model->select_column_where('po_items', 'uom', 'pr_details_id', $pr->pr_details_id);
+
+                        $unserved_qty = $this->super_model->select_column_where('aoq_offers', 'balance', 'pr_details_id', $pr->pr_details_id);
+                        $unserved_uom = $this->super_model->select_column_where('aoq_offers', 'uom', 'pr_details_id', $pr->pr_details_id);
+
+                        $status = 'Partially Served';
+                        $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
+                    }
+                } else {
+                    $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
+                    if($count_rfd == 0){
+                        $status = 'PO Done';
+                        $status_remarks = 'Pending RFD - Full';
+                    } else {
+                        $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
+                        $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
+
+                        $status = 'Fully Served';
+                        $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served DR# ".$dr_no;
+                    }
+                }
+            } else {
+                $cancelled_items = $this->super_model->select_column_where('pr_details', 'cancelled', 'pr_details_id', $pr->pr_details_id);
+                if($cancelled_items==1){
+                    $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr->pr_details_id);
+                    $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr->pr_details_id);
+                    $status = 'Cancelled';
+                    $status_remarks = $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));
+                } else {
+
+                    $count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
+                    $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
+                    $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'");
+                    if($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0){
+                        $status = 'Pending';
+                        $status_remarks = 'For canvassing';
+                    } else if($count_rfq!=0 && $count_aoq!=0 && $count_aoq_awarded==0){ 
+
+                         $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
+                         $status = 'Pending';
+                         $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date)) ;
+                    } else if($count_rfq!=0 && $count_aoq_awarded!=0){ 
+
+                         $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'");
+                         $status = 'Pending';
+                         $status_remarks = 'For PO - AOQ Done (awarded)';
+                    }
+                }
+            }
+            $data['pr'][] = array(
+                'pr_details_id'=>$pr->pr_details_id,
+                'date_prepared'=>$pr->date_prepared,
+                'pr_no'=>$pr->pr_no,
+                'purpose'=>$pr->purpose,
+                'enduse'=>$pr->enduse,
+                'department'=>$pr->department,
+                'requestor'=>$pr->requestor,
+                'item_description'=>$pr->item_description,
+                'qty'=>$pr->quantity,
+                'uom'=>$pr->uom,
+                'status'=>$status,
+                'status_remarks'=>$status_remarks,
+                'unserved_qty'=>$unserved_qty,
+                'unserved_uom'=>$unserved_uom,
+                'remarks'=>$pr->add_remarks
+            );
+        }
+
+        $this->load->view('template/header');        
+        $this->load->view('reports/pr_report',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function export_pr(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="PR Summary.xlsx";
+
+        $year=$this->uri->segment(3);
+        $month=$this->uri->segment(4);
+        if(empty($month)){
+            $date = $year;
+        } else {
+            $date = $year."-".$month;
+        }
+        $monthyear=date('F Y', strtotime($date));
+
+        $date_received=$this->uri->segment(5);
+        $purpose=$this->uri->segment(6);
+        $enduse=$this->uri->segment(7);
+        $pr_no=$this->uri->segment(8);
+        $requestor=$this->uri->segment(9);
+        $description=$this->uri->segment(10);
+
+        $sql="";
+        $filter = " ";
+
+        if($date_received!='null'){
+            $sql.=" ph.date_prepared LIKE '%$date_received%' AND";
+            $filter .= $date_received;
+        }
+
+        if($purpose!='null'){
+            $sql.=" ph.purpose LIKE '%$purpose%' AND";
+            $filter .= $purpose;
+        }
+
+        if($enduse!='null'){
+            $sql.=" ph.enduse LIKE '%$enduse%' AND";
+            $filter .= $enduse;
+        }
+
+        if($pr_no!='null'){
+            $sql.=" ph.pr_no LIKE '%$pr_no%' AND";
+            $filter .= $pr_no;
+        }
+
+        if($requestor!='null'){
+            $sql.=" ph.requestor LIKE '%$requestor%' AND";
+            $filter .= $requestor;
+        }
+
+        if($description!='null'){
+            $sql.=" pd.item_description LIKE '%$description%' AND";
+            $filter .= $description;
+        }
+
+        $query=substr($sql, 0, -3);
+        $filt=substr($filter, 0, -2);
+
+
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "PR Summary $monthyear");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', "PURCHASE REQUEST");
+        $styleArray1 = array(
+            'borders' => array(
+                'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A4', "Date Received/Emailed");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B4', "Purpose");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Enduse");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D4', "PR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "Requestor");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F4', "WH Stocks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G4', "Item No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I4', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "RO/with AOQ");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "Status Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Status");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "End User's Comments");
+        foreach(range('A','N') as $columnID){
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:E1")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setSize(15);
+        $objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->applyFromArray($styleArray1);
+        if($filt!=''){
+            $num = 5;
+            foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ".$query) AS $pr){
+                $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
+                $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'");
+                $unserved_qty=0;
+                $unserved_uom='';
+                if($sum_po_qty!=0){
+                    if($sum_po_qty < $pr->quantity){
+                          $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
+                        if($count_rfd == 0){
+                            $status = 'PO Done';
+                            $status_remarks = 'Pending RFD - Partial';
+                        } else {
+                            $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
+                            $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
+                            $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
+                            $served_uom = $this->super_model->select_column_where('po_items', 'uom', 'pr_details_id', $pr->pr_details_id);
+
+                            $unserved_qty = $this->super_model->select_column_where('aoq_offers', 'balance', 'pr_details_id', $pr->pr_details_id);
+                            $unserved_uom = $this->super_model->select_column_where('aoq_offers', 'uom', 'pr_details_id', $pr->pr_details_id);
+
+                            $status = 'Partially Served';
+                            $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
+                        }
+                    } else {
+                        $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
+                        if($count_rfd == 0){
+                            $status = 'PO Done';
+                            $status_remarks = 'Pending RFD - Full';
+                        } else {
+                            $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
+                            $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
+
+                            $status = 'Fully Served';
+                            $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served DR# ".$dr_no;
+                        }
+                    }
+                } else {
+                    $cancelled_items = $this->super_model->select_column_where('pr_details', 'cancelled', 'pr_details_id', $pr->pr_details_id);
+                    if($cancelled_items==1){
+                        $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr->pr_details_id);
+                        $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr->pr_details_id);
+                        $status = 'Cancelled';
+                        $status_remarks = $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));
+                    } else {
+
+                        $count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
+                        $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
+                        $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'");
+                        if($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0){
+                            $status = 'Pending';
+                            $status_remarks = 'For canvassing';
+                        } else if($count_rfq!=0 && $count_aoq!=0 && $count_aoq_awarded==0){ 
+
+                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
+                             $status = 'Pending';
+                             $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date)) ;
+                        } else if($count_rfq!=0 && $count_aoq_awarded!=0){ 
+
+                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'");
+                             $status = 'Pending';
+                             $status_remarks = 'For PO - AOQ Done (awarded)';
+                        }
+                    }
+                }
+                /*$data['pr'][] = array(
+                    'pr_details_id'=>$pr->pr_details_id,
+                    'date_prepared'=>$pr->date_prepared,
+                    'pr_no'=>$pr->pr_no,
+                    'purpose'=>$pr->purpose,
+                    'enduse'=>$pr->enduse,
+                    'department'=>$pr->department,
+                    'requestor'=>$pr->requestor,
+                    'item_description'=>$pr->item_description,
+                    'qty'=>$pr->quantity,
+                    'uom'=>$pr->uom,
+                    'status'=>$status,
+                    'status_remarks'=>$status_remarks,
+                    'unserved_qty'=>$unserved_qty,
+                    'unserved_uom'=>$unserved_uom,
+                    'remarks'=>$pr->add_remarks
+                );*/
+                $styleArray = array(
+                    'borders' => array(
+                        'allborders' => array(
+                          'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+                );
+
+                //(($unserved_qty!=0) ? " - UNSERVED "$unserved_qty." ".$unserved_uom : "";
+                if($unserved_qty!=0){
+                    $unserved = " - UNSERVED ".$unserved_qty." ".$unserved_uom;
+                }else {
+                    $unserved = '';
+                }
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr->date_prepared");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->enduse");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->pr_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->requestor");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$pr->quantity");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->item_description $unserved");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$status_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->add_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "");
+
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                $num++;
+            }
+        }else {
+            $num = 5;
+            foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $pr){
+                $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
+                $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'");
+               // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
+                $unserved_qty=0;
+                $unserved_uom='';
+                if($sum_po_qty!=0){
+                    if($sum_po_qty < $pr->quantity){
+                          $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
+                        if($count_rfd == 0){
+                            $status = 'PO Done';
+                            $status_remarks = 'Pending RFD - Partial';
+                        } else {
+                            $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
+                            $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
+                            $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
+                            $served_uom = $this->super_model->select_column_where('po_items', 'uom', 'pr_details_id', $pr->pr_details_id);
+
+                            $unserved_qty = $this->super_model->select_column_where('aoq_offers', 'balance', 'pr_details_id', $pr->pr_details_id);
+                            $unserved_uom = $this->super_model->select_column_where('aoq_offers', 'uom', 'pr_details_id', $pr->pr_details_id);
+
+                            $status = 'Partially Served';
+                            $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
+                        }
+                    } else {
+                        $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
+                        if($count_rfd == 0){
+                            $status = 'PO Done';
+                            $status_remarks = 'Pending RFD - Full';
+                        } else {
+                            $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
+                            $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
+
+                            $status = 'Fully Served';
+                            $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served DR# ".$dr_no;
+                        }
+                    }
+                } else {
+                    $cancelled_items = $this->super_model->select_column_where('pr_details', 'cancelled', 'pr_details_id', $pr->pr_details_id);
+                    if($cancelled_items==1){
+                        $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr->pr_details_id);
+                        $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr->pr_details_id);
+                        $status = 'Cancelled';
+                        $status_remarks = $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));
+                    } else {
+
+                        $count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
+                        $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
+                        $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'");
+                        if($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0){
+                            $status = 'Pending';
+                            $status_remarks = 'For canvassing';
+                        } else if($count_rfq!=0 && $count_aoq!=0 && $count_aoq_awarded==0){ 
+
+                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
+                             $status = 'Pending';
+                             $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date)) ;
+                        } else if($count_rfq!=0 && $count_aoq_awarded!=0){ 
+
+                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'");
+                             $status = 'Pending';
+                             $status_remarks = 'For PO - AOQ Done (awarded)';
+                        }
+
+                    }
+                }
+
+                $styleArray = array(
+                    'borders' => array(
+                        'allborders' => array(
+                          'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+                );
+
+                if($unserved_qty!=0){
+                    $unserved = " - UNSERVED ".$unserved_qty." ".$unserved_uom;
+                }else {
+                    $unserved = '';
+                }
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr->date_prepared");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->enduse");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->pr_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->requestor");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$pr->quantity");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->item_description $unserved");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$status_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->add_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "");
+
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                $num++;
+            }
+        }
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+                unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="PR Summary.xlsx"');
+        readfile($exportfilename);
     }
 
     public function po_report(){
@@ -190,7 +718,7 @@ class Reports extends CI_Controller {
         $this->load->view('reports/po_report',$data);
         $this->load->view('template/footer');
     }
-    
+
     public function search_po(){
         if(!empty($this->input->post('year'))){
             $data['year'] = $this->input->post('year');
@@ -571,15 +1099,11 @@ class Reports extends CI_Controller {
         $month =$this->input->post('month');
         $remarks=$this->input->post('remarks');
         $remark_date = date('Y-m-d H:i:s');
-
-
         $data=array(
             'add_remarks'=>$remarks,
             'remark_date'=>$remark_date,
             'remark_by'=>$_SESSION['user_id']
         );
-      /*  echo  $pr_details_id;
-        print_r($data);*/
         if($this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id)){
             redirect(base_url().'reports/pr_report/'.$year.'/'.$month);
         }
