@@ -144,8 +144,8 @@ function changePrice(count){
      document.getElementById("grandtotal").innerHTML  =grandtotal;
 }
 
-function addPo(baseurl,poid,supplier) {
-    window.open(baseurl+"po/addPo/"+poid+"/"+supplier, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=45,left=25,width=1300,height=600");
+function addPo(baseurl) {
+    window.open(baseurl+"po/addPo/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=45,left=25,width=1300,height=600");
 }
 
 function generatePO(po,poid,supplier,baseurl){

@@ -115,14 +115,9 @@
 					<div class="form-group">
 						<h5 class="nomarg">Requestor:</h5>
 						<h5 class="nomarg"><b>
-							  <select name='requested_by' class="form-control">
-                            <option value='' selected>-Select Employee-</option>
-                            <?php foreach($employee AS $emp){ ?>
-                                <option value="<?php echo $emp->employee_id; ?>">
-                                <?php echo $emp->employee_name; ?>
-                                </option>
-                            <?php }  ?> 
-                        </select>
+							<select name='requested_by' class="form-control">
+	                            <option value='' selected>-Select Employee-</option>
+	                        </select>
 						</b></h5>
 					</div>
 					<div class="form-group">
@@ -130,11 +125,6 @@
 						<h5 class="nomarg"><b>
 							<select name='purpose' class="form-control">
                             <option value='' selected>-Select Purpose-</option>
-                            <?php foreach($purpose AS $purp){ ?>
-                                <option value="<?php echo $purp->purpose_id; ?>">
-                                <?php echo $purp->purpose_name; ?>
-                                </option>
-                            <?php }  ?> 
                         </select>
 						</b></h5>
 					</div>
@@ -142,20 +132,14 @@
 					<div class="form-group">
 						<h5 class="nomarg">Enduse:</h5>
 						<h5 class="nomarg"><b>
-							  <select name='enduse' class="form-control">
-                            <option value='' selected>-Select End Use-</option>
-                            <?php foreach($enduse AS $end){ ?>
-                                <option value="<?php echo $end->enduse_id; ?>">
-                                <?php echo $end->enduse_name; ?>
-                                </option>
-                            <?php }  ?> 
-                        </select>
+							<select name='enduse' class="form-control">
+	                            <option value='' selected>-Select End Use-</option>
+	                        </select>
 						</b></h5>
 					</div>
 					
 					</div>
 					<div class="modal-footer">
-						<input type='hidden' name='dr_id' value='<?php echo $dr_id; ?>'>
 						<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 					</div>
 				</form>
@@ -213,39 +197,29 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr><td colspan="20" align="center"><h5><b class="text-red">DELIVERY RECEIPT</b></h5></td></tr>
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
-		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
-		    			<td colspan="13" class="all-border "><b class="text-red nomarg">DR No. <?php echo $h->dr_no; ?></b></td>
-		    			<td colspan="7" class="all-border " align="right"><b style="color: blue;margin-right: 5px">Direct Purchase</b></td>
+		    			<td colspan="13" class="all-border "><b class="text-red nomarg">DR No. </b></td>
+		    			<td colspan="7" class="all-border " align="right"><b style="color: blue;margin-right: 5px"><!-- Direct Purchase --></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($h->dr_no)); ?> </b></td>		    			
+		    			<td colspan="20" class="all-border "><b class="nomarg">Date :</b></td>		    			
 		    		</tr>
-		    		<?php } ?>
-		    	
-		    		<!-- loop here start-->
-		    		<?php
-		    		if(!empty($drpurp)){
-		    		 foreach($drpurp AS $purp){ ?>
-		    		
 		    		<tr>
-		    			<td colspan="13" class="all-border"><b class="nomarg">Item #4: <?php echo $purp['notes']; ?></b></td>
+		    			<td colspan="13" class="all-border"><b class="nomarg">Item #4: </b></td>
 		    			<td colspan="7" class="all-border">
-		    				<b class="nomarg">Requestor: <?php echo $purp['requestor']; ?></b>
+		    				<b class="nomarg">Requestor: </b>
 		    				<div class="pull-right m-r-10">
 		    				
 		    					</div>
 		    			</td>
 		    		</tr>		    		
 		    		<tr>
-		    			<td colspan="13" class="all-border bor-btm2"><b class="nomarg">Purpose: <?php echo $purp['purpose']; ?></b></td>
-		    			<td colspan="7" class="all-border bor-btm2"><b class="nomarg">Enduse: <?php echo $purp['enduse']; ?></b></td>
+		    			<td colspan="13" class="all-border bor-btm2"><b class="nomarg">Purpose: </b></td>
+		    			<td colspan="7" class="all-border bor-btm2"><b class="nomarg">Enduse: </b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="21" class="all-border "><b class="nomarg"></td>
 		    		</tr>
-		    		<?php }
-		    		} ?>
 		    		<!-- loop here end-->
 		    		
 		    		<tr>
@@ -261,22 +235,16 @@
 		    			</td>
 		    		</tr>
 		    		<!-- <loop  start-->
-		    		<?php 
-		    		$a=1;
-		    		if(!empty($items)){
-		    		foreach($items AS $it){ ?>
 		       		<tr>
-		    			<td class="all-border" align="center"><?php echo $a; ?></td>
-		    			<td class="all-border" align="left" colspan="6"><?php echo $it['supplier']; ?></td>
-		    			<td class="all-border" align="left" colspan="6"><?php echo $it['item'] . ', ' . $it['specs']; ?></td>
-		    			<td class="all-border" align="center"><?php echo $it['delivered']; ?></td>
 		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center" colspan="2"><?php echo $it['unit']; ?></td>
+		    			<td class="all-border" align="left" colspan="6"></td>
+		    			<td class="all-border" align="left" colspan="6"></td>
+		    			<td class="all-border" align="center"></td>
+		    			<td class="all-border" align="center"></td>
+		    			<td class="all-border" align="center" colspan="2"></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    			
-		    		</tr>		   
-		    		<?php $a++; } 
-		    		} ?> 		
+		    		</tr>		  
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
@@ -295,7 +263,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td colspan="6"><?php echo $_SESSION['fullname']; ?></td>
+		    			<td colspan="6">fullname</td>
 		    			<td colspan="5"></td>
 		    			<td colspan="6">Print Name & Signature with Date Received</td>
 		    			<td colspan="2"></td>
@@ -325,7 +293,6 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
-	    	<input type='hidden' name='dr_id' value='<?php echo $dr_id; ?>'>
     	</form>
     </div>
     <script type="text/javascript">

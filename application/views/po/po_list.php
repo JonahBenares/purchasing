@@ -81,7 +81,7 @@
                         <center>
                            
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Proceed">
-                            <!-- <a href="<?php echo base_url(); ?>index.php/po/reporder_prnt" class="dropdown-item">Repeat Order</a> -->
+                            <a href="<?php echo base_url(); ?>index.php/po/reporder_prnt" class="dropdown-item">Repeat Order</a>
                         </center>
                     </div>
                     <input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">

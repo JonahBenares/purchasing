@@ -169,7 +169,7 @@ class Po extends CI_Controller {
          }
     }
 
-     public function getPRinformation(){
+    public function getPRinformation(){
 
         $prid = $this->input->post('prid');
         $prexp = explode('_',$prid);
@@ -353,7 +353,7 @@ class Po extends CI_Controller {
         }
     }
 
-     public function save_po_revised(){
+    public function save_po_revised(){
         $po_id = $this->input->post('po_id');
         $count_item = $this->input->post('count_item');
         $date= date('Y-m-d H:i:s');
@@ -547,7 +547,6 @@ class Po extends CI_Controller {
             redirect(base_url().'po/purchase_order/'.$po_id, 'refresh');
         }
     }
-
 
     public function getpr(){
 
@@ -858,6 +857,18 @@ class Po extends CI_Controller {
     public function reporder_prnt(){
         $this->load->view('template/header');        
         $this->load->view('po/reporder_prnt');
+        $this->load->view('template/footer');
+    }
+
+    public function reporder_dr(){
+        $this->load->view('template/header');        
+        $this->load->view('po/reporder_dr');
+        $this->load->view('template/footer');
+    }
+
+    public function addPo(){
+        $this->load->view('template/header');        
+        $this->load->view('po/addPo');
         $this->load->view('template/footer');
     }
 
