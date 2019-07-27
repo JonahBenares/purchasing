@@ -18,8 +18,11 @@
                         <form method='POST' action="<?php echo base_url(); ?>po/add_repeatPO"
                             <div class="datatable-dashv1-list custom-datatable-overright">
                                 <h4 class="">PO No: </h4>
-                                <select class="form-control" style="width: 25%" name='po' id='po' onchange="generatePO('');">
+                                <select class="form-control" style="width: 25%" name='po' id='po' onchange="generatePO('<?php echo base_url(); ?>','<?php echo $vendor_id; ?>','<?php echo $po_id; ?>',this.value);">
                                     <option value="" selected="">-Select PO-</option>
+                                    <?php foreach($head As $h){ ?>
+                                        <option value="<?php echo $h->po_id; ?>"><?php echo $h->po_no; ?></option>
+                                    <?php } ?>
                                 </select>   
                                 <h4>PO                                                      
                                 <table class="table-bordered" width="100%" style="margin-top: 20px">
@@ -34,20 +37,32 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php
+                                        $x=1;
+                                        if(!empty($items)){
+                                         foreach($items AS $i){ ?>
+                                        
                                         <tr>
-                                            <td style="padding: 0px!important"><input type="text" name="quantity" id="quantity" value="" onblur='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
-                                            <td></td>
-                                            <td><span style='color:red'></span>,</td>
-                                            <td style="padding: 0px!important"><input type="text" name="price" id="price" value=""  onkeypress="return isNumberKey(this, event)" class="form-control" onblur='changePrice()' style='border:0px' readonly></td>
+                                            <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" value="<?php echo $i['quantity']; ?>" onblur='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
+                                            <td><?php echo $i['uom']; ?></td>
+                                            <td><?php echo $i['offer']; ?></td>
+                                            <td style="padding: 0px!important"><input type="text" name="price<?php echo $x; ?>" id="price<?php echo $x; ?>" value="<?php echo $i['price']; ?>"  onkeypress="return isNumberKey(this, event)" class="form-control" onblur='changePrice(<?php echo $x; ?>,0)' style='border:0px' readonly></td>
                                             <td style="padding: 0px!important">
-                                                <input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="" style='text-align:right; border:0px' readonly></span>
-                                            <td></td>    
+                                                <input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $i['amount']; ?>" style='text-align:right; border:0px' readonly></span>
+                                            <td><?php echo $i['pr_no']; ?></td>    
                                         </tr>
+                                        <input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>"> 
+                                        <?php $x++; } 
+                                    } ?>
                                     </tbody>
                                 </table>
-                                <button class="btn btn-primary btn-block">Save</button>
+                                 <input type='hidden' name='old_po' value="<?php echo $old_po; ?>"> 
+                                <input type='hidden' name='po_id' value="<?php echo $po_id; ?>">   
+                                <input type='hidden' name='count_item' value="<?php echo $x; ?>">
+                                <input type='submit' class="btn btn-primary btn-block" value='Save'>
                             </div>
                         </div>   
+                    </form>
                         <div class="hr-bold"> </div>                   
                     </div>
                 </div>

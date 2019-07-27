@@ -197,35 +197,37 @@
 		    		<tr><td class="f13" colspan="20" align="center">Plant Site: Purok San Jose, Barangay Calumangan, Bago City</td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
+		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg"><b></b></h6></td>
-		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: here</b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg"><b><?php echo date('F j, Y', strtotime($h['po_date'])); ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: <?php echo $h['po_no']; ?></b></h6></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Supplier:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['vendor']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Address:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['address']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Contact Person:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['contact']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Telephone #:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['phone']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
+		    		<?php } ?>
 		    		<tr id="pr-btn">
 		    			<td colspan="20" style="padding-left: 10px">
 		    				<div class="btn-group" id="prhide">
-			    				<a class="addPR btn btn-primary btn-xs" onclick="addPo('<?php echo base_url(); ?>')" data-id="">
+			    				<a class="addPR btn btn-primary btn-xs" onclick="addPo('<?php echo base_url(); ?>','<?php echo $po_id; ?>','<?php echo $vendor_id; ?>')" data-id="">
 								  Add PO
 								</a>
 							<!-- 	<a class="addPR btn btn-warning btn-xs" data-toggle="modal" href="#add-pr" data-id="" data-target="#add-pr">

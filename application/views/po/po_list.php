@@ -46,7 +46,7 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>index.php/po/create_reorderpo">
+                <form method="POST" action = "<?php echo base_url();?>po/create_reorderpo">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Date:</p>
@@ -59,7 +59,10 @@
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
                             <select name="supplier" id='supplierrep' onchange="chooseSupplierrep()" class="form-control">
-                                 <option value='' selected="selected">-Choose Supplier/Vendor-</option>                               
+                                <option value='' selected>-Choose Supplier/Vendor-</option>
+                                  <?php foreach($supplier AS $sup){ ?>
+                                    <option value="<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
+                            <?php } ?>                            
                             </select>
                         </div>
                         <div class="form-group">
@@ -214,7 +217,7 @@
                                     <a type='button' class="btn btn-custon-three btn-info" data-toggle="modal" data-target="#addrepPO">
                                         <span class="fa fa-repeat p-l-0 "> </span> Add Repeat Order
                                     </a>
-                                    <a href="<?php echo base_url(); ?>po/served_po" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Served PO</a> 
+                                    <a href="<?php echo base_url(); ?>po/served_po" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Done PO</a> 
                                     <a href="<?php echo base_url(); ?>po/cancelled_po" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PO</a>
                                     </div>
                                 </div>
@@ -262,7 +265,7 @@
                                                 ?></td>
                                                 <td>
                                                     <center>
-                                                        <a href="<?php echo base_url(); ?>po/serve_po/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-success btn-xs" title='Serve PO'  onclick="return confirm('Are you sure you want to serve PO?')">
+                                                        <a href="<?php echo base_url(); ?>po/serve_po/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-success btn-xs" title='Done PO'  onclick="return confirm('Are you sure PO is done?')">
                                                             <span class="fa fa-check"></span>
                                                         </a>
                                                         <?php if($head['saved']==0){ ?>

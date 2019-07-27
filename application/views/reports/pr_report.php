@@ -1,3 +1,16 @@
+    <script type="text/javascript">
+        $(document).on("click", ".addremarks", function () {
+             var pr_details_id = $(this).data('id');
+             var year = $(this).data('year');
+             var month = $(this).data('month');
+             var remarks = $(this).data('remarks');
+             $(".modal #pr_details_id").val(pr_details_id);
+             $(".modal #year").val(year);
+             $(".modal #month").val(month);
+             $(".modal #remarks").val(remarks);
+          
+        });
+    </script>
     <div id="filter_pr" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -7,7 +20,7 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>reports/">
+                <form method="POST" action = "<?php echo base_url();?>reports/search_pr/<?php echo $year;?>/<?php echo $month;?>">
                     <div class="modal-body-lowpad">                        
                         <div class="form-group">
                             <p class="m-b-0">Date Received/Email:</p>
@@ -15,37 +28,29 @@
                         </div>    
                         <div class="form-group">
                             <p class="m-b-0">Purpose:</p>
-                            <select name="purpose" class="form-control">    
-                                <option value = "">--Select Purpose--</option>
-                            </select>
+                            <input type="text" name="purpose" class="form-control">
                         </div>   
                         <div class="form-group">
                             <p class="m-b-0">Enduse:</p>
-                            <select name="enduse" class="form-control">
-                                <option value = "">--Select Enduse--</option>
-                            </select>
+                            <input type="text" name="enduse" class="form-control">
                         </div>    
                         <div class="form-group">
                             <p class="m-b-0">PR No:</p>
-                            <select name="pr_no" class="form-control">
-                                <option value = "">--Select PR Number--</option>
-                            </select>
+                            <input type="text" name="pr_no" class="form-control">
                         </div>    
                         <div class="form-group">
                             <p class="m-b-0">Requestor:</p>
-                            <select name="requestor" class="form-control">
-                                <option value = "">--Select Requestor--</option>
-                            </select>
+                            <input type="requestor" name="requestor" class="form-control">
                         </div>   
                         <div class="form-group">
                             <p class="m-b-0">Description:</p>
-                            <select name="description" class="form-control">
-                                <option value = "">--Select Item--</option>
-                            </select>
-                        </div>                     
+                            <input type = "text" name="description" class="form-control">
+                        </div>  
+                        <input type="hidden" name="month" value = "<?php echo $month; ?>">            
+                        <input type="hidden" name="year" value = "<?php echo $year; ?>">                   
                         <center>                           
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Proceed">
-                            <a href="<?php echo base_url(); ?>index.php/pr/purchase_request">Proceed</a>
+                            <!-- <a href="<?php echo base_url(); ?>index.php/pr/purchase_request">Proceed</a> -->
                         </center>
                     </div>
                 </form>
@@ -64,16 +69,24 @@
                                 </h1>
                                 <small class="p-l-25">&nbsp;PURCHASE REQUEST</small> 
                                 <div class="sparkline8-outline-icon">
-                                    <a href="<?php echo base_url(); ?>reports/export_pr/" class="btn btn-custon-three btn-info"> 
-                                        <span class="fa fa-upload"></span> Export to Excel
-                                    </a>
+                                    <?php if(!empty($filt)){ ?>
+                                        <a href="<?php echo base_url(); ?>reports/export_pr/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $date_receive; ?>/<?php echo $purpose1; ?>/<?php echo $enduse1; ?>/<?php echo $pr_no1; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>" class="btn btn-custon-three btn-info"> 
+                                            <span class="fa fa-upload"></span> Export to Excel
+                                        </a>
+                                    <?php } else { ?>
+                                        <a href="<?php echo base_url(); ?>reports/export_pr/<?php echo $year; ?>/<?php echo $month; ?>" class="btn btn-custon-three btn-info"> 
+                                            <span class="fa fa-upload"></span> Export to Excel
+                                        </a>
+                                    <?php } ?>
                                     <a type='button' class="btn btn-custon-three btn-success"  data-toggle="modal" data-target="#filter_pr"> 
                                         <span class="fa fa-filter p-l-0"></span> Filter
                                     </a>
                                 </div>
                             </div>
                         </div>     
-                        <!-- <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href='<?php echo base_url(); ?>index.php/reports/pr_report/<?php echo $year; ?>/<?php echo $month; ?>' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>     -->          
+                        <?php if(!empty($filt)){ ?>     
+                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href='<?php echo base_url(); ?>index.php/reports/pr_report/<?php echo $year; ?>/<?php echo $month; ?>' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
+                        <?php } ?>         
                         <div class="sparkline8-graph" >
                             <div class="datatable-dashv1-list custom-datatable-overright" style="overflow-x: scroll;">
                                 <table class="table-bordered" width="200%">
@@ -100,7 +113,7 @@
                                        
                                     </thead>
                                     <tbody>    
-                                    <?php foreach($pr AS $p) { ?>                      
+                                    <?php if(!empty($pr)){ foreach($pr AS $p) { ?>                      
                                         <tr>
                                             <td><?php echo date('F j, Y', strtotime($p['date_prepared'])); ?></td>
                                             <td><?php echo $p['purpose']; ?></td>
@@ -111,21 +124,21 @@
                                             <td></td>
                                             <td><?php echo $p['qty']; ?></td>
                                             <td><?php echo $p['uom']; ?></td>
-                                            <td><?php echo $p['item_description']; ?></td>
+                                            <td><?php echo $p['item_description'] . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td>
                                             <td></td>
                                             <td><?php echo $p['status_remarks']; ?></td>
                                             <td><?php echo $p['status']; ?></td>
-                                            <td></td>
+                                            <td><?php echo $p['remarks'];?></td>
                                             <td></td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="" data-year="" data-month="" data-remarks="">
+                                                    <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>">
                                                         <span class="fa fa-plus"></span>
                                                     </button>                                                 
                                                 </div>
                                             </td>
                                         </tr>    
-                                    <?php } ?>               
+                                    <?php } } ?>               
                                     </tbody>
                                 </table>
                             </div>                           
