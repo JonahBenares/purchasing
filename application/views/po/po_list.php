@@ -46,7 +46,7 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>index.php/po/create_reorderpo">
+                <form method="POST" action = "<?php echo base_url();?>po/create_reorderpo">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Date:</p>
@@ -59,7 +59,10 @@
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
                             <select name="supplier" id='supplierrep' onchange="chooseSupplierrep()" class="form-control">
-                                 <option value='' selected="selected">-Choose Supplier/Vendor-</option>                               
+                                <option value='' selected>-Choose Supplier/Vendor-</option>
+                                  <?php foreach($supplier AS $sup){ ?>
+                                    <option value="<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
+                            <?php } ?>                            
                             </select>
                         </div>
                         <div class="form-group">
