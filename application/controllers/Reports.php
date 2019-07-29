@@ -686,9 +686,22 @@ class Reports extends CI_Controller {
             foreach($this->super_model->select_row_where('po_pr','po_id',$p->po_id) AS $pr){
                 $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$pr->pr_id);
                 foreach($this->super_model->select_row_where('po_items','po_id',$p->po_id) AS $i){
-                    foreach($this->super_model->select_row_where('item','item_id',$i->aoq_items_id) AS $it){
-                        //$uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
-                        $item=$it->item_name." - ".$it->item_specs;
+                    if($i->item_id!=0){
+                        foreach($this->super_model->select_row_where('item','item_id',$i->item_id) AS $it){
+                            $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                            $item=$it->item_name." - ".$it->item_specs;
+                        }
+                    }else {
+                        foreach($this->super_model->select_row_where('aoq_items','pr_details_id',$i->pr_details_id) AS $it){
+                            //$uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                            $item=$it->item_description;
+                        }
+                    }
+
+                    if($p->po_type!=0){
+                        $requestor = $this->super_model->select_column_where('employees','employee_name','employee_id',$pr->requestor);
+                    }else {
+                        $requestor = $pr->requestor;
                     }
                     $partial = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ah.pr_id = '$pr->pr_id' AND ai.aoq_items_id = '$i->aoq_items_id' AND ai.balance != '0' AND ai.balance != ai.quantity GROUP BY ai.aoq_items_id");
                     $data['po'][]=array(
@@ -696,7 +709,7 @@ class Reports extends CI_Controller {
                         'pr_no'=>$pr_no,
                         'enduse'=>$pr->enduse,
                         'purpose'=>$pr->purpose,
-                        'requested_by'=>$pr->requestor,
+                        'requested_by'=>$requestor,
                         'qty'=>$i->quantity,
                         'uom'=>$i->uom,
                         'item'=>$item,
@@ -851,16 +864,34 @@ class Reports extends CI_Controller {
             $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
             $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
             $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$p->pr_id);
-            foreach($this->super_model->select_row_where('item','item_id',$p->aoq_items_id) AS $it){
+            /*foreach($this->super_model->select_row_where('item','item_id',$p->aoq_items_id) AS $it){
                 $item=$it->item_name." - ".$it->item_specs;
+            }*/
+            if($p->item_id!=0){
+                foreach($this->super_model->select_row_where('item','item_id',$p->item_id) AS $it){
+                    //$uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                    $item=$it->item_name." - ".$it->item_specs;
+                }
+            }else {
+                foreach($this->super_model->select_row_where('aoq_items','pr_details_id',$p->pr_details_id) AS $it){
+                    //$uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                    $item=$it->item_description;
+                }
             }
+
+            if($p->po_type!=0){
+                $requestor = $this->super_model->select_column_where('employees','employee_name','employee_id',$p->requestor);
+            }else {
+                $requestor = $p->requestor;
+            }
+
             $partial = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ah.pr_id = '$p->pr_id' AND ai.aoq_items_id = '$p->aoq_items_id' AND ai.balance != '0' AND ai.balance != ai.quantity GROUP BY ai.aoq_items_id");
             $data['po'][]=array(
                 'po_id'=>$p->po_id,
                 'pr_no'=>$pr_no,
                 'enduse'=>$p->enduse,
                 'purpose'=>$p->purpose,
-                'requested_by'=>$p->requestor,
+                'requested_by'=>$requestor,
                 'qty'=>$p->quantity,
                 'uom'=>$p->uom,
                 'item'=>$item,
@@ -986,8 +1017,25 @@ class Reports extends CI_Controller {
                 $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
                 $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$p->pr_id);
-                foreach($this->super_model->select_row_where('item','item_id',$p->aoq_items_id) AS $it){
+                /*foreach($this->super_model->select_row_where('item','item_id',$p->aoq_items_id) AS $it){
                     $item=$it->item_name." - ".$it->item_specs;
+                }*/
+                if($p->item_id!=0){
+                    foreach($this->super_model->select_row_where('item','item_id',$p->item_id) AS $it){
+                        //$uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                        $item=$it->item_name." - ".$it->item_specs;
+                    }
+                }else {
+                    foreach($this->super_model->select_row_where('aoq_items','pr_details_id',$p->pr_details_id) AS $it){
+                        //$uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                        $item=$it->item_description;
+                    }
+                }
+
+                if($p->po_type!=0){
+                    $requestor = $this->super_model->select_column_where('employees','employee_name','employee_id',$p->requestor);
+                }else {
+                    $requestor = $p->requestor;
                 }
                 $total=$p->quantity*$p->unit_price;
                 $styleArray = array(
@@ -1003,7 +1051,7 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->enduse");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->po_date");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->po_no");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$p->requestor");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$requestor");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->quantity");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->uom");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$item");
@@ -1036,8 +1084,25 @@ class Reports extends CI_Controller {
                 foreach($this->super_model->select_row_where('po_pr','po_id',$p->po_id) AS $pr){
                     $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$pr->pr_id);
                     foreach($this->super_model->select_row_where('po_items','po_id',$p->po_id) AS $i){
-                        foreach($this->super_model->select_row_where('item','item_id',$i->aoq_items_id) AS $it){
+                        /*foreach($this->super_model->select_row_where('item','item_id',$i->aoq_items_id) AS $it){
                             $item=$it->item_name." - ".$it->item_specs;
+                        }*/
+                        if($i->item_id!=0){
+                            foreach($this->super_model->select_row_where('item','item_id',$i->item_id) AS $it){
+                                //$uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                                $item=$it->item_name." - ".$it->item_specs;
+                            }
+                        }else {
+                            foreach($this->super_model->select_row_where('aoq_items','pr_details_id',$i->pr_details_id) AS $it){
+                                //$uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                                $item=$it->item_description;
+                            }
+                        }
+
+                        if($p->po_type!=0){
+                            $requestor = $this->super_model->select_column_where('employees','employee_name','employee_id',$pr->requestor);
+                        }else {
+                            $requestor = $pr->requestor;
                         }
                         $total=$i->quantity*$i->unit_price;
                         $styleArray = array(
@@ -1053,7 +1118,7 @@ class Reports extends CI_Controller {
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->enduse");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->po_date");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->po_no");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$pr->requestor");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$requestor");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$i->quantity");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$i->uom");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$item");
