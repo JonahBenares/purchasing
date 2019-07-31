@@ -804,10 +804,14 @@ class Po extends CI_Controller {
 
          foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
             $total = $items->unit_price*$items->quantity;
+            if(!empty($items->offer)){
+                $offer = $items->offer;
+            } else {
+                $offer = $this->super_model->select_column_where("item", "item_name", "item_id", $items->item_id) . ", " . $this->super_model->select_column_where("item", "item_specs", "item_id", $items->item_id);
+            }
             $data['items'][]= array(
                 'item_no'=>$items->item_no,
-                'item'=>$this->super_model->select_column_where("aoq_items", "item_description", "aoq_items_id", $items->aoq_items_id),
-                'offer'=>$items->offer,
+                'offer'=>$offer,
                 'quantity'=>$items->quantity,
                 'price'=>$items->unit_price,
                 'total'=>$total,

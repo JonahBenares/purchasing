@@ -698,11 +698,9 @@ class Reports extends CI_Controller {
                         }
                     }
 
-                    if($p->po_type!=0){
-                        $requestor = $this->super_model->select_column_where('employees','employee_name','employee_id',$pr->requestor);
-                    }else {
+               
                         $requestor = $pr->requestor;
-                    }
+                    
                     $partial = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ah.pr_id = '$pr->pr_id' AND ai.aoq_items_id = '$i->aoq_items_id' AND ai.balance != '0' AND ai.balance != ai.quantity GROUP BY ai.aoq_items_id");
                     $data['po'][]=array(
                         'po_id'=>$i->po_id,

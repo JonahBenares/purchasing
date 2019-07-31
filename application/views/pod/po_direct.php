@@ -99,12 +99,13 @@
 				<div class="form-group">
 					<h5 class="nomarg">Requestor:</h5>
 					<h5 class="nomarg"><b>
-						<select name='requested_by' class="form-control">
+						<!-- <select name='requested_by' class="form-control">
                             <option value='' selected>-Select Employee-</option>
                             <?php foreach($employee AS $emp){ ?>
 			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
 			    			<?php } ?>
-                        </select>
+                        </select> -->
+                        <input type='text' name='requested_by' class="form-control">
 					</b></h5>
 				</div>
 				<div class="form-group">

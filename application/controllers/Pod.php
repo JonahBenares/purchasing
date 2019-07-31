@@ -202,6 +202,7 @@ class Pod extends CI_Controller {
                     'quantity'=>$qty,
                     'unit_price'=>$this->input->post('price'.$x),
                     'amount'=>$this->input->post('tprice'.$x),
+                    'uom'=>$this->input->post('uom'.$x),
                     'item_no'=>$a
                 );
                 $this->super_model->update_where("po_items", $data, "po_items_id", $po_items_id);
