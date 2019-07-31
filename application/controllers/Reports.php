@@ -829,16 +829,48 @@ class Reports extends CI_Controller {
 
         if(!empty($this->input->post('requestor'))){
             $requestor = $this->input->post('requestor');
+            foreach($this->super_model->select_custom_where('employees', "employee_name LIKE '%$requestor%'") AS $r){
+                $empid = $r->employee_id;
+                $sql.=" pp.requestor = '$empid' OR";
+            }
+            $filter .= "Requestor - ".$requestor.", ";
+        }
+
+        if(!empty($this->input->post('requestor'))){
+            $requestor = $this->input->post('requestor');
+            $sql.=" pp.requestor = '$requestor' AND";
+            //$filter .= "Requestor - ".$requestor.", ";
+        }
+
+        /*if(!empty($this->input->post('requestor'))){
+            $requestor = $this->input->post('requestor');
             $sql.=" pp.requestor = '$requestor' AND";
             $filter .= "Requestor - ".$requestor.", ";
+        }*/
+
+        if(!empty($this->input->post('description'))){
+            $description = $this->input->post('description');
+            foreach($this->super_model->select_custom_where('item', "item_name LIKE '%$description%'") AS $t){
+                $it = $t->item_id;
+                $sql.=" pi.item_id = '$it' OR";
+            }
+            $filter .= "Item Description - ".$description.", ";
         }
 
         if(!empty($this->input->post('description'))){
             $description = $this->input->post('description');
+            foreach($this->super_model->select_custom_where('aoq_items', "item_description LIKE '%$description%'") AS $t){
+                $it = $t->pr_details_id;
+                $sql.=" pi.pr_details_id = '$it' OR";
+            }
+        }
+
+        /*if(!empty($this->input->post('description'))){
+            $description = $this->input->post('description');
             $sql.=" pi.aoq_items_id = '$description' AND";
             $filter .= "Item Description - ".$this->super_model->select_column_where('item', 'item_name', 
                         'item_id', $description).", ";
-        }
+        }*/
 
         if(!empty($this->input->post('supplier'))){
             $supplier = $this->input->post('supplier');
@@ -860,7 +892,8 @@ class Reports extends CI_Controller {
         $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
         $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
         $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
-        foreach($this->super_model->custom_query("SELECT * FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id INNER JOIN po_pr pp ON pi.po_id = pp.po_id  WHERE ".$query) AS $p){
+        foreach($this->super_model->custom_query("SELECT * FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id INNER JOIN po_pr pp ON pi.po_id = pp.po_id WHERE ".$query) AS $p){
+
             $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
             $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
             $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$p->pr_id);
@@ -956,14 +989,42 @@ class Reports extends CI_Controller {
         }
 
         if($requestor!='null'){
+            foreach($this->super_model->select_custom_where('employees', "employee_name LIKE '%$requestor%'") AS $r){
+                $empid = $r->employee_id;
+                $sql.=" pp.requestor = '$empid' OR";
+            }
+            $filter .= "Requestor - ".$requestor.", ";
+        }
+
+        if($requestor!='null'){
+            $sql.=" pp.requestor = '$requestor' AND";
+            //$filter .= "Requestor - ".$requestor.", ";
+        }
+
+        /*if($requestor!='null'){
             $sql.=" pp.requestor LIKE '%$requestor%' AND";
             $filter .= $requestor;
+        }*/
+
+        if($description!='null'){
+            foreach($this->super_model->select_custom_where('item', "item_name LIKE '%$description%'") AS $t){
+                $it = $t->item_id;
+                $sql.=" pi.item_id = '$it' OR";
+            }
+            $filter .= "Item Description - ".$description.", ";
         }
 
         if($description!='null'){
+            foreach($this->super_model->select_custom_where('aoq_items', "item_description LIKE '%$description%'") AS $t){
+                $it = $t->pr_details_id;
+                $sql.=" pi.pr_details_id = '$it' OR";
+            }
+        }
+
+        /*if($description!='null'){
             $sql.=" pi.aoq_items_id = '$description' AND";
             $filter .= $this->super_model->select_column_where('item', 'item_name', 'item_id', $description);
-        }
+        }*/
 
         if($supplier!='null'){
             $sql.=" ph.vendor_id = '$supplier' AND";

@@ -36,21 +36,23 @@
                         </div>   
                         <div class="form-group">
                             <p class="m-b-0">Requestor:</p>
-                            <select name="requestor" class="form-control">
+                            <input name="requestor" class="form-control">
+                            <!-- <select name="requestor" class="form-control">
                                 <option value = "">--Select Requestor--</option>
                                 <?php foreach($employees AS $emp){ ?>
                                 <option value = "<?php echo $emp->employee_id;?>"><?php echo $emp->employee_name; ?></option>
                                 <?php } ?>
-                            </select>
+                            </select> -->
                         </div>   
                         <div class="form-group">
                             <p class="m-b-0">Description:</p>
-                            <select name="description" class="form-control">
+                            <input name="description" class="form-control">
+                            <!-- <select name="description" class="form-control">
                                 <option value = "">--Select Item--</option>
                                 <?php foreach($items AS $i){ ?>
                                 <option value = "<?php echo $i->item_id;?>"><?php echo $i->item_name." - ".$i->item_specs; ?></option>
                                 <?php } ?>
-                            </select>
+                            </select> -->
                         </div>      
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>

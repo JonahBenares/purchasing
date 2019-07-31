@@ -48,7 +48,9 @@
                                             <th><small>Due Date, Noted by, Approved by</small></th>
                                             <th><span class="fa fa-bars"></span></th>
                                         </tr>
-                                        <?php foreach($group AS $gr){ ?>
+                                        <?php 
+                                            foreach($group AS $gr){
+                                         ?>
                                         <tr>
                                             <td width="15%"><a href="" ></a>
                                             <h3 class="m-b-0"><b>Group <?php echo $gr['group']; ?></b></h3>
@@ -68,7 +70,7 @@
                                                             //echo "<a href = '' class='btn btn-xs btn-danger'><span class='fa fa-times'></span></a> - " . $ven['vendor'] . "<br>";
                                                 ?>
                                                     <a href = '<?php echo base_url(); ?>pr/delete_vendor/<?php echo $pr_id; ?>/<?php echo $ven['pr_vendors_id']; ?>' class='btn btn-xs btn-danger' onclick="confirmationDelete(this);return false;"><span class='fa fa-times'></span></a> - <?php echo $ven['vendor'] . "<br>" ?>
-                                                <?php } } } ?>
+                                                <?php } } }  ?>
                                             </td>
                                             <td width="20%">
                                                 <?php 
