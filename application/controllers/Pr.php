@@ -400,6 +400,19 @@ class Pr extends CI_Controller {
                 $this->super_model->insert_into('pr_vendors', $data);
             } 
         } else {
+            foreach($vendor as $ven){
+                $data2 = array(
+                        'pr_id'=>$pr_id,
+                        'vendor_id'=>$ven,
+                        'due_date'=>$due_date,
+                        'noted_by'=>$noted_by,
+                        'approved_by'=>$approved_by,
+                        'grouping_id'=>$group
+                );
+
+             $this->super_model->insert_into('pr_vendors', $data2);
+         }
+
             $data = array(
                 'due_date'=>$due_date,
                 'noted_by'=>$noted_by,
