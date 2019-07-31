@@ -66,7 +66,7 @@ class Po extends CI_Controller {
     }
     
     public function po_list(){
-        $data['supplier']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');   
         $this->load->view('template/navbar');
         foreach($this->super_model->select_custom_where("po_head", "saved='1' AND served = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
@@ -183,7 +183,7 @@ class Po extends CI_Controller {
             'notes'=>$this->input->post('notes'),
             'vendor_id'=>$this->input->post('supplier'),
             'user_id'=>$_SESSION['user_id'],
-            'repeat_order'=>1
+            'po_type'=>2
         );
         if($this->super_model->insert_into("po_head", $data)){
             redirect(base_url().'po/reporder_prnt/'.$po_id);
@@ -822,6 +822,7 @@ class Po extends CI_Controller {
             }
             $item_no = substr($itemno, 0, -2);
             $data['pr'][]=array(
+                'pr_id'=>$pr->pr_id,
                 'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $pr->pr_id),
                 'enduse'=>$pr->enduse,
                 'purpose'=>$pr->purpose,
@@ -888,7 +889,11 @@ class Po extends CI_Controller {
     public function reporder_prnt(){
         $po_id=$this->uri->segment(3);
         $data['po_id']=$po_id;
-
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
+        $data['saved']=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
+        $approved_id = $this->super_model->select_column_where('po_head', 'approved_by', 'po_id', $po_id);
+        $data['approved_id'] = $approved_id;
+        $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $approved_id );
         foreach($this->super_model->select_row_where("po_head", "po_id", $po_id) AS $head){
             
             $data['head'][]=array(
@@ -903,17 +908,127 @@ class Po extends CI_Controller {
               $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
         }
 
+        foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $items){
+
+
+            if(!empty($items->offer)){
+                $offer=$items->offer;
+            } else {
+                $offer=$this->super_model->select_column_where('item', 'item_name', 'item_id', $items->item_id). ", " . $this->super_model->select_column_where('item', 'item_specs', 'item_id', $items->item_id);
+            }
+
+            $orig_po=$this->super_model->select_column_where('po_head', 'po_no', 'po_id', $items->source_poid);
+
+            $data['items'][]=array(
+                'quantity'=>$items->quantity,
+                'offer'=>$offer,
+                'price'=>$items->unit_price,
+                'uom'=>$items->uom,
+                'amount'=>$items->amount,
+                'item_no'=>$items->item_no,
+                'orig_pono'=>$orig_po
+
+            );
+        }
+
+        foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $popr){
+            $data['popr'][] = array(
+                'requestor'=>$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $popr->requestor),
+                'enduse'=>$popr->enduse,
+                'purpose'=>$popr->purpose,
+                'notes'=>$popr->notes,
+            );
+        }
+
         $this->load->view('template/header');        
         $this->load->view('po/reporder_prnt',$data);
         $this->load->view('template/footer');
     }
 
+    public function add_purpose(){
+        $po_id = $this->input->post('po_id');
+        $data= array(
+            'po_id'=>$po_id,
+            'purpose'=>$this->input->post('purpose'),
+            'requestor'=>$this->input->post('requested_by'),
+            'enduse'=>$this->input->post('enduse'),
+            'notes'=>$this->input->post('notes')
+        );
+        if($this->super_model->insert_into("po_pr", $data)){
+            redirect(base_url().'po/reporder_prnt/'.$po_id, 'refresh');
+        }
+
+    }
+
+    public function save_repeatPO(){
+        $po_id = $this->input->post('po_id');
+        $rows_dr = $this->super_model->count_rows("po_dr");
+        if($rows_dr==0){
+            $dr_no=1000;
+        } else {
+            $max = $this->super_model->get_max("po_dr", "dr_no");
+            $dr_no = $max+1;
+        }
+
+        $dr = array(
+            'po_id'=>$po_id,
+            'dr_no'=>$dr_no
+        );
+        $this->super_model->insert_into("po_dr", $dr);
+
+        $head = array(
+        
+            'approved_by'=>$this->input->post('approved'),
+            'saved'=>1,
+            'revised'=>0
+        );
+      
+        if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
+            redirect(base_url().'po/reporder_prnt/'.$po_id);
+        }
+    }
+
     public function reporder_dr(){
-        $vendor_id=$this->uri->segment(3);
+        $this->load->view('template/header'); 
+        $po_id = $this->uri->segment(3); 
+        $data['head']= $this->super_model->select_row_where('po_head', 'po_id', $po_id);
+        $data['revision_no']= $this->super_model->select_column_where("po_dr", "revision_no", "po_id", $po_id);
+        $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
+        $user_id= $this->super_model->select_column_where("po_head", "user_id", "po_id", $po_id);
+        $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
+        
+        foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
+             $itemno='';
+            foreach($this->super_model->select_custom_where("po_items", "pr_id= '$pr->pr_id' AND po_id='$po_id'") AS $it){
+                $itemno .= $it->item_no . ", ";
+            }
+            $item_no = substr($itemno, 0, -2);
+            $data['pr'][]=array(
+                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $pr->pr_id),
+                'enduse'=>$pr->enduse,
+                'purpose'=>$pr->purpose,
+                'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id',$pr->requestor),
+                'item_no'=>$item_no
+            );
+        }
 
-
-        $this->load->view('template/header');        
-        $this->load->view('po/reporder_dr');
+        foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
+            $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
+            if(!empty($items->offer)){
+                $offer=$items->offer;
+            } else {
+                $offer=$this->super_model->select_column_where('item', 'item_name', 'item_id', $items->item_id). ", " . $this->super_model->select_column_where('item', 'item_specs', 'item_id', $items->item_id);
+            }
+            $data['items'][]= array(
+                'item_no'=>$items->item_no,
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
+                'offer'=>$offer,
+                //'offer'=>$items->offer,
+                'quantity'=>$items->quantity,
+                'uom'=>$items->uom,
+            );
+        }       
+        $this->load->view('po/reporder_dr',$data);
         $this->load->view('template/footer');
     }
 
@@ -925,19 +1040,29 @@ class Po extends CI_Controller {
         $data['old_po'] = $old_po;
         $data['vendor_id'] = $vendor_id;
         $data['head']=$this->super_model->select_custom_where("po_head", "vendor_id = '$vendor_id' AND saved='1' AND cancelled='0' AND repeat_order = '0'");
-
-      
+    
             foreach($this->super_model->select_row_where("po_items", "po_id", $old_po) AS $item){
 
-                foreach($this->super_model->select_row_where("po_pr",'po_pr_id',$item->pr_id) AS $p){
-                    $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $p->pr_id);
+                if($item->pr_id !=0){
+                    foreach($this->super_model->select_row_where("po_pr",'po_pr_id',$item->pr_id) AS $p){
+                        $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $p->pr_id);
+                    }
+                } else {
+                    $pr_no = '';
+                }
+
+
+                if(!empty($item->offer)){
+                    $offer=$item->offer;
+                } else {
+                    $offer=$this->super_model->select_column_where('item', 'item_name', 'item_id', $item->item_id). ", " . $this->super_model->select_column_where('item', 'item_specs', 'item_id', $item->item_id);
                 }
 
                 $data['items'][] = array(
                     'pr_no'=>$pr_no,
                     'pr_id'=>$item->pr_id,
                     'item_id'=>$item->po_items_id,
-                    'offer'=>$item->offer,
+                    'offer'=>$offer,
                     'uom'=>$item->uom,
                     'quantity'=>$item->quantity,
                     'price'=>$item->unit_price,
@@ -948,6 +1073,58 @@ class Po extends CI_Controller {
         $this->load->view('template/header');        
         $this->load->view('po/addPo',$data);
         $this->load->view('template/footer');
+    }
+
+    public function add_repeatPO(){
+        $count_item = $this->input->post('count_item');
+
+        for($x=1;$x<$count_item;$x++){
+
+            $quantity = $this->input->post('quantity'.$x);
+            if($quantity!=0){
+
+                $po_id = $this->input->post('po_id');
+                $max_item = $this->super_model->count_rows_where('po_items','po_id',$po_id);
+                if($max_item==0){
+                    $item_no = 1;
+                } else {
+                    $max_no = $this->super_model->get_max_where("po_items", "item_no","po_id='$po_id'");
+                    $item_no = $max_no +1;
+                }
+
+                $source_po= $this->super_model->select_column_where('po_items', 'po_id', 'po_items_id', $this->input->post('po_items_id'.$x));
+                $item= $this->super_model->select_column_where('po_items', 'item_id', 'po_items_id', $this->input->post('po_items_id'.$x));
+                $offer= $this->super_model->select_column_where('po_items', 'offer', 'po_items_id', $this->input->post('po_items_id'.$x));
+                $price=$this->super_model->select_column_where('po_items', 'unit_price', 'po_items_id', $this->input->post('po_items_id'.$x));
+                $orig_po=$this->super_model->select_column_where('po_head', 'po_no', 'po_id', $source_po);
+                $amount=$quantity*$price;
+                $data =  array(
+                    'po_id'=>$po_id,
+                    'item_id'=>$item,
+                    'offer'=>$offer,
+                    'quantity'=>$quantity,
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
+                    'item_no'=>$item_no,
+                    'source_poid'=>$source_po,
+                  
+
+
+                );
+
+                $this->super_model->insert_into("po_items", $data);
+            }
+        }
+         ?>
+        <script>
+              window.onunload = refreshParent;
+            function refreshParent() {
+                window.opener.location.reload();
+            }
+            window.close();
+            
+        </script>
+        <?php
     }
 
     public function delivery_receipt_r(){

@@ -97,15 +97,8 @@
 					</h5>					
 				</div>
 				<div class="modal-body">
-				<form method='POST' action="<?php echo base_url(); ?>po/add_rfd_purpose">
-				<div class="form-group">
-					<h5 class="nomarg">PR No:</h5>
-					<h5 class="nomarg"><b>
-						<select name='pr_no' id='pr' class="form-control" onchange='getPRInfo()'>
-							<option value="" selected=""></option>
-						</select>
-					</b></h5>
-				</div>
+				<form method='POST' action="<?php echo base_url(); ?>po/add_purpose">
+			
 				<div class="form-group">
 					<h5 class="nomarg">Notes:</h5>
 					<h5 class="nomarg"><b>
@@ -115,26 +108,26 @@
 				<div class="form-group">
 					<h5 class="nomarg">Requestor:</h5>
 					<h5 class="nomarg"><b>
-						 <select name='requested_by' class="form-control">
-                            <option value='' selected>-Select Employee-</option>
-                        </select>
+						<!--  <select name='requested_by' class="form-control">
+						 	<option value='' selected>-Select Employee-</option>
+						 	<?php foreach($employee AS $emp){ ?>
+                            <option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+                        	<?php } ?>
+                        </select> -->
+                        <input name='requested_by' class="form-control">
 					</b></h5>
 				</div>
 				<div class="form-group">
 					<h5 class="nomarg">Purpose:</h5>
 					<h5 class="nomarg"><b>
-						<select name='purpose' class="form-control">
-                            <option value='' selected>-Select Purpose-</option>
-                        </select>
+						<input name='purpose' class="form-control">
 					</b></h5>
 				</div>
 
 				<div class="form-group">
 					<h5 class="nomarg">Enduse:</h5>
 					<h5 class="nomarg"><b>
-						 <select name='enduse' class="form-control">
-                            <option value='' selected>-Select End Use-</option>
-                        </select>
+						 <input name='enduse' class="form-control">
 					</b></h5>
 				</div>
 				
@@ -149,16 +142,21 @@
 	</div>
     <div  class="pad">
 
-    	<form method='POST' action='<?php echo base_url(); ?>po/'>  
+    	<form method='POST' action='<?php echo base_url(); ?>po/save_repeatPO'>  
+    		<input type='hidden' name='po_id' value="<?php echo $po_id; ?>">
+    		<input type='hidden' name='prepared_by' value="<?php echo $_SESSION['user_id']; ?>">
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="abtn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-						<a  href='<?php echo base_url(); ?>po/revise_repeatpo/' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
+						<!-- <a  href='<?php echo base_url(); ?>po/revise_repeatpo/' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a> -->
+						<?php if($saved==1){ ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>PO</b></u></a>
-						<a  href="<?php echo base_url(); ?>po/reporder_dr" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
-						<a  href="<?php echo base_url(); ?>po/rfd_prnt/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
+						<a  href="<?php echo base_url(); ?>po/reporder_dr/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
+						<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
+						<?php } else { ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
+						<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
@@ -227,9 +225,11 @@
 		    		<tr id="pr-btn">
 		    			<td colspan="20" style="padding-left: 10px">
 		    				<div class="btn-group" id="prhide">
+		    					<?php if($saved==0){ ?>
 			    				<a class="addPR btn btn-primary btn-xs" onclick="addPo('<?php echo base_url(); ?>','<?php echo $po_id; ?>','<?php echo $vendor_id; ?>')" data-id="">
 								  Add PO
 								</a>
+								<?php } ?>
 							<!-- 	<a class="addPR btn btn-warning btn-xs" data-toggle="modal" href="#add-pr" data-id="" data-target="#add-pr">
 								  Add PR
 								</a> -->
@@ -271,15 +271,24 @@
 					    			<td colspan="3" class="all-border" align="center"></td>
 					    			<!-- <td class="all-border" align="center"><span class="fa fa-times"></span></td> -->
 					    		</tr>	
+					    		<?php
+					    		$x=1; 
+					    		if(!empty($items)){
+					    			foreach($items AS $it){ 
+					    				$total_amount[] = $it['amount']; ?>
 					    		<tr>
-					    			<td colspan="" class="bor-right" align="center"><b></b></td>
-					    			<td colspan="" class="bor-right" align="center"><b></b></td>
-					    			<td colspan="" class="bor-right" align="center"><b></b></td>
-					    			<td colspan="12" class="bor-right" align="left"><b></b></td>
-					    			<td colspan="2" class="bor-right" align="center"><b></b></td>
-					    			<td colspan="3" class="bor-right" align="right"><b></td>
+					    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
+					    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['quantity']; ?></b></td>
+					    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['uom']; ?></b></td>
+					    			<td colspan="12" class="bor-right" align="left"><b><?php echo $it['offer']; ?></b></td>
+					    			<td colspan="2" class="bor-right" align="center"><b><?php echo number_format($it['price'],2); ?></b></td>
+					    			<td colspan="3" class="bor-right" align="right"><b><?php echo number_format($it['amount'],2); ?></b></td>
 					    			<!-- <td align="center"><a href='<?php echo base_url(); ?>/po/remove_po_item/' class="btn-danger btn-xs" onclick="return confirm('Are you sure you want to remove item?')"><span class="fa fa-times"></span></a></td>	 -->			
 					    		</tr> 
+					    		<?php 
+					    		$x++;
+					    			}
+					    		 ?>
 					    		<tr>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -294,28 +303,34 @@
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="12" class="bor-right" align="left">
+					    			<?php if($saved==0){ ?>
 					    			<button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-xs btn-primary" onclick="" >Add Purpose/ EndUse/ Requestor</button>
+					    			<?php } ?>
 					    			</td>
 					    			<td colspan="2" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="3" class="bor-right" align="right"><b></b></td>
 					    			<!-- <td colspan="" class="bor-right" align="center"><b></b></td> -->
 					    		</tr>
+					    		<?php 
+					    			if(!empty($popr)){
+					    				foreach($popr AS $pr) { ?>
 					    		<tr>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="12" class="bor-right" align="left">
 					    				<b>
-					    					<p class="f12 nomarg">Purpose: </p>
-					    					<p class="f12 nomarg">End Use: </p>
-					    					<p class="f12 nomarg">PR No: ></p>
-					    					<p class="f12 nomarg">Requestor: </p>
+					    					<p class="f12 nomarg">Notes: <?php echo $pr['notes']?></p>
+					    					<p class="f12 nomarg">Purpose: <?php echo $pr['purpose']?></p>
+					    					<p class="f12 nomarg">End Use: <?php echo $pr['enduse']?></p>
+					    					<p class="f12 nomarg">Requestor: <?php echo $pr['requestor']?></p>
 						    			</b>
 						    		</td>
 					    			<td colspan="2" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="3" class="bor-right" align="right"><b></b></td>
 					    			<!-- <td colspan="" class="bor-right" align="center"><b></b></td> -->
 					    		</tr> 
+					    		<?php } } ?>
 					    		<tr>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -357,17 +372,26 @@
 					    		</tr>
 					    		<tr>
 					    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'></span></b></td>
+					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($total_amount),2); ?></span></b></td>
 					    		</tr>
+					    	<?php } ?>
 		    				</table>
 			    		</td>
 			    	</tr>
+			    
 			    	<tr>
 		    			<td class="f13" colspan="20" style="padding: 10px!important">
 		    				<p class="f12 nomarg">Note:</p>
-		    				<p class="f12 nomarg">Item No. ITEM NO HERE is a repeat Order of PO No. </p>
+		    					<?php 
+						    	if(!empty($items)){
+								    	foreach($items AS $it){ 
+								  ?>
+		    					<p class="f12 nomarg">Item No. <?php echo $it['item_no']; ?> is a repeat Order of PO No. <?php echo $it['orig_pono']; ?></p>
+		    				 <?php } 
+							} ?>
 			    		</td>
 			    	</tr>
+				   
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				Terms & Conditions:<br>
@@ -395,12 +419,20 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2"></td>
-		    			<td colspan="7"><b></b></td>
+		    			<td colspan="7"><b><?php echo $_SESSION['fullname'];?></b></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="7"><b>
+		    			<?php if($saved==0){ ?>
 		    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
-			    			<option value=''>-Select Employee-</option>
-		    			</select></b></td>
+			    			<option value='' selected>-Select Employee-</option>
+						 	<?php foreach($employee AS $emp){ ?>
+                            <option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+                        	<?php } ?>
+		    			</select>
+		    			<?php } else {
+		    				echo $approved;
+		    			} ?>
+		    			</b></td>
 		    			<td colspan="2"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>

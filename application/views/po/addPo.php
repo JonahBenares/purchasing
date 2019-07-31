@@ -15,7 +15,7 @@
                     <div class="sparkline8-list shadow-reset">
                         <div class="hr-bold"></div>
                         <div class="sparkline8-graph" style="text-align: left">
-                        <form method='POST' action="<?php echo base_url(); ?>po/add_repeatPO"
+                        <form method='POST' action="<?php echo base_url(); ?>po/add_repeatPO">
                             <div class="datatable-dashv1-list custom-datatable-overright">
                                 <h4 class="">PO No: </h4>
                                 <select class="form-control" style="width: 25%" name='po' id='po' onchange="generatePO('<?php echo base_url(); ?>','<?php echo $vendor_id; ?>','<?php echo $po_id; ?>',this.value);">

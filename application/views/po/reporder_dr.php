@@ -152,7 +152,7 @@
 			    	<div class="btn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
 						
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
+						<!-- <input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save"> -->
 					
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
 						
@@ -197,29 +197,32 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr><td colspan="20" align="center"><h5><b class="text-red">DELIVERY RECEIPT</b></h5></td></tr>
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
+		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
-		    			<td colspan="13" class="all-border "><b class="text-red nomarg">DR No. </b></td>
-		    			<td colspan="7" class="all-border " align="right"><b style="color: blue;margin-right: 5px"><!-- Direct Purchase --></b></td>
+		    			<td colspan="10" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no; ?></b></td>
+		    			<td colspan="10" class="all-border "><b class="nomarg">PO No: <?php echo $h->po_no . (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
+		    		</tr>
+		    		
+		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($h->po_date)); ?></b></td></tr>
+		    		<?php } ?>
+		    		<tr>
+		    			<td colspan="20" align="center"><br></td>
+		    		</tr>
+		    		<?php foreach($pr AS $p){ ?>
+		    		<tr>
+		    			<td colspan="20" class="all-border"><b class="nomarg">Purpose: <?php echo $p['purpose']; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20" class="all-border "><b class="nomarg">Date :</b></td>		    			
+		    			<td colspan="20" class="all-border"><b class="nomarg">End Use: <?php echo $p['enduse']; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="13" class="all-border"><b class="nomarg">Item #4: </b></td>
-		    			<td colspan="7" class="all-border">
-		    				<b class="nomarg">Requestor: </b>
-		    				<div class="pull-right m-r-10">
-		    				
-		    					</div>
-		    			</td>
-		    		</tr>		    		
-		    		<tr>
-		    			<td colspan="13" class="all-border bor-btm2"><b class="nomarg">Purpose: </b></td>
-		    			<td colspan="7" class="all-border bor-btm2"><b class="nomarg">Enduse: </b></td>
+		    			<td colspan="10" class="all-border"><b class="nomarg">Requestor: <?php echo $p['requestor']; ?></b></td>
+		    			<td colspan="10" class="all-border "><b class="nomarg">PR No: <?php echo $p['pr_no'] . "; Item#: " . $p['item_no']; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="21" class="all-border "><b class="nomarg"></td>
+		    			<td colspan="20" align="center"><br></td>
 		    		</tr>
+		    		<?php } ?>
 		    		<!-- loop here end-->
 		    		
 		    		<tr>
@@ -235,16 +238,17 @@
 		    			</td>
 		    		</tr>
 		    		<!-- <loop  start-->
+		    		<?php foreach($items AS $it){ ?>
 		       		<tr>
+		    			<td class="all-border" align="center"><?php echo $it['item_no']; ?><br></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $it['vendor']; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $it['offer']; ?></td>
+		    			<td class="all-border" align="center"><?php echo number_format($it['quantity']); ?></td>
 		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="left" colspan="6"></td>
-		    			<td class="all-border" align="left" colspan="6"></td>
-		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center" colspan="2"></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $it['uom']; ?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
-		    			
-		    		</tr>		  
+		    		</tr>
+		    		<?php } ?>		  
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
@@ -263,7 +267,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td colspan="6">fullname</td>
+		    			<td colspan="6"><?php echo $_SESSION['fullname']?></td>
 		    			<td colspan="5"></td>
 		    			<td colspan="6">Print Name & Signature with Date Received</td>
 		    			<td colspan="2"></td>

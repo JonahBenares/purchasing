@@ -289,7 +289,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">
-		    				<b class="nomarg">Requestor:  <?php echo $p['requestor'] . "; Item# ". $p['item_no']; ?></b>
+		    				<b class="nomarg">Requestor:  <?php echo $p['requestor'] .(($p['pr_id']!=0) ? "; Item# ". $p['item_no'] : "") ?></b>
 		    			</td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
