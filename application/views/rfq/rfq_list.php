@@ -147,7 +147,7 @@ $(document).on("click", "#addnotes_button", function () {
                                                     </a>      -->                                               
                                                     <a class="cancelRFQ btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelRFQ" data-id=""><span class="fa fa-ban" title="Cancel"></span>
                                                     </a>
-                                                    <a href="<?php echo base_url(); ?>rfq/" class="btn btn-custon-three btn-success btn-xs" onclick="return confirm('Are you sure?')" title="Served"><span class=" fa fa-archive"></span>
+                                                    <a href="<?php echo base_url(); ?>rfq/serve_rfq/<?php echo $h['rfq_id']; ?>" class="btn btn-custon-three btn-success btn-xs" onclick="return confirm('Are you sure this RFQ is already served?')" title="Served"><span class=" fa fa-archive"></span>
                                                     </a>
                                                 </center>
                                             </td>

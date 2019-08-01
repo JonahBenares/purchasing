@@ -115,20 +115,36 @@ class Aoq extends CI_Controller {
             foreach($this->super_model->select_custom_where("aoq_head", "saved='1'") AS $list){
                 $rows = $this->super_model->count_rows_where("aoq_vendors","aoq_id",$list->aoq_id);
                 $supplier='';
-                foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$list->aoq_id' GROUP BY vendor_id") AS $offer){
-                    if($offer->recommended==1){
-                        $supplier.="<span style='background-color:#b5e61d;'>-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "</span><br> ";
-                    } else {
-                        $supplier.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "<br> ";
+                $not_recom='';
+                foreach($this->super_model->select_custom_where("aoq_vendors", "aoq_id='$list->aoq_id'") AS $ven){
+                    foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$list->aoq_id' AND recommended='1' GROUP BY vendor_id") AS $offer){
+                        if($offer->vendor_id==$ven->vendor_id){
+                            $supplier.="<span style='background-color:#b5e61d;'>-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "</span><br> ";
+
+                        $not_recom .= "vendor_id != '$offer->vendor_id' AND ";
+                        }
+                        
+                       
                     }
+                     
                 }
-                $sup = substr($supplier, 0, -2);
+                $not_recom=substr($not_recom, 0, -4);
+                  // echo $not_recom;
+
+                  foreach($this->super_model->select_custom_where("aoq_vendors", $not_recom) AS $offer1){
+                        
+                    $supplier.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer1->vendor_id). "<br> ";
+                
+                 }
+
+                // echo $supplier;
+               // $sup = substr($supplier, 0, -2);
 
                 $data['heads'][]=array(
                     'aoq_id'=>$list->aoq_id,
                     'date'=>$list->aoq_date,
                     'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$list->pr_id),
-                    'supplier'=>$sup,
+                    'supplier'=>$supplier,
                     'department'=>$list->department,
                     'enduse'=>$list->enduse,
                     'requestor'=>$list->requestor,

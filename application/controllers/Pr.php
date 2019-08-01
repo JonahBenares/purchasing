@@ -228,7 +228,7 @@ class Pr extends CI_Controller {
                 );
                 $this->super_model->update_where('pr_details', $data, 'pr_details_id', $up->pr_details_id);
             }
-            echo "<script>alert('Successfully Cancelled!'); window.location ='".base_url()."index.php/pr/pr_list';</script>";
+            echo "<script>alert('Successfully Cancelled!'); window.location ='".base_url()."pr/pr_list';</script>";
         }
     }
 
