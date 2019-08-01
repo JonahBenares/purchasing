@@ -525,7 +525,7 @@ class Po extends CI_Controller {
             $dr_no = $max+1;
         }
 
-         $max_revision = $this->super_model->get_max("po_head", "revision_no");
+         $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
         $revision_no = $max_revision+1;
 
 

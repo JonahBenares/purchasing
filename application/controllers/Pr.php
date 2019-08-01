@@ -401,16 +401,20 @@ class Pr extends CI_Controller {
             } 
         } else {
             foreach($vendor as $ven){
-                $data2 = array(
-                        'pr_id'=>$pr_id,
-                        'vendor_id'=>$ven,
-                        'due_date'=>$due_date,
-                        'noted_by'=>$noted_by,
-                        'approved_by'=>$approved_by,
-                        'grouping_id'=>$group
-                );
 
-             $this->super_model->insert_into('pr_vendors', $data2);
+                $count_exist= $this->super_model->count_custom_where("pr_vendors","pr_id = '$pr_id' AND vendor_id = '$ven' AND grouping_id = '$group'");
+                if($count_exist==0){
+                    $data2 = array(
+                            'pr_id'=>$pr_id,
+                            'vendor_id'=>$ven,
+                            'due_date'=>$due_date,
+                            'noted_by'=>$noted_by,
+                            'approved_by'=>$approved_by,
+                            'grouping_id'=>$group
+                    );
+
+                 $this->super_model->insert_into('pr_vendors', $data2);
+                }
          }
 
             $data = array(
