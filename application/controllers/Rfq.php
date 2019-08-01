@@ -46,8 +46,9 @@ class Rfq extends CI_Controller {
 
         $head_count = $this->super_model->count_rows("rfq_head");
         if($head_count!=0){
-        foreach($this->super_model->select_all_order_by("rfq_head", "rfq_date", "DESC") AS $head){
+        //foreach($this->super_model->select_all_order_by("rfq_head", "rfq_date", "DESC") AS $head){
 
+        foreach($this->super_model->select_custom_where("rfq_head", "served='0' AND cancelled = '0' ORDER BY rfq_date DESC") AS $head){
             $data['head'][]= array(
                 'rfq_id'=>$head->rfq_id,
                 'rfq_no'=>$head->rfq_no,
@@ -139,6 +140,26 @@ class Rfq extends CI_Controller {
          $rfq_id=$this->uri->segment(3);
           $data = array(
             'completed'=>1
+          );
+        if($this->super_model->update_where("rfq_head", $data, "rfq_id", $rfq_id)){
+             redirect(base_url().'rfq/rfq_list/', 'refresh');
+        }
+    }
+
+     public function serve_rfq(){
+         $rfq_id=$this->uri->segment(3);
+          $data = array(
+            'served'=>1
+          );
+        if($this->super_model->update_where("rfq_head", $data, "rfq_id", $rfq_id)){
+             redirect(base_url().'rfq/rfq_list/', 'refresh');
+        }
+    }
+
+     public function cancel_rfq(){
+         $rfq_id=$this->uri->segment(3);
+          $data = array(
+            'cancelled'=>1
           );
         if($this->super_model->update_where("rfq_head", $data, "rfq_id", $rfq_id)){
              redirect(base_url().'rfq/rfq_list/', 'refresh');

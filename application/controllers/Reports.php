@@ -52,7 +52,7 @@ class Reports extends CI_Controller {
 
         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $pr){
             $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
-            $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'");
+            $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
             $unserved_qty=0;
             $unserved_uom='';
@@ -700,8 +700,17 @@ class Reports extends CI_Controller {
 
                
                         $requestor = $pr->requestor;
-                    
-                    $partial = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ah.pr_id = '$pr->pr_id' AND ai.aoq_items_id = '$i->aoq_items_id' AND ai.balance != '0' AND ai.balance != ai.quantity GROUP BY ai.aoq_items_id");
+                    if($p->cancelled ==1){
+                        $status = "<span style='color:red'>Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
+                    } else {
+                        $rfd_rows = $this->super_model->count_rows_where("rfd","po_id",$p->po_id);
+                        if($rfd_rows==0){
+                            $status = 'Pending RFD';
+                        } else {
+                            $status = 'Fully Served';
+                        }
+                    }
+                    /*$partial = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ah.pr_id = '$pr->pr_id' AND ai.aoq_items_id = '$i->aoq_items_id' AND ai.balance != '0' AND ai.balance != ai.quantity GROUP BY ai.aoq_items_id");*/
                     $data['po'][]=array(
                         'po_id'=>$i->po_id,
                         'pr_no'=>$pr_no,
@@ -718,7 +727,7 @@ class Reports extends CI_Controller {
                         'po_no'=>$p->po_no,
                         'saved'=>$p->saved,
                         'cancelled'=>$p->cancelled,
-                        'partial'=>$partial,
+                        'status'=>$status,
                         'supplier'=>$supplier,
                         'terms'=>$terms,
                     );

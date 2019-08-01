@@ -228,7 +228,7 @@ class Pr extends CI_Controller {
                 );
                 $this->super_model->update_where('pr_details', $data, 'pr_details_id', $up->pr_details_id);
             }
-            echo "<script>alert('Successfully Cancelled!'); window.location ='".base_url()."index.php/pr/pr_list';</script>";
+            echo "<script>alert('Successfully Cancelled!'); window.location ='".base_url()."pr/pr_list';</script>";
         }
     }
 
@@ -401,16 +401,20 @@ class Pr extends CI_Controller {
             } 
         } else {
             foreach($vendor as $ven){
-                $data2 = array(
-                        'pr_id'=>$pr_id,
-                        'vendor_id'=>$ven,
-                        'due_date'=>$due_date,
-                        'noted_by'=>$noted_by,
-                        'approved_by'=>$approved_by,
-                        'grouping_id'=>$group
-                );
 
-             $this->super_model->insert_into('pr_vendors', $data2);
+                $count_exist= $this->super_model->count_custom_where("pr_vendors","pr_id = '$pr_id' AND vendor_id = '$ven' AND grouping_id = '$group'");
+                if($count_exist==0){
+                    $data2 = array(
+                            'pr_id'=>$pr_id,
+                            'vendor_id'=>$ven,
+                            'due_date'=>$due_date,
+                            'noted_by'=>$noted_by,
+                            'approved_by'=>$approved_by,
+                            'grouping_id'=>$group
+                    );
+
+                 $this->super_model->insert_into('pr_vendors', $data2);
+                }
          }
 
             $data = array(

@@ -53,6 +53,20 @@ class Po extends CI_Controller {
         $po_id=$this->input->post('po_id');
         $reason=$this->input->post('reason');
         $create = date('Y-m-d H:i:s');
+
+        foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
+            $quantity = $items->quantity;
+
+            $balance = $this->super_model->select_column_where("aoq_offers", "balance", "aoq_offer_id", $items->aoq_offer_id);
+
+            $new_balance = $balance + $quantity;
+            $data=array(
+                'balance'=>$new_balance
+            );
+
+            $this->super_model->update_where("aoq_offers",  $data, "aoq_offer_id", $items->aoq_offer_id);
+        }
+
         $data = array(
             'cancelled'=>1,
             'cancelled_by'=>$_SESSION['user_id'],
@@ -116,6 +130,17 @@ class Po extends CI_Controller {
             $po_id = $max+1;
         }
 
+        $rows_series = $this->super_model->count_rows("po_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("po_series", "series");
+            $series = $max+1;
+        }
+
+        $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id',$this->input->post('prno'));
+        $po_no = $pr_no."-".$series;
+
         if(empty($this->input->post('dp'))){
             $pr_id = $this->input->post('prno');
             $data_details = array(
@@ -131,7 +156,7 @@ class Po extends CI_Controller {
             $data= array(
                 'po_id'=>$po_id,
                 'po_date'=>$this->input->post('po_date'),
-                'po_no'=>$this->input->post('po_no'),
+                'po_no'=>$po_no,
                 'vendor_id'=>$this->input->post('vendor'),
                 'notes'=>$this->input->post('notes'),
                 'po_type'=>0,
@@ -145,7 +170,7 @@ class Po extends CI_Controller {
             $data= array(
                 'po_id'=>$po_id,
                 'po_date'=>$this->input->post('po_date'),
-                'po_no'=>$this->input->post('po_no'),
+                'po_no'=>$po_no,
                 'vendor_id'=>$this->input->post('vendor'),
                 'notes'=>$this->input->post('notes'),
                 'po_type'=>1,
@@ -166,6 +191,8 @@ class Po extends CI_Controller {
             $max = $this->super_model->get_max("po_head", "po_id");
             $po_id = $max+1;
         }
+
+
 
      /*   $head_rows = $this->super_model->count_rows("po_head");
         if($head_rows==0){
@@ -525,7 +552,7 @@ class Po extends CI_Controller {
             $dr_no = $max+1;
         }
 
-         $max_revision = $this->super_model->get_max("po_head", "revision_no");
+         $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
         $revision_no = $max_revision+1;
 
 
