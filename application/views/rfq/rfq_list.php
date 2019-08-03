@@ -20,6 +20,11 @@ $(document).on("click", "#addnotes_button", function () {
      $("#rfq_id").val(rfq_id);
 
 });
+$(document).on("click", ".cancelRFQ", function () {
+     var rfq_id = $(this).attr("data-id");
+     $("#rfq_id").val(rfq_id);
+
+});
 </script>
     <div id="cancelRFQ" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
@@ -83,7 +88,7 @@ $(document).on("click", "#addnotes_button", function () {
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <ul class="breadcome-menu">
-                                    <li><a href="<?php echo base_url(); ?>index.php/masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
+                                    <li><a href="<?php echo base_url(); ?>masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
                                     </li>
                                     <li><span class="bread-blod">RFQ List</span>
                                     </li>
@@ -107,7 +112,7 @@ $(document).on("click", "#addnotes_button", function () {
                                 <small>REQUEST FOR QUOTATION</small> 
                                 <div class="sparkline8-outline-icon">
                                 <input type='submit' id='createAOQ' class="btn btn-custon-three btn-primary" value='Create AOQ' >
-                                <a href="<?php echo base_url(); ?>index.php/rfq/served_rfq" class="btn btn-custon-three btn-success" ><span class="fa fa-archive p-l-0"></span> Served RFQ</a> 
+                                <a href="<?php echo base_url(); ?>rfq/served_rfq" class="btn btn-custon-three btn-success" ><span class="fa fa-archive p-l-0"></span> Served RFQ</a> 
                                 <a href="<?php echo base_url(); ?>rfq/cancelled_rfq" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled RFQ</a>
                                 </div>
                             </div>
@@ -169,7 +174,7 @@ $(document).on("click", "#addnotes_button", function () {
                                                   <!--   <a class="duplicateRFQ btn btn-custon-three btn-info btn-xs" title="Duplicate" data-toggle="modal" data-target="#duplicateRFQ" data-id="">
                                                         <span class="fa fa-files-o"></span>
                                                     </a>      -->                                               
-                                                    <a class="cancelRFQ btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelRFQ" data-id=""><span class="fa fa-ban" title="Cancel"></span>
+                                                    <a class="cancelRFQ btn btn-custon-three btn-danger btn-xs cancelRFQ" data-toggle="modal" data-target="#cancelRFQ" data-id="<?php echo $h['rfq_id']; ?>"><span class="fa fa-ban" title="Cancel"></span>
                                                     </a>
                                                     <a href="<?php echo base_url(); ?>rfq/serve_rfq/<?php echo $h['rfq_id']; ?>" class="btn btn-custon-three btn-success btn-xs" onclick="return confirm('Are you sure this RFQ is already served?')" title="Served"><span class=" fa fa-archive"></span>
                                                     </a>

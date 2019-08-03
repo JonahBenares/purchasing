@@ -44,7 +44,7 @@ class Rfq extends CI_Controller {
 
 	public function rfq_list(){
 
-        $head_count = $this->super_model->count_rows("rfq_head");
+        $head_count = $this->super_model->count_custom_where("rfq_head","served='0' AND cancelled = '0' ORDER BY rfq_date DESC");
         if($head_count!=0){
         //foreach($this->super_model->select_all_order_by("rfq_head", "rfq_date", "DESC") AS $head){
 
@@ -157,9 +157,15 @@ class Rfq extends CI_Controller {
     }
 
      public function cancel_rfq(){
-         $rfq_id=$this->uri->segment(3);
+         $rfq_id=$this->input->post('rfq_id');
+         //echo "***".$rfq_id;
+         $date=date('Y-m-d H:i:s');
           $data = array(
-            'cancelled'=>1
+            'cancelled'=>1,
+            'cancel_reason'=>$this->input->post('reason'),
+            'cancelled_date'=>$date,
+            'cancelled_by'=>$_SESSION['user_id']
+
           );
         if($this->super_model->update_where("rfq_head", $data, "rfq_id", $rfq_id)){
              redirect(base_url().'rfq/rfq_list/', 'refresh');
@@ -190,15 +196,73 @@ class Rfq extends CI_Controller {
         $this->load->view('template/footer');
     } 
     public function served_rfq(){
+
+        $head_count = $this->super_model->count_custom_where("rfq_head","served='1' ORDER BY rfq_date DESC");
+        if($head_count!=0){
+        //foreach($this->super_model->select_all_order_by("rfq_head", "rfq_date", "DESC") AS $head){
+
+        foreach($this->super_model->select_custom_where("rfq_head", "served='1' ORDER BY rfq_date DESC") AS $head){
+            $data['head'][]= array(
+                'rfq_id'=>$head->rfq_id,
+                'rfq_no'=>$head->rfq_no,
+                'pr_id'=>$head->pr_id,
+                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id),
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id),
+                'rfq_date'=>$head->rfq_date,
+                'notes'=>$head->notes,
+                'completed'=>$head->completed
+                
+            );
+        }
+
+
+         foreach($this->super_model->custom_query("SELECT rd.* FROM rfq_details rd INNER JOIN pr_details pd ON rd.pr_details_id = pd.pr_details_id WHERE pd.cancelled=0") AS $it){
+                $data['items'][] = array(
+                    'rfq_id'=>$it->rfq_id,
+                    'item'=>$it->item_desc,
+                );
+            }
+        } else {
+            $data= array();
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('rfq/served_rfq');
+        $this->load->view('rfq/served_rfq',$data);
         $this->load->view('template/footer');
     } 
     public function cancelled_rfq(){
+          $head_count = $this->super_model->count_custom_where("rfq_head","cancelled='1' ORDER BY rfq_date DESC");
+        if($head_count!=0){
+        //foreach($this->super_model->select_all_order_by("rfq_head", "rfq_date", "DESC") AS $head){
+
+        foreach($this->super_model->select_custom_where("rfq_head", "cancelled='1' ORDER BY rfq_date DESC") AS $head){
+            $data['head'][]= array(
+                'rfq_id'=>$head->rfq_id,
+                'rfq_no'=>$head->rfq_no,
+                'pr_id'=>$head->pr_id,
+                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id),
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id),
+                'rfq_date'=>$head->rfq_date,
+                'notes'=>$head->notes,
+                'completed'=>$head->completed
+                
+            );
+        }
+
+
+         foreach($this->super_model->custom_query("SELECT rd.* FROM rfq_details rd INNER JOIN pr_details pd ON rd.pr_details_id = pd.pr_details_id WHERE pd.cancelled=0") AS $it){
+                $data['items'][] = array(
+                    'rfq_id'=>$it->rfq_id,
+                    'item'=>$it->item_desc,
+                );
+            }
+        } else {
+            $data= array();
+        }
+
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('rfq/cancelled_rfq');
+        $this->load->view('rfq/cancelled_rfq',$data);
         $this->load->view('template/footer');
     } 
 

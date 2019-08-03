@@ -15,9 +15,9 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <ul class="breadcome-menu">
-                                    <li><a href="<?php echo base_url(); ?>index.php/masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
+                                    <li><a href="<?php echo base_url(); ?>masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
                                     </li>
-                                    <li><a href="<?php echo base_url(); ?>index.php/rfq/rfq_list">RFQ List</a><span class="bread-slash">/</span></li>
+                                    <li><a href="<?php echo base_url(); ?>rfq/rfq_list">RFQ List</a><span class="bread-slash">/</span></li>
                                     <li><span class="bread-blod">RFQ List</span></li>
                                 </ul>
                             </div>
@@ -47,30 +47,50 @@
                             <div class="datatable-dashv1-list custom-datatable-overright">
                                 <table class="table table-bordered table-hover">
                                     <thead>
-                                        <tr>
-                                            <th>RFQ #</th>
-                                            <th>Supplier</th>
-                                            <th>RFQ Date</th>
-                                            <th>Items</th>
-                                            <th>Date Served</th>
-                                            <th width="10%"><center><span class="fa fa-bars"></span></center></th>
+                                      <tr>
+                                           
+                                            <th width="13%">RFQ #</th>
+                                            <th width="10%">PR #</th>
+                                            <th>Vendor</th>
+                                            <th width="10%">RFQ Date</th>
+                                            <th width="25%">Items</th>
+                                            <th width="10%">Notes</th> 
+                                            <th width="15%"><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            <center>
-                                                <a href="javascript:void(0)" onclick="" class="btn btn-custon-three btn-warning btn-xs">
-                                                    <span class="fa fa-eye"></span>
-                                                </a>
-                                            </center>
-                                        </td> 
-                                    </tr>                                    
+                                  <?php
+                                        if(!empty($head)){
+                                         foreach($head AS $h){ ?>
+                                        
+                                        <tr>
+                                            
+                                            <td><?php echo $h['rfq_no']; ?></td>
+                                            <td><?php echo $h['pr_no']; ?></td>
+                                            <td><?php echo $h['vendor']; ?></td>
+                                           
+                                            <td>
+                                                <span style='text-align: left;'> <?php echo date('m.j.y', strtotime($h['rfq_date'])); ?></span>
+                                            </td>
+                                            <td style='font-size: 12px'>
+                                                <?php foreach($items AS $it){ 
+                                                    if($h['rfq_id']==$it['rfq_id']){
+                                                        echo "- ". $it['item'] . "<br>";
+                                                    } 
+                                                 } ?>
+                                            </td>
+                                            <td><small><?php echo $h['notes']; ?></small></td>
+                                            <td>
+                                                <center>
+                                                      <a href="<?php echo base_url(); ?>rfq/rfq_outgoing/<?php echo $h['rfq_id']; ?>" target='_blank' class="btn btn-custon-three btn-warning btn-xs" title="View RFQ Complete">
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                   
+                                                </center>
+                                            </td>
+                                        </tr>  
+                                        <?php }
+                                        } ?>                                     
                                     </tbody>
                                 </table>
                             </div>                           
