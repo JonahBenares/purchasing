@@ -138,10 +138,12 @@ class Po extends CI_Controller {
             $series = $max+1;
         }
 
-        $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id',$this->input->post('prno'));
-        $po_no = $pr_no."-".$series;
 
         if(empty($this->input->post('dp'))){
+         
+            $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id',$this->input->post('prno'));
+            $po_no = $pr_no."-".$series;
+
             $pr_id = $this->input->post('prno');
             $data_details = array(
                 'po_id'=>$po_id,
@@ -167,6 +169,7 @@ class Po extends CI_Controller {
                  redirect(base_url().'po/purchase_order/'.$po_id);
             }
         }else {
+            $po_no = "POD-".$series;
             $data= array(
                 'po_id'=>$po_id,
                 'po_date'=>$this->input->post('po_date'),
@@ -176,6 +179,11 @@ class Po extends CI_Controller {
                 'po_type'=>1,
                 'user_id'=>$_SESSION['user_id']
             );  
+
+            $data_series = array(
+                'series'=>$series
+            );
+            $this->super_model->insert_into("po_series", $data_series);
 
             if($this->super_model->insert_into("po_head", $data)){
                  redirect(base_url().'pod/po_direct/'.$po_id);
