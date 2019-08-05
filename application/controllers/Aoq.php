@@ -513,11 +513,11 @@ class Aoq extends CI_Controller {
         $f = $num2+12;
         $cols = 'E';
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $rfq){
-            $validity=$this->super_model->select_column_where('rfq_head','price_validity','rfq_id', $rfq->rfq_id);
-            $terms=$this->super_model->select_column_where('rfq_head','payment_terms','rfq_id', $rfq->rfq_id);
-            $delivery=$this->super_model->select_column_where('rfq_head','delivery_date','rfq_id', $rfq->rfq_id);
-            $warranty=$this->super_model->select_column_where('rfq_head','item_warranty','rfq_id', $rfq->rfq_id);
-
+            $validity=$rfq->price_validity;
+            $terms=$rfq->payment_terms;
+            $delivery=$rfq->delivery_date;
+            $warranty=$rfq->item_warranty;
+            echo $validity;
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$a, "a. Price Validity");
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$b, "b. Payment Terms");
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$c, "c. Date of Delivery");
@@ -561,8 +561,8 @@ class Aoq extends CI_Controller {
 
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$f, $_SESSION['fullname']);
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$f, $requested);
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$f, $noted);
-            $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, $approved);
+            $objPHPExcel->getActiveSheet()->setCellValue('I'.$f, $approved);
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, $noted);
 
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$e, "Prepared by: ");
             $objPHPExcel->getActiveSheet()->getStyle('E'.$f)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
@@ -855,11 +855,11 @@ class Aoq extends CI_Controller {
         $f = $num2+12;
         $cols = 'E';
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $rfq){
-            $validity=$this->super_model->select_column_where('rfq_head','price_validity','rfq_id', $rfq->rfq_id);
-            $terms=$this->super_model->select_column_where('rfq_head','payment_terms','rfq_id', $rfq->rfq_id);
-            $delivery=$this->super_model->select_column_where('rfq_head','delivery_date','rfq_id', $rfq->rfq_id);
-            $warranty=$this->super_model->select_column_where('rfq_head','item_warranty','rfq_id', $rfq->rfq_id);
-
+            $validity=$rfq->price_validity;
+            $terms=$rfq->payment_terms;
+            $delivery=$rfq->delivery_date;
+            $warranty=$rfq->item_warranty;
+            echo $validity;
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$a, "a. Price Validity");
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$b, "b. Payment Terms");
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$c, "c. Date of Delivery");
@@ -903,8 +903,8 @@ class Aoq extends CI_Controller {
 
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$f, $_SESSION['fullname']);
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$f, $requested);
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$f, $noted);
-            $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, $approved);
+            $objPHPExcel->getActiveSheet()->setCellValue('I'.$f, $approved);
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, $noted);
 
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$e, "Prepared by: ");
             $objPHPExcel->getActiveSheet()->getStyle('E'.$f)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
@@ -1198,11 +1198,11 @@ class Aoq extends CI_Controller {
         $f = $num2+12;
         $cols = 'E';
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $rfq){
-            $validity=$this->super_model->select_column_where('rfq_head','price_validity','rfq_id', $rfq->rfq_id);
-            $terms=$this->super_model->select_column_where('rfq_head','payment_terms','rfq_id', $rfq->rfq_id);
-            $delivery=$this->super_model->select_column_where('rfq_head','delivery_date','rfq_id', $rfq->rfq_id);
-            $warranty=$this->super_model->select_column_where('rfq_head','item_warranty','rfq_id', $rfq->rfq_id);
-
+            $validity=$rfq->price_validity;
+            $terms=$rfq->payment_terms;
+            $delivery=$rfq->delivery_date;
+            $warranty=$rfq->item_warranty;
+            echo $validity;
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$a, "a. Price Validity");
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$b, "b. Payment Terms");
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$c, "c. Date of Delivery");
@@ -1246,8 +1246,8 @@ class Aoq extends CI_Controller {
 
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$f, $_SESSION['fullname']);
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$f, $requested);
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$f, $noted);
-            $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, $approved);
+            $objPHPExcel->getActiveSheet()->setCellValue('I'.$f, $approved);
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, $noted);
 
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$e, "Prepared by: ");
             $objPHPExcel->getActiveSheet()->getStyle('E'.$f)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
