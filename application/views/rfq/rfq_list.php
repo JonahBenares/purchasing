@@ -17,7 +17,7 @@
 
 $(document).on("click", "#addnotes_button", function () {
      var rfq_id = $(this).attr("data-id");
-     $("#rfq_id").val(rfq_id);
+     $("#rfq_id1").val(rfq_id);
 
 });
 $(document).on("click", ".cancelRFQ", function () {
@@ -65,7 +65,7 @@ $(document).on("click", ".cancelRFQ", function () {
                         <textarea rows="5" class="form-control" placeholder="..." name = "notes"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="rfq_id" id="rfq_id" >
+                        <input type="hidden" name="rfq_id" id="rfq_id1" >
                         <button type="submit" class="btn btn-primary btn-block">Save changes</button>
                     </div>
                 </form>
