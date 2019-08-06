@@ -128,7 +128,7 @@
 							<input type='hidden' name='qty<?php echo $x; ?>' value="<?php echo $it->quantity; ?>">
 						<?php $x++; } ?>
 						<input type='hidden' name='count_item' value="<?php echo $x; ?>">
-						<input type="hidden" name="po_id" value = "<?php echo $po_id; ?>">
+						<input type="text" name="po_id" value = "<?php echo $po_id; ?>">
 						<input type="hidden" name="po_no" value = "<?php echo $po_no; ?>">
 						<button type="submit" class="btn btn-primary btn-block">Save changes</button>
 					</div>
@@ -232,7 +232,7 @@
 		    		<?php
 		    		$x=1; 
 		    		foreach($items AS $it){ 
-		    			$gtotal[] = $it->unit_price * $it->amount;
+		    			$gtotal[] = $it->amount;
 
 		    			if(!empty($it->offer)){
 		    				 $offer = $it->offer;
