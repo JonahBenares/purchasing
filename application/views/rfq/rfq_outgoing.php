@@ -184,9 +184,33 @@
 		    					<tr>
 		    						<td class="f13" align="center"><?php echo $x; ?></td>
 		    						<td class="f13" align="center"><?php echo $it->uom; ?></td>
-		    						<td class="f13" align="left" style='width:40%;padding-left: 2px'><?php echo $it->item_desc; ?></td>
-		    						<td class="f13" align="center" style='width:40%;'></td>
-		    						<td class="f13" align="center" style='width:10%'></td>
+		    						<td class="f13" align="left" style='width:35%;padding-left: 2px'><?php echo $it->item_desc; ?></td>
+		    						<td class="f13" align="center" style='width:45%;'>
+		    							<table width="100%">
+		    								<tr class="bor-btm">
+		    									<td><br></td>
+		    								</tr>
+		    								<tr class="bor-btm">
+		    									<td><br></td>
+		    								</tr>
+		    								<tr>
+		    									<td><br></td>
+		    								</tr>
+		    							</table>
+		    						</td>
+		    						<td class="f13" align="center" style='width:10%'>
+		    							<table width="100%">
+		    								<tr class="bor-btm">
+		    									<td><br></td>
+		    								</tr>
+		    								<tr class="bor-btm">
+		    									<td><br></td>
+		    								</tr>
+		    								<tr>
+		    									<td><br></td>
+		    								</tr>
+		    							</table>
+		    						</td>
 		    					</tr>
 		    					<?php $x++;
 		    					} ?>
@@ -221,19 +245,26 @@
 		    		</tr>	
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="5">- c. Date of Delivery</td>
+		    			<td class="f13" colspan="5">&nbsp; c. Delivery Time</td>
 		    			<td class="f13" colspan="3"></td>
-		    			<td class="f13 all-bor" colspan="1"></td>	
-		    			<td class="f13 all-bor p-l-10" colspan="2">Xstock</td>	
-		    			<td class="f13 all-bor" colspan="4"></td>
+		    			<td class="f13 bor-btm" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
-
 		    		</tr>	
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
 		    			<td class="f13" colspan="5">&nbsp; d. Item's Warranty</td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13" colspan="3"></td>
+		    		</tr>	
+		    		<tr>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13" colspan="5">&nbsp; e. In-land Freight</td>
+		    			<td class="f13" colspan="3"></td>
+		    			<td class="f13 all-bor" colspan="1"></td>	
+		    			<td class="f13 all-bor p-l-10" colspan="2">Included</td>	
+		    			<td class="f13 all-bor" colspan="1"></td>	
+		    			<td class="f13 all-bor p-l-10" colspan="3">Not-included</td>	
 		    			<td class="f13" colspan="3"></td>
 
 		    		</tr>	

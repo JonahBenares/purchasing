@@ -525,17 +525,17 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">c.</td>
-		    			<td colspan="5" class="f10" align="center">Date of Delivery</td>
+		    			<td colspan="5" class="f10" align="center">Delivery Time</td>
 		    			<?php
 		    			if($saved==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="2" class="f10" align="left"><input type="date" class="btn-block" name="delivery_date<?php echo $q; ?>"></td>
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="delivery_date<?php echo $q; ?>"></td>
 		    			<td colspan="3" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php  $q++; }
 		    			} else { 
 		    				foreach($vendors AS $ven) { ?>
-		    				<td colspan="2" class="f10 bor-btm" align="left"><?php echo date('F j, Y', strtotime($ven['delivery_date'])); ?></td>
+		    				<td colspan="2" class="f10 bor-btm" align="left"><?php echo $ven['delivery_date']; ?></td>
 		    				<td colspan="3" class="f10" align="left"></td>
 		    			<?php }
 		    			} ?> 
@@ -558,6 +558,27 @@
 		    			} else { 
 		    				foreach($vendors AS $ven) { ?>
 		    				<td colspan="2" class="f10 bor-btm" align="left"><?php echo $ven['warranty']; ?></td>
+		    				<td colspan="3" class="f10" align="left"></td>
+		    			<?php }
+		    			} ?> 
+		    			<!-- <td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="3" class="f10" align="left"><br></td>		    			
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="3" class="f10" align="left"><br></td> -->
+		    		</tr>
+		    		<tr>
+		    			<td class="" align="center">e.</td>
+		    			<td colspan="5" class="f10" align="center">In-land Freight</td>
+		    			<?php
+		    			if($saved==0){
+		    			$q=1; 
+		    			foreach($vendors AS $ven) { ?>
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="freight<?php echo $q; ?>"></td>
+		    			<td colspan="3" class="f10" align="left"></td>
+		    			<?php  $q++; } 
+		    			} else { 
+		    				foreach($vendors AS $ven) { ?>
+		    				<td colspan="2" class="f10 bor-btm" align="left"><?php echo $ven['freight']; ?></td>
 		    				<td colspan="3" class="f10" align="left"></td>
 		    			<?php }
 		    			} ?> 
