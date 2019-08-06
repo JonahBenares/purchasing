@@ -182,9 +182,11 @@
                                 <div class="col-lg-12">
                                     <div class="project-dashone-phara pad-5 reminder-style">
                                         <div class="row">
+                                            <?php if(!empty($r['reminder_id'])){ ?>
                                             <div class="col-lg-1">
                                                 <a href="<?php echo base_url(); ?>masterfile/reminder_done/<?php echo $r['reminder_id']; ?>" class="btn btn-xs btn-info btn-custon-three"> <span class="fa fa-check"></span></a> 
                                             </div>
+                                            <?php } ?>
                                             <div class="col-lg-11">
                                                 <h3 class="nomarg"><?php echo $r['notes'];?>                                       
                                                 </h3>
@@ -249,19 +251,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($pendingpr AS $pr){ ?>
+                                        <?php foreach($pendingpr AS $pr){
+
+                                        if($pr['po']==0){ ?>
                                         <tr>
                                             <td><?php echo $pr['pr_no']; ?></td>
                                             <td><span style="color:blue"><?php echo $pr['item']; ?></span></td>
                                             <td class="datatable-ct"><?php echo (($pr['rfq_outgoing']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
-                                            <td class="datatable-ct"><i class="fa fa-check"></i></td>
-                                            <td class="datatable-ct"><i class="fa fa-check"></i></td>
-                                            <td class="datatable-ct"><i class="fa fa-check"></i></td>
-                                            <td class="datatable-ct"><i class="fa fa-check"></i></td>
-                                            <td class="datatable-ct"><i class="fa fa-check"></i></td>
-                                            <td class="datatable-ct"><i class="fa fa-check"></i></td>
+                                            <td class="datatable-ct"><?php echo (($pr['rfq_incoming']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
+                                            <td class="datatable-ct"><?php echo (($pr['for_te']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
+                                            <td class="datatable-ct"><?php echo (($pr['te_done']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
+                                            <td class="datatable-ct"><?php echo (($pr['po']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
+                                            <td class="datatable-ct"></td>
+                                            <td class="datatable-ct"></td>
                                         </tr>
-                                    <?php } ?>
+                                    <?php } 
+                                    }?>
                                     </tbody>
                                     
                                 </table>
