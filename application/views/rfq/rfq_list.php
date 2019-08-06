@@ -65,7 +65,7 @@ $(document).on("click", ".cancelRFQ", function () {
                         <textarea rows="5" class="form-control" placeholder="..." name = "notes"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="rfq_id" id="rfq_id1" >
+                        <input type="hidden" name="rfq_id" id="rfq_id1">
                         <button type="submit" class="btn btn-primary btn-block">Save changes</button>
                     </div>
                 </form>

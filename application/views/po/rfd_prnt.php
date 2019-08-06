@@ -12,7 +12,13 @@
 	    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
 	    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/mixins.css">
 	</head>
+	<script type="text/javascript">
+		$(document).on("click", "#addnotes_button", function () {
+		     var rfd_id = $(this).attr("data-id");
+		     $("#rfd_id").val(rfd_id);
 
+		});
+	</script>
   	<style type="text/css">
         html, body{
             background: #2d2c2c!important;
@@ -307,10 +313,24 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
+		    			<td align="left" colspan="7" ><b class="nomarg">DR No: <?php echo $dr_no; ?></b></td>
+		    			<td align="right" colspan="10" class="bor-right"></td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<tr>
+		    			<td align="left" colspan="7" ><b class="nomarg">Notes: </b>
+		    				<?php if($rows_dr==0){ ?>
+		    				<textarea class="form-control bor-btm"  name = "notes"></textarea>
+		    				<?php }else { echo $notes; }?>
+		    			</td>
+		    			<td align="right" colspan="10" class="bor-right"></td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<!-- <tr>
 		    			<td align="left" colspan="17" class="bor-right ">
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#addnotes" style="margin-left: 10px">
+		    				<a type="button" class="btn btn-primary btn-xs " id="addnotes_button" data-toggle="modal" data-target="#addnotes" data-id = "<?php echo $rfd_id; ?>" style="margin-left: 10px">
 								Add Notes
-							</button>
+							</a>
 							<span style="color:blue;margin-left: 10px">Notes Here</span>
 		    				<div class="modal fade" id="addnotes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
@@ -322,24 +342,25 @@
 												</button>
 											</h5>						
 										</div>
-										<form method="POST" action="<?php echo base_url(); ?>po/">
+										<form method="POST" action="<?php echo base_url(); ?>po/add_notes">
 											<div class="modal-body">
 												<div class="form-group">
 													Notes:
-													<textarea class="form-control" rows="5"></textarea>
+													<textarea class="form-control" rows="5" name = "notes"></textarea>
 												</div>
 											</div>
 											<div class="modal-footer">
+												<input type="hidden" name="rfd_id" id="rfd_id">
+												<input type="hidden" name="po_id" value = "<?php echo $po_id?>">
 												<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 											</div>
-
 										</form>
 									</div>
 								</div>
 							</div>
 		    			</td>
 		    			<td align="center" colspan="3" class=""><br></td>
-		    		</tr>
+		    		</tr> -->
 		    		<tr>
 		    			<td align="center" colspan="17" class="bor-right bor-btm"><br></td>
 		    			<td align="center" colspan="3" class="bor-btm"><br></td>

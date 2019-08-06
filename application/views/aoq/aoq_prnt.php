@@ -530,12 +530,12 @@
 		    			if($saved==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="2" class="f10" align="left"><input type="date" class="btn-block" name="delivery_date<?php echo $q; ?>"></td>
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="delivery_date<?php echo $q; ?>"></td>
 		    			<td colspan="3" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php  $q++; }
 		    			} else { 
 		    				foreach($vendors AS $ven) { ?>
-		    				<td colspan="2" class="f10 bor-btm" align="left"><?php echo date('F j, Y', strtotime($ven['delivery_date'])); ?></td>
+		    				<td colspan="2" class="f10 bor-btm" align="left"><?php echo $ven['delivery_date']; ?></td>
 		    				<td colspan="3" class="f10" align="left"></td>
 		    			<?php }
 		    			} ?> 
@@ -573,12 +573,12 @@
 		    			if($saved==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="inland"></td>
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="freight<?php echo $q; ?>"></td>
 		    			<td colspan="3" class="f10" align="left"></td>
 		    			<?php  $q++; } 
 		    			} else { 
 		    				foreach($vendors AS $ven) { ?>
-		    				<td colspan="2" class="f10 bor-btm" align="left">Included/ Not Included</td>
+		    				<td colspan="2" class="f10 bor-btm" align="left"><?php echo $ven['freight']; ?></td>
 		    				<td colspan="3" class="f10" align="left"></td>
 		    			<?php }
 		    			} ?> 

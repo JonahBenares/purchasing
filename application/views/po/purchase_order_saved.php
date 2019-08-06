@@ -334,9 +334,10 @@
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
-		    				4. Payment term: PAYEMENT TERMS HERE<br>
-		    				5. Delivery Time: <br>
-		    				6. In-land Freight:
+		    				4. Payment term: <?php echo $payment_terms; ?><br>	
+		    				5. Item Warranty: <?php echo $item_warranty; ?><br>
+		    				6. Delivery Time: <br>
+		    				7. In-land Freight:
 		    			</td>
 		    		</tr>
 		    		<tr>
