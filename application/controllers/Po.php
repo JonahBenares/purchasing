@@ -349,6 +349,12 @@ class Po extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function purchase_order_rev(){
+        $this->load->view('template/header');        
+        $this->load->view('po/purchase_order_rev');
+        $this->load->view('template/footer');
+    }
+
     public function save_po(){
         $po_id = $this->input->post('po_id');
         $count_item = $this->input->post('count_item');
