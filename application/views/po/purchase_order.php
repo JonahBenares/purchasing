@@ -310,13 +310,21 @@
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
-							 Add Terms & Conditions:
+							 Add Terms & Conditions
 							</button>
 		    				<br>Terms & Conditions:<br>
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
-		    				4. Payment term: COD<br>	   	
+		    				4. Payment term: <?php echo $payment_terms; ?><br>	
+		    				5. Item Warranty: <?php echo $item_warranty; ?><br>	 
+		    				6. Delivery Time: <br>
+		    				7. In-land Freight: Included
+		    				<br>
+		    				<br>
+		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+							 Add Other Instruction
+							</button>
 		    				<?php 
 		    				$no=5;
 		    				foreach($tc AS $t){ 
@@ -390,6 +398,31 @@
 							</div>
 						</div>
 						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="otherins" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Other Instructions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>po/">
+						<div class="modal-body">
+							<div class="form-group">
+								Other Instructions:
+								<textarea class="form-control" rows="5"></textarea>
+							</div>
+						</div>
 						<div class="modal-footer">
 							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 						</div>

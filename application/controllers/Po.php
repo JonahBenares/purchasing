@@ -142,7 +142,8 @@ class Po extends CI_Controller {
         if(empty($this->input->post('dp'))){
          
             $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id',$this->input->post('prno'));
-            $po_no = $pr_no."-".$series;
+            //$po_no = "P".$pr_no."-".$series;
+            $po_no = "P".$pr_no;
 
             $pr_id = $this->input->post('prno');
             $data_details = array(
@@ -311,6 +312,9 @@ class Po extends CI_Controller {
                         'uom'=>$off->uom,
                         'total'=>$total
                     );
+                    $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+                    $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+                    $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                 }
              } 
         } else {
@@ -631,7 +635,8 @@ class Po extends CI_Controller {
     public function purchase_order_saved(){
         $po_id = $this->uri->segment(3);
         $data['po_id'] = $po_id;
-         foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
+        $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
+        foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
             $data['head'][] = array(
                 'po_date'=>$h->po_date,
                 'po_no'=>$h->po_no,
@@ -658,6 +663,9 @@ class Po extends CI_Controller {
                 'purpose'=>$ppr->purpose,
                 'requestor'=>$ppr->requestor
             );
+            $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
         }
 
 
@@ -836,8 +844,9 @@ class Po extends CI_Controller {
         $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
         $data['ewt']= $this->super_model->select_column_where("vendor_head", "ewt", "vendor_id", $vendor_id);
         $data['vat']= $this->super_model->select_column_where("vendor_head", "vat", "vendor_id", $vendor_id);
+        $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
 
-         foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
+        foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
             $total = $items->unit_price*$items->quantity;
             if(!empty($items->offer)){
                 $offer = $items->offer;
@@ -881,6 +890,7 @@ class Po extends CI_Controller {
             $data['check_due']=$r->check_due;
             $data['cash']=$r->cash_check;
             $data['bank_no']=$r->bank_no;
+            $data['notes']=$r->notes;
             
             $data['checked']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->checked_by);
             $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
@@ -916,6 +926,7 @@ class Po extends CI_Controller {
             'endorsed_by'=>$this->input->post('endorsed'),
             'approved_by'=>$this->input->post('approved'),
             'rfd_type'=>$this->input->post('po_type'),
+            'notes'=>$this->input->post('notes'),
             'user_id'=>$_SESSION['user_id'],
             'saved'=>1
         );
