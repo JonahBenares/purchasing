@@ -297,8 +297,7 @@
 		    			<td align="center" colspan="17" class="bor-right"><br></td>
 		    			<td align="center" colspan="3"><br></td>
 		    		</tr>
-		    		<?php } ?>
-		    		
+		    		<?php } ?>		    		
 		    		<tr>
 		    			<td align="left" colspan="7" ><b class="nomarg">P.O. No: <?php echo $po_no; ?></b></td>
 		    			<td align="right" colspan="10" class="bor-right"><b class="nomarg" style="font-weight: 900">Total Amount Due</b></td>
@@ -306,6 +305,40 @@
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="left" colspan="17" class="bor-right ">
+		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#addnotes" style="margin-left: 10px">
+								Add Notes
+							</button>
+							<span style="color:blue;margin-left: 10px">Notes Here</span>
+		    				<div class="modal fade" id="addnotes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Add Notes
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+												</button>
+											</h5>						
+										</div>
+										<form method="POST" action="<?php echo base_url(); ?>po/">
+											<div class="modal-body">
+												<div class="form-group">
+													Notes:
+													<textarea class="form-control" rows="5"></textarea>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+											</div>
+
+										</form>
+									</div>
+								</div>
+							</div>
+		    			</td>
+		    			<td align="center" colspan="3" class=""><br></td>
 		    		</tr>
 		    		<tr>
 		    			<td align="center" colspan="17" class="bor-right bor-btm"><br></td>

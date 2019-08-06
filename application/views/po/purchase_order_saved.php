@@ -128,7 +128,7 @@
 							<input type='hidden' name='qty<?php echo $x; ?>' value="<?php echo $it->quantity; ?>">
 						<?php $x++; } ?>
 						<input type='hidden' name='count_item' value="<?php echo $x; ?>">
-						<input type="hidden" name="po_id" value = "<?php echo $po_id; ?>">
+						<input type="text" name="po_id" value = "<?php echo $po_id; ?>">
 						<input type="hidden" name="po_no" value = "<?php echo $po_no; ?>">
 						<button type="submit" class="btn btn-primary btn-block">Save changes</button>
 					</div>
@@ -232,7 +232,7 @@
 		    		<?php
 		    		$x=1; 
 		    		foreach($items AS $it){ 
-		    			$gtotal[] = $it->unit_price * $it->amount;
+		    			$gtotal[] = $it->amount;
 
 		    			if(!empty($it->offer)){
 		    				 $offer = $it->offer;
@@ -330,12 +330,18 @@
 		    		</tr> -->
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				<br>Terms & Conditions:<br>
+		    				Terms & Conditions:<br>
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
 		    				4. Payment term: PAYEMENT TERMS HERE<br>
-		    				5. Delivery Term: Exstock of Supplier.
+		    				5. Delivery Time: <br>
+		    				6. In-land Freight:
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="20" style="padding: 10px!important">
+		    				Other Instructions: <span style="color:blue">Lorem ipsum</span>
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>

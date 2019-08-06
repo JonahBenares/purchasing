@@ -142,7 +142,7 @@ class Po extends CI_Controller {
         if(empty($this->input->post('dp'))){
          
             $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id',$this->input->post('prno'));
-            $po_no = $pr_no."-".$series;
+            $po_no = "P".$pr_no."-".$series;
 
             $pr_id = $this->input->post('prno');
             $data_details = array(

@@ -213,9 +213,9 @@
 			    	<div class="btn-group">
 						<a href="<?php echo base_url(); ?>aoq/aoq_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
 							<!-- <input type='submit' class="btn btn-info btn-md p-l-100 p-r-100" value='Done'> -->
-							<?php if($saved==1 && $awarded==1){ ?>
-							<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
-							<a href="<?php echo base_url(); ?>aoq/export_aoq_prnt/<?php echo $aoq_id;?>" class="btn btn-primary btn-md p-l-100 p-r-100"><span class="fa fa-export"></span> Export</a>
+							<?php if($saved==1 ){ ?>
+						<!-- 	<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a> -->
+							<a href="<?php echo base_url(); ?>aoq/export_aoq_prnt/<?php echo $aoq_id;?>" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-export"></span> Export</a>
 							<?php } ?>
 							<!-- <a  onclick="printPage()" class="btn btn-info btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Export</a> -->
 							<?php if($saved==0){ ?>
@@ -525,7 +525,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">c.</td>
-		    			<td colspan="5" class="f10" align="center">Date of Delivery</td>
+		    			<td colspan="5" class="f10" align="center">Delivery Time</td>
 		    			<?php
 		    			if($saved==0){
 		    			$q=1; 
@@ -558,6 +558,27 @@
 		    			} else { 
 		    				foreach($vendors AS $ven) { ?>
 		    				<td colspan="2" class="f10 bor-btm" align="left"><?php echo $ven['warranty']; ?></td>
+		    				<td colspan="3" class="f10" align="left"></td>
+		    			<?php }
+		    			} ?> 
+		    			<!-- <td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="3" class="f10" align="left"><br></td>		    			
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="3" class="f10" align="left"><br></td> -->
+		    		</tr>
+		    		<tr>
+		    			<td class="" align="center">e.</td>
+		    			<td colspan="5" class="f10" align="center">In-land Freight</td>
+		    			<?php
+		    			if($saved==0){
+		    			$q=1; 
+		    			foreach($vendors AS $ven) { ?>
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="inland"></td>
+		    			<td colspan="3" class="f10" align="left"></td>
+		    			<?php  $q++; } 
+		    			} else { 
+		    				foreach($vendors AS $ven) { ?>
+		    				<td colspan="2" class="f10 bor-btm" align="left">Included/ Not Included</td>
 		    				<td colspan="3" class="f10" align="left"></td>
 		    			<?php }
 		    			} ?> 

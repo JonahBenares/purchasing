@@ -55,6 +55,18 @@ class Masterfile extends CI_Controller {
         } else {
             $data=array();
         }
+
+
+        foreach($this->super_model->custom_query("SELECT ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND ph.cancelled = '0'") AS $pr){
+
+            $rfq_outgoing = $this->super_model->count_join_where("rfq_head","rfq_details", "rfq_head.pr_id = '$pr->pr_id' AND rfq_details.pr_details_id = '$pr->pr_details_id'","rfq_id");
+
+            $data['pendingpr'][]= array(
+                'pr_no'=>$pr->pr_no,
+                'item'=>$pr->item_description,
+                'rfq_outgoing'=>$rfq_outgoing
+            );
+        }
         $this->load->view('masterfile/dashboard',$data);
         $this->load->view('template/footer');
     }
