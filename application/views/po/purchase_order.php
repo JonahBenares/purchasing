@@ -324,7 +324,6 @@
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
 							</button>
-
 		    				<?php 
 		    				$no=5;
 		    				foreach($tc AS $t){ 
