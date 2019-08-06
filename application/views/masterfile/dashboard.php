@@ -188,8 +188,8 @@
                                             </div>
                                             <?php } ?>
                                             <div class="col-lg-11">
-                                                <h3 class="nomarg"><?php echo $r['notes'];?>                                       
-                                                </h3>
+                                                <h4 class="nomarg"><?php echo $r['notes'];?>                                       
+                                                </h4>
                                                 <p class=""><?php echo date("F d, Y",strtotime($r['due_date']));?>   | <small><?php echo $r['remind'];?></small></p>
                                             </div>
                                         </div>
