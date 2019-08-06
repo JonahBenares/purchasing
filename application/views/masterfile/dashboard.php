@@ -249,10 +249,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php foreach($pendingpr AS $pr){ ?>
                                         <tr>
-                                            <td></td>
-                                            <td><span style="color:blue"></span></td>
-                                            <td class="datatable-ct"></td>
+                                            <td><?php echo $pr['pr_no']; ?></td>
+                                            <td><span style="color:blue"><?php echo $pr['item']; ?></span></td>
+                                            <td class="datatable-ct"><?php echo (($pr['rfq_outgoing']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><i class="fa fa-check"></i></td>
                                             <td class="datatable-ct"><i class="fa fa-check"></i></td>
                                             <td class="datatable-ct"><i class="fa fa-check"></i></td>
@@ -260,6 +261,7 @@
                                             <td class="datatable-ct"><i class="fa fa-check"></i></td>
                                             <td class="datatable-ct"><i class="fa fa-check"></i></td>
                                         </tr>
+                                    <?php } ?>
                                     </tbody>
                                     
                                 </table>
