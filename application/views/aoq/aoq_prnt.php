@@ -525,7 +525,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">c.</td>
-		    			<td colspan="5" class="f10" align="center">Date of Delivery</td>
+		    			<td colspan="5" class="f10" align="center">Delivery Time</td>
 		    			<?php
 		    			if($saved==0){
 		    			$q=1; 
@@ -558,6 +558,27 @@
 		    			} else { 
 		    				foreach($vendors AS $ven) { ?>
 		    				<td colspan="2" class="f10 bor-btm" align="left"><?php echo $ven['warranty']; ?></td>
+		    				<td colspan="3" class="f10" align="left"></td>
+		    			<?php }
+		    			} ?> 
+		    			<!-- <td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="3" class="f10" align="left"><br></td>		    			
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="3" class="f10" align="left"><br></td> -->
+		    		</tr>
+		    		<tr>
+		    			<td class="" align="center">e.</td>
+		    			<td colspan="5" class="f10" align="center">In-land Freight</td>
+		    			<?php
+		    			if($saved==0){
+		    			$q=1; 
+		    			foreach($vendors AS $ven) { ?>
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="inland"></td>
+		    			<td colspan="3" class="f10" align="left"></td>
+		    			<?php  $q++; } 
+		    			} else { 
+		    				foreach($vendors AS $ven) { ?>
+		    				<td colspan="2" class="f10 bor-btm" align="left">Included/ Not Included</td>
 		    				<td colspan="3" class="f10" align="left"></td>
 		    			<?php }
 		    			} ?> 

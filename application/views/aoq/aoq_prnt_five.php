@@ -600,7 +600,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">c.</td>
-		    			<td colspan="4" class="f10" align="center">Date of Delivery</td>
+		    			<td colspan="4" class="f10" align="center">Delivery Time</td>
 		    			<?php
 		    			if($saved==0){
 		    			$q=1; 
@@ -639,14 +639,23 @@
 		    			<td colspan="4" class="f10 bor-btm" align="left"><?php echo $ven['warranty']; ?></td>
 		    			<td colspan="1" class="f10" align="left"><br></td>
 		    			<?php } } ?>
-		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    		</tr>
+		    		<tr>
+		    			<td class="" align="center">d.</td>
+		    			<td colspan="4" class="f10" align="center">Item's Warranty</td>
+		    			<?php
+		    			if($saved==0){
+		    			$q=1; 
+		    			foreach($vendors AS $ven) { ?>
+		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name="inland"></td>
+		    			<td colspan="1" class="f10" align="left"><input type='hidden' name='id' value=""></td>
+		    			<?php 
+		    				$q++; } }else { 
+		    				foreach($vendors AS $ven) { 
+		    			?>
+		    			<td colspan="4" class="f10 bor-btm" align="left">Included / Not Included</td>
 		    			<td colspan="1" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
-		    			<td colspan="1" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
-		    			<td colspan="1" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
-		    			<td colspan="1" class="f10" align="left"><br></td> -->
+		    			<?php } } ?>
 		    		</tr>
 		    		<tr><td class="f10" colspan="30" align="center"><br></td></tr>
 		    		<tr>
@@ -669,7 +678,7 @@
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="5" class="f10 bor-btm" align="center">
 			    			<?php if($saved==0){ ?>
-				    			<select name='approved' class='emphasis'>
+				    			<select name='approved' class='emphasis btn-block'>
 					    			<option value=''>-Select-</option>
 					    			<?php foreach($employee AS $emp){ ?>
 					    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
@@ -680,7 +689,7 @@
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="5" class="f10 bor-btm" align="center">
 			    			<?php if($saved==0){ ?>
-			    				<select name='noted' class='emphasis'>
+			    				<select name='noted' class='emphasis btn-block'>
 				    				<option value=''>-Select-</option>
 				    				<?php foreach($employee AS $emp){ ?>
 				    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
