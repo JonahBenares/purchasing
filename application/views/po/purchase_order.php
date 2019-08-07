@@ -318,18 +318,23 @@
 		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
 		    				4. Payment term: <?php echo $payment_terms; ?><br>	
 		    				5. Item Warranty: <?php echo $item_warranty; ?><br>	 
-		    				6. Delivery Time: <br>
-		    				7. In-land Freight: Included
-		    				<br>
-		    				<br>
+		    				6. Delivery Time: <?php echo $delivery_time; ?><br>
+		    				7. In-land Freight: <?php echo $freight; ?><br>
+							<?php 
+		    					$no=8;
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->tc_desc)){
+			    						echo $no.". " . $t->tc_desc."<br>";
+			    						$no++; 
+			    					}
+		    					} 
+		    				?>	
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
 							</button>
-		    				<?php 
-		    				$no=5;
-		    				foreach($tc AS $t){ 
-		    					echo $no.". " . $t->tc_desc."<br>";
-		    				$no++; } ?>			
+		    				<?php foreach($tc AS $t){ ?>
+								<span style = "color:blue;"><?php echo $t->notes;?></span>
+							<?php } ?>		
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
@@ -416,14 +421,15 @@
 							</button>
 						</h5>						
 					</div>
-					<form method="POST" action="<?php echo base_url(); ?>po/">
+					<form method="POST" action="<?php echo base_url(); ?>po/add_notes">
 						<div class="modal-body">
 							<div class="form-group">
 								Other Instructions:
-								<textarea class="form-control" rows="5"></textarea>
+								<textarea class="form-control" rows="5" name = "notes"></textarea>
 							</div>
 						</div>
 						<div class="modal-footer">
+							<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
 							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 						</div>
 

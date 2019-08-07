@@ -336,13 +336,22 @@
 		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
 		    				4. Payment term: <?php echo $payment_terms; ?><br>	
 		    				5. Item Warranty: <?php echo $item_warranty; ?><br>
-		    				6. Delivery Time: <br>
-		    				7. In-land Freight:
+		    				6. Delivery Time: <?php echo $delivery_time; ?><br>
+		    				7. In-land Freight: <?php echo $freight; ?><br>
+		    				<?php 
+		    					$no=8;
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->tc_desc)){
+			    						echo $no.". " . $t->tc_desc."<br>";
+			    						$no++; 
+			    					}
+		    					} 
+		    				?>
 		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				Other Instructions: <span style="color:blue">Lorem ipsum</span>
+		    				Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
