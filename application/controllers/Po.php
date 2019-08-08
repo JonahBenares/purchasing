@@ -315,6 +315,8 @@ class Po extends CI_Controller {
                     $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+                    $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+                    $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                 }
              } 
         } else {
@@ -333,6 +335,11 @@ class Po extends CI_Controller {
                         'uom'=>$off->uom,
                         'total'=>$total
                     );
+                    $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+                    $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+                    $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+                    $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+                    $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
              }
         }
 
@@ -353,7 +360,16 @@ class Po extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    
+    public function add_notes(){
+        $po_id = $this->input->post('po_id');
+        $data = array(
+            'po_id'=>$this->input->post('po_id'),
+            'notes'=>$this->input->post('notes'),
+        );
+        if($this->super_model->insert_into("po_tc", $data)){
+            redirect(base_url().'po/purchase_order/'.$po_id, 'refresh');
+        }
+    }
 
     public function save_po(){
         $po_id = $this->input->post('po_id');
@@ -413,7 +429,6 @@ class Po extends CI_Controller {
         $this->super_model->insert_into("po_dr", $dr);
 
         $head = array(
-        
             'approved_by'=>$this->input->post('approved'),
             'saved'=>1,
             'revised'=>0
@@ -668,9 +683,10 @@ class Po extends CI_Controller {
             $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
             $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
             $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
         }
-
-
+        $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
         $this->load->view('template/header');        
         $this->load->view('po/purchase_order_saved',$data);
         $this->load->view('template/footer');
