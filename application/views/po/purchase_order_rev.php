@@ -140,67 +140,60 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg"><b><br></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: </b></h6></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Supplier:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><br></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Address:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><br></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Contact Person:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><br></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Telephone #:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><br></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 					<tr>
 		    			<td colspan="" class="all-border" align="center"><b>#</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>Old Qty</b></td>
-		    			<td colspan="2" class="all-border yellow-back" align="center"><b>New Qty</b></td>
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
-		    			<td colspan="8" class="all-border" align="center"><b>Description</b></td>
+		    			<td colspan="11" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>OLD U/P</b></td>
-		    			<td colspan="2" class="all-border yellow-back" align="center"><b>NEW U/P</b></td>
-		    			<td colspan="2" class="all-border" align="center"></td>
+		    			<td colspan="3" class="all-border" align="center"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b><input type='number' name='quantity' id='quantity' class='quantity' value='' style='width:100%; color:red' onblur='changePrice()' onkeypress="return isNumberKey(this, event)"></b></td>
-		    			<td colspan="2" class="bor-right yellow-back" align="center"><b><input type='number' name='quantity' id='quantity' class='quantity' value='' style='width:100%; color:red' onblur='changePrice()' onkeypress="return isNumberKey(this, event)"></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="8" class="bor-right" align="left"><b class="nomarg"></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price' id='price' value='' onblur='changePrice()' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
-		    			<td colspan="2" class="bor-right yellow-back" align="center"><b><input type='text' name='price' id='price' value='' onblur='changePrice()' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
-		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='tprice' id='tprice' class='tprice' value="" style='text-align:right;' readonly></b></td>
+		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price' id='price' value='' onblur='changePrice()' onkeypress="return isNumberKey(this, event)" style='color:red; width:100%' ></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
-		    			<td colspan="2" class=" bor-right yellow-back" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
-		    			<td colspan="8" class=" bor-right" align="center"></td>
+		    			<td colspan="11" class=" bor-right" align="center"></td>
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
-		    			<td colspan="2" class=" bor-right yellow-back" align="center"><br></td>
-		    			<td colspan="2" class=" bor-right" align="center"></td>
+		    			<td colspan="3" class=" bor-right" align="center"></td>
 		    		</tr>
 
 
 		    		<tr>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
-		    			<td colspan="2" class="bor-btm bor-right yellow-back" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
-		    			<td colspan="8" class="bor-btm bor-right" align="left">
+		    			<td colspan="11" class="bor-btm bor-right" align="left">
 		    				<p class="nomarg">
 		    					Enduse: <br>
 		    					Purpose: <br>
@@ -210,12 +203,57 @@
 		    				<br>
 		    			</td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
-		    			<td colspan="2" class="bor-btm bor-right yellow-back" align="center"><br></td>
-		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
+		    			<td colspan="3" class="bor-btm bor-right" align="center"></td>
 		    		</tr>		    		
 		    		<tr>
-		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'></span></b></td>
+		    			<td colspan="17" class="all-border " align="right"><b class="nomarg">GRAND TOTAL</b></td>
+					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'></span></b></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class="all-border yellow-back" align="center"><b>#</b></td>
+		    			<td colspan="2" class="all-border yellow-back" align="center"><b>New Qty</b></td>
+		    			<td colspan="" class="all-border yellow-back" align="center"><b>Unit</b></td>
+		    			<td colspan="11" class="all-border yellow-back" align="center"><b>New Description</b></td>
+		    			<td colspan="2" class="all-border yellow-back" align="center"><b>New U/P</b></td>
+		    			<td colspan="3" class="all-border yellow-back" align="center"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b><input type='number' name='quantity' id='quantity' class='quantity' value='' style='width:100%; color:red' onblur='changePrice()' onkeypress="return isNumberKey(this, event)"></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price' id='price' value='' onblur='changePrice()' onkeypress="return isNumberKey(this, event)" style='color:red; width:100%' ></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="2" class=" bor-right" align="center"></td>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="11" class=" bor-right" align="center"></td>
+		    			<td colspan="2" class=" bor-right" align="center"><br></td>
+		    			<td colspan="3" class=" bor-right" align="center"></td>
+		    		</tr>
+
+
+		    		<tr>
+		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
+		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
+		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
+		    			<td colspan="11" class="bor-btm bor-right" align="left">
+		    				<p class="nomarg">
+		    					Enduse: <br>
+		    					Purpose: <br>
+		    					Requestor: <br>
+		    					PR no.: <br>
+		    				</p>
+		    				<br>
+		    			</td>
+		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
+		    			<td colspan="3" class="bor-btm bor-right" align="center"></td>
+		    		</tr>		    		
+		    		<tr>
+		    			<td colspan="17" class="all-border yellow-back" align="right"><b class="nomarg">GRAND TOTAL</b></td>
+					    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">
