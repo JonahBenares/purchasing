@@ -90,6 +90,8 @@ class Masterfile extends CI_Controller {
 
             $po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND pi.pr_details_id = '$pr->pr_details_id'");
 
+
+
             if($po==0 && $diff<=7){
                 $reminder = 'PR No.: '. $pr->pr_no. " - " . $pr->item_description;
                 $due = date('M j, Y', strtotime($pr->date_needed));
@@ -100,6 +102,23 @@ class Masterfile extends CI_Controller {
                     'done'=>'',
                     'remind'=>'',
                 );
+            }
+
+            foreach($this->super_model->custom_query("SELECT quotation_date, vendor_id, rfq_no FROM rfq_head WHERE saved='1' AND cancelled = '0' AND completed = '0'") AS $rfq){
+
+                $rfq_diff= $this-> dateDifference($current_date , $rfq->quotation_date , $differenceFormat = '%a' );
+
+                if($po==0 && $rfq_diff<=3){
+                    $reminder = 'RFQ No.: '. $rfq->rfq_no. " - " . $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$rfq->vendor_id);
+                    $due = date('M j, Y', strtotime($rfq->quotation_date));
+                    $data['reminder'][]=array(
+                        'reminder_id'=>'',
+                        'notes'=>$reminder,
+                        'due_date'=>$due,
+                        'done'=>'',
+                        'remind'=>'',
+                    );
+                }
             }
         }
         $this->load->view('masterfile/dashboard',$data);
