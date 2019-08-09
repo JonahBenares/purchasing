@@ -137,32 +137,33 @@
 		    		<tr><td class="f13" colspan="20" align="center">Telefax: (034) 435-1932</td></tr>
 		    		<tr><td class="f13" colspan="20" align="center">Plant Site: Purok San Jose, Barangay Calumangan, Bago City</td></tr>
 		    		<tr><td colspan="20" align="center"><h4 class="m-b-0"><b>PURCHASE ORDER</b></h4><small class="text-red">R E V I S E D</small></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
+		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg"><b><br></b></h6></td>
-		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: </b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg"><b><?php echo date('F j, Y', strtotime($h['po_date'])); ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: <?php echo $h['po_no'] . (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></h6></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Supplier:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><br></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['vendor']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Address:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><br></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['address']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Contact Person:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><br></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['contact']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Telephone #:</b></h6></td>
-		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><br></b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['phone']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
+		    		<?php } ?>
 					<tr>
 		    			<td colspan="" class="all-border" align="center"><b>#</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>Old Qty</b></td>
@@ -171,14 +172,26 @@
 		    			<td colspan="2" class="all-border" align="center"><b>OLD U/P</b></td>
 		    			<td colspan="3" class="all-border" align="center"></td>
 		    		</tr>
+		    		<?php
+		    		$x=1; 
+		    		foreach($items AS $it){ 
+		    			$gtotal[] = $it->amount;
+
+		    			if(!empty($it->offer)){
+		    				 $offer = $it->offer;
+	    				} else {
+	    					$offer= $ci->get_name("item_name", "item", "item_id = '$it->item_id'");
+	    				} ?>
 		    		<tr>
-		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><input type='number' name='quantity' id='quantity' class='quantity' value='' style='width:100%; color:red' onblur='changePrice()' onkeypress="return isNumberKey(this, event)"></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price' id='price' value='' onblur='changePrice()' onkeypress="return isNumberKey(this, event)" style='color:red; width:100%' ></b></td>
-		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>
-		    		</tr>
+		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b><?php echo number_format($it->quantity); ?></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
+		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"><?php echo $offer; ?></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b><?php echo $it->unit_price; ?></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
+		    		</tr>	
+		    		<?php 
+		    		$x++; } ?>
 		    		<tr>
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
@@ -194,12 +207,15 @@
 		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="11" class="bor-btm bor-right" align="left">
+		    				<?php foreach($allpr AS $pr){ ?>
 		    				<p class="nomarg">
-		    					Enduse: <br>
-		    					Purpose: <br>
-		    					Requestor: <br>
-		    					PR no.: <br>
-		    				</p>
+		    					Enduse: <?php echo $pr['enduse']; ?><br>
+		    					Purpose: <?php echo $pr['purpose']; ?><br>
+		    					Requestor: <?php echo $pr['requestor']; ?><br>
+		    					PR no.: <?php echo $pr['pr_no']; ?><br>
+		    				</p><br>
+		    				<?php } ?>
+		    			</td>
 		    				<br>
 		    			</td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
@@ -207,7 +223,7 @@
 		    		</tr>		    		
 		    		<tr>
 		    			<td colspan="17" class="all-border " align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'></span></b></td>
+					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),2); ?></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class="all-border yellow-back" align="center"><b>#</b></td>
@@ -220,7 +236,7 @@
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b><input type='number' name='quantity' id='quantity' class='quantity' value='' style='width:100%; color:red' onblur='changePrice()' onkeypress="return isNumberKey(this, event)"></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"></td>
 		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price' id='price' value='' onblur='changePrice()' onkeypress="return isNumberKey(this, event)" style='color:red; width:100%' ></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>

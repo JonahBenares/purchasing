@@ -1236,8 +1236,47 @@ class Po extends CI_Controller {
     }
 
     public function purchase_order_rev(){
+
+        $po_id=$this->uri->segment(3); 
+         $data['po_id'] = $po_id;
+        $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
+        foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
+            $data['head'][] = array(
+                'po_date'=>$h->po_date,
+                'po_no'=>$h->po_no,
+                'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $h->vendor_id),
+                'address'=>$this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $h->vendor_id),
+                'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
+                'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
+            );
+            $data['saved']=$h->saved;
+            $data['revised']=$h->revised;
+            $data['revision_no']=$h->revision_no;
+            $data['po_no']=$h->po_no;
+            $data['notes']=$h->notes;
+            $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
+            $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+        }
+
+        $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
+      
+        foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $ppr){
+            $data['allpr'][]= array(
+                'pr_no'=>$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $ppr->pr_id),
+                'enduse'=>$ppr->enduse,
+                'purpose'=>$ppr->purpose,
+                'requestor'=>$ppr->requestor
+            );
+            $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+        }
+        $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+
         $this->load->view('template/header');        
-        $this->load->view('po/purchase_order_rev');
+        $this->load->view('po/purchase_order_rev', $data);
         $this->load->view('template/footer');
     }
 
