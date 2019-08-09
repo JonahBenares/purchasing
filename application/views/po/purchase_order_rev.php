@@ -48,6 +48,11 @@
 		.yellow-back{
 			background-image: url('<?php echo base_url(); ?>assets/img/yellow.png')!important;
 		}
+		.newdata{
+			background-image: url('<?php echo base_url(); ?>assets/img/newdata.png')!important;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
 		.green-back{
 			background-image: url('<?php echo base_url(); ?>assets/img/green.png')!important;
 		}
@@ -66,10 +71,15 @@
             font-size:12px!important;
         	}
         	.yellow-back{
-			background-image: url('<?php echo base_url(); ?>assets/img/yellow.png')!important;
+				background-image: url('<?php echo base_url(); ?>assets/img/yellow.png')!important;
 			}
 			.green-back{
 				background-image: url('<?php echo base_url(); ?>assets/img/green.png')!important;
+			}
+			.newdata{
+				background-image: url('<?php echo base_url(); ?>assets/img/newdata.png')!important;
+				background-position: center;
+				background-repeat: no-repeat;
 			}
 		}
 		.text-white{
@@ -92,19 +102,21 @@
     </style>
 
     <div  class="pad">
-    	<form method='POST' action='<?php echo $url; ?>'>  
+    	<form method='POST' action='<?php echo base_url(); ?>po/save_change_order'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="abtn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-50 p-r-50"><span class="fa fa-arrow-left"></span> Back</a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
-							<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" value="Save Revision">	
-							<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" value="Save">	
+						<!-- 	<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" value="Save Revision">	 -->
+						<?php if($revised==0){ ?>
+							<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" value="Save & Print Change Order Form">	
+						<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;">    		  			
+	    	<div style="background: #fff;" >    		  			
 		    	<table class="table-borsdered" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
@@ -136,7 +148,7 @@
 		    		<tr><td class="f13" colspan="20" align="center">Tel. No.: (034) 435-1932/476-7382</td></tr>
 		    		<tr><td class="f13" colspan="20" align="center">Telefax: (034) 435-1932</td></tr>
 		    		<tr><td class="f13" colspan="20" align="center">Plant Site: Purok San Jose, Barangay Calumangan, Bago City</td></tr>
-		    		<tr><td colspan="20" align="center"><h4 class="m-b-0"><b>PURCHASE ORDER</b></h4><small class="text-red">R E V I S E D</small></td></tr>
+		    		<tr><td colspan="20" align="center"><h4 class="m-b-0"><b>PURCHASE ORDER</b></h4><small class="text-red">CHANGE ORDER FORM</small></td></tr>
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
@@ -200,8 +212,6 @@
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="3" class=" bor-right" align="center"></td>
 		    		</tr>
-
-
 		    		<tr>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
@@ -216,71 +226,154 @@
 		    				</p><br>
 		    				<?php } ?>
 		    			</td>
-		    				<br>
-		    			</td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
 		    			<td colspan="3" class="bor-btm bor-right" align="center"></td>
 		    		</tr>		    		
 		    		<tr>
 		    			<td colspan="17" class="all-border " align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),2); ?></span></b></td>
+					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left">₱</span><?php echo number_format(array_sum($gtotal),2); ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="" class="all-border yellow-back" align="center"><b>#</b></td>
-		    			<td colspan="2" class="all-border yellow-back" align="center"><b>New Qty</b></td>
-		    			<td colspan="" class="all-border yellow-back" align="center"><b>Unit</b></td>
-		    			<td colspan="11" class="all-border yellow-back" align="center"><b>New Description</b></td>
-		    			<td colspan="2" class="all-border yellow-back" align="center"><b>New U/P</b></td>
-		    			<td colspan="3" class="all-border yellow-back" align="center"></td>
+		    			<td colspan="20"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><input type='number' name='quantity' id='quantity' class='quantity' value='' style='width:100%; color:red' onblur='changePrice()' onkeypress="return isNumberKey(this, event)"></b></td>
-		    			<td colspan="" class="bor-right" align="center"></td>
-		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price' id='price' value='' onblur='changePrice()' onkeypress="return isNumberKey(this, event)" style='color:red; width:100%' ></b></td>
-		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="" class=" bor-right" align="center"></td>
-		    			<td colspan="2" class=" bor-right" align="center"></td>
-		    			<td colspan="" class=" bor-right" align="center"></td>
-		    			<td colspan="11" class=" bor-right" align="center"></td>
-		    			<td colspan="2" class=" bor-right" align="center"><br></td>
-		    			<td colspan="3" class=" bor-right" align="center"></td>
-		    		</tr>
+		    			<td  colspan="20">
+		    				<div class="newdata">
+		    					<table width="100%">
+		    						<tr>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    			<td width="5%"><br></td>
+						    		</tr>
+		    						<tr>
+						    			<td colspan="" class="all-border yellow-back" align="center"><b>#</b></td>
+						    			<td colspan="2" class="all-border yellow-back" align="center"><b>New Qty</b></td>
+						    			<td colspan="" class="all-border yellow-back" align="center"><b>Unit</b></td>
+						    			<td colspan="11" class="all-border yellow-back" align="center"><b>New Description</b></td>
+						    			<td colspan="2" class="all-border yellow-back" align="center"><b>New U/P</b></td>
+						    			<td colspan="3" class="all-border yellow-back" align="center"></td>
+						    		</tr>
+
+						    		<?php
+						    		$x=1; 
+						    		if($revised==0){
+							    		if(!empty($items)){
+								    		foreach($items AS $it){ 
+								    			$gtotal2[] = $it->amount;
+
+								    			if(!empty($it->offer)){
+								    				 $offer = $it->offer;
+							    				} else {
+							    					$offer= $ci->get_name("item_name", "item", "item_id = '$it->item_id'");
+							    				} ?>
+								    		<tr>
+								    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
+								    			<td colspan="2" class="bor-right" align="center"><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->quantity; ?>' style='width:100%; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
+								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
+								    			<td colspan="11" class="bor-right" align="left"><input type='text' style='width:100%' name='offer<?php echo $x; ?>' value='<?php echo $offer; ?>'></td>
+								    			<td colspan="2" class="bor-right" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it->unit_price; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
+								    			<td colspan="3" class="bor-right" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,2); ?>" style='text-align:right;' readonly></td>		
+								    		</tr>	
+								    			<?php 
+									    		$x++; 
+								    			}	
+							    			
+							    		} else {
+							    			$gtotal2=array();
+							    		} 
+							    	} else {
+
+							    		if(!empty($items)){
+								    		foreach($items_temp AS $it){ 
+								    			$gtotal2[] = $it->amount;
+
+								    			if(!empty($it->offer)){
+								    				 $offer = $it->offer;
+							    				} else {
+							    					$offer= $ci->get_name("item_name", "item", "item_id = '$it->item_id'");
+							    				} ?>
+								    		<tr>
+								    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
+								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->quantity; ?></td>
+								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
+								    			<td colspan="11" class="bor-right" align="left"><?php echo $offer; ?></td>
+								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->unit_price; ?></td>
+								    			<td colspan="3" class="bor-right" align="right"><?php echo number_format($it->amount,2); ?></td>		
+								    		</tr>	
+								    			<?php 
+									    		$x++; 
+								    			}	
+							    			
+							    		} else {
+							    			$gtotal2=array();
+							    		} 
+							    	} ?>
+						    		<input type='hidden' name='count_item' value="<?php echo $x; ?>">
+						    		<tr>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="11" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"><br></td>
+						    			<td colspan="3" class=" bor-right" align="center"></td>
+						    		</tr>
 
 
-		    		<tr>
-		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
-		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
-		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
-		    			<td colspan="11" class="bor-btm bor-right" align="left">
-		    				<p class="nomarg">
-		    					Enduse: <br>
-		    					Purpose: <br>
-		    					Requestor: <br>
-		    					PR no.: <br>
-		    				</p>
-		    				<br>
-		    			</td>
-		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
-		    			<td colspan="3" class="bor-btm bor-right" align="center"></td>
-		    		</tr>		    		
-		    		<tr>
-		    			<td colspan="17" class="all-border yellow-back" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'></span></b></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="20">
-		    				<i></i>
+						    		<tr>
+						    			<td colspan="" class="bor-btm bor-right" align="center"></td>
+						    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
+						    			<td colspan="" class="bor-btm bor-right" align="center"></td>
+						    			<td colspan="11" class="bor-btm bor-right" align="left">
+						    				<?php foreach($allpr AS $pr){ ?>
+						    				<p class="nomarg">
+						    					Enduse: <?php echo $pr['enduse']; ?><br>
+						    					Purpose: <?php echo $pr['purpose']; ?><br>
+						    					Requestor: <?php echo $pr['requestor']; ?><br>
+						    					PR no.: <?php echo $pr['pr_no']; ?><br>
+						    				</p><br>
+						    				<?php } ?>
+						    				<br>
+						    			</td>
+						    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
+						    			<td colspan="3" class="bor-btm bor-right" align="center"></td>
+						    		</tr>		    		
+						    		<tr>
+						    			<td colspan="17" class="all-border yellow-back" align="right"><b class="nomarg">GRAND TOTAL</b></td>
+									    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($gtotal2),2); ?></span></b></td>
+						    		</tr>
+						    		<tr>
+						    			<td colspan="20">
+						    				<i></i>
+						    			</td>
+						    		</tr>
+		    					</table>
+		    				</div>
 		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
+		    				<?php if($revised==0){ ?>
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
 							 Add Terms & Conditions
 							</button>
+							<?php } ?>
 		    				<br>Terms & Conditions:<br>
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
@@ -290,9 +383,11 @@
 		    				6. In-land Freight: Included
 		    				<br>
 		    				<br>
+		    				<?php if($revised==0){ ?>
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
 							</button>
+							<?php } ?>
 
 		    			</td>
 		    		</tr>
@@ -313,12 +408,10 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2"></td>
-		    			<td colspan="7"><b></b></td>
+		    			<td colspan="7"><b><?php echo $prepared_by; ?></b></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="7"><b>
-		    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
-			    			<option value=''>-Select-</option>
-		    			</select></b></td>
+		    			<?php echo $approved_by; ?></b></td>
 		    			<td colspan="2"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>

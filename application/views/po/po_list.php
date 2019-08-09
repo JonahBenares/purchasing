@@ -37,6 +37,35 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="approveLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Approved Revision <span class="fa fa-thumbs-o-up"></span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>                    
+                </div>
+                <form method='POST' action="<?php echo base_url(); ?>po/approve_revision">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <p class="m-b-0">Approved by:</p>
+                            <input type="text" name="approve_rev" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <p class="m-b-0">Approved Date:</p>
+                            <input type="date" name="approve_date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="po_id" id="po_id" >
+                        <input type='submit' value='Approve' class="btn btn-custon-three btn-primary btn-block">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div id="addrepPO" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -264,16 +293,25 @@
                                                     }
                                                 ?></td>
                                                 <td>
-                                                    <center>
+                                                    <center>                                                        
                                                         <a href="<?php echo base_url(); ?>po/serve_po/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-success btn-xs" title='Done PO'  onclick="return confirm('Are you sure PO is done?')">
                                                             <span class="fa fa-check"></span>
                                                         </a>
+                                                        <?php if($head['revised']==1){ ?>
+                                                        <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $head['po_id']?>">
+                                                            <span class="fa fa-thumbs-up"></span>
+                                                        </a>
+                                                        <?php } ?>
                                                         <?php if($head['saved']==0){ ?>
                                                         <a href="<?php echo base_url(); ?>po/purchase_order/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
-                                                        <?php }else if($head['saved']==1 && $head['po_type']==0){ ?>
+                                                        <?php }else if($head['saved']==1 && $head['po_type']==0 && $head['revised']==0){ ?>
                                                         <a href="<?php echo base_url(); ?>po/purchase_order_saved/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                            <span class="fa fa-eye"></span>
+                                                        </a>
+                                                        <?php } else if($head['saved']==1 && $head['po_type']==0 && $head['revised']==1){ ?>
+                                                        <a href="<?php echo base_url(); ?>po/purchase_order_rev/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
                                                         <?php } else if($head['saved']==1 && $head['po_type']==1){ ?>
@@ -288,10 +326,10 @@
                                                         <!-- <a href="<?php echo base_url(); ?>po/reporder_prnt/" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
                                                         </a> -->
-                                                        <a class="cancelDuplicatePO btn btn-custon-three btn-info btn-xs" data-toggle="modal" data-target="#cancelDuplicatePO" data-id="" title="Cancel and Duplicate">
+                                                     <!--    <a class="cancelDuplicatePO btn btn-custon-three btn-info btn-xs" data-toggle="modal" data-target="#cancelDuplicatePO" data-id="" title="Cancel and Duplicate">
                                                             <span class="fa fa-ban"></span> 
                                                             <span class="fa fa-files-o"></span>
-                                                        </a>
+                                                        </a> -->
                                                         <a class="cancelPO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPO" data-id="<?php echo $head['po_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                         <!--<a href="" class="btn btn-custon-three btn-danger btn-xs"  data-toggle="modal" data-target="#cancelPO" title="WITH MODAL REASON">Cancel</a>-->
                                                     </center>

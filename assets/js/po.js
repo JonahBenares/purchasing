@@ -105,6 +105,12 @@ $(document).on("click", ".addPR", function () {
   
 });
 
+$(document).on("click", ".approverev", function () {
+     var po_id = $(this).data('id');
+     $(".modal #po_id").val(po_id);
+  
+});
+
 $(document).on("click", ".cancelPO", function () {
      var po_id = $(this).data('id');
      $(".modal #po_id").val(po_id);
@@ -123,8 +129,11 @@ function addItemPo(baseurl,pr) {
 }
 
 function changePrice(count){
+  //alert(count);
    var price = document.getElementById("price"+count).value;
+
    var qty = document.getElementById("quantity"+count).value;
+
    var tprice = parseFloat(price) * parseFloat(qty);
 
    document.getElementById("tprice"+count).value  =tprice;
