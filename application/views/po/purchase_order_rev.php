@@ -378,15 +378,26 @@
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
-		    				4. Payment term: PAYEMENT TERMS HERE<br>
-		    				5. Delivery Time: <br>
-		    				6. In-land Freight: Included
-		    				<br>
+		    				4. Payment term: <?php echo $payment_terms; ?><br>	
+		    				5. Item Warranty: <?php echo $item_warranty; ?><br>
+		    				6. Delivery Time: <?php echo $delivery_time; ?><br>
+		    				7. In-land Freight: <?php echo $freight; ?><br>
+		    				<?php 
+		    					$no=8;
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->tc_desc)){
+			    						echo $no.". " . $t->tc_desc."<br>";
+			    						$no++; 
+			    					}
+		    					} 
+		    				?>
 		    				<br>
 		    				<?php if($revised==0){ ?>
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
-							</button>
+							</button> <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
+							<?php }else{ ?>
+							Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
 							<?php } ?>
 
 		    			</td>
@@ -444,7 +455,7 @@
 						</h5>
 						
 					</div>
-					<form method="POST" action="<?php echo base_url(); ?>po/add_tc">
+					<form method="POST" action="<?php echo base_url(); ?>po/add_tc_temp">
 						<div class="modal-body">
 							<div class="form-group">
 								Terms & Conditions:
@@ -470,14 +481,15 @@
 							</button>
 						</h5>						
 					</div>
-					<form method="POST" action="<?php echo base_url(); ?>po/">
+					<form method="POST" action="<?php echo base_url(); ?>po/add_otherins_temp">
 						<div class="modal-body">
 							<div class="form-group">
 								Other Instructions:
-								<textarea class="form-control" rows="5"></textarea>
+								<textarea class="form-control" rows="5" name = "notes"></textarea>
 							</div>
 						</div>
 						<div class="modal-footer">
+							<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
 							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 						</div>
 

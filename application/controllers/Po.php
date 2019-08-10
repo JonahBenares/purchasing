@@ -1280,11 +1280,34 @@ class Po extends CI_Controller {
             $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
             $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
         }
-        $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        //$data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['tc'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
 
         $this->load->view('template/header');        
         $this->load->view('po/purchase_order_rev', $data);
         $this->load->view('template/footer');
+    }
+
+    public function add_tc_temp(){
+        $po_id = $this->input->post('po_id');
+        $data = array(
+            'po_id'=>$this->input->post('po_id'),
+            'tc_desc'=>$this->input->post('tc_desc'),
+        );
+        if($this->super_model->insert_into("po_tc_temp", $data)){
+            redirect(base_url().'po/purchase_order_rev/'.$po_id, 'refresh');
+        }
+    }
+
+    public function add_otherins_temp(){
+        $po_id = $this->input->post('po_id');
+        $data = array(
+            'po_id'=>$this->input->post('po_id'),
+            'notes'=>$this->input->post('notes'),
+        );
+        if($this->super_model->insert_into("po_tc_temp", $data)){
+            redirect(base_url().'po/purchase_order_rev/'.$po_id, 'refresh');
+        }
     }
 
     public function save_change_order(){
