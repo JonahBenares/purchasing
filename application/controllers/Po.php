@@ -166,10 +166,6 @@ class Po extends CI_Controller {
                 'user_id'=>$_SESSION['user_id']
             );  
 
-               $dr_data = array(
-            'dr_date'=>$this->input->post('po_date')
-            );
-            $this->super_model->update_where("po_dr", $dr_data, "po_id", $po_id);
 
 
             if($this->super_model->insert_into("po_head", $data)){
@@ -431,7 +427,8 @@ class Po extends CI_Controller {
 
         $dr = array(
             'po_id'=>$po_id,
-            'dr_no'=>$dr_no
+            'dr_no'=>$dr_no,
+            'dr_date'=>$this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id),
         );
         $this->super_model->insert_into("po_dr", $dr);
 
@@ -764,7 +761,7 @@ class Po extends CI_Controller {
         $po_id=$this->uri->segment(3);
         $revise_no=$this->uri->segment(4);
         $data['po_id']=$po_id;
-        foreach($this->super_model->select_custom_where('po_head_revised', "po_id = '$po_id'") AS $h){
+        foreach($this->super_model->select_custom_where('po_head_revised', "po_id = '$po_id' AND revision_no = '$revise_no'") AS $h){
             $data['head'][] = array(
                 'po_date'=>$h->po_date,
                 'po_no'=>$h->po_no,
@@ -782,8 +779,8 @@ class Po extends CI_Controller {
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
         }
 
-        $data['items'] = $this->super_model->select_row_where('po_items_revised', 'po_id', $po_id);
-        foreach($this->super_model->select_row_where("po_pr_revised", "po_id", $po_id) AS $ppr){
+        $data['items'] = $this->super_model->select_custom_where('po_items_revised', "po_id = '$po_id' AND revision_no = '$revise_no'");
+        foreach($this->super_model->select_custom_where("po_pr_revised", "po_id = '$po_id' AND revision_no = '$revise_no'") AS $ppr){
             $data['allpr'][]= array(
                 'pr_no'=>$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $ppr->pr_id),
                 'enduse'=>$ppr->enduse,
@@ -1362,6 +1359,46 @@ class Po extends CI_Controller {
         $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
         $revision_no = $max_revision+1;
 
+
+
+          foreach($this->super_model->select_row_where("po_head","po_id",$po_id) AS $head){
+            $data_head = array(
+                "po_id"=>$head->po_id,
+                "po_date"=>$head->po_date,
+                "po_no"=>$head->po_no,
+                "dr_no"=>$head->dr_no,
+                "vendor_id"=>$head->vendor_id,
+                "notes"=>$head->notes,
+                "po_type"=>$head->po_type,
+                "user_id"=>$head->user_id,
+                "approved_by"=>$head->approved_by,
+                "saved"=>$head->saved,
+                "done_po"=>$head->done_po,
+                "date_revised"=>$this->input->post('approve_date'),
+                "revision_no"=>$head->revision_no,
+                "revise_attachment"=>$head->revise_attachment,
+
+            );
+
+            $this->super_model->insert_into("po_head_revised", $data_head);
+        }
+
+        foreach($this->super_model->select_row_where("po_pr","po_id",$po_id) AS $popr){
+            $data_popr = array(
+                "po_pr_id"=>$popr->po_pr_id,
+                "po_id"=>$popr->po_id,
+                "po_id"=>$popr->po_id,
+                "aoq_id"=>$popr->aoq_id,
+                "enduse"=>$popr->enduse,
+                "purpose"=>$popr->purpose,
+                "requestor"=>$popr->requestor,
+                "notes"=>$popr->notes,
+                "revision_no"=>$popr->revision_no,
+            );
+            $this->super_model->insert_into("po_pr_revised", $data_popr);
+        }
+
+
            foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $poitems){
             $data_items = array(
                 "po_items_id"=>$poitems->po_items_id,
@@ -1377,12 +1414,21 @@ class Po extends CI_Controller {
                 "uom"=>$poitems->uom,
                 "amount"=>$poitems->amount,
                 "item_no"=>$poitems->item_no,
+                "revision_no"=>$poitems->revision_no,
             );
             $this->super_model->insert_into("po_items_revised", $data_items);
         }
 
-       $this->super_model->delete_where("po_items", "po_id", $po_id);
+        foreach($this->super_model->select_row_where("po_tc_temp","po_id",$po_id) AS $potc){
+            $data_potc = array(
+                "po_id"=>$popr->po_id,
+                "tc_desc"=>$potc->tc_desc,
+                "notes"=>$potc->notes
+            );
+            $this->super_model->insert_into("po_tc", $data_potc);
+        }
 
+       
 
           foreach($this->super_model->select_row_where("po_items_temp","po_id",$po_id) AS $poitems){
             $data_items = array(
@@ -1399,13 +1445,42 @@ class Po extends CI_Controller {
                 "uom"=>$poitems->uom,
                 "amount"=>$poitems->amount,
                 "item_no"=>$poitems->item_no,
+                "revision_no"=>$revision_no
             );
-            $this->super_model->insert_into("po_items", $data_items);
+
+
+            $old_qty = $this->super_model->select_column_where('po_items', 'quantity', 'aoq_offer_id',  $poitems->aoq_offer_id);
+
+            if($old_qty!=$poitems->quantity){
+                $difference = $old_qty - $poitems->quantity;
+
+                $old_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id',  $poitems->aoq_offer_id);
+
+                $balance = $old_balance+$difference;
+
+                $data_aoq = array(
+                    'balance'=>$balance
+                );
+                $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $poitems->aoq_offer_id);
+            }
+
+
+            //$this->super_model->delete_where("po_items", "po_id", $po_id);
+
+            $this->super_model->update_where("po_items", $data_items, "aoq_offer_id", $poitems->aoq_offer_id);
+
+            
         }
 
 
+       $this->super_model->delete_where("po_tc_temp", "po_id", $po_id);
          $this->super_model->delete_where("po_items_temp", "po_id", $po_id);
-         
+            
+        $data_pr =array(
+            'revision_no'=>$revision_no
+         );
+        $this->super_model->update_where("po_pr", $data_pr, "po_id", $po_id);
+
           $data =array(
             'approve_rev_by'=>$this->input->post('approve_rev'),
             'approve_rev_date'=>$this->input->post('approve_date'),

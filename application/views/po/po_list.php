@@ -130,7 +130,7 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>index.php/po/create_po">
+                <form method="POST" action = "<?php echo base_url();?>po/create_po">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Date:</p>
