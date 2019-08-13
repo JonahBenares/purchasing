@@ -173,6 +173,7 @@
                         <div style="overflow-y: scroll;height: 200px;max-height: 200px  ">
                             <!-- loop here -->
                             <?php 
+
                             if(!empty($reminder)){
                                 foreach($reminder AS $r){ 
                                     if($r['done']==0){ 
@@ -196,7 +197,7 @@
                                     </div>
                                 </div>
                             </div> 
-                            <?php } } }?>    
+                            <?php } } } ?>    
                             <!-- loop here --> 
 
                                   
@@ -251,7 +252,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($pendingpr AS $pr){
+                                        <?php
+                                        if(!empty($pendingpr)){
+                                         foreach($pendingpr AS $pr){
+                                        
 
                                         if($pr['po']==0){ ?>
                                         <tr>
@@ -266,6 +270,7 @@
                                             <td class="datatable-ct"></td>
                                         </tr>
                                     <?php } 
+                                    }
                                     }?>
                                     </tbody>
                                     

@@ -129,7 +129,7 @@ class Pr extends CI_Controller {
     public function readExcel_pr(){
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
-        $inputFileName =realpath(APPPATH.'../uploads/excel/Purchase Request.xlsx');
+        $inputFileName =realpath(APPPATH.'../uploads/excel/PurchaseRequestForm.xlsx');
         try {
             $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
             $objReader = PHPExcel_IOFactory::createReader($inputFileType);

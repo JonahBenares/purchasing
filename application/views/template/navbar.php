@@ -10,7 +10,7 @@
                 <div class="left-custom-menu-adp-wrap">
                     <ul class="nav navbar-nav left-sidebar-menu-pro">
                         <li class="nav-item">
-                            <a href="<?php echo base_url(); ?>index.php/Masterfile/dashboard"  role="button" class="nav-link dropdown-toggle">
+                            <a href="<?php echo base_url(); ?>Masterfile/dashboard"  role="button" class="nav-link dropdown-toggle">
                                 <i class="fa big-icon fa-home"></i>
                                 <span class="mini-dn">Dashboard</span> 
                                 <span class="indicator-right-menu mini-dn"></span>
@@ -23,10 +23,10 @@
                                 <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
                             </a>
                             <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0" style="width: 180px">
-                                <a href="<?php echo base_url(); ?>index.php/items/item_list" class="dropdown-item">Items</a>
-                                <a href="<?php echo base_url(); ?>index.php/vendors/vendor_list" class="dropdown-item">Vendors</a>
-                                <a href="<?php echo base_url(); ?>index.php/masterfile/employee_list" class="dropdown-item">Employee</a>
-                                <a href="<?php echo base_url(); ?>index.php/masterfile/unit_list" class="dropdown-item">Unit</a>
+                                <a href="<?php echo base_url(); ?>items/item_list" class="dropdown-item">Items</a>
+                                <a href="<?php echo base_url(); ?>vendors/vendor_list" class="dropdown-item">Vendors</a>
+                                <a href="<?php echo base_url(); ?>masterfile/employee_list" class="dropdown-item">Employee</a>
+                                <a href="<?php echo base_url(); ?>masterfile/unit_list" class="dropdown-item">Unit</a>
                             </div>
                         </li>
 
@@ -37,32 +37,32 @@
                                 <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
                             </a>
                             <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0">
-                                <a  href="<?php echo base_url(); ?>index.php/pr/pr_list" role="button" class="nav-link dropdown-toggle" title="Purchase Request">
+                                <a  href="<?php echo base_url(); ?>pr/pr_list" role="button" class="nav-link dropdown-toggle" title="Purchase Request">
                                     <i class="fa big-icon fa-file-o"></i>
                                     <span class="mini-dn">Purchase Request</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>index.php/rfq/rfq_list"  role="button" class="nav-link dropdown-toggle" title="Request for Quotation">
+                                <a href="<?php echo base_url(); ?>rfq/rfq_list"  role="button" class="nav-link dropdown-toggle" title="Request for Quotation">
                                     <i class="fa big-icon fa-pencil-square-o"></i>
                                     <span class="mini-dn">Request For Quotation</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>index.php/aoq/aoq_list"  role="button" class="nav-link dropdown-toggle" title="Abstract of Quotation">
+                                <a href="<?php echo base_url(); ?>aoq/aoq_list"  role="button" class="nav-link dropdown-toggle" title="Abstract of Quotation">
                                     <i class="fa big-icon fa-folder"></i>
                                     <span class="mini-dn">Abstract of Quotation</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>index.php/po/po_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
+                                <a href="<?php echo base_url(); ?>po/po_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
                                     <i class="fa big-icon fa-shopping-cart"></i>
                                     <span class="mini-dn">Purchase Order</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>index.php/rfdis/rfdis_list"  role="button" class="nav-link dropdown-toggle" title="Request for Disbursement">
+                                <a href="<?php echo base_url(); ?>rfdis/rfdis_list"  role="button" class="nav-link dropdown-toggle" title="Request for Disbursement">
                                     <i class="fa big-icon fa-list-alt "></i>
                                     <span class="mini-dn">Request for Disbursement</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>index.php/dr/dr_list"  role="button" class="nav-link dropdown-toggle" title="Delivery Receipt">
+                                <a href="<?php echo base_url(); ?>dr/dr_list"  role="button" class="nav-link dropdown-toggle" title="Delivery Receipt">
                                     <i class="fa big-icon fa-truck "></i>
                                     <span class="mini-dn">Delivery Receipt</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
@@ -266,7 +266,7 @@
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                                 <div class="header-right-info">
-                                    <a href='<?php echo base_url(); ?>uploads/format/Purchase Request Form.xlsx' class="btn default btn-sm default-marg animated headShake infinite">Download PR Format</a>
+                                    <a href='<?php echo base_url(); ?>uploads/format/PurchaseRequestForm.xlsx' class="btn default btn-sm default-marg animated headShake infinite">Download PR Format</a>
                                     <!-- <a href="../uploads/Purchase Request.xlsx" class="btn default btn-sm default-marg animated headShake infinite">Download PR Format</a> -->
                                     <ul class="nav navbar-nav mai-top-nav header-right-menu">
                                         <li class="nav-item">
