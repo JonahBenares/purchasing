@@ -224,7 +224,7 @@
 						<a href="<?php echo base_url(); ?>aoq/aoq_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
 							<!-- <input type='submit' class="btn btn-info btn-md p-l-100 p-r-100" value='Done'> -->
 							<?php if($saved==1 && $awarded==1){ ?>
-								<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
+								<!-- <a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a> -->
 								<a href="<?php echo base_url(); ?>aoq/export_aoq_prnt_five/<?php echo $aoq_id;?>" class="btn btn-primary btn-md p-l-100 p-r-100"><span class="fa fa-export"></span> Export</a>
 							<?php } ?>
 							<!-- <a  onclick="printPage()" class="btn btn-info btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Export</a> -->

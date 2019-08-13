@@ -45,7 +45,7 @@
 			font-size:13px!important;
 		}
 		.bor-btm{
-			border-bottom: 1px solid #000;
+			border-bottom: 1px solid #000!important;
 		}
 		.all-bor{
 			border: 1px solid #000;
@@ -70,6 +70,9 @@
 	        	background-size: contain!important;
 	        	background-position: center center!important;
 	        }
+	        .bor-btm{
+				border-bottom: 1px solid #000!important;
+			}
 		}
 		.text-white{
 			color: #fff;
