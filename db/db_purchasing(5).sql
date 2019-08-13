@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2019 at 08:47 AM
+-- Generation Time: Aug 13, 2019 at 09:01 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -39,7 +39,9 @@ CREATE TABLE IF NOT EXISTS `aoq_head` (
   `saved` int(11) NOT NULL DEFAULT '0',
   `awarded` int(11) NOT NULL DEFAULT '0',
   `refer_mnl` int(11) NOT NULL DEFAULT '0',
-  `refer_date` varchar(20) DEFAULT NULL
+  `refer_date` varchar(20) DEFAULT NULL,
+  `served` int(11) NOT NULL DEFAULT '0',
+  `date_served` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
