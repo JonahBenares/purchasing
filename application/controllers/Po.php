@@ -166,6 +166,12 @@ class Po extends CI_Controller {
                 'user_id'=>$_SESSION['user_id']
             );  
 
+               $dr_data = array(
+            'dr_date'=>$this->input->post('po_date')
+            );
+            $this->super_model->update_where("po_dr", $dr_data, "po_id", $po_id);
+
+
             if($this->super_model->insert_into("po_head", $data)){
                  redirect(base_url().'po/purchase_order/'.$po_id);
             }
@@ -186,6 +192,7 @@ class Po extends CI_Controller {
             );
             $this->super_model->insert_into("po_series", $data_series);
 
+          
             if($this->super_model->insert_into("po_head", $data)){
                  redirect(base_url().'pod/po_direct/'.$po_id);
             }
@@ -924,10 +931,10 @@ class Po extends CI_Controller {
     public function save_rfd(){
         $po_id= $this->input->post('po_id');
 
-        $dr_data = array(
+      /*  $dr_data = array(
             'dr_date'=>$this->input->post('rfd_date')
         );
-        $this->super_model->update_where("po_dr", $dr_data, "po_id", $po_id);
+        $this->super_model->update_where("po_dr", $dr_data, "po_id", $po_id);*/
         $data = array(
             'po_id'=>$po_id,
             'apv_no'=>$this->input->post('apv_no'),

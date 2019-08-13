@@ -59,10 +59,10 @@ class Reports extends CI_Controller {
             if($sum_po_qty!=0){
                 if($sum_po_qty < $pr->quantity){
                       $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
-                    if($count_rfd == 0){
+                 /*   if($count_rfd == 0){
                         $status = 'PO Done';
                         $status_remarks = 'Pending RFD - Partial';
-                    } else {
+                    } else {*/
                         $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
                         $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
                         $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
@@ -73,19 +73,19 @@ class Reports extends CI_Controller {
 
                         $status = 'Partially Served';
                         $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
-                    }
+                  //  }
                 } else {
                     $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
-                    if($count_rfd == 0){
+                 /*   if($count_rfd == 0){
                         $status = 'PO Done';
                         $status_remarks = 'Pending RFD - Full';
-                    } else {
+                    } else {*/
                         $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
                         $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
 
                         $status = 'Fully Served';
                         $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served DR# ".$dr_no;
-                    }
+                    //}
                 }
             } else {
                 $cancelled_items = $this->super_model->select_column_where('pr_details', 'cancelled', 'pr_details_id', $pr->pr_details_id);
