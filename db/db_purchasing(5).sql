@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2019 at 04:02 AM
+-- Generation Time: Aug 13, 2019 at 09:01 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -39,7 +39,9 @@ CREATE TABLE IF NOT EXISTS `aoq_head` (
   `saved` int(11) NOT NULL DEFAULT '0',
   `awarded` int(11) NOT NULL DEFAULT '0',
   `refer_mnl` int(11) NOT NULL DEFAULT '0',
-  `refer_date` varchar(20) DEFAULT NULL
+  `refer_date` varchar(20) DEFAULT NULL,
+  `served` int(11) NOT NULL DEFAULT '0',
+  `date_served` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -910,7 +912,8 @@ CREATE TABLE IF NOT EXISTS `po_items` (
   `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `item_no` int(11) DEFAULT '0',
   `source_poid` int(11) NOT NULL DEFAULT '0',
-  `notes` text
+  `notes` text,
+  `revision_no` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -974,7 +977,8 @@ CREATE TABLE IF NOT EXISTS `po_pr` (
   `enduse` text,
   `purpose` text,
   `requestor` text,
-  `notes` text
+  `notes` text,
+  `revision_no` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1136,14 +1140,7 @@ CREATE TABLE IF NOT EXISTS `reminder` (
   `create_date` varchar(20) DEFAULT NULL,
   `due_date` varchar(20) DEFAULT NULL,
   `done` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `reminder`
---
-
-INSERT INTO `reminder` (`reminder_id`, `user_id`, `notes`, `create_date`, `due_date`, `done`) VALUES
-(1, 1, 'test reminder', '2019-07-16 10:01:09', '2019-07-16', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2500,7 +2497,7 @@ MODIFY `pr_vendors_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `reminder`
 --
 ALTER TABLE `reminder`
-MODIFY `reminder_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `reminder_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `rfd`
 --

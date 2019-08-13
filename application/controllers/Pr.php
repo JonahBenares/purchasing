@@ -129,7 +129,7 @@ class Pr extends CI_Controller {
     public function readExcel_pr(){
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
-        $inputFileName =realpath(APPPATH.'../uploads/excel/Purchase Request.xlsx');
+        $inputFileName =realpath(APPPATH.'../uploads/excel/PurchaseRequestForm.xlsx');
         try {
             $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
             $objReader = PHPExcel_IOFactory::createReader($inputFileType);
@@ -574,11 +574,12 @@ class Pr extends CI_Controller {
             foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pd.cancelled = '1' GROUP BY pr_no") AS $heads){
                 
                 foreach($this->super_model->select_custom_where('pr_details',"pr_id='$heads->pr_id' AND cancelled='1'") AS $item){
+                    $data['cancelled_by'] = $this->super_model->select_column_where('users','fullname','user_id',$item->cancelled_by);
+                    $data['reason'] = $item->cancelled_reason;
                     $data['items'][] = array(
                         'pr_id'=>$item->pr_id,
                         'item_name'=>$item->item_description,
-                        'cancelled_by'=>$this->super_model->select_column_where('users','fullname','user_id',$item->cancelled_by),
-                        'reason'=>$item->cancelled_reason,
+                        //'reason'=>$item->cancelled_reason,
                     );
                 }
 

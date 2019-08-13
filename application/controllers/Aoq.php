@@ -112,7 +112,7 @@ class Aoq extends CI_Controller {
         $this->load->view('template/navbar');
         $count = $this->super_model->count_rows_where("aoq_head","saved",'1');
         if($count!=0){
-            foreach($this->super_model->select_custom_where("aoq_head", "saved='1'") AS $list){
+            foreach($this->super_model->select_custom_where("aoq_head", "saved='1' and served = '0'") AS $list){
                 $rows = $this->super_model->count_rows_where("aoq_vendors","aoq_id",$list->aoq_id);
                 $supplier='';
                 $not_recom='';
@@ -160,6 +160,64 @@ class Aoq extends CI_Controller {
         $this->load->view('aoq/aoq_list',$data);
         $this->load->view('template/footer');
     }  
+
+    public function update_served(){
+        $aoq_id=$this->uri->segment(3);
+        $data = array(
+            'date_served'=>date('Y-m-d H:i:s'),
+            'served'=>1
+        );
+
+        if($this->super_model->update_where("aoq_head", $data, "aoq_id", $aoq_id)){
+            redirect(base_url().'aoq/aoq_list', 'refresh');
+        }
+    }
+
+    public function served_aoq(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $count = $this->super_model->count_rows_where("aoq_head","saved",'1');
+        if($count!=0){
+            foreach($this->super_model->select_custom_where("aoq_head", "saved='1' and served = '1'") AS $list){
+                $rows = $this->super_model->count_rows_where("aoq_vendors","aoq_id",$list->aoq_id);
+                $supplier='';
+                $not_recom='';
+                foreach($this->super_model->select_custom_where("aoq_vendors", "aoq_id='$list->aoq_id'") AS $ven){
+                    foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$list->aoq_id' AND recommended='1' GROUP BY vendor_id") AS $offer){
+                        if($offer->vendor_id==$ven->vendor_id){
+                            $supplier.="<span style='background-color:#b5e61d;'>-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "</span><br> ";
+                            $not_recom .= "vendor_id != '$offer->vendor_id' AND ";
+                        }   
+                    } 
+                }
+                $not_recom=substr($not_recom, 0, -4);
+                  // echo $not_recom;
+                $not_recom .= " AND aoq_id='$list->aoq_id'";
+                foreach($this->super_model->select_custom_where("aoq_vendors", $not_recom) AS $offer1){        
+                    $supplier.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer1->vendor_id). "<br> ";
+                 }
+                // echo $supplier;
+               // $sup = substr($supplier, 0, -2);
+                $data['heads'][]=array(
+                    'aoq_id'=>$list->aoq_id,
+                    'date'=>$list->aoq_date,
+                    'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$list->pr_id),
+                    'supplier'=>$supplier,
+                    'department'=>$list->department,
+                    'enduse'=>$list->enduse,
+                    'requestor'=>$list->requestor,
+                    'saved'=>$list->saved,
+                    'rows'=>$rows,
+                    'awarded'=>$list->awarded,
+                    'refer_mnl'=>$list->refer_mnl
+                );
+            }
+        }else {
+            $data['heads']=array();
+        }
+        $this->load->view('aoq/served_aoq',$data);
+        $this->load->view('template/footer');
+    }
 
     public function refer_mnl(){
         $aoq_id=$this->uri->segment(3);
@@ -225,6 +283,7 @@ class Aoq extends CI_Controller {
         $aoq_id= $this->uri->segment(3);
         $data['aoq_id']=$aoq_id;
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
+        $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
         $noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
@@ -344,40 +403,13 @@ class Aoq extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B8', "DESCRIPTION");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C8', "QTY");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', "OUM");
-
-        /*foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $ven){
-            foreach($this->super_model->select_row_where("rfq_details", "rfq_id",  $ven->rfq_id) AS $rf){
-                $allprice[] = array(
-                    'item_desc'=>$rf->item_desc,
-                    'price'=>$rf->unit_price
-                );
-            }
-        }*/
         $x=0;
         $y=1;
         foreach($this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id) AS $items){
-            /*foreach($allprice AS $var=>$key){
-                foreach($key AS $v=>$k){
-                    if($key['item_desc']==$items->item_description){
-                        $minprice[$x][] = $key['price'];
-                    }
-                }               
-            }
-            $min=min($minprice[$x]);
-            $item = $item_name . ", " .$specs;
-            $styleArray1 = array(
-                'borders' => array(
-                    'allborders' => array(
-                      'style' => PHPExcel_Style_Border::BORDER_THIN
-                    )
-                )
-            );*/
-
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num2, "$y");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$items->item_description");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num2, "$items->quantity");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num2, "$items->uom");
-           /* $objPHPExcel->getActiveSheet()->getStyle("A8:P8")->applyFromArray($styleArray1);*/
             $col='E';
             $num=7;
             $one=7;
@@ -440,8 +472,6 @@ class Aoq extends CI_Controller {
                         $min=0;
                     }
 
-                    //echo $min==$allrfq->unit_price;
-
                     $sheet = array(
                         array(
                             $allrfq->offer.", ".$items->item_description,
@@ -451,13 +481,11 @@ class Aoq extends CI_Controller {
                         )
                     );
 
-                    //print_r($sheet);
-
                     $phpColor = new PHPExcel_Style_Color();
                     $phpColor->setRGB('FF0000'); 
                     $objPHPExcel->getActiveSheet()->getStyle($col.$q)->getFont()->setColor($phpColor);
 
-                    if($min==$allrfq->unit_price){
+                    if($allrfq->unit_price==$min){
                         $col2 = chr(ord($col) + 1);
                         $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f4e542');
                     }
@@ -466,7 +494,7 @@ class Aoq extends CI_Controller {
                         $col2 = chr(ord($col) + 2);
                         $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
                     }
-                   //echo $col . " -" . $q . "<br>";
+
                     $objPHPExcel->getActiveSheet()->fromArray($sheet, null, $col.$q);
                     $objPHPExcel->getActiveSheet()->getStyle('C'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('F'.$q.":G".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -494,7 +522,6 @@ class Aoq extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->mergeCells('M'.$one.':P'.$one);
                     $col++;
                 }
-                //echo "***".$q."<br>";
                 $q++;
                 $num++;
                 $col++;
@@ -504,15 +531,23 @@ class Aoq extends CI_Controller {
             $y++;
             $num1++;
             $num2 = $q;
+            $num2++;
         }
 
-        $a = $num2+2;
+        /*$a = $num2+2;
         $b = $num2+4;
         $c = $num2+6;
         $d = $num2+8;
         $e = $num2+10;
         $f = $num2+12;
-        $g = $num2+14;
+        $g = $num2+14;*/
+        $a = $num2+1;
+        $b = $num2+2;
+        $c = $num2+3;
+        $d = $num2+4;
+        $e = $num2+5;
+        $f = $num2+6;
+        $g = $num2+7;
         $cols = 'E';
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $rfq){
             $validity=$rfq->price_validity;
@@ -531,11 +566,6 @@ class Aoq extends CI_Controller {
             $objPHPExcel->getActiveSheet()->mergeCells('M'.$c.':P'.$c);
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$a, $validity);
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$b, $terms);
-            /*if(empty($delivery)){
-                $date = '';
-            }else {
-                $date = date('F j, Y',strtotime($delivery));
-            }*/
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$c, $delivery);
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$d, $warranty);
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$e, $freight);
@@ -612,6 +642,7 @@ class Aoq extends CI_Controller {
         $aoq_id= $this->uri->segment(3);
         $data['aoq_id']=$aoq_id;
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
+        $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
         $noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
@@ -853,15 +884,24 @@ class Aoq extends CI_Controller {
             $y++;
             $num1++;
             $num2 = $q;
+            $num2++;
         }
 
-        $a = $num2+2;
+        /*$a = $num2+2;
         $b = $num2+4;
         $c = $num2+6;
         $d = $num2+8;
         $e = $num2+10;
         $f = $num2+12;
-        $g = $num2+14;
+        $g = $num2+14;*/
+
+        $a = $num2+1;
+        $b = $num2+2;
+        $c = $num2+3;
+        $d = $num2+4;
+        $e = $num2+5;
+        $f = $num2+6;
+        $g = $num2+7;
         $cols = 'E';
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $rfq){
             $validity=$rfq->price_validity;
@@ -961,6 +1001,7 @@ class Aoq extends CI_Controller {
         $aoq_id= $this->uri->segment(3);
         $data['aoq_id']=$aoq_id;
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
+        $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
         $noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
@@ -1124,7 +1165,8 @@ class Aoq extends CI_Controller {
                     }
                 }
 
-                $q = $num2;
+                //$q = $num2;
+                $q = 9;
                 foreach ($this->super_model->select_custom_where("aoq_offers","aoq_id='$aoq_id' AND vendor_id = '$rfq->vendor_id' AND pr_details_id = '$items->pr_details_id'") AS $allrfq) {
                     $amount = $items->quantity*$allrfq->unit_price;
 
@@ -1203,15 +1245,23 @@ class Aoq extends CI_Controller {
             $y++;
             $num1++;
             $num2 = $q;
+            $num2++;
         }
 
-        $a = $num2+2;
+        /*$a = $num2+2;
         $b = $num2+4;
         $c = $num2+6;
         $d = $num2+8;
         $e = $num2+10;
         $f = $num2+12;
-        $g = $num2+14;
+        $g = $num2+14;*/
+        $a = $num2+1;
+        $b = $num2+2;
+        $c = $num2+3;
+        $d = $num2+4;
+        $e = $num2+5;
+        $f = $num2+6;
+        $g = $num2+7;
         $cols = 'E';
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $rfq){
             $validity=$rfq->price_validity;

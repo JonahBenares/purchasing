@@ -32,6 +32,12 @@
         	background-size: contain!important;
         	background-position: center center!important;
         }
+        .served{
+        	background-image: url('<?php echo base_url(); ?>assets/img/served.png')!important;
+        	background-repeat:no-repeat!important;
+        	background-size: contain!important;
+        	background-position: center center!important;
+        }
         .table-bordered>tbody>tr>td, 
         .table-bordered>tbody>tr>th, 
         .table-bordered>tfoot>tr>td, 
@@ -70,9 +76,18 @@
 	        	background-size: contain!important;
 	        	background-position: center center!important;
 	        }
+<<<<<<< HEAD
 	        .bor-btm{
 				border-bottom: 1px solid #000!important;
 			}
+=======
+	        .served{
+	        	background-image: url('<?php echo base_url(); ?>assets/img/served.png')!important;
+	        	background-repeat:no-repeat!important;
+	        	background-size: contain!important;
+	        	background-position: center center!important;
+	        }
+>>>>>>> 875bacc01b952305d8d5acd1004e8a31010b2db0
 		}
 		.text-white{
 			color: #fff;
@@ -107,7 +122,7 @@
 					<p class="text-white">Instructions: When printing REQUEST FOR QUOTATION make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;">    		  			
+	    	<div style="background: #fff;" class = "<?php if($cancelled==1){ echo 'cancel'; } else if($served==1){ echo 'served';} ?>">    		  			
 		    	<table class="table-bordesred" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>

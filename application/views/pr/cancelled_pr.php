@@ -61,13 +61,13 @@
                                         <?php 
                                             foreach($pr_head AS $c){ 
                                                 $item='';
-                                                $cancelled_by='';
-                                                $reason='';
+                                                //$cancelled_by='';
+                                                //$reason='';
                                                 foreach($items AS $it){ 
                                                     if($c['pr_id']==$it['pr_id']){
                                                         $item .="<b>- ".$it['item_name']."<br> ";
-                                                        $cancelled_by .="<b>- ".$it['cancelled_by']."<br> ";
-                                                        $reason .="<b>- ".$it['reason']."<br> ";
+                                                        //$cancelled_by .="<b>- ".$it['cancelled_by']."<br> ";
+                                                        //$reason .="<b>- ".$it['reason']."<br> ";
                                                     }
                                                 }
                                         ?>                                         

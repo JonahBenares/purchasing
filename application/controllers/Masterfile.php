@@ -103,8 +103,10 @@ class Masterfile extends CI_Controller {
                     'remind'=>'',
                 );
             }
+        
+        }
 
-            foreach($this->super_model->custom_query("SELECT quotation_date, vendor_id, rfq_no FROM rfq_head WHERE saved='1' AND cancelled = '0' AND completed = '0'") AS $rfq){
+            foreach($this->super_model->custom_query("SELECT quotation_date, vendor_id, rfq_no FROM rfq_head WHERE saved='1' AND cancelled = '0' AND completed = '0' GROUP BY rfq_id") AS $rfq){
 
                 $rfq_diff= $this-> dateDifference($current_date , $rfq->quotation_date , $differenceFormat = '%a' );
 
@@ -120,7 +122,6 @@ class Masterfile extends CI_Controller {
                     );
                 }
             }
-        }
         $this->load->view('masterfile/dashboard',$data);
         $this->load->view('template/footer');
     }
