@@ -210,9 +210,9 @@
 						<a href="<?php echo base_url(); ?>aoq/aoq_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
 						<!-- <input type='submit' class="btn btn-info btn-md p-l-100 p-r-100" value='Done'> -->
 						<!-- <a  onclick="printPage()" class="btn btn-info btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Export</a> -->
-						<?php if($saved==1 && $awarded==1){ ?>
-							<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
-							<a href="<?php echo base_url(); ?>aoq/export_aoq_prnt_four/<?php echo $aoq_id;?>" class="btn btn-primary btn-md p-l-100 p-r-100"><span class="fa fa-export"></span> Export</a>
+						<?php if($saved==1){ ?>
+							<!-- <a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a> -->
+							<a href="<?php echo base_url(); ?>aoq/export_aoq_prnt_four/<?php echo $aoq_id;?>" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-export"></span> Export</a>
 						<?php } ?>
 						<?php if($saved==0){ ?>
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save AOQ">
@@ -223,7 +223,7 @@
 					<p class="text-white p-l-250 p-r-250">Instructions: When printing ABSTRACT OF QUOTATION make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Landscape, <u>Paper Size</u>: A4 <u>Margin</u> : Custom (top: 0.11" , right:1.25", bottom: 0.11", left: 0.11") <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;width: 130%!important">    		  			
+	    	<div style="background: #fff;width: 130%!important" class = "<?php if($served==1){ echo 'served';} ?>">    		  			
 		    	<table class="table-bordesred" width="100%" style="background: #fff;border: 1px solid #000">
 		    		<tr>
 		    			<td width="3%"><br></td>
@@ -391,7 +391,7 @@
 		    			<input type='hidden' name='pr_details_id_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->pr_details_id; ?>'>
 		    			<input type='hidden' name='vendor_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $ven['vendor_id']; ?>'>
 		    			<?php $v++; }  ?>
-		    			<input type='hidden' name='vendor_count' value='<?php echo $v; ?>'>
+		    			<input type='text' name='vendor_count' value='<?php echo $v; ?>'>
 		    			<?php 
 		    				}else{ 
 		    				foreach($vendors AS $ven) {
@@ -563,7 +563,7 @@
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name="item_warranty<?php echo $q; ?>"></td>
-		    			<td colspan="2" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"</td>
+		    			<td colspan="2" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php 
 		    				$q++; } }else { 
 		    				foreach($vendors AS $ven) { 
@@ -580,7 +580,7 @@
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name="freight<?php echo $q;?>"></td>
-		    			<td colspan="2" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value=""></td>
+		    			<td colspan="2" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php 
 		    				$q++; } }else { 
 		    				foreach($vendors AS $ven) { 

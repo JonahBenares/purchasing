@@ -57,56 +57,57 @@
                                             <th>Department</th>
                                             <th>Enduse</th>
                                             <th>Requestor</th>
-                                            <th>Date Needed</th>
                                             <th>Status</th>
-                                            <th>Date Served</th>
-
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php 
-                                            if(!empty($header)){
-                                                foreach($header AS $head){ 
-                                                    if($head['served']==1){ 
-                                        ?>
+                                        <?php foreach($heads AS $h){ ?>
                                         <tr>
-                                            <td><?php echo date('F j, Y', strtotime($head['aoq_date'])); ?></td>
-                                            <td><?php echo $head['pr']; ?></td>
-                                            <td><?php echo $head['supplier']; ?></td>
-                                            <td><?php echo $head['department']; ?></td>
-                                            <td><?php echo $head['enduse']; ?></td>
-                                            <td><?php echo $head['requestor']; ?></td>
-                                            <td><?php echo date('F j, Y', strtotime($head['date_needed'])); ?></td>
+                                            <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
+                                            <td><?php echo $h['pr_no']; ?></td>
+                                            <td><?php echo $h['supplier']; ?></td>
+                                            <td><?php echo $h['department']; ?></td>
+                                            <td><?php echo $h['enduse']; ?></td>
+                                            <td><?php echo $h['requestor']; ?></td>
+                                            <?php if($h['refer_mnl']=='1') { ?>
+                                            <td><span class='label label-primary'> Refer To Manila </span></td>
+                                            <?php }else { ?>
                                             <td>
                                                 <?php  
-                                                    if($head['saved'] == '1' && $head['completed'] =='0') { 
-                                                        echo "Pending";
-                                                    } else if($head['saved'] == '1' && $head['completed'] =='1'){
-                                                        echo "Completed";
+                                                    if($h['saved'] == '1' && $h['awarded'] =='0') { 
+                                                        echo "<span class='label label-warning'> For TE </span>";
+                                                    } else if($h['saved'] == '1' && $h['awarded'] =='1'){
+                                                        echo "<span class='label label-success'>Awarded</span";
                                                     }
                                                 ?>
                                             </td>
-                                            <td><?php echo date('F j, Y', strtotime($head['date_served'])); ?></td>                                            
+                                            <?php } ?>
                                             <td>
                                                 <center>
-                                                    <?php if($head['rows']==3){ ?>
-                                                        <a href="<?php echo base_url(); ?>aoq/aoq_prnt/<?php echo $head['aoq_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" >
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                    <?php } else if($head['rows']==4){ ?>
-                                                        <a href="<?php echo base_url(); ?>aoq/aoq_prnt_four/<?php echo $head['aoq_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" >
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                    <?php } else if($head['rows']==5){ ?>
-                                                        <a href="<?php echo base_url(); ?>aoq/aoq_prnt_five/<?php echo $head['aoq_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" >
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
+                                                    <?php if($h['rows']<=3){ ?>
+                                                    <a href="<?php echo base_url(); ?>aoq/aoq_prnt/<?php echo $h['aoq_id'];?>" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } else if($h['rows']==4){ ?>
+                                                    <a href="<?php echo base_url(); ?>aoq/aoq_prnt_four/<?php echo $h['aoq_id'];?>" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } else if($h['rows']==5){ ?>
+                                                    <a href="<?php echo base_url(); ?>aoq/aoq_prnt_five/<?php echo $h['aoq_id'];?>" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } ?><!-- 
+                                                    <?php if($h['refer_mnl']=='0' && $h['saved'] == '1' && $h['awarded'] =='0') { ?>
+                                                    <a href="<?php echo base_url(); ?>aoq/refer_mnl/<?php echo $h['aoq_id'];?>" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL"><span class="fa fa-location-arrow"></span>
                                                     <?php } ?>
+                                                    </a>
+                                                    <a href="<?php echo base_url(); ?>aoq/update_served/<?php echo $h['aoq_id'];?>" class="btn btn-custon-three btn-success btn-xs"  onclick="return confirm('Are you sure?')" title="Served"><span class="fa fa-archive"></span>
+                                                    </a> -->
                                                 </center>
                                             </td>
-                                        </tr> 
-                                        <?php } } } ?>                      
+                                        </tr>  
+                                        <?php } ?>                      
                                     </tbody>
                                 </table>
 

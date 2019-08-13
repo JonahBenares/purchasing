@@ -44,26 +44,25 @@ class Rfq extends CI_Controller {
 
 	public function rfq_list(){
 
-        $head_count = $this->super_model->count_custom_where("rfq_head","served='0' AND cancelled = '0' ORDER BY rfq_date DESC");
+        //$head_count = $this->super_model->count_custom_where("rfq_head","served='0' AND cancelled = '0' ORDER BY rfq_date DESC");
+        $head_count = $this->super_model->count_custom_query("SELECT rh.* FROM rfq_head rh INNER JOIN pr_head pd ON rh.pr_id = pd.pr_id WHERE pd.cancelled='0' AND rh.served='0' AND rh.cancelled = '0'");
         if($head_count!=0){
-        //foreach($this->super_model->select_all_order_by("rfq_head", "rfq_date", "DESC") AS $head){
+            //foreach($this->super_model->select_custom_where("rfq_head", "served='0' AND cancelled = '0' ORDER BY rfq_date DESC") AS $head){
+            foreach($this->super_model->custom_query("SELECT rh.* FROM rfq_head rh INNER JOIN pr_head pd ON rh.pr_id = pd.pr_id WHERE pd.cancelled='0' AND rh.served='0' AND rh.cancelled = '0'") AS $head){
+                $data['head'][]= array(
+                    'rfq_id'=>$head->rfq_id,
+                    'rfq_no'=>$head->rfq_no,
+                    'pr_id'=>$head->pr_id,
+                    'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id),
+                    'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id),
+                    'rfq_date'=>$head->rfq_date,
+                    'notes'=>$head->notes,
+                    'completed'=>$head->completed
+                    
+                );
+            }
 
-        foreach($this->super_model->select_custom_where("rfq_head", "served='0' AND cancelled = '0' ORDER BY rfq_date DESC") AS $head){
-            $data['head'][]= array(
-                'rfq_id'=>$head->rfq_id,
-                'rfq_no'=>$head->rfq_no,
-                'pr_id'=>$head->pr_id,
-                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $head->pr_id),
-                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id),
-                'rfq_date'=>$head->rfq_date,
-                'notes'=>$head->notes,
-                'completed'=>$head->completed
-                
-            );
-        }
-
-
-         foreach($this->super_model->custom_query("SELECT rd.* FROM rfq_details rd INNER JOIN pr_details pd ON rd.pr_details_id = pd.pr_details_id WHERE pd.cancelled=0") AS $it){
+            foreach($this->super_model->custom_query("SELECT rd.* FROM rfq_details rd INNER JOIN pr_details pd ON rd.pr_details_id = pd.pr_details_id WHERE pd.cancelled=0") AS $it){
                 $data['items'][] = array(
                     'rfq_id'=>$it->rfq_id,
                     'item'=>$it->item_desc,
@@ -106,6 +105,8 @@ class Rfq extends CI_Controller {
             $data['prepared']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->prepared_by);
             $data['due']= $head->quotation_date;
             $data['saved']= $head->saved;
+            $data['cancelled']= $head->cancelled;
+            $data['served']= $head->served;
         }
 
         $data['items'] = $this->super_model->select_row_where('rfq_details', 'rfq_id', $rfq_id);

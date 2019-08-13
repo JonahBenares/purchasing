@@ -102,7 +102,7 @@
                                                     <a href="<?php echo base_url(); ?>aoq/refer_mnl/<?php echo $h['aoq_id'];?>" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL"><span class="fa fa-location-arrow"></span>
                                                     <?php } ?>
                                                     </a>
-                                                    <a href="<?php echo base_url(); ?>aoq/update_served/" class="btn btn-custon-three btn-success btn-xs"  onclick="return confirm('Are you sure?')" title="Served"><span class="fa fa-archive"></span>
+                                                    <a href="<?php echo base_url(); ?>aoq/update_served/<?php echo $h['aoq_id'];?>" class="btn btn-custon-three btn-success btn-xs"  onclick="return confirm('Are you sure?')" title="Served"><span class="fa fa-archive"></span>
                                                     </a>
                                                 </center>
                                             </td>
