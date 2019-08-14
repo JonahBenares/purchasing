@@ -119,7 +119,7 @@
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;"> <!-- add class cancel -->
+	    	<div style="background: #fff;" class="<?php if($cancelled==1){ echo 'cancel'; } ?>"> <!-- add class cancel -->
 		    	<table class="table-borddered" width="100%" style="border:1px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
