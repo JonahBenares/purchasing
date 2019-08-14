@@ -1130,7 +1130,7 @@ class Po extends CI_Controller {
             foreach($this->super_model->select_row_where("po_items", "po_id", $old_po) AS $item){
 
                 if($item->pr_id !=0){
-                   // foreach($this->super_model->select_row_where("po_pr",'po_pr_id',$item->pr_id) AS $p){
+                   // foreach($this->super_model->select_row_where("po_pr",'po_pr_id',$item->pr_id) AS $p){ 
                         $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $item->pr_id);
                     //}
                 } else {
@@ -1182,6 +1182,7 @@ class Po extends CI_Controller {
                 $item= $this->super_model->select_column_where('po_items', 'item_id', 'po_items_id', $this->input->post('po_items_id'.$x));
                 $offer= $this->super_model->select_column_where('po_items', 'offer', 'po_items_id', $this->input->post('po_items_id'.$x));
                 $price=$this->super_model->select_column_where('po_items', 'unit_price', 'po_items_id', $this->input->post('po_items_id'.$x));
+                $uom=$this->super_model->select_column_where('po_items', 'uom', 'po_items_id', $this->input->post('po_items_id'.$x));
                 $orig_po=$this->super_model->select_column_where('po_head', 'po_no', 'po_id', $source_po);
                 $amount=$quantity*$price;
                 $data =  array(
@@ -1190,6 +1191,7 @@ class Po extends CI_Controller {
                     'offer'=>$offer,
                     'quantity'=>$quantity,
                     'unit_price'=>$price,
+                    'uom'=>$uom,
                     'amount'=>$amount,
                     'item_no'=>$item_no,
                     'source_poid'=>$source_po,
@@ -1503,7 +1505,7 @@ class Po extends CI_Controller {
          );
 
           if($this->super_model->update_where("po_head", $data, "po_id", $po_id)){
-            redirect(base_url().'po/po_list/', refresh);
+            redirect(base_url().'po/po_list/', 'refresh');
         }
     }
 
