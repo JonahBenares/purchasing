@@ -980,6 +980,7 @@ class Po extends CI_Controller {
         $approved_id = $this->super_model->select_column_where('po_head', 'approved_by', 'po_id', $po_id);
         $data['approved_id'] = $approved_id;
         $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $approved_id );
+        $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         foreach($this->super_model->select_row_where("po_head", "po_id", $po_id) AS $head){
             
             $data['head'][]=array(
@@ -1024,11 +1025,28 @@ class Po extends CI_Controller {
                 'purpose'=>$popr->purpose,
                 'notes'=>$popr->notes,
             );
-        }
 
+            $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+        }
+        $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
         $this->load->view('template/header');        
         $this->load->view('po/reporder_prnt',$data);
         $this->load->view('template/footer');
+    }
+
+    public function add_tc_reporder(){
+        $po_id = $this->input->post('po_id');
+        $data = array(
+            'po_id'=>$this->input->post('po_id'),
+            'tc_desc'=>$this->input->post('tc_desc'),
+        );
+        if($this->super_model->insert_into("po_tc", $data)){
+            redirect(base_url().'po/reporder_prnt/'.$po_id, 'refresh');
+        }
     }
 
     public function add_purpose(){
