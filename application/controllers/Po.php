@@ -205,7 +205,20 @@ class Po extends CI_Controller {
         }
 
 
+            $rows_series = $this->super_model->count_rows("po_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("po_series", "series");
+            $series = $max+1;
+        }
 
+        $po_no = 'RPO-'.$series;
+
+           $data_series = array(
+                'series'=>$series
+            );
+            $this->super_model->insert_into("po_series", $data_series);
      /*   $head_rows = $this->super_model->count_rows("po_head");
         if($head_rows==0){
             $po_no = 1000;
@@ -218,7 +231,7 @@ class Po extends CI_Controller {
         $data = array(
             'po_id'=>$po_id,
             'po_date'=>$this->input->post('po_date'),
-            'po_no'=>$this->input->post('po_no'),
+            'po_no'=>$po_no,
             'notes'=>$this->input->post('notes'),
             'vendor_id'=>$this->input->post('supplier'),
             'user_id'=>$_SESSION['user_id'],
@@ -1117,9 +1130,9 @@ class Po extends CI_Controller {
             foreach($this->super_model->select_row_where("po_items", "po_id", $old_po) AS $item){
 
                 if($item->pr_id !=0){
-                    foreach($this->super_model->select_row_where("po_pr",'po_pr_id',$item->pr_id) AS $p){
-                        $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $p->pr_id);
-                    }
+                   // foreach($this->super_model->select_row_where("po_pr",'po_pr_id',$item->pr_id) AS $p){
+                        $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $item->pr_id);
+                    //}
                 } else {
                     $pr_no = '';
                 }

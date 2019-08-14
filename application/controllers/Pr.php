@@ -118,7 +118,7 @@ class Pr extends CI_Controller {
                 $error_ext++;
             } 
             else {
-                 $filename1='Purchase Request.'.$ext1;
+                 $filename1='PurchaseRequest.'.$ext1;
                 if(move_uploaded_file($_FILES["excelfile_pr"]['tmp_name'], $dest.'/'.$filename1)){
                     $this->readExcel_pr();
                 }   
@@ -129,7 +129,7 @@ class Pr extends CI_Controller {
     public function readExcel_pr(){
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
-        $inputFileName =realpath(APPPATH.'../uploads/excel/PurchaseRequestForm.xlsx');
+        $inputFileName =realpath(APPPATH.'../uploads/excel/PurchaseRequest.xlsx');
         try {
             $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
             $objReader = PHPExcel_IOFactory::createReader($inputFileType);

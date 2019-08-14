@@ -81,10 +81,10 @@
                             <p class="m-b-0">Date:</p>
                             <input type="date" name="po_date" class="form-control">
                         </div>
-                        <div class="form-group">
+                      <!--   <div class="form-group">
                             <p class="m-b-0">PO NO:</p>
                             <input type="text" name="po_no" class="form-control" autocomplete="off">
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
                             <select name="supplier" id='supplierrep' onchange="chooseSupplierrep()" class="form-control">
@@ -113,7 +113,7 @@
                         <center>
                            
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Proceed">
-                            <a href="<?php echo base_url(); ?>index.php/po/reporder_prnt" class="dropdown-item">Repeat Order</a>
+                           <!--  <a href="<?php echo base_url(); ?>index.php/po/reporder_prnt" class="dropdown-item">Repeat Order</a> -->
                         </center>
                     </div>
                     <input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
