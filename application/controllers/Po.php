@@ -1466,7 +1466,7 @@ class Po extends CI_Controller {
 
           foreach($this->super_model->select_row_where("po_items_temp","po_id",$po_id) AS $poitems){
             $data_items = array(
-                "po_items_id"=>$poitems->po_items_id,
+           
                 "pr_id"=>$poitems->pr_id,
                 "po_id"=>$poitems->po_id,
                 "aoq_offer_id"=>$poitems->aoq_offer_id,
