@@ -50,8 +50,8 @@
 		}
 		.newdata{
 			background-image: url('<?php echo base_url(); ?>assets/img/newdata.png')!important;
-			background-position: center;
-			background-repeat: no-repeat;
+			background-position: center!important;
+			background-repeat: no-repeat!important;
 		}
 		.green-back{
 			background-image: url('<?php echo base_url(); ?>assets/img/green.png')!important;
@@ -78,8 +78,8 @@
 			}
 			.newdata{
 				background-image: url('<?php echo base_url(); ?>assets/img/newdata.png')!important;
-				background-position: center;
-				background-repeat: no-repeat;
+				background-position: center!important;
+				background-repeat: no-repeat!important;
 			}
 		}
 		.text-white{

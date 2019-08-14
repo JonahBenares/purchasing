@@ -391,7 +391,7 @@
 		    			<input type='hidden' name='pr_details_id_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->pr_details_id; ?>'>
 		    			<input type='hidden' name='vendor_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $ven['vendor_id']; ?>'>
 		    			<?php $v++; }  ?>
-		    			<input type='text' name='vendor_count' value='<?php echo $v; ?>'>
+		    			<input type='hidden' name='vendor_count' value='<?php echo $v; ?>'>
 		    			<?php 
 		    				}else{ 
 		    				foreach($vendors AS $ven) {

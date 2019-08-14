@@ -69,6 +69,10 @@
 	        	background-size: contain!important;
 	        	background-position: center center!important;
 	        }
+	        .all-border
+	        {
+			    border: 1px solid #000!important;
+			}
 		}
 		.text-white{
 			color: #fff;
@@ -103,7 +107,7 @@
 				</center>
 			</div>
 	    	<div style="background: #fff;"> <!-- add class cancel -->
-		    	<table class="table-bordsered" width="100%" style="border:0px solid #000">
+		    	<table class="table-bordsered" width="100%" style="border:1px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
