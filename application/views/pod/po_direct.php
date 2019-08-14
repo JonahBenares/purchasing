@@ -305,10 +305,9 @@
 		    				<br>Terms & Conditions:<br>
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
-		    				4. Payment term: COD<br>	
+		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>	
 		    				<?php 
-		    					$no=5;
+		    					$no=4;
 			    				foreach($tc AS $t){ 
 			    					echo $no.". " . $t->tc_desc."<br>";
 			    					$no++; 

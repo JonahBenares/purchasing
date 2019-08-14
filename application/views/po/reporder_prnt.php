@@ -394,12 +394,24 @@
 				   
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				Terms & Conditions:<br>
+		    				<?php if($saved==0){ ?>
+		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#terms">
+							 Add Terms & Conditions:
+							</button>
+							<?php } ?>
+							<br>Terms & Conditions:<br>
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
-		    				4. Payment term: COD<br>
-		    				5. Delivery Term: Exstock of Supplier.
+		    				<?php 
+		    					$no=4;
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->tc_desc)){
+			    						echo $no.". " . $t->tc_desc."<br>";
+			    						$no++; 
+			    					}
+		    					} 
+		    				?>
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
@@ -453,6 +465,32 @@
 		    	</table>	    
 	    	</div>
     	</form>
+    	<div class="modal fade" id="terms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Terms & Conditions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>po/add_tc_reporder">
+						<div class="modal-body">
+							<div class="form-group">
+								Terms & Conditions:
+								<input type="text" class="form-control" name="tc_desc" autocomplete="off">
+							</div>
+						</div>
+						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
     </div>
     <script type="text/javascript">
     	function printPage() {
