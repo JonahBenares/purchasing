@@ -135,7 +135,7 @@
                                                     $total = $p['qty']*$p['unit_price'];
                                         ?>                                     
                                         <tr>
-                                            <td><?php echo $p['pr_no'];?></td>
+                                            <td><?php echo $p['po_id'] . '-'.$p['pr_no'];?></td>
                                             <td><?php echo $p['purpose'];?></td>
                                             <td><?php echo $p['enduse'];?></td>
                                             <td><?php echo $p['po_date'];?></td>

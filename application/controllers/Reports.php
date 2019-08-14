@@ -92,8 +92,8 @@ class Reports extends CI_Controller {
                 if($cancelled_items==1){
                     $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr->pr_details_id);
                     $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr->pr_details_id);
-                    $status = 'Cancelled';
-                    $status_remarks = $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));
+                    $status = "<span style='color:red'>Cancelled</span>";
+                    $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
                 } else {
 
                     $count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
@@ -283,8 +283,10 @@ class Reports extends CI_Controller {
                 if($cancelled_items==1){
                     $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr->pr_details_id);
                     $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr->pr_details_id);
-                    $status = 'Cancelled';
-                    $status_remarks = $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));
+                   /* $status = 'Cancelled';
+                    $status_remarks = $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));*/
+                    $status = "<span style='color:red'>Cancelled</span>";
+                    $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
                 } else {
 
                     $count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
@@ -679,7 +681,7 @@ class Reports extends CI_Controller {
         $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
         $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
         $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
-        foreach($this->super_model->select_custom_where("po_head","po_date LIKE '%$po_date%'") AS $p){
+        foreach($this->super_model->select_custom_where("po_head","po_date LIKE '%$po_date%' GROUP BY po_id") AS $p){
             $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
             $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
 
@@ -692,10 +694,10 @@ class Reports extends CI_Controller {
                             $item=$it->item_name." - ".$it->item_specs;
                         }
                     }else {
-                        foreach($this->super_model->select_row_where('aoq_items','pr_details_id',$i->pr_details_id) AS $it){
+                        //foreach($this->super_model->select_row_where('aoq_items','pr_details_id',$i->pr_details_id) AS $it){
                             //$uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
-                            $item=$it->item_description;
-                        }
+                            $item=$i->offer;
+                       // }
                     }
 
                

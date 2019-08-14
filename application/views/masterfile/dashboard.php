@@ -236,6 +236,7 @@
                                 <table id="table" data-toggle="table" data-pagination="true" data-search="true"  data-show-pagination-switch="true"  data-cookie="true"  data-show-export="true" data-toolbar="#toolbar" data-resizable="true">
                                     <thead>
                                         <tr>
+                                            <th rowspan="2" data-field="prdate" >PR Date</th>
                                             <th rowspan="2" data-field="prno" >PR No</th>
                                             <th rowspan="2" data-field="item" >Item Description</th>
                                             <th colspan="2" data-field="rfq" >RFQ</th>
@@ -259,6 +260,7 @@
 
                                         if($pr['po']==0){ ?>
                                         <tr>
+                                            <td><?php echo date('m.d.Y', strtotime($pr['pr_date'])); ?></td>
                                             <td><?php echo $pr['pr_no']; ?></td>
                                             <td><span style="color:blue"><?php echo $pr['item']; ?></span></td>
                                             <td class="datatable-ct"><?php echo (($pr['rfq_outgoing']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
