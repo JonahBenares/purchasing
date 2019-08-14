@@ -837,7 +837,7 @@ class Po extends CI_Controller {
         $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
         $user_id= $this->super_model->select_column_where("po_head", "user_id", "po_id", $po_id);
         $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
-
+        $data['cancelled']=$this->super_model->select_column_where("po_head", "cancelled", "po_id", $po_id);
         foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
              $itemno='';
             foreach($this->super_model->select_custom_where("po_items", "pr_id= '$pr->pr_id' AND po_id='$po_id'") AS $it){
@@ -881,7 +881,7 @@ class Po extends CI_Controller {
         $data['ewt']= $this->super_model->select_column_where("vendor_head", "ewt", "vendor_id", $vendor_id);
         $data['vat']= $this->super_model->select_column_where("vendor_head", "vat", "vendor_id", $vendor_id);
         $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
-
+        $data['cancelled']=$this->super_model->select_column_where("po_head", "cancelled", "po_id", $po_id);
         foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
             $total = $items->unit_price*$items->quantity;
             if(!empty($items->offer)){
