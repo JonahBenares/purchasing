@@ -116,15 +116,32 @@ class Masterfile extends CI_Controller {
             $po_qty = $this->super_model->select_sum_join("quantity","po_head","po_items", "po_head.cancelled='0' AND po_items.pr_id = '$pr->pr_id' AND po_items.pr_details_id = '$pr->pr_details_id'","po_id");
 
 
-            if(($po==0 && $diff<=7) || ($po_qty !=$pr->quantity && $diff<=7) ){
+            if(($po==0 && ($diff>=1 && $diff<=7)) || ($po_qty !=$pr->quantity && ($diff>=1 && $diff<=7)) ){
                 if($po_qty !=$pr->quantity){
                     $bal = $pr->quantity-$po_qty;
                     $rem = 'Unserved: '.$bal;
                 }
-                $reminder = 'PR No.: '. $pr->pr_no. " - " . $pr->item_description . ", ".$rem;
+                $reminder = 'Process PO for PR No.: '. $pr->pr_no. " - " . $pr->item_description . ", ".$rem;
                 $due = date('M j, Y', strtotime($pr->date_needed));
                 $data['reminder'][]=array(
                     'reminder_id'=>'',
+                    'notes'=>$reminder,
+                    'due_date'=>$due,
+                    'done'=>'',
+                    'remind'=>'',
+                );
+            }
+
+
+            if(($po==0 && $diff<=0) || ($po_qty !=$pr->quantity && $diff<=0) ){
+                if($po_qty !=$pr->quantity){
+                    $bal = $pr->quantity-$po_qty;
+                    $rem = 'Unserved: '.$bal;
+                }
+                $reminder = 'Process PO for PR No.: '. $pr->pr_no. " - " . $pr->item_description . ", ".$rem;
+                $due = date('M j, Y', strtotime($pr->date_needed));
+                $data['todo'][]=array(
+                    'todo_id'=>'',
                     'notes'=>$reminder,
                     'due_date'=>$due,
                     'done'=>'',
@@ -138,11 +155,23 @@ class Masterfile extends CI_Controller {
 
                 $rfq_diff= $this-> dateDifference($current_date , $rfq->quotation_date , $differenceFormat = '%a' );
 
-                if($po==0 && $rfq_diff<=3){
-                    $reminder = 'RFQ No.: '. $rfq->rfq_no. " - " . $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$rfq->vendor_id);
+                if($po==0 && ($rfq_diff>=1 && $rfq_diff<=7)){
+                    $reminder = 'Follow up RFQ No. '. $rfq->rfq_no. " with " . $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$rfq->vendor_id);
                     $due = date('M j, Y', strtotime($rfq->quotation_date));
                     $data['reminder'][]=array(
                         'reminder_id'=>'',
+                        'notes'=>$reminder,
+                        'due_date'=>$due,
+                        'done'=>'',
+                        'remind'=>'',
+                    );
+                }
+
+                 if($po==0 && $rfq_diff<=0){
+                    $reminder = 'Follow up RFQ No. '. $rfq->rfq_no. " with " . $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$rfq->vendor_id);
+                    $due = date('M j, Y', strtotime($rfq->quotation_date));
+                    $data['todo'][]=array(
+                        'todo_id'=>'',
                         'notes'=>$reminder,
                         'due_date'=>$due,
                         'done'=>'',

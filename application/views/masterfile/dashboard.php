@@ -103,8 +103,8 @@
                                             </div>
                                             <?php } ?>
                                             <div class="col-lg-11">
-                                                <h4 class="nomarg"><?php echo $t['notes'];?>                                    
-                                                </h4>
+                                                <h5 class="nomarg"><?php echo $t['notes'];?>                                    
+                                                </h5>
                                                 <p class=""><span style="background-color: #b94526; padding:0px 10px"><?php echo date("F d, Y",strtotime($t['due_date']));?>  </span> | <small><?php echo $t['remind'];?></p>
                                             </div>
                                         </div>
@@ -124,7 +124,7 @@
                         <div class="dash-adminpro-project-title">
                             <h2 class="m-b-0" >
                                 <b>
-                                    <span>Reminder</span>
+                                    <span>Reminders for this Week</span>
                                     <button type="button" class="btn btn-primary btn-xs pull-right btn-custon-three" data-toggle="modal" data-target="#remindermowdal">
                                         <span class="fa fa-plus"></span>
                                     </button>
@@ -163,14 +163,13 @@
                         <div style="overflow-y: scroll;height: 200px;max-height: 200px  ">
                             <!-- loop here -->
                             <?php 
-                            function sortByOrder($a, $b) {
-                                return $a['due_date'] - $b['due_date'];
-                            }
-
+                        
                          
 
                             if(!empty($reminder)){
-                                usort($reminder, 'sortByOrder');
+                                $columns = array_column($reminder, 'due_date');
+                                $a = array_multisort($columns, SORT_ASC, $reminder);
+                               
                                 foreach($reminder AS $r){ 
                                     if($r['done']==0){ 
                             
@@ -185,8 +184,8 @@
                                             </div>
                                             <?php } ?>
                                             <div class="col-lg-11">
-                                                <h4 class="nomarg"><?php echo $r['notes'];?>                                       
-                                                </h4>
+                                                <h5 class="nomarg"><?php echo $r['notes'];?>                                       
+                                                </h5>
                                                 <p class=""><span style="background-color: #4848e6; padding:0px 10px"><?php echo date("F d, Y",strtotime($r['due_date']));?>  </span> | <small><?php echo $r['remind'];?></small></p>
                                             </div>
                                         </div>
