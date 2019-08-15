@@ -57,7 +57,7 @@ class Masterfile extends CI_Controller {
         }
 
 
-        foreach($this->super_model->custom_query("SELECT ph.date_prepared, ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND ph.cancelled = '0'") AS $pr){
+        foreach($this->super_model->custom_query("SELECT ph.date_prepared, ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id, pd.quantity FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND ph.cancelled = '0'") AS $pr){
 
             $rfq_outgoing = $this->super_model->count_join_where("rfq_head","rfq_details", "rfq_head.pr_id = '$pr->pr_id' AND rfq_details.pr_details_id = '$pr->pr_details_id'","rfq_id");
 
@@ -70,6 +70,9 @@ class Masterfile extends CI_Controller {
 
             $po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND pi.pr_details_id = '$pr->pr_details_id'");
 
+            $po_qty = $this->super_model->select_sum_join("quantity","po_head","po_items", "po_head.cancelled='0' AND po_items.pr_id = '$pr->pr_id' AND po_items.pr_details_id = '$pr->pr_details_id'","po_id");
+
+            $balance = $pr->quantity - $po_qty;
 
             $data['pendingpr'][]= array(
                 'pr_date'=>$pr->date_prepared,
@@ -79,22 +82,28 @@ class Masterfile extends CI_Controller {
                 'rfq_incoming'=>$rfq_incoming,
                 'for_te'=>$for_te,
                 'te_done'=>$te_done,
-                'po'=>$po
+                'po'=>$po,
+                'balance'=>$balance
             );
         }
 
 
-        foreach($this->super_model->custom_query("SELECT ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id, pd.date_needed FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND ph.cancelled = '0'") AS $pr){
+        foreach($this->super_model->custom_query("SELECT ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id, pd.date_needed, pd.quantity FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND ph.cancelled = '0'") AS $pr){
 
             $current_date= date('Y-m-d');
             $diff= $this-> dateDifference($current_date , $pr->date_needed , $differenceFormat = '%a' );
 
             $po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND pi.pr_details_id = '$pr->pr_details_id'");
 
+            $po_qty = $this->super_model->select_sum_join("quantity","po_head","po_items", "po_head.cancelled='0' AND po_items.pr_id = '$pr->pr_id' AND po_items.pr_details_id = '$pr->pr_details_id'","po_id");
 
 
-            if($po==0 && $diff<=7){
-                $reminder = 'PR No.: '. $pr->pr_no. " - " . $pr->item_description;
+            if(($po==0 && $diff<=7) || ($po_qty !=$pr->quantity && $diff<=7) ){
+                if($po_qty !=$pr->quantity){
+                    $bal = $pr->quantity-$po_qty;
+                    $rem = 'Unserved: '.$bal;
+                }
+                $reminder = 'PR No.: '. $pr->pr_no. " - " . $pr->item_description . ", ".$rem;
                 $due = date('M j, Y', strtotime($pr->date_needed));
                 $data['reminder'][]=array(
                     'reminder_id'=>'',

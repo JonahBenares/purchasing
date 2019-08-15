@@ -396,6 +396,8 @@ class Po extends CI_Controller {
           //  $revise = $this->super_model->select_column_where("po_head",'revised','po_id',$po_id);
             $saved = $this->super_model->select_column_where("po_head",'saved','po_id',$po_id);
             if($qty!=0){
+                $price = str_replace(",", "", $this->input->post('price'.$x));
+                $amount = str_replace(",", "", $this->input->post('tprice'.$x));
                 $data=array(
                     'pr_id'=>$this->super_model->select_column_where('aoq_head', 'pr_id', 'aoq_id', $this->input->post('aoq_id'.$x)),
                     'po_id'=>$po_id,
@@ -405,8 +407,8 @@ class Po extends CI_Controller {
                     'offer'=>$this->input->post('offer'.$x),
                     'quantity'=>$qty,
                     'uom'=>$this->input->post('uom'.$x),
-                    'unit_price'=>$this->input->post('price'.$x),
-                    'amount'=>$this->input->post('tprice'.$x),
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
                     'item_no'=>$a
                 );
 
@@ -506,6 +508,8 @@ class Po extends CI_Controller {
         }
 
         foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $poitems){
+             
+
             $data_items = array(
                 "po_items_id"=>$poitems->po_items_id,
                 "pr_id"=>$poitems->pr_id,
@@ -1356,6 +1360,8 @@ class Po extends CI_Controller {
 
           foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $poitems){
             if($this->input->post('quantity'.$x)!=0){
+                $price = str_replace(",", "", $this->input->post('price'.$x));
+                $amount = str_replace(",", "", $this->input->post('tprice'.$x));
             $data_items = array(
                 "po_items_id"=>$poitems->po_items_id,
                 "pr_id"=>$poitems->pr_id,
@@ -1366,9 +1372,9 @@ class Po extends CI_Controller {
                 "offer"=>$this->input->post('offer'.$x),
                 "item_id"=>$poitems->item_id,
                 "quantity"=>$this->input->post('quantity'.$x),
-                "unit_price"=>$this->input->post('price'.$x),
+                "unit_price"=>$price,
                 "uom"=>$poitems->uom,
-                "amount"=>$this->input->post('tprice'.$x),
+                "amount"=>$amount,
                 "item_no"=>$poitems->item_no,
                /* "revision_no"=>$revision_no*/
             );

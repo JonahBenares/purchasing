@@ -232,7 +232,7 @@
 		    		<?php
 		    		$x=1; 
 		    		foreach($items AS $it){ 
-		    			$gtotal[] = $it->unit_price * $it->amount; ?>
+		    			$gtotal[] = $it->amount; ?>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo number_format($it->quantity); ?></b></td>

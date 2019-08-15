@@ -173,8 +173,14 @@
                         <div style="overflow-y: scroll;height: 200px;max-height: 200px  ">
                             <!-- loop here -->
                             <?php 
+                            function sortByOrder($a, $b) {
+                                return $a['due_date'] - $b['due_date'];
+                            }
+
+                         
 
                             if(!empty($reminder)){
+                                usort($reminder, 'sortByOrder');
                                 foreach($reminder AS $r){ 
                                     if($r['done']==0){ 
                             
@@ -242,8 +248,7 @@
                                             <th colspan="2" data-field="rfq" >RFQ</th>
                                             <th colspan="2" data-field="aoq" >AOQ</th>
                                             <th rowspan="2" data-field="po" >PO</th>
-                                            <th rowspan="2" data-field="status" >Status</th>
-                                            <th rowspan="2" data-field="action" >Action</th>
+                                            <th rowspan="2" data-field="status" >Remarks</th>
                                         </tr>
                                         <tr>
                                             <th width="20%">Outgoing</th>
@@ -258,7 +263,12 @@
                                          foreach($pendingpr AS $pr){
                                         
 
-                                        if($pr['po']==0){ ?>
+                                        if($pr['po']==0 || $pr['balance']!=0){ 
+                                                if($pr['balance']!=0){
+                                                    $status = 'Unserved: '.$pr['balance'];
+                                                } else {
+                                                    $status='';
+                                                } ?>
                                         <tr>
                                             <td><?php echo date('m.d.Y', strtotime($pr['pr_date'])); ?></td>
                                             <td><?php echo $pr['pr_no']; ?></td>
@@ -268,8 +278,7 @@
                                             <td class="datatable-ct"><?php echo (($pr['for_te']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><?php echo (($pr['te_done']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><?php echo (($pr['po']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
-                                            <td class="datatable-ct"></td>
-                                            <td class="datatable-ct"></td>
+                                            <td class="datatable-ct"><?php echo $status; ?></td>
                                         </tr>
                                     <?php } 
                                     }
