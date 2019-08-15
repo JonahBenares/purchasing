@@ -93,10 +93,10 @@ class Reports extends CI_Controller {
                         $status_remarks = '';
                     } else {
                         $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
-                        $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
+                        $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
 
                         $status = 'Fully Delivered';
-                        $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Delivered DR# ".$dr_no;
+                        $status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Delivered DR# ".$dr_no;
                     }
                 }
             } else {

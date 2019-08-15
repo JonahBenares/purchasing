@@ -111,10 +111,10 @@ class Po extends CI_Controller {
     }
 
     public function serve_po(){
-        $poid=$this->uri->segment(3);
+        $poid=$this->input->post('po_id');
         $data = array(
             'served'=>1,
-            'date_served'=>date('Y-m-d H:i:s'),
+            'date_served'=>$this->input->post('date_delivered'),
             'served_by'=>$_SESSION['user_id']
         );
         if($this->super_model->update_where("po_head", $data, "po_id", $poid)){
@@ -1261,7 +1261,7 @@ class Po extends CI_Controller {
              $pr='';
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
                 $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
-                $pr .= "-".$pr_no."<br>";
+                $pr .= $pr_no."<br>";
             }
             $data['header'][]=array(
                 'po_id'=>$head->po_id,
@@ -1272,6 +1272,8 @@ class Po extends CI_Controller {
                 'saved'=>$head->saved,
                 'pr'=>$pr,
                 'rfd'=>$rfd,
+                'date_served'=>$head->date_served,
+                'po_type'=>$head->po_type
             );
         }  
         $this->load->view('po/served_po',$data);

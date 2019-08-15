@@ -18,7 +18,7 @@
                                     <li><a href="<?php echo base_url(); ?>index.php/masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
                                     </li>
                                     <li><a href="<?php echo base_url(); ?>index.php/po/po_list">PO List </a> <span class="bread-slash">/</span></li>
-                                    <li><span class="bread-blod">SERVED PO List</span></li>
+                                    <li><span class="bread-blod">Delivered PO List</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                     <div class="sparkline8-list shadow-reset">
                         <div class="sparkline8-hd" style="background: #48ce66">
                             <div class="main-sparkline8-hd">
-                                <h1 class="text-white">Served PO List</h1>
+                                <h1 class="text-white">Delivered PO List</h1>
                                 <small class="text-white">PURCHASE ORDER</small>
                                 <div class="sparkline8-outline-icon">
                                     <h2><span class="fa fa-check"></span></h2>
@@ -52,8 +52,8 @@
                                             <th>PO #</th>
                                             <th>Supplier</th>
                                             <th>PR #</th>
-                                            <th>Status</th>
                                             <th>Mode of Purchase</th>
+                                            <th>Date Delivered</th>
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
@@ -68,8 +68,17 @@
                                             <!-- <td><a class="btn-link txt-primary" onclick="viewHistory()"></a></td> -->
                                             <td><?php echo $head['supplier']; ?></td>
                                             <td><?php echo $head['pr']; ?></td>
-                                            <td><?php //echo (($head['rfd']==0) ? '<span class="label label-warning">Pending RFD</span>' : ''); ?></td>
-                                            <td><!-- Repeat Order Purchase Request --></td>
+                                            <td><?php
+                                                    if($head['po_type']==0){
+                                                        echo "Purchase Request";
+                                                    } else if($head['po_type']==1){
+                                                        echo "Direct Purchase";
+                                                    } else if($head['po_type']==2){
+                                                        echo "Repeat Order";
+                                                    }
+                                                ?></td>
+                                            <td><?php echo date('Y-m-d', strtotime($head['date_served'])); ?></td>
+                                            
                                             <td>
                                                 <center>
                                                   
