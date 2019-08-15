@@ -281,7 +281,7 @@
                                                 if($head['revised']==1) {
                                                     echo '<span class="label label-warning">Request for Revision</span>';
                                                 } else {
-                                                    echo (($head['rfd']==0) ? '<span class="label label-warning">Pending RFD</span>' : '<span class="label label-success">Completed</span>'); 
+                                                    echo (($head['served']==0) ? '<span class="label label-warning">PO Issued</span>' : '<span class="label label-success">Delivered</span>'); 
                                                     } ?></td>
                                                 <td><?php
                                                     if($head['po_type']==0){

@@ -102,7 +102,8 @@ class Po extends CI_Controller {
                 'rfd'=>$rfd,
                 'po_type'=>$head->po_type,
                 'revised'=>$head->revised,
-                'revision_no'=>$head->revision_no
+                'revision_no'=>$head->revision_no,
+                'served'=>$head->served
             );
         }        
         $this->load->view('po/po_list',$data);
