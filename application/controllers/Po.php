@@ -102,7 +102,8 @@ class Po extends CI_Controller {
                 'rfd'=>$rfd,
                 'po_type'=>$head->po_type,
                 'revised'=>$head->revised,
-                'revision_no'=>$head->revision_no
+                'revision_no'=>$head->revision_no,
+                'served'=>$head->served
             );
         }        
         $this->load->view('po/po_list',$data);
@@ -393,6 +394,8 @@ class Po extends CI_Controller {
           //  $revise = $this->super_model->select_column_where("po_head",'revised','po_id',$po_id);
             $saved = $this->super_model->select_column_where("po_head",'saved','po_id',$po_id);
             if($qty!=0){
+                $price = str_replace(",", "", $this->input->post('price'.$x));
+                $amount = str_replace(",", "", $this->input->post('tprice'.$x));
                 $data=array(
                     'pr_id'=>$this->super_model->select_column_where('aoq_head', 'pr_id', 'aoq_id', $this->input->post('aoq_id'.$x)),
                     'po_id'=>$po_id,
@@ -402,8 +405,8 @@ class Po extends CI_Controller {
                     'offer'=>$this->input->post('offer'.$x),
                     'quantity'=>$qty,
                     'uom'=>$this->input->post('uom'.$x),
-                    'unit_price'=>$this->input->post('price'.$x),
-                    'amount'=>$this->input->post('tprice'.$x),
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
                     'item_no'=>$a
                 );
 
@@ -503,6 +506,8 @@ class Po extends CI_Controller {
         }
 
         foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $poitems){
+             
+
             $data_items = array(
                 "po_items_id"=>$poitems->po_items_id,
                 "pr_id"=>$poitems->pr_id,
@@ -1145,7 +1150,7 @@ class Po extends CI_Controller {
             foreach($this->super_model->select_row_where("po_items", "po_id", $old_po) AS $item){
 
                 if($item->pr_id !=0){
-                   // foreach($this->super_model->select_row_where("po_pr",'po_pr_id',$item->pr_id) AS $p){
+                   // foreach($this->super_model->select_row_where("po_pr",'po_pr_id',$item->pr_id) AS $p){ 
                         $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $item->pr_id);
                     //}
                 } else {
@@ -1197,6 +1202,7 @@ class Po extends CI_Controller {
                 $item= $this->super_model->select_column_where('po_items', 'item_id', 'po_items_id', $this->input->post('po_items_id'.$x));
                 $offer= $this->super_model->select_column_where('po_items', 'offer', 'po_items_id', $this->input->post('po_items_id'.$x));
                 $price=$this->super_model->select_column_where('po_items', 'unit_price', 'po_items_id', $this->input->post('po_items_id'.$x));
+                $uom=$this->super_model->select_column_where('po_items', 'uom', 'po_items_id', $this->input->post('po_items_id'.$x));
                 $orig_po=$this->super_model->select_column_where('po_head', 'po_no', 'po_id', $source_po);
                 $amount=$quantity*$price;
                 $data =  array(
@@ -1205,6 +1211,7 @@ class Po extends CI_Controller {
                     'offer'=>$offer,
                     'quantity'=>$quantity,
                     'unit_price'=>$price,
+                    'uom'=>$uom,
                     'amount'=>$amount,
                     'item_no'=>$item_no,
                     'source_poid'=>$source_po,
@@ -1351,6 +1358,8 @@ class Po extends CI_Controller {
 
           foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $poitems){
             if($this->input->post('quantity'.$x)!=0){
+                $price = str_replace(",", "", $this->input->post('price'.$x));
+                $amount = str_replace(",", "", $this->input->post('tprice'.$x));
             $data_items = array(
                 "po_items_id"=>$poitems->po_items_id,
                 "pr_id"=>$poitems->pr_id,
@@ -1361,9 +1370,9 @@ class Po extends CI_Controller {
                 "offer"=>$this->input->post('offer'.$x),
                 "item_id"=>$poitems->item_id,
                 "quantity"=>$this->input->post('quantity'.$x),
-                "unit_price"=>$this->input->post('price'.$x),
+                "unit_price"=>$price,
                 "uom"=>$poitems->uom,
-                "amount"=>$this->input->post('tprice'.$x),
+                "amount"=>$amount,
                 "item_no"=>$poitems->item_no,
                /* "revision_no"=>$revision_no*/
             );
@@ -1461,7 +1470,7 @@ class Po extends CI_Controller {
 
           foreach($this->super_model->select_row_where("po_items_temp","po_id",$po_id) AS $poitems){
             $data_items = array(
-                "po_items_id"=>$poitems->po_items_id,
+           
                 "pr_id"=>$poitems->pr_id,
                 "po_id"=>$poitems->po_id,
                 "aoq_offer_id"=>$poitems->aoq_offer_id,
@@ -1518,7 +1527,7 @@ class Po extends CI_Controller {
          );
 
           if($this->super_model->update_where("po_head", $data, "po_id", $po_id)){
-            redirect(base_url().'po/po_list/', refresh);
+            redirect(base_url().'po/po_list/', 'refresh');
         }
     }
 

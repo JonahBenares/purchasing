@@ -37,99 +37,73 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- pr and for te -->
-                <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
-                    <div class="income-dashone-total user-monthly shadow-reset nt-mg-b-30">
-                        <div class="income-title">
-                            <div class="main-income-head">
-                                <h2>PR</h2>
-                                <div class="main-income-phara low-value-cl">
-                                    <p>Pending</p>
+                <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 ">
+                    <div class="dashone-adminprowrap shadow-reset mg-b-30 pulse" style="height: 285px;max-height: 285px " >
+                        <div class="dash-adminpro-project-title">
+                            <h2 class="m-b-0" >
+                                <b>
+                                    <span>Things-To-Do Today</span>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right btn-custon-three" data-toggle="modal" data-target="#remindermowdal">
+                                        <span class="fa fa-plus"></span>
+                                    </button>
+                                </b>
+                                <p class="m-b-0">Process immediately.</p>
+                                <div class="modal fade" id="remindermowdal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Add Thing/s To-Do
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </h5>                                                
+                                            </div>
+                                            <form  method='POST' action='<?php echo base_url(); ?>index.php/masterfile/'>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        Thing/s To-Do:
+                                                        <textarea class="form-control" name = "reminder" rows="5" placeholder="...."></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        Due Date:
+                                                        <input type="date" class="form-control" name="due_date">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">                                            
+                                                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </h2>                            
                         </div>
-                        <div class="income-dashone-pro">
-                            <div class="income-rate-total">
-                                <div class="price-adminpro-rate">
-                                    <h3><span class="counter">9</span></h3>
+                        <div style="overflow-y: scroll;height: 200px;max-height: 200px  ">
+                            <!-- loop here -->
+                            <div class="row m-t-5" style="width: 100%">
+                                <div class="col-lg-12">
+                                    <div class="project-dashone-phara pad-5 reminder-style2">
+                                        <div class="row">
+                                            <div class="col-lg-1">
+                                                <a href="<?php echo base_url(); ?>masterfile/reminder_done/" class="btn btn-xs btn-warning btn-custon-two"> <span class="fa fa-check"></span></a> 
+                                            </div>
+                                            <div class="col-lg-11">
+                                                <h4 class="nomarg"> PR No.:292893                                    
+                                                </h4>
+                                                <p class=""><span style="background-color: #4848e6; padding:0px 10px">August 82,1969 </span>| <small>Jonah Faye Benares</small></p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="price-graph">
-                                    <span id="sparkline5"></span>
-                                </div>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
+                            </div> 
+                            <!-- loop here --> 
+
+                                  
+                        </div>    
+
                     </div>
-                    <div class="income-dashone-total visitor-monthly shadow-reset nt-mg-b-30">
-                        <div class="income-title">
-                            <div class="main-income-head">
-                                <h2>For TE</h2>
-                                <div class="main-income-phara visitor-cl">
-                                    <p>Pending</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="income-dashone-pro">
-                            <div class="income-rate-total">
-                                <div class="price-adminpro-rate">
-                                    <h3><span class="counter">9</span></h3>
-                                </div>
-                                <div class="price-graph">
-                                    <span id="sparkline2"></span>
-                                </div>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
-                    <div class="income-dashone-total income-monthly shadow-reset nt-mg-b-30 res-mg-t-30">
-                        <div class="income-title">
-                            <div class="main-income-head">
-                                <h2>RFQ</h2>
-                                <div class="main-income-phara">
-                                    <p>Pending</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="income-dashone-pro">
-                            <div class="income-rate-total">
-                                <div class="price-adminpro-rate">
-                                    <h3><span class="counter">7</span></h3>
-                                </div>
-                                <div class="price-graph">
-                                    <span id="sparkline1"></span>
-                                </div>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-                    <div class="income-dashone-total orders-monthly shadow-reset nt-mg-b-30">
-                        <div class="income-title">
-                            <div class="main-income-head">
-                                <h2>RFD</h2>
-                                <div class="main-income-phara order-cl">
-                                    <p>Pending</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="income-dashone-pro">
-                            <div class="income-rate-total">
-                                <div class="price-adminpro-rate">
-                                    <h3><span class="counter">5</span></h3>
-                                </div>
-                                <div class="price-graph">
-                                    <span id="sparkline6"></span>
-                                </div>
-                            </div>
-                            <!-- <div class="income-range order-cl">
-                                <p>Pending RFD Percentage</p>
-                                <span class="income-percentange"><?php echo number_format($percent_rfd,2); ?>% <i class="fa fa-level-up"></i></span>
-                            </div> -->
-                            <div class="clear"></div>
-                        </div>
-                    </div>                    
-                </div>     
-                <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 desplay-n-tablet ">
+                </div>   
+                <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 ">
                     <div class="dashone-adminprowrap shadow-reset mg-b-30 pulse" style="height: 285px;max-height: 285px " >
                         <div class="dash-adminpro-project-title">
                             <h2 class="m-b-0" >
@@ -173,8 +147,14 @@
                         <div style="overflow-y: scroll;height: 200px;max-height: 200px  ">
                             <!-- loop here -->
                             <?php 
+                            function sortByOrder($a, $b) {
+                                return $a['due_date'] - $b['due_date'];
+                            }
+
+                         
 
                             if(!empty($reminder)){
+                                usort($reminder, 'sortByOrder');
                                 foreach($reminder AS $r){ 
                                     if($r['done']==0){ 
                             
@@ -191,7 +171,7 @@
                                             <div class="col-lg-11">
                                                 <h4 class="nomarg"><?php echo $r['notes'];?>                                       
                                                 </h4>
-                                                <p class=""><?php echo date("F d, Y",strtotime($r['due_date']));?>   | <small><?php echo $r['remind'];?></small></p>
+                                                <p class=""><span style="background-color: #b94526; padding:0px 10px"><?php echo date("F d, Y",strtotime($r['due_date']));?>  </span> | <small><?php echo $r['remind'];?></small></p>
                                             </div>
                                         </div>
                                     </div>
@@ -236,13 +216,14 @@
                                 <table id="table" data-toggle="table" data-pagination="true" data-search="true"  data-show-pagination-switch="true"  data-cookie="true"  data-show-export="true" data-toolbar="#toolbar" data-resizable="true">
                                     <thead>
                                         <tr>
+                                            <th rowspan="2" data-field="prdate" >PR Date</th>
                                             <th rowspan="2" data-field="prno" >PR No</th>
                                             <th rowspan="2" data-field="item" >Item Description</th>
                                             <th colspan="2" data-field="rfq" >RFQ</th>
                                             <th colspan="2" data-field="aoq" >AOQ</th>
-                                            <th rowspan="2" data-field="po" >PO</th>
-                                            <th rowspan="2" data-field="status" >Status</th>
-                                            <th rowspan="2" data-field="action" >Action</th>
+                                            <th rowspan="2" data-field="po" >PO Issued</th>
+                                            <th rowspan="2" data-field="del" >Delivered</th>
+                                            <th rowspan="2" data-field="status" >Remarks</th>
                                         </tr>
                                         <tr>
                                             <th width="20%">Outgoing</th>
@@ -257,17 +238,23 @@
                                          foreach($pendingpr AS $pr){
                                         
 
-                                        if($pr['po']==0){ ?>
+                                        if($pr['po_delivered']==0 || $pr['balance']!=0){ 
+                                                if($pr['balance']!=0){
+                                                    $status = 'Unserved: '.$pr['balance'];
+                                                } else {
+                                                    $status='';
+                                                } ?>
                                         <tr>
+                                            <td><?php echo date('m.d.Y', strtotime($pr['pr_date'])); ?></td>
                                             <td><?php echo $pr['pr_no']; ?></td>
                                             <td><span style="color:blue"><?php echo $pr['item']; ?></span></td>
                                             <td class="datatable-ct"><?php echo (($pr['rfq_outgoing']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><?php echo (($pr['rfq_incoming']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><?php echo (($pr['for_te']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><?php echo (($pr['te_done']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
-                                            <td class="datatable-ct"><?php echo (($pr['po']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
-                                            <td class="datatable-ct"></td>
-                                            <td class="datatable-ct"></td>
+                                            <td class="datatable-ct"><?php echo (($pr['po_issued']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
+                                            <td class="datatable-ct"><?php echo (($pr['po_delivered']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
+                                            <td class="datatable-ct"><?php echo $status; ?></td>
                                         </tr>
                                     <?php } 
                                     }

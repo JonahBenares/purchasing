@@ -51,11 +51,11 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <p class="m-b-0">Approved by:</p>
-                            <input type="text" name="approve_rev" class="form-control">
+                            <input type="text" name="approve_rev" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <p class="m-b-0">Approved Date:</p>
-                            <input type="date" name="approve_date" class="form-control">
+                            <input type="date" name="approve_date" class="form-control" autocomplete="off">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -218,7 +218,7 @@
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Reason for Cancelling PO:</p>
-                            <textarea name="reason" class="form-control"></textarea>
+                            <textarea name="reason" class="form-control" ></textarea>
                         </div>
                         <center>       
                             <input type = "hidden" id='po_id' name='po_id' >                 
@@ -281,7 +281,7 @@
                                                 if($head['revised']==1) {
                                                     echo '<span class="label label-warning">Request for Revision</span>';
                                                 } else {
-                                                    echo (($head['rfd']==0) ? '<span class="label label-warning">Pending RFD</span>' : '<span class="label label-success">Completed</span>'); 
+                                                    echo (($head['served']==0) ? '<span class="label label-warning">PO Issued</span>' : '<span class="label label-success">Delivered</span>'); 
                                                     } ?></td>
                                                 <td><?php
                                                     if($head['po_type']==0){

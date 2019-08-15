@@ -488,7 +488,7 @@
 		    			if($saved==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="price_validity<?php echo $q; ?>"></td>
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="price_validity<?php echo $q; ?>" autocomplete='off'></td>
 		    			<td colspan="3" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php $q++; } 
 		    			} else { 
@@ -509,7 +509,7 @@
 		    			if($saved==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="payment_terms<?php echo $q; ?>"></td>
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="payment_terms<?php echo $q; ?>" autocomplete='off'></td>
 		    			<td colspan="3" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>	
 		    			<?php  $q++;  }
 		    			} else {
@@ -530,7 +530,7 @@
 		    			if($saved==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="delivery_date<?php echo $q; ?>"></td>
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="delivery_date<?php echo $q; ?>" autocomplete='off'></td>
 		    			<td colspan="3" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php  $q++; }
 		    			} else { 
@@ -552,7 +552,7 @@
 		    			if($saved==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="item_warranty<?php echo $q; ?>"></td>
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="item_warranty<?php echo $q; ?>" autocomplete='off'></td>
 		    			<td colspan="3" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php  $q++; } 
 		    			} else { 
@@ -573,7 +573,7 @@
 		    			if($saved==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="freight<?php echo $q; ?>"></td>
+		    			<td colspan="2" class="f10" align="left"><input type="text" class="btn-block" name="freight<?php echo $q; ?>" autocomplete='off'></td>
 		    			<td colspan="3" class="f10" align="left"></td>
 		    			<?php  $q++; } 
 		    			} else { 

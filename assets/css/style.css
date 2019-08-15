@@ -5855,6 +5855,12 @@ div#sparklinedask2, div#sparklinedask1 {
     box-shadow: 2px 2px 4px 0px #7d4242;
     color: white;
 }
+.reminder-style2 {
+    border-radius: 5px;
+    background: linear-gradient(to left, #69ecb8 0%, #8077f9 100%);
+    box-shadow: 2px 2px 4px 0px #7d94e6;
+    color: white;
+}
 .valign-center{vertical-align:center}
 .bor-red{
 	border-bottom: 2px solid red!important;
