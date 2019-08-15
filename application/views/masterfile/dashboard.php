@@ -43,12 +43,12 @@
                             <h2 class="m-b-0" >
                                 <b>
                                     <span>Things-To-Do Today</span>
-                                    <button type="button" class="btn btn-primary btn-xs pull-right btn-custon-three" data-toggle="modal" data-target="#remindermowdal">
+                                    <button type="button" class="btn btn-primary btn-xs pull-right btn-custon-three" data-toggle="modal" data-target="#todo">
                                         <span class="fa fa-plus"></span>
                                     </button>
                                 </b>
                                 <p class="m-b-0">Process immediately.</p>
-                                <div class="modal fade" id="remindermowdal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="todo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -58,11 +58,11 @@
                                                     </button>
                                                 </h5>                                                
                                             </div>
-                                            <form  method='POST' action='<?php echo base_url(); ?>index.php/masterfile/'>
+                                            <form  method='POST' action='<?php echo base_url(); ?>index.php/masterfile/insert_todo'>
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         Thing/s To-Do:
-                                                        <textarea class="form-control" name = "reminder" rows="5" placeholder="...."></textarea>
+                                                        <textarea class="form-control" name = "todo" rows="5" placeholder="...."></textarea>
                                                     </div>
                                                     <div class="form-group">
                                                         Due Date:
@@ -80,22 +80,38 @@
                         </div>
                         <div style="overflow-y: scroll;height: 200px;max-height: 200px  ">
                             <!-- loop here -->
+                            <?php 
+                            function sortByOrdertodo($a, $b) {
+                                return $a['due_date'] - $b['due_date'];
+                            }
+
+                         
+
+                            if(!empty($todo)){
+                                usort($todo, 'sortByOrdertodo');
+                                foreach($todo AS $t){ 
+                                    if($t['done']==0){ 
+                            
+                            ?>
                             <div class="row m-t-5" style="width: 100%">
                                 <div class="col-lg-12">
-                                    <div class="project-dashone-phara pad-5 reminder-style2">
+                                    <div class="project-dashone-phara pad-5 reminder-style">
                                         <div class="row">
+                                            <?php if(!empty($t['todo_id'])){ ?>
                                             <div class="col-lg-1">
-                                                <a href="<?php echo base_url(); ?>masterfile/reminder_done/" class="btn btn-xs btn-warning btn-custon-two"> <span class="fa fa-check"></span></a> 
+                                                <a href="<?php echo base_url(); ?>masterfile/todo_done/<?php echo $t['todo_id']; ?>" class="btn btn-xs btn-warning btn-custon-two"> <span class="fa fa-check"></span></a> 
                                             </div>
+                                            <?php } ?>
                                             <div class="col-lg-11">
-                                                <h4 class="nomarg"> PR No.:292893                                    
+                                                <h4 class="nomarg"><?php echo $t['notes'];?>                                    
                                                 </h4>
-                                                <p class=""><span style="background-color: #4848e6; padding:0px 10px">August 82,1969 </span>| <small>Jonah Faye Benares</small></p>
+                                                <p class=""><span style="background-color: #b94526; padding:0px 10px"><?php echo date("F d, Y",strtotime($t['due_date']));?>  </span> | <small><?php echo $t['remind'];?></p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div> 
+                            <?php } } } ?> 
                             <!-- loop here --> 
 
                                   
@@ -161,7 +177,7 @@
                             ?>
                             <div class="row m-t-5" style="width: 100%">
                                 <div class="col-lg-12">
-                                    <div class="project-dashone-phara pad-5 reminder-style">
+                                    <div class="project-dashone-phara pad-5 reminder-style2">
                                         <div class="row">
                                             <?php if(!empty($r['reminder_id'])){ ?>
                                             <div class="col-lg-1">
@@ -171,7 +187,7 @@
                                             <div class="col-lg-11">
                                                 <h4 class="nomarg"><?php echo $r['notes'];?>                                       
                                                 </h4>
-                                                <p class=""><span style="background-color: #b94526; padding:0px 10px"><?php echo date("F d, Y",strtotime($r['due_date']));?>  </span> | <small><?php echo $r['remind'];?></small></p>
+                                                <p class=""><span style="background-color: #4848e6; padding:0px 10px"><?php echo date("F d, Y",strtotime($r['due_date']));?>  </span> | <small><?php echo $r['remind'];?></small></p>
                                             </div>
                                         </div>
                                     </div>

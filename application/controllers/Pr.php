@@ -443,13 +443,24 @@ class Pr extends CI_Controller {
         $rfq_format = date("Ym");
         $rfqdet=date('Y-m');
         $code = $this->super_model->select_column_where('pr_head','processing_code','pr_id',$prid);
+        $rfq = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$prid);
+        $rfqpr=explode("-", $rfq);
+        $rfqs=$rfqpr[0];
+        $rfqss=$rfqs;
         $rows=$this->super_model->count_custom_where("rfq_head","create_date LIKE '$rfqdet%'");
-        if($rows==0){
+        /*if($rows==0){
             $rfq_no= $rfq_format."-1001";
         } else {
             $series = $this->super_model->get_max("rfq_series", "series","year_month LIKE '$rfqdet%'");
             $next=$series+1;
             $rfq_no = $rfq_format."-".$next;
+        }*/
+        if($rows==0){
+            $rfq_no= $rfqss."-1001";
+        } else {
+            $series = $this->super_model->get_max("rfq_series", "series","year_month LIKE '$rfqdet%'");
+            $next=$series+1;
+            $rfq_no = $rfqss."-".$next;
         }
         $rfqdetails=explode("-", $rfq_no);
         $rfq_prefix1=$rfqdetails[0];

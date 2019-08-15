@@ -56,6 +56,21 @@ class Masterfile extends CI_Controller {
             $data=array();
         }
 
+        $count = $this->super_model->count_rows("to_do_today");
+        if($count!=0){
+            foreach($this->super_model->select_all_order_by("to_do_today","due_date","ASC") AS $todo){
+                $data['todo'][] = array(
+                    'todo_id'=>$todo->todo_id,
+                    'notes'=>$todo->notes,
+                    'due_date'=>$todo->due_date,
+                    'done'=>$todo->done,
+                    'remind'=>$this->super_model->select_column_where("users","fullname","user_id",$todo->user_id),
+                );
+            }
+        } else {
+            $data=array();
+        }
+
 
         foreach($this->super_model->custom_query("SELECT ph.date_prepared, ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id, pd.quantity FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND ph.cancelled = '0'") AS $pr){
 
@@ -173,6 +188,33 @@ class Masterfile extends CI_Controller {
         );
         
         if($this->super_model->update_where('reminder', $data, 'reminder_id', $reminder_id)){
+            echo "<script>alert('Successfully Done!'); window.location ='".base_url()."masterfile/dashboard';</script>";
+        }
+    }
+
+    public function insert_todo(){
+        $todo = trim($this->input->post('todo')," ");
+        $due_date = trim($this->input->post('due_date')," ");
+        $create_date = date("Y-m-d H:i:s");
+        $user_id = $_SESSION['user_id'];
+        $data = array(
+            'notes'=>$todo,
+            'due_date'=>$due_date,
+            'create_date'=>$create_date,
+            'user_id'=>$user_id,
+        );
+        if($this->super_model->insert_into("to_do_today", $data)){
+            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."masterfile/dashboard'; </script>";
+        }
+    }
+
+    public function todo_done(){
+        $todo_id=$this->uri->segment(3);
+        $data=array(
+            'done'=>1,
+        );
+        
+        if($this->super_model->update_where('to_do_today', $data, 'todo_id', $todo_id)){
             echo "<script>alert('Successfully Done!'); window.location ='".base_url()."masterfile/dashboard';</script>";
         }
     }
