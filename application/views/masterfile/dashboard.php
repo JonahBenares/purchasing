@@ -81,14 +81,10 @@
                         <div style="overflow-y: scroll;height: 200px;max-height: 200px  ">
                             <!-- loop here -->
                             <?php 
-                            function sortByOrdertodo($a, $b) {
-                                return $a['due_date'] - $b['due_date'];
-                            }
-
-                         
+                        
 
                             if(!empty($todo)){
-                                usort($todo, 'sortByOrdertodo');
+                               
                                 foreach($todo AS $t){ 
                                     if($t['done']==0){ 
                             
@@ -169,7 +165,7 @@
                             if(!empty($reminder)){
                                 $columns = array_column($reminder, 'due_date');
                                 $a = array_multisort($columns, SORT_ASC, $reminder);
-                               
+
                                 foreach($reminder AS $r){ 
                                     if($r['done']==0){ 
                             
@@ -250,6 +246,10 @@
                                     <tbody>
                                         <?php
                                         if(!empty($pendingpr)){
+
+                                         $columns = array_column($pendingpr, 'pr_date');
+                                         array_multisort($columns, SORT_ASC, $pendingpr);
+
                                          foreach($pendingpr AS $pr){
                                         
 
