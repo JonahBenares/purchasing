@@ -107,6 +107,7 @@ class Rfq extends CI_Controller {
             $data['saved']= $head->saved;
             $data['cancelled']= $head->cancelled;
             $data['served']= $head->served;
+            $data['completed']= $head->completed;
         }
 
         $data['items'] = $this->super_model->select_row_where('rfq_details', 'rfq_id', $rfq_id);

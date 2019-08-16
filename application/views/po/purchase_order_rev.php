@@ -101,6 +101,36 @@
 		}
     </style>
 
+     <div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="approveLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Approved Revision <span class="fa fa-thumbs-o-up"></span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>                    
+                </div>
+                <form method='POST' action="<?php echo base_url(); ?>po/approve_revision">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <p class="m-b-0">Approved by:</p>
+                            <input type="text" name="approve_rev" class="form-control" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <p class="m-b-0">Approved Date:</p>
+                            <input type="date" name="approve_date" class="form-control" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="po_id" id="po_id" >
+                        <input type='submit' value='Approve' class="btn btn-custon-three btn-primary btn-block">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div  class="pad">
     	<form method='POST' action='<?php echo base_url(); ?>po/save_change_order'>  
     		<div  id="prnt_btn">
@@ -111,6 +141,8 @@
 						<!-- 	<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" value="Save Revision">	 -->
 						<?php if($revised==0){ ?>
 							<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" value="Save & Print Change Order Form">	
+						<?php } else { ?>
+							 <a class="btn btn-custon-three btn-info btn-md approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $po_id; ?>"><span class="fa fa-thumbs-up"></span> Approve Revision</a>
 						<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>

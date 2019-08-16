@@ -50,6 +50,8 @@ class Masterfile extends CI_Controller {
                     'due_date'=>$rem->due_date,
                     'done'=>$rem->done,
                     'remind'=>$this->super_model->select_column_where("users","fullname","user_id",$rem->user_id),
+                    'type'=>'manual',
+                    'source'=>''
                 );
             }
         } else {
@@ -65,10 +67,25 @@ class Masterfile extends CI_Controller {
                     'due_date'=>$todo->due_date,
                     'done'=>$todo->done,
                     'remind'=>$this->super_model->select_column_where("users","fullname","user_id",$todo->user_id),
+                    'type'=>'manual',
+                    'source'=>''
                 );
             }
         } else {
             $data=array();
+        }
+
+        foreach($this->super_model->select_row_where("po_head", "revised", "1") AS $td){
+            $today = date('Y-m-d');
+            $data['todo'][] =  array(
+                'todo_id'=>$td->po_id,
+                'notes'=>'Follow up revision approval of PO '.$td->po_no,
+                'due_date'=>$today,
+                'done'=>'',
+                'remind'=>'',
+                'type'=>'auto',
+                'source'=>'po'
+            );
         }
 
 
@@ -124,11 +141,13 @@ class Masterfile extends CI_Controller {
                 $reminder = 'Process PO for PR No.: '. $pr->pr_no. " - " . $pr->item_description . ", ".$rem;
                 $due = date('M j, Y', strtotime($pr->date_needed));
                 $data['reminder'][]=array(
-                    'reminder_id'=>'',
+                    'reminder_id'=>$pr->pr_id,
                     'notes'=>$reminder,
                     'due_date'=>$due,
                     'done'=>'',
                     'remind'=>'',
+                    'type'=>'auto',
+                    'source'=>'pr'
                 );
             }
 
@@ -141,17 +160,19 @@ class Masterfile extends CI_Controller {
                 $reminder = 'Process PO for PR No.: '. $pr->pr_no. " - " . $pr->item_description . ", ".$rem;
                 $due = date('M j, Y', strtotime($pr->date_needed));
                 $data['todo'][]=array(
-                    'todo_id'=>'',
+                    'todo_id'=>$pr->pr_id,
                     'notes'=>$reminder,
                     'due_date'=>$due,
                     'done'=>'',
                     'remind'=>'',
+                    'type'=>'auto',
+                    'source'=>'pr'
                 );
             }
         
         }
 
-            foreach($this->super_model->custom_query("SELECT quotation_date, vendor_id, rfq_no FROM rfq_head WHERE saved='1' AND cancelled = '0' AND completed = '0' GROUP BY rfq_id") AS $rfq){
+            foreach($this->super_model->custom_query("SELECT quotation_date, vendor_id, rfq_no, rfq_id FROM rfq_head WHERE saved='1' AND cancelled = '0' AND completed = '0' GROUP BY rfq_id") AS $rfq){
 
                 $rfq_diff= $this-> dateDifference($current_date , $rfq->quotation_date , $differenceFormat = '%a' );
 
@@ -159,11 +180,13 @@ class Masterfile extends CI_Controller {
                     $reminder = 'Follow up RFQ No. '. $rfq->rfq_no. " with " . $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$rfq->vendor_id);
                     $due = date('M j, Y', strtotime($rfq->quotation_date));
                     $data['reminder'][]=array(
-                        'reminder_id'=>'',
+                        'reminder_id'=>$rfq->rfq_id,
                         'notes'=>$reminder,
                         'due_date'=>$due,
                         'done'=>'',
                         'remind'=>'',
+                        'type'=>'auto',
+                        'source'=>'rfq'
                     );
                 }
 
@@ -171,11 +194,13 @@ class Masterfile extends CI_Controller {
                     $reminder = 'Follow up RFQ No. '. $rfq->rfq_no. " with " . $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$rfq->vendor_id);
                     $due = date('M j, Y', strtotime($rfq->quotation_date));
                     $data['todo'][]=array(
-                        'todo_id'=>'',
+                        'todo_id'=>$rfq->rfq_id,
                         'notes'=>$reminder,
                         'due_date'=>$due,
                         'done'=>'',
                         'remind'=>'',
+                        'type'=>'auto',
+                        'source'=>'rfq'
                     );
                 }
             }

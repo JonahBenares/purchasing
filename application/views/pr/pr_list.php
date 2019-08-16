@@ -20,7 +20,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <ul class="breadcome-menu">
-                                    <li><a href="<?php echo base_url(); ?>index.php/masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
+                                    <li><a href="<?php echo base_url(); ?>masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
                                     </li>
                                     <li><span class="bread-blod">PR List</span>
                                     </li>
@@ -83,7 +83,7 @@
     </div> 
     <div class="admin-dashone-data-table-area">
         <div class="container-fluid">
-             <form name="myform" action="<?php echo base_url(); ?>index.php/aoq/" method="post">
+             <form name="myform" action="<?php echo base_url(); ?>aoq/" method="post">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="sparkline8-list shadow-reset">
@@ -125,7 +125,7 @@
                                                 <td><?php echo $p->requestor;?></td>
                                                 <td>
                                                     <center>
-                                                        <a href="<?php echo base_url(); ?>index.php/pr/purchase_request/<?php echo $p->pr_id?>" class="btn btn-custon-three btn-warning btn-xs">
+                                                        <a href="<?php echo base_url(); ?>pr/purchase_request/<?php echo $p->pr_id?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                         </a>
                                                         <a class="cancelPR btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPR" data-id="<?php echo $p->pr_id; ?>"><span class="fa fa-ban" title="Cancel"></span></a>

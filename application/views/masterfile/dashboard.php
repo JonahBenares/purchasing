@@ -3,6 +3,12 @@
         .fixed-table-body {
             overflow-x: hidden!important; 
         }
+        a {
+            color:#fff;
+        }
+        a:hover {
+            color:#0000FF;
+        }
     </style>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
@@ -93,15 +99,26 @@
                                 <div class="col-lg-12">
                                     <div class="project-dashone-phara pad-5 reminder-style">
                                         <div class="row">
-                                            <?php if(!empty($t['todo_id'])){ ?>
+                                            <?php if($t['type']=='manual'){ ?>
                                             <div class="col-lg-1">
                                                 <a href="<?php echo base_url(); ?>masterfile/todo_done/<?php echo $t['todo_id']; ?>" class="btn btn-xs btn-warning btn-custon-two"> <span class="fa fa-check"></span></a> 
                                             </div>
                                             <?php } ?>
                                             <div class="col-lg-11">
-                                                <h5 class="nomarg"><?php echo $t['notes'];?>                                    
-                                                </h5>
-                                                <p class=""><span style="background-color: #b94526; padding:0px 10px"><?php echo date("F d, Y",strtotime($t['due_date']));?>  </span> | <small><?php echo $t['remind'];?></p>
+                                                <?php if($t['type']=='auto'){ 
+                                                    if($t['source'] == 'po'){
+                                                        $path = base_url().'po/purchase_order_rev/'.$t['todo_id'];
+                                                    } else if($t['source'] == 'rfq'){
+                                                        $path = base_url().'rfq/rfq_outgoing/'.$t['todo_id'];
+                                                    } else if($t['source'] == 'pr'){
+                                                        $path = base_url().'pr/purchase_request/'.$t['todo_id'];
+                                                    } ?>
+                                                <a href='<?php echo $path; ?>' targer='_blank'><h5 class="nomarg"><?php echo $t['notes']; ?></h5></a>
+                                                 <?php } ?>                                    
+                                                
+                                                <p class=""><span style="background-color: #b94526; padding:0px 10px"><?php echo date("F d, Y",strtotime($t['due_date']));?>  </span> | <small><?php echo $t['remind'];?>
+                                                
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -174,14 +191,24 @@
                                 <div class="col-lg-12">
                                     <div class="project-dashone-phara pad-5 reminder-style2">
                                         <div class="row">
-                                            <?php if(!empty($r['reminder_id'])){ ?>
+                                            <?php if($r['type']=='manual'){ ?>
                                             <div class="col-lg-1">
                                                 <a href="<?php echo base_url(); ?>masterfile/reminder_done/<?php echo $r['reminder_id']; ?>" class="btn btn-xs btn-info btn-custon-three"> <span class="fa fa-check"></span></a> 
                                             </div>
                                             <?php } ?>
                                             <div class="col-lg-11">
-                                                <h5 class="nomarg"><?php echo $r['notes'];?>                                       
-                                                </h5>
+                                                <?php if($r['type']=='auto'){ 
+                                                    if($r['source'] == 'po'){
+                                                        $path = base_url().'po/purchase_order_rev/'.$r['reminder_id'];
+                                                    } else if($r['source'] == 'rfq'){
+                                                        $path = base_url().'rfq/rfq_outgoing/'.$r['reminder_id'];
+                                                    } else if($r['source'] == 'pr'){
+                                                        $path = base_url().'pr/purchase_request/'.$r['reminder_id'];
+                                                    } ?>
+                                                <a href='<?php echo $path; ?>' target='_blank'><h5 class="nomarg"><?php echo $r['notes']; ?></h5></a>
+                                                 <?php } else { ?>
+                                                    <h5 class="nomarg"><?php echo $r['notes']; ?></h5>
+                                                 <?php } ?>        
                                                 <p class=""><span style="background-color: #4848e6; padding:0px 10px"><?php echo date("F d, Y",strtotime($r['due_date']));?>  </span> | <small><?php echo $r['remind'];?></small></p>
                                             </div>
                                         </div>
