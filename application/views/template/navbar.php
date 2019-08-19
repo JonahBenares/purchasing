@@ -69,6 +69,14 @@
                                 </a>
                             </div>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url(); ?>index.php/jo/jo_list"  role="button" class="nav-link dropdown-toggle" title="Job Order">
+                                <i class="fa big-icon fa-file-text"></i>
+                                <span class="mini-dn"> Job Order</span> 
+                                <span class="indicator-right-menu mini-dn"></span>
+                            </a>
+                        </li>
+                        
 
                         <!-- <li class="nav-item">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
@@ -118,8 +126,8 @@
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
                             </div>
-                        </li>
-                        -->
+                        </li> -->
+                       
                         <li class="nav-item">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
                                 <i class="fa big-icon fa-bar-chart"></i> 
