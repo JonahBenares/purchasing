@@ -87,12 +87,12 @@
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-50 p-r-50"><span class="fa fa-arrow-left"></span> Back</a>
-						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
-						<a  href="<?php echo base_url(); ?>jo/jo_rfd" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print <b>RFD</b></a>
-						<a  href="<?php echo base_url(); ?>jo/jo_dr" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print <b>DR</b></a>
-						<a  href="<?php echo base_url(); ?>jo/jo_ac" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print <b>AC</b></a>
-						<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" value="Save">  	
+						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
+						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
+						<a  href="<?php echo base_url(); ?>jo/jo_rfd" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
+						<a  href="<?php echo base_url(); ?>jo/jo_dr" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
+						<a  href="<?php echo base_url(); ?>jo/jo_ac" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
+						<input type='submit' class="btn btn-primary btn-md p-l-25 p-r-25" value="Save">  	
 					</div>
 					<h4 class="text-white"><b>OUTGOING</b> RFQ <b>For JOB ORDER</b></h4>
 					<p class="text-white">Instructions: When printing JOB ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
@@ -196,15 +196,15 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td>Less:</td>
-		    						<td> 5% Discount <span class="pull-right">>>>></span></td>
+		    						<td><input type="text" placeholder="Discount" name=""></td>
 		    						<td class="bor-btm" align="right"><span style="margin-right: 5px">742.50</span></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>Net</td>
-		    						<td><span class="pull-right">>>>></span></td>
-		    						<td class="bor-btm" align="right"><span style="margin-right: 5px"><b>14,107.50</b></span></td>
+		    						<td></td>
+		    						<td class="bor-btm" align="right"><b><span style="margin-right: 5px">14,107.50</span></b></td>
 		    					</tr>
 		    				</table>
 		    			</td>
@@ -212,11 +212,6 @@
 		    		<tr>
 		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
 		    				Terms and Conditions:<br>
-		    				a. Price inclusive of VAT<br>
-		    				b. Work Completion: Around 4-6 after receipt of order & pull-out of unit <br>
-		    				c. Payment Term: Full payment, 30 days after delivery of repaired unit<br>
-		    				d. Guarantee: Four(4) months guarantee <br>
-		    				e. Will provide service unit free of charge while repairing the cylinder jack.<br>
 		    				<textarea class="btn-block"></textarea>
 		    			</td>
 		    			<td colspan="9"></td>
@@ -224,7 +219,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b>14,107.50</b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span>14,107.50</span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -274,8 +269,7 @@
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
 		    			<td class="f13" colspan="2" align="center"></td>
-		    		</tr> 
-		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>    	
+		    		</tr>   	
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>    	
 		    	</table>		    
 	    	</div>
