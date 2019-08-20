@@ -42,16 +42,49 @@ class Jo extends CI_Controller {
 	}
 
     public function jo_list(){  
+
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('jo/jo_list');
         $this->load->view('template/footer');
     }
+
+    public function getJoNo(){
+        $year = $this->input->post('year');
+        $rows_jo = $this->super_model->count_rows_where("jo_series", "year", $year);
+        if($rows_jo==0){
+            $jo_no='JO '.$year."-1";
+        } else {
+            $max = $this->super_model->get_max_where("jo_series", "series","year='$year'");
+            $next= $max+1;
+            $jo_no = 'JO '.$year."-".$next;
+        }
+        $return = array('jo_no' => $jo_no);
+        echo json_encode($return);
+
+    }
+
     public function job_order(){  
+        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');
-        $this->load->view('jo/job_order');
+        $this->load->view('jo/job_order',$data);
         $this->load->view('template/footer');
     }
+
+
+    public function getVendorInformation(){
+
+        $vendor = $this->input->post('vendor');
+        $address= $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $vendor);
+        $phone= $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $vendor);
+
+        
+        $return = array('address' => $address, 'phone' => $phone);
+        echo json_encode($return);
+    
+    }
+
+
     public function jo_rfd(){  
         $this->load->view('template/header');
         $this->load->view('jo/jo_rfd');

@@ -1,3 +1,4 @@
+  	 <script src="<?php echo base_url(); ?>assets/js/jo.js"></script> 
   	<head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -80,6 +81,9 @@
 		.emphasis{
 			border-bottom: 2px solid red;
 		}
+		.nobord{
+			border: 0px solid #fff;
+		}
     </style>
     
     <div  class="pad">
@@ -132,30 +136,34 @@
 		    		<tr>
 		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
 		    			<td class="f13" colspan="10" align="left">
-		    				<b><input type="text" name="" class="btn-block"><!-- HYDRAUKING INDUSTRIAL CORPORATION <br> --></b>
-		    				542 M. Aliganga Street, Brgy Tangke<br>
-		    				Naga City, Cebu<br>
-		    				Tel Nos. 340-6467, 514-7902<br>
+		    				<b><select name='vendor' id='vendor' onchange="chooseVendor()">
+		    					<option value=''>-Select Vendor-</option>
+		    					 <?php foreach($vendor AS $sup){ ?>
+                                    <option value="<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
+								<?php } ?>        
+		    				</select></b>
+		    				<span id='address'></span><br>
+		    				<span id='phone'></span><br>
 		    			</td>
 		    			<td colspan="7"></td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="3">Date Prepared:</td>
-		    			<td class="f13 bor-btm" colspan="8"><input type="text" name="" class="btn-block"></td>
+		    			<td class="f13" colspan="4">Date Prepared:</td>
+		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="date_prepared" id="date_prepared" onchange="getJO()" class="btn-block nobord"></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">CENJO JO No.:</td>
-		    			<td class="f13 bor-btm" colspan="5"><b><input type="text" name="" class="btn-block"></b></td>
+		    			<td class="f13 bor-btm" colspan="5"><b><input type="text" name="cenjo_no" class="btn-block nobord"></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="3">Start of Work:</td>
-		    			<td class="f13 bor-btm" colspan="8"><input type="text" name="" class="btn-block"></td>
+		    			<td class="f13" colspan="4">Start of Work:</td>
+		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="work_start" class="btn-block nobord"></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5">JO 2019-014</td>
+		    			<td class="f13 bor-btm" colspan="5"><input type="text" name="jo_no" id="jo_no" class="btn-block nobord"></td>
 		    		</tr>	
 		    		<tr>
-		    			<td class="f13" colspan="3">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="8"><input type="text" name="" class="btn-block"></td>
+		    			<td class="f13" colspan="4">Completion of Work:</td>
+		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="work_completion" class="btn-block nobord"></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13" colspan="5"></td>
@@ -180,10 +188,10 @@
 		    					</tr>
 		    					<tr>
 		    						<td class="f13 emphasis" align="left"><textarea class="btn-block" rows="1"></textarea></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="" class="btn-block"></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="" class="btn-block"></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="" class="btn-block"></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="" class="btn-block"></td>
+		    						<td class="f13 emphasis" align="center"><input type="text" name="quantity" id="quantity" onblur='changePrice()' onkeypress="return isNumberKey(this, event)" class="btn-block"></td>
+		    						<td class="f13 emphasis" align="center"><input type="text" name="uom" class="btn-block"></td>
+		    						<td class="f13 emphasis" align="center"><input type="text" name="unit_cost" id="unit_cost" onblur='changePrice()' onkeypress="return isNumberKey(this, event)" class="btn-block"></td>
+		    						<td class="f13 emphasis" align="center"><input type="text" name="total_cost" id="total_cost" readonly="readonly" class="btn-block"></td>
 		    					</tr>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
@@ -196,15 +204,15 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td>Less:</td>
-		    						<td><input type="text" placeholder="Discount" name=""></td>
-		    						<td class="bor-btm" align="right"><span style="margin-right: 5px">742.50</span></td>
+		    						<td><input type="text" placeholder="Discount %" name="less_percent" id='less_percent' value='0' onblur='changePrice()'></td>
+		    						<td class="bor-btm" align="right"><input type="text" name="less_amount" id='less_amount' readonly="readonly"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>Net</td>
 		    						<td></td>
-		    						<td class="bor-btm" align="right"><b><span style="margin-right: 5px">14,107.50</span></b></td>
+		    						<td class="bor-btm" align="right"><input type="text" name="net" id='net' readonly="readonly"></td>
 		    					</tr>
 		    				</table>
 		    			</td>
@@ -219,7 +227,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span>14,107.50</span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -273,6 +281,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>    	
 		    	</table>		    
 	    	</div>
+	    	<input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
     	</form>
     </div>
     <script type="text/javascript">

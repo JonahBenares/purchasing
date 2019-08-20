@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2019 at 03:13 AM
+-- Generation Time: Aug 20, 2019 at 04:54 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -833,6 +833,18 @@ CREATE TABLE IF NOT EXISTS `jo_head` (
   `conforme` varchar(100) DEFAULT NULL,
   `prepared_by` int(11) NOT NULL DEFAULT '0',
   `approved_by` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jo_series`
+--
+
+CREATE TABLE IF NOT EXISTS `jo_series` (
+`jo_series_id` int(11) NOT NULL,
+  `year` int(11) NOT NULL DEFAULT '0',
+  `series` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -2512,6 +2524,12 @@ ALTER TABLE `jo_head`
  ADD PRIMARY KEY (`jo_id`);
 
 --
+-- Indexes for table `jo_series`
+--
+ALTER TABLE `jo_series`
+ ADD PRIMARY KEY (`jo_series_id`);
+
+--
 -- Indexes for table `po_dr`
 --
 ALTER TABLE `po_dr`
@@ -2711,6 +2729,11 @@ MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=534;
 --
 ALTER TABLE `jo_head`
 MODIFY `jo_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `jo_series`
+--
+ALTER TABLE `jo_series`
+MODIFY `jo_series_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `po_dr`
 --
