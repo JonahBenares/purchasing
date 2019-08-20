@@ -136,30 +136,31 @@
 		    		<tr>
 		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
 		    			<td class="f13" colspan="10" align="left">
-		    				<b>HYDRAUKUING INDUSTRIAL CORP</b><br>
-		    				<span id='address'>japan terd floor</span><br>
-		    				<span id='phone'>sagot sa kahirapan</span><br>
+		    				<b><?php echo $vendor; ?></b><br>
+		    				<span id='address'><?php echo $address; ?></span><br>
+		    				<span id='phone'><?php echo $phone; ?></span><br>
 		    				<br>
 		    			</td>
 		    			<td colspan="7"></td>
 		    		</tr>
+		    		<?php foreach($jo_head AS $jo){ ?>
 		    		<tr>
 		    			<td class="f13" colspan="4">Date Prepared:</td>
-		    			<td class="f13 bor-btm" colspan="7">29973</td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($jo['date_prepared']));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">CENPRI JO No.:</td>
-		    			<td class="f13 bor-btm" colspan="5"><b></b></td>
+		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $jo['cenpri_jo_no']; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="4">Start of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($jo['start_of_work']));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo['jo_no']; ?></td>
 		    		</tr>	
 		    		<tr>
 		    			<td class="f13" colspan="4">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($jo['work_completion']));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13" colspan="5"></td>
@@ -167,7 +168,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
 		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
-			    			<h5 style="margin: 5px"><b>SERVICING AND REPAIR OF HYDRAULIC JACK</b></h5>
+			    			<h5 style="margin: 5px"><b><?php echo $jo['project_title']; ?></b></h5>
 			    		</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
@@ -183,11 +184,11 @@
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left">mami</td>
-		    						<td class="f13" align="center">heloo</td>
-		    						<td class="f13" align="center">heloo</td>
-		    						<td class="f13" align="center">heloo</td>
-		    						<td class="f13" align="center">heloo</td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo $jo['scope_of_work']; ?></td>
+		    						<td class="f13" align="center"><?php echo $jo['quantity']; ?></td>
+		    						<td class="f13" align="center"><?php echo $jo['uom']; ?></td>
+		    						<td class="f13" align="center"><?php echo $jo['unit_cost']; ?></td>
+		    						<td class="f13" align="center"><?php echo $jo['total_cost']; ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
@@ -200,15 +201,15 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td>Less:</td>
-		    						<td>5%</td>
-		    						<td align="center">asdasd</td>
+		    						<td><?php echo $jo['discount_percent']; ?>%</td>
+		    						<td align="center"><?php echo $jo['discount_amount']; ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>Net</td>
 		    						<td></td>
-		    						<td align="center"></td>
+		    						<td align="center"><?php echo $jo['grand_total']; ?></td>
 		    					</tr>
 		    				</table>
 		    			</td>
@@ -219,21 +220,25 @@
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
-		    				
+		    				<?php 
+		    					if(!empty($jo['jo_terms'])){ 
+		    						echo '4. '.$jo['jo_terms'];
+		    					}
+		    				?>
 		    			</td>
 		    			<td colspan="9"></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo $jo['grand_total']; ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Conforme:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="center">Jonah Fae</td>
+		    			<td class="f13 bor-btm" colspan="7" align="center"><?php echo $jo['conforme']; ?></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -256,12 +261,12 @@
 		    		<tr>
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">
-		    				Jonah Fee Bernares
+		    				<?php echo $_SESSION['fullname']; ?>
 		    			</td>
 		    			<td class="f13" colspan="2" align="center"></td>
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">
-		    				Jonah Fayte Bertenares
+		    				<?php echo $jo['approved_by'];?>
 		    			</td>
 		    			<td class="f13" colspan="2" align="center"></td>
 		    		</tr>  
@@ -273,7 +278,8 @@
 		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
 		    			<td class="f13" colspan="2" align="center"></td>
 		    		</tr>   	
-		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>    	
+		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
+		    		<?php } ?>  	
 		    	</table>		    
 	    	</div>
     	</form>

@@ -115,12 +115,23 @@ class Jo extends CI_Controller {
             'jo_terms'=>$this->input->post('jo_terms'),
             'conforme'=>$this->input->post('conforme'),
             'prepared_by'=>$_SESSION['user_id'],
-            'approved_by'=>$this->input->post('approved_by')
+            'approved_by'=>$this->input->post('approved_by'),
+            'project_title'=>$this->input->post('project_title'),
         );
 
-        $this->super_model->insert_into("jo_head", $data_jo);
+        if($this->super_model->insert_into("jo_head", $data_jo)){
+            $strings = str_replace(' ', '-', $jo_no);
+            $jo = explode('-',$strings);
+            $years=$jo[1];
+            $series=$jo[2];
+            $data_series = array(
+                'year'=>$years,
+                'series'=>$series,
+            );
+            $this->super_model->insert_into("jo_series", $data_series);
+            redirect(base_url().'jo/job_order_saved/'.$jo_id, 'refresh');
+        }
     }
-
 
     public function getVendorInformation(){
 
@@ -134,8 +145,34 @@ class Jo extends CI_Controller {
     
     }
     public function job_order_saved(){  
+        $jo_id = $this->uri->segment(3);
+        $data['jo_id'] = $jo_id;
         $this->load->view('template/header');
-        $this->load->view('jo/job_order_saved');
+        foreach($this->super_model->select_row_where("jo_head","jo_id",$jo_id) AS $s){
+            $data['vendor']= $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$s->vendor_id);
+            $data['address']= $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $s->vendor_id);
+            $data['phone']= $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $s->vendor_id);
+            $data['jo_head'][]=array( 
+                'cenpri_jo_no'=>$s->cenpri_jo_no,
+                'jo_no'=>$s->jo_no,
+                'date_prepared'=>$s->date_prepared,
+                'start_of_work'=>$s->start_of_work,
+                'work_completion'=>$s->work_completion,
+                'scope_of_work'=>$s->scope_of_work,
+                'quantity'=>$s->quantity,
+                'uom'=>$s->uom,
+                'unit_cost'=>$s->unit_cost,
+                'total_cost'=>$s->total_cost,
+                'discount_percent'=>$s->discount_percent,
+                'discount_amount'=>$s->discount_amount,
+                'grand_total'=>$s->grand_total,
+                'jo_terms'=>$s->jo_terms,
+                'conforme'=>$s->conforme,
+                'approved_by'=>$this->super_model->select_column_where("employees","employee_name","employee_id",$s->approved_by),
+                'project_title'=>$s->project_title,
+            );
+        }
+        $this->load->view('jo/job_order_saved',$data);
         $this->load->view('template/footer');
     }
 
