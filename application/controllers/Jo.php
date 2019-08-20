@@ -66,9 +66,59 @@ class Jo extends CI_Controller {
 
     public function job_order(){  
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('template/header');
         $this->load->view('jo/job_order',$data);
         $this->load->view('template/footer');
+    }
+
+    public function create_jo(){  
+        $rows_jo = $this->super_model->count_rows("jo_head");
+        if($rows_jo==0){
+            $jo_id=1;
+        } else {
+            $max = $this->super_model->get_max("jo_head", "jo_id");
+            $jo_id = $max+1;
+        }
+
+        $date_prepared = date('Y-m-d', strtotime($this->input->post('date_prepared')));
+        $work_start = date('Y-m-d',strtotime($this->input->post('work_start')));
+        $work_completion = date('Y-m-d', strtotime($this->input->post('work_completion')));
+        $exp = explode("-",$date_prepared);
+        $year = $exp[0];
+
+        $rows_jo = $this->super_model->count_rows_where("jo_series", "year", $year);
+        if($rows_jo==0){
+            $jo_no='JO '.$year."-1";
+        } else {
+            $max = $this->super_model->get_max_where("jo_series", "series","year='$year'");
+            $next= $max+1;
+            $jo_no = 'JO '.$year."-".$next;
+        }
+
+        $data_jo = array(
+            'jo_id'=>$jo_id,
+            'vendor_id'=>$this->input->post('vendor'),
+            'cenpri_jo_no'=>$this->input->post('cenjo_no'),
+            'jo_no'=>$jo_no,
+            'date_prepared'=>$date_prepared,
+            'start_of_work'=>$work_start,
+            'work_completion'=>$work_completion,
+            'scope_of_work'=>$this->input->post('scope_of_work'),
+            'quantity'=>$this->input->post('quantity'),
+            'uom'=>$this->input->post('uom'),
+            'unit_cost'=>$this->input->post('unit_cost'),
+            'total_cost'=>$this->input->post('total_cost'),
+            'discount_percent'=>$this->input->post('less_percent'),
+            'discount_amount'=>$this->input->post('less_amount'),
+            'grand_total'=>$this->input->post('net'),
+            'jo_terms'=>$this->input->post('jo_terms'),
+            'conforme'=>$this->input->post('conforme'),
+            'prepared_by'=>$_SESSION['user_id'],
+            'approved_by'=>$this->input->post('approved_by')
+        );
+
+        $this->super_model->insert_into("jo_head", $data_jo);
     }
 
 
@@ -83,13 +133,18 @@ class Jo extends CI_Controller {
         echo json_encode($return);
     
     }
-
+    public function job_order_saved(){  
+        $this->load->view('template/header');
+        $this->load->view('jo/job_order_saved');
+        $this->load->view('template/footer');
+    }
 
     public function jo_rfd(){  
         $this->load->view('template/header');
         $this->load->view('jo/jo_rfd');
         $this->load->view('template/footer');
     }
+
     public function jo_ac(){  
         $this->load->view('template/header');
         $this->load->view('jo/jo_ac');

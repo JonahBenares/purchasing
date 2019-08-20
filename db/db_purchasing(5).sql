@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2019 at 04:54 AM
+-- Generation Time: Aug 20, 2019 at 07:24 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -829,6 +829,7 @@ CREATE TABLE IF NOT EXISTS `jo_head` (
   `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
   `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `grand_total` decimal(10,2) NOT NULL DEFAULT '0.00',
   `jo_terms` text,
   `conforme` varchar(100) DEFAULT NULL,
   `prepared_by` int(11) NOT NULL DEFAULT '0',

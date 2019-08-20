@@ -87,7 +87,7 @@
     </style>
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>/'>  
+    	<form method='POST' action='<?php echo base_url(); ?>jo/create_jo'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
@@ -151,7 +151,7 @@
 		    			<td class="f13" colspan="4">Date Prepared:</td>
 		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="date_prepared" id="date_prepared" onchange="getJO()" class="btn-block nobord"></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">CENJO JO No.:</td>
+		    			<td class="f13" colspan="3">CENPRI JO No.:</td>
 		    			<td class="f13 bor-btm" colspan="5"><b><input type="text" name="cenjo_no" class="btn-block nobord"></b></td>
 		    		</tr>
 		    		<tr>
@@ -159,7 +159,7 @@
 		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="work_start" class="btn-block nobord"></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><input type="text" name="jo_no" id="jo_no" class="btn-block nobord"></td>
+		    			<td class="f13 bor-btm" colspan="5"><input type="text" name="jo_no" id="jo_no" readonly='readonly' class="btn-block nobord"></td>
 		    		</tr>	
 		    		<tr>
 		    			<td class="f13" colspan="4">Completion of Work:</td>
@@ -187,7 +187,7 @@
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
 		    					<tr>
-		    						<td class="f13 emphasis" align="left"><textarea class="btn-block" rows="1"></textarea></td>
+		    						<td class="f13 emphasis" align="left"><textarea class="btn-block" rows="1" name="scope_of_work"></textarea></td>
 		    						<td class="f13 emphasis" align="center"><input type="text" name="quantity" id="quantity" onblur='changePrice()' onkeypress="return isNumberKey(this, event)" class="btn-block"></td>
 		    						<td class="f13 emphasis" align="center"><input type="text" name="uom" class="btn-block"></td>
 		    						<td class="f13 emphasis" align="center"><input type="text" name="unit_cost" id="unit_cost" onblur='changePrice()' onkeypress="return isNumberKey(this, event)" class="btn-block"></td>
@@ -220,7 +220,7 @@
 		    		<tr>
 		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
 		    				Terms and Conditions:<br>
-		    				<textarea class="btn-block"></textarea>
+		    				<textarea class="btn-block" name='jo_terms'></textarea>
 		    			</td>
 		    			<td colspan="9"></td>
 		    		</tr>	
@@ -234,7 +234,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Conforme:</td>
-		    			<td class="f13 bor-btm" colspan="7"><input type="text" name="" class="btn-block"></td>
+		    			<td class="f13 bor-btm" colspan="7"><input type="text" name="conforme" class="btn-block"></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -257,15 +257,16 @@
 		    		<tr>
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">
-		    				<select type="text" name="" class="btn-block">
-		    					<option>name of employee</option>
-		    				</select>
+		    				<?php echo $_SESSION['fullname']; ?>
 		    			</td>
 		    			<td class="f13" colspan="2" align="center"></td>
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">
-		    				<select type="text" name="" class="btn-block">
-		    					<option>name of employee</option>
+		    				<select type="text" name="approved_by" class="btn-block">
+		    					<option value=''>-Select-</option>
+		    					 <?php foreach($employee AS $emp){ ?>
+                                    <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+								<?php } ?> 
 		    				</select>
 		    			</td>
 		    			<td class="f13" colspan="2" align="center"></td>
