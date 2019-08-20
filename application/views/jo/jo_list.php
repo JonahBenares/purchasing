@@ -36,7 +36,7 @@
                                 <h1>JO List</h1>
                                 <small>JOB ORDER</small> 
                                 <div class="sparkline8-outline-icon">
-                                    <a href="<?php echo base_url(); ?>jo/job_order" class="btn btn-custon-three btn-primary" > 
+                                    <a href="<?php echo base_url(); ?>jo/job_order" class="btn btn-custon-three btn-primary">  
                                         <span class="fa fa-plus p-l-0"></span> Add JO
                                     </a>
                                 </div>
