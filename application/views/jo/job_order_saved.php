@@ -87,7 +87,7 @@
     </style>
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>jo/create_jo'>  
+    	<form method='POST' action='<?php echo base_url(); ?>'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
@@ -136,34 +136,30 @@
 		    		<tr>
 		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
 		    			<td class="f13" colspan="10" align="left">
-		    				<b><select name='vendor' id='vendor' onchange="chooseVendor()">
-		    					<option value=''>-Select Vendor-</option>
-		    					 <?php foreach($vendor AS $sup){ ?>
-                                    <option value="<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
-								<?php } ?>        
-		    				</select></b>
-		    				<span id='address'></span><br>
-		    				<span id='phone'></span><br>
+		    				<b>HYDRAUKUING INDUSTRIAL CORP</b><br>
+		    				<span id='address'>japan terd floor</span><br>
+		    				<span id='phone'>sagot sa kahirapan</span><br>
+		    				<br>
 		    			</td>
 		    			<td colspan="7"></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="4">Date Prepared:</td>
-		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="date_prepared" id="date_prepared" onchange="getJO()" class="btn-block nobord"></td>
+		    			<td class="f13 bor-btm" colspan="7">29973</td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">CENPRI JO No.:</td>
-		    			<td class="f13 bor-btm" colspan="5"><b><input type="text" name="cenjo_no" class="btn-block nobord"></b></td>
+		    			<td class="f13 bor-btm" colspan="5"><b></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="4">Start of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="work_start" class="btn-block nobord"></td>
+		    			<td class="f13 bor-btm" colspan="7"></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><input type="text" name="jo_no" id="jo_no" readonly='readonly' class="btn-block nobord"></td>
+		    			<td class="f13 bor-btm" colspan="5"></td>
 		    		</tr>	
 		    		<tr>
 		    			<td class="f13" colspan="4">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="work_completion" class="btn-block nobord"></td>
+		    			<td class="f13 bor-btm" colspan="7"></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13" colspan="5"></td>
@@ -171,7 +167,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
 		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
-			    			<h5 style="margin: 0px"><b><input type="text" name="" class="btn-block" style="text-align: center" placeholder="PROJECT TITLE/DESCRIPTION"></b></h5>
+			    			<h5 style="margin: 5px"><b>SERVICING AND REPAIR OF HYDRAULIC JACK</b></h5>
 			    		</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
@@ -187,11 +183,11 @@
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
 		    					<tr>
-		    						<td class="f13 emphasis" align="left"><textarea class="btn-block" rows="1" name="scope_of_work"></textarea></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="quantity" id="quantity" onblur='changePrice()' onkeypress="return isNumberKey(this, event)" class="btn-block"></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="uom" class="btn-block"></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="unit_cost" id="unit_cost" onblur='changePrice()' onkeypress="return isNumberKey(this, event)" class="btn-block"></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="total_cost" id="total_cost" readonly="readonly" class="btn-block"></td>
+		    						<td class="f13" style="padding-left: 5px" align="left">mami</td>
+		    						<td class="f13" align="center">heloo</td>
+		    						<td class="f13" align="center">heloo</td>
+		    						<td class="f13" align="center">heloo</td>
+		    						<td class="f13" align="center">heloo</td>
 		    					</tr>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
@@ -204,15 +200,15 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td>Less:</td>
-		    						<td><input type="text" placeholder="Discount %" name="less_percent" id='less_percent' value='0' onblur='changePrice()'></td>
-		    						<td class="bor-btm" align="right"><input type="text" name="less_amount" id='less_amount' readonly="readonly"></td>
+		    						<td>5%</td>
+		    						<td align="center">asdasd</td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>Net</td>
 		    						<td></td>
-		    						<td class="bor-btm" align="right"><input type="text" name="net" id='net' readonly="readonly"></td>
+		    						<td align="center"></td>
 		    					</tr>
 		    				</table>
 		    			</td>
@@ -220,7 +216,10 @@
 		    		<tr>
 		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
 		    				Terms and Conditions:<br>
-		    				<textarea class="btn-block" name='jo_terms'></textarea>
+		    				1. Price is inclusive of taxes.<br>
+		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
+		    				
 		    			</td>
 		    			<td colspan="9"></td>
 		    		</tr>	
@@ -234,7 +233,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Conforme:</td>
-		    			<td class="f13 bor-btm" colspan="7"><input type="text" name="conforme" class="btn-block"></td>
+		    			<td class="f13 bor-btm" colspan="7" align="center">Jonah Fae</td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -257,17 +256,12 @@
 		    		<tr>
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">
-		    				<?php echo $_SESSION['fullname']; ?>
+		    				Jonah Fee Bernares
 		    			</td>
 		    			<td class="f13" colspan="2" align="center"></td>
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">
-		    				<select type="text" name="approved_by" class="btn-block">
-		    					<option value=''>-Select-</option>
-		    					 <?php foreach($employee AS $emp){ ?>
-                                    <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
-								<?php } ?> 
-		    				</select>
+		    				Jonah Fayte Bertenares
 		    			</td>
 		    			<td class="f13" colspan="2" align="center"></td>
 		    		</tr>  
@@ -282,7 +276,6 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>    	
 		    	</table>		    
 	    	</div>
-	    	<input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
     	</form>
     </div>
     <script type="text/javascript">
