@@ -14,7 +14,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <ul class="breadcome-menu">
-                                    <li><a href="<?php echo base_url(); ?>index.php/masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
+                                    <li><a href="<?php echo base_url(); ?>masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
                                     </li>
                                     <li><span class="bread-blod">JO List</span>
                                     </li>
@@ -23,6 +23,70 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="add_jo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add JO
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>               
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="">
+                            <div class="form-group btn-block m-b-5">
+                                TO:
+                                <select class="form-control">
+                                    <option></option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p>Address</p></div>
+                                 <div class="col-md-6"><p>Contact Number</p></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group btn-block">
+                                        Date Prepared:
+                                        <input type="date" name="" class="form-control">
+                                    </div>
+                                    <div class="form-group btn-block">
+                                       Start of Work:
+                                        <input type="date" name="" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group btn-block">
+                                       Completion of Work:
+                                        <input type="date" name="" class="form-control">
+                                    </div>
+                                    <div class="form-group btn-block">
+                                       CENPRI JO No.:
+                                        <input type="Text" name="" class="form-control">
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="form-group btn-block">
+                                JO No.:
+                                <input type="Text" name="" class="form-control">
+                            </div>
+                            <div class="form-group btn-block">
+                                Project Title/Description:
+                                <textarea name="" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-primary btn-block" value="Proceed">                        
+                    </div>
+                    <a href="<?php echo base_url(); ?>jo/job_order" class="btn btn-link">Proceed</a>
+                </form>
             </div>
         </div>
     </div>
@@ -36,10 +100,10 @@
                                 <h1>JO List</h1>
                                 <small>JOB ORDER</small> 
                                 <div class="sparkline8-outline-icon">
-                                    <a href="<?php echo base_url(); ?>jo/job_order" class="btn btn-custon-three btn-primary">  
+                                    <button type="button" class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#add_jo">
                                         <span class="fa fa-plus p-l-0"></span> Add JO
-                                    </a>
-                                </div>
+                                    </button>
+                                </div>                                
                             </div>
                         </div>                       
                         <div class="sparkline8-graph">

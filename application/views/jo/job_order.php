@@ -85,13 +85,76 @@
 			border: 0px solid #fff;
 		}
     </style>
+    <div class="modal fade" id="addscope" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add Scope
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</h5>										
+				</div>
+				<form >
+					<div class="modal-body">
+						<div class="form-group">
+							<p style="font-size: 14px" class="nomarg">Scope:</p>
+							<textarea class="form-control" rows="3"></textarea>
+						</div>
+						<div class="row">
+							<div class="col-lg-4">
+								<p style="font-size: 14px" class="nomarg">Qty:</p>
+								<input type="text" class="form-control" name="">
+							</div>
+							<div class="col-lg-4">
+								<p style="font-size: 14px" class="nomarg">U/M:</p>
+								<input type="text" class="form-control" name="">
+							</div>
+							<div class="col-lg-4">
+								<p style="font-size: 14px" class="nomarg">Unit Cost:</p>
+								<input type="text" class="form-control" name="">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-primary btn-block" value="Add">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="addterms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add Terms & Conditions
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</h5>										
+				</div>
+				<form >
+					<div class="modal-body">
+						<div class="form-group">
+							<p style="font-size: 14px" class="nomarg">Terms & Conditions:</p>
+							<textarea class="form-control" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-primary btn-block" value="Add">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
     
     <div  class="pad">
     	<form method='POST' action='<?php echo base_url(); ?>jo/create_jo'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
+						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
 						<a  href="<?php echo base_url(); ?>jo/jo_rfd" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
 						<a  href="<?php echo base_url(); ?>jo/jo_dr" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
@@ -134,36 +197,31 @@
 		    		<tr><td class="f13" colspan="20" align="center">Bacolod Office Telefax: (034) 435-1932/476-7382</td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4></td></tr>
 		    		<tr>
-		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
+		    			<td class="f13 p-l-5" colspan="3" style="vertical-align:top">TO:</td>
 		    			<td class="f13" colspan="10" align="left">
-		    				<b><select name='vendor' id='vendor' onchange="chooseVendor()">
-		    					<option value=''>-Select Vendor-</option>
-		    					 <?php foreach($vendor AS $sup){ ?>
-                                    <option value="<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
-								<?php } ?>        
-		    				</select></b>
-		    				<span id='address'></span><br>
-		    				<span id='phone'></span><br>
+		    				<b>HYDRAUKING INDUSTRIAL CORPORATION</b><br>
+		    				<span id='address'>542 M, Aliganga Street, Brgy. Tanke Naga City, Cebu City</span><br>
+		    				<span id='phone'>340-6467</span><br>
 		    			</td>
 		    			<td colspan="7"></td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="4">Date Prepared:</td>
-		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="date_prepared" id="date_prepared" onchange="getJO()" class="btn-block nobord"></td>
+		    			<td class="f13 p-l-5" colspan="4">Date Prepared:</td>
+		    			<td class="f13 bor-btm" colspan="7">April 17, 2019</td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">CENPRI JO No.:</td>
-		    			<td class="f13 bor-btm" colspan="5"><b><input type="text" name="cenjo_no" class="btn-block nobord"></b></td>
+		    			<td class="f13 bor-btm" colspan="5"><b>CENJO EM046-19</b></td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="4">Start of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="work_start" class="btn-block nobord"></td>
+		    			<td class="f13 p-l-5" colspan="4">Start of Work:</td>
+		    			<td class="f13 bor-btm" colspan="7">April 23, 2019</td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><input type="text" name="jo_no" id="jo_no" readonly='readonly' class="btn-block nobord"></td>
+		    			<td class="f13 bor-btm" colspan="5">JO 2019-014</td>
 		    		</tr>	
 		    		<tr>
-		    			<td class="f13" colspan="4">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="work_completion" class="btn-block nobord"></td>
+		    			<td class="f13 p-l-5" colspan="4">Completion of Work:</td>
+		    			<td class="f13 bor-btm" colspan="7">May 29, 2019</td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13" colspan="5"></td>
@@ -171,11 +229,18 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
 		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
-			    			<h5 style="margin: 0px"><b><input type="text" name="project_title" class="btn-block" style="text-align: center" placeholder="PROJECT TITLE/DESCRIPTION"></b></h5>
+			    			<h5 style="margin: 5px; text-transform: uppercase;"><b>Servicing and Repair of Hydraulic Jack</b></h5>
 			    		</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		    		
+		    		<tr>
+		    			<td class="f13  p-l-5" colspan="20" align="left">
+			    			<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#addscope">
+							  <span class="fa fa-plus"></span> Add Scope
+							</button>		    			
+			    		</td>
+			    	</tr>		    		
 		    		<tr>
 		    			<td colspan="20">
 		    				<table class="table-borsdered" width="100%">
@@ -187,11 +252,19 @@
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
 		    					<tr>
-		    						<td class="f13 emphasis" align="left"><textarea class="btn-block" rows="1" name="scope_of_work"></textarea></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="quantity" id="quantity" onblur='changePrice()' onkeypress="return isNumberKey(this, event)" class="btn-block"></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="uom" class="btn-block"></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="unit_cost" id="unit_cost" onblur='changePrice()' onkeypress="return isNumberKey(this, event)" class="btn-block"></td>
-		    						<td class="f13 emphasis" align="center"><input type="text" name="total_cost" id="total_cost" readonly="readonly" class="btn-block"></td>
+		    						<td class="f13 p-l-5" align="left">
+		    							Servicing and Repair of Hadraulic Jack<br>
+		    							brand: Enerpac MOdel: RC106, SN: E4816K, 10Tons<br>
+		    							a. replace
+		    							b. honing
+		    							c. hard
+		    							d. replace
+
+		    						</td>
+		    						<td class="f13" align="center" style="vertical-align:top">1</td>
+		    						<td class="f13" align="center" style="vertical-align:top">pc</td>
+		    						<td class="f13" align="center" style="vertical-align:top">14,850</td>
+		    						<td class="f13" align="center" style="vertical-align:top"><input type="text" name="total_cost" id="total_cost" readonly="readonly" class="btn-block"></td>
 		    					</tr>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
@@ -217,10 +290,22 @@
 		    				</table>
 		    			</td>
 		    		</tr>
+		    		<tr><td class="f13  p-l-5" colspan="20" align="left"><br></td></tr>	
 		    		<tr>
-		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
-		    				Terms and Conditions:<br>
-		    				<textarea class="btn-block" name='jo_terms'></textarea>
+		    			<td class="f13  p-l-5" colspan="20" align="left">
+			    			<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#addterms">
+							  <span class="fa fa-plus"></span> Terms & Conditions:
+							</button>		    			
+			    		</td>
+			    	</tr>	
+		    		<tr>
+		    			<td class="f13 p-l-5" colspan="11" align="left">
+		    				Terms & Conditions:<br>
+		    				1. Price is inclusive of taxes.<br>
+		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
+		    				4. Payment term:<br>	
+		    				5. Item Warranty: <br>	 
 		    			</td>
 		    			<td colspan="9"></td>
 		    		</tr>	
