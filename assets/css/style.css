@@ -5920,3 +5920,9 @@ div#sparklinedask2, div#sparklinedask1 {
       box-shadow: 0 0 0 0 rgba(219, 52, 59, 0);
   }
 }
+.nobord{
+	border: 0px solid #fff;
+}
+.texcenter{
+	text-align: center;
+}

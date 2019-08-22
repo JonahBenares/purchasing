@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2019 at 07:24 AM
+-- Generation Time: Aug 22, 2019 at 08:05 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -811,6 +811,30 @@ INSERT INTO `item` (`item_id`, `item_name`, `item_specs`, `brand_name`, `unit_id
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jo_details`
+--
+
+CREATE TABLE IF NOT EXISTS `jo_details` (
+`jo_details_id` int(11) NOT NULL,
+  `jo_id` int(11) NOT NULL DEFAULT '0',
+  `scope_of_work` text,
+  `quantity` int(11) NOT NULL DEFAULT '0',
+  `uom` varchar(50) DEFAULT NULL,
+  `unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jo_details`
+--
+
+INSERT INTO `jo_details` (`jo_details_id`, `jo_id`, `scope_of_work`, `quantity`, `uom`, `unit_cost`, `total_cost`) VALUES
+(2, 1, 'Servicing and Repair of Hydraulic Jack\r\nBrand: Enerpac, Model: RC106, SN: E4816K, 10Tons\r\na. Replace 1 set repair kit\r\nb. Honing of Cylinder Housing\r\nc. Hard Chroming of piston plunger\r\nd. Replace female coupler\r\ne. Labor, test and repaint of unit', 2, 'pc', '14850.00', '29700.00'),
+(3, 1, 'test another scope', 1, 'pc', '15750.00', '15750.00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `jo_head`
 --
 
@@ -820,21 +844,25 @@ CREATE TABLE IF NOT EXISTS `jo_head` (
   `cenpri_jo_no` varchar(100) DEFAULT NULL,
   `jo_no` varchar(100) DEFAULT NULL,
   `date_prepared` varchar(20) DEFAULT NULL,
+  `project_title` text,
   `start_of_work` varchar(20) DEFAULT NULL,
   `work_completion` varchar(20) DEFAULT NULL,
-  `scope_of_work` text,
-  `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `uom` varchar(50) DEFAULT NULL,
-  `unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
   `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `grand_total` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `jo_terms` text,
   `conforme` varchar(100) DEFAULT NULL,
   `prepared_by` int(11) NOT NULL DEFAULT '0',
-  `approved_by` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `approved_by` int(11) NOT NULL DEFAULT '0',
+  `saved` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jo_head`
+--
+
+INSERT INTO `jo_head` (`jo_id`, `vendor_id`, `cenpri_jo_no`, `jo_no`, `date_prepared`, `project_title`, `start_of_work`, `work_completion`, `total_cost`, `discount_percent`, `discount_amount`, `grand_total`, `conforme`, `prepared_by`, `approved_by`, `saved`) VALUES
+(1, 3, '3454545', 'JO 2019-1', '2019-08-22', 'testing project', '2019-08-23', '2019-08-31', '45450.00', '1.00', '454.50', '44995.50', 'Jonah Faye Benares', 1, 41, 1);
 
 -- --------------------------------------------------------
 
@@ -846,7 +874,33 @@ CREATE TABLE IF NOT EXISTS `jo_series` (
 `jo_series_id` int(11) NOT NULL,
   `year` int(11) NOT NULL DEFAULT '0',
   `series` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jo_series`
+--
+
+INSERT INTO `jo_series` (`jo_series_id`, `year`, `series`) VALUES
+(1, 2019, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jo_terms`
+--
+
+CREATE TABLE IF NOT EXISTS `jo_terms` (
+`jo_terms_id` int(11) NOT NULL,
+  `jo_id` int(11) NOT NULL DEFAULT '0',
+  `terms` text
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jo_terms`
+--
+
+INSERT INTO `jo_terms` (`jo_terms_id`, `jo_id`, `terms`) VALUES
+(2, 1, '1. Price is inclusive of taxes. \r\n2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted. \r\n3. Sub-standard items shall be returned to supplier @ no cost to CENPRI. ');
 
 -- --------------------------------------------------------
 
@@ -2519,6 +2573,12 @@ ALTER TABLE `item`
  ADD PRIMARY KEY (`item_id`);
 
 --
+-- Indexes for table `jo_details`
+--
+ALTER TABLE `jo_details`
+ ADD PRIMARY KEY (`jo_details_id`);
+
+--
 -- Indexes for table `jo_head`
 --
 ALTER TABLE `jo_head`
@@ -2529,6 +2589,12 @@ ALTER TABLE `jo_head`
 --
 ALTER TABLE `jo_series`
  ADD PRIMARY KEY (`jo_series_id`);
+
+--
+-- Indexes for table `jo_terms`
+--
+ALTER TABLE `jo_terms`
+ ADD PRIMARY KEY (`jo_terms_id`);
 
 --
 -- Indexes for table `po_dr`
@@ -2726,15 +2792,25 @@ MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=121;
 ALTER TABLE `item`
 MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=534;
 --
+-- AUTO_INCREMENT for table `jo_details`
+--
+ALTER TABLE `jo_details`
+MODIFY `jo_details_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `jo_head`
 --
 ALTER TABLE `jo_head`
-MODIFY `jo_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `jo_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `jo_series`
 --
 ALTER TABLE `jo_series`
-MODIFY `jo_series_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `jo_series_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `jo_terms`
+--
+ALTER TABLE `jo_terms`
+MODIFY `jo_terms_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `po_dr`
 --

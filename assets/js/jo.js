@@ -39,18 +39,16 @@ function getJO(){
 }
 
 function changePrice(){
-   var price = document.getElementById("unit_cost").value;
-   var qty = document.getElementById("quantity").value;
-   var tprice = parseFloat(price) * parseFloat(qty);
+  /* var price = document.getElementById("unit_cost").value;
+   var qty = document.getElementById("quantity").value;*/
+   var sum_cost =document.getElementById("sum_cost").value;
 
-   document.getElementById("total_cost").value  =tprice;
 
-    var total_cost = document.getElementById("total_cost").value;
   var less_percent = document.getElementById("less_percent").value;
    var less = less_percent/100;
-   var less_amount = parseFloat(total_cost) * parseFloat(less);
+   var less_amount = parseFloat(sum_cost) * parseFloat(less);
 
-   var net =  parseFloat(total_cost) - parseFloat(less_amount);
+   var net =  parseFloat(sum_cost) - parseFloat(less_amount);
    document.getElementById("less_amount").value  =less_amount.toFixed(2);
    document.getElementById("net").value  =net;
 

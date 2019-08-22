@@ -1,3 +1,4 @@
+     <script src="<?php echo base_url(); ?>assets/js/jo.js"></script> 
      <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -36,56 +37,60 @@
                         </button>
                     </h5>               
                 </div>
-                <form>
+                <form method='POST' action="<?php echo base_url(); ?>jo/create_jo">
                     <div class="modal-body">
                         <div class="">
                             <div class="form-group btn-block m-b-5">
                                 TO:
-                                <select class="form-control">
-                                    <option></option>
-                                </select>
+                                <select name='vendor' id='vendor' onchange="chooseVendor()" class='form-control'>
+                                <option value=''>-Select Vendor-</option>
+                                 <?php foreach($vendor AS $sup){ ?>
+                                    <option value="<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
+                                <?php } ?>        
+                            </select>
                             </div>
                             <div class="row">
-                                <div class="col-md-6"><p>Address</p></div>
-                                 <div class="col-md-6"><p>Contact Number</p></div>
+                                <div class="col-md-6"><p  id='address'>Address</p></div>
+                                 <div class="col-md-6"><p id='phone'>Contact Number</p></div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group btn-block">
                                         Date Prepared:
-                                        <input type="date" name="" class="form-control">
+                                        <input type="date" name="date_prepared" id="date_prepared" class="form-control" onchange="getJO()" >
                                     </div>
                                     <div class="form-group btn-block">
                                        Start of Work:
-                                        <input type="date" name="" class="form-control">
+                                        <input type="date" name="work_start" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group btn-block">
                                        Completion of Work:
-                                        <input type="date" name="" class="form-control">
+                                        <input type="date" name="work_completion" class="form-control">
                                     </div>
                                     <div class="form-group btn-block">
                                        CENPRI JO No.:
-                                        <input type="Text" name="" class="form-control">
+                                        <input type="Text" name="cenjo_no" class="form-control">
                                     </div>
                                 </div>
                             </div>  
                             <div class="form-group btn-block">
                                 JO No.:
-                                <input type="Text" name="" class="form-control">
+                                <input type="Text" name="jo_no" id="jo_no"  class="form-control" readonly="readonly">
                             </div>
                             <div class="form-group btn-block">
                                 Project Title/Description:
-                                <textarea name="" class="form-control"></textarea>
+                                <textarea name="project_title" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" class="btn btn-primary btn-block" value="Proceed">                        
+                        <input type="submit" class="btn btn-primary btn-block" value="Proceed">                        
                     </div>
-                    <a href="<?php echo base_url(); ?>jo/job_order" class="btn btn-link">Proceed</a>
+                    <input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
+                  
                 </form>
             </div>
         </div>

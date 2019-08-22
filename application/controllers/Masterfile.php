@@ -27,18 +27,18 @@ class Masterfile extends CI_Controller {
 
 	}
 
-	public function index(){
+/*	public function index(){
         if(empty($_SESSION['user_id'])){
             $this->load->view('masterfile/login');
         }else {
             $this->load->view('template/header');
             $this->load->view('template/navbar');
-            $this->load->view('masterfile/dashboard',$data);
+            $this->load->view('masterfile/dashboard');
             $this->load->view('template/footer');
         }
-    }
+    }*/
 
-    public function dashboard(){
+    public function index(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $count = $this->super_model->count_rows("reminder");

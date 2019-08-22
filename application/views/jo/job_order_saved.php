@@ -84,6 +84,9 @@
 		.nobord{
 			border: 0px solid #fff;
 		}
+		.p-5{
+			padding: 3px;
+		}
     </style>
     
     <div  class="pad">
@@ -143,24 +146,24 @@
 		    			</td>
 		    			<td colspan="7"></td>
 		    		</tr>
-		    		<?php foreach($jo_head AS $jo){ ?>
+		    		
 		    		<tr>
 		    			<td class="f13" colspan="4">Date Prepared:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($jo['date_prepared']));?></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_prepared));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">CENPRI JO No.:</td>
-		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $jo['cenpri_jo_no']; ?></b></td>
+		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $cenjo_no; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="4">Start of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($jo['start_of_work']));?></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($start_of_work));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo['jo_no']; ?></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no; ?></td>
 		    		</tr>	
 		    		<tr>
 		    			<td class="f13" colspan="4">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($jo['work_completion']));?></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($work_completion));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13" colspan="5"></td>
@@ -168,12 +171,13 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
 		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
-			    			<h5 style="margin: 5px"><b><?php echo $jo['project_title']; ?></b></h5>
+			    			<h5 style="margin: 5px"><b><?php echo $project_title; ?></b></h5>
 			    		</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		    		
 		    		<tr>
+		    		
 		    			<td colspan="20">
 		    				<table class="table-borsdered" width="100%">
 		    					<tr>
@@ -183,13 +187,16 @@
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
+		    					<?php foreach($details AS $det){ ?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo $jo['scope_of_work']; ?></td>
-		    						<td class="f13" align="center"><?php echo $jo['quantity']; ?></td>
-		    						<td class="f13" align="center"><?php echo $jo['uom']; ?></td>
-		    						<td class="f13" align="center"><?php echo $jo['unit_cost']; ?></td>
-		    						<td class="f13" align="center"><?php echo $jo['total_cost']; ?></td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->scope_of_work); ?></td>
+		    						<td class="f13" align="center"><?php echo $det->quantity; ?></td>
+		    						<td class="f13" align="center"><?php echo $det->uom; ?></td>
+		    						<td class="f13" align="center"><?php echo $det->unit_cost; ?></td>
+		    						<td class="f13" align="right"><?php echo $det->total_cost; ?></td>
 		    					</tr>
+		    					<tr><td colspan="5" class="p-5"></td></tr>
+		    				<?php } ?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
@@ -201,15 +208,15 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td>Less:</td>
-		    						<td><?php echo $jo['discount_percent']; ?>%</td>
-		    						<td align="center"><?php echo $jo['discount_amount']; ?></td>
+		    						<td><?php echo $discount_percent; ?>%</td>
+		    						<td align="right"><?php echo $discount_amount; ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>Net</td>
 		    						<td></td>
-		    						<td align="center"><?php echo $jo['grand_total']; ?></td>
+		    						<td align="right"><?php echo $grand_total; ?></td>
 		    					</tr>
 		    				</table>
 		    			</td>
@@ -217,28 +224,23 @@
 		    		<tr>
 		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
 		    				Terms and Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
-		    				<?php 
-		    					if(!empty($jo['jo_terms'])){ 
-		    						echo '4. '.$jo['jo_terms'];
-		    					}
-		    				?>
+		    				<?php foreach($terms AS $trm){ 
+		    					echo nl2br($trm->terms);
+		    				} ?>
 		    			</td>
 		    			<td colspan="9"></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo $jo['grand_total']; ?></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo $grand_total; ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Conforme:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="center"><?php echo $jo['conforme']; ?></td>
+		    			<td class="f13 bor-btm" colspan="7" align="center"><?php echo $conforme; ?></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -261,12 +263,12 @@
 		    		<tr>
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">
-		    				<?php echo $_SESSION['fullname']; ?>
+		    				<?php echo $prepared; ?>
 		    			</td>
 		    			<td class="f13" colspan="2" align="center"></td>
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">
-		    				<?php echo $jo['approved_by'];?>
+		    				<?php echo $approved;?>
 		    			</td>
 		    			<td class="f13" colspan="2" align="center"></td>
 		    		</tr>  
@@ -279,7 +281,7 @@
 		    			<td class="f13" colspan="2" align="center"></td>
 		    		</tr>   	
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
-		    		<?php } ?>  	
+		    		
 		    	</table>		    
 	    	</div>
     	</form>

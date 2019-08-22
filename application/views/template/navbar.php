@@ -10,7 +10,7 @@
                 <div class="left-custom-menu-adp-wrap">
                     <ul class="nav navbar-nav left-sidebar-menu-pro">
                         <li class="nav-item">
-                            <a href="<?php echo base_url(); ?>Masterfile/dashboard"  role="button" class="nav-link dropdown-toggle">
+                            <a href="<?php echo base_url(); ?>"  role="button" class="nav-link dropdown-toggle">
                                 <i class="fa big-icon fa-home"></i>
                                 <span class="mini-dn">Dashboard</span> 
                                 <span class="indicator-right-menu mini-dn"></span>
@@ -70,7 +70,7 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo base_url(); ?>index.php/jo/jo_list"  role="button" class="nav-link dropdown-toggle" title="Job Order">
+                            <a href="<?php echo base_url(); ?>jo/jo_list"  role="button" class="nav-link dropdown-toggle" title="Job Order">
                                 <i class="fa big-icon fa-file-text"></i>
                                 <span class="mini-dn"> Job Order</span> 
                                 <span class="indicator-right-menu mini-dn"></span>
