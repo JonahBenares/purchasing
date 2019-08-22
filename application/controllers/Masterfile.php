@@ -292,7 +292,7 @@ class Masterfile extends CI_Controller {
                'logged_in'=> TRUE
             );
             $this->session->set_userdata($newdata);
-            redirect(base_url().'masterfile/dashboard/');
+            redirect(base_url());
         }
         else{
             $this->session->set_flashdata('error_msg', 'Username And Password Do not Exist!');
@@ -302,11 +302,11 @@ class Masterfile extends CI_Controller {
 
     public function user_logout(){
         $this->session->sess_destroy();
-        $this->load->view('template/header');
-        $this->load->view('masterfile/login');
-        $this->load->view('template/footer');
+        /*$this->load->view('template/header');*/
+        /*$this->load->view('masterfile/login');*/
+        /*$this->load->view('template/footer');*/
         echo "<script>alert('You have successfully logged out.'); 
-        window.location ='".base_url()."masterfile/index'; </script>";
+        window.location ='".base_url()."'; </script>";
     }
 
     public function employee_list(){

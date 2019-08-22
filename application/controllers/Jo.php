@@ -169,9 +169,8 @@ class Jo extends CI_Controller {
     }
 
     public function save_jo(){
-         $jo_id = $this->input->post('jo_id');
-
-         $data = array(
+        $jo_id = $this->input->post('jo_id');
+        $data = array(
             'total_cost'=>$this->input->post('sum_cost'),
             'discount_percent'=>$this->input->post('less_percent'),
             'discount_amount'=>$this->input->post('less_amount'),
@@ -179,9 +178,51 @@ class Jo extends CI_Controller {
             'conforme'=>$this->input->post('conforme'),
             'approved_by'=>$this->input->post('approved_by'),
             'saved'=>1
-         );
+        );
 
-         if($this->super_model->update_where("jo_head", $data, "jo_id", $jo_id)){
+        $date_format = date("Y");
+        $rows_dr = $this->super_model->count_rows("jo_dr");
+        if($rows_dr==0){
+            $dr_no= "DR ".$date_format."-01";
+        } else {
+            $max = $this->super_model->get_max("jo_dr", "series");
+            $dr_no = "DR ".$date_format."-".$max+1;
+        }
+
+        $dr_det=explode("-", $dr_no);
+        $dr_prefix=$dr_det[0];
+        $series = $dr_det[1];
+        $dr = array(
+            'jo_id'=>$jo_id,
+            'year'=>$dr_prefix,
+            'series'=>$series,
+            'dr_date'=>$this->super_model->select_column_where('jo_head', 'date_prepared', 'jo_id', $jo_id),
+        );
+
+        $this->super_model->insert_into("jo_dr", $dr);
+
+        $rows_ar = $this->super_model->count_rows("jo_ar");
+        if($rows_ar==0){
+            $ar_no= "AR ".$date_format."-01";
+        } else {
+            $max = $this->super_model->get_max("jo_ar", "series");
+            $ar_no = "AR ".$date_format."-".$max+1;
+        }
+
+        $ar_det=explode("-", $ar_no);
+        $ar_prefix=$ar_det[0];
+        $series = $ar_det[1];
+        $ar = array(
+            'jo_id'=>$jo_id,
+            'year'=>$ar_prefix,
+            'series'=>$series,
+            'ar_date'=>$this->super_model->select_column_where('jo_head', 'date_prepared', 'jo_id', $jo_id),
+        );
+
+        $this->super_model->insert_into("jo_ar", $ar);
+
+
+        if($this->super_model->update_where("jo_head", $data, "jo_id", $jo_id)){
                 redirect(base_url().'jo/job_order_saved/'.$jo_id);
         }
     }
@@ -233,17 +274,84 @@ class Jo extends CI_Controller {
     }
 
     public function jo_ac(){  
+        $jo_id = $this->uri->segment(3);
+        $data['jo_id'] = $jo_id;
         $this->load->view('template/header');
-        $this->load->view('jo/jo_ac');
-        $this->load->view('template/footer');
-    }
-    public function jo_dr(){  
-        $this->load->view('template/header');
-        $this->load->view('jo/jo_dr');
+        $data['saved'] = $this->super_model->select_column_where("jo_ar", "saved", "jo_id", $jo_id);
+        $data['delivered_to'] = $this->super_model->select_column_where("jo_ar", "delivered_to", "jo_id", $jo_id);
+        $data['address'] = $this->super_model->select_column_where("jo_ar", "address", "jo_id", $jo_id);
+        $data['requested_by'] = $this->super_model->select_column_where("jo_ar", "requested_by", "jo_id", $jo_id);
+        $data['gatepass_no'] = $this->super_model->select_column_where("jo_ar", "gatepass_no", "jo_id", $jo_id);
+        $year = $this->super_model->select_column_where("jo_ar", "year", "jo_id", $jo_id);
+        $series = $this->super_model->select_column_where("jo_ar", "series", "jo_id", $jo_id);
+        $data['ar_no']= $year."-".$series;
+        $data['jo_head']=$this->super_model->select_row_where('jo_head', 'jo_id', $jo_id);
+        foreach($this->super_model->select_row_where("jo_details","jo_id",$jo_id) AS $jd){
+            $vendor_id = $this->super_model->select_column_where("jo_head","vendor_id","jo_id",$jo_id);
+            $vendor = $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$vendor_id);
+            $data['jo_det'][]=array(
+                'supplier'=>$vendor,
+                'scope_of_work'=>$jd->scope_of_work,
+                'quantity'=>$jd->quantity,
+                'uom'=>$jd->uom,
+            );
+        }
+        $this->load->view('jo/jo_ac',$data);
         $this->load->view('template/footer');
     }
 
-   
+    public function save_ar(){
+        $jo_id = $this->input->post('jo_id');
+        $data = array(
+            'delivered_to'=>$this->input->post('delivered_to'),
+            'address'=>$this->input->post('address'),
+            'requested_by'=>$this->input->post('requested_by'),
+            'gatepass_no'=>$this->input->post('gatepass'),
+            'saved'=>1
+        );
+        if($this->super_model->update_where("jo_ar", $data, "jo_id", $jo_id)){
+            redirect(base_url().'jo/jo_ac/'.$jo_id);
+        }
+    }
+
+    public function jo_dr(){  
+        $jo_id = $this->uri->segment(3);
+        $data['jo_id'] = $jo_id;
+        $this->load->view('template/header');
+        $data['saved'] = $this->super_model->select_column_where("jo_dr", "saved", "jo_id", $jo_id);
+        $data['delivered_to'] = $this->super_model->select_column_where("jo_dr", "delivered_to", "jo_id", $jo_id);
+        $data['address'] = $this->super_model->select_column_where("jo_dr", "address", "jo_id", $jo_id);
+        $data['requested_by'] = $this->super_model->select_column_where("jo_dr", "requested_by", "jo_id", $jo_id);
+        $year = $this->super_model->select_column_where("jo_dr", "year", "jo_id", $jo_id);
+        $series = $this->super_model->select_column_where("jo_dr", "series", "jo_id", $jo_id);
+        $data['dr_no']= $year."-".$series;
+        $data['jo_head']=$this->super_model->select_row_where('jo_head', 'jo_id', $jo_id);
+        foreach($this->super_model->select_row_where("jo_details","jo_id",$jo_id) AS $jd){
+            $vendor_id = $this->super_model->select_column_where("jo_head","vendor_id","jo_id",$jo_id);
+            $vendor = $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$vendor_id);
+            $data['jo_det'][]=array(
+                'supplier'=>$vendor,
+                'scope_of_work'=>$jd->scope_of_work,
+                'quantity'=>$jd->quantity,
+                'uom'=>$jd->uom,
+            );
+        }
+        $this->load->view('jo/jo_dr', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function save_dr(){
+        $jo_id = $this->input->post('jo_id');
+        $data = array(
+            'delivered_to'=>$this->input->post('delivered_to'),
+            'address'=>$this->input->post('address'),
+            'requested_by'=>$this->input->post('requested_by'),
+            'saved'=>1
+        );
+        if($this->super_model->update_where("jo_dr", $data, "jo_id", $jo_id)){
+                redirect(base_url().'jo/jo_dr/'.$jo_id);
+        }
+    }  
 }
 
 ?>

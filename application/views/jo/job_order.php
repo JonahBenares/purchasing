@@ -257,7 +257,9 @@
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
-		    					<?php foreach($details AS $det){
+		    					<?php
+		    						$total[] = '';
+		    						foreach($details AS $det){
 		    						$total[]= $det->total_cost; ?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
