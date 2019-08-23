@@ -10,7 +10,7 @@
                             <h5>Add Item/s to Vendor:</h5>
                             <h4><u><?php echo $vendor;?></u></h4>
                             <div class="datatable-dashv1-list custom-datatable-overright">  
-                                <form method='POST' action='<?php echo base_url(); ?>index.php/vendors/insert_itemvendor'>
+                                <form method='POST' action='<?php echo base_url(); ?>vendors/insert_itemvendor'>
                                     <table width="100%">
                                         <tbody>
                                         <?php for($x=1;$x<=10;$x++){ ?>

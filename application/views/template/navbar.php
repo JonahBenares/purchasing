@@ -1,7 +1,7 @@
         <div class="left-sidebar-pro">
             <nav id="sidebar">
                 <div class="sidebar-header">
-                    <a href="<?php echo base_url(); ?>index.php/Masterfile/dashboard"><img src="<?php echo base_url(); ?>assets/img/message/logo4.jpg" alt="" />
+                    <a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>assets/img/message/logo4.jpg" alt="" />
                     </a>
                     <h3 style="letter-spacing: 2px;font-weight: 800;font-size: 15px;margin-bottom: 0px">PROCUREMENT</h3>
                     <p style="letter-spacing: 3px;">SYSTEM</p>

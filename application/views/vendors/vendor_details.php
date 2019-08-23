@@ -108,14 +108,14 @@
                                         <?php } ?>                              
                                     </tbody>
                                 </table>
-                                <a href="<?php echo base_url(); ?>index.php/vendors/export_vendor/<?php echo $id; ?>" class="btn btn-custon-three btn-primary btn-block">Export To Excel</a>
+                                <a href="<?php echo base_url(); ?>vendors/export_vendor/<?php echo $id; ?>" class="btn btn-custon-three btn-primary btn-block">Export To Excel</a>
                             </div>
                         </div>                      
                         <div class="hr-bold"></div>
                     </div>
                 </div>
                 <!--  -->
-                <form method='POST' action='<?php echo base_url(); ?>index.php/rfq/create_rfq' >
+                <form method='POST' action='<?php echo base_url(); ?>rfq/create_rfq' >
                 <div class="col-lg-8">
                     <div class="sparkline8-list shadow-reset">
                         <div class="hr-bold"></div>

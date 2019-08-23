@@ -13,7 +13,7 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <form method="POST" action = "<?php echo base_url();?>index.php/vendors/edit_vendor">
+                                                <form method="POST" action = "<?php echo base_url();?>vendors/edit_vendor">
                                                     <div class="modal-body-lowpad">
                                                     <?php foreach($vendor AS $v){ ?>
                                                         <div class="form-group">
