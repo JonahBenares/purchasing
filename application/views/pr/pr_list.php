@@ -20,7 +20,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <ul class="breadcome-menu">
-                                    <li><a href="<?php echo base_url(); ?>masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
+                                    <li><a href="<?php echo base_url(); ?>">Home</a> <span class="bread-slash">/</span>
                                     </li>
                                     <li><span class="bread-blod">PR List</span>
                                     </li>
