@@ -222,31 +222,15 @@
 	    		<center>
 			    	<div class="btn-group">
 						<a href="<?php echo base_url(); ?>aoq/aoq_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-<<<<<<< HEAD
-							<!-- <input type='submit' class="btn btn-info btn-md p-l-100 p-r-100" value='Done'> -->
-							<?php if($saved==1 && $awarded==1){ ?>
-								<!-- <a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a> -->
-								<a href="<?php echo base_url(); ?>aoq/export_aoq_prnt_five/<?php echo $aoq_id;?>" class="btn btn-primary btn-md p-l-100 p-r-100"><span class="fa fa-export"></span> Export</a>
-							<?php } ?>
-							<!-- <a  onclick="printPage()" class="btn btn-info btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Export</a> -->
-							<?php if($saved==0){ ?>
-							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
-							<?php } else if ($saved==1 && $awarded==0){ ?>
-							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Award">
-							<?php } ?>
-=======
-						<!-- <input type='submit' class="btn btn-info btn-md p-l-100 p-r-100" value='Done'> -->
 						<?php if($saved==1){ ?>
-						<!-- <a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a> -->
-						<a href="<?php echo base_url(); ?>aoq/export_aoq_prnt_five/<?php echo $aoq_id;?>" class="btn btn-primary btn-md p-l-100 p-r-100"><span class="fa fa-export"></span> Export</a>
+							<!-- <a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a> -->
+							<a href="<?php echo base_url(); ?>aoq/export_aoq_prnt_five/<?php echo $aoq_id;?>" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-export"></span> Export</a>
 						<?php } ?>
-						<!-- <a  onclick="printPage()" class="btn btn-info btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Export</a> -->
 						<?php if($saved==0){ ?>
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
+							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save AOQ">
 						<?php } else if ($saved==1 && $awarded==0){ ?>
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Award">
+							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Award">
 						<?php } ?>
->>>>>>> 875bacc01b952305d8d5acd1004e8a31010b2db0
 					</div>
 					<p class="text-white p-l-250 p-r-250">Instructions: When printing ABSTRACT OF QUOTATION make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Landscape, <u>Paper Size</u>: A4 <u>Margin</u> : Custom (top: 0.11" , right:1.25", bottom: 0.11", left: 0.11") <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>

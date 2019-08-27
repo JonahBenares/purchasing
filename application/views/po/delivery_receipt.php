@@ -182,7 +182,7 @@
 		       		<tr>
 		    			<td class="all-border" align="center"><?php echo $it['item_no']; ?><br></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $it['vendor']; ?></td>
-		    			<td class="all-border" align="left" colspan="6"><?php echo $it['offer'], ", " . $it['item']; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $it['offer']; ?></td>
 		    			<td class="all-border" align="center"><?php echo number_format($it['quantity']); ?></td>
 		    			<td class="all-border" align="center"></td>
 		    			<td class="all-border" align="center" colspan="2"><?php echo $it['uom']; ?></td>
