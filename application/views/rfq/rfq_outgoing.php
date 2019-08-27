@@ -246,7 +246,7 @@
 		    		<tr><td class="f13" colspan="20">2. Please Fill - Up :</td></tr>	    	
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="5">- a. Price Validity</td>
+		    			<td class="f13" colspan="5"> a. Price Validity</td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13 all-bor" colspan="1"></td>	
 		    			<td class="f13 all-bor p-l-10" colspan="2">30 Days</td>	
@@ -256,10 +256,10 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="5">- b. Payment Terms</td>
+		    			<td class="f13" colspan="5"> b. Payment Terms</td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13 all-bor" colspan="1"></td>	
-		    			<td class="f13 all-bor p-l-10" colspan="2">N30</td>	
+		    			<td class="f13 all-bor p-l-10" colspan="2">n30</td>	
 		    			<td class="f13 all-bor" colspan="4"></td>
 		    			<td class="f13" colspan="3"></td>
 
