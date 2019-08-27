@@ -103,7 +103,7 @@
                                             <th>Qty</th>
                                             <th>UOM</th>
                                             <th>Description</th>
-                                            <th>Ro/ with AOQ </th>
+                                            
                                             <th>Status Remarks</th>
                                             <th>Status</th>
                                             <th>Remarks</th>
@@ -125,7 +125,7 @@
                                             <td><?php echo $p['qty']; ?></td>
                                             <td><?php echo $p['uom']; ?></td>
                                             <td><?php echo $p['item_description'] . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td>
-                                            <td></td>
+                                            
                                             <td><?php echo $p['status_remarks']; ?></td>
                                             <td><?php echo $p['status']; ?></td>
                                             <td><?php echo $p['remarks'];?></td>
