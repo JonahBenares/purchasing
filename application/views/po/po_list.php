@@ -256,7 +256,7 @@
                                 <tr>
                                     <td width="5%" align="center">#</td>
                                     <td>Item Description</td>
-                                    <td>Delivered Qty</td>
+                                    <td width="15%">Delivered Qty</td>
                                     <td>Received Qty</td>
                                 </tr>
                             </thead>
