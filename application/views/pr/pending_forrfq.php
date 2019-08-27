@@ -70,18 +70,20 @@
                                                         <td width="15%"><a href="" ></a><h3 class="m-b-0"><b><?php echo 'Group ' . $h['group']; ?></b></h3></td>
                                                         <td width="30%"><?php echo $h['item']; ?></td>
                                                         <td width="30%"><?php echo $h['vendor']; ?></td>
-                                                        <td width="15%">
-                                                        <?php if(empty($h['vendor'])){ ?>
-                                                            <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $h['group']; ?>','<?php echo $h['pr_id']; ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
-                                                        <?php } else { ?>
-                                                            <input type='hidden' name='pr_id' value='<?php echo $h['pr_id']; ?>'>
-                                                            <input type='hidden' name='group' value='<?php echo $h['group']; ?>'>
-                                                            <input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
-                                                        <?php } ?>
+                                                        <td width="15%"> 
                                                         <center>
                                                             <div class="btn-group">
-                                                                <a href="<?php echo base_url(); ?>pr/redirect_pod/<?php echo $h['pr_id']; ?>/<?php echo $h['group']; ?>" class="btn btn-info btn-md ">DP</a>
-                                                                <a href="" class="btn btn-success btn-md ">RO</a>
+                                                                <!-- <a href="<?php echo base_url(); ?>pr/redirect_pod/<?php echo $h['pr_id']; ?>/<?php echo $h['group']; ?>" class="btn btn-info btn-md ">DP</a>
+                                                                <a href="" class="btn btn-success btn-md ">RO</a> -->
+                                                                <?php if(empty($h['vendor'])){ ?>
+                                                                    <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $h['group']; ?>','<?php echo $h['pr_id']; ?>')" class="btn btn-warning btn-md " title="Choose Vendor">CV</a>                                                           
+                                                                <?php } else { ?>
+                                                                    <input type='hidden' name='pr_id' value='<?php echo $h['pr_id']; ?>'>
+                                                                    <input type='hidden' name='group' value='<?php echo $h['group']; ?>'>
+                                                                    <input type='submit' class="btn btn-primary btn-md" value='RFQ' title="Create RFQ" onclick="return confirm('Are you sure you want to create RFQ?')">
+                                                                <?php } ?>     
+                                                                <a href=""  class="btn btn-info btn-md" title="Direct Purchase"  data-toggle="modal" data-target="#directpurch">DP</a>
+                                                                <a href=""  class="btn btn-success btn-md" title="Repeat Order">RO</a>
                                                             </div>
                                                         </center>
                                                         </td>
@@ -129,3 +131,30 @@
         </div>
     </div>
     <!-- Data table area End-->
+
+    <div class="modal fade" id="directpurch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Direct Purchase
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>
+                    
+                </div>
+                <div class="modal-body">
+                Date:
+                <input type="date" name="" class="form-control">
+                <br>
+                Vendor:
+                <select class="form-control">
+                    <option>asd</option>
+                </select>
+                </div> 
+                <div class="modal-footer">
+                <input type="button" name="" class="btn btn-primary btn-block" value="Save changes">
+                </div>
+            </div>
+        </div>
+    </div>
