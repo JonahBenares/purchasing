@@ -73,6 +73,8 @@
                                                         <td width="15%"> 
                                                         <center>
                                                             <div class="btn-group">
+                                                                <!-- <a href="<?php echo base_url(); ?>pr/redirect_pod/<?php echo $h['pr_id']; ?>/<?php echo $h['group']; ?>" class="btn btn-info btn-md ">DP</a>
+                                                                <a href="" class="btn btn-success btn-md ">RO</a> -->
                                                                 <?php if(empty($h['vendor'])){ ?>
                                                                     <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $h['group']; ?>','<?php echo $h['pr_id']; ?>')" class="btn btn-warning btn-md " title="Choose Vendor">CV</a>                                                           
                                                                 <?php } else { ?>
