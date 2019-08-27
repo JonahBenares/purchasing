@@ -80,8 +80,8 @@
                                                         <?php } ?>
                                                         <center>
                                                             <div class="btn-group">
-                                                                <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $gr['group']; ?>','<?php echo $pr_id; ?>')" class="btn btn-info btn-md ">DP</a>
-                                                                <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $gr['group']; ?>','<?php echo $pr_id; ?>')" class="btn btn-success btn-md ">RO</a>
+                                                                <a href="<?php echo base_url(); ?>pr/redirect_pod/<?php echo $h['pr_id']; ?>/<?php echo $h['group']; ?>" class="btn btn-info btn-md ">DP</a>
+                                                                <a href="" class="btn btn-success btn-md ">RO</a>
                                                             </div>
                                                         </center>
                                                         </td>
