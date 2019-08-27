@@ -102,7 +102,7 @@ class Rfq extends CI_Controller {
             $data['code']= $head->processing_code;
             $data['noted']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->noted_by);
             $data['approved']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->approved_by);
-            $data['prepared']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->prepared_by);
+            $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $head->prepared_by);
             $data['due']= $head->quotation_date;
             $data['saved']= $head->saved;
             $data['cancelled']= $head->cancelled;

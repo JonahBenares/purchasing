@@ -128,9 +128,9 @@ class Aoq extends CI_Controller {
                     }
                      
                 }
-                $not_recom=substr($not_recom, 0, -4);
+               // / $not_recom=substr($not_recom, 0, -4);
                   // echo $not_recom;
-                 $not_recom .= " AND aoq_id='$list->aoq_id'";
+                 $not_recom .= " aoq_id='$list->aoq_id' ";
                   foreach($this->super_model->select_custom_where("aoq_vendors", $not_recom) AS $offer1){
                         
                     $supplier.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer1->vendor_id). "<br> ";

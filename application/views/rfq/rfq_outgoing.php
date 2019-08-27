@@ -241,7 +241,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>		    			
 		    			
-		    			<td class="f13" colspan="20">1. Quotation must be submitted on or before <b><?php echo date("F d, Y", strtotime($due)); ?></b>
+		    			<td class="f13" colspan="20">1. Quotation must be submitted on or before <b><?php echo (!empty($due) ? date("F d, Y", strtotime($due)) : ''); ?></b>
 		    			</td></tr>	    	
 		    		<tr><td class="f13" colspan="20">2. Please Fill - Up :</td></tr>	    	
 		    		<tr>
