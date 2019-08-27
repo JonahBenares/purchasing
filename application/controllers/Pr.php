@@ -28,9 +28,6 @@ class Pr extends CI_Controller {
 	}
 
     public function redirect_pod(){
-        $pr_id = $this->uri->segment(3);
-        $group_id = $this->uri->segment(4);
-
         $rows_head = $this->super_model->count_rows("po_head");
         if($rows_head==0){
             $po_id=1;
@@ -38,8 +35,6 @@ class Pr extends CI_Controller {
             $max = $this->super_model->get_max("po_head", "po_id");
             $po_id = $max+1;
         }
-
-        $data['po_id'] = $po_id;
 
         $rows_series = $this->super_model->count_rows("po_series");
         if($rows_series==0){
@@ -49,13 +44,14 @@ class Pr extends CI_Controller {
             $series = $max+1;
         }
 
+        $pr_id = $this->input->post('pr_ids');
+        $group_id = $this->input->post('group_id');
         $po_no = "POD-".$series;
         $data= array(
             'po_id'=>$po_id,
             'po_date'=>$this->input->post('po_date'),
             'po_no'=>$po_no,
             'vendor_id'=>$this->input->post('vendor'),
-            'notes'=>$this->input->post('notes'),
             'po_type'=>1,
             'user_id'=>$_SESSION['user_id']
         );  
@@ -67,7 +63,17 @@ class Pr extends CI_Controller {
 
       
         if($this->super_model->insert_into("po_head", $data)){
-             redirect(base_url().'pod/po_direct/'.$po_id);
+            foreach($this->super_model->select_row_where("pr_head","pr_id",$pr_id) AS $po_pr){
+                $data_pr = array(
+                    'po_id'=>$po_id,
+                    'pr_id'=>$pr_id,
+                    'enduse'=>$po_pr->enduse,
+                    'purpose'=>$po_pr->purpose,
+                    'requestor'=>$po_pr->requestor,
+                );
+                $this->super_model->insert_into("po_pr", $data_pr);
+            }
+            redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id);
         }
     }
 
@@ -75,6 +81,7 @@ class Pr extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         //$gr="SELECT pr_id, grouping_id FROM pr_details WHERE ";
+        $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         foreach($this->super_model->custom_query("SELECT pr_details_id, pr_id, grouping_id FROM pr_details GROUP BY pr_id, grouping_id") AS $det){
             $count = $this->super_model->count_custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' GROUP BY pr_id, grouping_id");
             if($count==0){
