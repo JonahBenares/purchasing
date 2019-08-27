@@ -370,7 +370,12 @@
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="6" align="center">
-		    				<?php echo $prepared; ?>
+		    				<select type="text" name="checked_by" class="btn-block">
+		    					<option value=''>-Select-</option>
+		    					 <?php foreach($employee AS $emp){ ?>
+                                    <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+								<?php } ?> 
+		    				</select>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">

@@ -121,7 +121,7 @@
                                             <tr>
                                                 <td><?php echo $p->pr_no;?></td>
                                                 <td><?php echo $p->date_prepared;?></td>
-                                                <td>upload</td>
+                                                <td><?php echo date("Y-m-d",strtotime($p->date_imported));?></td>
                                                 <td><?php echo $p->department;?></td>
                                                 <td ><center><?php echo $p->urgency;?></center></td>
                                                 <td><?php echo $p->requestor;?></td>

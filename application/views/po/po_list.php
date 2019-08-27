@@ -140,9 +140,9 @@
                             <p class="m-b-0">PO NO:</p>
                             <input type="text" name="po_no" class="form-control" autocomplete="off">
                         </div> -->
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <u><p class="m-b-0"><input type="checkbox" name="dp" onclick="Change()" id="check" value = '1'> Direct Purchase </p></u>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
                             <select name="vendor" id='supplier' onchange="chooseSupplierPR()" class="form-control">

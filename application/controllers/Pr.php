@@ -199,7 +199,7 @@ class Pr extends CI_Controller {
         $pr = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue());
         $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
         /*$date_issued = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());*/
-        //$pr_no = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
+        $wh_stock = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
         $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue());
         $enduse = trim($objPHPExcel->getActiveSheet()->getCell('C12')->getValue());
         $department = trim($objPHPExcel->getActiveSheet()->getCell('I7')->getValue());
@@ -221,6 +221,7 @@ class Pr extends CI_Controller {
         $data_head = array(
             'pr_id'=>$pr_id,
             'pr_no'=>$pr_no,
+            'wh_stocks'=>$wh_stock,
             'purchase_request'=>$pr,
             'date_prepared'=>$date_prepared,
             'enduse'=>$enduse,

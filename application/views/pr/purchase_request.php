@@ -107,7 +107,7 @@
                                             <td><i>Enduse:</i></td>
                                             <td colspan="1"><b class="capital"><?php echo $h->enduse; ?> </b></td>
                                             <td><i>WH Stock:</i></td>
-                                            <td colspan="1"><b class="capital"> </b></td>
+                                            <td colspan="1"><b class="capital"><?php echo $h->wh_stocks; ?></b></td>
                                            
                                         </tr>
                                         <tr>

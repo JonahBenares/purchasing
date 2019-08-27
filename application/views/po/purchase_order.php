@@ -361,7 +361,7 @@
 		    			<td colspan="5"><b><?php echo $prepared; ?></b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="6"><b>
-		    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
+		    			<select name='checked' class="select-des emphasis" style="width: 100%" required>
 			    			<option value=''>-Select-</option>
 			    			<?php foreach($employee AS $emp){ ?>
 			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
@@ -371,6 +371,9 @@
 		    			<td colspan="5"><b>
 		    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
 			    			<option value=''>-Select-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 		    			</select></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>

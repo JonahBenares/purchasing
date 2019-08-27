@@ -383,11 +383,11 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b></b></td>
+		    			<td colspan="5"><b><?php echo $_SESSION['fullname']; ?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6"><b>check</b></td>
+		    			<td colspan="6"><b><?php echo $checked;?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b></b></td>
+		    			<td colspan="5"><b><?php echo $approved;?></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
