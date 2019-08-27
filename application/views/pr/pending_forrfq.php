@@ -78,6 +78,12 @@
                                                             <input type='hidden' name='group' value='<?php echo $h['group']; ?>'>
                                                             <input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
                                                         <?php } ?>
+                                                        <center>
+                                                            <div class="btn-group">
+                                                                <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $gr['group']; ?>','<?php echo $pr_id; ?>')" class="btn btn-info btn-md ">DP</a>
+                                                                <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $gr['group']; ?>','<?php echo $pr_id; ?>')" class="btn btn-success btn-md ">RO</a>
+                                                            </div>
+                                                        </center>
                                                         </td>
                                                     </tr>
                                               
