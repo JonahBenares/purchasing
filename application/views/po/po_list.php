@@ -294,7 +294,7 @@
                                                 ?></td>
                                                 <td>
                                                     <center>                                                        
-                                                        <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>')">
+                                                        <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>','<?php echo $head['po_id']?>')">
                                                             <span class="fa fa-check"></span>
                                                         </a>
                                                         <?php if($head['revised']==1){ ?>

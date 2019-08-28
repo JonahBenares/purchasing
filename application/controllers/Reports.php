@@ -80,7 +80,7 @@ class Reports extends CI_Controller {
 
                             $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
                             $status = 'Partially Delivered';
-                            $status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Served ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
+                            $status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Delivered ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
                         }
                   //  }
                 } else {

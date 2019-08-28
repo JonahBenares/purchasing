@@ -416,13 +416,13 @@ class Po extends CI_Controller {
                    // $this->super_model->update_where("po_items", $data, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
                // }
 
-                $curr_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id', $this->input->post('aoq_offer_id'.$x));
+              /*  $curr_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id', $this->input->post('aoq_offer_id'.$x));
                 $new_balance = $curr_balance-$qty;
 
                 $data_aoq = array(
                     'balance'=>$new_balance
                 );
-                $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
+                $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));*/
              $a++;
             }
             
@@ -1536,9 +1536,53 @@ class Po extends CI_Controller {
     }
 
     public function deliver_po(){
+        $po_id = $this->uri->segment(3);
+        $data['po_id']=$po_id;
+        $data['items'] = $this->super_model->select_row_where("po_items","po_id",$po_id);
         $this->load->view('template/header');        
-        $this->load->view('po/deliver_po');
+        $this->load->view('po/deliver_po',$data);
         $this->load->view('template/footer');
+    }
+
+    public function save_delivery(){
+        $count = $this->input->post('count');
+        $po_id = $this->input->post('po_id');
+
+        $data_head = array(
+            'served'=>1,
+            'date_served'=>$this->input->post('date_delivered'),
+            'served_by'=>$_SESSION['user_id']
+        );
+
+         $this->super_model->update_where("po_head", $data_head, "po_id", $po_id);
+
+        for($x=1;$x<$count;$x++){
+            $data=array(
+                'quantity'=>$this->input->post('received_qty'.$x)
+            );
+
+            $this->super_model->update_where("po_items", $data, "po_items_id", $this->input->post('po_items_id'.$x));
+
+          $curr_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id', $this->input->post('aoq_offer_id'.$x));
+          $new_balance = $curr_balance-$this->input->post('received_qty'.$x);
+
+            $data_aoq = array(
+                'balance'=>$new_balance
+            );
+            $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
+
+        }  
+
+            ?>
+        <script>
+              window.onunload = refreshParent;
+            function refreshParent() {
+                window.opener.location.reload();
+            }
+            window.close();
+            
+        </script>
+        <?php
     }
 
 
