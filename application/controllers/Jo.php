@@ -43,6 +43,17 @@ class Jo extends CI_Controller {
 
     public function jo_list(){  
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        foreach($this->super_model->select_all_order_by("jo_head", "date_prepared", "DESC") AS $head){
+            $data['head'][]=array(
+                'jo_id'=>$head->jo_id,
+                'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
+                'date'=>$head->date_prepared,
+                'cenjo_no'=>$head->cenpri_jo_no,
+                'jo_no'=>$head->jo_no,
+                'project_title'=>$head->project_title,
+
+            );
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('jo/jo_list', $data);
@@ -79,6 +90,7 @@ class Jo extends CI_Controller {
             $data['start_of_work']= $head->start_of_work;
             $data['work_completion']= $head->work_completion;
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->prepared_by);
+
         }   
 
 
@@ -294,6 +306,23 @@ class Jo extends CI_Controller {
                 'uom'=>$details->uom,
             );
         }
+
+        foreach($this->super_model->select_row_where('jo_rfd', 'jo_id', $jo_id) AS $head){
+            $data['company'] = $head->company;
+            $data['pay_to'] = $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->pay_to);
+            $data['check_name'] = $head->check_name;
+            $data['cash_check'] = $head->cash_check;
+            $data['bank_no'] = $head->bank_no;
+            $data['apv_no'] = $head->apv_no;
+            $data['rfd_date'] = $head->rfd_date;
+            $data['due_date'] = $head->due_date;
+            $data['check_due'] = $head->check_due;
+            $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
+            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
+            $data['endorsed'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->endorsed_by);
+            $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
+        }
+
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('template/header');
         $this->load->view('jo/jo_rfd',$data);

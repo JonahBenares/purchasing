@@ -71,8 +71,17 @@ class Reports extends CI_Controller {
                         $unserved_qty = $this->super_model->select_column_custom_where('aoq_offers', 'balance', "pr_details_id='$pr->pr_details_id' AND recommended = '1'");
                         $unserved_uom = $this->super_model->select_column_custom_where('aoq_offers', 'uom', "pr_details_id='$pr->pr_details_id' AND recommended = '1'");
 
-                        $status = 'Partially Served';
-                        $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
+                        $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+
+                        if($served==0){
+                             $status = 'PO Issued - Partial';
+                             $status_remarks = '';
+                        } else {
+
+                            $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
+                            $status = 'Partially Delivered';
+                            $status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Served ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
+                        }
                   //  }
                 } else {
                     $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
