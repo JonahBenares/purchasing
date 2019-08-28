@@ -406,7 +406,7 @@ class Po extends CI_Controller {
                     'aoq_items_id'=>$this->input->post('aoq_items_id'.$x),
                     'pr_details_id'=>$this->input->post('pr_details_id'.$x),
                     'offer'=>$this->input->post('offer'.$x),
-                    'quantity'=>$qty,
+                    'delivered_quantity'=>$qty,
                     'uom'=>$this->input->post('uom'.$x),
                     'unit_price'=>$price,
                     'amount'=>$amount,
@@ -1607,6 +1607,12 @@ class Po extends CI_Controller {
         if($this->super_model->update_where("po_head", $data, "po_id", $po_id)){
             redirect(base_url().'po/po_list/', 'refresh');
         }
+    }
+
+    public function deliver_po(){
+        $this->load->view('template/header');        
+        $this->load->view('po/deliver_po');
+        $this->load->view('template/footer');
     }
 }
 ?>
