@@ -116,23 +116,30 @@ class Reports extends CI_Controller {
                     $status = "<span style='color:red'>Cancelled</span>";
                     $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
                 } else {
-
+                    $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(delivered_quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+                    
                     $count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
                     $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                     $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'");
-                    if($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0){
+
+                    if($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0 && $sum_po_delivered_qty==0){
                         $status = 'Pending';
                         $status_remarks = 'For canvassing';
-                    } else if($count_rfq!=0 && $count_aoq!=0 && $count_aoq_awarded==0){ 
+                    } else if($count_rfq!=0 && $count_aoq!=0 && $count_aoq_awarded==0 && $sum_po_delivered_qty==0){ 
 
                          $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                          $status = 'Pending';
                          $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date)) ;
-                    } else if($count_rfq!=0 && $count_aoq_awarded!=0){ 
+                    } else if($count_rfq!=0 && $count_aoq_awarded!=0 && $sum_po_delivered_qty==0){ 
 
                          $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'");
                          $status = 'Pending';
                          $status_remarks = 'For PO - AOQ Done (awarded)';
+                    } else if($count_rfq!=0 && $count_aoq_awarded!=0 && $sum_po_delivered_qty!=0){ 
+
+            
+                         $status = 'PO Issued';
+                         $status_remarks = '';
                     }
 
                 }
