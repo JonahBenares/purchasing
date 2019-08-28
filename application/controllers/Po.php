@@ -446,6 +446,7 @@ class Po extends CI_Controller {
         $this->super_model->insert_into("po_dr", $dr);
 
         $head = array(
+            'checked_by'=>$this->input->post('checked'),
             'approved_by'=>$this->input->post('approved'),
             'saved'=>1,
             'revised'=>0
@@ -689,6 +690,7 @@ class Po extends CI_Controller {
             $data['notes']=$h->notes;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+            $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
         }
 
         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);

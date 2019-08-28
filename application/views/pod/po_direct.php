@@ -210,7 +210,7 @@
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
 		    		<?php } ?>
-		    		<tr id="pr-btn">
+		    		<!-- <tr id="pr-btn">
 		    			<td colspan="20" style="padding-left: 10px">
 		    				<?php if($saved==0){ ?>
 		    				<a class="addPR btn btn-primary btn-xs" onclick="additempod('<?php echo base_url(); ?>','<?php echo $po_id; ?>','<?php echo $supplier_id; ?>')">
@@ -218,7 +218,7 @@
 							</a>
 							<?php }?>
 		    			</td>
-		    		</tr>	
+		    		</tr> -->	
 		    		<!-- LOOp Here --> 
 					<tr>
 		    			<td colspan="" class="all-border" align="center"><b>#</b></td>
@@ -231,23 +231,33 @@
 		    		<?php 
 		    			$x=1;
 		    			if(!empty($items)){
-		    				foreach($items AS $it){  
-		    					$gtotal[] = $it['total']; 
+		    				foreach($items AS $it){ 
+		    					if($saved==1){
+		    						$gtotal[] = $it['total']; 
+		    					} 
 		    		?>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
+
 		    			<td colspan="" class="bor-right" align="center"><b><?php if($saved==0){ ?><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['quantity']; ?>' max='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"><?php }else { echo $it['quantity']; } ?></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['uom']; ?></b></td>
-		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"><?php echo $it['item']; ?></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><?php if($saved==0){ ?><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it['price']; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ><?php }else { echo $it['price']; } ?></b></td>
-		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><?php if($saved==0){ ?><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it['total'],2); ?>" style='text-align:right;' readonly><?php }else { echo number_format($it['total'],2); } ?></b></td>
+
+		    			<td colspan="" class="bor-right" align="center"><b><?php if($saved==0){ ?><input type = "text" name='uom<?php echo $x; ?>' value = "<?php echo $it['uom']; ?>"><?php } else { echo $it['uom']; }?></b></td>
+
+		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"><?php if($saved==0){ ?><textarea class = "form-control" name='item<?php echo $x; ?>'><?php echo $it['item']; ?></textarea><?php } else { echo $it['item']; }?></b></td>
+
+		    			<td colspan="2" class="bor-right" align="center"><b><?php if($saved==0){ ?><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>'  onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ><?php }else { echo $it['price']; } ?></b></td>
+
+		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><?php if($saved==0){ ?><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right;' readonly><?php }else { echo number_format($it['total'],2); } ?></b></td>
+
 		    		</tr>
-		    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
-		    		<input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $it['po_items_id']; ?>">
+		    		<!-- <input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>"> -->
+		    		<!-- <input type='text' name='po_items_id<?php echo $x; ?>' value="<?php echo $it['po_items_id']; ?>">  -->
 		    		<?php 
 		    			$x++; } } 
 		    			else { 
-		    				$gtotal=array(); 
+		    				if($saved==1){
+		    					$gtotal=array(); 
+		    				}
 		    			} 
 		    		?>
 		    		<input type='hidden' name='count_item' value="<?php echo $x; ?>">
@@ -266,10 +276,10 @@
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="13" class="bor-btm bor-right" align="left">
 	    				<p class="nomarg">
-	    					<?php if($saved==0){ ?>
+	    					<!-- <?php if($saved==0){ ?>
 	    					<button type="button" data-toggle="modal" data-target="#addpurp" class="btn btn-xs btn-primary" onclick="" >Add Purpose/ Enduse/ Requestor</button>
 	    					<?php } ?>
-	    					<br>
+	    					<br> -->
 	    					<?php 
 				    			if(!empty($popurp)){
 				    				foreach($popurp AS $pp) { 
@@ -277,7 +287,7 @@
 	    					Enduse: <?php echo $pp['enduse']; ?><br>
 	    					Purpose: <?php echo $pp['purpose']; ?><br>
 	    					Requestor: <?php echo $pp['requestor']; ?><br>
-	    					Notes: <?php echo $pp['notes']; ?><br>
+	    					<!-- Notes: <?php echo $pp['notes']; ?><br> -->
 	    					<br>
 	    					<?php } } ?>
 	    				</p>
@@ -288,7 +298,7 @@
 		    		</tr>		    		
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),2); ?></span></b></td>
+					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php if($saved==1){ echo number_format(array_sum($gtotal),2); } ?></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">
@@ -364,6 +374,7 @@
 		    	</table>	    
 	    	</div>
 	    	<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+	    	<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
     	</form>
     	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">

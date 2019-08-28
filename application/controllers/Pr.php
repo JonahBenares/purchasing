@@ -27,10 +27,61 @@ class Pr extends CI_Controller {
 
 	}
 
+    public function redirect_pod(){
+        $rows_head = $this->super_model->count_rows("po_head");
+        if($rows_head==0){
+            $po_id=1;
+        } else {
+            $max = $this->super_model->get_max("po_head", "po_id");
+            $po_id = $max+1;
+        }
+
+        $rows_series = $this->super_model->count_rows("po_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("po_series", "series");
+            $series = $max+1;
+        }
+
+        $pr_id = $this->input->post('pr_ids');
+        $group_id = $this->input->post('group_id');
+        $po_no = "POD-".$series;
+        $data= array(
+            'po_id'=>$po_id,
+            'po_date'=>$this->input->post('po_date'),
+            'po_no'=>$po_no,
+            'vendor_id'=>$this->input->post('vendor'),
+            'po_type'=>1,
+            'user_id'=>$_SESSION['user_id']
+        );  
+
+        $data_series = array(
+            'series'=>$series
+        );
+        $this->super_model->insert_into("po_series", $data_series);
+
+      
+        if($this->super_model->insert_into("po_head", $data)){
+            foreach($this->super_model->select_row_where("pr_head","pr_id",$pr_id) AS $po_pr){
+                $data_pr = array(
+                    'po_id'=>$po_id,
+                    'pr_id'=>$pr_id,
+                    'enduse'=>$po_pr->enduse,
+                    'purpose'=>$po_pr->purpose,
+                    'requestor'=>$po_pr->requestor,
+                );
+                $this->super_model->insert_into("po_pr", $data_pr);
+            }
+            redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id);
+        }
+    }
+
     public function pending_forrfq(){  
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         //$gr="SELECT pr_id, grouping_id FROM pr_details WHERE ";
+        $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         foreach($this->super_model->custom_query("SELECT pr_details_id, pr_id, grouping_id FROM pr_details GROUP BY pr_id, grouping_id") AS $det){
             $count = $this->super_model->count_custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' GROUP BY pr_id, grouping_id");
             if($count==0){
@@ -148,7 +199,7 @@ class Pr extends CI_Controller {
         $pr = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue());
         $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
         /*$date_issued = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());*/
-        //$pr_no = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
+        $wh_stock = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
         $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue());
         $enduse = trim($objPHPExcel->getActiveSheet()->getCell('C12')->getValue());
         $department = trim($objPHPExcel->getActiveSheet()->getCell('I7')->getValue());
@@ -170,6 +221,7 @@ class Pr extends CI_Controller {
         $data_head = array(
             'pr_id'=>$pr_id,
             'pr_no'=>$pr_no,
+            'wh_stocks'=>$wh_stock,
             'purchase_request'=>$pr,
             'date_prepared'=>$date_prepared,
             'enduse'=>$enduse,

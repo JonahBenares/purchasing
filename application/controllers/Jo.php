@@ -189,6 +189,7 @@ class Jo extends CI_Controller {
             'grand_total'=>$this->input->post('net'),
             'conforme'=>$this->input->post('conforme'),
             'approved_by'=>$this->input->post('approved_by'),
+            'checked_by'=>$this->input->post('checked_by'),
             'saved'=>1
         );
 
@@ -270,6 +271,7 @@ class Jo extends CI_Controller {
             $data['grand_total']= $head->grand_total;
             $data['conforme']= $head->conforme;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
+            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->prepared_by);
         }   
 

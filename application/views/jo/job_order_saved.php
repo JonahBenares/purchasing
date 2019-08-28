@@ -252,34 +252,49 @@
 		    		</tr>
 		    		<tr><td class="f13 bor-btm" colspan="20" align="center"><br></td></tr>    	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
+
 		    		<tr>
-		    			<td class="f13" colspan="3" align="center">Prepared by:</td>
-		    			<td class="f13 bor-btm" colspan="5" align="center"></td>
-		    			<td class="f13" colspan="2" align="center"></td>
-		    			<td class="f13" colspan="3" align="center">Approved by:</td>
-		    			<td class="f13 bor-btm" colspan="5" align="center"></td>
-		    			<td class="f13" colspan="2" align="center"></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13 " colspan="5" align="center">Prepared by:</td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="6" align="center">Checked by:</td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13 " colspan="5" align="center">Approved by:</td>
+		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   
 		    		<tr>
-		    			<td class="f13" colspan="3" align="center"></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13  bor-btm" colspan="5" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13 bor-btm" colspan="6" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13  bor-btm" colspan="5" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    		</tr>   
+		    		<tr>
+		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">
 		    				<?php echo $prepared; ?>
 		    			</td>
-		    			<td class="f13" colspan="2" align="center"></td>
-		    			<td class="f13" colspan="3" align="center"></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="6" align="center">
+		    				<?php echo $checked; ?>
+		    			</td>
+		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">
 		    				<?php echo $approved;?>
 		    			</td>
-		    			<td class="f13" colspan="2" align="center"></td>
-		    		</tr>  
+		    			<td class="f13" colspan="1" align="center"></td>
+		    		</tr> 
 		    		<tr>
-		    			<td class="f13" colspan="3" align="center"></td>
+		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Purchasing Department</small></td>
-		    			<td class="f13" colspan="2" align="center"></td>
-		    			<td class="f13" colspan="3" align="center"></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="6" align="center"><small>Personnel</small></td>
+		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
-		    			<td class="f13" colspan="2" align="center"></td>
-		    		</tr>   	
+		    			<td class="f13" colspan="1" align="center"></td>
+		    		</tr>  
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
 		    		
 		    	</table>		    

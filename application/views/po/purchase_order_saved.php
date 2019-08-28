@@ -364,25 +364,31 @@
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Prepared by:</b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Approved by:</b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Prepared by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b>Checked by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Approved by:</b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b><?php echo $prepared; ?></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b><?php echo $approved; ?></b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b><?php echo $_SESSION['fullname']; ?></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b><?php echo $checked;?></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b><?php echo $approved;?></b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>

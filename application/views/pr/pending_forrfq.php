@@ -1,4 +1,12 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/pr.js"></script>
+    <script type="text/javascript">
+        $(document).on("click", "#updateDP_button", function () {
+            var pr_ids= $(this).attr("data-id");
+            var group_id = $(this).attr("data-trigger");
+            $("#pr_ids").val(pr_ids);
+            $("#group_id").val(group_id);
+        });
+    </script>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -70,14 +78,20 @@
                                                         <td width="15%"><a href="" ></a><h3 class="m-b-0"><b><?php echo 'Group ' . $h['group']; ?></b></h3></td>
                                                         <td width="30%"><?php echo $h['item']; ?></td>
                                                         <td width="30%"><?php echo $h['vendor']; ?></td>
-                                                        <td width="15%">
-                                                        <?php if(empty($h['vendor'])){ ?>
-                                                            <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $h['group']; ?>','<?php echo $h['pr_id']; ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
-                                                        <?php } else { ?>
-                                                            <input type='hidden' name='pr_id' value='<?php echo $h['pr_id']; ?>'>
-                                                            <input type='hidden' name='group' value='<?php echo $h['group']; ?>'>
-                                                            <input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
-                                                        <?php } ?>
+                                                        <td width="15%"> 
+                                                        <center>
+                                                            <div class="btn-group">
+                                                                <?php if(empty($h['vendor'])){ ?>
+                                                                    <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $h['group']; ?>','<?php echo $h['pr_id']; ?>')" class="btn btn-warning btn-md " title="Choose Vendor">CV</a>                                                           
+                                                                <?php } else { ?>
+                                                                    <input type='hidden' name='pr_id' value='<?php echo $h['pr_id']; ?>'>
+                                                                    <input type='hidden' name='group' value='<?php echo $h['group']; ?>'>
+                                                                    <input type='submit' class="btn btn-primary btn-md" value='RFQ' title="Create RFQ" onclick="return confirm('Are you sure you want to create RFQ?')">
+                                                                <?php } ?>     
+                                                                <a class="btn btn-info btn-md" title="Direct Purchase" id="updateDP_button" data-id="<?php echo $h['pr_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-toggle="modal" data-target="#directpurch">DP</a>
+                                                                <a href=""  class="btn btn-success btn-md" title="Repeat Order">RO</a>
+                                                            </div>
+                                                        </center>
                                                         </td>
                                                     </tr>
                                               
@@ -123,3 +137,37 @@
         </div>
     </div>
     <!-- Data table area End-->
+
+    <div class="modal fade" id="directpurch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Direct Purchase
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>
+                    
+                </div>
+                <form method="POST" action = "<?php echo base_url();?>pr/redirect_pod">
+                    <div class="modal-body">
+                        Date:
+                        <input type="date" name="po_date" class="form-control">
+                        <br>
+                        Vendor:
+                        <select class="form-control" name = "vendor">
+                            <option value = ''>--Select Supplier--</option>
+                            <?php foreach($supplier AS $sup){ ?>
+                            <option value = "<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div> 
+                    <input type="hidden" name="pr_ids" id="pr_ids">
+                    <input type="hidden" name="group_id" id="group_id">
+                    <div class="modal-footer">
+                        <input type="submit" name="submit" class="btn btn-primary btn-block" value="Save">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

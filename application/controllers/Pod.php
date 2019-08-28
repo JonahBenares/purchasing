@@ -128,7 +128,10 @@ class Pod extends CI_Controller {
     public function po_direct(){
         $this->load->view('template/header');
         $po_id=$this->uri->segment(3);  
+        $pr_id=$this->uri->segment(4);  
+        $group_id=$this->uri->segment(5);  
         $data['po_id']=$po_id;  
+        $data['pr_id']=$pr_id;  
         $supplier_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         $data['supplier_id']=$supplier_id;
 
@@ -147,18 +150,29 @@ class Pod extends CI_Controller {
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
         }
 
-        foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
-            $unit_id = $this->super_model->select_column_where('item', 'unit_id', 'item_id', $items->item_id);
-            $total = $items->quantity*$items->unit_price;
-            $data['items'][]= array(
-                'po_items_id'=>$items->po_items_id,
-                'item'=>$this->super_model->select_column_where('item', 'item_name', 'item_id', $items->item_id),
-                'specs'=>$this->super_model->select_column_where('item', 'item_specs', 'item_id', $items->item_id),
-                'uom'=>$this->super_model->select_column_where('unit', 'unit_name', 'unit_id', $unit_id),
-                'quantity'=>$items->quantity,
-                'price'=>$items->unit_price,
-                'total'=>$total,
-            );
+        $saved=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
+        if($saved==0){
+            foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$pr_id' AND grouping_id = '$group_id'") AS $items){
+                //$total = $items->quantity*$items->unit_price;
+                $data['items'][]= array(
+                    'item'=>$items->item_description,
+                    'uom'=>$items->uom,
+                    'quantity'=>$items->quantity,
+                    //'total'=>$total,
+                );
+            }
+        }else {
+            foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
+                $total = $items->quantity*$items->unit_price;
+                $data['items'][]= array(
+                    'po_items_id'=>$items->po_items_id,
+                    'item'=>$items->offer,
+                    'uom'=>$items->uom,
+                    'quantity'=>$items->quantity,
+                    'price'=>$items->unit_price,
+                    'total'=>$total,
+                );
+            }
         }
 
         foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $purpose){
@@ -167,7 +181,8 @@ class Pod extends CI_Controller {
                 'notes'=>$purpose->notes,
                 'purpose'=>$purpose->purpose,
                 'enduse'=>$purpose->enduse,
-                'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $purpose->requestor)
+                'requestor'=>$purpose->requestor
+                //'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $purpose->requestor)
             );
         }
         $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
@@ -192,20 +207,26 @@ class Pod extends CI_Controller {
 
     public function save_po(){
         $po_id = $this->input->post('po_id');
+        $pr_id = $this->input->post('pr_id');
         $count_item = $this->input->post('count_item');
         $a=1;
         for($x=1; $x<$count_item;$x++){
             $qty=$this->input->post('quantity'.$x);
+            $item=$this->input->post('item'.$x);
             $po_items_id = $this->input->post('po_items_id'.$x);
             if($qty!=0){
                 $data=array(
                     'quantity'=>$qty,
+                    'po_id'=>$po_id,
+                    'pr_id'=>$pr_id,
+                    'offer'=>$item,
                     'unit_price'=>$this->input->post('price'.$x),
                     'amount'=>$this->input->post('tprice'.$x),
                     'uom'=>$this->input->post('uom'.$x),
                     'item_no'=>$a
                 );
-                $this->super_model->update_where("po_items", $data, "po_items_id", $po_items_id);
+                $this->super_model->insert_into("po_items", $data);
+                //$this->super_model->update_where("po_items", $data, "po_items_id", $po_items_id);
             $a++;
             }
         }
