@@ -415,6 +415,7 @@ class Po extends CI_Controller {
 
                // if($revise==0){
                     $this->super_model->insert_into("po_items", $data);
+                    $this->super_model->insert_into("po_dr_items", $data);
                // }else{
                    // $this->super_model->update_where("po_items", $data, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
                // }
@@ -1661,9 +1662,32 @@ class Po extends CI_Controller {
     }
 
     public function incom_podel(){
+         foreach($this->super_model->custom_query("SELECT ph.* FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id WHERE saved='1' AND cancelled = '0' AND pi.delivered_quantity > pi.quantity ORDER BY ph.po_id DESC") AS $head){
+             $rfd=$this->super_model->count_rows_where("rfd","po_id",$head->po_id);
+             $pr='';
+            foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
+                $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
+                $pr .= $pr_no."<br>";
+            }
+            $data['header'][]=array(
+                'po_id'=>$head->po_id,
+                'po_date'=>$head->po_date,
+                'po_no'=>$head->po_no,
+                'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
+                'supplier_id'=>$head->vendor_id,
+                'saved'=>$head->saved,
+                'po_type'=>$head->po_type,
+                'pr'=>$pr,
+                'rfd'=>$rfd,
+                'po_type'=>$head->po_type,
+                'revised'=>$head->revised,
+                'revision_no'=>$head->revision_no,
+                'served'=>$head->served
+            );
+        }        
         $this->load->view('template/header');        
         $this->load->view('template/navbar');        
-        $this->load->view('po/incom_podel');
+        $this->load->view('po/incom_podel',$data);
         $this->load->view('template/footer');
     }
 
