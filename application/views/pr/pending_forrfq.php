@@ -150,17 +150,20 @@
                         </button>
                     </h5>                    
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>pr/redirect_pod">
+                <form method="POST" action = "<?php echo base_url();?>pr/create_reorderpo">
                     <div class="modal-body">
                         Date:
                         <input type="date" name="po_date" class="form-control">
                         <br>
                         Vendor:
-                        <select class="form-control" name = "vendor">
+                        <select class="form-control" name = "supplier">
                             <option value = ''>--Select Supplier--</option>
+                            <?php foreach($supplier AS $sup){ ?>
+                            <option value = "<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
+                            <?php } ?>
                         </select>
                          Notes:
-                        <textarea class="form-control" rows="5"></textarea>
+                        <textarea class="form-control" name = "notes" rows="5"></textarea>
                         <br>
                     </div> 
                     <input type="hidden" name="pr_ids" id="pr_ids">

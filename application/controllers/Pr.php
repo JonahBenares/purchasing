@@ -132,7 +132,42 @@ class Pr extends CI_Controller {
         $this->load->view('template/footer');
     }
     
+    public function create_reorderpo(){
+        $rows_head = $this->super_model->count_rows("po_head");
+        if($rows_head==0){
+            $po_id=1;
+        } else {
+            $max = $this->super_model->get_max("po_head", "po_id");
+            $po_id = $max+1;
+        }
 
+
+        $rows_series = $this->super_model->count_rows("po_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("po_series", "series");
+            $series = $max+1;
+        }
+
+        $po_no = 'RPO-'.$series;
+        $data_series = array(
+            'series'=>$series
+        );
+        $this->super_model->insert_into("po_series", $data_series);
+        $data = array(
+            'po_id'=>$po_id,
+            'po_date'=>$this->input->post('po_date'),
+            'po_no'=>$po_no,
+            'notes'=>$this->input->post('notes'),
+            'vendor_id'=>$this->input->post('supplier'),
+            'user_id'=>$_SESSION['user_id'],
+            'po_type'=>2
+        );
+        if($this->super_model->insert_into("po_head", $data)){
+            redirect(base_url().'po/reporder_prnt/'.$po_id);
+        }
+    }
 
     public function check_diff_multi($arraya, $arrayb){
 
