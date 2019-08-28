@@ -103,6 +103,24 @@
 		.nomarg{
 			margin: 0px 2px 0px 2px;
 		}
+
+		.form-con{
+		    width: 25%;
+		    height: 34px;
+		    padding: 6px 12px;
+		    font-size: 14px;
+		    line-height: 1.42857143;
+		    color: #555;
+		    background-color: #fff;
+		    background-image: none;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+		    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+		    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+		    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		}
     </style>
 
 	<!-- Modal -->
@@ -148,7 +166,11 @@
 						<?php } ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b><?php if($revised==0){ echo 'PO'; }else { echo 'RFA'; } ?></b></u></a>
 						<?php if($revised==0){ ?>
-						<a  href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $po_id; ?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
+						<select class="form-con">
+							<option selected="" readonly>Select DR to print</option>
+							<option>DR 1</option>
+						</select>
+						<!-- <a  href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $po_id; ?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a> -->
 						<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
 						<?php } ?>
 						<?php if($revised==1){ ?>

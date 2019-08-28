@@ -51,29 +51,26 @@
                             </div>
                         </div>  
                         <div class="sparkline8-hd">
-                            <div class="main-sparkline8-hd">
-                                
-                                    <table class="table table-bordered" >
-                                        <tr>
-                                            <th>PR No.</th>
-                                            <th>
-                                                <table  width="100%">
-                                                    <tr>
-                                                        <td>Group</td>
-                                                        <td>Item</td>
-                                                        <td>Vendor</td>
-                                                    </tr>
-                                                </table>
-                                            </th>
-                                            
-                                        </tr>
+                            <div class="main-sparkline8-hd">                                
+                                <table class="table table-bordered" >
+                                    <tr>
+                                        <th>PR No.</th>
+                                        <th>
+                                            <table  width="100%">
+                                                <tr>
+                                                    <td>Group</td>
+                                                    <td>Item</td>
+                                                    <td>Vendor</td>
+                                                </tr>
+                                            </table>
+                                        </th>                                        
+                                    </tr>
                                     <?php if(!empty($head)){ foreach($head as $h){ ?>
-                                        <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq_group">
+                                    <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq_group">
                                         <tr>
                                             <td width="11%"><?php echo $h['pr_no']; ?></td>
                                             <td style="padding: 0px!important">
-                                                <table class="table-bordered" width="100%">
-                                                  
+                                                <table class="table-bordered" width="100%">                                                  
                                                     <tr>
                                                         <td width="15%"><a href="" ></a><h3 class="m-b-0"><b><?php echo 'Group ' . $h['group']; ?></b></h3></td>
                                                         <td width="30%"><?php echo $h['item']; ?></td>
@@ -89,46 +86,17 @@
                                                                     <input type='submit' class="btn btn-primary btn-md" value='RFQ' title="Create RFQ" onclick="return confirm('Are you sure you want to create RFQ?')">
                                                                 <?php } ?>     
                                                                 <a class="btn btn-info btn-md" title="Direct Purchase" id="updateDP_button" data-id="<?php echo $h['pr_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-toggle="modal" data-target="#directpurch">DP</a>
-                                                                <a href=""  class="btn btn-success btn-md" title="Repeat Order">RO</a>
+                                                                <a href=""  data-toggle="modal" data-target="#repord" class="btn btn-success btn-md" title="Repeat Order">RO</a>
                                                             </div>
                                                         </center>
                                                         </td>
-                                                    </tr>
-                                              
+                                                    </tr>                                              
                                                 </table>
                                             </td>
                                         </tr> 
-                                         </form>
-                                        <?php } } ?>
-                                        <!-- <tr>
-                                            <td width="15%"><a href="" ></a><h3 class="m-b-0"><b>asdasdasd</b></h3></td>
-                                            <td width="32%">asdasd</td>
-                                            <td width="32%">asdasd</td>
-                                            <td width="10%">
-                                                <a href="" onclick="choose_vendor()" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
-                                                <center><input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
-                                            </td>
-                                        </tr>  
-                                        <tr>
-                                            <td width="15%"><a href="" ></a><h3 class="m-b-0"><b>asdasdasd</b></h3></td>
-                                            <td width="32%">asdasd</td>
-                                            <td width="32%">asdasd</td>
-                                            <td width="10%">
-                                                <a href="" onclick="choose_vendor()" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
-                                                <center><input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="15%"><a href="" ></a><h3 class="m-b-0"><b>asdasdasd</b></h3></td>
-                                            <td width="32%">asdasd</td>
-                                            <td width="32%">asdasd</td>
-                                            <td width="10%">
-                                                <a href="" onclick="choose_vendor()" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
-                                                <center><input type='submit' class="btn btn-primary btn-md btn-block" value='Create RFQ' onclick="return confirm('Are you sure you want to create RFQ?')"></center>
-                                            </td>
-                                        </tr>            -->                    
-                                    </table>
-                               
+                                    </form>
+                                    <?php } } ?>                  
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -161,6 +129,42 @@
                             <option value = "<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
                             <?php } ?>
                         </select>
+                    </div> 
+                    <input type="hidden" name="pr_ids" id="pr_ids">
+                    <input type="hidden" name="group_id" id="group_id">
+                    <div class="modal-footer">
+                        <input type="submit" name="submit" class="btn btn-primary btn-block" value="Save">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="repord" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Repeat Order
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>                    
+                </div>
+                <form method="POST" action = "<?php echo base_url();?>pr/create_reorderpo">
+                    <div class="modal-body">
+                        Date:
+                        <input type="date" name="po_date" class="form-control">
+                        <br>
+                        Vendor:
+                        <select class="form-control" name = "supplier">
+                            <option value = ''>--Select Supplier--</option>
+                            <?php foreach($supplier AS $sup){ ?>
+                            <option value = "<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
+                            <?php } ?>
+                        </select>
+                         Notes:
+                        <textarea class="form-control" name = "notes" rows="5"></textarea>
+                        <br>
                     </div> 
                     <input type="hidden" name="pr_ids" id="pr_ids">
                     <input type="hidden" name="group_id" id="group_id">

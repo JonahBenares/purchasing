@@ -1,5 +1,5 @@
-     <script src="<?php echo base_url(); ?>assets/js/po.js"></script> 
-     <div class="breadcome-area mg-b-30 small-dn">
+    <script src="<?php echo base_url(); ?>assets/js/po.js"></script> 
+    <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
