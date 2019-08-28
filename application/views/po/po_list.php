@@ -228,55 +228,6 @@
                 </form>
             </div>
         </div>
-    </div><!-- 
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="deliverpo" aria-labelledby="deliverpo" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              ...
-            </div>
-        </div>
-    </div> -->
-    <div id="deliverpo" class="modal modal-adminpro-general default-popup-PrimaryModal fade bd-example-modal-lg" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header header-color-modal bg-color-1">
-                    <h4 class="modal-title">Delivered PO</h4>
-                    <div class="modal-close-area modal-close-df">
-                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
-                    </div>
-                </div>
-                <form method="POST" action = "<?php echo base_url();?>po/serve_po">
-                    <div class="modal-body-lowpad">
-                        <div class="form-group">
-                            <p class="m-b-0">Date Delivered:</p>
-                            <input type="date" class="form-control" name="date_delivered">
-                        </div>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <td width="5%" align="center">#</td>
-                                    <td>Item Description</td>
-                                    <td width="15%">Delivered Qty</td>
-                                    <td>Received Qty</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td style="padding: 0px"><input type="text" class="form-control" name=""></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <center>                     
-                            <input type = "hidden" id='po_id' name='po_id' >   
-                            <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
-                        </center>
-                    </div>                    
-                </form>
-            </div>
-        </div>
     </div>
     <div class="admin-dashone-data-table-area">
         <div class="container-fluid">
@@ -343,7 +294,7 @@
                                                 ?></td>
                                                 <td>
                                                     <center>                                                        
-                                                        <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' data-toggle="modal" data-target="#deliverpo" data-id="<?php echo $head['po_id']?>">
+                                                        <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>')">
                                                             <span class="fa fa-check"></span>
                                                         </a>
                                                         <?php if($head['revised']==1){ ?>

@@ -177,3 +177,7 @@ $(document).on("click", "#polink_button", function () {
 function viewHistory(baseurl,id,po_no) {
     window.open(baseurl+"po/view_history/"+id+"/"+po_no, "_blank","toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
 }
+
+function deliver_po(baseurl) {
+    window.open(baseurl+"po/deliver_po/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=45,left=25,width=1300,height=600");
+}

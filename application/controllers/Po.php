@@ -1535,6 +1535,13 @@ class Po extends CI_Controller {
         }
     }
 
+    public function deliver_po(){
+        $this->load->view('template/header');        
+        $this->load->view('po/deliver_po');
+        $this->load->view('template/footer');
+    }
+
+
 }
 
 ?>
