@@ -465,7 +465,7 @@
 		    			<td colspan="1"></td>
 		    			<td colspan="5"><b><?php echo $prepared_by; ?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6"><b>check</b></td>
+		    			<td colspan="6"><b><?php echo $checked;?></b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="5"><b><?php echo $approved_by; ?></b></td>
 		    			<td colspan="1"></td>
