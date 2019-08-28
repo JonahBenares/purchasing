@@ -247,6 +247,7 @@
                                         <span class="fa fa-repeat p-l-0 "> </span> Add Repeat Order
                                     </a>
                                     <a href="<?php echo base_url(); ?>po/served_po" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Delivered PO</a> 
+                                    <a href="<?php echo base_url(); ?>po/incom_podel" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-adjust"></span> Incomplete PO Delivery</a> 
                                     <a href="<?php echo base_url(); ?>po/cancelled_po" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PO</a>
                                     </div>
                                 </div>

@@ -1660,6 +1660,13 @@ class Po extends CI_Controller {
         <?php
     }
 
+    public function incom_podel(){
+        $this->load->view('template/header');        
+        $this->load->view('template/navbar');        
+        $this->load->view('po/incom_podel');
+        $this->load->view('template/footer');
+    }
+
     
 }
 ?>
