@@ -43,12 +43,13 @@ class Reports extends CI_Controller {
         $month=$this->uri->segment(4);
         $data['year']=$year;
         $data['month']=$month;
-        if(empty($month)){
-            $date = $year;
+        if(!empty($month)){
+             $date = $year."-".$month;
+             $data['date']=date('F Y', strtotime($date));
         } else {
-         $date = $year."-".$month;
+             $date = $year;
+             $data['date']=$date;
         }
-        $data['date']=date('F Y', strtotime($date));
 
         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $pr){
             $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
@@ -712,8 +713,14 @@ class Reports extends CI_Controller {
         $month=$this->uri->segment(4);
         $data['year']=$year;
         $data['month']=$month;
-        $date = $year."-".$month;
-        $data['date']=date('F Y', strtotime($date));
+       
+        if(!empty($month)){
+             $date = $year."-".$month;
+             $data['date']=date('F Y', strtotime($date));
+        } else {
+             $date = $year;
+             $data['date']=$date;
+        }
         $po_date = date('Y-m', strtotime($date));
         $data['pr_no1']=$this->super_model->select_custom_where('pr_head',"cancelled='0'");
         $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
