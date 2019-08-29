@@ -87,13 +87,15 @@
                                                 ?></td>
                                                 <td>
                                                     <center>                                                        
-                                                                                                       
-                                                        <a href="<?php echo base_url(); ?>po/create_dr/<?php echo $head['po_id']; ?>" onclick="confirm('Are you sure you want to create DR?');" class="btn btn-custon-three btn-warning btn-xs " title='Dr'>
-                                                            <span class="fa fa-check"></span>
+                                                       <?php if($head['unreceived_dr']==0){ ?>                                                
+                                                        <a href="<?php echo base_url(); ?>po/create_dr/<?php echo $head['po_id']; ?>" onclick="confirm('Are you sure you want to create DR?');" class="btn btn-custon-three btn-warning btn-xs " title='Create DR'>
+                                                            <span class="fa fa-file"></span>
                                                         </a>
-                                                     <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>','<?php echo $head['po_id']?>')">
+                                                     <?php } else { ?>
+                                                     <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>','<?php echo $head['po_id']?>','<?php echo $head['dr_id']?>')">
                                                             <span class="fa fa-truck"></span>
                                                         </a>
+                                                    <?php } ?>
                                                 </td>
                                             </tr>   
                                              <?php } } ?>                                       

@@ -63,7 +63,7 @@ class Reports extends CI_Controller {
                         $status = 'PO Done';
                         $status_remarks = 'Pending RFD - Partial';
                     } else {*/
-                        $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
+                       /* $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);*/
                         $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
                         $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
                         $served_uom = $this->super_model->select_column_where('po_items', 'uom', 'pr_details_id', $pr->pr_details_id);
@@ -80,7 +80,13 @@ class Reports extends CI_Controller {
 
                             $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
                             $status = 'Partially Delivered';
-                            $status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Delivered ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
+                            //$status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Delivered ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
+
+                               $status_remarks='';
+                           foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $pr->pr_details_id) AS $del){
+                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                            }
+                         
                         }
                   //  }
                 } else {
@@ -101,11 +107,15 @@ class Reports extends CI_Controller {
                         $status = 'PO Issued';
                         $status_remarks = '';
                     } else {
-                        $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
-                        $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
+                       /* $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
+                        $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);*/
 
                         $status = 'Fully Delivered';
-                        $status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Delivered DR# ".$dr_no;
+                      //  $status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Delivered DR# ".$dr_no;
+                        $status_remarks='';
+                       foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $pr->pr_details_id) AS $del){
+                             $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                        }
                     }
                 }
             } else {
@@ -744,7 +754,11 @@ class Reports extends CI_Controller {
                             $status = 'PO Issued';
                         } else {
                              $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $p->po_id);
-                            $status = date('m.d.Y', strtotime($p->date_served))." - Delivered DR# ". $dr_no;
+                           // $status = date('m.d.Y', strtotime($p->date_served))." - Delivered DR# ". $dr_no;
+                               $status='';
+                           foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $i->pr_details_id) AS $del){
+                                 $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                            }
                         }
                     }
                     /*$partial = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ah.pr_id = '$pr->pr_id' AND ai.aoq_items_id = '$i->aoq_items_id' AND ai.balance != '0' AND ai.balance != ai.quantity GROUP BY ai.aoq_items_id");*/

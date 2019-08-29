@@ -178,8 +178,11 @@
 							<?php } ?>							
 							<a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
 							<ul class="dropdown-menu dropdown-alerts animated fadeInDown" style="width:200px;top:30px;border:1px solid #e66614;left:650px;">
-								<li style="text-align: left!important"><a href="" class="btn btn-link">Hello.mp4</a></li>
-								<li style="text-align: left!important"><a href="" class="btn btn-link">Hello.mp4</a></li>
+								<?php foreach($dr AS $d){ ?>
+									<li style="text-align: left!important"><a href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $d->po_id; ?>/<?php echo $d->dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "DR# ".$d->dr_no; ?></a></li>
+								<?php } ?>
+							<!-- 	<li style="text-align: left!important"><a href="" class="btn btn-link">Hello.mp4</a></li>
+								<li style="text-align: left!important"><a href="" class="btn btn-link">Hello.mp4</a></li> -->
 							</ul>
 						</li>
 							

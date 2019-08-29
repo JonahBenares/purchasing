@@ -52,8 +52,7 @@
                                             <th>PO #</th>
                                             <th>Supplier</th>
                                             <th>PR #</th>
-                                            <th>Mode of Purchase</th>
-                                            <th>Date Delivered</th>
+                                            <th>Mode of Purchase</th> 
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
@@ -77,7 +76,7 @@
                                                         echo "Repeat Order";
                                                     }
                                                 ?></td>
-                                            <td><?php echo date('Y-m-d', strtotime($head['date_served'])); ?></td>
+                                           
                                             
                                             <td>
                                                 <center>
