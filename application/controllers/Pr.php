@@ -429,7 +429,7 @@ class Pr extends CI_Controller {
             );
         }
 
-        foreach($this->super_model->custom_query("SELECT grouping_id,noted_by,approved_by,due_date FROM pr_vendors WHERE pr_id = '$prid' GROUP BY noted_by") AS $ven){
+        foreach($this->super_model->custom_query("SELECT grouping_id,noted_by,approved_by,due_date FROM pr_vendors WHERE pr_id = '$prid' GROUP BY noted_by,grouping_id") AS $ven){
             $data['vendor_app'][] = array(
                 'group_id'=>$ven->grouping_id,
                 'noted_by'=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $ven->noted_by),
@@ -727,8 +727,8 @@ class Pr extends CI_Controller {
               
                 $prven = array(
                     'pr_id'=>$prid,
-                    'vendor_id'=>$group,
-                    'grouping_id'=>$vendor,
+                    'vendor_id'=>$vendor,
+                    'grouping_id'=>$group,
                     'due_date'=>$this->input->post('due_date'),
                     'noted_by'=>$this->input->post('noted'),
                     'approved_by'=>$this->input->post('approved')
@@ -783,7 +783,7 @@ class Pr extends CI_Controller {
                 );
                 $this->super_model->insert_into("rfq_head", $data_head);
 
-                foreach($this->super_model->select_custom_where("pr_details", "pr_details_id='$pr_details_id'") AS $details){
+                foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid' AND grouping_id = '$group'") AS $details){
                     $data_details = array(
                         'rfq_id'=>$rfq_id,
                         'pr_details_id'=>$details->pr_details_id,
