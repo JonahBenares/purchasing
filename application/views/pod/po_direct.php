@@ -251,7 +251,7 @@
 
 		    		</tr>
 		    		<!-- <input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>"> -->
-		    		<!-- <input type='text' name='po_items_id<?php echo $x; ?>' value="<?php echo $it['po_items_id']; ?>">  -->
+		    		<input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $it['pr_details_id']; ?>">
 		    		<?php 
 		    			$x++; } } 
 		    			else { 
