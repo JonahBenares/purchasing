@@ -5,6 +5,13 @@
          $(".modal #details_id").val(details_id);
          $(".modal #pr").val(pr);
     });
+
+     $(document).on("click", ".addVendor", function () {
+         var group = $(this).data('group');
+         var id = $(this).data('id');
+         $(".modal #group").val(group);
+         $(".modal #pr_details_id").val(id);
+    });
 </script>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
@@ -71,17 +78,48 @@
                         </button>
                     </h5>                    
                 </div>
+                <form method='POST' action='<?php echo base_url(); ?>pr/add_vendor_rfq'>
                 <div class="modal-body">
                     <div class="form-group">
-                        <select class="form-control">
-                            <option>ven</option>
-                        </select>
+                        <p class="m-b-0">Vendor:</p>
+                        <select class="form-control" name='vendor'>
+                            <option value='' selected="selected">-Choose Vendor-</option>
+                            <?php foreach($vendor AS $ven){ ?>
+                                <option value='<?php echo $ven->vendor_id; ?>'><?php echo $ven->vendor_name; ?></option>
+                            <?php } ?>
+                        </select>                        
+                    </div>
+                    <div class="form-group">
+                        <p class="m-b-0">Due Date:</p>
+                        <input type="date" class="form-control" name="due_date">
+                    </div>
+                    <div class="form-group">
+                        <p class="m-b-0">Noted by:</p>
+                        <select class="form-control" name='noted'>
+                             <option value='' selected="selected">-Choose Employee-</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select> 
+                    </div>
+                    <div class="form-group">
+                        <p class="m-b-0">Approved by:</p>
+                        <select class="form-control" name='approved'>
+                             <option value='' selected="selected">-Choose Employee-</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select> 
                     </div>
                 </div>
                 <div class="modal-footer">
-                <input type="button" class="btn btn-primary btn-block" value="Create RFQ">
+                    <input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+                    <input type='hidden' name='group' id='group' >
+                    <input type='hidden' name='pr_details_id' id='pr_details_id' >
+                <input type="submit" class="btn btn-primary btn-block" value="Create RFQ">
                 </div>
             </div>
+            </form>
         </div>
     </div>
 
@@ -209,7 +247,7 @@
                                                 <td><?php echo $det['vendor']; ?></td>
                                                 <?php } ?>
                                                 <td align="center">
-                                                    <a href="" class="btn btn-xs btn-warning btn-custon-three" data-toggle="modal" data-target="#exampleModal"><span class="fa fa-shopping-cart"> </span></a>
+                                                    <a href="" class="addVendor btn btn-xs btn-warning btn-custon-three" data-toggle="modal" data-target="#exampleModal" title="Add Vendor" data-group="<?php echo $det['grouping_id']; ?>" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-shopping-cart"> </span></a>
                                                     <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </td>
                                             </tr>
