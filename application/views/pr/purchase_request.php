@@ -61,6 +61,37 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Vendor
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>                    
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <p class="m-b-0">Vendors:</p>
+                        <ul class="b p-l-20">
+                            <li>Vendor 1</li>
+                            <li>Vendor 2</li>
+                            <li>Vendor 3</li>
+                            <li>Vendor 4</li>
+                        </ul>
+                        <select class="form-control">
+                            <option>ven</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <input type="button" class="btn btn-primary btn-block" value="Create RFQ">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="admin-dashone-data-table-area">
         <div class="container-fluid">
             <div class="row">
@@ -159,7 +190,7 @@
                                                 <?php }else { ?>
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
                                                 <?php } ?>
-                                                <td><?php echo $det['cancelled_reason'] . " by ". $det['cancelled_by']." / ".date('m.d.y', strtotime($det['cancelled_date']));?></td>
+                                                <td align="center"><?php echo $det['cancelled_reason'] . " by ". $det['cancelled_by']." /".date('m.d.y', strtotime($det['cancelled_date']));?></td>
                                             </tr>
                                         <?php } else { ?>
                                             <tr>
@@ -182,6 +213,7 @@
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
                                                 <?php } ?>
                                                 <td align="center">
+                                                    <a href="" class="btn btn-xs btn-warning btn-custon-three" data-toggle="modal" data-target="#exampleModal"><span class="fa fa-shopping-cart"> </span></a>
                                                     <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </td>
                                             </tr>

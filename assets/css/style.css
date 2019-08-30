@@ -5926,3 +5926,7 @@ div#sparklinedask2, div#sparklinedask1 {
 .texcenter{
 	text-align: center;
 }
+
+ul.b {
+  list-style-type: square;
+}
