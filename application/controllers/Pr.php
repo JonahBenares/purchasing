@@ -234,7 +234,6 @@ class Pr extends CI_Controller {
         $pr = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue());
         $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
         /*$date_issued = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());*/
-        $wh_stock = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
         $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue());
         $enduse = trim($objPHPExcel->getActiveSheet()->getCell('C12')->getValue());
         $department = trim($objPHPExcel->getActiveSheet()->getCell('I7')->getValue());
@@ -256,7 +255,6 @@ class Pr extends CI_Controller {
         $data_head = array(
             'pr_id'=>$pr_id,
             'pr_no'=>$pr_no,
-            'wh_stocks'=>$wh_stock,
             'purchase_request'=>$pr,
             'date_prepared'=>$date_prepared,
             'enduse'=>$enduse,
@@ -281,6 +279,7 @@ class Pr extends CI_Controller {
                 $part_no = trim($objPHPExcel->getActiveSheet()->getCell('D'.$x)->getValue());
                 $description = trim($objPHPExcel->getActiveSheet()->getCell('E'.$x)->getValue());
                 $date_needed = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue()));
+                $wh_stock = trim($objPHPExcel->getActiveSheet()->getCell('I'.$x)->getValue());
                 if(!empty($qty)){
                     $data_items = array(
                         'pr_id'=>$pr_id,
@@ -289,6 +288,7 @@ class Pr extends CI_Controller {
                         'quantity'=>$qty,
                         'part_no'=>$part_no,
                         'date_needed'=>$date_needed,
+                        'wh_stocks'=>$wh_stock,
                     );
 
                     $this->super_model->insert_into("pr_details", $data_items);
@@ -330,6 +330,7 @@ class Pr extends CI_Controller {
             $data['details'][]=array(
                 'pr_details_id'=>$det->pr_details_id,
                 'quantity'=>$det->quantity,
+                'wh_stocks'=>$det->wh_stocks,
                 'uom'=>$det->uom,
                 'item_description'=>$det->item_description,
                 'date_needed'=>$det->date_needed,
