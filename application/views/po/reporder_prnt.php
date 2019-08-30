@@ -134,6 +134,7 @@
 				</div>
 				<div class="modal-footer">
 					<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+					<input type='hidden' name='po_pr_id' value='<?php echo $po_pr_id; ?>'>
 					<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 				</div>
 			</form>
