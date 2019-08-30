@@ -295,8 +295,8 @@
                                                 ?></td>
                                                 <td>
                                                     <center>                                                        
-                                                        <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>','<?php echo $head['po_id']?>')">
-                                                            <span class="fa fa-check"></span>
+                                                        <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>','<?php echo $head['po_id']?>','<?php echo $head['dr_id']?>')">
+                                                            <span class="fa fa-truck"></span>
                                                         </a>
                                                         <?php if($head['revised']==1){ ?>
                                                         <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $head['po_id']?>">

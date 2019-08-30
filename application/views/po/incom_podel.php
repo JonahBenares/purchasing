@@ -59,22 +59,46 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                          <?php 
+                                                if(!empty($header)){
+                                                    foreach($header AS $head){ 
+                                            ?>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                
-                                                <td><a class="btn-link txt-primary" onclick="viewHistory('')"></a></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><?php echo date('F j, Y', strtotime($head['po_date'])); ?></td>
+                                               <!--  <td></td> -->
+                                                <td><a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>','<?php echo $head['po_id']; ?>','<?php echo $head['po_no']; ?>')"><?php echo $head['po_no'] . (($head['revision_no']!=0) ? ".r".$head['revision_no'] : "");?></a></td>
+                                                <td><?php echo $head['supplier']; ?></td>
+                                                <td><?php echo $head['pr']; ?></td>
+                                                <td><?php 
+
+                                                if($head['revised']==1) {
+                                                    echo '<span class="label label-warning">Request for Revision</span>';
+                                                } else {
+                                                    echo (($head['served']==0) ? '<span class="label label-warning">PO Issued</span>' : '<span class="label label-success">Delivered</span>'); 
+                                                    } ?></td>
+                                                <td><?php
+                                                    if($head['po_type']==0){
+                                                        echo "Purchase Request";
+                                                    } else if($head['po_type']==1){
+                                                        echo "Direct Purchase";
+                                                    } else if($head['po_type']==2){
+                                                        echo "Repeat Order";
+                                                    }
+                                                ?></td>
                                                 <td>
                                                     <center>                                                        
-                                                        <a href="" class="btn btn-custon-three btn-warning btn-xs " title='Dr'>
-                                                            <span class="fa fa-check"></span>
+                                                       <?php if($head['unreceived_dr']==0){ ?>                                                
+                                                        <a href="<?php echo base_url(); ?>po/create_dr/<?php echo $head['po_id']; ?>" onclick="confirm('Are you sure you want to create DR?');" class="btn btn-custon-three btn-warning btn-xs " title='Create DR'>
+                                                            <span class="fa fa-file"></span>
                                                         </a>
-                                                    </center>
+                                                     <?php } else { ?>
+                                                     <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>','<?php echo $head['po_id']?>','<?php echo $head['dr_id']?>')">
+                                                            <span class="fa fa-truck"></span>
+                                                        </a>
+                                                    <?php } ?>
                                                 </td>
-                                            </tr>                                 
+                                            </tr>   
+                                             <?php } } ?>                                       
                                         </tbody>
                                     </table>
                                 </div>                           

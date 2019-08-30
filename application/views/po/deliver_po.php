@@ -46,6 +46,7 @@
                                     </table>
                                     <center>      
                                         <input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>     
+                                        <input type='hidden' name='dr_id' value='<?php echo $dr_id; ?>'>     
                                         <input type='hidden' name='count' value='<?php echo $x; ?>'>               
                                         <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
                                     </center>

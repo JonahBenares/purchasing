@@ -90,6 +90,8 @@ class Po extends CI_Controller {
                 $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
                 $pr .= $pr_no."<br>";
             }
+
+            $dr_id = $this->super_model->select_column_custom_where("po_dr", "dr_id", "po_id = '$head->po_id' AND received='0'");
             $data['header'][]=array(
                 'po_id'=>$head->po_id,
                 'po_date'=>$head->po_date,
@@ -103,7 +105,8 @@ class Po extends CI_Controller {
                 'po_type'=>$head->po_type,
                 'revised'=>$head->revised,
                 'revision_no'=>$head->revision_no,
-                'served'=>$head->served
+                'served'=>$head->served,
+                'dr_id'=>$dr_id
             );
         }        
         $this->load->view('po/po_list',$data);
@@ -392,15 +395,64 @@ class Po extends CI_Controller {
         $po_id = $this->input->post('po_id');
         $count_item = $this->input->post('count_item');
         $a=1;
+
+
+        $rows_dr = $this->super_model->count_rows("po_dr");
+        if($rows_dr==0){
+            $dr_no=1000;
+            $dr_id = 1;
+        } else {
+            $max = $this->super_model->get_max("po_dr", "dr_no");
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
+            $dr_no = $max+1;
+            $dr_id = $maxid+1;
+        }
+
+
+        $dr = array(
+            'dr_id'=>$dr_id,
+            'po_id'=>$po_id,
+            'dr_no'=>$dr_no,
+            'dr_date'=>$this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id),
+        );
+        $this->super_model->insert_into("po_dr", $dr);
+
         for($x=1; $x<$count_item;$x++){
             $qty=$this->input->post('quantity'.$x);
           //  $revise = $this->super_model->select_column_where("po_head",'revised','po_id',$po_id);
+
+             $rows_items = $this->super_model->count_rows("po_items");
+                if($rows_items==0){
+                    $po_items_id = 1;
+                } else {
+                    $maxid = $this->super_model->get_max("po_items", "po_items_id");
+                    $po_items_id = $maxid+1;
+                }
+
+
             $saved = $this->super_model->select_column_where("po_head",'saved','po_id',$po_id);
             if($qty!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
                 $data=array(
+                    'po_items_id'=>$po_items_id,
                     'pr_id'=>$this->super_model->select_column_where('aoq_head', 'pr_id', 'aoq_id', $this->input->post('aoq_id'.$x)),
+                    'po_id'=>$po_id,
+                    'aoq_offer_id'=>$this->input->post('aoq_offer_id'.$x),
+                    'aoq_items_id'=>$this->input->post('aoq_items_id'.$x),
+                    'pr_details_id'=>$this->input->post('pr_details_id'.$x),
+                    'offer'=>$this->input->post('offer'.$x),
+                    'delivered_quantity'=>$qty,
+                    'uom'=>$this->input->post('uom'.$x),
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
+                    'item_no'=>$a
+                );
+
+                $data_dr=array(
+                    'po_items_id'=>$po_items_id,  
+                    'pr_id'=>$this->super_model->select_column_where('aoq_head', 'pr_id', 'aoq_id', $this->input->post('aoq_id'.$x)),
+                    'dr_id'=>$dr_id,
                     'po_id'=>$po_id,
                     'aoq_offer_id'=>$this->input->post('aoq_offer_id'.$x),
                     'aoq_items_id'=>$this->input->post('aoq_items_id'.$x),
@@ -415,6 +467,7 @@ class Po extends CI_Controller {
 
                // if($revise==0){
                     $this->super_model->insert_into("po_items", $data);
+                    $this->super_model->insert_into("po_dr_items", $data_dr);
                // }else{
                    // $this->super_model->update_where("po_items", $data, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
                // }
@@ -433,20 +486,6 @@ class Po extends CI_Controller {
 
       
 
-        $rows_dr = $this->super_model->count_rows("po_dr");
-        if($rows_dr==0){
-            $dr_no=1000;
-        } else {
-            $max = $this->super_model->get_max("po_dr", "dr_no");
-            $dr_no = $max+1;
-        }
-
-        $dr = array(
-            'po_id'=>$po_id,
-            'dr_no'=>$dr_no,
-            'dr_date'=>$this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id),
-        );
-        $this->super_model->insert_into("po_dr", $dr);
 
         $head = array(
             'checked_by'=>$this->input->post('checked'),
@@ -712,6 +751,7 @@ class Po extends CI_Controller {
             $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
         }
         $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['dr'] = $this->super_model->select_row_where("po_dr", "po_id", $po_id);
         $this->load->view('template/header');        
         $this->load->view('po/purchase_order_saved',$data);
         $this->load->view('template/footer');
@@ -840,15 +880,16 @@ class Po extends CI_Controller {
 
     public function delivery_receipt(){
         $po_id = $this->uri->segment(3); 
+        $dr_id = $this->uri->segment(4); 
         $data['head']= $this->super_model->select_row_where('po_head', 'po_id', $po_id);
         $data['revision_no']= $this->super_model->select_column_where("po_dr", "revision_no", "po_id", $po_id);
-        $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
+        
         $user_id= $this->super_model->select_column_where("po_head", "user_id", "po_id", $po_id);
         $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
         $data['cancelled']=$this->super_model->select_column_where("po_head", "cancelled", "po_id", $po_id);
         foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
              $itemno='';
-            foreach($this->super_model->select_custom_where("po_items", "pr_id= '$pr->pr_id' AND po_id='$po_id'") AS $it){
+            foreach($this->super_model->select_custom_where("po_dr_items", "pr_id= '$pr->pr_id' AND po_id='$po_id'") AS $it){
                 $itemno .= $it->item_no . ", ";
             }
             $item_no = substr($itemno, 0, -2);
@@ -861,16 +902,34 @@ class Po extends CI_Controller {
             );
         }
 
-        foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
-           $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
-            $data['items'][]= array(
-                'item_no'=>$items->item_no,
-                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
-                'item'=>$this->super_model->select_column_where("aoq_items", "item_description", "aoq_items_id", $items->aoq_items_id),
-                'offer'=>$items->offer,
-                'quantity'=>$items->quantity,
-                'uom'=>$items->uom,
-            );
+        if(empty($dr_id)){
+            $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
+            foreach($this->super_model->select_row_where('po_dr_items', 'po_id', $po_id) AS $items){
+               $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
+                $data['items'][]= array(
+                    'item_no'=>$items->item_no,
+                    'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
+                    'item'=>$this->super_model->select_column_where("aoq_items", "item_description", "aoq_items_id", $items->aoq_items_id),
+                    'offer'=>$items->offer,
+                    'delivered_quantity'=>$items->delivered_quantity,
+                    'received_quantity'=>$items->quantity,
+                    'uom'=>$items->uom,
+                );
+            }
+        } else {
+            $data['dr_no']= $this->super_model->select_column_custom_where("po_dr", "dr_no", "po_id='$po_id' AND dr_id = '$dr_id'");
+            foreach($this->super_model->select_custom_where('po_dr_items', "po_id= '$po_id' AND dr_id = '$dr_id'") AS $items){
+               $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
+                $data['items'][]= array(
+                    'item_no'=>$items->item_no,
+                    'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
+                    'item'=>$this->super_model->select_column_where("aoq_items", "item_description", "aoq_items_id", $items->aoq_items_id),
+                    'offer'=>$items->offer,
+                    'delivered_quantity'=>$items->delivered_quantity,
+                    'received_quantity'=>$items->quantity,
+                    'uom'=>$items->uom,
+                );
+            }
         }
         $this->load->view('template/header');        
         $this->load->view('po/delivery_receipt',$data);
@@ -1311,7 +1370,6 @@ class Po extends CI_Controller {
                 'saved'=>$head->saved,
                 'pr'=>$pr,
                 'rfd'=>$rfd,
-                'date_served'=>$head->date_served,
                 'po_type'=>$head->po_type
             );
         }  
@@ -1611,8 +1669,10 @@ class Po extends CI_Controller {
 
     public function deliver_po(){
         $po_id = $this->uri->segment(3);
+        $dr_id = $this->uri->segment(4);
         $data['po_id']=$po_id;
-        $data['items'] = $this->super_model->select_row_where("po_items","po_id",$po_id);
+        $data['dr_id']=$dr_id;
+        $data['items'] = $this->super_model->select_custom_where("po_dr_items","po_id='$po_id' AND dr_id = '$dr_id'");
         $this->load->view('template/header');        
         $this->load->view('po/deliver_po',$data);
         $this->load->view('template/footer');
@@ -1622,21 +1682,39 @@ class Po extends CI_Controller {
     public function save_delivery(){
         $count = $this->input->post('count');
         $po_id = $this->input->post('po_id');
+        $dr_id = $this->input->post('dr_id');
+
+        $data_dr = array(
+            'received'=>1,
+            'date_received'=>$this->input->post('date_delivered'),
+        );
+
+         $this->super_model->update_where("po_dr", $data_dr, "dr_id", $dr_id);
 
         $data_head = array(
             'served'=>1,
-            'date_served'=>$this->input->post('date_delivered'),
             'served_by'=>$_SESSION['user_id']
         );
 
          $this->super_model->update_where("po_head", $data_head, "po_id", $po_id);
 
         for($x=1;$x<$count;$x++){
+            $po_items_id = $this->input->post('po_items_id'.$x);
+            $curr_rec_balance = $this->super_model->select_column_where('po_items', 'quantity', 'po_items_id', $po_items_id);
+            $new_qty = $curr_rec_balance + $this->input->post('received_qty'.$x);
+
+             $data_poitems=array(
+                'quantity'=>$new_qty
+            );
+
             $data=array(
                 'quantity'=>$this->input->post('received_qty'.$x)
             );
 
-            $this->super_model->update_where("po_items", $data, "po_items_id", $this->input->post('po_items_id'.$x));
+
+           
+            $this->super_model->update_where("po_items", $data_poitems, "po_items_id", $po_items_id);
+            $this->super_model->update_custom_where("po_dr_items", $data, "po_items_id='$po_items_id' AND dr_id='$dr_id'");
 
           $curr_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id', $this->input->post('aoq_offer_id'.$x));
           $new_balance = $curr_balance-$this->input->post('received_qty'.$x);
@@ -1661,12 +1739,86 @@ class Po extends CI_Controller {
     }
 
     public function incom_podel(){
+           $data=array();
+         foreach($this->super_model->custom_query("SELECT ph.* FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id WHERE saved='1' AND cancelled = '0' AND served = '1' AND pi.delivered_quantity > pi.quantity GROUP BY po_id ORDER BY ph.po_id DESC") AS $head){
+             $rfd=$this->super_model->count_rows_where("rfd","po_id",$head->po_id);
+             $pr='';
+            foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
+                $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
+                $pr .= $pr_no."<br>";
+            }
+            $dr_id = $this->super_model->select_column_custom_where("po_dr", "dr_id", "po_id = '$head->po_id' AND received='0'");
+            $unreceived_dr = $this->super_model->count_custom_where("po_dr","po_id = '$head->po_id' AND received ='0'");
+            $data['header'][]=array(
+                'po_id'=>$head->po_id,
+                'po_date'=>$head->po_date,
+                'po_no'=>$head->po_no,
+                'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
+                'supplier_id'=>$head->vendor_id,
+                'saved'=>$head->saved,
+                'po_type'=>$head->po_type,
+                'pr'=>$pr,
+                'rfd'=>$rfd,
+                'po_type'=>$head->po_type,
+                'revised'=>$head->revised,
+                'revision_no'=>$head->revision_no,
+                'served'=>$head->served,
+                'unreceived_dr'=>$unreceived_dr,
+                'dr_id'=>$dr_id
+            );
+        }        
         $this->load->view('template/header');        
         $this->load->view('template/navbar');        
-        $this->load->view('po/incom_podel');
+        $this->load->view('po/incom_podel',$data);
         $this->load->view('template/footer');
     }
 
+
+    public function create_dr(){
+         $po_id = $this->uri->segment(3);
+
+        $rows_dr = $this->super_model->count_rows("po_dr");
+        if($rows_dr==0){
+            $dr_no=1000;
+            $dr_id = 1;
+        } else {
+            $max = $this->super_model->get_max("po_dr", "dr_no");
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
+            $dr_no = $max+1;
+            $dr_id = $maxid+1;
+        }
+
+         $dr = array(
+            'dr_id'=>$dr_id,
+            'po_id'=>$po_id,
+            'dr_no'=>$dr_no,
+            'dr_date'=>$this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id),
+        );
+        $this->super_model->insert_into("po_dr", $dr);
+
+        foreach($this->super_model->custom_query("SELECT * FROM po_items WHERE delivered_quantity > quantity AND po_id = '$po_id'") AS $items){
+            $new_qty = $items->delivered_quantity-$items->quantity;
+            $data = array(
+                'po_items_id'=>$items->po_items_id,
+                'dr_id'=>$dr_id,
+                'pr_id'=>$items->pr_id,
+                'po_id'=>$items->po_id,
+                'aoq_offer_id'=>$items->aoq_offer_id,
+                'aoq_items_id'=>$items->aoq_items_id,
+                'pr_details_id'=>$items->pr_details_id,
+                'offer'=>$items->offer,
+                'item_id'=>$items->item_id,
+                'delivered_quantity'=>$new_qty,
+                'unit_price'=>$items->unit_price,
+                'uom'=>$items->uom,
+                'amount'=>$items->amount,
+                'item_no'=>$items->item_no
+            );
+            $this->super_model->insert_into("po_dr_items", $data);
+        }
+
+          redirect(base_url().'po/delivery_receipt/'.$po_id.'/'.$dr_id, 'refresh');
+    }
     
 }
 ?>

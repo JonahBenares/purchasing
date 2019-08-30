@@ -345,7 +345,7 @@
 		    			<td colspan="6"><b>Checked by:</b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="5"><b>Approved by:</b></td>
-		    			<td colspan="1"></td>4
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
