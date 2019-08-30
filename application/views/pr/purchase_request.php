@@ -105,9 +105,9 @@
                                         </tr>
                                         <tr>
                                             <td><i>Enduse:</i></td>
-                                            <td colspan="1"><b class="capital"><?php echo $h->enduse; ?> </b></td>
-                                            <td><i>WH Stock:</i></td>
-                                            <td colspan="1"><b class="capital"><?php echo $h->wh_stocks; ?></b></td>
+                                            <td colspan="3"><b class="capital"><?php echo $h->enduse; ?> </b></td>
+                                           <!--  <td><i>WH Stock:</i></td>
+                                            <td colspan="1"><b class="capital"><?php echo $h->wh_stocks; ?></b></td> -->
                                            
                                         </tr>
                                         <tr>
@@ -123,6 +123,7 @@
                                                 <th>Qty</th>
                                                 <th>UOM</th>
                                                 <th>Item Description</th>
+                                                <th>WH Stocks</th>
                                                 <th>Date Needed</th>
                                                 <th>Group</th>
                                                 <th>Vendor</th>
@@ -145,6 +146,7 @@
                                                 <td><?php echo $det['quantity']; ?></td>
                                                 <td><?php echo $det['uom']; ?></td>
                                                 <td><?php echo $det['item_description']; ?></td>
+                                                <td><?php echo $det['wh_stocks']; ?></td>
                                                 <td><?php echo (!empty($det['date_needed']) ? date('F j, Y', strtotime($det['date_needed'])) : ''); ?></td>
                                                 <?php if(empty($h->pr_no)){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
@@ -166,6 +168,7 @@
                                                 <td><?php echo $det['quantity']; ?></td>
                                                 <td><?php echo $det['uom']; ?></td>
                                                 <td><?php echo $det['item_description']; ?></td>
+                                                <td><?php echo $det['wh_stocks']; ?></td>
                                                 <td><?php echo (!empty($det['date_needed']) ? date('F j, Y', strtotime($det['date_needed'])) : ''); ?></td>
                                                 <?php if($saved==0){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
