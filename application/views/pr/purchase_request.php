@@ -247,7 +247,9 @@
                                                 <td><?php echo $det['vendor']; ?></td>
                                                 <?php } ?>
                                                 <td align="center">
+                                                    <?php if($saved==1){ ?>
                                                     <a href="" class="addVendor btn btn-xs btn-warning btn-custon-three" data-toggle="modal" data-target="#exampleModal" title="Add Vendor" data-group="<?php echo $det['grouping_id']; ?>" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-shopping-cart"> </span></a>
+                                                <?php } ?>
                                                     <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </td>
                                             </tr>

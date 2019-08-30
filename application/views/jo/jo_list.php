@@ -124,7 +124,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($head AS $h){ ?>
+                                        <?php 
+                                        if(!empty($head)){
+                                        foreach($head AS $h){ ?>
                                         <tr>
                                             <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
                                             <td><?php echo $h['cenjo_no'] . "/".$h['jo_no']; ?></td>
@@ -138,7 +140,8 @@
                                                 </center>
                                             </td>
                                         </tr>  
-                                        <?php } ?>                
+                                        <?php } 
+                                    } ?>                
                                     </tbody>
                                 </table>
                             </div>                           
