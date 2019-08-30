@@ -72,14 +72,7 @@
                     </h5>                    
                 </div>
                 <div class="modal-body">
-                    <div>
-                        <p class="m-b-0">Vendors:</p>
-                        <ul class="b p-l-20">
-                            <li>Vendor 1</li>
-                            <li>Vendor 2</li>
-                            <li>Vendor 3</li>
-                            <li>Vendor 4</li>
-                        </ul>
+                    <div class="form-group">
                         <select class="form-control">
                             <option>ven</option>
                         </select>
@@ -190,6 +183,7 @@
                                                 </td>
                                                 <?php }else { ?>
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
+                                                <td><?php echo $det['vendor']; ?></td>
                                                 <?php } ?>
                                                 <td align="center"><?php echo $det['cancelled_reason'] . " by ". $det['cancelled_by']." /".date('m.d.y', strtotime($det['cancelled_date']));?></td>
                                             </tr>
