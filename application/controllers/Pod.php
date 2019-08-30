@@ -155,6 +155,7 @@ class Pod extends CI_Controller {
             foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$pr_id' AND grouping_id = '$group_id'") AS $items){
                 //$total = $items->quantity*$items->unit_price;
                 $data['items'][]= array(
+                    'pr_details_id'=>$items->pr_details_id,
                     'item'=>$items->item_description,
                     'uom'=>$items->uom,
                     'quantity'=>$items->quantity,
@@ -165,6 +166,7 @@ class Pod extends CI_Controller {
             foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
                 $total = $items->quantity*$items->unit_price;
                 $data['items'][]= array(
+                    'pr_details_id'=>$items->pr_details_id,
                     'po_items_id'=>$items->po_items_id,
                     'item'=>$items->offer,
                     'uom'=>$items->uom,
@@ -216,6 +218,7 @@ class Pod extends CI_Controller {
             $po_items_id = $this->input->post('po_items_id'.$x);
             if($qty!=0){
                 $data=array(
+                    'pr_details_id'=>$this->input->post('pr_details_id'.$x),
                     'quantity'=>$qty,
                     'po_id'=>$po_id,
                     'pr_id'=>$pr_id,
