@@ -127,9 +127,9 @@
                                                 <td><?php echo $p->requestor;?></td>
                                                 <td>
                                                     <center>
-                                                        <a href="<?php echo base_url(); ?>pr/pr_group/<?php echo $p->pr_id?>" title = "Add RFQ" class="btn btn-custon-three btn-info btn-xs">
+                                                    <!--     <a href="<?php echo base_url(); ?>pr/pr_group/<?php echo $p->pr_id?>" title = "Add RFQ" class="btn btn-custon-three btn-info btn-xs">
                                                         <span class="fa fa-plus"></span>
-                                                        </a>
+                                                        </a> -->
                                                         <a href="<?php echo base_url(); ?>pr/purchase_request/<?php echo $p->pr_id?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                         </a>
