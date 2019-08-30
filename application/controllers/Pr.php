@@ -325,7 +325,12 @@ class Pr extends CI_Controller {
         $data['head']=$this->super_model->select_row_where("pr_head", "pr_id", $prid);
         $data['saved']=$this->super_model->select_column_where("pr_head",'saved','pr_id',$prid);
         /*$data['details']=*/
+
         foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid'") AS $det){
+            $vendor='';
+            foreach($this->super_model->select_custom_where("rfq_head", "pr_id='$prid' AND grouping_id = '$det->grouping_id' AND cancelled = '0' GROUP BY vendor_id") AS $ven){
+                $vendor.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$ven->vendor_id) . "<br>";
+            }
             $data['cancelled']=$det->cancelled;
             $data['details'][]=array(
                 'pr_details_id'=>$det->pr_details_id,
@@ -339,6 +344,7 @@ class Pr extends CI_Controller {
                 'cancelled_reason'=>$det->cancelled_reason,
                 'cancelled_date'=>$det->cancelled_date,
                 'cancelled'=>$det->cancelled,
+                'vendor'=>$vendor
             ); 
         }
         $this->load->view('template/header');
