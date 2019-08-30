@@ -125,6 +125,7 @@
                                                 <th>Item Description</th>
                                                 <th>Date Needed</th>
                                                 <th>Group</th>
+                                                <th>Vendor</th>
                                                 <?php if($cancelled==0){ ?>
                                                 <th><center><span class="fa fa-bars"></span></center></th>
                                                 <?php } else { ?>
@@ -177,6 +178,7 @@
                                                 </td>
                                                 <?php }else { ?>
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
+                                                <td><?php echo $det['vendor']; ?></td>
                                                 <?php } ?>
                                                 <td align="center">
                                                     <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
