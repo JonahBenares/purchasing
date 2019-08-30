@@ -1086,7 +1086,9 @@ class Po extends CI_Controller {
         }
 
         foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $popr){
+            $data['po_pr_id']=$popr->po_pr_id;
             $data['popr'][] = array(
+                'po_pr_id'=>$popr->po_pr_id,
                 'requestor'=>$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $popr->requestor),
                 'enduse'=>$popr->enduse,
                 'purpose'=>$popr->purpose,
@@ -1118,14 +1120,16 @@ class Po extends CI_Controller {
 
     public function add_purpose(){
         $po_id = $this->input->post('po_id');
+        $po_pr_id = $this->input->post('po_pr_id');
         $data= array(
-            'po_id'=>$po_id,
+            //'po_id'=>$po_id,
             'purpose'=>$this->input->post('purpose'),
             'requestor'=>$this->input->post('requested_by'),
             'enduse'=>$this->input->post('enduse'),
             'notes'=>$this->input->post('notes')
         );
-        if($this->super_model->insert_into("po_pr", $data)){
+        //if($this->super_model->insert_into("po_pr", $data)){
+        if($this->super_model->update_where("po_pr", $data, "po_pr_id", $po_pr_id)){
             redirect(base_url().'po/reporder_prnt/'.$po_id, 'refresh');
         }
 
@@ -1272,6 +1276,7 @@ class Po extends CI_Controller {
                 $amount=$quantity*$price;
                 $data =  array(
                     'po_id'=>$po_id,
+                    'pr_id'=>$this->input->post('pr_id'),
                     'item_id'=>$item,
                     'offer'=>$offer,
                     'quantity'=>$quantity,
@@ -1280,15 +1285,16 @@ class Po extends CI_Controller {
                     'amount'=>$amount,
                     'item_no'=>$item_no,
                     'source_poid'=>$source_po,
-                  
-
-
                 );
-
                 $this->super_model->insert_into("po_items", $data);
             }
         }
-         ?>
+        $data_pr=array(
+            'po_id'=>$po_id,
+            'pr_id'=>$this->input->post('pr_id'),
+        );
+        $this->super_model->insert_into("po_pr", $data_pr);
+        ?>
         <script>
               window.onunload = refreshParent;
             function refreshParent() {
