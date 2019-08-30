@@ -228,7 +228,7 @@
 	    				} ?>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><?php echo number_format($it->quantity); ?></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b><?php echo number_format($it->delivered_quantity); ?></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"><?php echo $offer; ?></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b><?php echo $it->unit_price; ?></b></td>
@@ -317,7 +317,7 @@
 							    				} ?>
 								    		<tr>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-								    			<td colspan="2" class="bor-right" align="center"><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->quantity; ?>' style='width:100%; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
+								    			<td colspan="2" class="bor-right" align="center"><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:100%; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 								    			<td colspan="11" class="bor-right" align="left"><input type='text' style='width:100%' name='offer<?php echo $x; ?>' value='<?php echo $offer; ?>'></td>
 								    			<td colspan="2" class="bor-right" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it->unit_price; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
@@ -343,7 +343,7 @@
 							    				} ?>
 								    		<tr>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->quantity; ?></td>
+								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->delivered_quantity; ?></td>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 								    			<td colspan="11" class="bor-right" align="left"><?php echo $offer; ?></td>
 								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->unit_price; ?></td>
