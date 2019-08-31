@@ -1479,6 +1479,7 @@ class Po extends CI_Controller {
                 "offer"=>$this->input->post('offer'.$x),
                 "item_id"=>$poitems->item_id,
                 "delivered_quantity"=>$this->input->post('quantity'.$x),
+                "quantity"=>$poitems->delivered_quantity,
                 "unit_price"=>$price,
                 "uom"=>$poitems->uom,
                 "amount"=>$amount,
@@ -1538,10 +1539,34 @@ class Po extends CI_Controller {
             );
             if($this->super_model->insert_into("po_dr_revised", $data_dr)){
                 $dr = array(
-                    'dr_no'=>$dr_no
+                    'dr_no'=>$dr_no,
+                    'received'=>0,
+                    'date_received'=>NULL
                 );
                 $this->super_model->update_where("po_dr", $dr, "dr_id", $drs->dr_id);
             }
+        }
+
+        foreach($this->super_model->select_row_where("po_dr_items","po_id",$po_id) AS $dritems){
+            $data_dritems=array(
+                'po_items_id'=>$dritems->po_items_id,
+                'dr_id'=>$dritems->dr_id,
+                'pr_id'=>$dritems->pr_id,
+                'po_id'=>$dritems->po_id,
+                'aoq_offer_id'=>$dritems->aoq_offer_id,
+                'aoq_items_id'=>$dritems->aoq_items_id,
+                'pr_details_id'=>$dritems->pr_details_id,
+                'offer'=>$dritems->offer,
+                'item_id'=>$dritems->item_id,
+                'delivered_quantity'=>$dritems->delivered_quantity,
+                'quantity'=>$dritems->quantity,
+                'unit_price'=>$dritems->unit_price,
+                'uom'=>$dritems->uom,
+                'amount'=>$dritems->amount,
+                'item_no'=>$dritems->item_no,
+                'revision_no'=>$dritems->revision_no
+            );
+            $this->super_model->insert_into("po_dr_items_revised", $data_dritems);
         }
         
         $data_drs =array(
@@ -1622,6 +1647,8 @@ class Po extends CI_Controller {
         }
 
         foreach($this->super_model->select_row_where("po_items_temp","po_id",$po_id) AS $poitems){
+            $oldqty = $this->super_model->select_column_where('po_items', 'quantity', 'po_items_id',  $poitems->po_items_id);
+            $nqty = $oldqty-$poitems->quantity;
             $data_items = array(
            
                 "pr_id"=>$poitems->pr_id,
@@ -1632,11 +1659,20 @@ class Po extends CI_Controller {
                 "offer"=>$poitems->offer,
                 "item_id"=>$poitems->item_id,
                 "delivered_quantity"=>$poitems->delivered_quantity,
+                "quantity"=>$nqty,
                 "unit_price"=>$poitems->unit_price,
                 "uom"=>$poitems->uom,
                 "amount"=>$poitems->amount,
                 "item_no"=>$poitems->item_no,
                 "revision_no"=>$revision_no
+            );
+
+            $data_dr_items = array(
+                'delivered_quantity'=>$poitems->delivered_quantity,
+                'quantity'=>0,
+                'unit_price'=>$poitems->unit_price,
+                'amount'=>$poitems->amount,
+                'offer'=>$poitems->offer
             );
 
             $old_qty = $this->super_model->select_column_where('po_items', 'quantity', 'aoq_offer_id',  $poitems->aoq_offer_id);
@@ -1654,6 +1690,7 @@ class Po extends CI_Controller {
             }
             //$this->super_model->delete_where("po_items", "po_id", $po_id);
             $this->super_model->update_where("po_items", $data_items, "aoq_offer_id", $poitems->aoq_offer_id);
+            $this->super_model->update_where("po_dr_items", $data_dr_items, "po_items_id", $poitems->po_items_id);
         }
         $this->super_model->delete_where("po_tc_temp", "po_id", $po_id);
         $this->super_model->delete_where("po_items_temp", "po_id", $po_id);    
@@ -1663,6 +1700,9 @@ class Po extends CI_Controller {
         $this->super_model->update_where("po_pr", $data_pr, "po_id", $po_id);
 
         $data =array(
+            'served'=>0,
+            'date_served'=>NULL,
+            'served_by'=>0,
             'approve_rev_by'=>$this->input->post('approve_rev'),
             'approve_rev_date'=>$this->input->post('approve_date'),
             'revised'=>0,
