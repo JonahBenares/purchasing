@@ -43,12 +43,12 @@
                                          foreach($items AS $i){ ?>
                                         
                                         <tr>
-                                            <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" value="<?php echo $i['quantity']; ?>" onblur='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
+                                            <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" onblur='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
                                             <td><?php echo $i['uom']; ?></td>
                                             <td><?php echo $i['offer']; ?></td>
                                             <td style="padding: 0px!important"><input type="text" name="price<?php echo $x; ?>" id="price<?php echo $x; ?>" value="<?php echo $i['price']; ?>"  onkeypress="return isNumberKey(this, event)" class="form-control" onblur='changePrice(<?php echo $x; ?>,0)' style='border:0px' readonly></td>
                                             <td style="padding: 0px!important">
-                                                <input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $i['amount']; ?>" style='text-align:right; border:0px' readonly></span>
+                                                <input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right; border:0px' readonly></span>
                                             <td><?php echo $i['pr_no']; ?></td>    
                                         </tr>
                                         <input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>"> 

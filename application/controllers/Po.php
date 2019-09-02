@@ -1240,7 +1240,6 @@ class Po extends CI_Controller {
                     'item_id'=>$item->po_items_id,
                     'offer'=>$offer,
                     'uom'=>$item->uom,
-                    'quantity'=>$item->quantity,
                     'price'=>$item->unit_price,
                     'amount'=>$item->amount
                 );
@@ -1650,7 +1649,11 @@ class Po extends CI_Controller {
 
         foreach($this->super_model->select_row_where("po_items_temp","po_id",$po_id) AS $poitems){
             $oldqty = $this->super_model->select_column_where('po_items', 'quantity', 'po_items_id',  $poitems->po_items_id);
-            $nqty = $oldqty-$poitems->quantity;
+            if($oldqty==0){
+                $nqty=0;
+            } else {
+                $nqty = $oldqty-$poitems->quantity;
+            }
             $data_items = array(
            
                 "pr_id"=>$poitems->pr_id,
