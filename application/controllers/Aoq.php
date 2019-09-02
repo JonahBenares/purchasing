@@ -516,6 +516,7 @@ class Aoq extends CI_Controller {
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.$one, "$supplier\n$contact\n$phone");
                     $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':P'.$one)->applyFromArray($styleArray);
                     $objPHPExcel->getActiveSheet()->getStyle($col.$one)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getRowDimension('7')->setRowHeight(50);
                     $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':P'.$one)->getAlignment()->setWrapText(true);
                     $objPHPExcel->getActiveSheet()->mergeCells('E'.$one.':H'.$one);
                     $objPHPExcel->getActiveSheet()->mergeCells('I'.$one.':L'.$one);
@@ -873,6 +874,7 @@ class Aoq extends CI_Controller {
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.$one, "$supplier\n$contact\n$phone");
                     $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':T'.$one)->applyFromArray($styleArray);
                     $objPHPExcel->getActiveSheet()->getStyle($col.$one)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getRowDimension('7')->setRowHeight(50);
                     $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':V'.$one)->getAlignment()->setWrapText(true);
                     $objPHPExcel->getActiveSheet()->mergeCells('E'.$one.':H'.$one);
                     $objPHPExcel->getActiveSheet()->mergeCells('I'.$one.':L'.$one);
@@ -1238,6 +1240,7 @@ class Aoq extends CI_Controller {
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.$one, "$supplier\n$contact\n$phone");
                     $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':X'.$one)->applyFromArray($styleArray);
                     $objPHPExcel->getActiveSheet()->getStyle($col.$one)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getRowDimension('7')->setRowHeight(50);
                     $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':V'.$one)->getAlignment()->setWrapText(true);
                     $objPHPExcel->getActiveSheet()->mergeCells('E'.$one.':H'.$one);
                     $objPHPExcel->getActiveSheet()->mergeCells('I'.$one.':L'.$one);
