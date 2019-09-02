@@ -143,9 +143,9 @@
 	    		<center>
 			    	<div class="abtn-group">
 						<a href="<?php echo base_url(); ?>po/po_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
-						<?php if($revised==0){ ?>
+						<!-- <?php if($revised==0){ ?>
 						<a  href='<?php echo base_url(); ?>po/revise_po/<?php echo $po_id; ?>' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
-						<?php } ?>
+						<?php } ?> -->
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b><?php if($revised==0){ echo 'PO'; }else { echo 'RFA'; } ?></b></u></a>
 						<?php if($revised==0){ ?>
 							<?php if($revise_no!=''){ ?>
@@ -357,11 +357,11 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b></b></td>
+		    			<td colspan="5"><b><?php echo $_SESSION['fullname']; ?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6"><b>check</b></td>
+		    			<td colspan="6"><b><?php echo $checked;?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b></b></td>
+		    			<td colspan="5"><b><?php echo $approved;?></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
