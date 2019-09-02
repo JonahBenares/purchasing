@@ -950,7 +950,7 @@ class Po extends CI_Controller {
         $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
         $data['cancelled']=$this->super_model->select_column_where("po_head", "cancelled", "po_id", $po_id);
         foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
-            $total = $items->unit_price*$items->quantity;
+            $total = $items->unit_price*$items->delivered_quantity;
             if(!empty($items->offer)){
                 $offer = $items->offer;
             } else {
@@ -959,7 +959,7 @@ class Po extends CI_Controller {
             $data['items'][]= array(
                 'item_no'=>$items->item_no,
                 'offer'=>$offer,
-                'quantity'=>$items->quantity,
+                'quantity'=>$items->delivered_quantity,
                 'price'=>$items->unit_price,
                 'total'=>$total,
                 'uom'=>$items->uom,
