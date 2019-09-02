@@ -1075,7 +1075,7 @@ class Po extends CI_Controller {
             $orig_po=$this->super_model->select_column_where('po_head', 'po_no', 'po_id', $items->source_poid);
 
             $data['items'][]=array(
-                'quantity'=>$items->quantity,
+                'quantity'=>$items->delivered_quantity,
                 'offer'=>$offer,
                 'price'=>$items->unit_price,
                 'uom'=>$items->uom,
@@ -1090,7 +1090,8 @@ class Po extends CI_Controller {
             $data['po_pr_id']=$popr->po_pr_id;
             $data['popr'][] = array(
                 'po_pr_id'=>$popr->po_pr_id,
-                'requestor'=>$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $popr->requestor),
+                //'requestor'=>$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $popr->requestor),
+                'requestor'=>$popr->requestor,
                 'enduse'=>$popr->enduse,
                 'purpose'=>$popr->purpose,
                 'notes'=>$popr->notes,
@@ -1183,7 +1184,8 @@ class Po extends CI_Controller {
                 'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $pr->pr_id),
                 'enduse'=>$pr->enduse,
                 'purpose'=>$pr->purpose,
-                'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id',$pr->requestor),
+                //'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id',$pr->requestor),
+                'requestor'=>$pr->requestor,
                 'item_no'=>$item_no
             );
         }
@@ -1200,7 +1202,8 @@ class Po extends CI_Controller {
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
                 'offer'=>$offer,
                 //'offer'=>$items->offer,
-                'quantity'=>$items->quantity,
+                'received_quantity'=>$items->quantity,
+                'quantity'=>$items->delivered_quantity,
                 'uom'=>$items->uom,
             );
         }       
@@ -1279,7 +1282,7 @@ class Po extends CI_Controller {
                     'pr_id'=>$this->input->post('pr_id'),
                     'item_id'=>$item,
                     'offer'=>$offer,
-                    'quantity'=>$quantity,
+                    'delivered_quantity'=>$quantity,
                     'unit_price'=>$price,
                     'uom'=>$uom,
                     'amount'=>$amount,
