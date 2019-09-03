@@ -1704,6 +1704,7 @@ class Po extends CI_Controller {
                 "item_no"=>$poitems->item_no,
                 "revision_no"=>$revision_no
             );
+             $this->super_model->update_where("po_items", $data_items, "aoq_offer_id", $poitems->aoq_offer_id);
 
             $data_dr_items = array(
                 'delivered_quantity'=>$poitems->delivered_quantity,
@@ -1713,6 +1714,8 @@ class Po extends CI_Controller {
                 'offer'=>$poitems->offer
             );
 
+            $this->super_model->update_where("po_dr_items", $data_dr_items, "po_items_id", $poitems->po_items_id);
+            
             $old_qty = $this->super_model->select_column_where('po_items', 'quantity', 'aoq_offer_id',  $poitems->aoq_offer_id);
             if($old_qty!=$poitems->quantity){
                 $difference = $old_qty - $poitems->quantity;
@@ -1727,8 +1730,8 @@ class Po extends CI_Controller {
                 $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $poitems->aoq_offer_id);
             }
             //$this->super_model->delete_where("po_items", "po_id", $po_id);
-            $this->super_model->update_where("po_items", $data_items, "aoq_offer_id", $poitems->aoq_offer_id);
-            $this->super_model->update_where("po_dr_items", $data_dr_items, "po_items_id", $poitems->po_items_id);
+           
+            
         }
         $this->super_model->delete_where("po_tc_temp", "po_id", $po_id);
         $this->super_model->delete_where("po_items_temp", "po_id", $po_id);    
