@@ -1045,6 +1045,7 @@ class Po extends CI_Controller {
         $data['po_id']=$po_id;
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $data['saved']=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
+        $data['revised']=$this->super_model->select_column_where('po_head', 'revised', 'po_id', $po_id);
         $approved_id = $this->super_model->select_column_where('po_head', 'approved_by', 'po_id', $po_id);
         $data['approved_id'] = $approved_id;
         $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $approved_id );
@@ -1266,6 +1267,7 @@ class Po extends CI_Controller {
 
                 $data['items'][] = array(
                     'pr_no'=>$pr_no,
+                    'pr_details_id'=>$item->pr_details_id,
                     'pr_id'=>$item->pr_id,
                     'item_id'=>$item->po_items_id,
                     'offer'=>$offer,
@@ -1307,6 +1309,7 @@ class Po extends CI_Controller {
                 $data =  array(
                     'po_id'=>$po_id,
                     'pr_id'=>$this->input->post('pr_id'),
+                    'pr_details_id'=>$this->input->post('pr_details_id'.$x),
                     'item_id'=>$item,
                     'offer'=>$offer,
                     'delivered_quantity'=>$quantity,

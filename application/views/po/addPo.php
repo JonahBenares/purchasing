@@ -53,6 +53,7 @@
                                         </tr>
                                         <input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>"> 
                                         <input type='hidden' name='pr_id' value="<?php echo $i['pr_id']; ?>"> 
+                                        <input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $i['pr_details_id']; ?>"> 
                                         <?php $x++; } 
                                     } ?>
                                     </tbody>
