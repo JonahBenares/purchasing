@@ -1042,7 +1042,11 @@ class Po extends CI_Controller {
 
     public function reporder_prnt(){
         $po_id=$this->uri->segment(3);
+        $pr_id=$this->uri->segment(4);
+        $group_id=$this->uri->segment(5);
         $data['po_id']=$po_id;
+        $data['pr_id']=$pr_id;
+        $data['group_id']=$group_id;
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $data['saved']=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
         $data['revised']=$this->super_model->select_column_where('po_head', 'revised', 'po_id', $po_id);
@@ -1242,10 +1246,20 @@ class Po extends CI_Controller {
     public function addPo(){
         $vendor_id=$this->uri->segment(3);
         $po_id=$this->uri->segment(4);
-        $old_po=$this->uri->segment(5);
+        $pr_id=$this->uri->segment(5);
+        $group_id=$this->uri->segment(6);
+        $old_po=$this->uri->segment(7);
+        $data['group_id'] = $group_id;
+        $data['pr_id'] = $pr_id;
         $data['po_id'] = $po_id;
         $data['old_po'] = $old_po;
         $data['vendor_id'] = $vendor_id;
+        foreach($this->super_model->select_custom_where("pr_details", "pr_id='$pr_id' AND grouping_id='$group_id'") AS $p){
+            $data['pr_det'][]=array(
+                'pr_details_id'=>$p->pr_details_id
+            );
+        }
+
         $data['head']=$this->super_model->select_custom_where("po_head", "vendor_id = '$vendor_id' AND saved='1' AND cancelled='0' AND repeat_order = '0'");
     
             foreach($this->super_model->select_row_where("po_items", "po_id", $old_po) AS $item){

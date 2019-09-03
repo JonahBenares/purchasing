@@ -135,6 +135,8 @@ class Pr extends CI_Controller {
     }
     
     public function create_reorderpo(){
+        $pr_id = $this->input->post('pr_idro');
+        $group_id = $this->input->post('group_idro');
         $rows_head = $this->super_model->count_rows("po_head");
         if($rows_head==0){
             $po_id=1;
@@ -167,7 +169,7 @@ class Pr extends CI_Controller {
             'po_type'=>2
         );
         if($this->super_model->insert_into("po_head", $data)){
-            redirect(base_url().'po/reporder_prnt/'.$po_id);
+            redirect(base_url().'po/reporder_prnt/'.$po_id."/".$pr_id."/".$group_id);
         }
     }
 

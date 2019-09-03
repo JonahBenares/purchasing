@@ -159,13 +159,13 @@ function changePrice(count){
      document.getElementById("grandtotal").innerHTML  =grandtotal;
 }
 
-function addPo(baseurl,po_id,vendor_id) {
-    window.open(baseurl+"po/addPo/"+vendor_id+'/'+po_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=45,left=25,width=1300,height=600");
+function addPo(baseurl,po_id,vendor_id,pr_id,group_id) {
+    window.open(baseurl+"po/addPo/"+vendor_id+'/'+po_id+'/'+pr_id+'/'+group_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=45,left=25,width=1300,height=600");
 }
 
-function generatePO(baseurl,vendor_id,po_id,oldid){
+function generatePO(baseurl,vendor_id,po_id,pr_id,group_id,oldid){
   
-  window.location.href=baseurl+'po/addPo/'+vendor_id+'/'+po_id+'/'+oldid;
+  window.location.href=baseurl+'po/addPo/'+vendor_id+'/'+po_id+'/'+pr_id+'/'+group_id+'/'+oldid;
 }
 
 $(document).on("click", "#polink_button", function () {

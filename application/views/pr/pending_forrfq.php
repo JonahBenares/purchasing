@@ -6,6 +6,13 @@
             $("#pr_ids").val(pr_ids);
             $("#group_id").val(group_id);
         });
+
+        $(document).on("click", "#updateRO_button", function () {
+            var pr_idro= $(this).attr("data-id");
+            var group_idro = $(this).attr("data-trigger");
+            $("#pr_idro").val(pr_idro);
+            $("#group_idro").val(group_idro);
+        });
     </script>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
@@ -86,7 +93,7 @@
                                                                     <input type='submit' class="btn btn-primary btn-md" value='RFQ' title="Create RFQ" onclick="return confirm('Are you sure you want to create RFQ?')">
                                                                 <?php } ?>     
                                                                 <a class="btn btn-info btn-md" title="Direct Purchase" id="updateDP_button" data-id="<?php echo $h['pr_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-toggle="modal" data-target="#directpurch">DP</a>
-                                                                <a href=""  data-toggle="modal" data-target="#repord" class="btn btn-success btn-md" title="Repeat Order">RO</a>
+                                                                <a href=""  data-toggle="modal" id="updateRO_button" data-id="<?php echo $h['pr_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-target="#repord" class="btn btn-success btn-md" title="Repeat Order">RO</a>
                                                             </div>
                                                         </center>
                                                         </td>
@@ -166,8 +173,8 @@
                         <textarea class="form-control" name = "notes" rows="5"></textarea>
                         <br>
                     </div> 
-                    <input type="hidden" name="pr_ids" id="pr_ids">
-                    <input type="hidden" name="group_id" id="group_id">
+                    <input type="hidden" name="pr_idro" id="pr_idro">
+                    <input type="hidden" name="group_idro" id="group_idro">
                     <div class="modal-footer">
                         <input type="submit" name="submit" class="btn btn-primary btn-block" value="Save">
                     </div>
