@@ -61,11 +61,11 @@
                             <div class="main-sparkline8-hd">
                                 <h1>DR List</h1>
                                 <small>DELIVERY RECEIPT</small> 
-                                <div class="sparkline8-outline-icon">
+                                <!-- <div class="sparkline8-outline-icon">
                                     <a type='button' class="btn btn-custon-three btn-primary"  data-toggle="modal" data-target="#addDr"> 
                                         <span class="fa fa-plus p-l-0"></span> Add DR
                                     </a>
-                                </div>
+                                </div> -->
                             </div>
                         </div>                       
                         <div class="sparkline8-graph">
