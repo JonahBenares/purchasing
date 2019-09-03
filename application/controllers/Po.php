@@ -969,7 +969,7 @@ class Po extends CI_Controller {
 
           foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
              $itemno='';
-            foreach($this->super_model->select_row_where('po_items', 'pr_id', $pr->pr_id) AS $it){
+            foreach($this->super_model->select_custom_where('po_items', "pr_id='$pr->pr_id' AND po_id = '$po_id'") AS $it){
                 $itemno .= $it->item_no . ", ";
             }
             $item_no = substr($itemno, 0, -2);
@@ -1141,25 +1141,52 @@ class Po extends CI_Controller {
         $po_id = $this->input->post('po_id');
         $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
+            $dr_id = 1;
             $dr_no=1000;
         } else {
             $max = $this->super_model->get_max("po_dr", "dr_no");
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
             $dr_no = $max+1;
+            $dr_id = $maxid+1;
         }
 
         $dr = array(
+            'dr_id'=>$dr_id,
             'po_id'=>$po_id,
             'dr_no'=>$dr_no
         );
         $this->super_model->insert_into("po_dr", $dr);
 
-        $head = array(
+       
+
+
+        foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $head){
+               $data_dr=array(
+                    'po_items_id'=>$head->po_items_id,  
+                    'pr_id'=>$head->pr_id,
+                    'dr_id'=>$dr_id,
+                    'po_id'=>$head->po_id,
+                    'aoq_offer_id'=>$head->aoq_offer_id,
+                    'aoq_items_id'=>$head->aoq_items_id,
+                    'pr_details_id'=>$head->pr_details_id,
+                    'offer'=>$head->offer,
+                    'delivered_quantity'=>$head->delivered_quantity,
+                    'uom'=>$head->uom,
+                    'unit_price'=>$head->unit_price,
+                    'amount'=>$head->amount,
+                    'item_no'=>$head->item_no,
+                );
+
+              
+                $this->super_model->insert_into("po_dr_items", $data_dr);
+        }
+      
+         $head = array(
         
             'approved_by'=>$this->input->post('approved'),
             'saved'=>1,
             'revised'=>0
         );
-      
         if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
             redirect(base_url().'po/reporder_prnt/'.$po_id);
         }
