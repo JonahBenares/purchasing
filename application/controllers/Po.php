@@ -890,7 +890,7 @@ class Po extends CI_Controller {
         $data['cancelled']=$this->super_model->select_column_where("po_head", "cancelled", "po_id", $po_id);
         foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
              $itemno='';
-            foreach($this->super_model->select_custom_where("po_dr_items", "pr_id= '$pr->pr_id' AND po_id='$po_id'") AS $it){
+            foreach($this->super_model->select_custom_where("po_dr_items", "pr_id= '$pr->pr_id' AND po_id='$po_id' AND dr_id = '$dr_id'") AS $it){
                 $itemno .= $it->item_no . ", ";
             }
             $item_no = substr($itemno, 0, -2);
