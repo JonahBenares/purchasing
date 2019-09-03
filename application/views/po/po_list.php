@@ -243,9 +243,9 @@
                                     <a type='button' class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#addPO">
                                         <span class="fa fa-plus p-l-0"></span> Add PO
                                     </a>
-                                    <a type='button' class="btn btn-custon-three btn-info" data-toggle="modal" data-target="#addrepPO">
+                                    <!-- <a type='button' class="btn btn-custon-three btn-info" data-toggle="modal" data-target="#addrepPO">
                                         <span class="fa fa-repeat p-l-0 "> </span> Add Repeat Order
-                                    </a>
+                                    </a> -->
                                     <a href="<?php echo base_url(); ?>po/served_po" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Delivered PO</a> 
                                     <a href="<?php echo base_url(); ?>po/incom_podel" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-adjust"></span> Incomplete PO Delivery</a> 
                                     <a href="<?php echo base_url(); ?>po/cancelled_po" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PO</a>
