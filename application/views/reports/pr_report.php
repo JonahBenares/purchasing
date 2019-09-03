@@ -120,7 +120,7 @@
                                             <td><?php echo $p['enduse']; ?></td>
                                             <td><?php echo $p['pr_no']; ?></td>
                                             <td><?php echo $p['requestor']; ?></td>
-                                            <td></td>
+                                            <td><?php echo $p['wh_stocks']; ?></td>
                                             <td></td>
                                             <td><?php echo $p['qty']; ?></td>
                                             <td><?php echo $p['uom']; ?></td>

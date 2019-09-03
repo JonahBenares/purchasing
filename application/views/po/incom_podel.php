@@ -53,7 +53,6 @@
                                                 <th>PO #</th>
                                                 <th>Supplier</th>
                                                 <th>PR #</th>
-                                                <th>Status</th>
                                                 <th>Mode of Purchase</th>
                                                 <th><center><span class="fa fa-bars"></span></center></th>
                                             </tr>
@@ -69,13 +68,7 @@
                                                 <td><a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>','<?php echo $head['po_id']; ?>','<?php echo $head['po_no']; ?>')"><?php echo $head['po_no'] . (($head['revision_no']!=0) ? ".r".$head['revision_no'] : "");?></a></td>
                                                 <td><?php echo $head['supplier']; ?></td>
                                                 <td><?php echo $head['pr']; ?></td>
-                                                <td><?php 
-
-                                                if($head['revised']==1) {
-                                                    echo '<span class="label label-warning">Request for Revision</span>';
-                                                } else {
-                                                    echo (($head['served']==0) ? '<span class="label label-warning">PO Issued</span>' : '<span class="label label-success">Delivered</span>'); 
-                                                    } ?></td>
+                                               
                                                 <td><?php
                                                     if($head['po_type']==0){
                                                         echo "Purchase Request";
