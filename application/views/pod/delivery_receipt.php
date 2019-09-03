@@ -102,8 +102,8 @@
 					<p class="text-white">Instructions: When printing DELIVERY RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;"> <!-- add class cancel -->
-		    	<table class="table-bordsered" width="100%" style="border:0px solid #000">
+	    	<div style="background: #fff;" class="<?php if($cancelled==1){ echo 'cancel'; } ?>"> <!-- add class cancel -->
+		    	<table class="table-bordsered" width="100%" style="border:1px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
@@ -140,14 +140,15 @@
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td colspan="10" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no; ?></b></td>
-		    			<td colspan="10" class="all-border "><b class="nomarg">PO No: <?php echo $h->po_no; ?></b></td>
+		    			<td colspan="10" class="all-border "><b class="nomarg">PO No: <?php echo $h->po_no . (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
 		    		</tr>
 		    		
-		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date("F d, Y",strtotime($h->po_date)); ?></b></td></tr>
+		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($h->po_date)); ?></b></td></tr>
+		    		<?php } ?>
 		    		<tr>
 		    			<td colspan="20" align="center"><br></td>
 		    		</tr>
-		    		<?php foreach($purp AS $p){ ?>
+		    		<?php foreach($pr AS $p){ ?>
 		    		<tr>
 		    			<td colspan="20" class="all-border"><b class="nomarg">Purpose: <?php echo $p['purpose']; ?></b></td>
 		    		</tr>
@@ -156,13 +157,12 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="10" class="all-border"><b class="nomarg">Requestor: <?php echo $p['requestor']; ?></b></td>
-		    			<td colspan="10" class="all-border "><b class="nomarg">PR No: </b></td>
+		    			<td colspan="10" class="all-border "><b class="nomarg">PR No: <?php echo $p['pr_no'] . "; Item#: " . $p['item_no']; ?></b></td>
 		    		</tr>
-		    		
 		    		<tr>
 		    			<td colspan="20" align="center"><br></td>
 		    		</tr>
-		    		<?php } } ?>
+		    		<?php } ?>
 		    		<!-- Loop -->
 
 		    		<tr>
@@ -174,14 +174,14 @@
 		    			<td class="all-border" align="center" colspan="2"><b class="nomarg">UOM</b></td>
 		    			<td class="all-border" align="center" colspan="3"><b class="nomarg">Remarks</b></td>
 		    		</tr>
-		    		<?php foreach($items AS $i){ ?>
+		    		<?php foreach($items AS $it){ ?>
 		       		<tr>
-		    			<td class="all-border" align="center"><br><?php echo $i['item_no'];?></td>
-		    			<td class="all-border" align="left" colspan="6"><?php echo $i['vendor'];?></td>
-		    			<td class="all-border" align="left" colspan="6"><?php echo $i['item'];?></td>
-		    			<td class="all-border" align="center"><?php echo $i['quantity'];?></td>
-		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center" colspan="2"><?php echo $i['uom'];?></td>
+		    			<td class="all-border" align="center"><?php echo $it['item_no']; ?><br></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $it['vendor']; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $it['offer']; ?></td>
+		    			<td class="all-border" align="center"><?php echo number_format($it['delivered_quantity']); ?></td>
+		    			<td class="all-border" align="center"><?php echo number_format($it['received_quantity']); ?></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $it['uom']; ?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
 		    		<?php } ?>
@@ -196,14 +196,14 @@
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td colspan="6" class="bor-btm"><b><br><?php echo $_SESSION['fullname']; ?></b></td>
+		    			<td colspan="6" class="bor-btm"><b><br></b></td>
 		    			<td colspan="5"></td>
 		    			<td colspan="6" class="bor-btm"></td>
 		    			<td colspan="2"></td>
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td colspan="6"></td>
+		    			<td colspan="6"><?php echo $prepared; ?></td>
 		    			<td colspan="5"></td>
 		    			<td colspan="6">Print Name & Signature with Date Received</td>
 		    			<td colspan="2"></td>

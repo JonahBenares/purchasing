@@ -212,42 +212,75 @@ class Pod extends CI_Controller {
         $pr_id = $this->input->post('pr_id');
         $count_item = $this->input->post('count_item');
         $a=1;
-        for($x=1; $x<$count_item;$x++){
-            $qty=$this->input->post('quantity'.$x);
-            $item=$this->input->post('item'.$x);
-            $po_items_id = $this->input->post('po_items_id'.$x);
-            if($qty!=0){
-                $data=array(
-                    'pr_details_id'=>$this->input->post('pr_details_id'.$x),
-                    'quantity'=>$qty,
-                    'po_id'=>$po_id,
-                    'pr_id'=>$pr_id,
-                    'offer'=>$item,
-                    'unit_price'=>$this->input->post('price'.$x),
-                    'amount'=>$this->input->post('tprice'.$x),
-                    'uom'=>$this->input->post('uom'.$x),
-                    'item_no'=>$a
-                );
-                $this->super_model->insert_into("po_items", $data);
-                //$this->super_model->update_where("po_items", $data, "po_items_id", $po_items_id);
-            $a++;
-            }
-        }
 
         $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
+            $dr_id = 1;
             $dr_no=1000;
         } else {
             $max = $this->super_model->get_max("po_dr", "dr_no");
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
             $dr_no = $max+1;
+            $dr_id = $maxid+1;
         }
 
         $dr = array(
+            'dr_id'=>$dr_id,
             'dr_type'=>1,
             'po_id'=>$po_id,
             'dr_no'=>$dr_no
         );
         $this->super_model->insert_into("po_dr", $dr);
+
+        for($x=1; $x<$count_item;$x++){
+
+                $rows_items = $this->super_model->count_rows("po_items");
+                if($rows_items==0){
+                    $po_items_id = 1;
+                } else {
+                    $maxid = $this->super_model->get_max("po_items", "po_items_id");
+                    $po_items_id = $maxid+1;
+                }
+
+            $qty=$this->input->post('quantity'.$x);
+            $item=$this->input->post('item'.$x);
+            
+            if($qty!=0){
+                $data=array(
+                    'po_items_id'=>$po_items_id,
+                    'pr_details_id'=>$this->input->post('pr_details_id'.$x),
+                    'delivered_quantity'=>$qty,
+                    'po_id'=>$po_id,
+                    'pr_id'=>$pr_id,
+                    'offer'=>$item,
+                    'pr_details_id'=>$this->input->post('pr_details_id'.$x),
+                    'unit_price'=>$this->input->post('price'.$x),
+                    'amount'=>$this->input->post('tprice'.$x),
+                    'uom'=>$this->input->post('uom'.$x),
+                    'item_no'=>$a
+                );
+
+                $data_dr=array(
+                    'po_items_id'=>$po_items_id,  
+                    'pr_id'=>$pr_id,
+                    'dr_id'=>$dr_id,
+                    'po_id'=>$po_id,
+                    'pr_details_id'=>$this->input->post('pr_details_id'.$x),
+                    'offer'=>$item,
+                    'delivered_quantity'=>$qty,
+                    'uom'=>$this->input->post('uom'.$x),
+                    'unit_price'=>$this->input->post('price'.$x),
+                    'amount'=>$this->input->post('tprice'.$x),
+                    'item_no'=>$a
+                );
+                $this->super_model->insert_into("po_items", $data);
+                $this->super_model->insert_into("po_dr_items", $data_dr);
+                //$this->super_model->update_where("po_items", $data, "po_items_id", $po_items_id);
+            $a++;
+            }
+        }
+
+   
         $head = array(
             'approved_by'=>$this->input->post('approved'),
             'saved'=>1
@@ -272,28 +305,56 @@ class Pod extends CI_Controller {
     public function delivery_receipt(){
         $this->load->view('template/header');  
         $po_id = $this->uri->segment(3); 
+        $dr_id = $this->uri->segment(4); 
         $data['head']= $this->super_model->select_row_where('po_head', 'po_id', $po_id);
-        $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
+        $data['revision_no']= $this->super_model->select_column_where("po_dr", "revision_no", "po_id", $po_id);
+        
         $user_id= $this->super_model->select_column_where("po_head", "user_id", "po_id", $po_id);
         $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
-        $itemno='';
-        foreach($this->super_model->select_custom_where("po_items", "po_id='$po_id'") AS $it){
-            $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
-            $data['items'][]=array(
-                'item_no'=>$it->item_no,
-                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
-                'item'=>$this->super_model->select_column_where("item", "item_name", "item_id", $it->item_id),
-                'quantity'=>$it->quantity,
-                'uom'=>$it->uom,
+        $data['cancelled']=$this->super_model->select_column_where("po_head", "cancelled", "po_id", $po_id);
+        foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
+             $itemno='';
+            foreach($this->super_model->select_custom_where("po_dr_items", "pr_id= '$pr->pr_id' AND po_id='$po_id' AND dr_id = '$dr_id'") AS $it){
+                $itemno .= $it->item_no . ", ";
+            }
+            $item_no = substr($itemno, 0, -2);
+            $data['pr'][]=array(
+                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $pr->pr_id),
+                'enduse'=>$pr->enduse,
+                'purpose'=>$pr->purpose,
+                'requestor'=>$pr->requestor,
+                'item_no'=>$item_no
             );
         }
 
-        foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
-            $data['purp'][]=array(
-                'enduse'=>$pr->enduse,
-                'purpose'=>$pr->purpose,
-                'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $pr->requestor)
-            );
+        if(empty($dr_id)){
+            $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
+            foreach($this->super_model->select_row_where('po_dr_items', 'po_id', $po_id) AS $items){
+               $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
+                $data['items'][]= array(
+                    'item_no'=>$items->item_no,
+                    'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
+                    'item'=>$this->super_model->select_column_where("aoq_items", "item_description", "aoq_items_id", $items->aoq_items_id),
+                    'offer'=>$items->offer,
+                    'delivered_quantity'=>$items->delivered_quantity,
+                    'received_quantity'=>$items->quantity,
+                    'uom'=>$items->uom,
+                );
+            }
+        } else {
+            $data['dr_no']= $this->super_model->select_column_custom_where("po_dr", "dr_no", "po_id='$po_id' AND dr_id = '$dr_id'");
+            foreach($this->super_model->select_custom_where('po_dr_items', "po_id= '$po_id' AND dr_id = '$dr_id'") AS $items){
+               $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
+                $data['items'][]= array(
+                    'item_no'=>$items->item_no,
+                    'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
+                    'item'=>$this->super_model->select_column_where("aoq_items", "item_description", "aoq_items_id", $items->aoq_items_id),
+                    'offer'=>$items->offer,
+                    'delivered_quantity'=>$items->delivered_quantity,
+                    'received_quantity'=>$items->quantity,
+                    'uom'=>$items->uom,
+                );
+            }
         }
         $this->load->view('pod/delivery_receipt',$data);
         $this->load->view('template/footer');
@@ -301,29 +362,53 @@ class Pod extends CI_Controller {
 
     public function rfd_prnt(){
         $this->load->view('template/header'); 
-        $po_id = $this->uri->segment(3);   
+         $po_id = $this->uri->segment(3);   
         $data['rows_dr'] = $this->super_model->select_count("rfd","po_id",$po_id);
         $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
         $data['po_no']= $this->super_model->select_column_where("po_head", "po_no", "po_id", $po_id);
+        $data['po_type']= $this->super_model->select_column_where("po_head", "po_type", "po_id", $po_id);
         $data['po_id']= $po_id;
         $data['vendor_id']= $vendor_id;
         $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
         $data['ewt']= $this->super_model->select_column_where("vendor_head", "ewt", "vendor_id", $vendor_id);
         $data['vat']= $this->super_model->select_column_where("vendor_head", "vat", "vendor_id", $vendor_id);
-
-         foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
-            $total = $items->unit_price*$items->quantity;
+        $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
+        $data['cancelled']=$this->super_model->select_column_where("po_head", "cancelled", "po_id", $po_id);
+        foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
+            $total = $items->unit_price*$items->delivered_quantity;
+            if(!empty($items->offer)){
+                $offer = $items->offer;
+            } else {
+                $offer = $this->super_model->select_column_where("item", "item_name", "item_id", $items->item_id) . ", " . $this->super_model->select_column_where("item", "item_specs", "item_id", $items->item_id);
+            }
             $data['items'][]= array(
                 'item_no'=>$items->item_no,
-                'item'=>$this->super_model->select_column_where("item", "item_name", "item_id", $items->item_id),
-                'quantity'=>$items->quantity,
+                'offer'=>$offer,
+                'quantity'=>$items->delivered_quantity,
                 'price'=>$items->unit_price,
                 'total'=>$total,
                 'uom'=>$items->uom,
             );
         }
 
+          foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
+             $itemno='';
+            foreach($this->super_model->select_custom_where('po_items', "pr_id='$pr->pr_id' AND po_id = '$po_id'") AS $it){
+                $itemno .= $it->item_no . ", ";
+            }
+            $item_no = substr($itemno, 0, -2);
+            $data['pr'][]=array(
+                'pr_id'=>$pr->pr_id,
+                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $pr->pr_id),
+                'enduse'=>$pr->enduse,
+                'purpose'=>$pr->purpose,
+                'requestor'=>$pr->requestor,
+                'item_no'=>$item_no
+            );
+        }
+
         foreach($this->super_model->select_row_where('rfd', 'po_id', $po_id) AS $r){
+            
             $data['company']=$r->company;
             $data['pay_to']=$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $r->pay_to);
             $data['check_name']=$r->check_name;
@@ -333,19 +418,13 @@ class Pod extends CI_Controller {
             $data['check_due']=$r->check_due;
             $data['cash']=$r->cash_check;
             $data['bank_no']=$r->bank_no;
+            $data['notes']=$r->notes;
+            
             $data['checked']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->checked_by);
             $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
             $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->approved_by);
         }
-
-        foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
-            $data['purp'][]=array(
-                'enduse'=>$pr->enduse,
-                'purpose'=>$pr->purpose,
-                'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $pr->requestor)
-            );
-        }
-        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC"); 
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('pod/rfd_prnt',$data);
         $this->load->view('template/footer');
     }
