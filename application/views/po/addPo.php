@@ -18,7 +18,7 @@
                         <form method='POST' action="<?php echo base_url(); ?>po/add_repeatPO">
                             <div class="datatable-dashv1-list custom-datatable-overright">
                                 <h4 class="">PO No: </h4>
-                                <select class="form-control" style="width: 25%" name='po' id='po' onchange="generatePO('<?php echo base_url(); ?>','<?php echo $vendor_id; ?>','<?php echo $po_id; ?>',this.value);">
+                                <select class="form-control" style="width: 25%" name='po' id='po' onchange="generatePO('<?php echo base_url(); ?>','<?php echo $vendor_id; ?>','<?php echo $po_id; ?>','<?php echo $pr_id; ?>','<?php echo $group_id; ?>',this.value);">
                                     <option value="" selected="">-Select PO-</option>
                                     <?php foreach($head As $h){ ?>
                                         <option value="<?php echo $h->po_id; ?>"><?php echo $h->po_no; ?></option>
@@ -52,10 +52,13 @@
                                             <td><?php echo $i['pr_no']; ?></td>    
                                         </tr>
                                         <input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>"> 
-                                        <input type='hidden' name='pr_id' value="<?php echo $i['pr_id']; ?>"> 
-                                        <input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $i['pr_details_id']; ?>"> 
+                                        <input type='hidden' name='pr_id' value="<?php echo $pr_id; ?>">
+                                        <input type='hidden' name='group_id' value="<?php echo $group_id; ?>"> 
                                         <?php $x++; } 
                                     } ?>
+                                    <?php $y=1; foreach($pr_det AS $p){ ?>
+                                        <input type='hidden' name='pr_details_id<?php echo $y; ?>' value="<?php echo $p['pr_details_id']; ?>"> 
+                                    <?php $y++; } ?>
                                     </tbody>
                                 </table>
                                  <input type='hidden' name='old_po' value="<?php echo $old_po; ?>"> 
