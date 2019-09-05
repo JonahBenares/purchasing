@@ -27,13 +27,66 @@ class Pr extends CI_Controller {
 
 	}
 
+    public function redirect_pod(){
+        $rows_head = $this->super_model->count_rows("po_head");
+        if($rows_head==0){
+            $po_id=1;
+        } else {
+            $max = $this->super_model->get_max("po_head", "po_id");
+            $po_id = $max+1;
+        }
+
+        $rows_series = $this->super_model->count_rows("po_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("po_series", "series");
+            $series = $max+1;
+        }
+
+        $pr_id = $this->input->post('pr_ids');
+        $group_id = $this->input->post('group_id');
+        $po_no = "POD-".$series;
+        $data= array(
+            'po_id'=>$po_id,
+            'po_date'=>$this->input->post('po_date'),
+            'po_no'=>$po_no,
+            'vendor_id'=>$this->input->post('vendor'),
+            'po_type'=>1,
+            'user_id'=>$_SESSION['user_id']
+        );  
+
+        $data_series = array(
+            'series'=>$series
+        );
+        $this->super_model->insert_into("po_series", $data_series);
+
+      
+        if($this->super_model->insert_into("po_head", $data)){
+            foreach($this->super_model->select_row_where("pr_head","pr_id",$pr_id) AS $po_pr){
+                $data_pr = array(
+                    'po_id'=>$po_id,
+                    'pr_id'=>$pr_id,
+                    'enduse'=>$po_pr->enduse,
+                    'purpose'=>$po_pr->purpose,
+                    'requestor'=>$po_pr->requestor,
+                );
+                $this->super_model->insert_into("po_pr", $data_pr);
+            }
+            redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id);
+        }
+    }
+
     public function pending_forrfq(){  
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         //$gr="SELECT pr_id, grouping_id FROM pr_details WHERE ";
+        $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         foreach($this->super_model->custom_query("SELECT pr_details_id, pr_id, grouping_id FROM pr_details GROUP BY pr_id, grouping_id") AS $det){
             $count = $this->super_model->count_custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' GROUP BY pr_id, grouping_id");
-            if($count==0){
+
+            $count_po = $this->super_model->count_custom_query("SELECT po_items_id FROM po_items WHERE pr_details_id = '$det->pr_details_id'");
+            if($count==0 && $count_po==0){
                 //foreach($this->super_model->custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id != '$det->pr_id' AND grouping_id != '$det->grouping_id' GROUP BY pr_id, grouping_id") AS $rfq){
                     //echo "**".$it->pr_details_id . "<br>";
                     $norfq[] = array(
@@ -81,7 +134,44 @@ class Pr extends CI_Controller {
         $this->load->view('template/footer');
     }
     
+    public function create_reorderpo(){
+        $pr_id = $this->input->post('pr_idro');
+        $group_id = $this->input->post('group_idro');
+        $rows_head = $this->super_model->count_rows("po_head");
+        if($rows_head==0){
+            $po_id=1;
+        } else {
+            $max = $this->super_model->get_max("po_head", "po_id");
+            $po_id = $max+1;
+        }
 
+
+        $rows_series = $this->super_model->count_rows("po_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("po_series", "series");
+            $series = $max+1;
+        }
+
+        $po_no = 'RPO-'.$series;
+        $data_series = array(
+            'series'=>$series
+        );
+        $this->super_model->insert_into("po_series", $data_series);
+        $data = array(
+            'po_id'=>$po_id,
+            'po_date'=>$this->input->post('po_date'),
+            'po_no'=>$po_no,
+            'notes'=>$this->input->post('notes'),
+            'vendor_id'=>$this->input->post('supplier'),
+            'user_id'=>$_SESSION['user_id'],
+            'po_type'=>2
+        );
+        if($this->super_model->insert_into("po_head", $data)){
+            redirect(base_url().'po/reporder_prnt/'.$po_id."/".$pr_id."/".$group_id);
+        }
+    }
 
     public function check_diff_multi($arraya, $arrayb){
 
@@ -148,7 +238,6 @@ class Pr extends CI_Controller {
         $pr = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue());
         $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
         /*$date_issued = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());*/
-        //$pr_no = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
         $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue());
         $enduse = trim($objPHPExcel->getActiveSheet()->getCell('C12')->getValue());
         $department = trim($objPHPExcel->getActiveSheet()->getCell('I7')->getValue());
@@ -194,6 +283,7 @@ class Pr extends CI_Controller {
                 $part_no = trim($objPHPExcel->getActiveSheet()->getCell('D'.$x)->getValue());
                 $description = trim($objPHPExcel->getActiveSheet()->getCell('E'.$x)->getValue());
                 $date_needed = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue()));
+                $wh_stock = trim($objPHPExcel->getActiveSheet()->getCell('I'.$x)->getValue());
                 if(!empty($qty)){
                     $data_items = array(
                         'pr_id'=>$pr_id,
@@ -202,6 +292,7 @@ class Pr extends CI_Controller {
                         'quantity'=>$qty,
                         'part_no'=>$part_no,
                         'date_needed'=>$date_needed,
+                        'wh_stocks'=>$wh_stock,
                     );
 
                     $this->super_model->insert_into("pr_details", $data_items);
@@ -237,12 +328,20 @@ class Pr extends CI_Controller {
         $data['pr_id']=$prid;
         $data['head']=$this->super_model->select_row_where("pr_head", "pr_id", $prid);
         $data['saved']=$this->super_model->select_column_where("pr_head",'saved','pr_id',$prid);
+        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         /*$data['details']=*/
+
         foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid'") AS $det){
+            $vendor='';
+            foreach($this->super_model->select_custom_where("rfq_head", "pr_id='$prid' AND grouping_id = '$det->grouping_id' AND cancelled = '0' GROUP BY vendor_id") AS $ven){
+                $vendor.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$ven->vendor_id) . "<br>";
+            }
             $data['cancelled']=$det->cancelled;
             $data['details'][]=array(
                 'pr_details_id'=>$det->pr_details_id,
                 'quantity'=>$det->quantity,
+                'wh_stocks'=>$det->wh_stocks,
                 'uom'=>$det->uom,
                 'item_description'=>$det->item_description,
                 'date_needed'=>$det->date_needed,
@@ -251,6 +350,7 @@ class Pr extends CI_Controller {
                 'cancelled_reason'=>$det->cancelled_reason,
                 'cancelled_date'=>$det->cancelled_date,
                 'cancelled'=>$det->cancelled,
+                'vendor'=>$vendor
             ); 
         }
         $this->load->view('template/header');
@@ -258,6 +358,7 @@ class Pr extends CI_Controller {
         $this->load->view('pr/purchase_request',$data);
         $this->load->view('template/footer');
     }
+
 
     public function cancel_item(){
         $details_id=$this->input->post('details_id');
@@ -330,7 +431,7 @@ class Pr extends CI_Controller {
             );
         }
 
-        foreach($this->super_model->custom_query("SELECT grouping_id,noted_by,approved_by,due_date FROM pr_vendors WHERE pr_id = '$prid' GROUP BY noted_by") AS $ven){
+        foreach($this->super_model->custom_query("SELECT grouping_id,noted_by,approved_by,due_date FROM pr_vendors WHERE pr_id = '$prid' GROUP BY noted_by,grouping_id") AS $ven){
             $data['vendor_app'][] = array(
                 'group_id'=>$ven->grouping_id,
                 'noted_by'=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $ven->noted_by),
@@ -401,7 +502,6 @@ class Pr extends CI_Controller {
             } 
         } else {
             foreach($vendor as $ven){
-
                 $count_exist= $this->super_model->count_custom_where("pr_vendors","pr_id = '$pr_id' AND vendor_id = '$ven' AND grouping_id = '$group'");
                 if($count_exist==0){
                     $data2 = array(
@@ -415,15 +515,14 @@ class Pr extends CI_Controller {
 
                  $this->super_model->insert_into('pr_vendors', $data2);
                 }
-         }
-
-            $data = array(
-                'due_date'=>$due_date,
-                'noted_by'=>$noted_by,
-                'approved_by'=>$approved_by
-            );
-            $this->super_model->update_custom_where('pr_vendors', $data,"pr_id='$pr_id' AND grouping_id='$group'");
+            }
         } 
+        $data = array(
+            'due_date'=>$due_date,
+            'noted_by'=>$noted_by,
+            'approved_by'=>$approved_by
+        );
+        $this->super_model->update_custom_where('pr_vendors', $data,"pr_id='$pr_id' AND grouping_id='$group'");
         ?>
 
            <script>
@@ -609,6 +708,98 @@ class Pr extends CI_Controller {
 
         $this->load->view('pr/cancelled_pr',$data);
         $this->load->view('template/footer');
+    }
+
+     public function add_vendor_rfq(){
+        $prid = $this->input->post('pr_id');
+        $group = $this->input->post('group');
+        $vendor = $this->input->post('vendor');
+        $pr_details_id = $this->input->post('pr_details_id');
+
+
+        $count_exist = $this->super_model->count_custom_where("rfq_head","pr_id = '$prid' AND vendor_id = '$vendor' AND grouping_id = '$group'");
+        if($count_exist!=0){
+           ?>
+           <script>
+            alert('Vendor already existing in this PR Group.'); 
+            window.location="<?php echo base_url(); ?>pr/purchase_request/<?php echo $prid; ?>";
+            </script>    
+            <?php
+        } else {
+              
+                $prven = array(
+                    'pr_id'=>$prid,
+                    'vendor_id'=>$vendor,
+                    'grouping_id'=>$group,
+                    'due_date'=>$this->input->post('due_date'),
+                    'noted_by'=>$this->input->post('noted'),
+                    'approved_by'=>$this->input->post('approved')
+                );
+
+                $this->super_model->insert_into("pr_vendors", $prven);
+
+
+
+                  $timestamp = date("Y-m-d H:i:s");
+                $rfq_format = date("Ym");
+                $rfqdet=date('Y-m');
+                $code = $this->super_model->select_column_where('pr_head','processing_code','pr_id',$prid);
+                $rows=$this->super_model->count_custom_where("rfq_head","create_date LIKE '$rfqdet%'");
+                if($rows==0){
+                    $rfq_no= $rfq_format."-1001";
+                } else {
+                    $series = $this->super_model->get_max("rfq_series", "series","year_month LIKE '$rfqdet%'");
+                    $next=$series+1;
+                    $rfq_no = $rfq_format."-".$next;
+                }
+                $rfqdetails=explode("-", $rfq_no);
+                $rfq_prefix1=$rfqdetails[0];
+                $rfq_prefix2=$rfqdetails[1];
+                $rfq_prefix=$rfq_prefix1;
+                $series=$rfq_prefix2;
+                $rfq_data= array(
+                    'year_month'=>$rfq_prefix,
+                    'series'=>$series
+                );
+                $this->super_model->insert_into("rfq_series", $rfq_data);
+
+                $rows_head = $this->super_model->count_rows("rfq_head");
+                if($rows_head==0){
+                    $rfq_id=1;
+                } else {
+                    $max = $this->super_model->get_max("rfq_head", "rfq_id");
+                    $rfq_id = $max+1;
+                }
+                $new_rfq = $rfq_no."-".$group;
+
+                 $data_head = array(
+                    'rfq_id'=>$rfq_id,
+                    'rfq_no'=>$new_rfq,
+                    'vendor_id'=>$vendor,
+                    'pr_id'=>$prid,
+                    'grouping_id'=>$group,
+                    'rfq_date'=>$timestamp,
+                    'processing_code'=>$code,
+                    'prepared_by'=>$_SESSION['user_id'],
+                    'create_date'=>$timestamp
+                );
+                $this->super_model->insert_into("rfq_head", $data_head);
+
+                foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid' AND grouping_id = '$group'") AS $details){
+                    $data_details = array(
+                        'rfq_id'=>$rfq_id,
+                        'pr_details_id'=>$details->pr_details_id,
+                        'item_desc'=>$details->item_description,
+                        'quantity'=>$details->quantity,
+                        'uom'=>$details->uom,
+
+                    );
+                    $this->super_model->insert_into("rfq_details", $data_details);
+                }
+
+            redirect(base_url().'rfq/rfq_list/');      
+        }
+        
     }
 
 }

@@ -140,9 +140,9 @@
                             <p class="m-b-0">PO NO:</p>
                             <input type="text" name="po_no" class="form-control" autocomplete="off">
                         </div> -->
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <u><p class="m-b-0"><input type="checkbox" name="dp" onclick="Change()" id="check" value = '1'> Direct Purchase </p></u>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
                             <select name="vendor" id='supplier' onchange="chooseSupplierPR()" class="form-control">
@@ -229,30 +229,6 @@
             </div>
         </div>
     </div>
-    <div id="deliverpo" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header header-color-modal bg-color-1">
-                    <h4 class="modal-title">Delivered PO</h4>
-                    <div class="modal-close-area modal-close-df">
-                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
-                    </div>
-                </div>
-                <form method="POST" action = "<?php echo base_url();?>po/serve_po">
-                    <div class="modal-body-lowpad">
-                        <div class="form-group">
-                            <p class="m-b-0">Date Delivered:</p>
-                            <input type="date" class="form-control" name="date_delivered">
-                        </div>
-                        <center>                     
-                            <input type = "hidden" id='po_id' name='po_id' >   
-                            <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
-                        </center>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <div class="admin-dashone-data-table-area">
         <div class="container-fluid">
             <form name="myform" action="<?php echo base_url(); ?>index.php/aoq/add_aoq" method="POST">
@@ -267,10 +243,11 @@
                                     <a type='button' class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#addPO">
                                         <span class="fa fa-plus p-l-0"></span> Add PO
                                     </a>
-                                    <a type='button' class="btn btn-custon-three btn-info" data-toggle="modal" data-target="#addrepPO">
+                                    <!-- <a type='button' class="btn btn-custon-three btn-info" data-toggle="modal" data-target="#addrepPO">
                                         <span class="fa fa-repeat p-l-0 "> </span> Add Repeat Order
-                                    </a>
+                                    </a> -->
                                     <a href="<?php echo base_url(); ?>po/served_po" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Delivered PO</a> 
+                                    <a href="<?php echo base_url(); ?>po/incom_podel" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-adjust"></span> Incomplete PO Delivery</a> 
                                     <a href="<?php echo base_url(); ?>po/cancelled_po" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PO</a>
                                     </div>
                                 </div>
@@ -318,8 +295,8 @@
                                                 ?></td>
                                                 <td>
                                                     <center>                                                        
-                                                        <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' data-toggle="modal" data-target="#deliverpo" data-id="<?php echo $head['po_id']?>">
-                                                            <span class="fa fa-check"></span>
+                                                        <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>','<?php echo $head['po_id']?>','<?php echo $head['dr_id']?>')">
+                                                            <span class="fa fa-truck"></span>
                                                         </a>
                                                         <?php if($head['revised']==1){ ?>
                                                         <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $head['po_id']?>">

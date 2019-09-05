@@ -143,12 +143,16 @@
 	    		<center>
 			    	<div class="abtn-group">
 						<a href="<?php echo base_url(); ?>po/po_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
-						<?php if($revised==0){ ?>
+						<!-- <?php if($revised==0){ ?>
 						<a  href='<?php echo base_url(); ?>po/revise_po/<?php echo $po_id; ?>' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
-						<?php } ?>
+						<?php } ?> -->
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b><?php if($revised==0){ echo 'PO'; }else { echo 'RFA'; } ?></b></u></a>
 						<?php if($revised==0){ ?>
-						<a  href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $po_id; ?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
+							<?php if($revise_no!=''){ ?>
+							<a  href="<?php echo base_url(); ?>po/delivery_receipt_r/<?php echo $po_id; ?>/<?php echo $revise_no; ?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
+							<?php } else { ?>
+							<a  href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $po_id; ?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
+							<?php } ?>
 						<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
 						<?php } ?>
 						<?php if($revised==1){ ?>
@@ -235,7 +239,7 @@
 		    			$gtotal[] = $it->amount; ?>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b><?php echo number_format($it->quantity); ?></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b><?php echo number_format($it->delivered_quantity); ?></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"><?php echo $it->offer .", ". $ci->get_name("item_description", "aoq_items", "aoq_items_id = '$it->aoq_items_id'"); ?></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b><?php echo $it->unit_price; ?></b></td>
@@ -334,25 +338,31 @@
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Prepared by:</b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Approved by:</b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Prepared by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b>Checked by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Approved by:</b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b><?php echo $prepared; ?></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b><?php echo $approved; ?></b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b><?php echo $_SESSION['fullname']; ?></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b><?php echo $checked;?></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b><?php echo $approved;?></b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>

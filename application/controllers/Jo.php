@@ -43,6 +43,17 @@ class Jo extends CI_Controller {
 
     public function jo_list(){  
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        foreach($this->super_model->select_all_order_by("jo_head", "date_prepared", "DESC") AS $head){
+            $data['head'][]=array(
+                'jo_id'=>$head->jo_id,
+                'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
+                'date'=>$head->date_prepared,
+                'cenjo_no'=>$head->cenpri_jo_no,
+                'jo_no'=>$head->jo_no,
+                'project_title'=>$head->project_title,
+
+            );
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('jo/jo_list', $data);
@@ -79,6 +90,7 @@ class Jo extends CI_Controller {
             $data['start_of_work']= $head->start_of_work;
             $data['work_completion']= $head->work_completion;
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->prepared_by);
+
         }   
 
 
@@ -177,6 +189,7 @@ class Jo extends CI_Controller {
             'grand_total'=>$this->input->post('net'),
             'conforme'=>$this->input->post('conforme'),
             'approved_by'=>$this->input->post('approved_by'),
+            'checked_by'=>$this->input->post('checked_by'),
             'saved'=>1
         );
 
@@ -258,6 +271,7 @@ class Jo extends CI_Controller {
             $data['grand_total']= $head->grand_total;
             $data['conforme']= $head->conforme;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
+            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->prepared_by);
         }   
 
@@ -268,10 +282,82 @@ class Jo extends CI_Controller {
     }
 
     public function jo_rfd(){  
+        $jo_id = $this->uri->segment(3);
+        $data['jo_id'] = $jo_id;
+        $data['rows_rfd'] = $this->super_model->select_count("jo_rfd","jo_id",$jo_id);
+        $vendor_id= $this->super_model->select_column_where("jo_head", "vendor_id", "jo_id", $jo_id);
+        $data['jo_no']= $this->super_model->select_column_where("jo_head", "jo_no", "jo_id", $jo_id);
+        $data['cenjo_no']= $this->super_model->select_column_where("jo_head", "cenpri_jo_no", "jo_id", $jo_id);
+        $data['vendor_id']= $vendor_id;
+        $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
+        $data['ewt']= $this->super_model->select_column_where("vendor_head", "ewt", "vendor_id", $vendor_id);
+        $data['vat']= $this->super_model->select_column_where("vendor_head", "vat", "vendor_id", $vendor_id);
+        $data['disc_percent']= $this->super_model->select_column_where("jo_head", "discount_percent", "jo_id", $jo_id);
+        $data['disc_amount']= $this->super_model->select_column_where("jo_head", "discount_amount", "jo_id", $jo_id);
+        $data['grand_total']= $this->super_model->select_column_where("jo_head", "grand_total", "jo_id", $jo_id);
+        $data['dr_no']= $this->super_model->select_column_where("jo_dr", "year", "jo_id", $jo_id) ."-".$this->super_model->select_column_where("jo_dr", "series", "jo_id", $jo_id);
+
+
+         foreach($this->super_model->select_row_where('jo_details', 'jo_id', $jo_id) AS $details){
+          
+            $data['details'][]= array(
+                'scope'=>$details->scope_of_work,
+                'quantity'=>$details->quantity,
+                'cost'=>$details->unit_cost,
+                'total'=>$details->total_cost,
+                'uom'=>$details->uom,
+            );
+        }
+
+        foreach($this->super_model->select_row_where('jo_rfd', 'jo_id', $jo_id) AS $head){
+            $data['company'] = $head->company;
+            $data['pay_to'] = $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->pay_to);
+            $data['check_name'] = $head->check_name;
+            $data['cash_check'] = $head->cash_check;
+            $data['bank_no'] = $head->bank_no;
+            $data['apv_no'] = $head->apv_no;
+            $data['rfd_date'] = $head->rfd_date;
+            $data['due_date'] = $head->due_date;
+            $data['check_due'] = $head->check_due;
+            $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
+            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
+            $data['endorsed'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->endorsed_by);
+            $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
+        }
+
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('template/header');
-        $this->load->view('jo/jo_rfd');
+        $this->load->view('jo/jo_rfd',$data);
         $this->load->view('template/footer');
     }
+
+
+    public function save_jo_rfd(){
+        $jo_id= $this->input->post('jo_id');
+        $data = array(
+            'jo_id'=>$jo_id,
+            'apv_no'=>$this->input->post('apv_no'),
+            'rfd_date'=>$this->input->post('rfd_date'),
+            'due_date'=>$this->input->post('due_date'),
+            'check_due'=>$this->input->post('check_due'),
+            'company'=>$this->input->post('company'),
+            'pay_to'=>$this->input->post('pay_to'),
+            'check_name'=>$this->input->post('check_name'),
+            'cash_check'=>$this->input->post('cash'),
+            'bank_no'=>$this->input->post('bank_no'),
+            'total_amount'=>$this->input->post('total_amount'),
+            'checked_by'=>$this->input->post('checked'),
+            'endorsed_by'=>$this->input->post('endorsed'),
+            'approved_by'=>$this->input->post('approved'),
+            'user_id'=>$_SESSION['user_id'],
+            'saved'=>1,
+        );
+
+         if($this->super_model->insert_into("jo_rfd", $data)){
+            redirect(base_url().'jo/jo_rfd/'.$jo_id, 'refresh');
+        }
+    }
+
 
     public function jo_ac(){  
         $jo_id = $this->uri->segment(3);

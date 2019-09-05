@@ -105,13 +105,17 @@
     </style>
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>po/save_rfd'>  
+    	<form method='POST' action='<?php echo base_url(); ?>jo/save_jo_rfd'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
+						
+						<?php if($rows_rfd==0){ ?>
+							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
+						<?php } else { ?>
+							<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
+						<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing REQUEST FOR DISBURSEMENT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
@@ -148,33 +152,82 @@
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
 		    		<tr>
 		    			<td colspan="3"><b class="nomarg">Company:</b></td>
-		    			<td colspan="9" class="bor-btm"><input type="text" style="width:100%" name="company" autocomplete="off"></td>
+		    			<td colspan="9" class="bor-btm">
+		    				<?php if($rows_rfd==0){ ?>
+		    				<input type="text" style="width:100%" name="company" autocomplete="off">
+		    				<?php } else { 
+		    					echo $company;
+		    				} ?></td>
 		    			<td colspan="3" align="right"><b class="nomarg">APV No.:</b></td>
-		    			<td colspan="5" class="bor-btm"><input type="text" style="width:100%" name="apv_no" autocomplete="off"></td>
+		    			<td colspan="5" class="bor-btm">
+		    				<?php if($rows_rfd==0){ ?>
+		    				<input type="text" style="width:100%" name="apv_no" autocomplete="off">
+		    				<?php } else { 
+		    					echo $apv_no;
+		    				} ?></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><b class="nomarg">Pay To:</b></td>
-		    			<td colspan="9" class="bor-btm"><b class="nomarg"></b></td>
+		    			<td colspan="9" class="bor-btm"><b class="nomarg"><?php echo $vendor; ?></b></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Date:</b></td>
-		    			<td colspan="5" class="bor-btm"><input type="date" style="width:100%" name="rfd_date" ></td>
+		    			<td colspan="5" class="bor-btm">
+		    				<?php if($rows_rfd==0){ ?>
+		    				<input type="date" style="width:100%" name="rfd_date" >
+		    				<?php } else { 
+		    					echo date('F j, Y', strtotime($rfd_date));
+		    				} ?></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><b class="nomarg">Check Name:</b></td>
-		    			<td colspan="9" class="bor-btm"><input type="text" style="width:100%" name="check_name" value="" autocomplete="off"></td>
+		    			<td colspan="9" class="bor-btm">
+		    				<?php if($rows_rfd==0){ ?>
+		    					<input type="text" style="width:100%" name="check_name" value="" autocomplete="off">
+		    				<?php } else { 
+		    					echo $check_name;
+		    				} ?></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Due Date:</b></td>
-		    			<td colspan="5" class="bor-btm"><input type="date" style="width:100%" name="due_date" ></td>
+		    			<td colspan="5" class="bor-btm">
+		    				<?php if($rows_rfd==0){ ?>
+		    				<input type="date" style="width:100%" name="due_date" >
+		    				<?php } else { 
+		    					echo date('F j, Y', strtotime($due_date));
+		    				} ?></td>
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td class="bor-btm" align="center"><input type="radio"  name="cash" value='1'><span class='fa fa-check'></span></td>
+		    			<td class="bor-btm" align="center">
+		    				<?php if($rows_rfd==0){ ?>
+		    					<input type="radio"  name="cash" value='1'>
+		    				<?php } else {
+		    					if($cash_check == '1'){ ?>
+		    						<span class='fa fa-check'></span>
+		    					<?php }
+		    				} ?></td>
 		    			<td><b class="nomarg">Cash</b></td>
-		    			<td class="bor-btm" align="center"><input type="radio" name="cash" value='2'><span class='fa fa-check'></span></td>
+		    			<td class="bor-btm" align="center">
+		    				<?php if($rows_rfd==0){ ?>
+		    					<input type="radio" name="cash" value='2'>
+		    				<?php } else {
+		    					if($cash_check == '2'){ ?>
+		    						<span class='fa fa-check'></span>
+		    					<?php }
+		    				} ?></td>
 		    			<td><b class="nomarg">Check</b></td>
 		    			<td></td>
 		    			<td colspan="2"><b class="nomarg">Bank / no.</b></td>
-		    			<td colspan="4" class="bor-btm"><input type="text" style="width:100%" name="bank_no" autocomplete="off"></td>
+		    			<td colspan="4" class="bor-btm">
+		    				<?php if($rows_rfd==0){ ?>
+		    					<input type="text" style="width:100%" name="bank_no" autocomplete="off">
+		    				<?php } else { 
+		    					echo $bank_no;
+		    				} ?></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Check Due:</b></td>
-		    			<td colspan="5" class="bor-btm"><input type="date" style="width:100%" name="check_due" ></td>
+		    			<td colspan="5" class="bor-btm">
+		    				<?php if($rows_rfd==0){ ?>
+		    					<input type="date" style="width:100%" name="check_due" >
+		    				<?php } else { 
+		    					echo date('F j, Y', strtotime($check_due));
+		    				} ?></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20"><br></td>
@@ -191,35 +244,66 @@
 		    			<td align="left" colspan="17" class="bor-right"><b class="nomarg">Payment for:</b></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
+		    		<?php foreach($details AS $det){ ?>
 		    		<tr>
 		    			<td align="left" colspan="12" >
-		    				<b class="nomarg"></b>
+		    				<?php echo nl2br($det['scope']); ?>
 		    			</td>
-		    			<td align="right" colspan="1">1</td>
-		    			<td align="right" colspan="2">unit</td>
-		    			<td align="right" colspan="2" class="bor-right">14,121</td>
+		    			<td align="right" colspan="1"><?php echo $det['quantity']; ?></td>
+		    			<td align="right" colspan="2"><?php echo $det['uom']; ?></td>
+		    			<td align="right" colspan="2" class="bor-right"><?php echo number_format($det['cost'],2); ?></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b></b></span>
+		    				<span class="nomarg" id=''><?php echo number_format($det['total'],2); ?></span>
 		    			</td>
+		    		</tr>
+		    		<?php } ?>
+		    		<tr>
+		    			<td align="left" colspan="7" ><?php echo $cenjo_no."/".$jo_no; ?></td>
+		    			<td align="right" colspan="10" class="bor-right"></td>
+		    			<td align="right" colspan="3"></td>
 		    		</tr>
 		    		<tr>
 		    			<td align="left" colspan="7" ></td>
 		    			<td align="right" colspan="10" class="bor-right"><br><br><br></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
-		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">2% EWT</b></td>
+		    			<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less: " .number_format($disc_percent); ?>% Discount</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"></b></span>
+		    				<span class="nomarg" id=''><?php echo number_format($disc_amount,2); ?></span>
+		    			</td>
+		    		</tr>
+		    		</tr>
+		    			<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Net: "; ?></b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><?php echo number_format($grand_total,2); ?></span>
+		    			</td>
+		    		</tr>
+		    		<?php 
+		    		$percent=$ewt/100;
+		    		if($vat==1){
+		    			$less= ($grand_total/1.12)*$percent;
+		    			$gtotal = $grand_total-$less;
+		    		} else {
+		    			$less= $grand_total*$percent;
+		    			$gtotal = $grand_total-$less;
+		    		} ?>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% EWT</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"></span>
+		    				<span class="nomarg" id=''><?php echo number_format($less,2); ?></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance Amount Due</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
@@ -239,32 +323,61 @@
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
-		    			<td colspan="5"><b class="nomarg"></b></td>
+		    			<td colspan="5"><b class="nomarg">
+		    				<?php if($rows_rfd==0){
+		    					 echo $_SESSION['fullname']; 
+		    					} else {
+		    						echo $prepared;
+		    					} ?></b></td>
 		    			<td colspan="5">
 			    			<b>
-				    			<select name='checked' class="select-des emphasis" required style="width:90%">		    				
-					    			<option value='' selected>-Select Employee-</option>
-					    		</select>
+			    				<?php if($rows_rfd==0){ ?>
+					    			<select name='checked' class="select-des emphasis" required style="width:90%">
+					    			<option value=''>-Select Employee-</option>
+					    			<?php foreach($employee AS $emp){ ?>
+					    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+					    			<?php } ?>
+				    				</select>
+				    			<?php } else {
+				    				echo $checked;
+				    			} ?>
 					    	</b>
 		    			</td>
 		    			<td colspan="5">
 			    			<b>
+			    				<?php if($rows_rfd==0){ ?>
 				    			<select name='endorsed' class="select-des emphasis" required style="width:90%">
 					    			<option value=''>-Select Employee-</option>
+					    			<?php foreach($employee AS $emp){ ?>
+					    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+					    			<?php } ?>
 				    			</select>
+				    			<?php } else {
+				    				echo $endorsed;
+				    			} ?>
 			    			</b>
 		    			</td>
 		    			<td colspan="5">
 			    			<b>
-				    			<select name='approved' class="select-des emphasis" required style="width:90%">
+			    				<?php if($rows_rfd==0){ ?>
+					    			<select name='approved' class="select-des emphasis" required style="width:90%">
 					    			<option value=''>-Select Employee-</option>
+					    			<?php foreach($employee AS $emp){ ?>
+					    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+					    			<?php } ?>
 				    			</select>
+				    			<?php } else {
+				    				echo $approved;
+				    			} ?>
 			    			</b>
 		    			</td>
 		    		</tr>	    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
+	    	<input type='hidden' name='jo_id' value='<?php echo $jo_id; ?>'>
+	    	<input type='hidden' name='pay_to' value='<?php echo $vendor_id; ?>'>
+	    	<input type='hidden' name='total_amount' value='<?php echo $gtotal; ?>'>
     	</form>
     </div>
     <script type="text/javascript">

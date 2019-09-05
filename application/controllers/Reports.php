@@ -43,16 +43,18 @@ class Reports extends CI_Controller {
         $month=$this->uri->segment(4);
         $data['year']=$year;
         $data['month']=$month;
-        if(empty($month)){
-            $date = $year;
+        if(!empty($month)){
+             $date = $year."-".$month;
+             $data['date']=date('F Y', strtotime($date));
         } else {
-         $date = $year."-".$month;
+             $date = $year;
+             $data['date']=$date;
         }
-        $data['date']=date('F Y', strtotime($date));
 
         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $pr){
             $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
             $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+            $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
             $unserved_qty=0;
             $unserved_uom='';
@@ -63,40 +65,49 @@ class Reports extends CI_Controller {
                         $status = 'PO Done';
                         $status_remarks = 'Pending RFD - Partial';
                     } else {*/
-                        $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
+                       /* $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);*/
                         $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
                         $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
                         $served_uom = $this->super_model->select_column_where('po_items', 'uom', 'pr_details_id', $pr->pr_details_id);
 
-                        $unserved_qty = $this->super_model->select_column_custom_where('aoq_offers', 'balance', "pr_details_id='$pr->pr_details_id' AND recommended = '1'");
-                        $unserved_uom = $this->super_model->select_column_custom_where('aoq_offers', 'uom', "pr_details_id='$pr->pr_details_id' AND recommended = '1'");
+                      /*  $unserved_qty = $this->super_model->select_column_custom_where('aoq_offers', 'balance', "pr_details_id='$pr->pr_details_id' AND recommended = '1'");
+                        $unserved_uom = $this->super_model->select_column_custom_where('aoq_offers', 'uom', "pr_details_id='$pr->pr_details_id' AND recommended = '1'");*/
 
-                        $status = 'Partially Served';
-                        $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
+                        $unserved_qty = $pr->quantity - $served_qty;
+                        $unserved_uom =  $served_uom;
+
+                        $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+
+                        if($served==0){
+                             $status = 'PO Issued - Partial';
+                             $status_remarks = '';
+                        } else {
+
+                            $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
+                            $status = 'Partially Delivered';
+                            //$status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Delivered ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
+
+                               $status_remarks='';
+                           foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $pr->pr_details_id) AS $del){
+                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                            }
+                         
+                        }
                   //  }
                 } else {
-                    $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
-                 /*   if($count_rfd == 0){
-                        $status = 'PO Done';
-                        $status_remarks = 'Pending RFD - Full';
-                    } else {*/
-                       /* $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
-                        $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
-
-                        $status = 'Fully Served';
-                        $status_remarks = date('m.d.y', strtotime($dr_date)) . " - Served DR# ".$dr_no;*/
-                    //}
+                      $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
+              
                       $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
 
                     if($served==0){
                         $status = 'PO Issued';
                         $status_remarks = '';
                     } else {
-                        $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);
-                        $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
-
                         $status = 'Fully Delivered';
-                        $status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Delivered DR# ".$dr_no;
+                        $status_remarks='';
+                       foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $pr->pr_details_id) AS $del){
+                             $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                        }
                     }
                 }
             } else {
@@ -107,27 +118,44 @@ class Reports extends CI_Controller {
                     $status = "<span style='color:red'>Cancelled</span>";
                     $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
                 } else {
+                
+                    $count_po = $this->super_model->count_custom_where("po_items","pr_details_id = '$pr->pr_details_id'");
 
+                    $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(delivered_quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+
+                    /*  echo "SELECT sum(delivered_quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id' = ". $sum_po_delivered_qty . "<br>";*/
+                    
                     $count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
-                    $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
+                    $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1'");
                     $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'");
-                    if($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0){
+
+                   // echo 'ITEM = ' . $pr->item_description . '<br> rfq = ' . $count_rfq . '<br> aoq = ' . $count_aoq . '<br> aoq awarded = ' . $count_aoq_awarded . '<br> po='.$count_po . "<br><br>";
+
+
+                    if($count_rfq==0 && $count_aoq==0 && $count_aoq_awarded==0  && $count_po==0){
+                        $status = 'Pending';
+                        $status_remarks = 'For RFQ';
+                    } else if($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0  && $count_po==0){
                         $status = 'Pending';
                         $status_remarks = 'For canvassing';
-                    } else if($count_rfq!=0 && $count_aoq!=0 && $count_aoq_awarded==0){ 
+                    } else if($count_rfq!=0 && $count_aoq!=0 && $count_aoq_awarded==0 && $count_po==0){ 
 
                          $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                          $status = 'Pending';
                          $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date)) ;
-                    } else if($count_rfq!=0 && $count_aoq_awarded!=0){ 
+                    } else if($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po==0){ 
 
                          $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '1'");
                          $status = 'Pending';
                          $status_remarks = 'For PO - AOQ Done (awarded)';
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
+                         $status = 'PO Issued';
+                         $status_remarks = '';
                     }
 
                 }
             }
+
             $data['pr'][] = array(
                 'pr_details_id'=>$pr->pr_details_id,
                 'date_prepared'=>$pr->date_prepared,
@@ -137,6 +165,7 @@ class Reports extends CI_Controller {
                 'department'=>$pr->department,
                 'requestor'=>$pr->requestor,
                 'item_description'=>$pr->item_description,
+                'wh_stocks'=>$pr->wh_stocks,
                 'qty'=>$pr->quantity,
                 'uom'=>$pr->uom,
                 'status'=>$status,
@@ -145,11 +174,13 @@ class Reports extends CI_Controller {
                 'unserved_uom'=>$unserved_uom,
                 'remarks'=>$pr->add_remarks
             );
-        }
 
+
+        }
         $this->load->view('template/header');        
         $this->load->view('reports/pr_report',$data);
         $this->load->view('template/footer');
+        
     }
 
     public function search_pr(){
@@ -686,8 +717,14 @@ class Reports extends CI_Controller {
         $month=$this->uri->segment(4);
         $data['year']=$year;
         $data['month']=$month;
-        $date = $year."-".$month;
-        $data['date']=date('F Y', strtotime($date));
+       
+        if(!empty($month)){
+             $date = $year."-".$month;
+             $data['date']=date('F Y', strtotime($date));
+        } else {
+             $date = $year;
+             $data['date']=$date;
+        }
         $po_date = date('Y-m', strtotime($date));
         $data['pr_no1']=$this->super_model->select_custom_where('pr_head',"cancelled='0'");
         $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
@@ -728,7 +765,11 @@ class Reports extends CI_Controller {
                             $status = 'PO Issued';
                         } else {
                              $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $p->po_id);
-                            $status = date('m.d.Y', strtotime($p->date_served))." - Delivered DR# ". $dr_no;
+                           // $status = date('m.d.Y', strtotime($p->date_served))." - Delivered DR# ". $dr_no;
+                               $status='';
+                           foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $i->pr_details_id) AS $del){
+                                 $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                            }
                         }
                     }
                     /*$partial = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ah.pr_id = '$pr->pr_id' AND ai.aoq_items_id = '$i->aoq_items_id' AND ai.balance != '0' AND ai.balance != ai.quantity GROUP BY ai.aoq_items_id");*/

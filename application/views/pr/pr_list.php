@@ -107,7 +107,8 @@
                                         <thead>
                                             <tr>
                                                 <th>PR NO</th>
-                                                <th>Date Received</th>
+                                                <th>Date Prepared</th>
+                                                <th>Date Upload</th>
                                                 <th>Department</th>
                                                 <th>Urgency Number</th>
                                                 <th>Requestor</th>
@@ -120,11 +121,15 @@
                                             <tr>
                                                 <td><?php echo $p->pr_no;?></td>
                                                 <td><?php echo $p->date_prepared;?></td>
+                                                <td><?php echo date("Y-m-d",strtotime($p->date_imported));?></td>
                                                 <td><?php echo $p->department;?></td>
                                                 <td ><center><?php echo $p->urgency;?></center></td>
                                                 <td><?php echo $p->requestor;?></td>
                                                 <td>
                                                     <center>
+                                                    <!--     <a href="<?php echo base_url(); ?>pr/pr_group/<?php echo $p->pr_id?>" title = "Add RFQ" class="btn btn-custon-three btn-info btn-xs">
+                                                        <span class="fa fa-plus"></span>
+                                                        </a> -->
                                                         <a href="<?php echo base_url(); ?>pr/purchase_request/<?php echo $p->pr_id?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                         </a>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2019 at 04:14 AM
+-- Generation Time: Sep 02, 2019 at 03:44 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -42,14 +42,7 @@ CREATE TABLE IF NOT EXISTS `aoq_head` (
   `refer_date` varchar(20) DEFAULT NULL,
   `served` int(11) NOT NULL DEFAULT '0',
   `date_served` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `aoq_head`
---
-
-INSERT INTO `aoq_head` (`aoq_id`, `aoq_date`, `pr_id`, `department`, `purpose`, `enduse`, `requestor`, `noted_by`, `approved_by`, `saved`, `awarded`, `refer_mnl`, `refer_date`, `served`, `date_served`) VALUES
-(1, '2019-08-28', 1, 'IT Bacolod', 'Testing Purpose', 'Testing Enduse', 'Jason Flor', 76, 68, 1, 1, 0, NULL, 0, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -64,15 +57,7 @@ CREATE TABLE IF NOT EXISTS `aoq_items` (
   `item_description` varchar(255) NOT NULL,
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
   `uom` varchar(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `aoq_items`
---
-
-INSERT INTO `aoq_items` (`aoq_items_id`, `aoq_id`, `pr_details_id`, `item_description`, `quantity`, `uom`) VALUES
-(1, 1, 2, 'keyboard', '15.00', 'unit'),
-(2, 1, 1, 'mouse', '10.00', 'unit');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -94,19 +79,7 @@ CREATE TABLE IF NOT EXISTS `aoq_offers` (
   `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `comments` text,
   `recommended` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `aoq_offers`
---
-
-INSERT INTO `aoq_offers` (`aoq_offer_id`, `aoq_id`, `vendor_id`, `aoq_items_id`, `pr_details_id`, `offer`, `unit_price`, `quantity`, `balance`, `uom`, `amount`, `comments`, `recommended`) VALUES
-(1, 1, 16, 1, 2, 'amt keyboard offer', '200.00', '15.00', 0, 'unit', '3000.00', '', 1),
-(2, 1, 73, 1, 2, 'bacolod sure keyboard offer', '300.00', '15.00', 15, 'unit', '4500.00', '', 0),
-(3, 1, 79, 1, 2, 'bcg keyboard offer', '250.00', '15.00', 15, 'unit', '3750.00', '', 0),
-(4, 1, 16, 2, 1, 'amt mouse offer', '100.00', '10.00', 0, 'unit', '1000.00', '', 1),
-(5, 1, 73, 2, 1, 'bacolod sure mouse offer', '150.00', '10.00', 10, 'unit', '1500.00', '', 0),
-(6, 1, 79, 2, 1, 'bcg mouse offer', '200.00', '10.00', 10, 'unit', '2000.00', '', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -124,16 +97,7 @@ CREATE TABLE IF NOT EXISTS `aoq_vendors` (
   `delivery_date` varchar(100) DEFAULT NULL,
   `item_warranty` varchar(100) DEFAULT NULL,
   `freight` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `aoq_vendors`
---
-
-INSERT INTO `aoq_vendors` (`aoq_vendors_id`, `aoq_id`, `rfq_id`, `vendor_id`, `price_validity`, `payment_terms`, `delivery_date`, `item_warranty`, `freight`) VALUES
-(1, 1, 1, 16, '', '', '', '', ''),
-(2, 1, 2, 73, '', '', '', '', ''),
-(3, 1, 3, 79, '', '', '', '', '');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -947,15 +911,7 @@ CREATE TABLE IF NOT EXISTS `po_dr` (
   `revision_no` int(11) NOT NULL DEFAULT '0',
   `received` int(11) NOT NULL DEFAULT '0',
   `date_received` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `po_dr`
---
-
-INSERT INTO `po_dr` (`dr_id`, `po_id`, `rfd_id`, `dr_no`, `dr_date`, `dr_type`, `saved`, `revision_no`, `received`, `date_received`) VALUES
-(1, 1, 0, '1000', '2019-08-29', 0, 0, 0, 1, '2019-08-29'),
-(2, 1, 0, '1001', '2019-08-29', 0, 0, 0, 1, '2019-08-29');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -994,17 +950,35 @@ CREATE TABLE IF NOT EXISTS `po_dr_items` (
   `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `uom` varchar(50) DEFAULT NULL,
   `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `item_no` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `item_no` int(11) NOT NULL DEFAULT '0',
+  `revision_no` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `po_dr_items`
+-- Table structure for table `po_dr_items_revised`
 --
 
-INSERT INTO `po_dr_items` (`dr_items_id`, `po_items_id`, `dr_id`, `pr_id`, `po_id`, `aoq_offer_id`, `aoq_items_id`, `pr_details_id`, `offer`, `item_id`, `delivered_quantity`, `quantity`, `unit_price`, `uom`, `amount`, `item_no`) VALUES
-(1, 1, 1, 1, 1, 1, 1, 2, 'amt keyboard offer', 0, 15, '10.00', '200.00', 'unit', '3000.00', 1),
-(2, 2, 1, 1, 1, 4, 2, 1, 'amt mouse offer', 0, 10, '10.00', '100.00', 'unit', '1000.00', 2),
-(3, 1, 2, 1, 1, 1, 1, 2, 'amt keyboard offer', 0, 5, '5.00', '200.00', 'unit', '3000.00', 1);
+CREATE TABLE IF NOT EXISTS `po_dr_items_revised` (
+`dr_items_id` int(11) NOT NULL,
+  `po_items_id` int(11) NOT NULL DEFAULT '0',
+  `dr_id` int(11) NOT NULL DEFAULT '0',
+  `pr_id` int(11) NOT NULL DEFAULT '0',
+  `po_id` int(11) NOT NULL DEFAULT '0',
+  `aoq_offer_id` int(11) NOT NULL DEFAULT '0',
+  `aoq_items_id` int(11) NOT NULL DEFAULT '0',
+  `pr_details_id` int(11) NOT NULL DEFAULT '0',
+  `offer` text,
+  `item_id` int(11) DEFAULT '0',
+  `delivered_quantity` int(11) NOT NULL DEFAULT '0',
+  `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `uom` varchar(50) DEFAULT NULL,
+  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `item_no` int(11) NOT NULL DEFAULT '0',
+  `revision_no` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1056,14 +1030,7 @@ CREATE TABLE IF NOT EXISTS `po_head` (
   `repeat_order` int(11) NOT NULL DEFAULT '0',
   `approve_rev_by` varchar(100) DEFAULT NULL,
   `approve_rev_date` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `po_head`
---
-
-INSERT INTO `po_head` (`po_id`, `po_date`, `po_no`, `dr_no`, `vendor_id`, `notes`, `po_type`, `user_id`, `approved_by`, `checked_by`, `saved`, `done_po`, `cancelled`, `cancelled_by`, `cancel_reason`, `cancelled_date`, `revised`, `date_revised`, `revision_no`, `revise_attachment`, `served`, `date_served`, `served_by`, `repeat_order`, `approve_rev_by`, `approve_rev_date`) VALUES
-(1, '2019-08-29', 'PITB19-1000-1000', NULL, 16, NULL, 0, 1, 24, 24, 1, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 1, 0, NULL, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1117,15 +1084,7 @@ CREATE TABLE IF NOT EXISTS `po_items` (
   `source_poid` int(11) NOT NULL DEFAULT '0',
   `notes` text,
   `revision_no` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `po_items`
---
-
-INSERT INTO `po_items` (`po_items_id`, `pr_id`, `po_id`, `aoq_offer_id`, `aoq_items_id`, `pr_details_id`, `offer`, `item_id`, `delivered_quantity`, `quantity`, `unit_price`, `uom`, `amount`, `item_no`, `source_poid`, `notes`, `revision_no`) VALUES
-(1, 1, 1, 1, 1, 2, 'amt keyboard offer', 0, 15, '15.00', '200.00', 'unit', '3000.00', 1, 0, NULL, 0),
-(2, 1, 1, 4, 2, 1, 'amt mouse offer', 0, 10, '10.00', '100.00', 'unit', '1000.00', 2, 0, NULL, 0);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1142,6 +1101,7 @@ CREATE TABLE IF NOT EXISTS `po_items_revised` (
   `pr_details_id` int(11) NOT NULL DEFAULT '0',
   `offer` text,
   `item_id` int(11) DEFAULT '0',
+  `delivered_quantity` int(11) NOT NULL DEFAULT '0',
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
   `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `uom` varchar(50) DEFAULT NULL,
@@ -1165,6 +1125,7 @@ CREATE TABLE IF NOT EXISTS `po_items_temp` (
   `pr_details_id` int(11) NOT NULL DEFAULT '0',
   `offer` text,
   `item_id` int(11) DEFAULT '0',
+  `delivered_quantity` int(11) NOT NULL DEFAULT '0',
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
   `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `uom` varchar(50) DEFAULT NULL,
@@ -1190,14 +1151,7 @@ CREATE TABLE IF NOT EXISTS `po_pr` (
   `requestor` text,
   `notes` text,
   `revision_no` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `po_pr`
---
-
-INSERT INTO `po_pr` (`po_pr_id`, `po_id`, `pr_id`, `aoq_id`, `enduse`, `purpose`, `requestor`, `notes`, `revision_no`) VALUES
-(1, 1, 1, 1, 'Testing Enduse', 'Testing Purpose', 'Jason Flor', NULL, 0);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1226,14 +1180,7 @@ CREATE TABLE IF NOT EXISTS `po_pr_revised` (
 CREATE TABLE IF NOT EXISTS `po_series` (
 `series_id` int(11) NOT NULL,
   `series` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `po_series`
---
-
-INSERT INTO `po_series` (`series_id`, `series`) VALUES
-(1, 1000);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1289,6 +1236,7 @@ CREATE TABLE IF NOT EXISTS `pr_details` (
   `item_description` text,
   `date_needed` varchar(20) DEFAULT NULL,
   `grouping_id` varchar(5) DEFAULT NULL,
+  `wh_stocks` decimal(10,2) NOT NULL DEFAULT '0.00',
   `cancelled` int(11) NOT NULL DEFAULT '0',
   `cancelled_by` int(11) NOT NULL DEFAULT '0',
   `cancelled_reason` text NOT NULL,
@@ -1296,16 +1244,7 @@ CREATE TABLE IF NOT EXISTS `pr_details` (
   `add_remarks` text,
   `remark_date` varchar(20) DEFAULT NULL,
   `remark_by` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pr_details`
---
-
-INSERT INTO `pr_details` (`pr_details_id`, `pr_id`, `quantity`, `uom`, `part_no`, `item_description`, `date_needed`, `grouping_id`, `cancelled`, `cancelled_by`, `cancelled_reason`, `cancelled_date`, `add_remarks`, `remark_date`, `remark_by`) VALUES
-(1, 1, 10, 'unit', '', 'mouse', '2019-08-30', 'A', 0, 0, '', '', NULL, NULL, 0),
-(2, 1, 15, 'unit', '', 'keyboard', '2019-08-30', 'A', 0, 0, '', '', NULL, NULL, 0),
-(3, 1, 1, 'unit', '', 'monitor', '2019-08-30', 'B', 0, 0, '', '', NULL, NULL, 0);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1333,14 +1272,7 @@ CREATE TABLE IF NOT EXISTS `pr_head` (
   `cancelled_reason` text,
   `cancelled_by` int(11) NOT NULL DEFAULT '0',
   `cancelled_date` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pr_head`
---
-
-INSERT INTO `pr_head` (`pr_id`, `user_pr_no`, `pr_no`, `purchase_request`, `date_prepared`, `requestor`, `department`, `enduse`, `purpose`, `urgency`, `processing_code`, `wh_stocks`, `date_imported`, `imported_by`, `saved`, `cancelled`, `cancelled_reason`, `cancelled_by`, `cancelled_date`) VALUES
-(1, NULL, 'ITB19-1000', 'Cenpri Bacolod', '2019-07-30', 'Jason Flor', 'IT Bacolod', 'Testing Enduse', 'Testing Purpose', 2, 'X', 0, '2019-08-28 09:18:48', 1, 1, 0, NULL, 0, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1351,14 +1283,7 @@ INSERT INTO `pr_head` (`pr_id`, `user_pr_no`, `pr_no`, `purchase_request`, `date
 CREATE TABLE IF NOT EXISTS `pr_series` (
 `pr_series_id` int(11) NOT NULL,
   `series_no` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pr_series`
---
-
-INSERT INTO `pr_series` (`pr_series_id`, `series_no`) VALUES
-(1, 1000);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1374,19 +1299,7 @@ CREATE TABLE IF NOT EXISTS `pr_vendors` (
   `due_date` varchar(20) DEFAULT NULL,
   `noted_by` int(11) NOT NULL,
   `approved_by` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pr_vendors`
---
-
-INSERT INTO `pr_vendors` (`pr_vendors_id`, `pr_id`, `vendor_id`, `grouping_id`, `due_date`, `noted_by`, `approved_by`) VALUES
-(1, 1, 16, 'A', '2019-08-28', 20, 22),
-(2, 1, 73, 'A', '2019-08-28', 20, 22),
-(3, 1, 79, 'A', '2019-08-28', 20, 22),
-(4, 1, 1, 'B', '2019-08-30', 20, 45),
-(5, 1, 2, 'B', '2019-08-30', 20, 45),
-(6, 1, 3, 'B', '2019-08-30', 20, 45);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1476,22 +1389,7 @@ CREATE TABLE IF NOT EXISTS `rfq_details` (
   `offer` text,
   `recommended` text,
   `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `rfq_details`
---
-
-INSERT INTO `rfq_details` (`rfq_details_id`, `rfq_id`, `pr_details_id`, `item_desc`, `quantity`, `uom`, `offer`, `recommended`, `unit_price`) VALUES
-(1, 1, 1, 'mouse', '10.00', 'unit', NULL, NULL, '0.00'),
-(2, 1, 2, 'keyboard', '15.00', 'unit', NULL, NULL, '0.00'),
-(3, 2, 1, 'mouse', '10.00', 'unit', NULL, NULL, '0.00'),
-(4, 2, 2, 'keyboard', '15.00', 'unit', NULL, NULL, '0.00'),
-(5, 3, 1, 'mouse', '10.00', 'unit', NULL, NULL, '0.00'),
-(6, 3, 2, 'keyboard', '15.00', 'unit', NULL, NULL, '0.00'),
-(7, 4, 3, 'monitor', '1.00', 'unit', NULL, NULL, '0.00'),
-(8, 5, 3, 'monitor', '1.00', 'unit', NULL, NULL, '0.00'),
-(9, 6, 3, 'monitor', '1.00', 'unit', NULL, NULL, '0.00');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1526,19 +1424,7 @@ CREATE TABLE IF NOT EXISTS `rfq_head` (
   `cancel_reason` text,
   `cancelled_date` varchar(20) DEFAULT NULL,
   `cancelled_by` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `rfq_head`
---
-
-INSERT INTO `rfq_head` (`rfq_id`, `rfq_no`, `vendor_id`, `pr_id`, `grouping_id`, `rfq_date`, `quotation_date`, `price_validity`, `payment_terms`, `delivery_date`, `item_warranty`, `tin`, `vat`, `notes`, `processing_code`, `prepared_by`, `noted_by`, `approved_by`, `create_date`, `saved`, `completed`, `served`, `cancelled`, `cancel_reason`, `cancelled_date`, `cancelled_by`) VALUES
-(1, 'ITB19-1001-A', 16, 1, 'A', '2019-08-28 09:26:20', '2019-08-28', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 1, 20, 22, '2019-08-28 09:26:20', 1, 1, 0, 0, NULL, NULL, 0),
-(2, 'ITB19-1001-A', 73, 1, 'A', '2019-08-28 09:26:20', '2019-08-28', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 1, 20, 22, '2019-08-28 09:26:20', 1, 1, 0, 0, NULL, NULL, 0),
-(3, 'ITB19-1001-A', 79, 1, 'A', '2019-08-28 09:26:20', '2019-08-28', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 1, 20, 22, '2019-08-28 09:26:20', 1, 1, 0, 0, NULL, NULL, 0),
-(4, 'ITB19-1001-B', 1, 1, 'B', '2019-08-28 09:26:20', '2019-08-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 1, 20, 45, '2019-08-28 09:26:20', 1, 0, 0, 0, NULL, NULL, 0),
-(5, 'ITB19-1001-B', 2, 1, 'B', '2019-08-28 09:26:20', '2019-08-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 1, 20, 45, '2019-08-28 09:26:20', 1, 0, 0, 0, NULL, NULL, 0),
-(6, 'ITB19-1001-B', 3, 1, 'B', '2019-08-28 09:26:20', '2019-08-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 1, 20, 45, '2019-08-28 09:26:20', 1, 0, 0, 0, NULL, NULL, 0);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1550,14 +1436,7 @@ CREATE TABLE IF NOT EXISTS `rfq_series` (
 `rfq_series_id` int(11) NOT NULL,
   `year_month` varchar(20) DEFAULT NULL,
   `series` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `rfq_series`
---
-
-INSERT INTO `rfq_series` (`rfq_series_id`, `year_month`, `series`) VALUES
-(1, 'ITB19', 1001);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2610,6 +2489,12 @@ ALTER TABLE `po_dr_items`
  ADD PRIMARY KEY (`dr_items_id`);
 
 --
+-- Indexes for table `po_dr_items_revised`
+--
+ALTER TABLE `po_dr_items_revised`
+ ADD PRIMARY KEY (`dr_items_id`);
+
+--
 -- Indexes for table `po_head`
 --
 ALTER TABLE `po_head`
@@ -2755,22 +2640,22 @@ ALTER TABLE `vendor_head`
 -- AUTO_INCREMENT for table `aoq_head`
 --
 ALTER TABLE `aoq_head`
-MODIFY `aoq_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `aoq_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `aoq_items`
 --
 ALTER TABLE `aoq_items`
-MODIFY `aoq_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `aoq_items_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `aoq_offers`
 --
 ALTER TABLE `aoq_offers`
-MODIFY `aoq_offer_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `aoq_offer_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `aoq_vendors`
 --
 ALTER TABLE `aoq_vendors`
-MODIFY `aoq_vendors_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `aoq_vendors_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `department`
 --
@@ -2825,7 +2710,7 @@ MODIFY `jo_terms_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `po_dr`
 --
 ALTER TABLE `po_dr`
-MODIFY `dr_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `dr_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `po_dr_details`
 --
@@ -2835,17 +2720,22 @@ MODIFY `dr_details_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `po_dr_items`
 --
 ALTER TABLE `po_dr_items`
-MODIFY `dr_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `dr_items_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `po_dr_items_revised`
+--
+ALTER TABLE `po_dr_items_revised`
+MODIFY `dr_items_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `po_head`
 --
 ALTER TABLE `po_head`
-MODIFY `po_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `po_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `po_items`
 --
 ALTER TABLE `po_items`
-MODIFY `po_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `po_items_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `po_items_temp`
 --
@@ -2855,12 +2745,12 @@ MODIFY `po_items_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `po_pr`
 --
 ALTER TABLE `po_pr`
-MODIFY `po_pr_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `po_pr_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `po_series`
 --
 ALTER TABLE `po_series`
-MODIFY `series_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `series_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `po_tc`
 --
@@ -2870,22 +2760,22 @@ MODIFY `po_tc_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `pr_details`
 --
 ALTER TABLE `pr_details`
-MODIFY `pr_details_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `pr_details_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `pr_head`
 --
 ALTER TABLE `pr_head`
-MODIFY `pr_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `pr_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `pr_series`
 --
 ALTER TABLE `pr_series`
-MODIFY `pr_series_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `pr_series_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `pr_vendors`
 --
 ALTER TABLE `pr_vendors`
-MODIFY `pr_vendors_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `pr_vendors_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `reminder`
 --
@@ -2910,17 +2800,17 @@ MODIFY `rfd_purpose_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `rfq_details`
 --
 ALTER TABLE `rfq_details`
-MODIFY `rfq_details_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `rfq_details_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `rfq_head`
 --
 ALTER TABLE `rfq_head`
-MODIFY `rfq_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `rfq_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `rfq_series`
 --
 ALTER TABLE `rfq_series`
-MODIFY `rfq_series_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `rfq_series_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `to_do_today`
 --

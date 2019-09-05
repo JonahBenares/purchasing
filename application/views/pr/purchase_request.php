@@ -5,6 +5,13 @@
          $(".modal #details_id").val(details_id);
          $(".modal #pr").val(pr);
     });
+
+     $(document).on("click", ".addVendor", function () {
+         var group = $(this).data('group');
+         var id = $(this).data('id');
+         $(".modal #group").val(group);
+         $(".modal #pr_details_id").val(id);
+    });
 </script>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
@@ -61,6 +68,61 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Vendor
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>                    
+                </div>
+                <form method='POST' action='<?php echo base_url(); ?>pr/add_vendor_rfq'>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <p class="m-b-0">Vendor:</p>
+                        <select class="form-control" name='vendor'>
+                            <option value='' selected="selected">-Choose Vendor-</option>
+                            <?php foreach($vendor AS $ven){ ?>
+                                <option value='<?php echo $ven->vendor_id; ?>'><?php echo $ven->vendor_name; ?></option>
+                            <?php } ?>
+                        </select>                        
+                    </div>
+                    <div class="form-group">
+                        <p class="m-b-0">Due Date:</p>
+                        <input type="date" class="form-control" name="due_date">
+                    </div>
+                    <div class="form-group">
+                        <p class="m-b-0">Noted by:</p>
+                        <select class="form-control" name='noted'>
+                             <option value='' selected="selected">-Choose Employee-</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select> 
+                    </div>
+                    <div class="form-group">
+                        <p class="m-b-0">Approved by:</p>
+                        <select class="form-control" name='approved'>
+                             <option value='' selected="selected">-Choose Employee-</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select> 
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+                    <input type='hidden' name='group' id='group' >
+                    <input type='hidden' name='pr_details_id' id='pr_details_id' >
+                <input type="submit" class="btn btn-primary btn-block" value="Create RFQ">
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
     <div class="admin-dashone-data-table-area">
         <div class="container-fluid">
             <div class="row">
@@ -106,6 +168,8 @@
                                         <tr>
                                             <td><i>Enduse:</i></td>
                                             <td colspan="3"><b class="capital"><?php echo $h->enduse; ?> </b></td>
+                                           <!--  <td><i>WH Stock:</i></td>
+                                            <td colspan="1"><b class="capital"><?php echo $h->wh_stocks; ?></b></td> -->
                                            
                                         </tr>
                                         <tr>
@@ -121,8 +185,10 @@
                                                 <th>Qty</th>
                                                 <th>UOM</th>
                                                 <th>Item Description</th>
+                                                <th>WH Stocks</th>
                                                 <th>Date Needed</th>
                                                 <th>Group</th>
+                                                <th>Vendor</th>
                                                 <?php if($cancelled==0){ ?>
                                                 <th><center><span class="fa fa-bars"></span></center></th>
                                                 <?php } else { ?>
@@ -142,6 +208,7 @@
                                                 <td><?php echo $det['quantity']; ?></td>
                                                 <td><?php echo $det['uom']; ?></td>
                                                 <td><?php echo $det['item_description']; ?></td>
+                                                <td><?php echo $det['wh_stocks']; ?></td>
                                                 <td><?php echo (!empty($det['date_needed']) ? date('F j, Y', strtotime($det['date_needed'])) : ''); ?></td>
                                                 <?php if(empty($h->pr_no)){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
@@ -154,8 +221,9 @@
                                                 </td>
                                                 <?php }else { ?>
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
+                                                <td><?php echo $det['vendor']; ?></td>
                                                 <?php } ?>
-                                                <td><?php echo $det['cancelled_reason'] . " by ". $det['cancelled_by']." / ".date('m.d.y', strtotime($det['cancelled_date']));?></td>
+                                                <td align="center"><?php echo $det['cancelled_reason'] . " by ". $det['cancelled_by']." /".date('m.d.y', strtotime($det['cancelled_date']));?></td>
                                             </tr>
                                         <?php } else { ?>
                                             <tr>
@@ -163,6 +231,7 @@
                                                 <td><?php echo $det['quantity']; ?></td>
                                                 <td><?php echo $det['uom']; ?></td>
                                                 <td><?php echo $det['item_description']; ?></td>
+                                                <td><?php echo $det['wh_stocks']; ?></td>
                                                 <td><?php echo (!empty($det['date_needed']) ? date('F j, Y', strtotime($det['date_needed'])) : ''); ?></td>
                                                 <?php if($saved==0){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
@@ -175,8 +244,12 @@
                                                 </td>
                                                 <?php }else { ?>
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
+                                                <td><?php echo $det['vendor']; ?></td>
                                                 <?php } ?>
                                                 <td align="center">
+                                                    <?php if($saved==1){ ?>
+                                                    <a href="" class="addVendor btn btn-xs btn-warning btn-custon-three" data-toggle="modal" data-target="#exampleModal" title="Add Vendor" data-group="<?php echo $det['grouping_id']; ?>" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-shopping-cart"> </span></a>
+                                                <?php } ?>
                                                     <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </td>
                                             </tr>

@@ -316,10 +316,22 @@
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
-		    				4. Payment term: <?php echo $payment_terms; ?><br>	
+		    				<?php if(!empty($payment_terms)){ ?>
+		    				4. Payment term: <?php echo $payment_terms; ?><br>
+		    				<?php } ?>	
+		    				<?php if(!empty($item_warranty)){ ?>
+		    				5. Item Warranty: <?php echo $item_warranty; ?><br>
+		    				<?php } ?>
+		    				<?php if(!empty($delivery_time)){ ?>
+		    				6. Delivery Time: <?php echo $delivery_time; ?><br>
+		    				<?php } ?>
+		    				<?php if(!empty($freight)){ ?>
+		    				7. In-land Freight: <?php echo $freight; ?><br>
+		    				<?php } ?>
+		    				<!-- 4. Payment term: <?php echo $payment_terms; ?><br>	
 		    				5. Item Warranty: <?php echo $item_warranty; ?><br>	 
 		    				6. Delivery Time: <?php echo $delivery_time; ?><br>
-		    				7. In-land Freight: <?php echo $freight; ?><br>
+		    				7. In-land Freight: <?php echo $freight; ?><br> -->
 							<?php 
 		    					$no=8;
 		    					foreach($tc AS $t){ 
@@ -339,31 +351,43 @@
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Prepared by:</b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Approved by:</b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Prepared by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b>Checked by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Approved by:</b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b><?php echo $prepared; ?></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b>
+		    			<select name='checked' class="select-des emphasis" style="width: 100%" required>
+			    			<option value=''>-Select-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+		    			</select></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>
 		    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
 			    			<option value=''>-Select-</option>
 			    			<?php foreach($employee AS $emp){ ?>
 			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
 			    			<?php } ?>
 		    			</select></b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>

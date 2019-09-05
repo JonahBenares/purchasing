@@ -8,7 +8,7 @@
         <div class="row">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">History of <b>PO 423498923</b></h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">History of <b><?php echo $po_no; ?></b></h5>
                 </div>
                 <div class="modal-body">
                     <?php foreach($revise AS $r){ ;?>

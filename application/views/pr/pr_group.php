@@ -83,7 +83,9 @@
                                                 <h6 class="nomarg">Approved by: <b class="txt-primary"><?php echo $venap['approved_by']; ?></b></h6>
                                                 <?php } } } ?>
                                             </td>
-                                            <td width="10%"><a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $gr['group']; ?>','<?php echo $pr_id; ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a></td>
+                                            <td width="10%"><a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $gr['group']; ?>','<?php echo $pr_id; ?>')" class="btn btn-warning btn-md btn-block">Choose Vendor</a>
+                                                
+                                            </td>
                                         </tr>
                                         <?php } ?>
                                       

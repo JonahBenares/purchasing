@@ -116,25 +116,32 @@
                                 <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
-                                            <th>Dr No</th>
-                                            <th>Type</th>
+                                            <th>Date Prepared</th>
+                                            <th>CENJO #/JO #</th>
+                                            <th>Project Title</th>
+                                            <th>Supplier</th>
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php 
+                                        if(!empty($head)){
+                                        foreach($head AS $h){ ?>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
+                                            <td><?php echo $h['cenjo_no'] . "/".$h['jo_no']; ?></td>
+                                            <td><?php echo $h['project_title']; ?></td>
+                                            <td><?php echo $h['vendor']; ?></td>
                                             <td>
                                                 <center>
-                                                    <a href="" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                    <a href="<?php echo base_url(); ?>jo/job_order_saved/<?php echo $h['jo_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                 </center>
                                             </td>
-                                        </tr>                  
+                                        </tr>  
+                                        <?php } 
+                                    } ?>                
                                     </tbody>
                                 </table>
                             </div>                           
