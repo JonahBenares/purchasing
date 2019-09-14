@@ -93,8 +93,6 @@ class Masterfile extends CI_Controller {
 
             $rfq_outgoing = $this->super_model->count_join_where("rfq_head","rfq_details", "rfq_head.pr_id = '$pr->pr_id' AND rfq_details.pr_details_id = '$pr->pr_details_id'","rfq_id");
 
-            $rfq_incoming = $this->super_model->count_join_where("rfq_head","rfq_details", "rfq_head.pr_id = '$pr->pr_id' AND rfq_details.pr_details_id = '$pr->pr_details_id' AND rfq_head.completed='1'","rfq_id");
-
             $for_te = $this->super_model->count_join_where("aoq_head","aoq_offers", "aoq_head.pr_id = '$pr->pr_id' AND aoq_offers.pr_details_id = '$pr->pr_details_id' AND aoq_offers.recommended='0'","aoq_id");
 
             $te_done = $this->super_model->count_join_where("aoq_head","aoq_offers", "aoq_head.pr_id = '$pr->pr_id' AND aoq_offers.pr_details_id = '$pr->pr_details_id' AND aoq_offers.recommended='1'","aoq_id");
@@ -113,7 +111,7 @@ class Masterfile extends CI_Controller {
                 'pr_no'=>$pr->pr_no,
                 'item'=>$pr->item_description,
                 'rfq_outgoing'=>$rfq_outgoing,
-                'rfq_incoming'=>$rfq_incoming,
+               /* 'rfq_incoming'=>$rfq_incoming,*/
                 'for_te'=>$for_te,
                 'te_done'=>$te_done,
                 'po_issued'=>$po_issued,

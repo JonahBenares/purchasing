@@ -717,7 +717,7 @@ class Pr extends CI_Controller {
         $pr_details_id = $this->input->post('pr_details_id');
 
 
-        $count_exist = $this->super_model->count_custom_where("rfq_head","pr_id = '$prid' AND vendor_id = '$vendor' AND grouping_id = '$group'");
+        $count_exist = $this->super_model->count_custom_where("rfq_head","pr_id = '$prid' AND vendor_id = '$vendor'");
         if($count_exist!=0){
            ?>
            <script>
