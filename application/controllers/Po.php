@@ -1516,27 +1516,28 @@ class Po extends CI_Controller {
             if($this->input->post('quantity'.$x)!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
-            $data_items = array(
-                "po_items_id"=>$poitems->po_items_id,
-                "pr_id"=>$poitems->pr_id,
-                "po_id"=>$poitems->po_id,
-                "aoq_offer_id"=>$poitems->aoq_offer_id,
-                "aoq_items_id"=>$poitems->aoq_items_id,
-                "pr_details_id"=>$poitems->pr_details_id,
-                "offer"=>$this->input->post('offer'.$x),
-                "item_id"=>$poitems->item_id,
-                "delivered_quantity"=>$this->input->post('quantity'.$x),
-                "quantity"=>$poitems->delivered_quantity,
-                "unit_price"=>$price,
-                "uom"=>$poitems->uom,
-                "amount"=>$amount,
-                "item_no"=>$poitems->item_no,
-               /* "revision_no"=>$revision_no*/
-            );
-            $this->super_model->insert_into("po_items_temp", $data_items);
-            $x++;
+                
+                    $data_items = array(
+                        "po_items_id"=>$poitems->po_items_id,
+                        "pr_id"=>$poitems->pr_id,
+                        "po_id"=>$poitems->po_id,
+                        "aoq_offer_id"=>$poitems->aoq_offer_id,
+                        "aoq_items_id"=>$poitems->aoq_items_id,
+                        "pr_details_id"=>$poitems->pr_details_id,
+                        "offer"=>$this->input->post('offer'.$x),
+                        "item_id"=>$poitems->item_id,
+                        "delivered_quantity"=>$this->input->post('quantity'.$x),
+                        "quantity"=>$poitems->delivered_quantity,
+                        "unit_price"=>$price,
+                        "uom"=>$poitems->uom,
+                        "amount"=>$amount,
+                        "item_no"=>$poitems->item_no,
+                       /* "revision_no"=>$revision_no*/
+                    );
+                    $this->super_model->insert_into("po_items_temp", $data_items);
+        
             }
-
+                $x++;
         }
 
         $data_head = array(
@@ -1701,6 +1702,8 @@ class Po extends CI_Controller {
             } else {
                 $nqty = $oldqty-$poitems->quantity;
             }
+
+
             $data_items = array(
            
                 "pr_id"=>$poitems->pr_id,
@@ -1718,7 +1721,7 @@ class Po extends CI_Controller {
                 "item_no"=>$poitems->item_no,
                 "revision_no"=>$revision_no
             );
-             $this->super_model->update_where("po_items", $data_items, "aoq_offer_id", $poitems->aoq_offer_id);
+             $this->super_model->update_where("po_items", $data_items, "po_items_id", $poitems->po_items_id);
 
             $data_dr_items = array(
                 'delivered_quantity'=>$poitems->delivered_quantity,
@@ -1729,7 +1732,7 @@ class Po extends CI_Controller {
             );
 
             $this->super_model->update_where("po_dr_items", $data_dr_items, "po_items_id", $poitems->po_items_id);
-            
+
             $old_qty = $this->super_model->select_column_where('po_items', 'quantity', 'aoq_offer_id',  $poitems->aoq_offer_id);
             if($old_qty!=$poitems->quantity){
                 $difference = $old_qty - $poitems->quantity;

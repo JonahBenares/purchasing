@@ -257,7 +257,7 @@
                                             <th rowspan="2" data-field="prdate" >PR Date</th>
                                             <th rowspan="2" data-field="prno" >PR No</th>
                                             <th rowspan="2" data-field="item" >Item Description</th>
-                                            <th colspan="2" data-field="rfq" >RFQ</th>
+                                            <th data-field="rfq" >RFQ</th>
                                             <th colspan="2" data-field="aoq" >AOQ</th>
                                             <th rowspan="2" data-field="po" >PO Issued</th>
                                             <th rowspan="2" data-field="del" >Delivered</th>
@@ -265,7 +265,7 @@
                                         </tr>
                                         <tr>
                                             <th width="20%">Outgoing</th>
-                                            <th width="20%">Incoming</th>
+                                           <!--  <th width="20%">Incoming</th> -->
                                             <th width="20%">For TE</th>
                                             <th width="20%">TE Done</th>
                                         </tr>
@@ -291,7 +291,7 @@
                                             <td><?php echo $pr['pr_no']; ?></td>
                                             <td><span style="color:blue"><?php echo $pr['item']; ?></span></td>
                                             <td class="datatable-ct"><?php echo (($pr['rfq_outgoing']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
-                                            <td class="datatable-ct"><?php echo (($pr['rfq_incoming']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
+                                          <!--   <td class="datatable-ct"><?php echo (($pr['rfq_incoming']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td> -->
                                             <td class="datatable-ct"><?php echo (($pr['for_te']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><?php echo (($pr['te_done']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><?php echo (($pr['po_issued']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
