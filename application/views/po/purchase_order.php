@@ -333,7 +333,11 @@
 		    				6. Delivery Time: <?php echo $delivery_time; ?><br>
 		    				7. In-land Freight: <?php echo $freight; ?><br> -->
 							<?php 
-		    					$no=8;
+								if(!empty($payment_terms) || !empty($item_warranty) || !empty($delivery_time) || !empty($freight)){
+		    						$no=8;
+		    					}else {
+		    						$no=4;
+		    					}
 		    					foreach($tc AS $t){ 
 		    						if(!empty($t->tc_desc)){
 			    						echo $no.". " . $t->tc_desc."<br>";

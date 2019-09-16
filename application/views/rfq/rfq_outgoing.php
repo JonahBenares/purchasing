@@ -76,18 +76,17 @@
 	        	background-size: contain!important;
 	        	background-position: center center!important;
 	        }
-<<<<<<< HEAD
+
 	        .bor-btm{
 				border-bottom: 1px solid #000!important;
 			}
-=======
+			
 	        .served{
 	        	background-image: url('<?php echo base_url(); ?>assets/img/served.png')!important;
 	        	background-repeat:no-repeat!important;
 	        	background-size: contain!important;
 	        	background-position: center center!important;
 	        }
->>>>>>> 875bacc01b952305d8d5acd1004e8a31010b2db0
 		}
 		.text-white{
 			color: #fff;
