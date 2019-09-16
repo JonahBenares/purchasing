@@ -82,7 +82,7 @@ class Pr extends CI_Controller {
         $this->load->view('template/navbar');
         //$gr="SELECT pr_id, grouping_id FROM pr_details WHERE ";
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
-        foreach($this->super_model->custom_query("SELECT pr_details_id, pr_id, grouping_id FROM pr_details GROUP BY pr_id, grouping_id") AS $det){
+        foreach($this->super_model->custom_query("SELECT pr_details_id, pr_id, grouping_id FROM pr_details WHERE cancelled = '0' GROUP BY pr_id, grouping_id") AS $det){
             $count = $this->super_model->count_custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' GROUP BY pr_id, grouping_id");
 
             $count_po = $this->super_model->count_custom_query("SELECT po_items_id FROM po_items WHERE pr_details_id = '$det->pr_details_id'");
@@ -100,7 +100,7 @@ class Pr extends CI_Controller {
             foreach($norfq AS $key){
                 $it='';
                 $ven='';
-                foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$key[pr_id]' AND grouping_id = '$key[grouping_id]'") AS $items){
+                foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$key[pr_id]' AND grouping_id = '$key[grouping_id]' AND cancelled = '0'") AS $items){
                     $it .= ' - ' . $items->item_description . "<br>";
                 }
 
@@ -110,7 +110,7 @@ class Pr extends CI_Controller {
 
                 $data['head'][] = array(
                     'pr_id'=>$key['pr_id'],
-                    'pr_no'=>$this->super_model->select_column_custom_where("pr_head", "pr_no", "pr_id = '$key[pr_id]'"),
+                    'pr_no'=>$this->super_model->select_column_custom_where("pr_head", "pr_no", "pr_id = '$key[pr_id]' AND cancelled = '0'"),
                     'group'=>$key['grouping_id'],
                     'item'=>$it,
                     'vendor'=>$ven
@@ -780,6 +780,8 @@ class Pr extends CI_Controller {
                     'grouping_id'=>$group,
                     'rfq_date'=>$timestamp,
                     'processing_code'=>$code,
+                    'noted_by'=>$this->input->post('noted'),
+                    'approved_by'=>$this->input->post('approved'),
                     'prepared_by'=>$_SESSION['user_id'],
                     'create_date'=>$timestamp
                 );

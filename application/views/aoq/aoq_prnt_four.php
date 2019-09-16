@@ -596,7 +596,7 @@
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="6" class="f10" align="center">Award Recommended by:</td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="6" class="f10" align="center">Noted by:</td>
+		    			<td colspan="6" class="f10" align="center">Recommending Approval:</td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="6" class="f10" align="center">Approved by:</td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
