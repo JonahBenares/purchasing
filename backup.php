@@ -55,12 +55,12 @@ $return.="\n\n\n";
 
 
 $data=date("m_d_Y").'.sql';
-$handle = fopen('Back-up/db_backup/'.$data,'w+');
+$handle = fopen('C:\/Purchasing Backup\/Back-up\/db_backup\/'.$data,'w+');
 
 fwrite($handle,$return);
 
 
-$copysql='Back-up/db_backup/'.$data;
+$copysql='C:\/Purchasing Backup\/Back-up\/db_backup\/'.$data;
 rcopy($copysql , "C:\/Users\/User\/OneDrive\/Purchasing Backup\/db_backup\/".$data);
 
 fclose($handle);
@@ -100,7 +100,7 @@ $rootPath = realpath('uploads');
 
 // Initialize archive object
 $zip = new ZipArchive();
-$fname = 'Back-up/uploads/'.date('m_d_Y').'.zip';
+$fname = 'C:\/Purchasing Backup\/Back-up\/uploads\/'.date('m_d_Y').'.zip';
 $zip->open($fname, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
 // Create recursive directory iterator
