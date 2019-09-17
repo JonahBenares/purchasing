@@ -106,7 +106,7 @@
                         <?php } ?>      
                         <div class="sparkline8-graph" >
                             <div class="datatable-dashv1-list custom-datatable-overright" style="overflow-x: scroll;">
-                                <table class="table-bordered" width="200%">
+                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                     <thead>
                                         <tr>
                                             <th>PR No.</th>
