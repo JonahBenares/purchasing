@@ -57,7 +57,7 @@
                                         <?php $x++; } 
                                     } ?>
                                     <?php $y=1; foreach($pr_det AS $p){ ?>
-                                        <input type='hidden' name='pr_details_id<?php echo $y; ?>' value="<?php echo $p['pr_details_id']; ?>"> 
+                                        <input type='hidden' name='pr_details_id' value="<?php echo $p['pr_details_id']; ?>"> 
                                     <?php $y++; } ?>
                                     </tbody>
                                 </table>

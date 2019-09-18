@@ -1323,7 +1323,7 @@ class Po extends CI_Controller {
                 $data =  array(
                     'po_id'=>$po_id,
                     'pr_id'=>$this->input->post('pr_id'),
-                    'pr_details_id'=>$this->input->post('pr_details_id'.$x),
+                    'pr_details_id'=>$this->input->post('pr_details_id'),
                     'item_id'=>$item,
                     'offer'=>$offer,
                     'delivered_quantity'=>$quantity,
