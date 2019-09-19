@@ -266,21 +266,21 @@
 		    		</tr>	
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="5">&nbsp; c. Delivery Time</td>
+		    			<td class="f13" colspan="5"> c. Delivery Time</td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13 bor-btm" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>	
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="5">&nbsp; d. Item's Warranty</td>
+		    			<td class="f13" colspan="5"> d. Item's Warranty</td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13 bor-btm" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>	
 		    		<tr>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="5">&nbsp; e. In-land Freight</td>
+		    			<td class="f13" colspan="5"> e. In-land Freight</td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13 all-bor" colspan="1"></td>	
 		    			<td class="f13 all-bor p-l-10" colspan="2">Included</td>	
