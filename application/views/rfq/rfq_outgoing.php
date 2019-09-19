@@ -114,6 +114,7 @@
 							<a href="<?php echo base_url(); ?>rfq/complete_rfq/<?php echo $rfq_id; ?>"  class="btn btn-info btn-md p-l-50 p-r-50" onclick="return confirm('Are you sure?')"><span class="fa fa-check"></span> Canvass Complete</a>
 						<?php  } 
 						 if($saved==1){ ?>
+						<a href="<?php echo base_url(); ?>rfq/export_rfq/<?php echo $rfq_id; ?>" class="btn btn-primary btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Export</a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
 						<!-- <a  href="<?php echo base_url(); ?>rfq/rfq_incoming/<?php echo $rfq_id; ?>" class="btn btn-primary btn-md p-l-50 p-r-50">RFQ Incoming</a> -->
 						<?php } else if($saved==0){ ?>
@@ -192,7 +193,7 @@
 		    			<td colspan="20">
 		    				<table class="table-bordered" width="100%">
 		    					<tr>
-		    						<td class="f13" align="center" width="5%"><b>Qty</b></td>
+		    						<td class="f13" align="center" width="5%"><b>No.</b></td>
 		    						<td class="f13" align="center"><b>Unit</b></td>
 		    						<td class="f13" align="center"><b>Item Description</b></td>
 		    						<td class="f13" align="center"><b>Brand/Offer</b></td>
