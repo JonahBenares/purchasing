@@ -54,11 +54,12 @@
                                         <input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>"> 
                                         <input type='hidden' name='pr_id' value="<?php echo $pr_id; ?>">
                                         <input type='hidden' name='group_id' value="<?php echo $group_id; ?>"> 
+                                        <input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $i['pr_details_id']; ?>">
                                         <?php $x++; } 
                                     } ?>
-                                    <?php $y=1; foreach($pr_det AS $p){ ?>
-                                        <input type='hidden' name='pr_details_id<?php echo $y; ?>' value="<?php echo $p['pr_details_id']; ?>"> 
-                                    <?php $y++; } ?>
+                                    <?php //$y=1; foreach($pr_det AS $p){ ?>
+                                         
+                                    <?php //$y++; } ?>
                                     </tbody>
                                 </table>
                                  <input type='hidden' name='old_po' value="<?php echo $old_po; ?>"> 

@@ -1254,11 +1254,11 @@ class Po extends CI_Controller {
         $data['po_id'] = $po_id;
         $data['old_po'] = $old_po;
         $data['vendor_id'] = $vendor_id;
-        foreach($this->super_model->select_custom_where("pr_details", "pr_id='$pr_id' AND grouping_id='$group_id'") AS $p){
+        /*foreach($this->super_model->select_custom_where("pr_details", "pr_id='$pr_id' AND grouping_id='$group_id'") AS $p){
             $data['pr_det'][]=array(
                 'pr_details_id'=>$p->pr_details_id
             );
-        }
+        }*/
 
         $data['head']=$this->super_model->select_custom_where("po_head", "vendor_id = '$vendor_id' AND saved='1' AND cancelled='0' AND repeat_order = '0'");
     
