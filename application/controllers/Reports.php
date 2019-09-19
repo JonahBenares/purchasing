@@ -139,7 +139,7 @@ class Reports extends CI_Controller {
 
                     //echo 'ITEM = ' . $pr->item_description . '<br> rfq = ' . $count_rfq . '<br> aoq awarded = ' . $count_aoq_awarded . '<br> po='.$count_po . "<br><br>";
 
-                   // echo 'ITEM = ' . $pr->item_description . '<br> rfq = ' . $count_rfq . '<br> aoq awarded = ' . $count_aoq_awarded . '<br> po='.$count_po . "<br><br>";
+                /*    echo 'prno = ' . $pr->pr_no . '<br>ITEM = ' . $pr->item_description . '<br> rfq = ' . $count_rfq . '<br> aoq awarded = ' . $count_aoq_awarded . '<br> po='.$count_po . "<br><br>";*/
 
 
                     if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
@@ -989,6 +989,7 @@ class Reports extends CI_Controller {
                         'purpose'=>$pr->purpose,
                         'requested_by'=>$requestor,
                         'qty'=>$i->quantity,
+                        'po_qty'=>$i->delivered_quantity,
                         'uom'=>$i->uom,
                         'item'=>$item,
                         'unit_price'=>$i->unit_price,

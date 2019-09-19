@@ -115,7 +115,8 @@
                                             <th>Date Of PO</th>
                                             <th>PO No.</th>
                                             <th>Requested By</th>
-                                            <th>Qty</th>
+                                            <th>PO Qty</th>
+                                            <th>Received Qty</th>
                                             <th>UOM</th>
                                             <th>Item Description</th>
                                             <th>Status</th>
@@ -141,6 +142,7 @@
                                             <td><?php echo $p['po_date'];?></td>
                                             <td><?php echo $p['po_no'];?></td>
                                             <td><?php echo $p['requested_by'];?></td>
+                                            <td><?php echo $p['po_qty'];?></td>
                                             <td><?php echo $p['qty'];?></td>
                                             <td><?php echo $p['uom'];?></td>
                                             <td><?php echo $p['item'];?></td>
