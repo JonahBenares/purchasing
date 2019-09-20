@@ -29,12 +29,12 @@
                                         <tr>
                                             <td><p><?php echo $i['item_spec'];?></p></td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <td><u><b>Unit:</b></u></td>
                                         </tr>
                                         <tr>
                                             <td><p><?php echo $i['unit'];?></p></td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
                                             <td><u><b>Brand:</b></u></td>
                                         </tr>
