@@ -1218,6 +1218,7 @@ class Reports extends CI_Controller {
                 'requested_by'=>$requestor,
                 'po_qty'=>$p->delivered_quantity,
                 'qty'=>$p->quantity,
+                'po_qty'=>$p->delivered_quantity,
                 'uom'=>$p->uom,
                 'item'=>$item,
                 'unit_price'=>$p->unit_price,
@@ -1390,8 +1391,8 @@ class Reports extends CI_Controller {
                     $requestor = $this->super_model->select_column_where('employees','employee_name','employee_id',$p->requestor);
                 }else {
                     $requestor = $p->requestor;
-                }
-                $total=$p->quantity*$p->unit_price;*/
+                }*/
+                $total=$p->quantity*$p->unit_price;
                 $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$p->pr_id);
                 $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
@@ -1499,8 +1500,8 @@ class Reports extends CI_Controller {
                             $requestor = $this->super_model->select_column_where('employees','employee_name','employee_id',$pr->requestor);
                         }else {
                             $requestor = $pr->requestor;
-                        }
-                        $total=$i->quantity*$i->unit_price;*/
+                        }*/
+                        $total=$i->quantity*$i->unit_price;
                 foreach($this->super_model->select_custom_where("po_head","po_date LIKE '%$po_date%' GROUP BY po_id") AS $p){
                     $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
                     $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
@@ -1557,7 +1558,7 @@ class Reports extends CI_Controller {
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->po_date");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->po_no");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$requestor");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$i->quantity");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$i->delivered_quantity");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$i->quantity");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$i->uom");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$item");

@@ -193,7 +193,7 @@
 		    			<td colspan="20">
 		    				<table class="table-bordered" width="100%">
 		    					<tr>
-		    						<td class="f13" align="center" width="5%"><b>Qty</b></td>
+		    						<td class="f13" align="center" width="5%"><b>No.</b></td>
 		    						<td class="f13" align="center"><b>Unit</b></td>
 		    						<td class="f13" align="center"><b>Item Description</b></td>
 		    						<td class="f13" align="center"><b>Brand/Offer</b></td>

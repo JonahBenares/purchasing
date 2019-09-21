@@ -24,7 +24,7 @@
                                                             <p class="m-b-0">Specification:</p>
                                                             <textarea name="spec" class="form-control" cols="2"><?php echo $i->item_specs;?></textarea>
                                                         </div>
-                                                        <div class="form-group">
+                                                        <!-- <div class="form-group">
                                                             <p class="m-b-0">Unit:</p>
                                                             <select name="unit" class="form-control">
                                                                 <option value = "">--Select Unit--</option>
@@ -32,7 +32,7 @@
                                                                 <option value = "<?php echo $u->unit_id?>" <?php echo (($i->unit_id == $u->unit_id) ? ' selected' : '');?>><?php echo $u->unit_name;?></option>
                                                                 <?php } ?>
                                                             </select>
-                                                        </div>
+                                                        </div> -->
                                                         <div class="form-group">
                                                             <p class="m-b-0">Brand:</p>
                                                             <input type="text" name="brand" class="form-control" value = "<?php echo $i->brand_name;?>">
