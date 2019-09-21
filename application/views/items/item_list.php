@@ -58,7 +58,7 @@
                                                             <p class="m-b-0">Specification:</p>
                                                             <textarea name="spec" class="form-control" cols="2"></textarea>
                                                         </div>
-                                                        <div class="form-group">
+                                                        <!-- <div class="form-group">
                                                             <p class="m-b-0">Unit:</p>
                                                             <select class = "form-control" name = "unit">
                                                                 <option value="">--Select Unit--</option>
@@ -66,7 +66,7 @@
                                                                     <option value = "<?php echo $u->unit_id;?>"><?php echo $u->unit_name;?></option>
                                                                 <?php } ?>
                                                             </select>
-                                                        </div>
+                                                        </div> -->
                                                         <div class="form-group">
                                                             <p class="m-b-0">Brand:</p>
                                                             <input type="text" name="brand" class="form-control">

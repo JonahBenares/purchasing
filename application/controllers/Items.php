@@ -40,13 +40,13 @@ class Items extends CI_Controller {
         $item = trim($this->input->post('item')," ");
         $spec = trim($this->input->post('spec')," ");
         $brand = trim($this->input->post('brand')," ");
-        $unit = trim($this->input->post('unit')," ");
+        //$unit = trim($this->input->post('unit')," ");
         $pn = trim($this->input->post('pn')," ");
         $data = array(
             'item_name'=>$item,
             'item_specs'=>$spec,
             'brand_name'=>$brand,
-            'unit_id'=>$unit,
+            //'unit_id'=>$unit,
             'part_no'=>$pn,
         );
         if($this->super_model->insert_into("item", $data)){
@@ -59,7 +59,7 @@ class Items extends CI_Controller {
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['item'] = $this->super_model->select_row_where('item', 'item_id', $id);
-        $data['unit'] = $this->super_model->select_all_order_by('unit', 'unit_name', 'ASC');
+        /*$data['unit'] = $this->super_model->select_all_order_by('unit', 'unit_name', 'ASC');*/
         $this->load->view('items/update_item',$data);
         $this->load->view('template/footer');
     }
@@ -69,7 +69,7 @@ class Items extends CI_Controller {
             'item_name'=>$this->input->post('item'),
             'item_specs'=>$this->input->post('spec'),
             'brand_name'=>$this->input->post('brand'),
-            'unit_id'=>$this->input->post('unit'),
+            //'unit_id'=>$this->input->post('unit'),
             'part_no'=>$this->input->post('pn'),
         );
         $item_id = $this->input->post('item_id');
@@ -94,7 +94,7 @@ class Items extends CI_Controller {
             $data['item'][]=array(
                 'item_id'=>$i->item_id,
                 'item_name'=>$i->item_name,
-                'unit'=>$this->super_model->select_column_where("unit",'unit_name','unit_id',$i->unit_id),
+                //'unit'=>$this->super_model->select_column_where("unit",'unit_name','unit_id',$i->unit_id),
                 'item_spec'=>$i->item_specs,
                 'brand_name'=>$i->brand_name,
                 'pn_no'=>$i->part_no,
