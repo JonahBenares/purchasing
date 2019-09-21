@@ -219,6 +219,7 @@
                                                         <?php } ?>
                                                     </select>
                                                 </td>
+                                                <td></td>
                                                 <?php }else { ?>
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
                                                 <td><?php echo $det['vendor']; ?></td>
@@ -242,6 +243,7 @@
                                                         <?php } ?>
                                                     </select>
                                                 </td>
+                                                <td></td>
                                                 <?php }else { ?>
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
                                                 <td><?php echo $det['vendor']; ?></td>
