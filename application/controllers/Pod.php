@@ -164,13 +164,13 @@ class Pod extends CI_Controller {
             }
         }else {
             foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
-                $total = $items->quantity*$items->unit_price;
+                $total = $items->delivered_quantity*$items->unit_price;
                 $data['items'][]= array(
                     'pr_details_id'=>$items->pr_details_id,
                     'po_items_id'=>$items->po_items_id,
                     'item'=>$items->offer,
                     'uom'=>$items->uom,
-                    'quantity'=>$items->quantity,
+                    'quantity'=>$items->delivered_quantity,
                     'price'=>$items->unit_price,
                     'total'=>$total,
                 );

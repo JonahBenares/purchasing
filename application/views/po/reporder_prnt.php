@@ -230,6 +230,7 @@
 		    			<td colspan="20" style="padding-left: 10px">
 		    				<div class="btn-group" id="prhide">
 		    					<?php if($saved==0){ 
+
 		    						 ?>
 			    				<a class="addPR btn btn-primary btn-xs" onclick="addPo('<?php echo base_url(); ?>','<?php echo $po_id; ?>','<?php echo $vendor_id; ?>','<?php echo $pr_id; ?>','<?php echo $group_id; ?>')" data-id="">
 								  Add PO
@@ -469,6 +470,7 @@
 		    		<tr><td colspan="20"><br></td></tr>
 		    	</table>	    
 	    	</div>
+	    		<input type='text' name='po_id' value='<?php echo $po_id; ?>'>
     	</form>
     	<div class="modal fade" id="terms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">

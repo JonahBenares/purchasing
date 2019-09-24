@@ -207,7 +207,7 @@
     	$url = base_url()."aoq/award_aoq";
      } ?>
     <div  class="pad">
-    	<form method='POST' action='<?php echo $url ?>'>
+    	<form method='POST' action='<?php echo $url ?>' onsubmit="return confirm('Do you really want to submit the form?');">
     		<div id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
@@ -219,8 +219,9 @@
 						<?php } ?>
 						<!-- <a  onclick="printPage()" class="btn btn-info btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Export</a> -->
 						<?php if($saved==0){ ?>
-							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save AOQ">
+							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save AOQ" >
 						<?php } else if ($saved==1 && $awarded==0){ ?>
+						<!-- 	<a href='<?php echo base_url(); ?>aoq/open_aoq_before/<?php echo $aoq_id; ?>' class="btn btn-info btn-md p-l-100 p-r-100">Open AOQ</a> -->
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Award">
 						<?php } ?>
 					</div>

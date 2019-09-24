@@ -84,7 +84,7 @@ class Aoq extends CI_Controller {
         }
 
         $sql=substr($where, 0, -3);
-        $sql .= ") AND pd.cancelled = 0 GROUP BY item_desc";
+        $sql .= ") AND pd.cancelled = 0 GROUP BY item_desc, pn_no";
         echo $sql;
        foreach($this->super_model->custom_query($sql) AS $items){
           $items = array(
@@ -107,10 +107,22 @@ class Aoq extends CI_Controller {
         }
     }
 
+    public function open_aoq_before(){
+        $aoq_id = $this->uri->segment(3);
+        $data = array(
+            'open'=>1,
+
+        );
+
+        if($this->super_model->update_where("aoq_head", $data, "aoq_id", $aoq_id)){
+             redirect(base_url().'aoq/aoq_prnt/'.$aoq_id);
+        }
+    }
 	public function aoq_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $count = $this->super_model->count_rows_where("aoq_head","saved",'1');
+        $count = $this->super_model->count_custom_where("aoq_head","saved='1' AND served='0'");
+
         if($count!=0){
             foreach($this->super_model->select_custom_where("aoq_head", "saved='1' and served = '0'") AS $list){
                 $rows = $this->super_model->count_rows_where("aoq_vendors","aoq_id",$list->aoq_id);
@@ -123,7 +135,6 @@ class Aoq extends CI_Controller {
 
                         $not_recom .= "vendor_id != '$offer->vendor_id' AND ";
                         }
-                        
                        
                     }
                      
@@ -154,7 +165,7 @@ class Aoq extends CI_Controller {
                     'refer_mnl'=>$list->refer_mnl
                 );
             }
-        }else {
+        } else {
             $data['heads']=array();
         }
         $this->load->view('aoq/aoq_list',$data);
@@ -283,6 +294,7 @@ class Aoq extends CI_Controller {
         $aoq_id= $this->uri->segment(3);
         $data['aoq_id']=$aoq_id;
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
+         $data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
@@ -349,6 +361,7 @@ class Aoq extends CI_Controller {
               $data['offers'][] = array(
                 'aoq_offer_id'=>$off->aoq_offer_id,
                 'vendor_id'=>$off->vendor_id,
+                 'pr_details_id'=>$off->pr_details_id,
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
                 'item_id'=>$off->aoq_items_id,
                 'offer'=>$off->offer,
@@ -369,6 +382,7 @@ class Aoq extends CI_Controller {
         
     } 
 
+ 
 
     public function export_aoq_prnt(){
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
