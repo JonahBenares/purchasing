@@ -343,6 +343,7 @@ class Pr extends CI_Controller {
                 'quantity'=>$det->quantity,
                 'wh_stocks'=>$det->wh_stocks,
                 'uom'=>$det->uom,
+                'pn_no'=>$det->part_no,
                 'item_description'=>$det->item_description,
                 'date_needed'=>$det->date_needed,
                 'grouping_id'=>$det->grouping_id,
@@ -601,6 +602,7 @@ class Pr extends CI_Controller {
                 $data_details = array(
                     'rfq_id'=>$rfq_id,
                     'pr_details_id'=>$details->pr_details_id,
+                    'pn_no'=>$details->part_no,
                     'item_desc'=>$details->item_description,
                     'quantity'=>$details->quantity,
                     'uom'=>$details->uom,

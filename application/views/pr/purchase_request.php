@@ -184,6 +184,7 @@
                                                 <th>#</th>
                                                 <th>Qty</th>
                                                 <th>UOM</th>
+                                                <th>PN No.</th>
                                                 <th>Item Description</th>
                                                 <th>WH Stocks</th>
                                                 <th>Date Needed</th>
@@ -207,6 +208,7 @@
                                                 <td><?php echo $x; ?></td>
                                                 <td><?php echo $det['quantity']; ?></td>
                                                 <td><?php echo $det['uom']; ?></td>
+                                                <td><?php echo $det['pn_no']; ?></td>
                                                 <td><?php echo $det['item_description']; ?></td>
                                                 <td><?php echo $det['wh_stocks']; ?></td>
                                                 <td><?php echo (!empty($det['date_needed']) ? date('F j, Y', strtotime($det['date_needed'])) : ''); ?></td>
@@ -231,6 +233,7 @@
                                                 <td><?php echo $x; ?></td>
                                                 <td><?php echo $det['quantity']; ?></td>
                                                 <td><?php echo $det['uom']; ?></td>
+                                                 <td><?php echo $det['pn_no']; ?></td>
                                                 <td><?php echo $det['item_description']; ?></td>
                                                 <td><?php echo $det['wh_stocks']; ?></td>
                                                 <td><?php echo (!empty($det['date_needed']) ? date('F j, Y', strtotime($det['date_needed'])) : ''); ?></td>
