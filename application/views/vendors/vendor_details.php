@@ -124,7 +124,7 @@
                                 <h4>Item List 
                                     <div class="pull-right">
                                         <a onclick="addVendorItem('<?php echo base_url(); ?>','<?php echo $id;?>')" class="btn btn-custon-three btn-primary"><span class="fa fa-plus"></span> Add Item</a>
-                                        <input type='submit' onclick="return confirm('Are you sure you want to create RFQ?')" class="text-white btn btn-custon-three btn-secondary" value="Create RFQ">
+                                        <!-- <input type='submit' onclick="return confirm('Are you sure you want to create RFQ?')" class="text-white btn btn-custon-three btn-secondary" value="Create RFQ"> -->
                                     </div>
                                 </h4>
                                 <table width="100%" data-toggle="table" data-toolbar="#toolbar">

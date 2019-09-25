@@ -81,7 +81,7 @@
                     <div class="sparkline8-list shadow-reset">
                         <div class="sparkline8-hd p-b-0" >
                             <div class="main-sparkline8-hd">
-                                <h1><button onclick="goBack()" class=" btn btn-xs btn-success"><span class="fa fa-arrow-left"></span></button>
+                                <h1><button onclick="return quitBox('quit');" class=" btn btn-xs btn-success"><span class="fa fa-arrow-left"></span></button>
                                     Unserved Report <b style="color:blue"><?php echo $date; ?></b>
                                 </h1>
                                 <small class="p-l-25">&nbsp;UNSERVED REPORT</small> 
