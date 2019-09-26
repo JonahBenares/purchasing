@@ -212,26 +212,27 @@
 		    			<td colspan="7"></td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13 p-l-5" colspan="4">Date Prepared:</td>
+		    			<td class="f13 p-l-5" colspan="3">Date Needed:</td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_needed)); ?></td>
+		    			<td class="f13" colspan="1"></td>
+		    			<td class="f13 " colspan="3">Completion of Work:</td>
+		    			<td class="f13 bor-btm" colspan="6"><?php echo date('F j, Y', strtotime($work_completion)); ?></td>
+		    		</tr>
+		    		<tr>
+		    			<td class="f13 p-l-5" colspan="3">Date Prepared:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_prepared)); ?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">CENPRI JO No.:</td>
-		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $cenjo_no; ?></b></td>
+		    			<td class="f13 bor-btm" colspan="6"><b><?php echo $cenjo_no; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13 p-l-5" colspan="4">Start of Work:</td>
+		    			<td class="f13 p-l-5" colspan="3">Start of Work:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($start_of_work)); ?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no; ?></td>
+		    			<td class="f13 bor-btm" colspan="6"><?php echo $jo_no; ?></td>
 		    		</tr>	
-		    		<tr>
-		    			<td class="f13 p-l-5" colspan="4">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($work_completion)); ?></td>
-		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3"></td>
-		    			<td class="f13" colspan="5"></td>
-		    		</tr>			    			    		
+		    					    			    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
 		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
@@ -316,7 +317,7 @@
 			    	</tr>	
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="11" align="left">
-		    				Terms & Conditions:<br>
+		    				<b>Terms & Conditions:</b><br>
 		    			<?php foreach($terms AS $trm){
 		    				echo nl2br($trm->terms);
 		    			} ?>

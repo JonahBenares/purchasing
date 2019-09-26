@@ -1,3 +1,28 @@
+    <script src="<?php echo base_url(); ?>assets/js/aoq.js"></script> 
+    <div id="cancelAOQ" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header header-color-modal bg-color-1">
+                    <h4 class="modal-title">Cancel AOQ</h4>
+                    <div class="modal-close-area modal-close-df">
+                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                    </div>
+                </div>
+                <form method="POST" action = "<?php echo base_url();?>aoq/cancel_aoq">
+                    <div class="modal-body-lowpad">
+                        <div class="form-group">
+                            <p class="m-b-0">Reason for Cancelling AOQ:</p>
+                            <textarea name="reason" class="form-control"></textarea>
+                        </div>
+                        <center>       
+                            <input type = "hidden" id='aoq_id' name='aoq_id' >                 
+                            <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
      <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -38,6 +63,7 @@
                                 <small>ABSTRACT OF QUOTATION</small> 
                                 <div class="sparkline8-outline-icon">
                                 <a href="<?php echo base_url(); ?>index.php/aoq/served_aoq" class="btn btn-custon-three btn-success" ><span class="fa fa-archive p-l-0"></span> Served AOQ</a>
+                                <a href="<?php echo base_url(); ?>aoq/cancelled_aoq" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PO</a>
                                   <!--   <a class="btn btn-custon-three btn-primary" href=">
                                         <span class="fa fa-plus p-l-0"></span>
                                         Create AOQ
@@ -104,6 +130,7 @@
                                                     </a>
                                                     <a href="<?php echo base_url(); ?>aoq/update_served/<?php echo $h['aoq_id'];?>" class="btn btn-custon-three btn-success btn-xs"  onclick="return confirm('Are you sure?')" title="Served"><span class="fa fa-archive"></span>
                                                     </a>
+                                                    <a class="cancelAOQ btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelAOQ" data-id="<?php echo $h['aoq_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </center>
                                             </td>
                                         </tr>  

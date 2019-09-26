@@ -609,24 +609,27 @@
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="3" class="f10 bor-btm" align="center">
 		    			<?php if($saved==0){ ?>
-		    			<select name='approved' class='emphasis btn-block'>
+		    				<input type = "text" name='approved' class='emphasis btn-block'>
+		    			<!-- <select name='approved' class='emphasis btn-block'>
 			    			<option value=''>-Select-</option>
 			    			<?php foreach($employee AS $emp){ ?>
 			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
 			    			<?php } ?>
-		    			</select>
+		    			</select> -->
 		    			<?php } else {
 		    				echo $approved;
 		    			} ?>
+		    			</td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="3" class="f10 bor-btm" align="center">
 		    			<?php if($saved==0){ ?>
-		    				<select name='noted' class='emphasis btn-block'>
-			    			<option value=''>-Select-</option>
-			    			<?php foreach($employee AS $emp){ ?>
-			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-			    			<?php } ?>
-		    			</select>
+		    				<input type = "text" name='noted' class='emphasis btn-block'>
+		    				<!-- <select name='noted' class='emphasis btn-block'>
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select> -->
 		    			<?php } else {
 		    				echo $noted;
 		    			} ?>
