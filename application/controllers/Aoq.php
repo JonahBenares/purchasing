@@ -361,6 +361,7 @@ class Aoq extends CI_Controller {
               $data['offers'][] = array(
                 'aoq_offer_id'=>$off->aoq_offer_id,
                 'vendor_id'=>$off->vendor_id,
+                'quantity'=>$off->quantity,
                  'pr_details_id'=>$off->pr_details_id,
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
                 'item_id'=>$off->aoq_items_id,
@@ -369,7 +370,8 @@ class Aoq extends CI_Controller {
                 'amount'=>$off->amount,
                 'min'=>$min,
                 'recommended'=>$off->recommended,
-                'comments'=>$off->comments
+                'comments'=>$off->comments,
+
             );
               $x++;
         }
@@ -382,6 +384,37 @@ class Aoq extends CI_Controller {
         
     } 
 
+    public function update_aoq(){
+        $count=$this->input->post('count_offer');
+        for($x=1;$x<=$count;$x++){
+            $price = str_replace(",", "", $this->input->post('price_'.$x));
+            $amount = str_replace(",", "", $this->input->post('amount_'.$x));
+            $data = array(
+                'offer'=>$this->input->post('offer_'.$x),
+                'unit_price'=>$price,
+                'quantity'=>$this->input->post('quantity_'.$x),
+                'amount'=>$amount
+            );
+            $this->super_model->update_where("aoq_offers", $data, "aoq_offer_id", $this->input->post('offerid_'.$x));
+        }
+
+        for($v=1;$v<=3;$v++){
+            $datavendors = array(
+                'price_validity'=>$this->input->post('price_validity'.$v),
+                'payment_terms'=>$this->input->post('payment_terms'.$v),
+                'delivery_date'=>$this->input->post('delivery_date'.$v),
+                'item_warranty'=>$this->input->post('item_warranty'.$v),
+                'freight'=>$this->input->post('freight'.$v)
+            );
+             $this->super_model->update_where("aoq_vendors", $datavendors, "aoq_vendors_id", $this->input->post('vendor_id'.$v));
+        }
+        $datahead = array(
+            'open'=>0
+        );
+         $this->super_model->update_where("aoq_head", $datahead, "aoq_id", $this->input->post('aoq_id'));
+
+         redirect(base_url().'aoq/aoq_prnt/'.$this->input->post('aoq_id'));
+    }
  
 
     public function export_aoq_prnt(){

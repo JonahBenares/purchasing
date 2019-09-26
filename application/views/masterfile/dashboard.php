@@ -113,10 +113,12 @@
                                                     } else if($t['source'] == 'pr'){
                                                         $path = base_url().'pr/purchase_request/'.$t['todo_id'];
                                                     } ?>
-                                                <a href='<?php echo $path; ?>' targer='_blank'><h5 class="nomarg"><?php echo $t['notes']; ?></h5></a>
+                                               
                                                  <?php } ?>                                    
-                                                
-                                                <p class=""><span style="background-color: #b94526; padding:0px 10px"><?php echo date("F d, Y",strtotime($t['due_date']));?>  </span> | <small><?php echo $t['remind'];?>
+                                                 <a href='<?php echo $path; ?>' target='_blank' ><h5 class="nomarg" style='margin-bottom:5px'><?php echo $t['notes']; ?></h5></a>
+                                                <p class=""> 
+                                                    <span style="background-color: #b94526; padding:0px 10px; "><?php echo date("F d, Y",strtotime($t['due_date']));?>  
+                                                    </span> | <small><?php echo $t['remind'];?>
                                                 
                                                 </p>
                                             </div>
