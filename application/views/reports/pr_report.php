@@ -106,6 +106,7 @@
                                             
                                             <th>Status Remarks</th>
                                             <th>Status</th>
+                                            <th>Date Needed</th>
                                             <th>Remarks</th>
                                             <th>End User's Comments</th>	
                                             <th align="center"><span class="fa fa-bars"></span></th>										
@@ -128,6 +129,7 @@
                                             
                                             <td><?php echo $p['status_remarks']; ?></td>
                                             <td><?php echo $p['status']; ?></td>
+                                            <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
                                             <td><?php echo $p['remarks'];?></td>
                                             <td></td>
                                             <td>

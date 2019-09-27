@@ -186,6 +186,7 @@ class Reports extends CI_Controller {
                 'uom'=>$pr->uom,
                 'status'=>$status,
                 'status_remarks'=>$status_remarks,
+                'date_needed'=>$pr->date_needed,
                 'unserved_qty'=>$unserved_qty,
                 'unserved_uom'=>$unserved_uom,
                 'remarks'=>$pr->add_remarks
@@ -1665,6 +1666,7 @@ class Reports extends CI_Controller {
             foreach($this->super_model->select_row_where('po_pr','po_id',$p->po_id) AS $pr){
                 $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$pr->pr_id);
                 foreach($this->super_model->select_row_where('po_items','po_id',$p->po_id) AS $i){
+                    $date_needed = $this->super_model->select_column_where("pr_details",'date_needed','pr_details_id',$i->pr_details_id);
                     if($i->item_id!=0){
                         foreach($this->super_model->select_row_where('item','item_id',$i->item_id) AS $it){
                             $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
@@ -1719,6 +1721,7 @@ class Reports extends CI_Controller {
                         'saved'=>$p->saved,
                         'cancelled'=>$p->cancelled,
                         'status'=>$status,
+                        'date_needed'=>$date_needed,
                         'supplier'=>$supplier,
                         'terms'=>$terms,
                     );

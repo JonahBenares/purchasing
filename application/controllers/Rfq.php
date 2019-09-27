@@ -275,7 +275,7 @@ class Rfq extends CI_Controller {
         readfile($exportfilename);
     } 
 
-<<<<<<< HEAD
+
     // public function export_rfq(){
     //     $rfq_id=$this->uri->segment(3);
     //     require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
@@ -433,9 +433,7 @@ class Rfq extends CI_Controller {
     //     readfile($exportfilename);
     // }
 
-=======
-    
->>>>>>> 148cb246aeef4e1dcf79dbb274fe9d7afcc28cff
+
     public function save_rfq(){
         $rfq_id = $this->input->post('rfq_id');
         $notes = $this->input->post('notes');
