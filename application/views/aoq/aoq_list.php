@@ -1,4 +1,27 @@
-     <div class="breadcome-area mg-b-30 small-dn">
+    <div id="cancelAoq" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header header-color-modal bg-color-1">
+                    <h4 class="modal-title">Cancel RFQ</h4>
+                    <div class="modal-close-area modal-close-df">
+                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                    </div>
+                </div>
+                <form method="POST" action = "<?php echo base_url();?>">
+                    <div class="modal-body-lowpad">
+                        <div class="form-group">
+                            <p class="m-b-0">Reason for Cancelling RFQ:</p>
+                            <textarea name="reason" class="form-control"></textarea>
+                        </div>
+                        <center>                  
+                            <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
