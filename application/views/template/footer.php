@@ -55,6 +55,18 @@
         
         <!-- bootstrap JS
     		============================================ -->
+        <script type="text/javascript">
+            function quitBox(cmd)
+                {   
+                    if (cmd=='quit')
+                    {
+                        self.opener.location.reload();
+                        open(location, '_self').close();
+
+                    }   
+                    return false;   
+                }
+        </script>
         <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
         <!-- meanmenu JS
     		============================================ -->

@@ -376,14 +376,5 @@
     	function printPage() {
 		  window.print();
 		}
-		function quitBox(cmd)
-		{   
-		    if (cmd=='quit')
-		    {
-		    	self.opener.location.reload();
-		        open(location, '_self').close();
-
-		    }   
-		    return false;   
-		}
+		
     </script>
