@@ -366,6 +366,9 @@
 		    				5. Delivery Term: Exstock of Supplier. -->
 		    			</td>
 		    		</tr>
+		    		<tr><td colspan="20" style="padding: 10px!important">
+								Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
+		    		</td></tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>

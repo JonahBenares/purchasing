@@ -95,3 +95,7 @@ $(document).on("click", ".approverev", function () {
   
 });
 
+function viewHistory(baseurl,id,cenjo_no,jo_no) {
+    window.open(baseurl+"jo/view_history/"+id+"/"+cenjo_no+"/"+jo_no, "_blank","toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
+}
+

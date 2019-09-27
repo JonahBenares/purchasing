@@ -170,7 +170,14 @@
                                         <tr>
                                             <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
                                             <td><?php echo date('F j, Y', strtotime($h['date_needed'])); ?></td>
-                                            <td><?php echo $h['cenjo_no'] . "/".$h['jo_no']; ?></td>
+                                            <td>
+
+                                                <!-- <?php echo $h['cenjo_no'] . "/".$h['jo_no']; ?> -->
+                                                <a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>','<?php echo $h['jo_id']; ?>','<?php echo $h['cenjo_no']; ?>','<?php echo $h['jo_no']; ?>')">
+                                                    <?php echo $h['cenjo_no'] . "/".$h['jo_no'] . (($h['revision_no']!=0) ? ".r".$h['revision_no'] : "");?></a>
+
+
+                                            </td>
                                             <td><?php echo $h['project_title']; ?></td>
                                             <td><?php echo $h['vendor']; ?></td>
                                             <td>

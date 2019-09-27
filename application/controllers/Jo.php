@@ -53,11 +53,71 @@ class Jo extends CI_Controller {
                 'jo_no'=>$head->jo_no,
                 'project_title'=>$head->project_title,
                 'revised'=>$head->revised,
+                'revision_no'=>$head->revision_no,
             );
         }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('jo/jo_list', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function job_order_saved_r(){  
+        $jo_id = $this->uri->segment(3);
+        $revised_no = $this->uri->segment(4);
+        $data['jo_id'] = $jo_id;
+        $this->load->view('template/header');
+        foreach($this->super_model->select_custom_where("jo_head_revised", "jo_id='$jo_id' AND revision_no = '$revised_no'") AS $head){
+            $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id);
+            $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
+            $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id);
+            $data['cenjo_no']= $head->cenpri_jo_no;
+            $data['jo_no']= $head->jo_no;
+            $data['project_title']= $head->project_title;
+            $data['date_prepared']= $head->date_prepared;
+            $data['date_needed']= $head->date_needed;
+            $data['start_of_work']= $head->start_of_work;
+            $data['work_completion']= $head->work_completion;
+            $data['discount_percent']= $head->discount_percent;
+            $data['discount_amount']= $head->discount_amount;
+            $data['total_cost']= $head->total_cost;
+            $data['grand_total']= $head->grand_total;
+            $data['conforme']= $head->conforme;
+            $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
+            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
+            $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->prepared_by);
+        }   
+
+        $data['details'] = $this->super_model->select_custom_where("jo_details_revised", "jo_id='$jo_id' AND revision_no = '$revised_no'");
+        $data['terms'] = $this->super_model->select_custom_where("jo_terms_revised", "jo_id='$jo_id' AND revision_no = '$revised_no'");
+        $this->load->view('jo/job_order_saved_r',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function view_history(){
+        $this->load->view('template/header'); 
+        $jo_id=$this->uri->segment(3);
+        $cenjo_no=str_replace("%20", " ", $this->uri->segment(4));
+        $jo_no=str_replace("%20", " ", $this->uri->segment(5));
+        $data['jo_id']=$jo_id;
+        $data['cenjo_no']=$cenjo_no;
+        $data['jo_no']=$jo_no;
+
+        $row = $this->super_model->count_rows_where("jo_head_revised", "jo_id",$jo_id);
+        if($row!=0){
+            foreach($this->super_model->select_custom_where("jo_head_revised", "jo_id = '$jo_id'") AS $rev){
+                $data['revise'][]=array(
+                    'jo_id'=>$jo_id,
+                    'cenjo_no'=>$rev->cenpri_jo_no,
+                    'jo_no'=>$rev->jo_no,
+                    'revised_date'=>$rev->revised_date,
+                    'revision_no'=>$rev->revision_no,
+                );
+            }
+        }else {
+            $data['revise']=array();
+        }     
+        $this->load->view('jo/view_history',$data);
         $this->load->view('template/footer');
     }
 
@@ -84,7 +144,7 @@ class Jo extends CI_Controller {
             $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id);
             $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
             $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id);
-            $data['cenjo_no']= $head->cenpri_jo_no;
+            $data['jo_no']= $head->cenpri_jo_no;
             $data['jo_no']= $head->jo_no;
             $data['project_title']= $head->project_title;
             $data['date_prepared']= $head->date_prepared;
@@ -447,7 +507,7 @@ class Jo extends CI_Controller {
         $jo_id = $this->input->post('jo_id');
         $max_revision = $this->super_model->get_max_where("jo_head", "revision_no","jo_id = '$jo_id'");
         $revision_no = $max_revision+1;
-
+        $revised_date = date("Y-m-d");
         foreach($this->super_model->select_row_where("jo_head","jo_id",$jo_id) AS $joh){
             $data_joh=array(
                 "jo_id"=>$joh->jo_id,
@@ -470,9 +530,15 @@ class Jo extends CI_Controller {
                 "discount_amount"=>$joh->discount_amount,
                 "grand_total"=>$joh->grand_total,
                 "revision_no"=>$joh->revision_no,
+                "revised_date"=>$joh->revised_date,
             );
             $this->super_model->insert_into("jo_head_revised", $data_joh);
         }
+
+        $data_head =array(
+            'revision_no'=>$revision_no
+        );
+        $this->super_model->update_where("jo_head", $data_head, "jo_id", $jo_id);
 
         foreach($this->super_model->select_row_where("jo_head_temp","jo_id",$jo_id) AS $joht){
             $data_joht=array(
@@ -494,6 +560,8 @@ class Jo extends CI_Controller {
                 "discount_percent"=>$joht->discount_percent,
                 "discount_amount"=>$joht->discount_amount,
                 "grand_total"=>$joht->grand_total,
+                "revision_no"=>$revision_no,
+                "revised_date"=>$revised_date,
             );
             $this->super_model->update_where("jo_head", $data_joht, "jo_id", $joht->jo_id);
         }
@@ -509,9 +577,15 @@ class Jo extends CI_Controller {
                 "uom"=>$jodets->uom,
                 "total_cost"=>$jodets->total_cost,
                 "scope_of_work"=>$jodets->scope_of_work,
+                "revision_no"=>$jodets->revision_no,
             );
             $this->super_model->insert_into("jo_details_revised", $data_details);
         }
+
+        $datadet =array(
+            'revision_no'=>$revision_no
+        );
+        $this->super_model->update_where("jo_details", $datadet, "jo_id", $jo_id);
 
         foreach($this->super_model->select_row_where("jo_details_temp","jo_id",$jo_id) AS $jodetst){
             $data_detailst = array(
@@ -521,38 +595,18 @@ class Jo extends CI_Controller {
                 "uom"=>$jodetst->uom,
                 "total_cost"=>$jodetst->total_cost,
                 "scope_of_work"=>$jodetst->scope_of_work,
+                "scope_of_work"=>$revision_no,
             );
             $this->super_model->update_where("jo_details", $data_detailst, "jo_details_id", $jodetst->jo_details_id);
         }
         $this->super_model->delete_where("jo_details_temp", "jo_id", $jo_id);
-
-        foreach($this->super_model->select_row_where("jo_dr","jo_id",$jo_id) AS $jodr){
-            $data_tci = array(
-                "jodr_id"=>$jodr->jodr_id,
-                "jo_id"=>$jodr->jo_id,
-                "year"=>$jodr->year,
-                "series"=>$jodr->series,
-                "dr_date"=>$jodr->dr_date,
-            );
-            $this->super_model->insert_into("jo_dr_revised", $data_tci);
-        }
-
-        foreach($this->super_model->select_row_where("jo_dr_temp","jo_id",$jo_id) AS $jodr){
-            $data_tci = array(
-                "jodr_id"=>$jodr->jodr_id,
-                "jo_id"=>$jodr->jo_id,
-                "year"=>$jodr->year,
-                "series"=>$jodr->series,
-                "dr_date"=>$jodr->dr_date,
-            );
-            $this->super_model->insert_into("jo_dr_revised", $data_tci);
-        }
 
         foreach($this->super_model->select_row_where("jo_terms","jo_id",$jo_id) AS $jotc){
             $data_tci = array(
                 "jo_terms_id"=>$jotc->jo_terms_id,
                 "jo_id"=>$jotc->jo_id,
                 "terms"=>$jotc->terms,
+                "revision_no"=>$jotc->revision_no,
             );
             $this->super_model->insert_into("jo_terms_revised", $data_tci);
         }
@@ -561,10 +615,10 @@ class Jo extends CI_Controller {
             $data_tcit = array(
                 "jo_id"=>$jotct->jo_id,
                 "terms"=>$jotct->terms,
+                "revision_no"=>$revision_no,
             );
             $this->super_model->update_where("jo_terms", $data_tcit, "jo_terms_id", $jotct->jo_terms_id);
         }
-
         $this->super_model->delete_where("jo_terms_temp", "jo_id", $jo_id);
 
         $data_revs =array(
