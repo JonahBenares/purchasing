@@ -138,8 +138,8 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="5" align="center"><img width="150px" src="<?php echo base_url(); ?>assets/img/logo_cenpri.png"></td>
-		    			<td colspan="15"><h4 style="margin-left: 30px"><b>CENTRAL NEGROS POWER RELIABILITY, INC.</b></h4></td>
+		    			<td colspan="5" align="center"><img width="150px" src="<?php echo $_SESSION['logo'];?>"></td>
+		    			<td colspan="15"><h4 style="margin: 0px"><b><?php echo $_SESSION['company_name'];?></b></h4></td>
 		    		</tr>
 		    		<tr><td colspan="20" align="center"><h5><b>REQUEST FOR DISBURSEMENT</b></h5></td></tr>
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->

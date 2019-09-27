@@ -134,13 +134,13 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="5" align="center"><img width="150px" src="<?php echo base_url(); ?>assets/img/logo_cenpri.png"></td>
-		    			<td colspan="15"><h4 style="margin-left: 30px"><b>CENTRAL NEGROS POWER RELIABILITY, INC.</b></h4></td>
+		    			<td colspan="5" align="center"><img width="150px" src="<?php echo $_SESSION['logo'];?>"></td>
+		    			<td colspan="15"><h4 style="margin: 0px"><b><?php echo $_SESSION['company_name'];?></b></h4></td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center">Office: 88 Corner Rizal-Mabini Sts., Bacolod City</td></tr>
-		    		<tr><td class="f13" colspan="20" align="center">Tel. No.: (034) 435-1932/476-7382</td></tr>
-		    		<tr><td class="f13" colspan="20" align="center">Telefax: (034) 435-1932</td></tr>
-		    		<tr><td class="f13" colspan="20" align="center">Plant Site: Purok San Jose, Barangay Calumangan, Bago City</td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address'];?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['tel_no'];?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['telfax'];?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address2'];?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr><td colspan="20" align="center"><h5><b class="">DELIVERY RECEIPT</b></h5></td></tr>
 

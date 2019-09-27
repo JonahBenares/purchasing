@@ -67,6 +67,5 @@
     		============================================ -->
        <!--  <script src="<?php echo base_url(); ?>js/vendor/modernizr-2.8.3.min.js"></script> -->
     </head>
-
     <body class="materialdesign">
         <div class="wrapper-pro">

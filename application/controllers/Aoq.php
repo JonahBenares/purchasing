@@ -23,7 +23,6 @@ class Aoq extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-
 	  function arrayToObject($array){
             if(!is_array($array)) { return $array; }
             $object = new stdClass();

@@ -228,11 +228,13 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="5" align="center"><img width="150px" src="<?php echo base_url(); ?>assets/img/logo_cenpri.png"></td>
-		    			<td colspan="15"><h4 style="margin-left: 15px"><b>CENTRAL NEGROS POWER RELIABILITY, INC.</b></h4></td>
+		    			<td colspan="5" align="center"><img width="150px" src="<?php echo $_SESSION['logo'];?>"></td>
+		    			<td colspan="15"><h4 style="margin: 0px"><b><?php echo $_SESSION['company_name'];?></b></h4></td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center">Office: 88 Corner Rizal-Mabini Sts., Bacolod City</td></tr>
-		    		<tr><td class="f13" colspan="20" align="center">Bacolod Office Telefax: (034) 435-1932/476-7382</td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address'];?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['tel_no'];?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['telfax'];?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address2'];?></td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4><small class="text-red">CHANGE ORDER FORM</small></td></tr>
 		    		<?php if($revised==0){ ?>
 		    		<tr>
@@ -265,7 +267,7 @@
 		    			<td class="f13" colspan="4">Date Prepared:</td>
 		    			<td class="f13 bor-btm" colspan="7"><input type="date" name="date_prepared" value="<?php echo $date_prepared;?>" style = "width: 100%"></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">CENPRI JO No.:</td>
+		    			<td class="f13" colspan="3"><?php echo $_SESSION['jo_name'];?> JO No.:</td>
 		    			<td class="f13 bor-btm" colspan="5"><b><input type="text" name="cenjo_no" value="<?php echo $cenjo_no; ?>" style = "width: 100%"></b></td>
 		    		</tr>
 		    		<tr>
@@ -298,7 +300,7 @@
 		    			<td class="f13" colspan="4">Date Prepared:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_prepared));?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">CENPRI JO No.:</td>
+		    			<td class="f13" colspan="3"><?php echo $_SESSION['jo_name'];?> JO No.:</td>
 		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $cenjo_no; ?></b></td>
 		    		</tr>
 		    		<tr>

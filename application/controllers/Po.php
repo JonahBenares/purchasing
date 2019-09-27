@@ -9,7 +9,6 @@ class Po extends CI_Controller {
 		$this->load->library('session');
         $this->load->model('super_model');
         date_default_timezone_set("Asia/Manila");
-        
         function arrayToObject($array){
             if(!is_array($array)) { return $array; }
             $object = new stdClass();
@@ -24,8 +23,13 @@ class Po extends CI_Controller {
                 return false;
             }
         }
+        //$this->data['cenpri'] = "http://localhost/purchasing/assets/img/logo_cenpri.png";
 
 	}
+
+    public function test($cenpri){
+        $cenpri = "http://localhost/purchasing/assets/img/logo_cenpri.png";
+    }
 
     public function cancelled_po(){
         $data['header']=array();

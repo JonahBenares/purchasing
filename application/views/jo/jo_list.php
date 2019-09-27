@@ -108,7 +108,7 @@
                             <div class="row">
                                 <div class="col-md-6"> 
                                     <div class="form-group btn-block">
-                                       CENPRI JO No.:
+                                       <?php echo $_SESSION['jo_name'];?> JO No.:
                                         <input type="Text" name="cenjo_no" class="form-control">
                                     </div>
                                 </div>

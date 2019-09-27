@@ -123,7 +123,7 @@ class Rfq extends CI_Controller {
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
         $exportfilename="RFQ.xlsx";
-        $gdImage = imagecreatefrompng('assets/img/logo_cenpri.png');
+        $gdImage = imagecreatefrompng($_SESSION['logo']);
         $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
         $objDrawing->setName('Sample image');
         $objDrawing->setDescription('Sample image');
@@ -135,11 +135,11 @@ class Rfq extends CI_Controller {
         $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "CENTRAL NEGROS POWER RELIABILITY, INC.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Office: 88 Corner Rizal-Mabini Sts., Bacolod City");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Tel. No.: (034) 435-1932/476-7382");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Telefax: (034) 435-1932");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', "Plant Site: Purok San Jose, Barangay Calumangan, Bago City");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', $_SESSION['company_name']);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', $_SESSION['address']);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', $_SESSION['tel_no']);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', $_SESSION['telfax']);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', $_SESSION['address2']);
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C7', "REQUEST FOR QUOTATION");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', "Date:");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B10', "Supplier:");
