@@ -63,7 +63,7 @@
                                 <small>ABSTRACT OF QUOTATION</small> 
                                 <div class="sparkline8-outline-icon">
                                 <a href="<?php echo base_url(); ?>index.php/aoq/served_aoq" class="btn btn-custon-three btn-success" ><span class="fa fa-archive p-l-0"></span> Served AOQ</a>
-                                <a href="<?php echo base_url(); ?>aoq/cancelled_aoq" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PO</a>
+                                <a href="<?php echo base_url(); ?>aoq/cancelled_aoq" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled AOQ</a>
                                   <!--   <a class="btn btn-custon-three btn-primary" href=">
                                         <span class="fa fa-plus p-l-0"></span>
                                         Create AOQ

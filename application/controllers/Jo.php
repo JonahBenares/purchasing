@@ -144,7 +144,7 @@ class Jo extends CI_Controller {
             $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id);
             $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
             $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id);
-            $data['jo_no']= $head->cenpri_jo_no;
+            $data['cenjo_no']= $head->cenpri_jo_no;
             $data['jo_no']= $head->jo_no;
             $data['project_title']= $head->project_title;
             $data['date_prepared']= $head->date_prepared;

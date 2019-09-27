@@ -249,7 +249,7 @@ class Po extends CI_Controller {
     public function getsupplierPR(){
         $supplier = $this->input->post('supplier');
         echo '<option value="">-Select PR No-</option>';
-        foreach($this->super_model->custom_query("SELECT ah.pr_id, ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE vendor_id = '$supplier' AND recommended = '1' GROUP BY ah.pr_id") AS $row){
+        foreach($this->super_model->custom_query("SELECT ah.pr_id, ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE vendor_id = '$supplier' AND recommended = '1' and cancelled='0' GROUP BY ah.pr_id") AS $row){
 
             echo '<option value="'. $row->pr_id."_".$row->aoq_id .'">'. $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $row->pr_id) .'</option>';
       
@@ -957,6 +957,8 @@ class Po extends CI_Controller {
         $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
         $data['po_no']= $this->super_model->select_column_where("po_head", "po_no", "po_id", $po_id);
         $data['po_type']= $this->super_model->select_column_where("po_head", "po_type", "po_id", $po_id);
+        $data['shipping']= $this->super_model->select_column_where("po_head", "shipping", "po_id", $po_id);
+        $data['discount']= $this->super_model->select_column_where("po_head", "discount", "po_id", $po_id);
         $data['po_id']= $po_id;
         $data['vendor_id']= $vendor_id;
         $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);

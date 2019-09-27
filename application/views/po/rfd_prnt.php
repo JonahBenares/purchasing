@@ -258,21 +258,39 @@
 			    			</td>
 			    		</tr>
 			    	<?php } ?>
+			    	<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Shipping Cost</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($shipping,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: Discount</b></td>
+		    			<td align="right" colspan="3" >
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($discount,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<?php
+		    				$stotal = (array_sum($subtotal) + $shipping) - $discount;
+		    		?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Subtotal</b></td>
 		    			<td align="right" colspan="3" class=" bor-top">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format(array_sum($subtotal),2); ?></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
+
 		    		<?php 
 		    		$percent=$ewt/100;
 		    		if($vat==1){
-		    			$less= (array_sum($subtotal)/1.12)*$percent;
-		    			$gtotal = array_sum($subtotal)-$less;
+		    			$less= ($stotal/1.12)*$percent;
+		    			$gtotal =$stotal-$less;
 		    		} else {
-		    			$less= array_sum($subtotal)*$percent;
-		    			$gtotal = array_sum($subtotal)-$less;
+		    			$less= $stotal*$percent;
+		    			$gtotal = $stotal-$less;
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: <?php echo number_format($ewt); ?>% EWT</b></td>

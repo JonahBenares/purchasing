@@ -356,7 +356,7 @@ class Aoq extends CI_Controller {
         $aoq_id= $this->uri->segment(3);
         $data['aoq_id']=$aoq_id;
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
-         //$data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
+         $data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
