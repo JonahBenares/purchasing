@@ -275,7 +275,22 @@
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    		</tr>
-
+					<tr>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="13" class=" bor-right" align="right">Shipping Cost</td>
+		    			<td colspan="2" class=" bor-right" align="center"></td>
+		    			<td colspan="2" class=" bor-right" align="center"><input type='text' name='shipping' id='shipping' value='0' onchange='additionalCost()' style='width:100%' ></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="13" class=" bor-right" align="right">Less: Discount</td>
+		    			<td colspan="2" class=" bor-right" align="center"></td>
+		    			<td colspan="2" class=" bor-right" align="center"><input type='text' name='discount' id='discount' onchange='additionalCost()' value='0' style='width:100%' ></td>
+		    		</tr>
 
 		    		<tr>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
@@ -297,7 +312,8 @@
 		    			</td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
-		    		</tr>		    		
+		    		</tr>		
+		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>    		
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
 					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),2); ?></span></b></td>

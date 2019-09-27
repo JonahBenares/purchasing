@@ -245,6 +245,22 @@
 		    			<td colspan="3" class=" bor-right" align="center"></td>
 		    		</tr>
 		    		<tr>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="2" class=" bor-right" align="center"></td>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="11" class=" bor-right" align="right">Shipping Cost</td>
+		    			<td colspan="2" class=" bor-right" align="center"><br></td>
+		    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($shipping,2); ?></b></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="2" class=" bor-right" align="center"></td>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="11" class=" bor-right" align="right">Less: Discount</td>
+		    			<td colspan="2" class=" bor-right" align="center"><br></td>
+		    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($discount,2); ?></b></td>
+		    		</tr>
+		    		<tr>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
@@ -260,10 +276,13 @@
 		    			</td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
 		    			<td colspan="3" class="bor-btm bor-right" align="center"></td>
-		    		</tr>		    		
+		    		</tr>		
+		    			<?php $grtotal =array_sum($gtotal);
+		    		$grandtotal = ($grtotal+$shipping)-$discount;
+		    		?>    		
 		    		<tr>
 		    			<td colspan="17" class="all-border " align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left">₱</span><?php echo number_format(array_sum($gtotal),2); ?></b></td>
+					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left">₱</span><?php echo number_format($grandtotal,2); ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20"><br></td>
@@ -366,8 +385,41 @@
 						    			<td colspan="2" class=" bor-right" align="center"><br></td>
 						    			<td colspan="3" class=" bor-right" align="center"></td>
 						    		</tr>
-
-
+						    		<?php if($revised==0){ ?>
+						    		<tr>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="11" class=" bor-right" align="right">Shipping Cost</td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='shipping' id='shipping' value='<?php echo $shipping; ?>' onchange='additionalCost()' style='width:100%' ></td>
+						    		</tr>
+						    		<tr>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="11" class=" bor-right" align="right">Less: Discount</td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='discount' id='discount' onchange='additionalCost()' value='<?php echo $discount; ?>' style='width:100%' ></td>
+						    		</tr>
+						    	<?php } else { ?>
+						    		<tr>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="11" class=" bor-right" align="right">Shipping Cost</td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="3" class=" bor-right" align="right"><?php echo number_format($shipping_temp,2); ?></td>
+						    		</tr>
+						    		<tr>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="11" class=" bor-right" align="right">Less: Discount</td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="3" class=" bor-right" align="right"><?php echo number_format($discount_temp,2); ?></td>
+						    		</tr>
+						    	<?php } ?>
 						    		<tr>
 						    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 						    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
@@ -385,10 +437,14 @@
 						    			</td>
 						    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
 						    			<td colspan="3" class="bor-btm bor-right" align="center"></td>
-						    		</tr>		    		
+						    		</tr>
+						    			<?php $grtotal2 =array_sum($gtotal2);
+						    		$grandtotal2 = ($grtotal2+$shipping)-$discount;
+						    		?>    			
+						    		<input type='hidden' id='orig_amount' value='<?php echo $grtotal2; ?>'>
 						    		<tr>
 						    			<td colspan="17" class="all-border yellow-back" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-									    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($gtotal2),2); ?></span></b></td>
+									    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal2,2); ?></span></b></td>
 						    		</tr>
 						    		<tr>
 						    			<td colspan="20">

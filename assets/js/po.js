@@ -140,6 +140,7 @@ function changePrice(count){
 
    var qty = document.getElementById("quantity"+count).value;
 
+
    var tprice = parseFloat(price) * parseFloat(qty);
 
    document.getElementById("tprice"+count).value  =tprice;
@@ -155,10 +156,29 @@ function changePrice(count){
           var p = $(this).val().replace(",", "");
           grandtotal += parseFloat(p);
     });
-   
+ 
      document.getElementById("grandtotal").innerHTML  =grandtotal;
 }
 
+function additionalCost(){
+  var total = document.getElementById("orig_amount").value;
+
+   var shipping = document.getElementById("shipping").value;
+    var discount = document.getElementById("discount").value;
+
+   var new_total = (parseFloat(total)+parseFloat(shipping))-parseFloat(discount);
+ 
+    document.getElementById("grandtotal").innerHTML  =new_total;
+}
+
+/*function deductCost(){
+  var total = document.getElementById("orig_amount").value;
+   var discount = document.getElementById("discount").value;
+
+   var new_total = parseFloat(total)-parseFloat(discount);
+ 
+    document.getElementById("grandtotal").innerHTML  =new_total;
+}*/
 function addPo(baseurl,po_id,vendor_id,pr_id,group_id) {
     window.open(baseurl+"po/addPo/"+vendor_id+'/'+po_id+'/'+pr_id+'/'+group_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=45,left=25,width=1300,height=600");
 }
