@@ -203,11 +203,16 @@ class Rfq extends CI_Controller {
             $e = $num+5;
             $f = $num+6;
             $g = $num+7;
+            $h = $num+9;
+            $bh = $num+10;
+            $dh = $num+11;
             $objPHPExcel->getActiveSheet()->getStyle('A'.$c)->getAlignment()->setIndent(10);
             $objPHPExcel->getActiveSheet()->getStyle('A'.$d)->getAlignment()->setIndent(10);
             $objPHPExcel->getActiveSheet()->getStyle('A'.$e)->getAlignment()->setIndent(10);
             $objPHPExcel->getActiveSheet()->getStyle('A'.$f)->getAlignment()->setIndent(10);
             $objPHPExcel->getActiveSheet()->getStyle('A'.$g)->getAlignment()->setIndent(10);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$h)->getAlignment()->setIndent(7);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$dh)->getAlignment()->setIndent(9);
             $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$a, '1. Quotation must be submitted on or before '.$head->quotation_date);
             $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$b, 'Please Fill - Up :');
             $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$c, 'a. Price Validity');
@@ -219,19 +224,30 @@ class Rfq extends CI_Controller {
             $objPHPExcel->setActiveSheetIndex()->setCellValue('F'.$d, 'n30');
             $objPHPExcel->setActiveSheetIndex()->setCellValue('F'.$g, 'Included');
             $objPHPExcel->setActiveSheetIndex()->setCellValue('G'.$g, 'Not Included');
+            $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$h, 'Prepared By:');
+            $objPHPExcel->setActiveSheetIndex()->setCellValue('E'.$h, 'Noted By:');
+            $objPHPExcel->setActiveSheetIndex()->setCellValue('H'.$h, 'Approved By:');
+            if($head->saved==0){
+                $fullname = $_SESSION['fullname'];
+                $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$dh, $fullname);
+            }else {
+                $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$dh, $prepared);
+            }
+            $objPHPExcel->setActiveSheetIndex()->setCellValue('E'.$dh, $noted);
+            $objPHPExcel->setActiveSheetIndex()->setCellValue('H'.$dh, $approved);
 
             $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(30);
             $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(5);
-
             $objPHPExcel->getActiveSheet()->getStyle('E'.$c.':G'.$c)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$bh.':C'.$bh)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('E'.$bh.':F'.$bh)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('H'.$bh.':I'.$bh)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->getStyle('E'.$c.':G'.$c)->applyFromArray($styleArray);
             $objPHPExcel->getActiveSheet()->getStyle('E'.$d.':G'.$d)->applyFromArray($styleArray);
             $objPHPExcel->getActiveSheet()->getStyle('E'.$e.':G'.$e)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->getStyle('E'.$f.':G'.$f)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->getStyle('E'.$g.':G'.$g)->applyFromArray($styleArray);
             $objPHPExcel->getActiveSheet()->getStyle('G'.$g)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-
-
         }
         $objPHPExcel->getActiveSheet()->mergeCells('C1:H1');
         $objPHPExcel->getActiveSheet()->mergeCells('C2:H2');
@@ -275,7 +291,7 @@ class Rfq extends CI_Controller {
         readfile($exportfilename);
     } 
 
-<<<<<<< HEAD
+
     // public function export_rfq(){
     //     $rfq_id=$this->uri->segment(3);
     //     require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
@@ -433,9 +449,7 @@ class Rfq extends CI_Controller {
     //     readfile($exportfilename);
     // }
 
-=======
-    
->>>>>>> 148cb246aeef4e1dcf79dbb274fe9d7afcc28cff
+
     public function save_rfq(){
         $rfq_id = $this->input->post('rfq_id');
         $notes = $this->input->post('notes');

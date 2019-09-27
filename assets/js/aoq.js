@@ -24,3 +24,8 @@ function choosePR()
            }
         }); 
 }
+
+$(document).on("click", ".cancelAOQ", function () {
+    var aoq_id = $(this).data('id');
+    $(".modal #aoq_id").val(aoq_id);
+});

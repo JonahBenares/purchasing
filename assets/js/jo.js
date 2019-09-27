@@ -57,3 +57,45 @@ function changePrice(){
  
 }
 
+function changePrice_JO(count){
+  //alert(count);
+   var price = document.getElementById("price"+count).value;
+
+   var qty = document.getElementById("quantity"+count).value;
+
+   var tprice = parseFloat(price) * parseFloat(qty);
+
+   document.getElementById("tprice"+count).value  =tprice;
+
+    /*var total_pr=0;
+    $(".tprice").each(function(){
+          total_pr += parseFloat($(this).val());
+    });*/
+
+   //  document.getElementById("total_pr"+countPR).value  =total_pr;
+    var grandtotal=0;
+    $(".tprice").each(function(){
+          var p = $(this).val().replace(",", "");
+          grandtotal += parseFloat(p);
+    });
+
+    var grandtotal1=0;
+    $(".tprice").each(function(){
+          var p1 = $(this).val().replace(",", "");
+          grandtotal1 += parseFloat(p1);
+    });
+   
+     document.getElementById("grandtotal").innerHTML  =grandtotal;
+     document.getElementById("grandtotal1").innerHTML  =grandtotal1;
+}
+
+$(document).on("click", ".approverev", function () {
+     var jo_id = $(this).data('id');
+     $(".modal #jo_id").val(jo_id);
+  
+});
+
+function viewHistory(baseurl,id,cenjo_no,jo_no) {
+    window.open(baseurl+"jo/view_history/"+id+"/"+cenjo_no+"/"+jo_no, "_blank","toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
+}
+

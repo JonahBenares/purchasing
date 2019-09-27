@@ -1,4 +1,33 @@
      <script src="<?php echo base_url(); ?>assets/js/jo.js"></script> 
+     <div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="approveLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Approved Revision <span class="fa fa-thumbs-o-up"></span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>                    
+                </div>
+                <form method='POST' action="<?php echo base_url(); ?>jo/approve_revision">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <p class="m-b-0">Approved by:</p>
+                            <input type="text" name="approve_rev" class="form-control" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <p class="m-b-0">Approved Date:</p>
+                            <input type="date" name="approve_date" class="form-control" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="jo_id" id="jo_id" >
+                        <input type='submit' value='Approve' class="btn btn-custon-three btn-primary btn-block">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
      <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -57,28 +86,38 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group btn-block">
-                                        Date Prepared:
-                                        <input type="date" name="date_prepared" id="date_prepared" class="form-control" onchange="getJO()" >
+                                        Date Needed:
+                                        <input type="date" name="date_needed" class="form-control">
                                     </div>
                                     <div class="form-group btn-block">
-                                       Start of Work:
-                                        <input type="date" name="work_start" class="form-control">
+                                        Date Prepared:
+                                        <input type="date" name="date_prepared" id="date_prepared" class="form-control" onchange="getJO()" >
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group btn-block">
+                                       Start of Work:
+                                        <input type="date" name="work_start" class="form-control">
+                                    </div>
+                                    <div class="form-group btn-block">
                                        Completion of Work:
                                         <input type="date" name="work_completion" class="form-control">
                                     </div>
+                                </div>
+                            </div> 
+                            <div class="row">
+                                <div class="col-md-6"> 
                                     <div class="form-group btn-block">
                                        CENPRI JO No.:
                                         <input type="Text" name="cenjo_no" class="form-control">
                                     </div>
                                 </div>
-                            </div>  
-                            <div class="form-group btn-block">
-                                JO No.:
-                                <input type="Text" name="jo_no" id="jo_no"  class="form-control" readonly="readonly">
+                                <div class = "col-md-6">
+                                    <div class="form-group btn-block">
+                                        JO No.:
+                                        <input type="Text" name="jo_no" id="jo_no"  class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group btn-block">
                                 Project Title/Description:
@@ -117,6 +156,7 @@
                                     <thead>
                                         <tr>
                                             <th>Date Prepared</th>
+                                            <th>Date Needed</th>
                                             <th>CENJO #/JO #</th>
                                             <th>Project Title</th>
                                             <th>Supplier</th>
@@ -129,7 +169,15 @@
                                         foreach($head AS $h){ ?>
                                         <tr>
                                             <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
-                                            <td><?php echo $h['cenjo_no'] . "/".$h['jo_no']; ?></td>
+                                            <td><?php echo date('F j, Y', strtotime($h['date_needed'])); ?></td>
+                                            <td>
+
+                                                <!-- <?php echo $h['cenjo_no'] . "/".$h['jo_no']; ?> -->
+                                                <a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>','<?php echo $h['jo_id']; ?>','<?php echo $h['cenjo_no']; ?>','<?php echo $h['jo_no']; ?>')">
+                                                    <?php echo $h['cenjo_no'] . "/".$h['jo_no'] . (($h['revision_no']!=0) ? ".r".$h['revision_no'] : "");?></a>
+
+
+                                            </td>
                                             <td><?php echo $h['project_title']; ?></td>
                                             <td><?php echo $h['vendor']; ?></td>
                                             <td>
@@ -137,8 +185,14 @@
                                                     <a href="<?php echo base_url(); ?>jo/job_order_saved/<?php echo $h['jo_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
+                                                    <?php if($h['revised']==1){ ?>
+                                                        <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $h['jo_id']?>">
+                                                            <span class="fa fa-thumbs-up"></span>
+                                                        </a>
+                                                    <?php } ?>
                                                 </center>
                                             </td>
+
                                         </tr>  
                                         <?php } 
                                     } ?>                

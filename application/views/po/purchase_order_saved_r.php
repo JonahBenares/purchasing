@@ -256,6 +256,26 @@
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="12" class="bor-right" align="right">
+		    				<p class="nomarg">Shipping Cost</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($shipping,2); ?></b></td>		
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="12" class="bor-right" align="right">
+		    				<p class="nomarg">Less: Discount</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($discount,2); ?></b></td>		
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -282,9 +302,12 @@
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
 		    		</tr>	
+		    		<?php $grtotal =array_sum($gtotal);
+		    		$grandtotal = ($grtotal+$shipping)-$discount;
+		    		?>
 		    		<tr>
 		    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-		    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),2); ?></span></b></td>
+		    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
 		    		</tr>
 			    	<tr>
 		    			<td class="f13" colspan="20" align="center" style="padding: 10px!important">
@@ -328,14 +351,47 @@
 		    		</tr> -->
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				<br>Terms & Conditions:<br>
+		    				Terms & Conditions:<br>
+		    				1. Price is inclusive of taxes.<br>
+		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
+		    				<?php if(!empty($payment_terms)){ ?>
+		    				4. Payment term: <?php echo $payment_terms; ?><br>
+		    				<?php } ?>	
+		    				<?php if(!empty($item_warranty)){ ?>
+		    				5. Item Warranty: <?php echo $item_warranty; ?><br>
+		    				<?php } ?>
+		    				<?php if(!empty($delivery_time)){ ?>
+		    				6. Delivery Time: <?php echo $delivery_time; ?><br>
+		    				<?php } ?>
+		    				<?php if(!empty($freight)){ ?>
+		    				7. In-land Freight: <?php echo $freight; ?><br>
+		    				<?php } ?>
+		    				<?php 
+		    					//$no=8;
+		    					if(!empty($payment_terms) || !empty($item_warranty) || !empty($delivery_time) || !empty($freight)){
+		    						$no=8;
+		    					}else {
+		    						$no=4;
+		    					}
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->tc_desc)){
+			    						echo $no.". " . $t->tc_desc."<br>";
+			    						$no++; 
+			    					}
+		    					} 
+		    				?>
+		    				<!-- <br>Terms & Conditions:<br>
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to CENPRI.<br>
 		    				4. Payment term: PAYEMENT TERMS HERE<br>
-		    				5. Delivery Term: Exstock of Supplier.
+		    				5. Delivery Term: Exstock of Supplier. -->
 		    			</td>
 		    		</tr>
+		    		<tr><td colspan="20" style="padding: 10px!important">
+								Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
+		    		</td></tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>

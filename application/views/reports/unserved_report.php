@@ -119,6 +119,7 @@
                                             <th>UOM</th>
                                             <th>Item Description</th>
                                             <th>Status</th>
+                                            <th>Date Needed</th>
                                             <th>Supplier </th>
                                             <th>Payment Term</th>
                                             <th>Unit Price</th>
@@ -148,6 +149,7 @@
                                             <td><?php echo $p['uom'];?></td>
                                             <td><?php echo $p['item'];?></td>
                                             <td><?php echo $p['status']; ?></td>
+                                            <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
                                             <td><?php echo $p['supplier'];?></td>
                                             <td><?php echo $p['terms'];?></td>
                                             <td><?php echo $p['unit_price'];?></td>

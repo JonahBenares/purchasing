@@ -95,13 +95,16 @@
 	    		<center>
 			    	<div class="btn-group">
 						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
+						<?php //if($revised==0){ ?>
+							<a  href='<?php echo base_url(); ?>jo/job_order_rev/<?php echo $jo_id; ?>' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JO</b></u></a>
+						<?php //} ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
 						<a  href="<?php echo base_url(); ?>jo/jo_rfd/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
 						<a  href="<?php echo base_url(); ?>jo/jo_dr/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
 						<a  href="<?php echo base_url(); ?>jo/jo_ac/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
 						
 					</div>
-					<h4 class="text-white"><b>OUTGOING</b> RFQ <b>For JOB ORDER</b></h4>
+					<h4 class="text-white"><b>JOB ORDER</b></h4>
 					<p class="text-white">Instructions: When printing JOB ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
@@ -148,6 +151,14 @@
 		    		</tr>
 		    		
 		    		<tr>
+		    			<td class="f13" colspan="4">Date Needed:</td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_needed));?></td>
+		    			<td class="f13" colspan="1"></td>
+		    			<td class="f13" colspan="3">Completion of Work:</td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo date("F d, Y",strtotime($work_completion));?></td>
+		    		</tr>
+
+		    		<tr>
 		    			<td class="f13" colspan="4">Date Prepared:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_prepared));?></td>
 		    			<td class="f13" colspan="1"></td>
@@ -161,13 +172,13 @@
 		    			<td class="f13" colspan="3">JO. No:</td>
 		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no; ?></td>
 		    		</tr>	
-		    		<tr>
+		    		<!-- <tr>
 		    			<td class="f13" colspan="4">Completion of Work:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($work_completion));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3"></td>
 		    			<td class="f13" colspan="5"></td>
-		    		</tr>			    			    		
+		    		</tr> -->			    			    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
 		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
@@ -223,7 +234,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
-		    				Terms and Conditions:<br>
+		    				<b>Terms and Conditions:</b><br>
 		    				<?php foreach($terms AS $trm){ 
 		    					echo nl2br($trm->terms);
 		    				} ?>

@@ -249,7 +249,7 @@ class Po extends CI_Controller {
     public function getsupplierPR(){
         $supplier = $this->input->post('supplier');
         echo '<option value="">-Select PR No-</option>';
-        foreach($this->super_model->custom_query("SELECT ah.pr_id, ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE vendor_id = '$supplier' AND recommended = '1' GROUP BY ah.pr_id") AS $row){
+        foreach($this->super_model->custom_query("SELECT ah.pr_id, ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE vendor_id = '$supplier' AND recommended = '1' and cancelled='0' GROUP BY ah.pr_id") AS $row){
 
             echo '<option value="'. $row->pr_id."_".$row->aoq_id .'">'. $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $row->pr_id) .'</option>';
       
@@ -488,6 +488,8 @@ class Po extends CI_Controller {
 
 
         $head = array(
+            'shipping'=>$this->input->post('shipping'),
+            'discount'=>$this->input->post('discount'),
             'checked_by'=>$this->input->post('checked'),
             'approved_by'=>$this->input->post('approved'),
             'saved'=>1,
@@ -716,6 +718,7 @@ class Po extends CI_Controller {
         $data['po_id'] = $po_id;
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
+
             $data['head'][] = array(
                 'po_date'=>$h->po_date,
                 'po_no'=>$h->po_no,
@@ -724,6 +727,8 @@ class Po extends CI_Controller {
                 'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
             );
+            $data['shipping']=$h->shipping;
+            $data['discount']=$h->discount;
             $data['saved']=$h->saved;
             $data['cancelled']=$h->cancelled;
             $data['revised']=$h->revised;
@@ -823,6 +828,7 @@ class Po extends CI_Controller {
         $revise_no=$this->uri->segment(4);
         $data['po_id']=$po_id;
         $data['revise_no']=$revise_no;
+        $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         foreach($this->super_model->select_custom_where('po_head_revised', "po_id = '$po_id' AND revision_no = '$revise_no'") AS $h){
             $data['head'][] = array(
                 'po_date'=>$h->po_date,
@@ -832,6 +838,8 @@ class Po extends CI_Controller {
                 'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
             );
+            $data['shipping']=$h->shipping;
+            $data['discount']=$h->discount;
             $data['saved']=$h->saved;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
@@ -841,7 +849,6 @@ class Po extends CI_Controller {
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
         }
-
         $data['items'] = $this->super_model->select_custom_where('po_items_revised', "po_id = '$po_id' AND revision_no = '$revise_no'");
         foreach($this->super_model->select_custom_where("po_pr_revised", "po_id = '$po_id' AND revision_no = '$revise_no'") AS $ppr){
             $data['allpr'][]= array(
@@ -850,7 +857,13 @@ class Po extends CI_Controller {
                 'purpose'=>$ppr->purpose,
                 'requestor'=>$ppr->requestor
             );
+            $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
         }       
+        $data['tc'] = $this->super_model->select_custom_where("po_tc_revised", "po_id='$po_id' AND revision_no = '$revise_no'");
         $this->load->view('po/purchase_order_saved_r',$data);
         $this->load->view('template/footer');
     }
@@ -939,10 +952,13 @@ class Po extends CI_Controller {
 
     public function rfd_prnt(){   
         $po_id = $this->uri->segment(3);   
+        $data['saved']= $this->super_model->select_column_where("rfd", "saved", "po_id", $po_id);
         $data['rows_dr'] = $this->super_model->select_count("rfd","po_id",$po_id);
         $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
         $data['po_no']= $this->super_model->select_column_where("po_head", "po_no", "po_id", $po_id);
         $data['po_type']= $this->super_model->select_column_where("po_head", "po_type", "po_id", $po_id);
+        $data['shipping']= $this->super_model->select_column_where("po_head", "shipping", "po_id", $po_id);
+        $data['discount']= $this->super_model->select_column_where("po_head", "discount", "po_id", $po_id);
         $data['po_id']= $po_id;
         $data['vendor_id']= $vendor_id;
         $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
@@ -1036,6 +1052,23 @@ class Po extends CI_Controller {
         );
 
          if($this->super_model->insert_into("rfd", $data)){
+            redirect(base_url().'po/rfd_prnt/'.$po_id, 'refresh');
+        }
+    }
+
+
+    public function update_rfd(){
+           $po_id= $this->input->post('po_id');
+
+   
+        $data = array(
+            'rfd_date'=>$this->input->post('rfd_date'),
+            'due_date'=>$this->input->post('due_date'),
+            'check_due'=>$this->input->post('check_due'),
+            'saved'=>1
+        );
+
+         if($this->super_model->update_where("rfd", $data, "po_id", $po_id)){
             redirect(base_url().'po/rfd_prnt/'.$po_id, 'refresh');
         }
     }
@@ -1455,6 +1488,8 @@ class Po extends CI_Controller {
                 'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
             );
+            $data['shipping']=$h->shipping;
+            $data['discount']=$h->discount;
             $data['saved']=$h->saved;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
@@ -1482,7 +1517,17 @@ class Po extends CI_Controller {
             $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
         }
         //$data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
-        $data['tc'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
+        $data['tc_notes'] = $this->super_model->select_column_where("po_tc_temp",'notes',"po_id",$po_id);
+        $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['tc_temp'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
+        //$data['tc'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
+        $data['shipping_temp'] = $this->super_model->select_column_where('po_head_temp', 'shipping', 'po_id', $po_id);
+        $data['discount_temp'] = $this->super_model->select_column_where('po_head_temp', 'discount', 'po_id', $po_id);
+
+        $datarfd = array(
+            'saved'=>0
+        );
+        $this->super_model-> update_where("rfd", $datarfd, "po_id", $po_id);
 
         $this->load->view('template/header');        
         $this->load->view('po/purchase_order_rev', $data);
@@ -1491,22 +1536,39 @@ class Po extends CI_Controller {
 
     public function add_tc_temp(){
         $po_id = $this->input->post('po_id');
+
+        $rows_head = $this->super_model->count_rows("po_tc");
+        if($rows_head==0){
+            $po_tc_id=1;
+        } else {
+            $max = $this->super_model->get_max("po_tc", "po_tc_id");
+            $po_tc_id = $max+1;
+        }
         $data = array(
+            'po_tc_id'=>$po_tc_id,
             'po_id'=>$this->input->post('po_id'),
             'tc_desc'=>$this->input->post('tc_desc'),
         );
-        if($this->super_model->insert_into("po_tc_temp", $data)){
+        if($this->super_model->insert_into("po_tc", $data)){
             redirect(base_url().'po/purchase_order_rev/'.$po_id, 'refresh');
         }
     }
 
     public function add_otherins_temp(){
         $po_id = $this->input->post('po_id');
+        $rows_head = $this->super_model->count_rows("po_tc");
+        if($rows_head==0){
+            $po_tc_id=1;
+        } else {
+            $max = $this->super_model->get_max("po_tc", "po_tc_id");
+            $po_tc_id = $max+1;
+        }
         $data = array(
+            'po_tc_id'=>$po_tc_id,
             'po_id'=>$this->input->post('po_id'),
             'notes'=>$this->input->post('notes'),
         );
-        if($this->super_model->insert_into("po_tc_temp", $data)){
+        if($this->super_model->insert_into("po_tc", $data)){
             redirect(base_url().'po/purchase_order_rev/'.$po_id, 'refresh');
         }
     }
@@ -1517,6 +1579,12 @@ class Po extends CI_Controller {
      /*   $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
         $revision_no = $max_revision+1;*/
 
+        $data_head = array(
+            'po_id'=>$po_id,
+            'shipping'=>$this->input->post('shipping'),
+            'discount'=>$this->input->post('discount')
+        );
+        $this->super_model->insert_into("po_head_temp", $data_head);
           foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $poitems){
             if($this->input->post('quantity'.$x)!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
@@ -1543,6 +1611,25 @@ class Po extends CI_Controller {
         
             }
                 $x++;
+        }
+
+        $y=1;
+        foreach($this->super_model->select_row_where("po_tc","po_id",$po_id) AS $potc){
+            $data_tci = array(
+                "po_tc_id"=>$potc->po_tc_id,
+                "po_id"=>$po_id,
+                "tc_desc"=>$this->input->post('terms'.$y),
+                //"notes"=>$this->input->post('notes'),
+            );
+            if($this->super_model->insert_into("po_tc_temp", $data_tci)){
+                $data_notes = array(
+                    "notes"=>$this->input->post('notes'),
+                );
+                $this->super_model->update_where("po_tc_temp", $data_notes, "po_tc_id", $potc->po_tc_id);
+            }
+
+
+            $y++;
         }
 
         $data_head = array(
@@ -1602,6 +1689,7 @@ class Po extends CI_Controller {
 
         foreach($this->super_model->select_row_where("po_dr_items","po_id",$po_id) AS $dritems){
             $data_dritems=array(
+                'dr_items_id'=>$dritems->dr_items_id,
                 'po_items_id'=>$dritems->po_items_id,
                 'dr_id'=>$dritems->dr_id,
                 'pr_id'=>$dritems->pr_id,
@@ -1640,6 +1728,8 @@ class Po extends CI_Controller {
                 "notes"=>$head->notes,
                 "po_type"=>$head->po_type,
                 "user_id"=>$head->user_id,
+                "shipping"=>$head->shipping,
+                "discount"=>$head->discount,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
                 "saved"=>$head->saved,
@@ -1649,9 +1739,13 @@ class Po extends CI_Controller {
                 "revise_attachment"=>$head->revise_attachment,
             );
             if($this->super_model->insert_into("po_head_revised", $data_head)){
-                $data_po=array(
-                    "po_no"=>$po_no,
-                );
+                foreach($this->super_model->select_row_where("po_head_temp","po_id",$po_id) AS $headt){
+                    $data_po=array(
+                        "shipping"=>$headt->shipping,
+                        "discount"=>$headt->discount,
+                        "po_no"=>$po_no,
+                    );
+                }
                 $this->super_model->update_where("po_head", $data_po, "po_id", $head->po_id);
             }
         }
@@ -1691,13 +1785,43 @@ class Po extends CI_Controller {
             $this->super_model->insert_into("po_items_revised", $data_items);
         }
 
-        foreach($this->super_model->select_row_where("po_tc_temp","po_id",$po_id) AS $potc){
+        /*foreach($this->super_model->select_row_where("po_tc_temp","po_id",$po_id) AS $potc){
             $data_potc = array(
+                "po_tc_id"=>$potc->po_tc_id,
                 "po_id"=>$popr->po_id,
                 "tc_desc"=>$potc->tc_desc,
                 "notes"=>$potc->notes
             );
-            $this->super_model->insert_into("po_tc", $data_potc);
+            $this->super_model->insert_into("po_tc_revised", $data_potc);
+        }*/
+
+
+        foreach($this->super_model->select_row_where("po_tc","po_id",$po_id) AS $potc){
+            $data_potc = array(
+                "po_tc_id"=>$potc->po_tc_id,
+                "po_id"=>$popr->po_id,
+                "tc_desc"=>$potc->tc_desc,
+                "notes"=>$potc->notes,
+                "revision_no"=>$potc->revision_no,
+            );
+            $this->super_model->insert_into("po_tc_revised", $data_potc);
+        }
+
+        $data_tcn =array(
+            'revision_no'=>$revision_no
+        );
+
+        $this->super_model->update_where("po_tc", $data_tcn, "po_id", $po_id);
+
+        foreach($this->super_model->select_row_where("po_tc_temp","po_id",$po_id) AS $potcr){
+            $data_rev = array(
+                "po_tc_id"=>$potcr->po_tc_id,
+                "po_id"=>$popr->po_id,
+                "tc_desc"=>$potcr->tc_desc,
+                "notes"=>$potcr->notes,
+                "revision_no"=>$potcr->revision_no,
+            );
+            $this->super_model->update_where("po_tc", $data_rev, "po_tc_id", $potcr->po_tc_id);
         }
 
         foreach($this->super_model->select_row_where("po_items_temp","po_id",$po_id) AS $poitems){
@@ -1755,6 +1879,7 @@ class Po extends CI_Controller {
            
             
         }
+        $this->super_model->delete_where("po_head_temp", "po_id", $po_id);
         $this->super_model->delete_where("po_tc_temp", "po_id", $po_id);
         $this->super_model->delete_where("po_items_temp", "po_id", $po_id);    
         $data_pr =array(

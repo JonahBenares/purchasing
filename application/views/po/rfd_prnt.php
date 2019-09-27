@@ -105,12 +105,17 @@
     </style>
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>po/save_rfd'>  
+    	<?php if($rows_dr ==0){
+    		$url = base_url().'po/save_rfd';
+    	} else if($rows_dr!=0 && $saved==0){
+    		$url = base_url().'po/update_rfd';
+    	} ?>
+    	<form method='POST' action='<?php echo $url; ?>'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-						<?php if($rows_dr!=0){ ?>
+						<?php if($rows_dr!=0 && $saved==1){ ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
 					<?php } else { ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
@@ -172,7 +177,7 @@
 		    			<td colspan="9" class="bor-btm"><b class="nomarg"><?php echo $vendor; ?></b></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Date:</b></td>
 		    			<td colspan="5" class="bor-btm">
-		    				<?php if($rows_dr==0){ ?>
+		    				<?php if($rows_dr==0 || $saved ==0){ ?>
 		    				<input type="date" style="width:100%" name="rfd_date" >
 		    				<?php } else {
 		    					echo $rfd_date;
@@ -181,14 +186,14 @@
 		    		<tr>
 		    			<td colspan="3"><b class="nomarg">Check Name:</b></td>
 		    			<td colspan="9" class="bor-btm">
-		    			<?php if($rows_dr==0){ ?>
+		    			<?php if($rows_dr==0 ){ ?>
 		    				<input type="text" style="width:100%" name="check_name" value="" autocomplete="off">
 		    			<?php } else {
 		    					echo $check_name;
 		    			} ?></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Due Date:</b></td>
 		    			<td colspan="5" class="bor-btm">
-		    				<?php if($rows_dr==0){ ?>
+		    				<?php if($rows_dr==0 || $saved ==0){ ?>
 		    					<input type="date" style="width:100%" name="due_date" >
 		    				<?php } else {
 		    					echo $due_date;
@@ -220,7 +225,7 @@
 		    				} ?></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Check Due:</b></td>
 		    			<td colspan="5" class="bor-btm">
-		    				<?php if($rows_dr==0){ ?>
+		    				<?php if($rows_dr==0 || $saved ==0){ ?>
 		    				<input type="date" style="width:100%" name="check_due" >
 		    				<?php } else {
 		    					echo $check_due;
@@ -253,21 +258,39 @@
 			    			</td>
 			    		</tr>
 			    	<?php } ?>
+			    	<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Shipping Cost</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($shipping,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: Discount</b></td>
+		    			<td align="right" colspan="3" >
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($discount,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<?php
+		    				$stotal = (array_sum($subtotal) + $shipping) - $discount;
+		    		?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Subtotal</b></td>
 		    			<td align="right" colspan="3" class=" bor-top">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format(array_sum($subtotal),2); ?></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
+
 		    		<?php 
 		    		$percent=$ewt/100;
 		    		if($vat==1){
-		    			$less= (array_sum($subtotal)/1.12)*$percent;
-		    			$gtotal = array_sum($subtotal)-$less;
+		    			$less= ($stotal/1.12)*$percent;
+		    			$gtotal =$stotal-$less;
 		    		} else {
-		    			$less= array_sum($subtotal)*$percent;
-		    			$gtotal = array_sum($subtotal)-$less;
+		    			$less= $stotal*$percent;
+		    			$gtotal = $stotal-$less;
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: <?php echo number_format($ewt); ?>% EWT</b></td>
@@ -378,7 +401,7 @@
 		    			<td colspan="5">
 		    			<b>
 		    				<?php if($rows_dr==0){ ?>
-		    			<select name='checked' class="select-des emphasis" required style="width:90%">
+		    			<select name='checked' class="select-des emphasis"  style="width:90%">
 		    				
 			    			<option value='' selected>-Select Employee-</option>
 			    			<?php foreach($employee AS $emp){ ?>
@@ -395,7 +418,7 @@
 		    			<td colspan="5">
 		    			<b>
 		    			<?php if($rows_dr==0){ ?>
-		    			<select name='endorsed' class="select-des emphasis" required style="width:90%">
+		    			<select name='endorsed' class="select-des emphasis"  style="width:90%">
 			    			<option value=''>-Select Employee-</option>
 			    			<?php foreach($employee AS $emp){ ?>
 			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
