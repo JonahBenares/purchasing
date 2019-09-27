@@ -285,7 +285,9 @@
 					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left">₱</span><?php echo number_format($grandtotal,2); ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20"><br></td>
+		    			<td colspan="20">
+		    				<br>
+		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td  colspan="20">
@@ -479,25 +481,51 @@
 		    				7. In-land Freight: <?php echo $freight; ?><br>
 		    				<?php } ?>
 		    				<?php 
-		    					$no=8;
-		    					foreach($tc AS $t){ 
-		    						if(!empty($t->tc_desc)){
-			    						echo $no.". " . $t->tc_desc."<br>";
-			    						$no++; 
+		    					//$no=8;
+		    					if(!empty($payment_terms) || !empty($item_warranty) || !empty($delivery_time) || !empty($freight)){
+		    						$no=8;
+		    					}else {
+		    						$no=4;
+		    					}
+		    					$y = 1;
+		    					if($revised==0){
+		    						foreach($tc AS $t){ 
+		    							if(!empty($t->tc_desc)){
+			    						//echo $no.". " . $t->tc_desc."<br>";
+			    						//$no++; 
+			    			?>
+			    				<?php echo $no.". "; ?><input type = "text" style='color:red;width: 90%' name = "terms<?php echo $y; ?>" value = "<?php echo $t->tc_desc; ?>"><br>
+			    			<?php
+				    					}
+				    					$no++;
+				    					$y++;
+			    					} 
+		    					}else { 
+		    						foreach($tc_temp AS $t){ 
+		    							if(!empty($t->tc_desc)){
+		    								echo $no.". " . $t->tc_desc."<br>";
+			    							$no++; 
+			    						}
 			    					}
-		    					} 
+			    				}
 		    				?>
-		    				<br>
-		    				<?php if($revised==0){ ?>
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
-							 Add Other Instruction
-							</button> <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
-							<?php }else{ ?>
-							Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
-							<?php } ?>
+
+		    				
 
 		    			</td>
 		    		</tr>
+		    		<tr><td colspan="20" style="padding: 10px!important">
+		    				<?php if($revised==0){ ?>
+			    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+									Add Other Instruction
+								</button> 
+								<?php foreach($tc AS $t){ if(!empty($t->notes)){ ?>
+									<textarea type = "text" style='color:blue;width:92%' rows = '1' class="form-control" name = "notes"><?php echo $t->notes; ?></textarea><!-- <span style = "color:blue;"><?php echo $t->notes;?></span> --><?php } } ?>
+							<?php }else{ ?>
+								Other Instructions: <?php //foreach($tc_temp AS $t){ ?><span style = "color:blue;"><?php echo $tc_notes;?></span><?php //} ?>
+
+							<?php } ?>
+		    		</td></tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>

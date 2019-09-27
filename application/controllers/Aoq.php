@@ -121,10 +121,10 @@ class Aoq extends CI_Controller {
 	public function aoq_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $count = $this->super_model->count_custom_where("aoq_head","saved='1' AND served='0'");
+        $count = $this->super_model->count_custom_where("aoq_head","saved='1' AND served='0' AND cancelled='0'");
 
         if($count!=0){
-            foreach($this->super_model->select_custom_where("aoq_head", "saved='1' and served = '0'") AS $list){
+            foreach($this->super_model->select_custom_where("aoq_head", "saved='1' and served = '0' AND cancelled='0'") AS $list){
                 $rows = $this->super_model->count_rows_where("aoq_vendors","aoq_id",$list->aoq_id);
                 $supplier='';
                 $not_recom='';
@@ -162,7 +162,7 @@ class Aoq extends CI_Controller {
                     'saved'=>$list->saved,
                     'rows'=>$rows,
                     'awarded'=>$list->awarded,
-                    'refer_mnl'=>$list->refer_mnl
+                    'refer_mnl'=>$list->refer_mnl,
                 );
             }
         } else {
@@ -171,6 +171,68 @@ class Aoq extends CI_Controller {
         $this->load->view('aoq/aoq_list',$data);
         $this->load->view('template/footer');
     }  
+
+    public function cancelled_aoq(){
+        $this->load->view('template/header');        
+        $this->load->view('template/navbar');
+        $count = $this->super_model->count_custom_where("aoq_head","saved='1' AND served='0' AND cancelled = '1'");
+        if($count!=0){
+            foreach($this->super_model->select_custom_where("aoq_head", "saved='1' and served = '0' AND cancelled = '1'") AS $list){
+                $rows = $this->super_model->count_rows_where("aoq_vendors","aoq_id",$list->aoq_id);
+                $supplier='';
+                $not_recom='';
+                foreach($this->super_model->select_custom_where("aoq_vendors", "aoq_id='$list->aoq_id'") AS $ven){
+                    foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$list->aoq_id' AND recommended='1' GROUP BY vendor_id") AS $offer){
+                        if($offer->vendor_id==$ven->vendor_id){
+                            $supplier.="<span style='background-color:#b5e61d;'>-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "</span><br> ";
+                            $not_recom .= "vendor_id != '$offer->vendor_id' AND ";
+                        }
+                       
+                    }
+                }
+
+                $not_recom .= " aoq_id='$list->aoq_id' ";
+                foreach($this->super_model->select_custom_where("aoq_vendors", $not_recom) AS $offer1){   
+                    $supplier.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer1->vendor_id). "<br> ";
+                }
+                $data['heads'][]=array(
+                    'aoq_id'=>$list->aoq_id,
+                    'date'=>$list->aoq_date,
+                    'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$list->pr_id),
+                    'supplier'=>$supplier,
+                    'department'=>$list->department,
+                    'enduse'=>$list->enduse,
+                    'requestor'=>$list->requestor,
+                    'saved'=>$list->saved,
+                    'rows'=>$rows,
+                    'awarded'=>$list->awarded,
+                    'refer_mnl'=>$list->refer_mnl,
+                    'cancel_date'=>$list->cancel_date,
+                    'cancelled_reason'=>$list->cancelled_reason,
+                );
+            }
+        } else {
+            $data['heads']=array();
+        }
+        $this->load->view('aoq/cancelled_aoq',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function cancel_aoq(){
+        $aoq_id=$this->input->post('aoq_id');
+        $reason=$this->input->post('reason');
+        $create = date('Y-m-d H:i:s');
+        $data = array(
+            'cancelled'=>1,
+            'cancelled_by'=>$_SESSION['user_id'],
+            'cancelled_reason'=>$reason,
+            'cancel_date'=>$create
+        );
+
+        if($this->super_model->update_where("aoq_head", $data, "aoq_id", $aoq_id)){
+            redirect(base_url().'aoq/aoq_list', 'refresh');
+        }
+    }
 
     public function update_served(){
         $aoq_id=$this->uri->segment(3);
@@ -294,15 +356,18 @@ class Aoq extends CI_Controller {
         $aoq_id= $this->uri->segment(3);
         $data['aoq_id']=$aoq_id;
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
-         $data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
+         //$data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
-        $noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
-        $approved_id=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
+        $noted_by=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
+        $approved_by=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
 
-        $data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $noted_id);
-        $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $approved_id);
+        /*$data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $noted_id);
+        $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $approved_id);*/
+        $data['noted']=$noted_by;
+        $data['approved']=$approved_by;
+
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $data['head'][] =  array(
                 'aoq_date'=>$head->aoq_date,
@@ -422,8 +487,8 @@ class Aoq extends CI_Controller {
         $objPHPExcel = new PHPExcel();
         $exportfilename="AOQ.xlsx";
         $aoq_id=$this->uri->segment(3);
-        $noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
-        $approved_id=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
+        /*$noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
+        $approved_id=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);*/
 
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
@@ -642,8 +707,10 @@ class Aoq extends CI_Controller {
 
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $requested=$head->requestor;
-            $noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
-            $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
+            /*$noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
+            $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);*/
+            $noted=$head->noted_by;
+            $approved=$head->approved_by;
 
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, $_SESSION['fullname']);
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$h, $requested);
@@ -698,11 +765,11 @@ class Aoq extends CI_Controller {
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
-        $noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
-        $approved_id=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
+        $noted_by=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
+        $approved_by=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
 
-        $data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $noted_id);
-        $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $approved_id);
+        $data['noted']=$noted_by;
+        $data['approved']=$approved_by;
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $data['head'][] =  array(
                 'aoq_date'=>$head->aoq_date,
@@ -780,8 +847,8 @@ class Aoq extends CI_Controller {
         $objPHPExcel = new PHPExcel();
         $exportfilename="AOQ.xlsx";
         $aoq_id=$this->uri->segment(3);
-        $noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
-        $approved_id=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
+        /*$noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
+        $approved_id=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);*/
 
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
@@ -1007,8 +1074,10 @@ class Aoq extends CI_Controller {
 
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $requested=$head->requestor;
-            $noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
-            $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
+            /*$noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
+            $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);*/
+            $noted=$head->noted_by;
+            $approved=$head->approved_by;
 
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, $_SESSION['fullname']);
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$h, $requested);
@@ -1063,11 +1132,11 @@ class Aoq extends CI_Controller {
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
-        $noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
-        $approved_id=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
+        $noted_by=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
+        $approved_by=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
 
-        $data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $noted_id);
-        $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $approved_id);
+        $data['noted']=$noted_by;
+        $data['approved']=$approved_by;
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $data['head'][] =  array(
                 'aoq_date'=>$head->aoq_date,
@@ -1145,8 +1214,8 @@ class Aoq extends CI_Controller {
         $objPHPExcel = new PHPExcel();
         $exportfilename="AOQ.xlsx";
         $aoq_id=$this->uri->segment(3);
-        $noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
-        $approved_id=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
+        /*$noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
+        $approved_id=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);*/
 
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
@@ -1373,8 +1442,8 @@ class Aoq extends CI_Controller {
 
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $requested=$head->requestor;
-            $noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
-            $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
+            $noted=$head->noted_by;
+            $approved=$head->approved_by;
 
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, $_SESSION['fullname']);
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$h, $requested);

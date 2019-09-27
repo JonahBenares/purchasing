@@ -25,7 +25,11 @@
                         <div class="form-group">
                             <p class="m-b-0">Date Received/Email:</p>
                             <input type="date" name="date_receive" class="form-control">
-                        </div>    
+                        </div> 
+                        <div class="form-group">
+                            <p class="m-b-0">Purchase Request:</p>
+                            <input type="text" name="purchase_request" class="form-control">
+                        </div>   
                         <div class="form-group">
                             <p class="m-b-0">Purpose:</p>
                             <input type="text" name="purpose" class="form-control">
@@ -70,7 +74,7 @@
                                 <small class="p-l-25">&nbsp;PURCHASE REQUEST</small> 
                                 <div class="sparkline8-outline-icon">
                                     <?php if(!empty($filt)){ ?>
-                                        <a href="<?php echo base_url(); ?>reports/export_pr/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $date_receive; ?>/<?php echo $purpose1; ?>/<?php echo $enduse1; ?>/<?php echo $pr_no1; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>" class="btn btn-custon-three btn-info"> 
+                                        <a href="<?php echo base_url(); ?>reports/export_pr/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $date_receive; ?>/<?php echo $purpose1; ?>/<?php echo $enduse1; ?>/<?php echo $pr_no1; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $purchase_request; ?>" class="btn btn-custon-three btn-info"> 
                                             <span class="fa fa-upload"></span> Export to Excel
                                         </a>
                                     <?php } else { ?>
@@ -94,6 +98,7 @@
                                        
                                         <tr>
                                             <th>Date Received/ Emailed</th>
+                                            <th>Purchase Request</th>
                                             <th>Purpose</th>
                                             <th>Enduse</th>
                                             <th>PR No.</th>
@@ -117,6 +122,7 @@
                                     <?php if(!empty($pr)){ foreach($pr AS $p) { ?>                      
                                         <tr>
                                             <td><?php echo date('F j, Y', strtotime($p['date_prepared'])); ?></td>
+                                            <td><?php echo $p['purchase_request']; ?></td>
                                             <td><?php echo $p['purpose']; ?></td>
                                             <td><?php echo $p['enduse']; ?></td>
                                             <td><?php echo $p['pr_no']; ?></td>

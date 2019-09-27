@@ -27,7 +27,6 @@
         	padding:0px 0px 0px 0px
         	}
         }
-
         .cancel{
         	background-image: url('../../assets/img/cancel.png')!important;
         	background-repeat:no-repeat!important;
@@ -89,85 +88,23 @@
 			padding: 3px;
 		}
     </style>
-    <div class="modal fade" id="addscope" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Add Scope
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</h5>										
-				</div>
-				<form method='POST' action='<?php echo base_url(); ?>jo/create_jo_details'>
-					<div class="modal-body">
-						<div class="form-group">
-							<p style="font-size: 14px" class="nomarg">Scope:</p>
-							<textarea class="form-control" rows="3" name="scope"></textarea>
-						</div>
-						<div class="row">
-							<div class="col-lg-4">
-								<p style="font-size: 14px" class="nomarg">Qty:</p>
-								<input type="text" class="form-control" name="quantity">
-							</div>
-							<div class="col-lg-4">
-								<p style="font-size: 14px" class="nomarg">U/M:</p>
-								<input type="text" class="form-control" name="uom">
-							</div>
-							<div class="col-lg-4">
-								<p style="font-size: 14px" class="nomarg">Unit Cost:</p>
-								<input type="text" class="form-control" name="unit_cost">
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<input type="submit" class="btn btn-primary btn-block" value="Add">
-					</div>
-					<input type="hidden" name='jo_id' value="<?php echo $jo_id; ?>">
-				</form>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="addterms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Add Terms & Conditions
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</h5>										
-				</div>
-				<form method='POST' action='<?php echo base_url(); ?>jo/create_jo_terms'>
-					<div class="modal-body">
-						<div class="form-group">
-							<p style="font-size: 14px" class="nomarg">Terms & Conditions:</p>
-							<textarea class="form-control" name='terms' rows="3"></textarea>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<input type="submit" class="btn btn-primary btn-block" value="Add">
-					</div>
-					<input type="hidden" name='jo_id' value="<?php echo $jo_id; ?>">
-				</form>
-			</div>
-		</div>
-	</div>
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>jo/save_jo'>  
+    	<form method='POST' action='<?php echo base_url(); ?>'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
-						<!-- <a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
-						<a  href="<?php echo base_url(); ?>jo/jo_rfd" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
-						<a  href="<?php echo base_url(); ?>jo/jo_dr" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
-						<a  href="<?php echo base_url(); ?>jo/jo_ac" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a> -->
-						<input type='submit' class="btn btn-primary btn-md p-l-25 p-r-25" value="Save">  	
+						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
+						<!-- <?php //if($revised==0){ ?>
+							<a  href='<?php echo base_url(); ?>jo/job_order_rev/<?php echo $jo_id; ?>' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JO</b></u></a>
+						<?php //} ?> -->
+						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
+						<a  href="<?php echo base_url(); ?>jo/jo_rfd/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
+						<a  href="<?php echo base_url(); ?>jo/jo_dr/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
+						<a  href="<?php echo base_url(); ?>jo/jo_ac/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
+						
 					</div>
-					<h4 class="text-white">JOB ORDER</b></h4>
+					<h4 class="text-white"><b>OUTGOING</b> RFQ <b>For JOB ORDER</b></h4>
 					<p class="text-white">Instructions: When printing JOB ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
@@ -203,52 +140,55 @@
 		    		<tr><td class="f13" colspan="20" align="center">Bacolod Office Telefax: (034) 435-1932/476-7382</td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4></td></tr>
 		    		<tr>
-		    			<td class="f13 p-l-5" colspan="3" style="vertical-align:top">TO:</td>
+		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
 		    			<td class="f13" colspan="10" align="left">
 		    				<b><?php echo $vendor; ?></b><br>
 		    				<span id='address'><?php echo $address; ?></span><br>
 		    				<span id='phone'><?php echo $phone; ?></span><br>
+		    				<br>
 		    			</td>
 		    			<td colspan="7"></td>
 		    		</tr>
+		    		
 		    		<tr>
-		    			<td class="f13 p-l-5" colspan="3">Date Needed:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_needed)); ?></td>
+		    			<td class="f13" colspan="4">Date Needed:</td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_needed));?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13 " colspan="3">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="6"><?php echo date('F j, Y', strtotime($work_completion)); ?></td>
+		    			<td class="f13" colspan="3">Completion of Work:</td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo date("F d, Y",strtotime($work_completion));?></td>
 		    		</tr>
+
 		    		<tr>
-		    			<td class="f13 p-l-5" colspan="3">Date Prepared:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_prepared)); ?></td>
+		    			<td class="f13" colspan="4">Date Prepared:</td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_prepared));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">CENPRI JO No.:</td>
-		    			<td class="f13 bor-btm" colspan="6"><b><?php echo $cenjo_no; ?></b></td>
+		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $cenjo_no; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13 p-l-5" colspan="3">Start of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($start_of_work)); ?></td>
+		    			<td class="f13" colspan="4">Start of Work:</td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($start_of_work));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="6"><?php echo $jo_no; ?></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no; ?></td>
 		    		</tr>	
-		    					    			    		
+		    		<!-- <tr>
+		    			<td class="f13" colspan="4">Completion of Work:</td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($work_completion));?></td>
+		    			<td class="f13" colspan="1"></td>
+		    			<td class="f13" colspan="3"></td>
+		    			<td class="f13" colspan="5"></td>
+		    		</tr> -->			    			    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
 		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
-			    			<h5 style="margin: 5px; text-transform: uppercase;"><b><?php echo $project_title; ?></b></h5>
+			    			<h5 style="margin: 5px"><b><?php echo $project_title; ?></b></h5>
 			    		</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		    		
 		    		<tr>
-		    			<td class="f13  p-l-5" colspan="20" align="left">
-			    			<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#addscope">
-							  <span class="fa fa-plus"></span> Add Scope
-							</button>		    			
-			    		</td>
-			    	</tr>		    		
-		    		<tr>
+		    		
 		    			<td colspan="20">
 		    				<table class="table-borsdered" width="100%">
 		    					<tr>
@@ -258,22 +198,16 @@
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
-		    					<?php
-		    						$total[] = '';
-		    						foreach($details AS $det){
-		    						$total[]= $det->total_cost; ?>
+		    					<?php foreach($details AS $det){ ?>
 		    					<tr>
-		    						<td class="f13 p-l-5" align="left">
-		    							<?php echo nl2br($det->scope_of_work); ?>
-
-		    						</td>
-		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $det->quantity; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $det->uom; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $det->unit_cost; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top"><input type="text" name="total_cost" id="total_cost" value="<?php echo $det->total_cost; ?>" readonly="readonly" class="btn-block nobord texcenter"></td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->scope_of_work); ?></td>
+		    						<td class="f13" align="center"><?php echo $det->quantity; ?></td>
+		    						<td class="f13" align="center"><?php echo $det->uom; ?></td>
+		    						<td class="f13" align="center"><?php echo $det->unit_cost; ?></td>
+		    						<td class="f13" align="right"><?php echo $det->total_cost; ?></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
-		    					<?php } ?>
+		    				<?php } ?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
@@ -281,60 +215,43 @@
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    					</tr>
-		    					<?php $sum_cost = array_sum($total); ?>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td colspan='2'>Total Cost:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost; ?>" readonly="readonly"></td>
-		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>Less:</td>
-		    						<td><input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent' onblur='changePrice()'></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' readonly="readonly"></td>
+		    						<td><?php echo $discount_percent; ?>%</td>
+		    						<td align="right"><?php echo $discount_amount; ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>Net</td>
 		    						<td></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="<?php echo $sum_cost; ?>" readonly="readonly"></td>
+		    						<td align="right"><?php echo $grand_total; ?></td>
 		    					</tr>
-		    				
-		    					
 		    				</table>
 		    			</td>
 		    		</tr>
-		    		<tr><td class="f13  p-l-5" colspan="20" align="left"><br></td></tr>	
 		    		<tr>
-		    			<td class="f13  p-l-5" colspan="20" align="left">
-			    			<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#addterms">
-							  <span class="fa fa-plus"></span> Terms & Conditions:
-							</button>		    			
-			    		</td>
-			    	</tr>	
-		    		<tr>
-		    			<td class="f13 p-l-5" colspan="11" align="left">
-		    				<b>Terms & Conditions:</b><br>
-		    			<?php foreach($terms AS $trm){
-		    				echo nl2br($trm->terms);
-		    			} ?>
+		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
+		    				<b>Terms and Conditions:</b><br>
+		    				<?php foreach($terms AS $trm){ 
+		    					echo nl2br($trm->terms);
+		    				} ?>
 		    			</td>
 		    			<td colspan="9"></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo number_format($sum_cost,2); ?></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo $grand_total; ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Conforme:</td>
-		    			<td class="f13 bor-btm" colspan="7"><input type="text" name="conforme" class="btn-block nobord"></td>
+		    			<td class="f13 bor-btm" colspan="7" align="center"><?php echo $conforme; ?></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -346,6 +263,7 @@
 		    		</tr>
 		    		<tr><td class="f13 bor-btm" colspan="20" align="center"><br></td></tr>    	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
+
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="5" align="center">Prepared by:</td>
@@ -371,24 +289,14 @@
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="6" align="center">
-		    				<select type="text" name="checked_by" class="btn-block">
-		    					<option value=''>-Select-</option>
-		    					 <?php foreach($employee AS $emp){ ?>
-                                    <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
-								<?php } ?> 
-		    				</select>
+		    				<?php echo $checked; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center">
-		    				<select type="text" name="approved_by" class="btn-block">
-		    					<option value=''>-Select-</option>
-		    					 <?php foreach($employee AS $emp){ ?>
-                                    <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
-								<?php } ?> 
-		    				</select>
+		    				<?php echo $approved;?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>  
+		    		</tr> 
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Purchasing Department</small></td>
@@ -397,12 +305,11 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>   	
-		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>    	
+		    		</tr>  
+		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
+		    		
 		    	</table>		    
 	    	</div>
-	    	<input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
-	    	<input type="hidden" name='jo_id' value="<?php echo $jo_id; ?>">
     	</form>
     </div>
     <script type="text/javascript">

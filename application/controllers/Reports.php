@@ -175,6 +175,7 @@ class Reports extends CI_Controller {
             $data['pr'][] = array(
                 'pr_details_id'=>$pr->pr_details_id,
                 'date_prepared'=>$pr->date_prepared,
+                'purchase_request'=>$pr->purchase_request,
                 'pr_no'=>$pr->pr_no,
                 'purpose'=>$pr->purpose,
                 'enduse'=>$pr->enduse,
@@ -219,6 +220,12 @@ class Reports extends CI_Controller {
             $data['date_receive']= "null";
         }
 
+        if(!empty($this->input->post('purchase_request'))){
+            $data['purchase_request'] = $this->input->post('purchase_request');
+        } else {
+            $data['purchase_request']= "null";
+        }
+
         if(!empty($this->input->post('purpose'))){
             $data['purpose1'] = $this->input->post('purpose');
         } else {
@@ -256,6 +263,12 @@ class Reports extends CI_Controller {
             $date_receive = $this->input->post('date_receive');
             $sql.=" ph.date_prepared LIKE '%$date_receive%' AND";
             $filter .= "Date Received/Emailed - ".$date_receive.", ";
+        }
+
+        if(!empty($this->input->post('purchase_request'))){
+            $purchase_request = $this->input->post('purchase_request');
+            $sql.=" ph.purchase_request LIKE '%$purchase_request%' AND";
+            $filter .= "Purchase Request - ".$purchase_request.", ";
         }
 
         if(!empty($this->input->post('purpose'))){
@@ -385,6 +398,7 @@ class Reports extends CI_Controller {
             $data['pr'][] = array(
                 'pr_details_id'=>$pr->pr_details_id,
                 'date_prepared'=>$pr->date_prepared,
+                'purchase_request'=>$pr->purchase_request,
                 'pr_no'=>$pr->pr_no,
                 'purpose'=>$pr->purpose,
                 'enduse'=>$pr->enduse,
@@ -427,6 +441,7 @@ class Reports extends CI_Controller {
         $pr_no=$this->uri->segment(8);
         $requestor=$this->uri->segment(9);
         $description=$this->uri->segment(10);
+        $purchase_request=$this->uri->segment(11);
 
         $sql="";
         $filter = " ";
@@ -434,6 +449,11 @@ class Reports extends CI_Controller {
         if($date_received!='null'){
             $sql.=" ph.date_prepared LIKE '%$date_received%' AND";
             $filter .= $date_received;
+        }
+
+        if($purchase_request!='null'){
+            $sql.=" ph.purchase_request LIKE '%$purchase_request%' AND";
+            $filter .= $purchase_request;
         }
 
         if($purpose!='null'){
@@ -476,28 +496,29 @@ class Reports extends CI_Controller {
             )
         );
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A4', "Date Received/Emailed");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B4', "Purpose");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Enduse");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D4', "PR No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "Requestor");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F4', "WH Stocks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G4', "Item No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I4', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B4', "Purchase Request");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Purpose");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D4', "Enduse");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "PR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F4', "Requestor");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G4', "WH Stocks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "Item No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I4', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "Item Description");
         /*$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "RO/with AOQ");*/
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "Status Remarks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "Status");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Remarks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "End User's Comments");
-        foreach(range('A','M') as $columnID){
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "Status Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Status");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "End User's Comments");
+        foreach(range('A','N') as $columnID){
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }
-        $objPHPExcel->getActiveSheet()->getStyle('A4:M4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle("A1:E1")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setSize(15);
         $objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:M4')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:M4')->applyFromArray($styleArray1);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->applyFromArray($styleArray1);
         if($filt!=''){
             $num = 5;
             foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ".$query) AS $pr){
@@ -547,8 +568,8 @@ class Reports extends CI_Controller {
                     if($cancelled_items==1){
                         $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr->pr_details_id);
                         $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr->pr_details_id);
-                        $status = "<span style='color:red'>Cancelled</span>";
-                        $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
+                        $status = "Cancelled";
+                        $status_remarks =  $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));
                     } else {
                     
                         $count_po = $this->super_model->count_custom_where("po_items","pr_details_id = '$pr->pr_details_id'");
@@ -676,30 +697,32 @@ class Reports extends CI_Controller {
                     $unserved = '';
                 }
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr->date_prepared");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->enduse");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->pr_no");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->requestor");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$pr->wh_stocks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$pr->quantity");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->item_description $unserved");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purchase_request");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->purpose");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->enduse");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->pr_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$pr->requestor");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$pr->wh_stocks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->quantity");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$pr->item_description $unserved");
                 /*$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "");*/
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$status_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$status");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$pr->add_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$status_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->add_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "");
 
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('E'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":M".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                /*$objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
+                /*$objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
                 $num++;
             }
         }else {
@@ -768,8 +791,8 @@ class Reports extends CI_Controller {
                     if($cancelled_items==1){
                         $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr->pr_details_id);
                         $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr->pr_details_id);
-                        $status = "<span style='color:red'>Cancelled</span>";
-                        $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
+                        $status = "Cancelled";
+                        $status_remarks = $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));
                     } else {
                     
                         $count_po = $this->super_model->count_custom_where("po_items","pr_details_id = '$pr->pr_details_id'");
@@ -889,29 +912,31 @@ class Reports extends CI_Controller {
                     $unserved = '';
                 }
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr->date_prepared");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->enduse");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->pr_no");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->requestor");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$pr->wh_stocks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$pr->quantity");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->item_description $unserved");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$status_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$status");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$pr->add_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purchase_request");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->purpose");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->enduse");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->pr_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$pr->requestor");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$pr->wh_stocks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->quantity");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$pr->item_description $unserved");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$status_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->add_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "");
 
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('E'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":M".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                /*$objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
+                /*$objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
                 $num++;
             }
         }
