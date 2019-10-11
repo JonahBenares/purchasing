@@ -283,6 +283,7 @@
                                                     echo '<span class="label label-warning">Request for Revision</span>';
                                                 } else {
                                                     echo (($head['served']==0) ? '<span class="label label-warning">PO Issued</span>' : '<span class="label label-success">Delivered</span>'); 
+                                                     echo (($head['draft']==1) ? ' <span class="label label-info">Draft</span>' : ''); 
                                                     } ?></td>
                                                 <td><?php
                                                     if($head['po_type']==0){
@@ -294,20 +295,25 @@
                                                     }
                                                 ?></td>
                                                 <td>
-                                                    <center>                                                        
+                                                    <center>       
+                                                    <?php if($head['saved']==1){ ?>                                                 
                                                         <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>','<?php echo $head['po_id']?>','<?php echo $head['dr_id']?>')">
                                                             <span class="fa fa-truck"></span>
                                                         </a>
-                                                        <?php if($head['revised']==1){ ?>
+                                                        <?php } if($head['revised']==1){ ?>
                                                         <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $head['po_id']?>">
                                                             <span class="fa fa-thumbs-up"></span>
                                                         </a>
                                                         <?php } ?>
-                                                        <?php if($head['saved']==0){ ?>
+                                                        <?php if($head['saved']==0 && $head['draft']==0){ ?>
                                                         <a href="<?php echo base_url(); ?>po/purchase_order/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
-                                                        <?php }else if($head['saved']==1 && $head['po_type']==0 && $head['revised']==0){ ?>
+                                                        <?php } else if($head['saved']==0 && $head['draft']==1){ ?>
+                                                        <a href="<?php echo base_url(); ?>po/purchase_order_draft/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                            <span class="fa fa-eye"></span>
+                                                        </a>
+                                                        <?php } else if($head['saved']==1 && $head['po_type']==0 && $head['revised']==0){ ?>
                                                         <a href="<?php echo base_url(); ?>po/purchase_order_saved/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>

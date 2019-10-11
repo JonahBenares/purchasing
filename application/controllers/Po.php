@@ -87,7 +87,7 @@ class Po extends CI_Controller {
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');   
         $this->load->view('template/navbar');
-        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND served = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
+        foreach($this->super_model->select_custom_where("po_head", "(saved='1' OR draft = '1') AND served = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
              $rfd=$this->super_model->count_rows_where("rfd","po_id",$head->po_id);
              $pr='';
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
@@ -103,6 +103,7 @@ class Po extends CI_Controller {
                 'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
                 'supplier_id'=>$head->vendor_id,
                 'saved'=>$head->saved,
+                'draft'=>$head->draft,
                 'po_type'=>$head->po_type,
                 'pr'=>$pr,
                 'rfd'=>$rfd,
@@ -386,16 +387,22 @@ class Po extends CI_Controller {
 
     public function add_notes(){
         $po_id = $this->input->post('po_id');
+        $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
         $data = array(
             'po_id'=>$this->input->post('po_id'),
             'notes'=>$this->input->post('notes'),
         );
         if($this->super_model->insert_into("po_tc", $data)){
-            redirect(base_url().'po/purchase_order/'.$po_id, 'refresh');
+            if($draft==0){
+                redirect(base_url().'po/purchase_order/'.$po_id, 'refresh');
+            } else {
+                 redirect(base_url().'po/purchase_order_draft/'.$po_id, 'refresh');
+            }
         }
     }
 
     public function save_po(){
+        $submit = $this->input->post('submit');
         $po_id = $this->input->post('po_id');
         $count_item = $this->input->post('count_item');
         $a=1;
@@ -423,7 +430,7 @@ class Po extends CI_Controller {
 
         for($x=1; $x<$count_item;$x++){
             $qty=$this->input->post('quantity'.$x);
-          //  $revise = $this->super_model->select_column_where("po_head",'revised','po_id',$po_id);
+         
 
              $rows_items = $this->super_model->count_rows("po_items");
                 if($rows_items==0){
@@ -469,41 +476,119 @@ class Po extends CI_Controller {
                     'item_no'=>$a
                 );
 
-               // if($revise==0){
+           
                     $this->super_model->insert_into("po_items", $data);
                     $this->super_model->insert_into("po_dr_items", $data_dr);
-               // }else{
-                   // $this->super_model->update_where("po_items", $data, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));
-               // }
-
-              /*  $curr_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id', $this->input->post('aoq_offer_id'.$x));
-                $new_balance = $curr_balance-$qty;
-
-                $data_aoq = array(
-                    'balance'=>$new_balance
-                );
-                $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $this->input->post('aoq_offer_id'.$x));*/
+            
              $a++;
             }
             
         }
 
-      
+        if($submit=='Save'){
+            $head = array(
+                'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('discount'),
+                'checked_by'=>$this->input->post('checked'),
+                'approved_by'=>$this->input->post('approved'),
+                'saved'=>1,
+                'revised'=>0
+            ); 
+             if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
+                redirect(base_url().'po/purchase_order_saved/'.$po_id);
+             }
 
-
-        $head = array(
-            'shipping'=>$this->input->post('shipping'),
-            'discount'=>$this->input->post('discount'),
-            'checked_by'=>$this->input->post('checked'),
-            'approved_by'=>$this->input->post('approved'),
-            'saved'=>1,
-            'revised'=>0
-        );
-      
-
-        if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
-            redirect(base_url().'po/purchase_order_saved/'.$po_id);
+        } else if($submit=='Save as Draft'){
+             $head = array(
+                'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('discount'),
+                'checked_by'=>$this->input->post('checked'),
+                'approved_by'=>$this->input->post('approved'),
+                'saved'=>0,
+                'draft'=>1,
+                'revised'=>0
+            ); 
+             if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
+                redirect(base_url().'po/purchase_order_draft/'.$po_id);
+             }
         }
+      
+
+      
+    }
+
+    public function save_po_draft(){
+        $submit = $this->input->post('submit');
+        $po_id = $this->input->post('po_id');
+        $count_item = $this->input->post('count_item');
+
+        $a=1;
+        for($x=1; $x<$count_item;$x++){
+            $qty=$this->input->post('quantity'.$x);
+            $po_items_id = $this->input->post('po_items_id'.$x);
+            
+
+
+        
+            if($qty!=0){
+                $price = str_replace(",", "", $this->input->post('price'.$x));
+                $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                $data=array(
+                 
+                    'delivered_quantity'=>$qty,
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
+                    'item_no'=>$a
+                );
+                $data_dr=array(
+                    'delivered_quantity'=>$qty,
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
+                    'item_no'=>$a
+                );
+
+                    $this->super_model->update_where("po_items", $data, "po_items_id", $po_items_id);
+                    $this->super_model->insert_into("po_dr_items", $data_dr, "po_items_id", $po_items_id);
+             $a++;
+            } else {
+                
+                $this->super_model->delete_where("po_items", "po_items_id", $po_items_id);
+                $this->super_model->delete_where("po_dr_items", "po_items_id", $po_items_id);
+            }
+            
+        }
+
+        if($submit=='Save'){
+            $head = array(
+                'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('discount'),
+                'checked_by'=>$this->input->post('checked'),
+                'approved_by'=>$this->input->post('approved'),
+                'saved'=>1,
+                'draft'=>0,
+                'revised'=>0
+            ); 
+             if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
+                redirect(base_url().'po/purchase_order_saved/'.$po_id);
+             }
+
+        } else if($submit=='Save as Draft'){
+             $head = array(
+                'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('discount'),
+                'checked_by'=>$this->input->post('checked'),
+                'approved_by'=>$this->input->post('approved'),
+                'saved'=>0,
+                'draft'=>1,
+                'revised'=>0
+            ); 
+             if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
+                redirect(base_url().'po/purchase_order_draft/'.$po_id);
+             }
+        }
+      
+
+      
     }
 
     public function save_po_revised(){
@@ -694,12 +779,19 @@ class Po extends CI_Controller {
 
     public function add_tc(){
         $po_id = $this->input->post('po_id');
+        $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
         $data = array(
             'po_id'=>$this->input->post('po_id'),
             'tc_desc'=>$this->input->post('tc_desc'),
         );
+
+
         if($this->super_model->insert_into("po_tc", $data)){
-            redirect(base_url().'po/purchase_order/'.$po_id, 'refresh');
+            if($draft==0){
+                redirect(base_url().'po/purchase_order/'.$po_id, 'refresh');
+            } else {
+                redirect(base_url().'po/purchase_order_draft/'.$po_id, 'refresh');
+            }
         }
     }
 
@@ -714,6 +806,59 @@ class Po extends CI_Controller {
             echo json_encode($return);
         }
     
+    }
+
+     public function purchase_order_draft(){
+        $po_id = $this->uri->segment(3);
+        $data['po_id'] = $po_id;
+        $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
+        foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
+
+            $data['head'][] = array(
+                'po_date'=>$h->po_date,
+                'po_no'=>$h->po_no,
+                'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $h->vendor_id),
+                'address'=>$this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $h->vendor_id),
+                'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
+                'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
+             
+            );
+            $data['shipping']=$h->shipping;
+            $data['discount']=$h->discount;
+            $data['saved']=$h->saved;
+            $data['cancelled']=$h->cancelled;
+            $data['revised']=$h->revised;
+            $data['revision_no']=$h->revision_no;
+            $data['po_no']=$h->po_no;
+            $data['notes']=$h->notes;
+            $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
+            $data['approved_by']=$h->approved_by;
+            $data['checked_by']=$h->checked_by;
+            $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+            $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
+        }
+
+        $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
+      
+        foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $ppr){
+            $data['allpr'][]= array(
+                'pr_no'=>$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $ppr->pr_id),
+                'enduse'=>$ppr->enduse,
+                'purpose'=>$ppr->purpose,
+                'requestor'=>$ppr->requestor
+            );
+            $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+        }
+        $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['dr'] = $this->super_model->select_row_where("po_dr", "po_id", $po_id);
+          $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
+        $this->load->view('template/header');        
+        $this->load->view('po/purchase_order_draft',$data);
+        $this->load->view('template/footer');
     }
 
 
@@ -1866,14 +2011,22 @@ class Po extends CI_Controller {
 
             $this->super_model->update_where("po_dr_items", $data_dr_items, "po_items_id", $poitems->po_items_id);
 
-            $old_qty = $this->super_model->select_column_where('po_items', 'quantity', 'aoq_offer_id',  $poitems->aoq_offer_id);
-            if($old_qty!=$poitems->quantity){
+            $old_qty = $this->super_model->select_column_where('po_items', 'delivered_quantity', 'aoq_offer_id',  $poitems->aoq_offer_id);
+            if($old_qty!=$poitems->delivered_quantity){
+                //echo "not equal";
                 $difference = $old_qty - $poitems->quantity;
 
                 $old_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id',  $poitems->aoq_offer_id);
 
                 $balance = $old_balance+$difference;
 
+                $data_aoq = array(
+                    'balance'=>$balance
+                );
+                $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $poitems->aoq_offer_id);
+            } else {
+                //echo "equal";
+                $balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id',  $poitems->aoq_offer_id);
                 $data_aoq = array(
                     'balance'=>$balance
                 );

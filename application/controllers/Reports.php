@@ -95,7 +95,7 @@ class Reports extends CI_Controller {
 
                                $status_remarks='';
                            foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $pr->pr_details_id) AS $del){
-                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
                             }
                          
                         }
@@ -140,7 +140,7 @@ class Reports extends CI_Controller {
 
                    // echo 'ITEM = ' . $pr->item_description . '<br> rfq = ' . $count_rfq . '<br> aoq awarded = ' . $count_aoq_awarded . '<br> po='.$count_po . "<br><br>";
 
-                /*    echo 'prno = ' . $pr->pr_no . '<br>ITEM = ' . $pr->item_description . '<br> rfq = ' . $count_rfq . '<br> aoq awarded = ' . $count_aoq_awarded . '<br> po='.$count_po . "<br><br>";*/
+                  // echo 'prno = ' . $pr->pr_no . '<br>ITEM = ' . $pr->item_description . '<br> rfq = ' . $count_rfq . '<br>aoq = '.$count_aoq.'<br> aoq awarded = ' . $count_aoq_awarded . '<br> po='.$count_po . "<br><br>";
 
 
                     if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
@@ -171,6 +171,17 @@ class Reports extends CI_Controller {
 
                 }
             }
+            $revised='';
+            $revision_no = $this->super_model->select_column_where("po_head","revision_no","po_id",$po_id);
+            if($revision_no!=0){
+                foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM po_items_revised WHERE po_id = '$po_id' AND pr_details_id = '$pr->pr_details_id' GROUP BY revision_no") AS $rev){
+                    if($rev->revision_no == 0){
+                         $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                    } else {
+                         $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                    }
+                }
+            }
 
             $data['pr'][] = array(
                 'pr_details_id'=>$pr->pr_details_id,
@@ -184,6 +195,7 @@ class Reports extends CI_Controller {
                 'item_description'=>$pr->item_description,
                 'wh_stocks'=>$pr->wh_stocks,
                 'qty'=>$pr->quantity,
+                'revised_qty'=>$revised,
                 'uom'=>$pr->uom,
                 'status'=>$status,
                 'status_remarks'=>$status_remarks,
