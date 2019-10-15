@@ -253,7 +253,7 @@
 			    				<b class="nomarg"><?php echo number_format($it['quantity']) ." ".$it['uom'] ." " . $it['offer'] . ", " . "  @ ". $it['price'] ." per ".  $it['uom']; ?></b>
 			    			</td>
 			    			<td align="right" colspan="3">
-			    				<span class="pull-left nomarg">₱</span>
+			    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 			    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],2); ?></b></span>
 			    			</td>
 			    		</tr>
@@ -261,14 +261,14 @@
 			    	<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Shipping Cost</b></td>
 		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b><?php echo number_format($shipping,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: Discount</b></td>
 		    			<td align="right" colspan="3" >
-		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b><?php echo number_format($discount,2); ?></b></span>
 		    			</td>
 		    		</tr>
@@ -278,7 +278,7 @@
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Subtotal</b></td>
 		    			<td align="right" colspan="3" class=" bor-top">
-		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
@@ -295,7 +295,7 @@
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: <?php echo number_format($ewt); ?>% EWT</b></td>
 		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($less,2); ?></b></span>
 		    			</td>
 		    		</tr>
@@ -331,7 +331,7 @@
 		    			<td align="left" colspan="7" ><b class="nomarg">P.O. No: <?php echo $po_no; ?></b></td>
 		    			<td align="right" colspan="10" class="bor-right"><b class="nomarg" style="font-weight: 900">Total Amount Due</b></td>
 		    			<td align="right" colspan="3" style="border-bottom: 2px solid #000">
-		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>

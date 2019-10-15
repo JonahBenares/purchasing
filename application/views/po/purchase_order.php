@@ -255,6 +255,7 @@
 		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it['price']; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it['total'],2); ?>" style='text-align:right;' readonly></b></td>
 		    		</tr>
+		    		<input type='hidden' name='currency<?php echo $x; ?>' value="<?php echo $it['currency']; ?>">
 		    		<input type='hidden' name='aoq_id<?php echo $x; ?>' value="<?php echo $it['aoq_id']; ?>">
 		    		<input type='hidden' name='aoq_offer_id<?php echo $x; ?>' value="<?php echo $it['aoq_offer_id']; ?>">
 		    		<input type='hidden' name='aoq_items_id<?php echo $x; ?>' value="<?php echo $it['aoq_items_id']; ?>">
@@ -318,7 +319,7 @@
 		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>    		
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),2); ?></span></b></td>
+					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency; ?></span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),2); ?></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">

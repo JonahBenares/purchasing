@@ -311,11 +311,12 @@ class Po extends CI_Controller {
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
         }
 
-        foreach($this->super_model->custom_query("SELECT ao.aoq_id, ah.pr_id FROM aoq_offers ao INNER JOIN aoq_head ah ON ao.aoq_id = ah.aoq_id WHERE ao.vendor_id = '$vendor_id' AND recommended = '1' GROUP BY pr_id") AS $off){
+        foreach($this->super_model->custom_query("SELECT ao.aoq_id, ah.pr_id, ao.currency FROM aoq_offers ao INNER JOIN aoq_head ah ON ao.aoq_id = ah.aoq_id WHERE ao.vendor_id = '$vendor_id' AND recommended = '1' GROUP BY pr_id") AS $off){
             $data['pr'][]=array(
                 'pr_id'=>$off->pr_id,
                 'pr_no'=>$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $off->pr_id),
             );
+            $data['currency'] = $off->currency;
         }
 
         if(empty($revised)){
@@ -331,12 +332,14 @@ class Po extends CI_Controller {
                         'pr_details_id'=>$off->pr_details_id,
                         'item_name'=>$this->super_model->select_column_where('aoq_items', 'item_description', 'aoq_items_id', $off->aoq_items_id),
                         'offer'=>$off->offer,
+                        'currency'=>$off->currency,
                         'price'=>$off->unit_price,
                         'balance'=>$off->balance,
                         'amount'=>$off->amount,
                         'uom'=>$off->uom,
                         'total'=>$total
                     );
+                   
                     $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
@@ -360,6 +363,7 @@ class Po extends CI_Controller {
                         'uom'=>$off->uom,
                         'total'=>$total
                     );
+               
                     $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
@@ -455,6 +459,7 @@ class Po extends CI_Controller {
                     'offer'=>$this->input->post('offer'.$x),
                     'delivered_quantity'=>$qty,
                     'uom'=>$this->input->post('uom'.$x),
+                    'currency'=>$this->input->post('currency'.$x),
                     'unit_price'=>$price,
                     'amount'=>$amount,
                     'item_no'=>$a
@@ -471,6 +476,7 @@ class Po extends CI_Controller {
                     'offer'=>$this->input->post('offer'.$x),
                     'delivered_quantity'=>$qty,
                     'uom'=>$this->input->post('uom'.$x),
+                    'currency'=>$this->input->post('currency'.$x),
                     'unit_price'=>$price,
                     'amount'=>$amount,
                     'item_no'=>$a
@@ -652,6 +658,7 @@ class Po extends CI_Controller {
                 "offer"=>$poitems->offer,
                 "item_id"=>$poitems->item_id,
                 "quantity"=>$poitems->quantity,
+                "currency"=>$poitems->currency,
                 "unit_price"=>$poitems->unit_price,
                 "uom"=>$poitems->uom,
                 "amount"=>$poitems->amount,
@@ -702,6 +709,7 @@ class Po extends CI_Controller {
                     'offer'=>$this->input->post('offer'.$x),
                     'quantity'=>$qty,
                     'uom'=>$this->input->post('uom'.$x),
+                    'currency'=>$this->input->post('currency'.$x),
                     'unit_price'=>$this->input->post('price'.$x),
                     'amount'=>$this->input->post('tprice'.$x),
                     'item_no'=>$a
@@ -839,7 +847,7 @@ class Po extends CI_Controller {
         }
 
         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
-      
+        $data['currency'] = $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
         foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $ppr){
             $data['allpr'][]= array(
                 'pr_no'=>$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $ppr->pr_id),
@@ -890,7 +898,7 @@ class Po extends CI_Controller {
         }
 
         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
-      
+        $data['currency'] = $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
         foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $ppr){
             $data['allpr'][]= array(
                 'pr_no'=>$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $ppr->pr_id),
@@ -1130,6 +1138,8 @@ class Po extends CI_Controller {
                 'total'=>$total,
                 'uom'=>$items->uom,
             );
+
+            $data['currency'] = $items->currency;
         }
 
           foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
@@ -1650,7 +1660,9 @@ class Po extends CI_Controller {
         }
 
         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
+        $data['currency']= $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
         $data['items_temp'] = $this->super_model->select_row_where('po_items_temp', 'po_id', $po_id);
+        $data['currency_temp']= $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
       
         foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $ppr){
             $data['allpr'][]= array(
