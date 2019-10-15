@@ -40,7 +40,7 @@
 			font-size:12px!important;
 		}
 		.f10{
-			font-size:10px!important;
+			font-size:12px!important;
 		}
 		.f9{
 			font-size:9px!important;
@@ -220,13 +220,15 @@
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Award">
 						<?php } ?>
 					</div>
-					<p class="text-white p-l-250 p-r-250">Instructions: When printing ABSTRACT OF QUOTATION make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Landscape, <u>Paper Size</u>: A4 <u>Margin</u> : Custom (top: 0.11" , right:1.25", bottom: 0.11", left: 0.11") <u>Scale</u>: 100 and the option: Background graphics is checked</p>
+					<br>
+					<br><!-- 
+					<p class="text-white p-l-250 p-r-250">Instructions: When printing ABSTRACT OF QUOTATION make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Landscape, <u>Paper Size</u>: A4 <u>Margin</u> : Custom (top: 0.11" , right:1.25", bottom: 0.11", left: 0.11") <u>Scale</u>: 100 and the option: Background graphics is checked</p> -->
 				</center>
 			</div>
-	    	<div style="background: #fff;width: 130%!important" class = "<?php if($served==1){ echo 'served';} ?>">    		  			
-		    	<table class="table-bordesred" width="100%" style="background: #fff;border: 1px solid #000">
+	    	<div style="background: #fff;width: 120%!important;" class = "<?php if($served==1){ echo 'served';} ?>">    		  			
+		    	<table class="table-bordesred" width="150%" style="background: #fff;border: 1px solid #000">
 		    		<tr>
-		    			<td width="3%"><br></td>
+		    			<td width="1%"><br></td>
 		    			<td width="3%"><br></td>
 		    			<td width="3%"><br></td>
 		    			<td width="3%"><br></td>
@@ -260,25 +262,25 @@
 		    			<td width="3%"><br></td>
 		    			<td width="3%"><br></td>
 		    		</tr>		    	
-		    		<tr><td colspan="33" class="f10"  align="center"><h5><b>ABSTRACT OF QUOTATION</b></h5></td></tr>
+		    		<tr><td colspan="15" class="f10"  align="center"><h5><b>ABSTRACT OF QUOTATION</b></h5></td></tr>
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td colspan="4" class="f12" align="right">Department: &nbsp;</td>
-		    			<td colspan="13" class="f12" ><?php echo $h['department']; ?></td>		    			
+		    			<td colspan="5" class="f12" ><?php echo $h['department']; ?></td>		    			
 		    			<td colspan="3" class="f12" align="right">Date: &nbsp;</td>
-		    			<td colspan="13" class="f12" ><?php echo $h['aoq_date']; ?></td>
+		    			<td colspan="5" class="f12" ><?php echo $h['aoq_date']; ?></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="4" class="f12" align="right">Purpose: &nbsp;</td>
-		    			<td colspan="13" class="f12" ><?php echo $h['purpose']; ?></td>		    			
+		    			<td colspan="5" class="f12" ><?php echo $h['purpose']; ?></td>		    			
 		    			<td colspan="3"class="f12" align="right">PR #: &nbsp;</td>
-		    			<td colspan="13" class="f12" ><?php echo $h['pr_no']; ?> </td>
+		    			<td colspan="5" class="f12" ><?php echo $h['pr_no']; ?> </td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="4" class="f12" align="right">Enduse: &nbsp;</td>
-		    			<td colspan="13" class="f12" ><?php echo $h['enduse']; ?></td>		    			
+		    			<td colspan="5" class="f12" ><?php echo $h['enduse']; ?></td>		    			
 		    			<td colspan="3"class="f12" align="right">Date Needed: &nbsp;</td>
-		    			<td colspan="13" class="f12" ></td>
+		    			<td colspan="5" class="f12" ></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="4" class="f12"  align="right">Requested by: &nbsp;</td>
@@ -304,24 +306,28 @@
 		    			<td class="f9 table-borbold" align="center"><b>UOM</td>
 
 		    			<td colspan="2" class="f9 table-borbold" align="center"><b>OFFER</b></td>
-		    			<td colspan="2"class="f9 table-borbold" align="center" ><b>U/P</b></td>
-		    			<td colspan="2"class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
-		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
+		    			<td colspan="1"class="f9 table-borbold" align="center" ><b>CURRENCY</b></td>
+		    			<td colspan="1"class="f9 table-borbold" align="center" ><b>U/P</b></td>
+		    			<td colspan="1"class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
+		    			<td colspan="2" class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
 
 		    			<td colspan="2" class="f9 table-borbold" align="center"><b>OFFER</b></td>
-		    			<td colspan="2"class="f9 table-borbold" align="center" ><b>U/P</b></td>
-		    			<td colspan="2"class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
-		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
+		    			<td colspan="1"class="f9 table-borbold" align="center" ><b>CURRENCY</b></td>
+		    			<td colspan="1"class="f9 table-borbold" align="center" ><b>U/P</b></td>
+		    			<td colspan="1"class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
+		    			<td colspan="2" class="f9 table-borbold" align="center"><b>COMMENTS</b></td> 
 
 		    			<td colspan="2" class="f9 table-borbold" align="center"><b>OFFER</b></td>
-		    			<td colspan="2"class="f9 table-borbold" align="center" ><b>U/P</b></td>
-		    			<td colspan="2"class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
-		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
+		    			<td colspan="1"class="f9 table-borbold" align="center" ><b>CURRENCY</b></td>
+		    			<td colspan="1"class="f9 table-borbold" align="center" ><b>U/P</b></td>
+		    			<td colspan="1"class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
+		    			<td colspan="2" class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
 
 		    			<td colspan="2" class="f9 table-borbold" align="center"><b>OFFER</b></td>
-		    			<td colspan="2"class="f9 table-borbold" align="center" ><b>U/P</b></td>
-		    			<td colspan="2"class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
-		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>		    			
+		    			<td colspan="1"class="f9 table-borbold" align="center" ><b>CURRENCY</b></td>
+		    			<td colspan="1"class="f9 table-borbold" align="center" ><b>U/P</b></td>
+		    			<td colspan="1"class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
+		    			<td colspan="2" class="f9 table-borbold" align="center"><b>COMMENTS</b></td>		    			
 		    		</tr>
 		    		<?php
 		    			$x=1; 
@@ -341,47 +347,50 @@
 		    			<td colspan="7" style='border:1px solid #000;vertical-align: text-top;' >
 		    				<table class="table-borsdered" width="100%" style='border:0px solid #000'>						
 		    					<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_1" rows="1"></textarea>
+			    					<td style='width:28.5%' class="bor-right f10" >
+			    						<textarea type="text" style="height:3rem;width: 100%" class="f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_1" rows="1"></textarea>
 			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_1" name="price_<?php echo $x; ?>_<?php echo $v; ?>_1" 
+			    					<td style='width:14.3%' class="bor-right f10"></td>
+			    					<td style='width:14.4%' class="bor-right f10" align="center">
+			    						<input type="text" style="height:3rem;width: 100%" class="f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_1" name="price_<?php echo $x; ?>_<?php echo $v; ?>_1" 
 				    						onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'1')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_1" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_1">
+			    					<td style='width:14.4%' class="bor-right f10 " align="center">
+			    						<input type="text" style="height:3rem;width: 100%" class="f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_1" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_1">
 			    					</td>
-			    					<td  class="bor-right text-red f10 ">
-			    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
+			    					<td  style='width:28.3%'  class="bor-right text-red f10 ">
+			    						<!-- <textarea type="text" class="f10" name="" rows="1"></textarea> -->
 			    					</td>
 			    				</tr>
 			    				<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_2" rows="1"></textarea>
+			    					<td class="bor-right f10" >
+			    						<textarea type="text" style="height:3rem;width: 100%" class="f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_2" rows="1"></textarea>
 			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_2" name="price_<?php echo $x; ?>_<?php echo $v; ?>_2"
+			    					<td class="bor-right f10"></td>
+			    					<td class="bor-right f10" align="center">
+			    						<input type="text" style="height:3rem;width: 100%" class="f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_2" name="price_<?php echo $x; ?>_<?php echo $v; ?>_2"
 				    						onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'2')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_2" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_2">
+			    					<td class="bor-right f10 " align="center">
+			    						<input type="text" style="height:3rem;width: 100%" class="f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_2" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_2">
 			    					</td>
 			    					<td  class="bor-right text-red f10 ">
-			    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
+			    						<!-- <textarea type="text" class="f10" name="" rows="1"></textarea> -->
 			    					</td>
 			    				</tr>
 			    				<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
-			    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_3" rows="1"></textarea>
+			    					<td class="bor-right f10" >
+			    						<textarea type="text" style="height:3rem;width: 100%" class="f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_3" rows="1"></textarea>
 			    					</td>
-			    					<td style='width:29%' class="bor-right f10" align="center">
-			    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_3" name="price_<?php echo $x; ?>_<?php echo $v; ?>_3" onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'3')" onkeypress="return isNumberKey(this, event)">
+			    					<td class="bor-right f10"></td>
+			    					<td class="bor-right f10" align="center">
+			    						<input type="text" style="height:3rem;width: 100%" class="f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_3" name="price_<?php echo $x; ?>_<?php echo $v; ?>_3" onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'3')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
-			    					<td style='width:28%'  class="bor-right f10 " align="center">
-			    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_3" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_3">
+			    					<td class="bor-right f10 " align="center">
+			    						<input type="text" style="height:3rem;width: 100%" class="f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_3" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_3">
 			    					</td>
 			    					<td  class="bor-right text-red f10 ">
-			    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
+			    						<!-- <textarea type="text" class="f10" name="" rows="1"></textarea> -->
 			    					</td>
 			    				</tr>
 		    				</table>
@@ -403,20 +412,21 @@
 			    				foreach($offers AS $of){
 		    						if($ven['vendor_id'] == $of['vendor_id'] && $it->aoq_items_id == $of['item_id']){ ?>						
 		    					<tr class="bor-btm">
-			    					<td style='width:28%' class="bor-right f10" >
+			    					<td style='width:28.5%' class="bor-right f10" >
 			    						<?php echo $of['offer']; ?>
 			    					</td>
-			    					<td style='width:29%' class="bor-right f10 <?php echo (($of['price']==$of['min']) ? 'yellow-back' : ''); ?> " align="center">
+			    					<td style='width:14.3%' class="bor-right f10"></td>
+			    					<td style='width:14.4%' class="bor-right f10 <?php echo (($of['price']==$of['min']) ? 'yellow-back' : ''); ?> " align="center">
 			    						<?php echo number_format($of['price'],2); ?>
 			    					</td>
 			    					<?php if($awarded==0){ ?>
-			    					<td style='width:28%'  class="bor-btm-red bor-right f10 " align="center">
+			    					<td style='width:14.4%'  class="bor-btm-red bor-right f10 " align="center">
 			    						<?php echo number_format($of['amount'],2); ?><br>
 				    					<!-- <input type="radio" name="award_<?php echo $a; ?>" value="1" > -->
 				    					<input type="checkbox" name="award_<?php echo $a; ?>" value="1" >
 			    					</td>
 			    					<?php } else { ?>
-			    					<td width="28%" class="bor-btm bor-right <?php echo (($of['recommended'] == 1) ? 'green-back': ''); ?>" align="center">
+			    					<td style='width:28.3%' class="bor-btm bor-right <?php echo (($of['recommended'] == 1) ? 'green-back': ''); ?>" align="center">
 			    						<?php echo number_format($of['amount'],2); ?><br>
 			    					</td> 
 			    					<?php } ?>

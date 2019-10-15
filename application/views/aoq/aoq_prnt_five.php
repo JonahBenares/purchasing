@@ -235,59 +235,58 @@
 					<p class="text-white p-l-250 p-r-250">Instructions: When printing ABSTRACT OF QUOTATION make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Landscape, <u>Paper Size</u>: A4 <u>Margin</u> : Custom (top: 0.11" , right:1.25", bottom: 0.11", left: 0.11") <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
 			</div>
-	    	<div id="someName" style="width:2000px;background: #fff;" class = "<?php if($served==1){ echo 'served';} ?>">    		  			
+	    	<div id="someName" style="width:150%;background: #fff;" class = "<?php if($served==1){ echo 'served';} ?>">    		  			
 		    	<table class="table-bordesred" width="100%" style="background: #fff;border: 1px solid #000">
 		    		<tr>
 		    			<td width="1%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="1%"><br></td>
-		    			<td width="1%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
-		    			<td width="3%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
 		    		</tr>		    	
-		    		<tr><td colspan="30" class="f10"  align="center"><h5><b>ABSTRACT OF QUOTATION</b></h5></td></tr>
+		    		<tr><td colspan="15" class="f10"  align="center"><h5><b>ABSTRACT OF QUOTATION</b></h5></td></tr>
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td colspan="4" class="f12" align="right">Department: &nbsp;</td>
-		    			<td colspan="12" class="f12" ><?php echo $h['department']; ?></td>		    			
+		    			<td colspan="5" class="f12" ><?php echo $h['department']; ?></td>		    			
 		    			<td colspan="3" class="f12" align="right">Date: &nbsp;</td>
-		    			<td colspan="11" class="f12" ><?php echo $h['aoq_date']; ?></td>
+		    			<td colspan="5" class="f12" ><?php echo $h['aoq_date']; ?></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="4" class="f12" align="right">Purpose: &nbsp;</td>
-		    			<td colspan="12" class="f12" ><?php echo $h['purpose']; ?></td>		    			
+		    			<td colspan="5" class="f12" ><?php echo $h['purpose']; ?></td>		    			
 		    			<td colspan="3"class="f12" align="right">PR #: &nbsp;</td>
-		    			<td colspan="11" class="f12" ><?php echo $h['pr_no']; ?></td>
+		    			<td colspan="5" class="f12" ><?php echo $h['pr_no']; ?></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="4" class="f12" align="right">Enduse: &nbsp;</td>
-		    			<td colspan="12" class="f12" ><?php echo $h['enduse']; ?></td>		    			
+		    			<td colspan="5" class="f12" ><?php echo $h['enduse']; ?></td>		    			
 		    			<td colspan="3"class="f12" align="right">Date Needed: &nbsp;</td>
-		    			<td colspan="11" class="f12" ></td>
+		    			<td colspan="5" class="f12" ></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="4" class="f12"  align="right">Requested by: &nbsp;</td>
@@ -299,7 +298,7 @@
 		    			<td colspan="5" class="f10"  align="center">	
 		    			</td>
 		    			<?php foreach($vendors AS $ven) { ?>
-		    			<td colspan="5" class="f10 table-borbold"  align="center">
+		    			<td colspan="6" class="f10 table-borbold"  align="center">
 		    				<b><?php echo $ven['vendor']; ?></b><br>
 		    				<?php echo $ven['phone']; ?><br>
 		    				<?php echo $ven['contact']; ?>
@@ -333,26 +332,31 @@
 		    			<td class="f9 table-borbold" align="center"><b>UOM</td>
 
 		    			<td colspan="2" class="f9 table-borbold" align="center"><b>OFFER</b></td>
+		    			<td class="f9 table-borbold" align="center"><b>CURRENCY</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
 
 		    			<td colspan="2" class="f9 table-borbold" align="center"><b>OFFER</b></td>
+		    			<td class="f9 table-borbold" align="center"><b>CURRENCY</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
 
 		    			<td colspan="2" class="f9 table-borbold" align="center"><b>OFFER</b></td>
+		    			<td class="f9 table-borbold" align="center"><b>CURRENCY</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
 
 		    			<td colspan="2" class="f9 table-borbold" align="center"><b>OFFER</b></td>
+		    			<td class="f9 table-borbold" align="center"><b>CURRENCY</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
 
 		    			<td colspan="2" class="f9 table-borbold" align="center"><b>OFFER</b></td>
+		    			<td class="f9 table-borbold" align="center"><b>CURRENCY</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
