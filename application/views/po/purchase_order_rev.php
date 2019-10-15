@@ -282,7 +282,7 @@
 		    		?>    		
 		    		<tr>
 		    			<td colspan="17" class="all-border " align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left">₱</span><?php echo number_format($grandtotal,2); ?></b></td>
+					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format($grandtotal,2); ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">
@@ -446,7 +446,7 @@
 						    		<input type='hidden' id='orig_amount' value='<?php echo $grtotal2; ?>'>
 						    		<tr>
 						    			<td colspan="17" class="all-border yellow-back" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-									    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal2,2); ?></span></b></td>
+									    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency_temp; ?></span><span id='grandtotal'><?php echo number_format($grandtotal2,2); ?></span></b></td>
 						    		</tr>
 						    		<tr>
 						    			<td colspan="20">

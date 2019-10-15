@@ -1035,6 +1035,7 @@ class Reports extends CI_Controller {
                         'po_qty'=>$i->delivered_quantity,
                         'uom'=>$i->uom,
                         'item'=>$item,
+                        'currency'=>$i->currency,
                         'unit_price'=>$i->unit_price,
                         'notes'=>$pr->notes,
                         'po_id'=>$p->po_id,

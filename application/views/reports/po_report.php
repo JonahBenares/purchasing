@@ -149,8 +149,8 @@
                                             <td><?php echo $p['status']; ?></td>
                                             <td><?php echo $p['supplier'];?></td>
                                             <td><?php echo $p['terms'];?></td>
-                                            <td><?php echo $p['unit_price'];?></td>
-                                            <td><?php echo number_format($total,2);?></td>
+                                            <td><?php echo $p['currency'] . " ".$p['unit_price'];?></td>
+                                            <td><?php echo $p['currency'] . " ".number_format($total,2);?></td>
                                             <td><?php echo $p['notes'];?></td>
                                         </tr> 
                                         <?php } } ?>

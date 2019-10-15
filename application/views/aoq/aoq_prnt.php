@@ -242,14 +242,16 @@
 					<p class="text-white p-l-250 p-r-250">Instructions: When printing ABSTRACT OF QUOTATION make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Landscape, <u>Paper Size</u>: A4 <u>Margin</u> : Custom (top: 0.11" , right:1.25", bottom: 0.11", left: 0.11") <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;width: 130%!important" class = "<?php if($served==1){ echo 'served';} ?>"> 
+	    	<div style="background: #fff;width: 200%!important" class = "<?php if($served==1){ echo 'served';} ?>"> 
 		    	<table class="table-boddered" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="2%"><br></td>
-		    			<td width="5%"><br></td>
+		    			<td width="7%"><br></td>
 		    			<td width="3%"><br></td>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
@@ -293,7 +295,7 @@
 		    		</tr>
 		    		<?php } ?>
 		    		<tr>
-		    			<td class="f10" colspan="6" align="center">
+		    			<td class="f10" colspan="5" align="center">
 		    				<!-- <button id="add_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-id="">
 							  <span class="fa fa-plus"></span> Add Item
 							</button>	 -->						
@@ -309,18 +311,25 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f9 table-borbold" align="center"><b>#</td>
-		    			<td class="f9 table-borbold" align="center" colspan="3"><b>DESCRIPTION</td>
+		    			<td class="f9 table-borbold" align="center" colspan="2"><b>DESCRIPTION</td>
 		    			<td class="f9 table-borbold" align="center"><b>QTY</td>
 		    			<td class="f9 table-borbold" align="center"><b>UOM</td>
-		    			<td class="f9 table-borbold" align="center" colspan="2"><b>OFFER</b></td>
+
+
+		    			<td class="f9 table-borbold" align="center"><b>OFFER</b></td>
+		    			<td class="f9 table-borbold" align="center"><b>CURR</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
-		    			<td class="f9 table-borbold" align="center" colspan="2"><b>OFFER</b></td>
+
+		    			<td class="f9 table-borbold" align="center"><b>OFFER</b></td>
+		    			<td class="f9 table-borbold" align="center"><b>CURR</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
-		    			<td class="f9 table-borbold" align="center" colspan="2"><b>OFFER</b></td>
+
+		    			<td class="f9 table-borbold" align="center"><b>OFFER</b></td>
+		    			<td class="f9 table-borbold" align="center"><b>CURR</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 		    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
@@ -332,7 +341,7 @@
 		    			<input type='hidden' name='quantity_<?php echo $x; ?>' id="quantity_<?php echo $x; ?>" value='<?php echo $it->quantity; ?>'>
 		    		<tr style='border:2px solid #000'>
 		    			<td class="f10 table-borreg" align="center"><?php echo $x; ?></td>
-		    			<td class="f10 table-borreg" align="left" colspan="3"><?php echo $it->item_description; ?></td>
+		    			<td class="f10 table-borreg" align="left" colspan="2"><?php echo $it->item_description; ?></td>
 		    			<td class="f10 table-borreg" align="center"><?php echo $it->quantity; ?></td>
 		    			<td class="f10 table-borreg" align="center"><?php echo $it->uom; ?></td>
 
@@ -346,8 +355,15 @@
 			    			<td colspan="5" style='border:1px solid #000;vertical-align: text-top;' >
 			    				<table class="" width="100%" style='border:0px solid #000;'>						
 			    					<tr>
-				    					<td width="40%" class="bor-btm bor-right">
+				    					<td width="20%" class="bor-btm bor-right">
 				    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_1" rows="1"></textarea>
+				    					</td>
+				    					<td width="10%" class="bor-btm bor-right f10" align="center">
+				    							<select name='currency_<?php echo $x; ?>_<?php echo $v; ?>_1'>
+						    					<?php foreach($currency AS $curr){ ?>
+						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    					<?php } ?>
+						    				</select>
 				    					</td>
 				    					<td width="20%" class="bor-btm bor-right f10" align="center">
 				    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_1" name="price_<?php echo $x; ?>_<?php echo $v; ?>_1" 
@@ -356,13 +372,20 @@
 				    					<td width="20%" class="bor-btm bor-right" align="center">
 				    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_1" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_1">
 				    					</td>
-				    					<td width="40%" class="bor-btm bor-right">
+				    					<td width="20%" class="bor-btm bor-right">
 				    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
 				    					</td>
 				    				</tr>
 				    				<tr>
-				    					<td width="40%" class="bor-btm bor-right">
+				    					<td width="20%" class="bor-btm bor-right">
 				    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_2" rows="1"></textarea>
+				    					</td>
+				    					<td width="20%" class="bor-btm bor-right f10" align="center">
+				    							<select name='currency_<?php echo $x; ?>_<?php echo $v; ?>_2'>
+						    					<?php foreach($currency AS $curr){ ?>
+						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    					<?php } ?>
+						    				</select>
 				    					</td>
 				    					<td width="20%" class="bor-btm bor-right f10" align="center">
 				    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_2" name="price_<?php echo $x; ?>_<?php echo $v; ?>_2"
@@ -371,13 +394,20 @@
 				    					<td width="20%" class="bor-btm bor-right" align="center">
 				    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_2" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_2">
 				    					</td>
-				    					<td width="40%" class="bor-btm bor-right">
+				    					<td width="20%" class="bor-btm bor-right">
 				    						<!-- <textarea type="text" class="form-control f10" name="" rows="1"></textarea> -->
 				    					</td>
 				    				</tr>
 				    				<tr>
-				    					<td width="40%" class="bor-btm bor-right">
+				    					<td width="20%" class="bor-btm bor-right">
 				    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_3" rows="1"></textarea>
+				    					</td>
+				    					<td width="20%" class="bor-btm bor-right f10" align="center">
+				    							<select name='currency_<?php echo $x; ?>_<?php echo $v; ?>_3'>
+						    					<?php foreach($currency AS $curr){ ?>
+						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    					<?php } ?>
+						    				</select>
 				    					</td>
 				    					<td width="20%" class="bor-btm bor-right f10" align="center">
 				    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_3" name="price_<?php echo $x; ?>_<?php echo $v; ?>_3" onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'3')" onkeypress="return isNumberKey(this, event)">
@@ -385,7 +415,7 @@
 				    					<td width="20%" class="bor-btm bor-right" align="center">
 				    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_3" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_3">
 				    					</td>
-				    					<td width="40%" class="bor-btm bor-right">
+				    					<td width="20%" class="bor-btm bor-right">
 				    						
 				    					</td>
 				    				</tr>
@@ -415,8 +445,11 @@
 			    				foreach($offers AS $of){
 		    						if($ven['vendor_id'] == $of['vendor_id'] && $it->aoq_items_id == $of['item_id']){ ?>				
 			    					<tr>
-				    					<td width="40%" class="bor-btm bor-right">
+				    					<td width="20%" class="bor-btm bor-right">
 				    						<?php echo $of['offer']; ?>
+				    					</td>
+				    						<td width="20%" class="bor-btm bor-right">
+				    						<center><?php echo $of['currency']; ?></center>
 				    					</td>
 				    					<td width="20%" class="bor-btm bor-right f10 <?php echo (($of['price']==$of['min']) ? 'yellow-back' : ''); ?> " align="center">
 				    						<?php echo number_format($of['price'],2); ?>
@@ -433,11 +466,11 @@
 					    				<?php } 
 
 					    				if($awarded==0){  ?>
-				    					<td width="40%" class="bor-btm-red bor-right">
+				    					<td width="20%" class="bor-btm-red bor-right">
 				    						<textarea type="text" class="form-control f10" name="comments_<?php echo $a; ?>" rows="1"></textarea>
 				    					</td>
 				    					<?php } else { ?>
-				    						<td width="40%" class="bor-btm bor-right">
+				    						<td width="20%" class="bor-btm bor-right">
 				    							<?php echo $of['comments']; ?>
 				    						</td>
 				    					<?php } ?>
@@ -468,8 +501,15 @@
 			    				foreach($offers AS $of){
 		    						if($ven['vendor_id'] == $of['vendor_id'] && $it->aoq_items_id == $of['item_id']){ ?>				
 			    					<tr>
-				    					<td width="40%" class="bor-btm bor-right">
+				    					<td width="20%" class="bor-btm bor-right">
 				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>'><?php echo $of['offer']; ?></textarea>
+				    					</td>
+				    					<td width="20%" class="bor-btm bor-right f10 " align="center">
+				    						<select name='currency_<?php echo $a; ?>'>
+						    					<?php foreach($currency AS $curr){ ?>
+						    						<option value="<?php echo $curr; ?>" <?php echo (($curr==$of['currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    					<?php } ?>
+						    				</select>
 				    					</td>
 				    					<td width="20%" class="bor-btm bor-right f10 " align="center">
 				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],2); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)">
@@ -479,7 +519,7 @@
 				    						<input type='text' class="form-control f10" name='amount_<?php echo $a; ?>' id='amount_<?php echo $a; ?>' readonly="readonly" value="<?php echo number_format($of['amount'],2); ?>">
 				    						
 				    					</td> 
-				    					<td width="40%" class="bor-btm-red bor-right">
+				    					<td width="20%" class="bor-btm-red bor-right">
 				    						
 				    					</td>
 				    					
@@ -512,28 +552,28 @@
 		    	<input type='hidden' name='aoq_id' value='<?php echo $aoq_id; ?>'>
 
 		    			<td class="f10 table-borreg" align="center"><br></td>
-		    			<td class="f10 table-borreg" align="left" colspan="3"></td>
+		    			<td class="f10 table-borreg" align="left" colspan="4"></td>
 		    			<td class="f10 table-borreg" align="center"></td>
 		    			<td class="f10 table-borreg" align="center"></td>
 
-		    			<td class="f10 table-borreg" align="left" colspan="2"></td>
+		    			<td class="f10 table-borreg" align="left"></td>
 		    			<td class="f10 table-borreg" align="center"></td>
 		    			<td class="f10 table-borreg" align="center"></td>
 		    			<td class="f10 table-borreg text-red" align="center"></td>
 
-		    			<td class="f10 table-borreg" align="left" colspan="2"></td>
+		    			<td class="f10 table-borreg" align="left"></td>
 		    			<td class="f10 table-borreg" align="center"></td>
 		    			<td class="f10 table-borreg" align="center"></td>
 		    			<td class="f10 table-borreg" align="center"></td>
 
-		    			<td class="f10 table-borreg" align="left" colspan="2"></td>
+		    			<td class="f10 table-borreg" align="left"></td>
 		    			<td class="f10 table-borreg" align="center"></td>
 		    			<td class="f10 table-borreg" align="center"></td>
 		    			<td class="f10 table-borreg" align="center"></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f10 table-borreg" align="center"><br></td>
-		    			<td colspan="5" class="f10 table-borreg text-red" align="center"><b>REMARKS</b></td>
+		    			<td colspan="4" class="f10 table-borreg text-red" align="center"><b>REMARKS</b></td>
 
 		    			<td class="f10 table-borreg" align="left" colspan="5"></td>
 		    			<td class="f10 table-borreg" align="left" colspan="5"></td>
