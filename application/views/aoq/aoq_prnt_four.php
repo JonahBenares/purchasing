@@ -158,6 +158,11 @@
 		    /*border-radius: 20px;*/
 		    padding-left: 15px;
 		}
+		td input.input{
+			text-align: right;
+			min-height: 65px;
+			padding:2px!important;
+		}
 		.op:hover{
 			color: #000!important;
 			background: #fff!important;
@@ -361,54 +366,54 @@
 		    				<table class="table-borsdered" width="100%" style='border:0px solid #000'>						
 		    					<tr class="bor-btm">
 			    					<td style='width:28.5%' class="bor-right f10" >
-			    						<textarea type="text" style="height:3rem;width: 100%" class="f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_1" rows="1"></textarea>
+			    						<textarea rows="3" type="text" style="width: 100%" class=" f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_1"></textarea>
 			    					</td>
 			    					<td style='width:14.3%' class="bor-right f10">
-			    						<select name='currency_<?php echo $x; ?>_<?php echo $v; ?>_1'>
+			    						<select style="width: 100%" name='currency_<?php echo $x; ?>_<?php echo $v; ?>_1'>
 					    					<?php foreach($currency AS $curr){ ?>
 					    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 					    					<?php } ?>
 					    				</select>
 			    					</td>
 			    					<td style='width:14.4%' class="bor-right f10" align="center">
-			    						<input type="text" style="height:3rem;width: 100%" class="f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_1" name="price_<?php echo $x; ?>_<?php echo $v; ?>_1" 
+			    						<input type="text" style="width: 100%" class="input f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_1" name="price_<?php echo $x; ?>_<?php echo $v; ?>_1" 
 				    						onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'1')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td style='width:14.4%' class="bor-right f10 " align="center">
-			    						<input type="text" style="height:3rem;width: 100%" class="f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_1" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_1">
+			    						<input type="text" style="width: 100%" class="input f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_1" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_1">
 			    					</td>
 			    					<td  style='width:28.3%'  class="bor-right text-red f10 ">
-			    						<!-- <textarea type="text" class="f10" name="" rows="1"></textarea> -->
+			    						<!-- <textarea rows="3" type="text" class="f10" name=""></textarea> -->
 			    					</td>
 			    				</tr>
 			    				<tr class="bor-btm">
 			    					<td class="bor-right f10" >
-			    						<textarea type="text" style="height:3rem;width: 100%" class="f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_2" rows="1"></textarea>
+			    						<textarea rows="3"  type="text" style="width: 100%" class="f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_2"></textarea>
 			    					</td>
 			    					<td class="bor-right f10">
-			    						<select name='currency_<?php echo $x; ?>_<?php echo $v; ?>_2'>
+			    						<select style="width: 100%" name='currency_<?php echo $x; ?>_<?php echo $v; ?>_2'>
 						    					<?php foreach($currency AS $curr){ ?>
 						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
 						    				</select>
 			    					</td>
 			    					<td class="bor-right f10" align="center">
-			    						<input type="text" style="height:3rem;width: 100%" class="f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_2" name="price_<?php echo $x; ?>_<?php echo $v; ?>_2"
+			    						<input type="text" style="width: 100%" class="input f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_2" name="price_<?php echo $x; ?>_<?php echo $v; ?>_2"
 				    						onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'2')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td class="bor-right f10 " align="center">
-			    						<input type="text" style="height:3rem;width: 100%" class="f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_2" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_2">
+			    						<input type="text" style="width: 100%" class="input f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_2" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_2">
 			    					</td>
 			    					<td  class="bor-right text-red f10 ">
-			    						<!-- <textarea type="text" class="f10" name="" rows="1"></textarea> -->
+			    						<!-- <textarea rows="3" type="text" class="f10" name=""></textarea> -->
 			    					</td>
 			    				</tr>
 			    				<tr class="bor-btm">
 			    					<td class="bor-right f10" >
-			    						<textarea type="text" style="height:3rem;width: 100%" class="f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_3" rows="1"></textarea>
+			    						<textarea rows="3"  type="text" style="width: 100%" class="f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_3"></textarea>
 			    					</td>
 			    					<td class="bor-right f10">
-			    						<select name='currency_<?php echo $x; ?>_<?php echo $v; ?>_3'>
+			    						<select style="width: 100%" name='currency_<?php echo $x; ?>_<?php echo $v; ?>_3'>
 						    					<?php foreach($currency AS $curr){ ?>
 						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
@@ -416,13 +421,13 @@
 
 			    					</td>
 			    					<td class="bor-right f10" align="center">
-			    						<input type="text" style="height:3rem;width: 100%" class="f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_3" name="price_<?php echo $x; ?>_<?php echo $v; ?>_3" onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'3')" onkeypress="return isNumberKey(this, event)">
+			    						<input type="text" style="width: 100%" class="input f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_3" name="price_<?php echo $x; ?>_<?php echo $v; ?>_3" onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'3')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
 			    					<td class="bor-right f10 " align="center">
-			    						<input type="text" style="height:3rem;width: 100%" class="f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_3" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_3">
+			    						<input type="text" style="width: 100%" class="input f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_3" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_3">
 			    					</td>
 			    					<td  class="bor-right text-red f10 ">
-			    						<!-- <textarea type="text" class="f10" name="" rows="1"></textarea> -->
+			    						<!-- <textarea rows="3" type="text" class="f10" name=""></textarea> -->
 			    					</td>
 			    				</tr>
 		    				</table>
@@ -549,25 +554,29 @@
 
 		    			<!-- loop ka here -->
 		    			<td colspan="2" class="f10 table-borreg" align="left"><br></td>
-		    			<td colspan="2"class="f10 table-borreg" align="center"></td>
-		    			<td colspan="2"class="f10 table-borreg" align="center"></td>
-		    			<td class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="2" class="f10 table-borreg" align="left"><br></td>
 		    			<!-- and delete the other two below salamats -->
 
 		    			<td colspan="2" class="f10 table-borreg" align="left"><br></td>
-		    			<td colspan="2"class="f10 table-borreg" align="center"></td>
-		    			<td colspan="2"class="f10 table-borreg" align="center"></td>
-		    			<td class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="2" class="f10 table-borreg" align="left"><br></td>
 
 		    			<td colspan="2" class="f10 table-borreg" align="left"><br></td>
-		    			<td colspan="2"class="f10 table-borreg" align="center"></td>
-		    			<td colspan="2"class="f10 table-borreg" align="center"></td>
-		    			<td class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="2" class="f10 table-borreg" align="left"><br></td>
 
 		    			<td colspan="2" class="f10 table-borreg" align="left"><br></td>
-		    			<td colspan="2"class="f10 table-borreg" align="center"></td>
-		    			<td colspan="2"class="f10 table-borreg" align="center"></td>
-		    			<td class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="1"class="f10 table-borreg" align="center"></td>
+		    			<td colspan="2" class="f10 table-borreg" align="left"><br></td>		    		
 		    		</tr>
 		    		<tr>
 		    			<td class="f10 table-borreg" align="center"></td>
@@ -584,132 +593,132 @@
 		    		<tr><td class="f10" colspan="33" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="" align="center">a.</td>
-		    			<td colspan="8" class="f10" align="center">Price Validity</td>
+		    			<td colspan="4" class="f10" align="center">Price Validity</td>
 		    			<?php
 		    			if($saved==0 && $open==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name="price_validity<?php echo $q; ?>"></td>
+		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name="price_validity<?php echo $q; ?>"></td>
 		    			<td colspan="2" class="f10" align="left"><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php 
 		    				$q++; } } else if($saved==1 && $open==0) {
 		    				foreach($vendors AS $ven) { 
 		    			?>
-		    			<td colspan="4" class="f10  bor-btm" align="left"><?php echo $ven['validity']; ?></td>
+		    			<td colspan="5" class="f10  bor-btm" align="left"><?php echo $ven['validity']; ?></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<?php } }  else if($saved==1 && $open==1){ 
 		    				$q=1;
 		    				foreach($vendors AS $ven) { ?>
-		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="price_validity<?php echo $q; ?>" value="<?php echo $ven['validity']; ?>"></td>
+		    				<td colspan="5" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="price_validity<?php echo $q; ?>" value="<?php echo $ven['validity']; ?>"></td>
 		    				<td colspan="2" class="f10" align="left"></td>
 		    			<?php   $q++; }
 		    			} ?>    
-		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<!-- <td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>		    			
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td> -->
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">b.</td>
-		    			<td colspan="8" class="f10" align="center">Payment Terms</td>
+		    			<td colspan="4" class="f10" align="center">Payment Terms</td>
 		    			<?php
 		    			if($saved==0 && $open==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name="payment_terms<?php echo $q; ?>"></td>
+		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name="payment_terms<?php echo $q; ?>"></td>
 		    			<td colspan="2" class="f10" align="left"><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php 
 		    				$q++; } } else if($saved==1 && $open==0) {
 		    				foreach($vendors AS $ven) { 
 		    			?>
-		    			<td colspan="4" class="f10 bor-btm" align="left"><?php echo $ven['terms']; ?></td>
+		    			<td colspan="5" class="f10 bor-btm" align="left"><?php echo $ven['terms']; ?></td>
 		    			<td colspan="2" class="f10" align="left"></td>
 		    			<?php } }  else if($saved==1 && $open==1){ 
 		    					$q=1; 
 		    				foreach($vendors AS $ven) { ?>
-		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="payment_terms<?php echo $q; ?>" value="<?php echo $ven['terms']; ?>"></td>
+		    				<td colspan="5" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="payment_terms<?php echo $q; ?>" value="<?php echo $ven['terms']; ?>"></td>
 		    				<td colspan="2" class="f10" align="left"></td>
 		    			<?php   $q++; }
 		    			} ?>   	
-		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<!-- <td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td> -->
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">c.</td>
-		    			<td colspan="8" class="f10" align="center">Delivery Time</td>
+		    			<td colspan="4" class="f10" align="center">Delivery Time</td>
 		    			<?php
 		    			if($saved==0 && $open==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name="delivery_date<?php echo $q; ?>"></td>
+		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name="delivery_date<?php echo $q; ?>"></td>
 		    			<td colspan="2" class="f10" align="left"><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"</td>
 		    			<?php 
 		    				$q++; } } else if($saved==1 && $open==0) {
 		    				foreach($vendors AS $ven) { 
 		    			?>
-		    			<td colspan="4" class="f10  bor-btm" align="left"><?php echo $ven['delivery_date']; ?></td>
+		    			<td colspan="5" class="f10  bor-btm" align="left"><?php echo $ven['delivery_date']; ?></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<?php } }  else if($saved==1 && $open==1){ 
 		    				$q=1;
 		    				foreach($vendors AS $ven) { ?>
-		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="delivery_date<?php echo $q; ?>" value="<?php echo $ven['delivery_date']; ?>"></td>
+		    				<td colspan="5" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="delivery_date<?php echo $q; ?>" value="<?php echo $ven['delivery_date']; ?>"></td>
 		    				<td colspan="2" class="f10" align="left"></td>
 		    			<?php   $q++; }
 		    			} ?>   	  
-		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<!-- <td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
+		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="2" class="f10" align="left"><br></td> -->
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">d.</td>
-		    			<td colspan="8" class="f10" align="center">Item's Warranty</td>
+		    			<td colspan="4" class="f10" align="center">Item's Warranty</td>
 		    			<?php
 		    			if($saved==0 && $open==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name="item_warranty<?php echo $q; ?>"></td>
+		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name="item_warranty<?php echo $q; ?>"></td>
 		    			<td colspan="2" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php 
 		    				$q++; } } else if($saved==1 && $open==0){ 
 		    				foreach($vendors AS $ven) { 
 		    			?>
-		    			<td colspan="4" class="f10  bor-btm" align="left"><?php echo $ven['warranty']; ?></td>
+		    			<td colspan="5" class="f10  bor-btm" align="left"><?php echo $ven['warranty']; ?></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<?php } } else if($saved==1 && $open==1){ 
 		    				foreach($vendors AS $ven) { ?>
-		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="item_warranty<?php echo $q; ?>" value="<?php echo $ven['warranty']; ?>"></td>
+		    				<td colspan="5" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="item_warranty<?php echo $q; ?>" value="<?php echo $ven['warranty']; ?>"></td>
 		    				<td colspan="2" class="f10" align="left"></td>
 		    			<?php }
 		    			} ?> 
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">e.</td>
-		    			<td colspan="8" class="f10" align="center">In-land Freight</td>
+		    			<td colspan="4" class="f10" align="center">In-land Freight</td>
 		    			<?php
 		    			if($saved==0 && $open==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
-		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name="freight<?php echo $q;?>"></td>
+		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name="freight<?php echo $q;?>"></td>
 		    			<td colspan="2" class="f10" align="left"><br><input type='hidden' name='id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php 
 		    				$q++; } } else if($saved==1 && $open==0) {
 		    				foreach($vendors AS $ven) { 
 		    			?>
-		    			<td colspan="4" class="f10  bor-btm" align="left"><?php echo $ven['freight'];?></td>
+		    			<td colspan="5" class="f10  bor-btm" align="left"><?php echo $ven['freight'];?></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<?php } }  else if($saved==1 && $open==1){ 
 		    				$q=1;
 		    				foreach($vendors AS $ven) { ?>
-		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="freight<?php echo $q; ?>" value="<?php echo $ven['freight']; ?>"></td>
+		    				<td colspan="5" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="freight<?php echo $q; ?>" value="<?php echo $ven['freight']; ?>"></td>
 		    				<td colspan="2" class="f10" align="left"></td>
 		    				<input type='hidden' name='vendor_id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>">
 		    			<?php   $q++; }

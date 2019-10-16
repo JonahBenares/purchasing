@@ -67,6 +67,15 @@
                     return false;   
                 }
         </script>
+        <script src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#rfqtable').DataTable( {
+                "order": [[0, 'asc' ],[4, 'desc' ]],
+                "lengthMenu": [[100, 200, 500, -1], [100, 200, 500, "All"]]
+            } );
+        } );
+    </script>
         <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
         <!-- meanmenu JS
     		============================================ -->

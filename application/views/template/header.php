@@ -21,6 +21,8 @@
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url(); ?>assets/img/message/logo4.ico">
         <!-- Google Fonts
     		============================================ -->
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/jquery.dataTables.min.css">
+
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/googleapis.css">
         <!-- Bootstrap CSS
     		============================================ -->

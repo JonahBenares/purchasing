@@ -20,7 +20,7 @@
         escape:            false,
         excelFileFormat:   'xlshtml',     // xmlss = XML Spreadsheet 2003 file format (XMLSS), xlshtml = Excel 2000 html format
         excelstyles:       [],            // e.g. ['border-bottom', 'border-top', 'border-left', 'border-right']
-        fileName:          'ProcurementExport',
+        fileName:          'tableExport',
         htmlContent:       false,
         ignoreColumn:      [],
         ignoreRow:         [],

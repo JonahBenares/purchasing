@@ -554,7 +554,7 @@
 		    				$q++; } }else { 
 		    				foreach($vendors AS $ven) { 
 		    			?>
-		    			<td colspan="4" class="f10  bor-btm" align="left"><?php echo $ven['validity']; ?></td>
+		    			<td colspan="5" class="f10  bor-btm" align="left"><?php echo $ven['validity']; ?></td>
 		    			<td colspan="1" class="f10" align="left"><br></td>
 		    			<?php } } ?> 
 		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>

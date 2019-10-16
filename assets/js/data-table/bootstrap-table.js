@@ -285,7 +285,7 @@
         undefinedText: '-',
         sortName: undefined,
         sortOrder: 'asc',
-        sortStable: true,
+        sortStable: false,
         striped: false,
         columns: [[]],
         data: [],
@@ -311,8 +311,8 @@
         sidePagination: 'client', // client or server
         totalRows: 0, // server side need to set
         pageNumber: 1,
-        pageSize: 25,
-        pageList: [25, 50, 100, 500],
+        pageSize: 20,
+        pageList: [20, 100, 50, 100],
         paginationHAlign: 'right', //right, left
         paginationVAlign: 'bottom', //bottom, top, both
         paginationDetailHAlign: 'left', //right, left
@@ -513,7 +513,7 @@
         falign: undefined, // left, right, center
         valign: undefined, // top, middle, bottom
         width: undefined,
-        sortable: true,
+        sortable: false,
         order: 'asc', // asc, desc
         visible: true,
         switchable: true,
