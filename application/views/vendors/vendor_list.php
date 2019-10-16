@@ -86,6 +86,10 @@
                                                             <p class="m-b-0">Contact Person:</p>
                                                             <input type="text" name="contact" class="form-control">
                                                         </div>
+                                                         <div class="form-group">
+                                                            <p class="m-b-0">TIN #:</p>
+                                                            <input type="text" name="tin" class="form-control" >
+                                                        </div>
                                                         <div class="form-group">
                                                             <p class="m-b-0">EWT(%):</p>
                                                             <input type="text" name="ewt" class="form-control" onkeypress="return isNumberKey(this, event)">
@@ -170,6 +174,10 @@
                                                         <div class="form-group">
                                                             <p class="m-b-0">Notes:</p>
                                                             <input type="text" name="notes" class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <p class="m-b-0">TIN #:</p>
+                                                            <input type="text" name="tin" class="form-control">
                                                         </div>
                                                         <div class="form-group">
                                                             <p class="m-b-0">EWT(%):</p>

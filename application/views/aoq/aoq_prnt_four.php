@@ -350,7 +350,13 @@
 			    					<td style='width:28.5%' class="bor-right f10" >
 			    						<textarea type="text" style="height:3rem;width: 100%" class="f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_1" rows="1"></textarea>
 			    					</td>
-			    					<td style='width:14.3%' class="bor-right f10"></td>
+			    					<td style='width:14.3%' class="bor-right f10">
+			    						<select name='currency_<?php echo $x; ?>_<?php echo $v; ?>_1'>
+					    					<?php foreach($currency AS $curr){ ?>
+					    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+					    					<?php } ?>
+					    				</select>
+			    					</td>
 			    					<td style='width:14.4%' class="bor-right f10" align="center">
 			    						<input type="text" style="height:3rem;width: 100%" class="f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_1" name="price_<?php echo $x; ?>_<?php echo $v; ?>_1" 
 				    						onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'1')" onkeypress="return isNumberKey(this, event)">
@@ -366,7 +372,13 @@
 			    					<td class="bor-right f10" >
 			    						<textarea type="text" style="height:3rem;width: 100%" class="f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_2" rows="1"></textarea>
 			    					</td>
-			    					<td class="bor-right f10"></td>
+			    					<td class="bor-right f10">
+			    						<select name='currency_<?php echo $x; ?>_<?php echo $v; ?>_2'>
+						    					<?php foreach($currency AS $curr){ ?>
+						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    					<?php } ?>
+						    				</select>
+			    					</td>
 			    					<td class="bor-right f10" align="center">
 			    						<input type="text" style="height:3rem;width: 100%" class="f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_2" name="price_<?php echo $x; ?>_<?php echo $v; ?>_2"
 				    						onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'2')" onkeypress="return isNumberKey(this, event)">
@@ -382,7 +394,14 @@
 			    					<td class="bor-right f10" >
 			    						<textarea type="text" style="height:3rem;width: 100%" class="f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_3" rows="1"></textarea>
 			    					</td>
-			    					<td class="bor-right f10"></td>
+			    					<td class="bor-right f10">
+			    						<select name='currency_<?php echo $x; ?>_<?php echo $v; ?>_3'>
+						    					<?php foreach($currency AS $curr){ ?>
+						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    					<?php } ?>
+						    				</select>
+
+			    					</td>
 			    					<td class="bor-right f10" align="center">
 			    						<input type="text" style="height:3rem;width: 100%" class="f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_3" name="price_<?php echo $x; ?>_<?php echo $v; ?>_3" onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'3')" onkeypress="return isNumberKey(this, event)">
 			    					</td>
@@ -415,7 +434,7 @@
 			    					<td style='width:28.5%' class="bor-right f10" >
 			    						<?php echo $of['offer']; ?>
 			    					</td>
-			    					<td style='width:14.3%' class="bor-right f10"></td>
+			    					<td style='width:14.3%' class="bor-right f10"><center><?php echo $of['currency']; ?></center></td>
 			    					<td style='width:14.4%' class="bor-right f10 <?php echo (($of['price']==$of['min']) ? 'yellow-back' : ''); ?> " align="center">
 			    						<?php echo number_format($of['price'],2); ?>
 			    					</td>
@@ -426,7 +445,7 @@
 				    					<input type="checkbox" name="award_<?php echo $a; ?>" value="1" >
 			    					</td>
 			    					<?php } else { ?>
-			    					<td style='width:28.3%' class="bor-btm bor-right <?php echo (($of['recommended'] == 1) ? 'green-back': ''); ?>" align="center">
+			    					<td style='width:14.4%' class="bor-btm bor-right <?php echo (($of['recommended'] == 1) ? 'green-back': ''); ?>" align="center">
 			    						<?php echo number_format($of['amount'],2); ?><br>
 			    					</td> 
 			    					<?php } ?>

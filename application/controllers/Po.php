@@ -1490,6 +1490,7 @@ class Po extends CI_Controller {
 
     public function add_repeatPO(){
         $count_item = $this->input->post('count_item');
+        $old_po = $this->input->post('old_po');
 
         for($x=1;$x<$count_item;$x++){
 
@@ -1533,6 +1534,14 @@ class Po extends CI_Controller {
             'pr_id'=>$this->input->post('pr_id'),
         );
         $this->super_model->insert_into("po_pr", $data_pr);
+
+        foreach($this->super_model->select_row_where('po_tc', 'po_id',  $old_po) AS $tc){
+            $data_tc = array(
+                'po_id'=>$po_id,
+                'tc_desc'=>$tc->tc_desc
+            );
+            $this->super_model->insert_into("po_tc", $data_tc);
+        }
 
      /*    $data_head=array(
             'saved'=>1,

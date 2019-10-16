@@ -1019,7 +1019,7 @@ class Reports extends CI_Controller {
                              $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $p->po_id);
                            // $status = date('m.d.Y', strtotime($p->date_served))." - Delivered DR# ". $dr_no;
                                $status='';
-                           foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $i->pr_details_id) AS $del){
+                           foreach($this->super_model->select_custom_where("po_dr_items", "pr_details_id= '$i->pr_details_id' AND po_id = '$p->po_id'") AS $del){
                                  $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
                             }
                         }
