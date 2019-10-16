@@ -135,13 +135,21 @@ class Aoq extends CI_Controller {
 
     public function open_aoq_before(){
         $aoq_id = $this->uri->segment(3);
+
+        $count_vendors = $this->super_model->count_rows_where("aoq_vendors", "aoq_id", $aoq_id);
         $data = array(
             'open'=>1,
 
         );
 
         if($this->super_model->update_where("aoq_head", $data, "aoq_id", $aoq_id)){
-             redirect(base_url().'aoq/aoq_prnt/'.$aoq_id);
+            if($count_vendors<=3){
+                 redirect(base_url().'aoq/aoq_prnt/'.$aoq_id);
+            }  else if($count_vendors==4){
+                 redirect(base_url().'aoq/aoq_prnt_four/'.$aoq_id);
+            }  else if($count_vendors==5){
+                 redirect(base_url().'aoq/aoq_prnt_five/'.$aoq_id);
+            }
         }
     }
 	public function aoq_list(){
@@ -507,7 +515,15 @@ class Aoq extends CI_Controller {
         );
          $this->super_model->update_where("aoq_head", $datahead, "aoq_id", $this->input->post('aoq_id'));
 
-         redirect(base_url().'aoq/aoq_prnt/'.$this->input->post('aoq_id'));
+        $count_vendors = $this->super_model->count_rows_where("aoq_vendors", "aoq_id", $this->input->post('aoq_id'));
+
+         if($count_vendors<=3){
+             redirect(base_url().'aoq/aoq_prnt/'.$this->input->post('aoq_id'));
+         } else if($count_vendors==4){
+             redirect(base_url().'aoq/aoq_prnt_four/'.$this->input->post('aoq_id'));
+         } else if($count_vendors==5){
+             redirect(base_url().'aoq/aoq_prnt_five/'.$this->input->post('aoq_id'));
+         }
     }
  
 
@@ -792,6 +808,7 @@ class Aoq extends CI_Controller {
         $data['currency'] = $this->currency_list();
         $data['aoq_id']=$aoq_id;
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
+         $data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
@@ -858,6 +875,7 @@ class Aoq extends CI_Controller {
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
                 'item_id'=>$off->aoq_items_id,
                 'offer'=>$off->offer,
+                'quantity'=>$off->quantity,
                 'currency'=>$off->currency,
                 'price'=>$off->unit_price,
                 'amount'=>$off->amount,
