@@ -521,7 +521,7 @@
 		    				
 			    				 ?>
 		    					
-			    			<td colspan="7" style='border:1px solid #000;vertical-align: text-top;' >
+			    			<td colspan="6" style='border:1px solid #000;vertical-align: text-top;' >
 			    				<table class="" width="100%" style='border:0px solid #000;'>		
 			    				<?php 	
 			    				$a=1;
