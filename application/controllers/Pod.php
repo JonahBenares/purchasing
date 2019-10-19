@@ -131,7 +131,8 @@ class Pod extends CI_Controller {
         $pr_id=$this->uri->segment(4);  
         $group_id=$this->uri->segment(5);  
         $data['po_id']=$po_id;  
-        $data['pr_id']=$pr_id;  
+        $data['pr_id']=$pr_id;
+        $data['group_id']=$group_id;
         $supplier_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         $data['supplier_id']=$supplier_id;
 
@@ -145,10 +146,19 @@ class Pod extends CI_Controller {
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
             );
             $data['saved']=$h->saved;
+            $data['shipping']=$h->shipping;
+            $data['discount']=$h->discount;
+            $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
+            $data['revised']=$h->revised;
+            $data['revision_no']=$h->revision_no;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+            $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
         }
+/*
+         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
+        $data['currency'] = $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);*/
 
         $saved=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
         if($saved==0){
@@ -282,6 +292,9 @@ class Pod extends CI_Controller {
 
    
         $head = array(
+             'shipping'=>$this->input->post('shipping'),
+            'discount'=>$this->input->post('discount'),
+            'checked_by'=>$this->input->post('checked'),
             'approved_by'=>$this->input->post('approved'),
             'saved'=>1
         );
@@ -293,12 +306,14 @@ class Pod extends CI_Controller {
 
     public function add_tc(){
         $po_id = $this->input->post('po_id');
+        $pr_id = $this->input->post('pr_id');
+        $group_id = $this->input->post('group_id');
         $data = array(
             'po_id'=>$this->input->post('po_id'),
             'tc_desc'=>$this->input->post('tc_desc'),
         );
         if($this->super_model->insert_into("po_tc", $data)){
-            redirect(base_url().'pod/po_direct/'.$po_id, 'refresh');
+            redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
         }
     }
 
@@ -522,6 +537,415 @@ class Pod extends CI_Controller {
             redirect(base_url().'pod/pod_list', 'refresh');
         }
     }
+
+
+      public function purchase_order_rev(){
+
+        $po_id=$this->uri->segment(3); 
+        foreach($this->super_model->select_row_where("po_head", "po_id",$po_id) AS $head){
+            $data['approved_by']=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
+            $data['prepared_by']=$this->super_model->select_column_where('users','fullname','user_id', $head->user_id);
+            $data['revised']=$head->revised;
+        }
+        
+        $data['po_id'] = $po_id;
+        $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
+        foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
+            $data['head'][] = array(
+                'po_date'=>$h->po_date,
+                'po_no'=>$h->po_no,
+                'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $h->vendor_id),
+                'address'=>$this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $h->vendor_id),
+                'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
+                'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
+            );
+            $data['shipping']=$h->shipping;
+            $data['discount']=$h->discount;
+            $data['saved']=$h->saved;
+            $data['revised']=$h->revised;
+            $data['revision_no']=$h->revision_no;
+            $data['po_no']=$h->po_no;
+            $data['notes']=$h->notes;
+            $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
+            $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+            $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
+        }
+
+        $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
+        $data['currency']= $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
+        $data['items_temp'] = $this->super_model->select_row_where('po_items_temp', 'po_id', $po_id);
+        $data['currency_temp']= $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
+      
+        foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $ppr){
+            $data['allpr'][]= array(
+                'pr_no'=>$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $ppr->pr_id),
+                'enduse'=>$ppr->enduse,
+                'purpose'=>$ppr->purpose,
+                'requestor'=>$ppr->requestor
+            );
+            $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+        }
+        //$data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['tc_notes'] = $this->super_model->select_column_where("po_tc_temp",'notes',"po_id",$po_id);
+        $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['tc_temp'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
+        //$data['tc'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
+        $data['shipping_temp'] = $this->super_model->select_column_where('po_head_temp', 'shipping', 'po_id', $po_id);
+        $data['discount_temp'] = $this->super_model->select_column_where('po_head_temp', 'discount', 'po_id', $po_id);
+
+        $datarfd = array(
+            'saved'=>0
+        );
+        $this->super_model-> update_where("rfd", $datarfd, "po_id", $po_id);
+
+        $this->load->view('template/header');        
+        $this->load->view('pod/purchase_order_rev', $data);
+        $this->load->view('template/footer');
+    }
+
+
+    public function save_change_order(){
+        $po_id = $this->input->post('po_id');
+        $x=1;
+     /*   $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
+        $revision_no = $max_revision+1;*/
+
+        $data_head = array(
+            'po_id'=>$po_id,
+            'shipping'=>$this->input->post('shipping'),
+            'discount'=>$this->input->post('discount')
+        );
+        $this->super_model->insert_into("po_head_temp", $data_head);
+          foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $poitems){
+            if($this->input->post('quantity'.$x)!=0){
+                $price = str_replace(",", "", $this->input->post('price'.$x));
+                $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                
+                    $data_items = array(
+                        "po_items_id"=>$poitems->po_items_id,
+                        "pr_id"=>$poitems->pr_id,
+                        "po_id"=>$poitems->po_id,
+                        "aoq_offer_id"=>$poitems->aoq_offer_id,
+                        "aoq_items_id"=>$poitems->aoq_items_id,
+                        "pr_details_id"=>$poitems->pr_details_id,
+                        "offer"=>$this->input->post('offer'.$x),
+                        "item_id"=>$poitems->item_id,
+                        "delivered_quantity"=>$this->input->post('quantity'.$x),
+                        "quantity"=>$poitems->delivered_quantity,
+                        "unit_price"=>$price,
+                        "uom"=>$poitems->uom,
+                        "amount"=>$amount,
+                        "item_no"=>$poitems->item_no,
+                       /* "revision_no"=>$revision_no*/
+                    );
+                    $this->super_model->insert_into("po_items_temp", $data_items);
+        
+            }
+                $x++;
+        }
+
+        $y=1;
+        foreach($this->super_model->select_row_where("po_tc","po_id",$po_id) AS $potc){
+            $data_tci = array(
+                "po_tc_id"=>$potc->po_tc_id,
+                "po_id"=>$po_id,
+                "tc_desc"=>$this->input->post('terms'.$y),
+                //"notes"=>$this->input->post('notes'),
+            );
+            if($this->super_model->insert_into("po_tc_temp", $data_tci)){
+                $data_notes = array(
+                    "notes"=>$this->input->post('notes'),
+                );
+                $this->super_model->update_where("po_tc_temp", $data_notes, "po_tc_id", $potc->po_tc_id);
+            }
+
+
+            $y++;
+        }
+
+        $data_head = array(
+            'revised'=>1
+        );
+
+        if($this->super_model->update_where("po_head", $data_head, "po_id", $po_id)){
+            redirect(base_url().'pod/purchase_order_rev/'.$po_id);
+        }
+    }
+
+    public function approve_revision(){
+        $po_id = $this->input->post('po_id');
+
+
+        $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
+        $revision_no = $max_revision+1;
+
+        $rows_dr = $this->super_model->count_rows("po_dr");
+        if($rows_dr==0){
+            $dr_no=1000;
+        } else {
+            $max = $this->super_model->get_max("po_dr", "dr_no");
+            $dr_no = $max+1;
+        }
+
+        $rows_series = $this->super_model->count_rows("po_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("po_series", "series");
+            $series = $max+1;
+        }
+
+        $data_series = array(
+            'series'=>$series
+        );
+        $this->super_model->insert_into("po_series", $data_series);
+
+        foreach($this->super_model->select_row_where("po_dr","po_id",$po_id) AS $drs){
+            $data_dr=array(
+                'dr_id'=>$drs->dr_id,
+                'po_id'=>$drs->po_id,
+                'dr_no'=>$drs->dr_no,
+                'dr_date'=>$drs->dr_date,
+                'dr_type'=>$drs->dr_type,
+                'saved'=>$drs->saved,
+                'revision_no'=>$drs->revision_no,
+            );
+            if($this->super_model->insert_into("po_dr_revised", $data_dr)){
+                $dr = array(
+                    'dr_no'=>$dr_no,
+                    'received'=>0,
+                    'date_received'=>NULL
+                );
+                $this->super_model->update_where("po_dr", $dr, "dr_id", $drs->dr_id);
+            }
+        }
+
+        foreach($this->super_model->select_row_where("po_dr_items","po_id",$po_id) AS $dritems){
+            $data_dritems=array(
+                'dr_items_id'=>$dritems->dr_items_id,
+                'po_items_id'=>$dritems->po_items_id,
+                'dr_id'=>$dritems->dr_id,
+                'pr_id'=>$dritems->pr_id,
+                'po_id'=>$dritems->po_id,
+                'aoq_offer_id'=>$dritems->aoq_offer_id,
+                'aoq_items_id'=>$dritems->aoq_items_id,
+                'pr_details_id'=>$dritems->pr_details_id,
+                'offer'=>$dritems->offer,
+                'item_id'=>$dritems->item_id,
+                'delivered_quantity'=>$dritems->delivered_quantity,
+                'quantity'=>$dritems->quantity,
+                'unit_price'=>$dritems->unit_price,
+                'uom'=>$dritems->uom,
+                'amount'=>$dritems->amount,
+                'item_no'=>$dritems->item_no,
+                'revision_no'=>$dritems->revision_no
+            );
+            $this->super_model->insert_into("po_dr_items_revised", $data_dritems);
+        }
+        
+        $data_drs =array(
+            'revision_no'=>$revision_no
+        );
+        $this->super_model->update_where("po_dr", $data_drs, "po_id", $po_id);
+
+        $pr_id = $this->super_model->select_column_where("po_items","pr_id","po_id",$po_id);
+        $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id);
+        $po_no = "P".$pr_no."-".$series;
+        foreach($this->super_model->select_row_where("po_head","po_id",$po_id) AS $head){
+            $data_head = array(
+                "po_id"=>$head->po_id,
+                "po_date"=>$head->po_date,
+                "po_no"=>$head->po_no,
+                "dr_no"=>$head->dr_no,
+                "vendor_id"=>$head->vendor_id,
+                "notes"=>$head->notes,
+                "po_type"=>$head->po_type,
+                "user_id"=>$head->user_id,
+                "shipping"=>$head->shipping,
+                "discount"=>$head->discount,
+                "approved_by"=>$head->approved_by,
+                "checked_by"=>$head->checked_by,
+                "saved"=>$head->saved,
+                "done_po"=>$head->done_po,
+                "date_revised"=>$this->input->post('approve_date'),
+                "revision_no"=>$head->revision_no,
+                "revise_attachment"=>$head->revise_attachment,
+            );
+            if($this->super_model->insert_into("po_head_revised", $data_head)){
+                foreach($this->super_model->select_row_where("po_head_temp","po_id",$po_id) AS $headt){
+                    $data_po=array(
+                        "shipping"=>$headt->shipping,
+                        "discount"=>$headt->discount,
+                        "po_no"=>$po_no,
+                    );
+                }
+                $this->super_model->update_where("po_head", $data_po, "po_id", $head->po_id);
+            }
+        }
+
+        foreach($this->super_model->select_row_where("po_pr","po_id",$po_id) AS $popr){
+            $data_popr = array(
+                "po_pr_id"=>$popr->po_pr_id,
+                "po_id"=>$popr->po_id,
+                //"po_id"=>$popr->po_id,
+                "aoq_id"=>$popr->aoq_id,
+                "enduse"=>$popr->enduse,
+                "purpose"=>$popr->purpose,
+                "requestor"=>$popr->requestor,
+                "notes"=>$popr->notes,
+                "revision_no"=>$popr->revision_no,
+            );
+            $this->super_model->insert_into("po_pr_revised", $data_popr);
+        }
+
+        foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $poitems){
+            $data_items = array(
+                "po_items_id"=>$poitems->po_items_id,
+                "pr_id"=>$poitems->pr_id,
+                "po_id"=>$poitems->po_id,
+                "aoq_offer_id"=>$poitems->aoq_offer_id,
+                "aoq_items_id"=>$poitems->aoq_items_id,
+                "pr_details_id"=>$poitems->pr_details_id,
+                "offer"=>$poitems->offer,
+                "item_id"=>$poitems->item_id,
+                "delivered_quantity"=>$poitems->delivered_quantity,
+                "unit_price"=>$poitems->unit_price,
+                "uom"=>$poitems->uom,
+                "amount"=>$poitems->amount,
+                "item_no"=>$poitems->item_no,
+                "revision_no"=>$poitems->revision_no,
+            );
+            $this->super_model->insert_into("po_items_revised", $data_items);
+        }
+
+
+
+        foreach($this->super_model->select_row_where("po_tc","po_id",$po_id) AS $potc){
+            $data_potc = array(
+                "po_tc_id"=>$potc->po_tc_id,
+                "po_id"=>$popr->po_id,
+                "tc_desc"=>$potc->tc_desc,
+                "notes"=>$potc->notes,
+                "revision_no"=>$potc->revision_no,
+            );
+            $this->super_model->insert_into("po_tc_revised", $data_potc);
+        }
+
+        $data_tcn =array(
+            'revision_no'=>$revision_no
+        );
+
+        $this->super_model->update_where("po_tc", $data_tcn, "po_id", $po_id);
+
+        foreach($this->super_model->select_row_where("po_tc_temp","po_id",$po_id) AS $potcr){
+            $data_rev = array(
+                "po_tc_id"=>$potcr->po_tc_id,
+                "po_id"=>$popr->po_id,
+                "tc_desc"=>$potcr->tc_desc,
+                "notes"=>$potcr->notes,
+                "revision_no"=>$potcr->revision_no,
+            );
+            $this->super_model->update_where("po_tc", $data_rev, "po_tc_id", $potcr->po_tc_id);
+        }
+
+        
+        foreach($this->super_model->custom_query("SELECT pr_details_id FROM po_items WHERE pr_details_id NOT IN (SELECT pr_details_id FROM po_items_temp WHERE po_id='$po_id')") AS $omit){
+             $delete_item = $this->super_model->delete_where("po_items", "pr_details_id", $omit->pr_details_id);
+              $delete_dr = $this->super_model->delete_where("po_dr_items", "pr_details_id", $omit->pr_details_id);
+        }
+
+        foreach($this->super_model->select_row_where("po_items_temp","po_id",$po_id) AS $poitems){
+            $oldqty = $this->super_model->select_column_where('po_items', 'quantity', 'po_items_id',  $poitems->po_items_id);
+
+          
+                if($oldqty==0){
+                    $nqty=0;
+                } else {
+                    $nqty = $oldqty-$poitems->quantity;
+                }
+
+
+                $data_items = array(
+               
+                    "pr_id"=>$poitems->pr_id,
+                    "po_id"=>$poitems->po_id,
+                    "aoq_offer_id"=>$poitems->aoq_offer_id,
+                    "aoq_items_id"=>$poitems->aoq_items_id,
+                    "pr_details_id"=>$poitems->pr_details_id,
+                    "offer"=>$poitems->offer,
+                    "item_id"=>$poitems->item_id,
+                    "delivered_quantity"=>$poitems->delivered_quantity,
+                    "quantity"=>$nqty,
+                    "unit_price"=>$poitems->unit_price,
+                    "uom"=>$poitems->uom,
+                    "amount"=>$poitems->amount,
+                    "item_no"=>$poitems->item_no,
+                    "revision_no"=>$revision_no
+                );
+                 $this->super_model->update_where("po_items", $data_items, "po_items_id", $poitems->po_items_id);
+
+                $data_dr_items = array(
+                    'delivered_quantity'=>$poitems->delivered_quantity,
+                    'quantity'=>0,
+                    'unit_price'=>$poitems->unit_price,
+                    'amount'=>$poitems->amount,
+                    'offer'=>$poitems->offer
+                );
+
+                $this->super_model->update_where("po_dr_items", $data_dr_items, "po_items_id", $poitems->po_items_id);
+         
+
+            $old_qty = $this->super_model->select_column_where('po_items', 'delivered_quantity', 'aoq_offer_id',  $poitems->aoq_offer_id);
+            if($old_qty!=$poitems->delivered_quantity){
+             
+                $difference = $old_qty - $poitems->quantity;
+
+                $old_balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id',  $poitems->aoq_offer_id);
+
+                $balance = $old_balance+$difference;
+
+                $data_aoq = array(
+                    'balance'=>$balance
+                );
+                $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $poitems->aoq_offer_id);
+            } else {
+              
+                $balance = $this->super_model->select_column_where('aoq_offers', 'balance', 'aoq_offer_id',  $poitems->aoq_offer_id);
+                $data_aoq = array(
+                    'balance'=>$balance
+                );
+                $this->super_model->update_where("aoq_offers", $data_aoq, "aoq_offer_id", $poitems->aoq_offer_id);
+            }
+        
+           
+            
+        }
+        $this->super_model->delete_where("po_head_temp", "po_id", $po_id);
+        $this->super_model->delete_where("po_tc_temp", "po_id", $po_id);
+        $this->super_model->delete_where("po_items_temp", "po_id", $po_id);    
+        $data_pr =array(
+            'revision_no'=>$revision_no
+        );
+        $this->super_model->update_where("po_pr", $data_pr, "po_id", $po_id);
+
+        $data =array(
+            'served'=>0,
+            'date_served'=>NULL,
+            'served_by'=>0,
+            'approve_rev_by'=>$this->input->post('approve_rev'),
+            'approve_rev_date'=>$this->input->post('approve_date'),
+            'revised'=>0,
+            'revision_no'=>$revision_no
+        );
+        if($this->super_model->update_where("po_head", $data, "po_id", $po_id)){
+            redirect(base_url().'po/po_list/', 'refresh');
+        }
+    }
+
 }
 
 ?>

@@ -139,8 +139,15 @@ class Aoq extends CI_Controller {
         $count_vendors = $this->super_model->count_rows_where("aoq_vendors", "aoq_id", $aoq_id);
         $data = array(
             'open'=>1,
+            'awarded'=>0
 
         );
+
+        $data_offers = array(
+            'recommended'=>0
+        );
+
+        $this->super_model->update_where("aoq_offers", $data_offers, "aoq_id", $aoq_id);
 
         if($this->super_model->update_where("aoq_head", $data, "aoq_id", $aoq_id)){
             if($count_vendors<=3){

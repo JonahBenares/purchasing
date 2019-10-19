@@ -336,37 +336,29 @@
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>
-		    				<?php if(!empty($payment_terms)){
-		    				$x= $x+1; ?>
-		    				<?php echo $x.'.'; ?> Payment term: <?php echo $payment_terms; ?><br>
-		    				<?php } ?>	
+		    					<?php $x=4; ?>
+		    				<?php if(!empty($payment_terms)){ 
+		    				$x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
+		    				<?php $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    					$x= $x+1; ?>
-		    				<?php echo $x.'.'; ?> Item Warranty: <?php echo $item_warranty; ?><br>
-		    				<?php } ?>
+		    				$x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
+		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				$x= $x+1; ?>
-		    				<?php echo $x.'.'; ?> Delivery Time: <?php echo $delivery_time; ?><br>
-		    				<?php } ?>
+		    				$x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
+		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				$x= $x+1; ?>
-		    				<?php echo $x.'.'; ?> In-land Freight: <?php echo $freight; ?><br>
-		    				<?php } ?>
-		    				<!-- 4. Payment term: <?php echo $payment_terms; ?><br>	
-		    				5. Item Warranty: <?php echo $item_warranty; ?><br>	 
-		    				6. Delivery Time: <?php echo $delivery_time; ?><br>
-		    				7. In-land Freight: <?php echo $freight; ?><br> -->
-							<?php 
-								
+		    				$x."."; ?> In-land Freight: <?php echo $freight; ?><br>
+		    				<?php $x++; } ?>
+		    				<?php 
+		    					//$no=8;
+		    			
 		    					foreach($tc AS $t){ 
-
 		    						if(!empty($t->tc_desc)){
-		    							$x++; 
 			    						echo $x.". " . $t->tc_desc."<br>";
-			    						
+			    						$x++; 
 			    					}
 		    					} 
-		    				?>	
+		    				?>
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
 							</button>

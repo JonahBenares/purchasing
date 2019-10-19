@@ -140,6 +140,9 @@
 						<?php if($saved==0){ ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" value="Save">	
 						<?php } else { ?>
+
+						<a  href='<?php echo base_url(); ?>pod/purchase_order_rev/<?php echo $po_id; ?>' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
+						
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
 						<a  href="<?php echo base_url(); ?>pod/delivery_receipt/<?php echo $po_id;?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
 						<a  href="<?php echo base_url(); ?>pod/rfd_prnt/<?php echo $po_id;?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
@@ -187,7 +190,7 @@
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
 		    			<td colspan="12"><h6 class="nomarg"><b><?php echo date('F j, Y', strtotime($h['po_date'])); ?></b></h6></td>
-		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: <?php echo $h['po_no']; ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: <?php echo $h['po_no'] . (($revision_no!=0) ? ".r".$revision_no : "");  ?></b></h6></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Supplier:</b></h6></td>
@@ -260,6 +263,61 @@
 		    				}
 		    			} 
 		    		?>
+		    			<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="13" class="bor-right" align="left">
+		    				<p class="nomarg"><br></p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"></b></td>		
+		    		</tr>	
+		    		<?php if($saved==1){ ?>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="13" class="bor-right" align="right">
+		    				<p class="nomarg">Shipping Cost</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($shipping,2); ?></b></td>		
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="13" class="bor-right" align="right">
+		    				<p class="nomarg">Less: Discount</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($discount,2); ?></b></td>		
+		    		</tr>
+		    		<?php } else {  ?>
+		    			<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="13" class="bor-right" align="right">
+		    				<p class="nomarg">Shipping Cost</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='shipping' id='shipping' value='0' onchange='additionalCost()' style='width:100%' ></b></td>		
+		    		</tr>
+		    			<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="13" class="bor-right" align="right">
+		    				<p class="nomarg">Less: Discount</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='discount' id='discount' onchange='additionalCost()' value='0' style='width:100%' ></b></td>		
+		    		</tr>
+		    		<?php } ?>
+		    	
+
 		    		<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    		<tr>
 		    			<td colspan="" class=" bor-right" align="center"></td>
@@ -295,10 +353,18 @@
 		    			</td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
-		    		</tr>		    		
+		    		</tr>		   
+		    		<?php 
+
+		    		if($saved==1) {
+		    			$grtotal =array_sum($gtotal);
+		    			$grandtotal = ($grtotal+$shipping)-$discount;
+		    		}
+		    		?> 		
+		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>   
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php if($saved==1){ echo number_format(array_sum($gtotal),2); } ?></span></b></td>
+					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php if($saved==1){ echo number_format($grandtotal,2); } ?></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">
@@ -326,35 +392,50 @@
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
-		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Prepared by:</b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Approved by:</b></td>
-		    			<td colspan="2"></td>
+		    	<tr>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Prepared by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b>Checked by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Approved by:</b></td>
+		    			<td colspan="1"></td>
+		    		</tr>
+		    	<tr>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b><?php echo $prepared; ?></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b>
+		    			<?php if($saved==0){ ?>
+		    			<select name='checked' class="select-des emphasis" style="width: 100%" required>
+			    			<option value=''>-Select-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+		    			</select>	
+		    			<?php }else { ?>
+		    			<?php echo $checked; } ?></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>
 		    			<?php if($saved==0){ ?>
 		    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
 			    			<option value=''>-Select-</option>
 			    			<?php foreach($employee AS $emp){ ?>
 			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
 			    			<?php } ?>
-		    			</select></b></td>
+		    			</select>	
 		    			<?php }else { ?>
-		    			<?php echo $approved; } ?>
-		    			<td colspan="2"></td>
+		    			<?php echo $approved; } ?></b>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
@@ -395,6 +476,8 @@
 							</div>
 						</div>
 						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+						<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+						<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
 						<div class="modal-footer">
 							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 						</div>

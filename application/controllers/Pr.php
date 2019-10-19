@@ -46,7 +46,9 @@ class Pr extends CI_Controller {
 
         $pr_id = $this->input->post('pr_ids');
         $group_id = $this->input->post('group_id');
-        $po_no = "POD-".$series;
+         $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id);
+        $po_no = "P".$pr_no."-".$series;
+       // $po_no = "POD-".$series;
         $data= array(
             'po_id'=>$po_id,
             'po_date'=>$this->input->post('po_date'),

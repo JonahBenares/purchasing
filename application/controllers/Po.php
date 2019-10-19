@@ -1807,7 +1807,7 @@ class Po extends CI_Controller {
         );
 
         if($this->super_model->update_where("po_head", $data_head, "po_id", $po_id)){
-            redirect(base_url().'po/purchase_order_rev/'.$po_id);
+            redirect(base_url().'pod/purchase_order_rev/'.$po_id);
         }
     }
 
@@ -1993,6 +1993,13 @@ class Po extends CI_Controller {
             );
             $this->super_model->update_where("po_tc", $data_rev, "po_tc_id", $potcr->po_tc_id);
         }
+
+
+        foreach($this->super_model->custom_query("SELECT pr_details_id FROM po_items WHERE pr_details_id NOT IN (SELECT pr_details_id FROM po_items_temp WHERE po_id='$po_id')") AS $omit){
+             $delete_item = $this->super_model->delete_where("po_items", "pr_details_id", $omit->pr_details_id);
+              $delete_dr = $this->super_model->delete_where("po_dr_items", "pr_details_id", $omit->pr_details_id);
+        }
+
 
         foreach($this->super_model->select_row_where("po_items_temp","po_id",$po_id) AS $poitems){
             $oldqty = $this->super_model->select_column_where('po_items', 'quantity', 'po_items_id',  $poitems->po_items_id);
