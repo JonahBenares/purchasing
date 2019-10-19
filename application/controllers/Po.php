@@ -1529,11 +1529,11 @@ class Po extends CI_Controller {
                 $this->super_model->insert_into("po_items", $data);
             }
         }
-        $data_pr=array(
+     /*   $data_pr=array(
             'po_id'=>$po_id,
             'pr_id'=>$this->input->post('pr_id'),
         );
-        $this->super_model->insert_into("po_pr", $data_pr);
+        $this->super_model->insert_into("po_pr", $data_pr);*/
 
         foreach($this->super_model->select_row_where('po_tc', 'po_id',  $old_po) AS $tc){
             $data_tc = array(

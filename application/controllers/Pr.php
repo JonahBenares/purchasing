@@ -170,6 +170,17 @@ class Pr extends CI_Controller {
             'user_id'=>$_SESSION['user_id'],
             'po_type'=>2
         );
+
+        $data_popr = array(
+            'po_id'=>$po_id,
+            'pr_id'=>$pr_id,
+            'enduse'=>$this->super_model->select_column_where('pr_head', 'enduse', 'pr_id', $pr_id),
+            'purpose'=>$this->super_model->select_column_where('pr_head', 'purpose', 'pr_id', $pr_id),
+            'requestor'=>$this->super_model->select_column_where('pr_head', 'requestor', 'pr_id', $pr_id),
+        );
+
+        $this->super_model->insert_into("po_pr", $data_popr);
+
         if($this->super_model->insert_into("po_head", $data)){
             redirect(base_url().'po/reporder_prnt/'.$po_id."/".$pr_id."/".$group_id);
         }

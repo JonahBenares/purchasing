@@ -304,7 +304,7 @@
 					    			<td colspan="3" class="bor-right" align="right"><b></b></td>
 					    			<!-- <td colspan="" class="bor-right" align="center"><b></b></td> -->
 					    		</tr> 
-					    		<tr>
+					    		<!-- <tr>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -315,8 +315,8 @@
 					    			</td>
 					    			<td colspan="2" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="3" class="bor-right" align="right"><b></b></td>
-					    			<!-- <td colspan="" class="bor-right" align="center"><b></b></td> -->
-					    		</tr>
+					    			
+					    		</tr> -->
 					    		<?php 
 					    			if(!empty($popr)){
 					    				foreach($popr AS $pr) { ?>
@@ -326,7 +326,7 @@
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="12" class="bor-right" align="left">
 					    				<b>
-					    					<p class="f12 nomarg">Notes: <?php echo $pr['notes']?></p>
+					    				<!-- 	<p class="f12 nomarg">Notes: <?php echo $pr['notes']?></p> -->
 					    					<p class="f12 nomarg">Purpose: <?php echo $pr['purpose']?></p>
 					    					<p class="f12 nomarg">End Use: <?php echo $pr['enduse']?></p>
 					    					<p class="f12 nomarg">Requestor: <?php echo $pr['requestor']?></p>
