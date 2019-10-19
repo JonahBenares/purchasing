@@ -1075,7 +1075,7 @@ class Po extends CI_Controller {
 
         if(empty($dr_id)){
             $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
-            foreach($this->super_model->select_row_where('po_dr_items', 'po_id', $po_id) AS $items){
+            foreach($this->super_model->select_custom_where("po_dr_items", "po_id='$po_id' AND dr_id = '$dr_id'") AS $items){
                $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
                 $data['items'][]= array(
                     'item_no'=>$items->item_no,

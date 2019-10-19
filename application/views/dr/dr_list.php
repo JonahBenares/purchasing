@@ -98,7 +98,7 @@
                                                 <center>
                                                     <?php
                                                      if($h->dr_type==0){ ?>
-                                                        <a href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $h->po_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                        <a href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $h->po_id; ?>/<?php echo $h->dr_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
                                                     <?php } else if($h->dr_type==1){ ?>
