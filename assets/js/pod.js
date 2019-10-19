@@ -22,6 +22,18 @@ function changePrice(count){
     });
    
      document.getElementById("grandtotal").innerHTML  =grandtotal;
+       document.getElementById("orig_amount").value  =grandtotal;
+}
+
+function additionalCost(){
+  var total = document.getElementById("orig_amount").value;
+
+   var shipping = document.getElementById("shipping").value;
+    var discount = document.getElementById("discount").value;
+
+   var new_total = (parseFloat(total)+parseFloat(shipping))-parseFloat(discount);
+ 
+    document.getElementById("grandtotal").innerHTML  =new_total;
 }
 
 $(document).on("click", ".cancelPO", function () {

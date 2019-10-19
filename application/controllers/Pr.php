@@ -46,7 +46,9 @@ class Pr extends CI_Controller {
 
         $pr_id = $this->input->post('pr_ids');
         $group_id = $this->input->post('group_id');
-        $po_no = "POD-".$series;
+         $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id);
+        $po_no = "P".$pr_no."-".$series;
+       // $po_no = "POD-".$series;
         $data= array(
             'po_id'=>$po_id,
             'po_date'=>$this->input->post('po_date'),
@@ -168,6 +170,17 @@ class Pr extends CI_Controller {
             'user_id'=>$_SESSION['user_id'],
             'po_type'=>2
         );
+
+        $data_popr = array(
+            'po_id'=>$po_id,
+            'pr_id'=>$pr_id,
+            'enduse'=>$this->super_model->select_column_where('pr_head', 'enduse', 'pr_id', $pr_id),
+            'purpose'=>$this->super_model->select_column_where('pr_head', 'purpose', 'pr_id', $pr_id),
+            'requestor'=>$this->super_model->select_column_where('pr_head', 'requestor', 'pr_id', $pr_id),
+        );
+
+        $this->super_model->insert_into("po_pr", $data_popr);
+
         if($this->super_model->insert_into("po_head", $data)){
             redirect(base_url().'po/reporder_prnt/'.$po_id."/".$pr_id."/".$group_id);
         }
