@@ -40,6 +40,33 @@ class Aoq extends CI_Controller {
 
 	}
 
+    public function currency_list(){
+        $currency = array(
+            'AUD',
+            'BDT',
+            'CAD',
+            'EUR',
+            'HKD',
+            'IDR',
+            'INR',
+            'IQD',
+            'JPY',
+            'KPW',
+            'LBP',
+            'MXN',
+            'MMK',
+            'NZD',
+            'OMR',
+            'PHP',
+            'PKR',
+            'QAR',
+            'THB',
+            'USD',
+        );
+
+        return $currency;
+    }
+
     public function add_aoq(){
         $rfq = $this->input->post('rfq');
         
@@ -108,13 +135,21 @@ class Aoq extends CI_Controller {
 
     public function open_aoq_before(){
         $aoq_id = $this->uri->segment(3);
+
+        $count_vendors = $this->super_model->count_rows_where("aoq_vendors", "aoq_id", $aoq_id);
         $data = array(
             'open'=>1,
 
         );
 
         if($this->super_model->update_where("aoq_head", $data, "aoq_id", $aoq_id)){
-             redirect(base_url().'aoq/aoq_prnt/'.$aoq_id);
+            if($count_vendors<=3){
+                 redirect(base_url().'aoq/aoq_prnt/'.$aoq_id);
+            }  else if($count_vendors==4){
+                 redirect(base_url().'aoq/aoq_prnt_four/'.$aoq_id);
+            }  else if($count_vendors==5){
+                 redirect(base_url().'aoq/aoq_prnt_five/'.$aoq_id);
+            }
         }
     }
 	public function aoq_list(){
@@ -354,6 +389,7 @@ class Aoq extends CI_Controller {
     public function aoq_prnt(){
         $aoq_id= $this->uri->segment(3);
         $data['aoq_id']=$aoq_id;
+        $data['currency'] = $this->currency_list();
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
          $data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
@@ -429,6 +465,7 @@ class Aoq extends CI_Controller {
                  'pr_details_id'=>$off->pr_details_id,
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
                 'item_id'=>$off->aoq_items_id,
+                'currency'=>$off->currency,
                 'offer'=>$off->offer,
                 'price'=>$off->unit_price,
                 'amount'=>$off->amount,
@@ -454,6 +491,7 @@ class Aoq extends CI_Controller {
             $price = str_replace(",", "", $this->input->post('price_'.$x));
             $amount = str_replace(",", "", $this->input->post('amount_'.$x));
             $data = array(
+                'currency'=>$this->input->post('currency_'.$x),
                 'offer'=>$this->input->post('offer_'.$x),
                 'unit_price'=>$price,
                 'quantity'=>$this->input->post('quantity_'.$x),
@@ -477,7 +515,15 @@ class Aoq extends CI_Controller {
         );
          $this->super_model->update_where("aoq_head", $datahead, "aoq_id", $this->input->post('aoq_id'));
 
-         redirect(base_url().'aoq/aoq_prnt/'.$this->input->post('aoq_id'));
+        $count_vendors = $this->super_model->count_rows_where("aoq_vendors", "aoq_id", $this->input->post('aoq_id'));
+
+         if($count_vendors<=3){
+             redirect(base_url().'aoq/aoq_prnt/'.$this->input->post('aoq_id'));
+         } else if($count_vendors==4){
+             redirect(base_url().'aoq/aoq_prnt_four/'.$this->input->post('aoq_id'));
+         } else if($count_vendors==5){
+             redirect(base_url().'aoq/aoq_prnt_five/'.$this->input->post('aoq_id'));
+         }
     }
  
 
@@ -759,8 +805,10 @@ class Aoq extends CI_Controller {
     public function aoq_prnt_four(){
         $this->load->view('template/header');
         $aoq_id= $this->uri->segment(3);
+        $data['currency'] = $this->currency_list();
         $data['aoq_id']=$aoq_id;
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
+         $data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
@@ -827,6 +875,8 @@ class Aoq extends CI_Controller {
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
                 'item_id'=>$off->aoq_items_id,
                 'offer'=>$off->offer,
+                'quantity'=>$off->quantity,
+                'currency'=>$off->currency,
                 'price'=>$off->unit_price,
                 'amount'=>$off->amount,
                 'min'=>$min,
@@ -1126,8 +1176,10 @@ class Aoq extends CI_Controller {
     public function aoq_prnt_five(){
         $this->load->view('template/header');
         $aoq_id= $this->uri->segment(3);
+         $data['currency'] = $this->currency_list();
         $data['aoq_id']=$aoq_id;
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
+         $data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
@@ -1194,6 +1246,8 @@ class Aoq extends CI_Controller {
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
                 'item_id'=>$off->aoq_items_id,
                 'offer'=>$off->offer,
+                'currency'=>$off->currency,
+                'quantity'=>$off->quantity,
                 'price'=>$off->unit_price,
                 'amount'=>$off->amount,
                 'min'=>$min,
@@ -1499,6 +1553,7 @@ class Aoq extends CI_Controller {
             for($v=1;$v<$vendor_count;$v++){
                 for($a=1;$a<=3;$a++){
                     $offer = $this->input->post('offer_'.$x.'_'.$v.'_'.$a);
+                    $currency = $this->input->post('currency_'.$x.'_'.$v.'_'.$a);
                     $up = $this->input->post('price_'.$x.'_'.$v.'_'.$a);
                     $amount = $this->input->post('amount_'.$x.'_'.$v.'_'.$a);
                     $vendor = $this->input->post('vendor_'.$x.'_'.$v);
@@ -1514,6 +1569,7 @@ class Aoq extends CI_Controller {
                             'vendor_id'=>$vendor,
                             'aoq_items_id'=>$item,
                             'pr_details_id'=>$pr_details_id,
+                            'currency'=>$currency,
                             'offer'=>$offer,
                             'unit_price'=>$up,
                             'quantity'=>$quantity,

@@ -194,6 +194,7 @@
 		    				<table class="table-bordered" width="100%">
 		    					<tr>
 		    						<td class="f13" align="center" width="5%"><b>No.</b></td>
+		    						<td class="f13" align="center"><b>Qty</b></td>
 		    						<td class="f13" align="center"><b>Unit</b></td>
 		    						<td class="f13" align="center"><b>Item Description</b></td>
 		    						<td class="f13" align="center"><b>Brand/Offer</b></td>
@@ -204,6 +205,7 @@
 		    					foreach($items AS $it) {  ?>
 		    					<tr>
 		    						<td class="f13" align="center"><?php echo $x; ?></td>
+		    						<td class="f13" align="center"><?php echo $it->quantity; ?></td>
 		    						<td class="f13" align="center"><?php echo $it->uom; ?></td>
 		    						<td class="f13" align="left" style='width:35%;padding-left: 2px'><?php echo $it->item_desc; ?></td>
 		    						<td class="f13" align="center" style='width:45%;'>

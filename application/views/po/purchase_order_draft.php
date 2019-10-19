@@ -127,67 +127,22 @@
 
     </style>
 
-	<!-- Modal -->
-	<div class="modal fade" id="uploadApproval" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Upload Approval
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-						</button>
-					</h5>					
-				</div>
-				<form enctype="multipart/form-data" method = "POST" action = '<?php echo base_url(); ?>po/upload_revise'>
-					<div class="modal-body">
-						<input type="file" name="revise_img" class="form-control">
-					</div>
-					<div class="modal-footer">
-						<?php
-			    		$x=1; 
-			    		foreach($items AS $it){ ?>
-							<input type='hidden' name='aoq_offer_id<?php echo $x; ?>' value="<?php echo $it->aoq_offer_id; ?>">
-							<input type='hidden' name='qty<?php echo $x; ?>' value="<?php echo $it->quantity; ?>">
-						<?php $x++; } ?>
-						<input type='hidden' name='count_item' value="<?php echo $x; ?>">
-						<input type="text" name="po_id" value = "<?php echo $po_id; ?>">
-						<input type="hidden" name="po_no" value = "<?php echo $po_no; ?>">
-						<button type="submit" class="btn btn-primary btn-block">Save changes</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+	
 
     <div  class="pad ">
-    	<form method='POST' action='<?php echo base_url(); ?>po/po_complete'>  
-    		<div  id="prnt_btn">
+    	<form method='POST' action='<?php echo base_url(); ?>po/save_po_draft'>  
+    			<div  id="prnt_btn">
 	    		<center>
-			    	<div class="row">
-			    		<li class="dropdown" >
-							<a href="<?php echo base_url(); ?>po/po_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
-							<?php if($revised==0){ ?>
-							<a  href='<?php echo base_url(); ?>po/purchase_order_rev/<?php echo $po_id; ?>' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
-							<?php } ?>
-							<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b><?php if($revised==0){ echo 'PO'; }else { echo 'RFA'; } ?></b></u></a>
-							<?php if($revised==0){ ?>
-							<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
-							<?php } ?>
-							<?php if($revised==1){ ?>
-							<a  href="#" class="btn btn-primary btn-md p-l-25 p-r-25" data-toggle="modal" data-target="#uploadApproval"><span class="fa fa-upload"></span> Upload <u><b>Approval</b></u></a>
-							<?php } ?>							
-							<a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
-							<ul class="dropdown-menu dropdown-alerts animated fadeInDown" style="width:200px;top:30px;border:1px solid #e66614;left:650px;">
-								<?php foreach($dr AS $d){ ?>
-									<li style="text-align: left!important"><a href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $d->po_id; ?>/<?php echo $d->dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "DR# ".$d->dr_no; ?></a></li>
-								<?php } ?>
-							<!-- 	<li style="text-align: left!important"><a href="" class="btn btn-link">Hello.mp4</a></li>
-								<li style="text-align: left!important"><a href="" class="btn btn-link">Hello.mp4</a></li> -->
-							</ul>
-						</li>
-							
+			    	<div class="abtn-group">
+						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+					
+							<input type='submit' class="btn btn-warning btn-md p-l-100 p-r-100" name='submit' value="Save as Draft">	
+							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" name='submit' value="Save">	
+
+						
+					
 					</div>
-					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100 and the option: Background graphics is checked</p>
+					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
 	    	<div style="background: #fff;" class="<?php if($revised==1){ echo 'amend'; } else if($cancelled==1){ echo 'cancel'; }?>" >  <!-- add class or amend cancel -->
@@ -222,7 +177,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['tel_no'];?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['telfax'];?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address2'];?></td></tr>
-		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4></td></tr>
+		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4><small class="text-red">DRAFT</small></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
@@ -272,14 +227,20 @@
 	    				} ?>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b><?php echo number_format($it->delivered_quantity); ?></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' max='<?php echo $it->delivered_quantity; ?>' value='<?php echo $it->delivered_quantity; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"><?php echo utf8_encode($offer); ?></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><?php echo $it->unit_price; ?></b></td>
-		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
+		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it->unit_price; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $it->amount; ?>" style='text-align:right;' readonly></b></td>		
 		    		</tr>	
+		    	<!-- 	<input type='hidden' name='aoq_id<?php echo $x; ?>' value="<?php echo $it->aoq_id; ?>"> -->
+		    		<input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $it->po_items_id; ?>">
+		    		
 		    		<?php 
 		    		$x++; } ?>
+		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>    
+		    		<input type='hidden' name='po_id' value="<?php echo $po_id; ?>">
+		    		<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -298,7 +259,7 @@
 		    				<p class="nomarg">Shipping Cost</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($shipping,2); ?></b></td>		
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><input type='text' name='shipping' id='shipping' value='<?php echo $shipping; ?>' onchange='additionalCost()' style='width:100%' ></b></td>		
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -308,7 +269,7 @@
 		    				<p class="nomarg">Less: Discount</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($discount,2); ?></b></td>		
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><input type='text' name='discount' id='discount' value='<?php echo $discount; ?>' onchange='additionalCost()' style='width:100%' ></b></td>		
 		    		</tr>
 
 		    		<tr>
@@ -344,6 +305,7 @@
 		    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency; ?></span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
 		    		</tr>
 			    	<tr>
+			    	  
 		    			<td class="f13" colspan="20" align="center" style="padding: 10px!important">
 		    				<table  class="table-bodrdered" width="100%" style="border:0px solid #000;">
 		    					<tr>
@@ -385,21 +347,32 @@
 		    		</tr> -->
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
+		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
+							 Add Terms & Conditions
+							</button><br>
+							<?php $y=1; ?>
 		    				Terms & Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>
+		    				<?php echo $y; 
+		    				$y++; ?> Price is inclusive of taxes.<br>
+		    				<?php echo $y; 
+		    				$y++; ?> PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				<?php echo $y; 
+		    				$y++; ?> Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>
 		    				<?php if(!empty($payment_terms)){ ?>
-		    				4. Payment term: <?php echo $payment_terms; ?><br>
+		    				<?php echo $y; 
+		    				$y++; ?> Payment term: <?php echo $payment_terms; ?><br>
 		    				<?php } ?>	
 		    				<?php if(!empty($item_warranty)){ ?>
-		    				5. Item Warranty: <?php echo $item_warranty; ?><br>
+		    				<?php echo $y; 
+		    				$y++; ?> Item Warranty: <?php echo $item_warranty; ?><br>
 		    				<?php } ?>
 		    				<?php if(!empty($delivery_time)){ ?>
-		    				6. Delivery Time: <?php echo $delivery_time; ?><br>
+		    				<?php echo $y; 
+		    				$y++; ?> Delivery Time: <?php echo $delivery_time; ?><br>
 		    				<?php } ?>
 		    				<?php if(!empty($freight)){ ?>
-		    				7. In-land Freight: <?php echo $freight; ?><br>
+		    				<?php echo $y; 
+		    				$y++; ?> In-land Freight: <?php echo $freight; ?><br>
 		    				<?php } ?>
 		    				<?php 
 		    					//$no=8;
@@ -418,7 +391,11 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
+		    			
 		    			<td colspan="20" style="padding: 10px!important">
+		    					<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+							 Add Other Instruction
+							</button><br>
 		    				Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
 		    			</td>
 		    		</tr>
@@ -445,9 +422,20 @@
 		    			<td colspan="1"></td>
 		    			<td colspan="5"><b><?php echo $_SESSION['fullname']; ?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6"><b><?php echo $checked;?></b></td>
+		    			<td colspan="6"><b>
+		    				<select name='checked' class="select-des emphasis" style="width: 100%" required>
+			    			<option value=''>-Select-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>' <?php echo (($checked_by==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+		    			</select></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b><?php echo $approved;?></b></td>
+		    			<td colspan="5"><b>	<select name='approved' class="select-des emphasis" style="width: 100%" required>
+			    			<option value=''>-Select-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>' <?php echo (($approved_by==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+		    			</select></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
@@ -468,6 +456,60 @@
 		    	</table>	    
 	    	</div>
     	</form>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Terms & Conditions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>po/add_tc">
+						<div class="modal-body">
+							<div class="form-group">
+								Terms & Conditions:
+								<input type="text" class="form-control" name="tc_desc" autocomplete="off">
+							</div>
+						</div>
+						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="otherins" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Other Instructions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>po/add_notes">
+						<div class="modal-body">
+							<div class="form-group">
+								Other Instructions:
+								<textarea class="form-control" rows="5" name = "notes"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
     </div>
     <script type="text/javascript">
     	function printPage() {

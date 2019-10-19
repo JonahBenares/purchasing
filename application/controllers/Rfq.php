@@ -112,6 +112,7 @@ class Rfq extends CI_Controller {
 
        // $data['items'] = $this->super_model->select_row_where('rfq_details', 'rfq_id', $rfq_id);
         $data['items'] = $this->super_model->select_row_where_order_by('rfq_details', 'rfq_id', $rfq_id, 'item_desc', 'ASC');
+     
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('template/header');
         $this->load->view('rfq/rfq_outgoing',$data);

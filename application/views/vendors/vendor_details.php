@@ -88,6 +88,12 @@
                                             <td><p><?php echo $v->notes; ?></p></td>
                                         </tr>
                                         <tr>
+                                            <td><u><b>Tin #:</b></u></td>
+                                        </tr>
+                                        <tr>
+                                            <td><p><?php echo $v->tin; ?></p></td>
+                                        </tr>
+                                        <tr>
                                             <td><u><b>EWT(%):</b></u></td>
                                         </tr>
                                         <tr>

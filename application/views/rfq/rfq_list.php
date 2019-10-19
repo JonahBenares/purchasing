@@ -25,7 +25,10 @@ $(document).on("click", ".cancelRFQ", function () {
      $("#rfq_id").val(rfq_id);
 
 });
+
 </script>
+
+
     <div id="cancelRFQ" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -120,7 +123,7 @@ $(document).on("click", ".cancelRFQ", function () {
                        
                         <div class="sparkline8-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-bordered table-hover" id="rfqtable">
                                     <thead>
                                         <tr>
                                             <th width="5%"><input type="checkbox" class="form-control" name="" onClick="toggle_multi(this)"></th>
@@ -195,4 +198,5 @@ $(document).on("click", ".cancelRFQ", function () {
             </div>
         </div>
     </div>
+
     <!-- Data table area End-->

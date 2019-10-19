@@ -282,7 +282,7 @@
 		    		?>    		
 		    		<tr>
 		    			<td colspan="17" class="all-border " align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left">₱</span><?php echo number_format($grandtotal,2); ?></b></td>
+					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format($grandtotal,2); ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">
@@ -340,7 +340,7 @@
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
 								    			<td colspan="2" class="bor-right" align="center"><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:100%; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
-								    			<td colspan="11" class="bor-right" align="left"><input type='text' style='width:100%' name='offer<?php echo $x; ?>' value='<?php echo $offer; ?>'></td>
+								    			<td colspan="11" class="bor-right" align="left"><input type='text' style='width:100%' name='offer<?php echo $x; ?>' value='<?php echo utf8_encode($offer); ?>'></td>
 								    			<td colspan="2" class="bor-right" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it->unit_price; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
 								    			<td colspan="3" class="bor-right" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,2); ?>" style='text-align:right;' readonly></td>		
 								    		</tr>	
@@ -366,7 +366,7 @@
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
 								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->delivered_quantity; ?></td>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
-								    			<td colspan="11" class="bor-right" align="left"><?php echo $offer; ?></td>
+								    			<td colspan="11" class="bor-right" align="left"><?php echo utf8_encode($offer); ?></td>
 								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->unit_price; ?></td>
 								    			<td colspan="3" class="bor-right" align="right"><?php echo number_format($it->amount,2); ?></td>		
 								    		</tr>	
@@ -446,7 +446,7 @@
 						    		<input type='hidden' id='orig_amount' value='<?php echo $grtotal2; ?>'>
 						    		<tr>
 						    			<td colspan="17" class="all-border yellow-back" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-									    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal2,2); ?></span></b></td>
+									    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency_temp; ?></span><span id='grandtotal'><?php echo number_format($grandtotal2,2); ?></span></b></td>
 						    		</tr>
 						    		<tr>
 						    			<td colspan="20">

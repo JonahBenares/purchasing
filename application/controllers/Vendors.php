@@ -80,6 +80,7 @@ class Vendors extends CI_Controller {
         $type = trim($this->input->post('type')," ");
         $contact = trim($this->input->post('contact')," ");
         $note = trim($this->input->post('note')," ");
+        $tin = trim($this->input->post('tin')," ");
         $ewt = trim($this->input->post('ewt')," ");
         $vat = trim($this->input->post('vat')," ");
         $status = trim($this->input->post('status')," ");
@@ -93,6 +94,7 @@ class Vendors extends CI_Controller {
             'type'=>$type,
             'contact_person'=>$contact,
             'notes'=>$note,
+            'tin'=>$tin,
             'ewt'=>$ewt,
             'vat'=>$vat,
             'status'=>$status,
@@ -122,6 +124,7 @@ class Vendors extends CI_Controller {
             'type'=>$this->input->post('type'),
             'contact_person'=>$this->input->post('contact'),
             'notes'=>$this->input->post('notes'),
+            'tin'=>$this->input->post('tin'),
             'ewt'=>$this->input->post('ewt'),
             'vat'=>$this->input->post('vat'),
             'status'=>$this->input->post('status'),
