@@ -143,7 +143,7 @@
 	</div>
     <div  class="pad">
 
-    	<form method='POST' action='<?php echo base_url(); ?>po/save_repeatPO'>  
+    	<form method='POST' action='<?php echo base_url(); ?>po/save_repeatPO_draft'>  
     		<input type='hidden' name='po_id' value="<?php echo $po_id; ?>">
     		<input type='hidden' name='prepared_by' value="<?php echo $_SESSION['user_id']; ?>">
     		<div  id="prnt_btn">
@@ -285,17 +285,33 @@
 					    				$total_amount[] = $it['amount']; ?>
 					    		<tr>
 					    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-					    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['quantity']; ?></b></td>
+					    			<td colspan="" class="bor-right" align="center">
+					    				<!-- <b><?php echo $it['quantity']; ?></b> -->
+					    				<b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' max='<?php echo $it['quantity']; ?>' value='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b>
+					    			</td>
 					    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['uom']; ?></b></td>
-					    			<td colspan="12" class="bor-right" align="left"><b><?php echo $it['offer']; ?></b></td>
-					    			<td colspan="2" class="bor-right" align="center"><b><?php echo number_format($it['price'],2); ?></b></td>
-					    			<td colspan="3" class="bor-right" align="right"><b><?php echo number_format($it['amount'],2); ?></b></td>
-					    			<!-- <td align="center"><a href='<?php echo base_url(); ?>/po/remove_po_item/' class="btn-danger btn-xs" onclick="return confirm('Are you sure you want to remove item?')"><span class="fa fa-times"></span></a></td>	 -->			
+					    			<td colspan="12" class="bor-right" align="left">
+					    				<!-- <b><?php echo $it['offer']; ?></b> -->
+					    				<b><textarea style="width:100%" name='offer<?php echo $x; ?>'><?php echo $it['offer']; ?></textarea></b>
+					    			</td>
+					    			<td colspan="2" class="bor-right" align="center">
+					    				<!-- <b><?php echo number_format($it['price'],2); ?></b> -->
+					    				<b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it['price'],2); ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red;width:100%' ></b>
+					    			</td>
+					    			<td colspan="3" class="bor-right" align="right">
+					    				<b>
+					    				<!-- <?php echo number_format($it['amount'],2); ?> -->
+					    				<input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it['amount'],2); ?>" style='text-align:right;width:100%' readonly>
+					    				</b>
+					    			</td>
+					    			<!-- <td align="center"><a href='<?php echo base_url(); ?>/po/remove_po_item/' class="btn-danger btn-xs" onclick="return confirm('Are you sure you want to remove item?')"><span class="fa fa-times"></span></a></td>	 -->
+					    			<input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $it['po_items_id']; ?>">		
 					    		</tr> 
 					    		<?php 
 					    		$x++;
 					    			}
 					    		 ?>
+					    		 <input type='hidden' name='count_item' value="<?php echo $x; ?>">
 					    		<tr>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -311,11 +327,7 @@
 					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="12" class=" bor-right" align="right">Shipping Cost</td>
 					    			<td colspan="2" class=" bor-right" align="center"></td>
-					    			<?php if($saved==0){ ?>
 					    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='shipping' id='shipping' value='<?php echo ($shipping!=0) ? $shipping : '0'; ?>' onchange='additionalCost()' style='width:100%' ></td>
-					    			<?php } else { ?>
-					    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($shipping,2); ?></b></td>
-					    			<?php } ?>
 					    		</tr>
 					    		<tr>
 					    			<td colspan="" class=" bor-right" align="center"></td>
@@ -323,13 +335,8 @@
 					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="12" class=" bor-right" align="right">Less: Discount</td>
 					    			<td colspan="2" class=" bor-right" align="center"></td>
-					    			<?php if($saved==0){ ?>
 					    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='discount' id='discount' onchange='additionalCost()' value='<?php echo ($discount!=0) ? $discount : '0'; ?>' style='width:100%' ></td>
-					    			<?php } else { ?>
-					    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($discount,2); ?></b></td>
-					    			<?php } ?>
 					    		</tr>
-					    		<tr>
 					    		<!-- <tr>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -341,7 +348,7 @@
 					    			</td>
 					    			<td colspan="2" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="3" class="bor-right" align="right"><b></b></td>
-					    			
+					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    		</tr> -->
 					    		<?php 
 					    			if(!empty($popr)){
@@ -352,7 +359,7 @@
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="12" class="bor-right" align="left">
 					    				<b>
-					    				<!-- 	<p class="f12 nomarg">Notes: <?php echo $pr['notes']?></p> -->
+					    					<!-- <p class="f12 nomarg">Notes: <?php echo $pr['notes']?></p> -->
 					    					<p class="f12 nomarg">Purpose: <?php echo $pr['purpose']?></p>
 					    					<p class="f12 nomarg">End Use: <?php echo $pr['enduse']?></p>
 					    					<p class="f12 nomarg">Requestor: <?php echo $pr['requestor']?></p>
@@ -363,7 +370,6 @@
 					    			<!-- <td colspan="" class="bor-right" align="center"><b></b></td> -->
 					    		</tr> 
 					    		<?php } } ?>
-					    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($total_amount); ?>'>
 					    		<tr>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -403,9 +409,14 @@
 					    			<td width="5%"></td>
 					    			<td width="5%"></td>
 					    		</tr>
+					    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($total_amount); ?>'>
+					    		<?php 
+					    			$total =array_sum($total_amount);
+					    			$grandtotal = ($total+$shipping)-$discount;
+					    		?>
 					    		<tr>
 					    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($total_amount),2); ?></span></b></td>
+					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
 					    		</tr>
 					    	<?php } ?>
 		    				</table>
@@ -475,7 +486,7 @@
 			    			<select name='checked' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
 				    			<?php foreach($employee AS $emp){ ?>
-				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<option value='<?php echo $emp->employee_id; ?>' <?php echo (($checked_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
 				    			<?php } ?>
 			    			</select></b></td>
 			    			<?php }else { ?>
@@ -486,7 +497,7 @@
 			    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
 				    			<?php foreach($employee AS $emp){ ?>
-				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<option value='<?php echo $emp->employee_id; ?>' <?php echo (($approved_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
 				    			<?php } ?>
 			    			</select></b></td>
 			    			<?php }else { ?>

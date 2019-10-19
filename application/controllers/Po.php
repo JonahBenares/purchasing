@@ -1258,8 +1258,10 @@ class Po extends CI_Controller {
                 'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id),
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id',$head->vendor_id)
             );
-              $data['vendor_id']=$head->vendor_id;
-              $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
+            $data['shipping']=$head->shipping;
+            $data['discount']=$head->discount;
+            $data['vendor_id']=$head->vendor_id;
+            $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
         }
 
         foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $items){
@@ -1468,7 +1470,7 @@ class Po extends CI_Controller {
                 'revised'=>0
             );
             if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
-                redirect(base_url().'po/reporder_prnt_draft/'.$po_id);
+                redirect(base_url().'po/reporder_prnt/'.$po_id);
             }
         } else if($submit=='Save as Draft'){
             $head = array(
@@ -1484,8 +1486,90 @@ class Po extends CI_Controller {
                 redirect(base_url().'po/reporder_prnt_draft/'.$po_id.'/'.$pr_id.'/'.$group_id);
             }
         }
+    }
 
+    public function save_repeatPO_draft(){
+        $submit = $this->input->post('submit');
+        $po_id = $this->input->post('po_id');
+        $pr_id = $this->input->post('pr_id');
+        $group_id = $this->input->post('group_id');
+        $count_item = $this->input->post('count_item');
+        $rows_dr = $this->super_model->count_rows("po_dr");
+        if($rows_dr==0){
+            $dr_id = 1;
+            $dr_no=1000;
+        } else {
+            $max = $this->super_model->get_max("po_dr", "dr_no");
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
+            $dr_no = $max+1;
+            $dr_id = $maxid+1;
+        }
+
+        $dr = array(
+            'dr_id'=>$dr_id,
+            'po_id'=>$po_id,
+            'dr_no'=>$dr_no
+        );
+        $this->super_model->insert_into("po_dr", $dr);
+        $a=1;
+        for($x=1; $x<$count_item;$x++){
+            $qty=$this->input->post('quantity'.$x);
+            $po_items_id = $this->input->post('po_items_id'.$x);
+
+            if($qty!=0){
+                $offer = str_replace(",", "", $this->input->post('offer'.$x));
+                $price = str_replace(",", "", $this->input->post('price'.$x));
+                $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                $data=array(
+                 
+                    'offer'=>$offer,
+                    'delivered_quantity'=>$qty,
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
+                    'item_no'=>$a
+                );
+                $data_dr=array(
+                    'offer'=>$offer,
+                    'delivered_quantity'=>$qty,
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
+                    'item_no'=>$a
+                );
+                $this->super_model->update_where("po_items", $data, "po_items_id", $po_items_id);
+                $this->super_model->insert_into("po_dr_items", $data_dr, "po_items_id", $po_items_id);
+                $a++;
+            }else {
+                $this->super_model->delete_where("po_items", "po_items_id", $po_items_id);
+                $this->super_model->delete_where("po_dr_items", "po_items_id", $po_items_id);
+            }
+        }
         
+        if($submit=='Save'){
+            $head = array(
+                'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('discount'),
+                'approved_by'=>$this->input->post('approved'),
+                'checked_by'=>$this->input->post('checked'),
+                'saved'=>1,
+                'revised'=>0
+            );
+            if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
+                redirect(base_url().'po/reporder_prnt/'.$po_id);
+            }
+        } else if($submit=='Save as Draft'){
+            $head = array(
+                'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('discount'),
+                'approved_by'=>$this->input->post('approved'),
+                'checked_by'=>$this->input->post('checked'),
+                'saved'=>0,
+                'draft'=>1,
+                'revised'=>0
+            );
+            if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
+                redirect(base_url().'po/reporder_prnt_draft/'.$po_id.'/'.$pr_id.'/'.$group_id);
+            }
+        }
     }
 
     public function reporder_dr(){
