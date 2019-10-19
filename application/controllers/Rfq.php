@@ -452,18 +452,17 @@ class Rfq extends CI_Controller {
 
     public function save_rfq(){
         $rfq_id = $this->input->post('rfq_id');
-        $notes = $this->input->post('notes');
+        /*$notes = $this->input->post('notes');
         $due = $this->input->post('due');
         $noted = $this->input->post('noted');
-        $approved = $this->input->post('approved');
-
+        $approved = $this->input->post('approved');*/
         $data = array(
-            'notes'=>$notes,
+            /*'notes'=>$notes,
             'quotation_date'=>$due,
             'noted_by'=>$noted,
-            'approved_by'=>$approved,
+            'approved_by'=>$approved,*/
             'saved'=>1,
-            'prepared_by'=>$_SESSION['user_id']
+            //'prepared_by'=>$_SESSION['user_id']
         );
         if($this->super_model->update_where("rfq_head", $data, "rfq_id", $rfq_id)){
              redirect(base_url().'rfq/rfq_outgoing/'.$rfq_id);

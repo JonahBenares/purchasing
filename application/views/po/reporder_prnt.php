@@ -422,36 +422,49 @@
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Prepared by:</b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Approved by:</b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Prepared by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Checked by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b>Approved by:</b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b></b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b><?php echo $_SESSION['fullname'];?></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>
-		    			<?php if($saved==0){ ?>
-		    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
-			    			<option value='' selected>-Select Employee-</option>
-						 	<?php foreach($employee AS $emp){ ?>
-                            <option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-                        	<?php } ?>
-		    			</select>
-		    			<?php } else {
-		    				echo $approved;
-		    			} ?>
-		    			</b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b>
+			    			<?php if($saved==0){ ?>
+			    			<select name='checked' class="select-des emphasis" style="width: 100%" required>
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select></b></td>
+			    			<?php }else { ?>
+			    			<?php echo $checked; } ?>
+		    			<td colspan="1"></td>
+		    			<td colspan="6" class="bor-btm"><b>
+			    			<?php if($saved==0){ ?>
+			    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select></b></td>
+			    			<?php }else { ?>
+			    			<?php echo $approved; } ?>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
@@ -470,7 +483,7 @@
 		    		<tr><td colspan="20"><br></td></tr>
 		    	</table>	    
 	    	</div>
-	    		<input type='text' name='po_id' value='<?php echo $po_id; ?>'>
+	    		<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
     	</form>
     	<div class="modal fade" id="terms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">

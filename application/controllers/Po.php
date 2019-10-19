@@ -1088,8 +1088,10 @@ class Po extends CI_Controller {
         $data['saved']=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
         $data['revised']=$this->super_model->select_column_where('po_head', 'revised', 'po_id', $po_id);
         $approved_id = $this->super_model->select_column_where('po_head', 'approved_by', 'po_id', $po_id);
+        $checked_id = $this->super_model->select_column_where('po_head', 'checked_by', 'po_id', $po_id);
         $data['approved_id'] = $approved_id;
         $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $approved_id );
+        $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $checked_id);
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         foreach($this->super_model->select_row_where("po_head", "po_id", $po_id) AS $head){
             
@@ -1226,6 +1228,7 @@ class Po extends CI_Controller {
          $head = array(
         
             'approved_by'=>$this->input->post('approved'),
+            'checked_by'=>$this->input->post('checked'),
             'saved'=>1,
             'revised'=>0
         );

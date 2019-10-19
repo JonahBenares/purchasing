@@ -1649,12 +1649,27 @@ class Reports extends CI_Controller {
     }
 
     public function unserved_report(){
-        $year=$this->uri->segment(3);
-        $month=$this->uri->segment(4);
-        $data['year']=$year;
-        $data['month']=$month;
+        $year1=$this->uri->segment(3);
+        $month1=$this->uri->segment(4);
+        if(!empty($year1)){
+            $data['year'] = $year1;
+            $year = $year1;
+        } else {
+            $data['year']= "null";
+            $year= "null";
+        }
+
+        if(!empty($month1)){
+            $data['month'] = $month1;
+            $month = $month1;
+        } else {
+            $data['month']= "null";
+            $month= "null";
+        }
+        /*$data['year']=$year;
+        $data['month']=$month;*/
        
-        if(!empty($month)){
+        if($month!='null'){
              $date = $year."-".$month;
              $data['date']=date('F Y', strtotime($date));
         } else {
@@ -1761,14 +1776,18 @@ class Reports extends CI_Controller {
     public function search_unserved(){
         if(!empty($this->input->post('year'))){
             $data['year'] = $this->input->post('year');
+            $year = $this->input->post('year');
         } else {
             $data['year']= "null";
+            $year= "null";
         }
 
         if(!empty($this->input->post('month'))){
             $data['month'] = $this->input->post('month');
+            $month = $this->input->post('month');
         } else {
             $data['month']= "null";
+            $month= "null";
         }
 
         if(!empty($this->input->post('pr_no'))){
@@ -1907,12 +1926,15 @@ class Reports extends CI_Controller {
 
         $query=substr($sql, 0, -3);
         $data['filt']=substr($filter, 0, -2);
-        $year=$this->uri->segment(3);
-        $month=$this->uri->segment(4);
-        $data['year']=$year;
-        $data['month']=$month;
-        $date = $year."-".$month;
-        $data['date']=date('F Y', strtotime($date));
+        if($month!='null'){
+             $date = $year."-".$month;
+             $data['date']=date('F Y', strtotime($date));
+        } else {
+             $date = $year;
+             $data['date']=$date;
+        }
+        /*$date = $year."-".$month;
+        $data['date']=date('F Y', strtotime($date));*/
         $po_date = date('Y-m', strtotime($date));
         $data['pr_no1']=$this->super_model->select_custom_where('pr_head',"cancelled='0'");
         $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
@@ -2017,7 +2039,7 @@ class Reports extends CI_Controller {
         $supplier=$this->uri->segment(12);
 
         $sql="";
-        $filter = " ";
+        $filter = "";
 
         if($pr_no1!='null'){
             $sql.=" pp.pr_id = '$pr_no1' AND";
@@ -2092,13 +2114,18 @@ class Reports extends CI_Controller {
 
         //echo $query;
 
-        $data['year']=$year;
-        $data['month']=$month;
-        $date = $year."-".$month;
-        $monthyear=date('F Y', strtotime($date));
+        /*$data['year']=$year;
+        $data['month']=$month;*/
+        if($month!='null'){
+             $date = $year."-".$month;
+        } else {
+             $date = $year;
+        }
+        /*$date = $year."-".$month;
+        $monthyear=date('F Y', strtotime($date));*/
         $po_date = date('Y-m', strtotime($date));
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "Unserved Report $monthyear");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', "UNSERVED REPORT");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "Undelivered PO Report $date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', "UNDELIVERED PO Report");
         $styleArray1 = array(
             'borders' => array(
                 'allborders' => array(
@@ -2132,136 +2159,128 @@ class Reports extends CI_Controller {
         $objPHPExcel->getActiveSheet()->getStyle('A4:O4')->applyFromArray($styleArray1);
         if($filt!=''){
             $num = 5;
-            foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $prs){
-                            $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$prs->pr_details_id'");
-                            $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $prs->pr_details_id);
-                            if($sum_po_qty!=0){
-                                if($sum_po_qty < $prs->quantity){
-                                    $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $prs->pr_details_id);
-                                    $unserved_qty = $prs->quantity - $served_qty;
-                                    $data['unserved'][]=array(
-                                        'pr_details_id'=>$prs->pr_details_id,
-                                        'unserved_qty'=>$unserved_qty,
-                                    );
-                                }
-                foreach($this->super_model->custom_query("SELECT * FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id INNER JOIN po_pr pp ON pi.po_id = pp.po_id  WHERE ".$query) AS $p){
-                        $total=$p->quantity*$p->unit_price;
-                        $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$p->pr_id);
-                        $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
-                        $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
-                        if($p->item_id!=0){
-                            foreach($this->super_model->select_row_where('item','item_id',$p->item_id) AS $it){
-                                $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
-                                $item=$it->item_name." - ".$it->item_specs;
-                            }
-                        }else {
-                            $item=$p->offer;
-                        }
+            foreach($this->super_model->custom_query("SELECT * FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id INNER JOIN po_pr pp ON pi.po_id = pp.po_id  WHERE ".$query) AS $p){
+                $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$p->pr_id);
+                $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                if($p->item_id!=0){
+                    foreach($this->super_model->select_row_where('item','item_id',$p->item_id) AS $it){
+                        $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                        $item=$it->item_name." - ".$it->item_specs;
+                    }
+                }else {
+                    $item=$p->offer;
+                }
 
-                   
-                        $requestor = $p->requestor;
-                        if($p->cancelled ==1){
-                            $status = "<span style='color:red'>Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
-                        } else {
-                            
-                            if($p->served==0){
-                                $status = 'PO Issued';
-                            } else {
-                                $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $p->po_id);
-                                $status='';
-                                foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $p->pr_details_id) AS $del){
-                                    $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
-                                }
+           
+                $requestor = $p->requestor;
+                if($p->cancelled ==1){
+                    $status = "<span style='color:red'>Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
+                } else {
+                    
+                    if($p->served==0){
+                        $status = 'PO Issued';
+                    } else {
+                        $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $p->po_id);
+                        $status='';
+                        foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $p->pr_details_id) AS $del){
+                            $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                        }
+                    }
+                }
+                $styleArray = array(
+                    'borders' => array(
+                        'allborders' => array(
+                          'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+                );
+                foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $prs){
+                    $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$prs->pr_details_id'");
+                    $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $prs->pr_details_id);
+                    if($sum_po_qty!=0){
+                        if($sum_po_qty < $prs->quantity){
+                            $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $prs->pr_details_id);
+                            $unserved_qty = $prs->quantity - $served_qty;
+                            $total=$unserved_qty*$p->unit_price;
+                            if($p->pr_details_id==$prs->pr_details_id){
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr_no");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->purpose");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->enduse");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->po_date");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->po_no");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$requestor");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$unserved_qty");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->uom");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$item");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$status");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$supplier");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$terms");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$p->unit_price");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$total");
+                                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$p->notes");
+                                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
+                                $num++;
                             }
-                        }
-                        $styleArray = array(
-                            'borders' => array(
-                                'allborders' => array(
-                                  'style' => PHPExcel_Style_Border::BORDER_THIN
-                                )
-                            )
-                        );
-                        if($p->pr_details_id==$prs->pr_details_id){
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr_no");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->purpose");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->enduse");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->po_date");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->po_no");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$requestor");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->quantity");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->uom");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$item");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$status");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$supplier");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$terms");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$p->unit_price");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$total");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$p->notes");
-                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                            $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                            $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                            $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                            $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                            $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
-                            $num++;
-                        }
+                        } 
                     }
                 }
             }
         }else {
             $num = 5;
-            $total=$i->quantity*$i->unit_price;
             foreach($this->super_model->select_custom_where("po_head","po_date LIKE '%$po_date%' GROUP BY po_id") AS $p){
                 $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
                 foreach($this->super_model->select_row_where('po_pr','po_id',$p->po_id) AS $pr){
                     $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$pr->pr_id);
                     foreach($this->super_model->select_row_where('po_items','po_id',$p->po_id) AS $i){
+                        
                         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $prs){
-                            $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$prs->pr_details_id'");
-                            $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $prs->pr_details_id);
-                            if($sum_po_qty!=0){
-                                if($sum_po_qty < $prs->quantity){
-                                    $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $prs->pr_details_id);
-                                    $unserved_qty = $prs->quantity - $served_qty;
-                                    $data['unserved'][]=array(
-                                        'pr_details_id'=>$prs->pr_details_id,
-                                        'unserved_qty'=>$unserved_qty,
-                                    );
-                                }
+                                $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$prs->pr_details_id'");
+                                $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $prs->pr_details_id);
+                                if($sum_po_qty!=0){
+                                    if($sum_po_qty < $prs->quantity){
+                                        $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $prs->pr_details_id);
+                                        $unserved_qty = $prs->quantity - $served_qty;
+                                    
 
-                            
-                            if($i->item_id!=0){
-                                foreach($this->super_model->select_row_where('item','item_id',$i->item_id) AS $it){
-                                    $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
-                                    $item=$it->item_name." - ".$it->item_specs;
+                                $total=$unserved_qty*$i->unit_price;
+                                if($i->item_id!=0){
+                                    foreach($this->super_model->select_row_where('item','item_id',$i->item_id) AS $it){
+                                        $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                                        $item=$it->item_name." - ".$it->item_specs;
+                                    }
+                                }else {
+                                    $item=$i->offer;
                                 }
-                            }else {
-                                $item=$i->offer;
-                            }
-                       
-                            $requestor = $pr->requestor;
-                            if($p->cancelled ==1){
-                                $status = "<span style='color:red'>Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
-                            } else {
-                                if($p->served==0){
-                                    $status = 'PO Issued';
+                           
+                                $requestor = $pr->requestor;
+                                if($p->cancelled ==1){
+                                    $status = "<span style='color:red'>Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
                                 } else {
-                                    $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $p->po_id);
-                                    $status='';
-                                    foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $i->pr_details_id) AS $del){
-                                        $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                                    if($p->served==0){
+                                        $status = 'PO Issued';
+                                    } else {
+                                        $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $p->po_id);
+                                        $status='';
+                                        foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $i->pr_details_id) AS $del){
+                                            $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                                        }
                                     }
                                 }
-                            }
-                            $styleArray = array(
-                                'borders' => array(
-                                    'allborders' => array(
-                                      'style' => PHPExcel_Style_Border::BORDER_THIN
+                                $styleArray = array(
+                                    'borders' => array(
+                                        'allborders' => array(
+                                          'style' => PHPExcel_Style_Border::BORDER_THIN
+                                        )
                                     )
-                                )
-                            );
+                                );
                                 if($i->pr_details_id==$prs->pr_details_id){
                                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr_no");
                                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
@@ -2269,7 +2288,7 @@ class Reports extends CI_Controller {
                                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->po_date");
                                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->po_no");
                                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$requestor");
-                                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$i->quantity");
+                                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$unserved_qty");
                                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$i->uom");
                                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$item");
                                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$status");
@@ -2286,6 +2305,7 @@ class Reports extends CI_Controller {
                                     $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
                                     $num++;
+                                    }
                                 }
                             }
                         }

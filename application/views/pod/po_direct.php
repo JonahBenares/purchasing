@@ -149,7 +149,7 @@
 				</center>
 			</div>
 	    	<div style="background: #fff;">    		  			
-		    	<table class="table-borsdered" width="100%" style="border:2px solid #000">
+		    	<table class="table-borsdered" width="100%" style="border:2px solid #000;border-bottom: none;">
 		    		<tr>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
@@ -241,7 +241,7 @@
 
 		    			<td colspan="" class="bor-right" align="center"><b><?php if($saved==0){ ?><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['quantity']; ?>' max='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"><?php }else { echo $it['quantity']; } ?></b></td>
 
-		    			<td colspan="" class="bor-right" align="center"><b><?php if($saved==0){ ?><input type = "text" name='uom<?php echo $x; ?>' value = "<?php echo $it['uom']; ?>"><?php } else { echo $it['uom']; }?></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b><?php if($saved==0){ ?><input type = "text" style='width:50px; color:red' name='uom<?php echo $x; ?>' value = "<?php echo $it['uom']; ?>"><?php } else { echo $it['uom']; }?></b></td>
 
 		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"><?php if($saved==0){ ?><textarea class = "form-control" name='item<?php echo $x; ?>'><?php echo $it['item']; ?></textarea><?php } else { echo $it['item']; }?></b></td>
 
@@ -326,35 +326,74 @@
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
+		    	</table>
+		    	<table class="table-borsdered" width="100%" style="border:2px solid #000;border-top: none;">
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Prepared by:</b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>Approved by:</b></td>
-		    			<td colspan="2"></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Prepared by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b>Checked by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b>Approved by:</b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b><?php echo $prepared; ?></b></td>
-		    			<td colspan="2"></td>
-		    			<td colspan="7"><b>
-		    			<?php if($saved==0){ ?>
-		    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
-			    			<option value=''>-Select-</option>
-			    			<?php foreach($employee AS $emp){ ?>
-			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-			    			<?php } ?>
-		    			</select></b></td>
-		    			<?php }else { ?>
-		    			<?php echo $approved; } ?>
-		    			<td colspan="2"></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b></b></td>
+		    			<td colspan="1"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5" class="bor-btm"><b>
+			    			<?php if($saved==0){ ?>
+			    			<select name='checked' class="select-des emphasis" style="width: 100%" required>
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select></b></td>
+			    			<?php }else { ?>
+			    			<?php echo $checked; } ?>
+		    			<td colspan="1"></td>
+		    			<td colspan="6" class="bor-btm"><b>
+			    			<?php if($saved==0){ ?>
+			    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select></b></td>
+			    			<?php }else { ?>
+			    			<?php echo $approved; } ?>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>

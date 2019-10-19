@@ -148,6 +148,7 @@ class Pod extends CI_Controller {
             $data['notes']=$h->notes;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+            $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
         }
 
         $saved=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
@@ -283,6 +284,7 @@ class Pod extends CI_Controller {
    
         $head = array(
             'approved_by'=>$this->input->post('approved'),
+            'checked_by'=>$this->input->post('checked'),
             'saved'=>1
         );
 

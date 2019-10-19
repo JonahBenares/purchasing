@@ -82,9 +82,9 @@
                         <div class="sparkline8-hd p-b-0" >
                             <div class="main-sparkline8-hd">
                                 <h1><button onclick="return quitBox('quit');" class=" btn btn-xs btn-success"><span class="fa fa-arrow-left"></span></button>
-                                    Unserved Report <b style="color:blue"><?php echo $date; ?></b>
+                                    Undelivered PO Report <b style="color:blue"><?php echo $date; ?></b>
                                 </h1>
-                                <small class="p-l-25">&nbsp;UNSERVED REPORT</small> 
+                                <small class="p-l-25">&nbsp;UNDELIVERED PO REPORT</small> 
                                 <div class="sparkline8-outline-icon">
                                     <?php if(!empty($filt)){ ?>
                                         <a href="<?php echo base_url(); ?>reports/export_unserved/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $pr_no; ?>/<?php echo $date_po; ?>/<?php echo $po_no; ?>/<?php echo $purpose; ?>/<?php echo $enduse; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $supplier; ?>" class="btn btn-custon-three btn-info"> 
@@ -136,7 +136,7 @@
                                                         foreach($po AS $p){ 
                                                             if($p['pr_details_id']==$u['pr_details_id']){
                                                             /*foreach($po_items AS $items){*/
-                                                            $total = $p['qty']*$p['unit_price'];
+                                                            $total = $u['unserved_qty']*$p['unit_price'];
                                             ?>                                     
                                         <tr>
                                             <td><?php echo $p['pr_no'];?></td>
@@ -145,7 +145,7 @@
                                             <td><?php echo $p['po_date'];?></td>
                                             <td><?php echo $p['po_no'];?></td>
                                             <td><?php echo $p['requested_by'];?></td>
-                                            <td><?php echo $p['qty'];?></td>
+                                            <td><?php echo $u['unserved_qty'];?></td>
                                             <td><?php echo $p['uom'];?></td>
                                             <td><?php echo $p['item'];?></td>
                                             <td><?php echo $p['status']; ?></td>

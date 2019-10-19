@@ -655,16 +655,21 @@ class Pr extends CI_Controller {
                 'vendor_id'=>$vendors->vendor_id,
                 'pr_id'=>$prid,
                 'grouping_id'=>$vendors->grouping_id,
+                'noted_by'=>$vendors->noted_by,
+                'approved_by'=>$vendors->approved_by,
+                'quotation_date'=>$vendors->due_date,
                 'rfq_date'=>$timestamp,
                 'processing_code'=>$code,
                 'prepared_by'=>$_SESSION['user_id'],
-                'create_date'=>$timestamp
+                'create_date'=>$timestamp,
+                'saved'=>1
             );
             $this->super_model->insert_into("rfq_head", $data_head);
             foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid' AND grouping_id = '$vendors->grouping_id'") AS $details){
                 $data_details = array(
                     'rfq_id'=>$rfq_id,
                     'pr_details_id'=>$details->pr_details_id,
+                    'pn_no'=>$details->part_no,
                     'item_desc'=>$details->item_description,
                     'quantity'=>$details->quantity,
                     'uom'=>$details->uom,
@@ -785,7 +790,8 @@ class Pr extends CI_Controller {
                     'noted_by'=>$this->input->post('noted'),
                     'approved_by'=>$this->input->post('approved'),
                     'prepared_by'=>$_SESSION['user_id'],
-                    'create_date'=>$timestamp
+                    'create_date'=>$timestamp,
+                    'saved'=>1,
                 );
                 $this->super_model->insert_into("rfq_head", $data_head);
 
@@ -793,6 +799,7 @@ class Pr extends CI_Controller {
                     $data_details = array(
                         'rfq_id'=>$rfq_id,
                         'pr_details_id'=>$details->pr_details_id,
+                        'pn_no'=>$details->part_no,
                         'item_desc'=>$details->item_description,
                         'quantity'=>$details->quantity,
                         'uom'=>$details->uom,
