@@ -159,7 +159,8 @@
 						<a  href="<?php echo base_url(); ?>po/reporder_dr/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
 						<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
 						<?php } else { ?>
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
+						<input type='submit' class="btn btn-warning btn-md p-l-100 p-r-100" name='submit' value="Save as Draft">
+						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" name='submit' value="Save">	
 						<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
@@ -305,6 +306,22 @@
 					    			<!-- <td colspan="" class="bor-right" align="center"><b></b></td> -->
 					    		</tr> 
 					    		<tr>
+					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="12" class=" bor-right" align="right">Shipping Cost</td>
+					    			<td colspan="2" class=" bor-right" align="center"></td>
+					    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='shipping' id='shipping' value='0' onchange='additionalCost()' style='width:100%' ></td>
+					    		</tr>
+					    		<tr>
+					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="12" class=" bor-right" align="right">Less: Discount</td>
+					    			<td colspan="2" class=" bor-right" align="center"></td>
+					    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='discount' id='discount' onchange='additionalCost()' value='0' style='width:100%' ></td>
+					    		</tr>
+					    		<tr>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -337,6 +354,7 @@
 					    			<!-- <td colspan="" class="bor-right" align="center"><b></b></td> -->
 					    		</tr> 
 					    		<?php } } ?>
+					    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($total_amount); ?>'>
 					    		<tr>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
 					    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -484,6 +502,8 @@
 		    	</table>	    
 	    	</div>
 	    		<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+	    		<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+	    		<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
     	</form>
     	<div class="modal fade" id="terms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
