@@ -494,7 +494,7 @@
 			    				<?php echo $x.". "; ?><input type = "text" style='color:red;width: 90%' name = "terms<?php echo $y; ?>" value = "<?php echo $t->tc_desc; ?>"><br>
 			    			<?php
 				    					}
-				    				
+				    					$x++;
 				    					$y++;
 			    					} 
 		    					}else { 
