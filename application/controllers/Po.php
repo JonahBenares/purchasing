@@ -1990,7 +1990,7 @@ class Po extends CI_Controller {
         );
 
         if($this->super_model->update_where("po_head", $data_head, "po_id", $po_id)){
-            redirect(base_url().'pod/purchase_order_rev/'.$po_id);
+            redirect(base_url().'po/purchase_order_rev/'.$po_id);
         }
     }
 
