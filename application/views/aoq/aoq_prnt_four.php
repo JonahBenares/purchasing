@@ -223,16 +223,18 @@
 	    		<center>
 			    	<div class="btn-group">
 						<a href="<?php echo base_url(); ?>aoq/aoq_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+						<?php if($saved==1 && $open==0){ ?>
+						<a href='<?php echo base_url(); ?>aoq/open_aoq_before/<?php echo $aoq_id; ?>' class="btn btn-info btn-md p-l-100 p-r-100">Open AOQ</a>
 						<!-- <input type='submit' class="btn btn-info btn-md p-l-100 p-r-100" value='Done'> -->
-						<!-- <a  onclick="printPage()" class="btn btn-info btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Export</a> -->
-						<?php if($saved==1){ ?>
+						<?php } 
+						 if($saved==1){ ?>
 							<!-- <a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a> -->
 							<a href="<?php echo base_url(); ?>aoq/export_aoq_prnt_four/<?php echo $aoq_id;?>" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-export"></span> Export</a>
 						<?php } ?>
 						<?php  if($saved==0 && $open==0){ ?>
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save AOQ" >
 						<?php } else if ($saved==1 && $open==0 && $awarded==0){ ?>
-							<a href='<?php echo base_url(); ?>aoq/open_aoq_before/<?php echo $aoq_id; ?>' class="btn btn-info btn-md p-l-100 p-r-100">Open AOQ</a>
+							
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Award">
 						<?php } else if ($saved==1 && $open==1 && $awarded==0){ ?>
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save Changes">

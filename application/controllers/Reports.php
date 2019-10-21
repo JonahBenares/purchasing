@@ -195,6 +195,7 @@ class Reports extends CI_Controller {
                 'department'=>$pr->department,
                 'requestor'=>$pr->requestor,
                 'item_description'=>$pr->item_description,
+                'item_no'=>$pr->item_no,
                 'wh_stocks'=>$pr->wh_stocks,
                 'qty'=>$pr->quantity,
                 'revised_qty'=>$revised,

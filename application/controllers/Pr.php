@@ -290,6 +290,7 @@ class Pr extends CI_Controller {
 
         if($this->super_model->insert_into("pr_head", $data_head)){
             $highestRow = $objPHPExcel->getActiveSheet()->getHighestRow(); 
+            $z=1;
             for($x=14;$x<=$highestRow;$x++){
                 $qty = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
                 $uom = trim($objPHPExcel->getActiveSheet()->getCell('C'.$x)->getValue());
@@ -301,6 +302,7 @@ class Pr extends CI_Controller {
                     $data_items = array(
                         'pr_id'=>$pr_id,
                         'item_description'=>$description,
+                        'item_no'=>$z,
                         'uom'=>$uom,
                         'quantity'=>$qty,
                         'part_no'=>$part_no,
@@ -310,6 +312,7 @@ class Pr extends CI_Controller {
 
                     $this->super_model->insert_into("pr_details", $data_items);
                 }
+                $z++;
             }
         }
         echo "<script>alert('Successfully Uploaded!'); window.location = 'purchase_request/$pr_id';</script>";
