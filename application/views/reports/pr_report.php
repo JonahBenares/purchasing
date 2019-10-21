@@ -104,7 +104,7 @@
                                             <th>PR No.</th>
                                             <th>Requestor</th>
                                             <th>WH Stocks</th>
-                                            <th>Item NO.</th>
+                                            <th>Item No.</th>
                                             <th>Qty</th>
                                             <th>Revised Qty</th>
                                             <th>UOM</th>
@@ -128,7 +128,7 @@
                                             <td><?php echo $p['pr_no']; ?></td>
                                             <td><?php echo $p['requestor']; ?></td>
                                             <td><?php echo $p['wh_stocks']; ?></td>
-                                            <td></td>
+                                            <td><?php echo $p['item_no']; ?></td>
                                             <td><?php echo $p['qty']; ?></td>
                                             <td ><span style='font-size:11px'><?php echo $p['revised_qty']; ?></span></td>
                                             <td><?php echo $p['uom']; ?></td>
