@@ -1258,6 +1258,7 @@ class Po extends CI_Controller {
                 'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id),
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id',$head->vendor_id)
             );
+            $data['pr_no']=$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $pr_id);
             $data['shipping']=$head->shipping;
             $data['discount']=$head->discount;
             $data['vendor_id']=$head->vendor_id;

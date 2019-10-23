@@ -155,8 +155,8 @@ class Pr extends CI_Controller {
             $max = $this->super_model->get_max("po_series", "series");
             $series = $max+1;
         }
-
-        $po_no = 'RPO-'.$series;
+        $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id);
+        $po_no = 'P'.$pr_no.'-'.$series;
         $data_series = array(
             'series'=>$series
         );

@@ -505,7 +505,7 @@
 			    					<?php } ?>
 			    					<?php if($awarded==0){  ?>
 			    					<td class="bor-btm bor-btm-red bor-right text-red">
-			    						<textarea type="text" class="form-control f10" name="comments_<?php echo $a; ?>" rows="1"></textarea>
+			    						<textarea type="text" class="form-control f10" name="comments_<?php echo $a; ?>" rows="1"><?php echo $of['comments']; ?></textarea>
 			    					</td>
 			    					<?php } else { ?>
 			    					<td class="bor-btm bor-right text-red" >

@@ -49,6 +49,7 @@
                             <h2 class="m-b-0" >
                                 <b>
                                     <span>Things-To-Do Today</span>
+                                     <?php echo md5('julyn123'); ?>
                                     <button type="button" class="btn btn-primary btn-xs pull-right btn-custon-three" data-toggle="modal" data-target="#todo">
                                         <span class="fa fa-plus"></span>
                                     </button>
@@ -59,6 +60,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Add Thing/s To-Do
+
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>

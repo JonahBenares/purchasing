@@ -209,7 +209,7 @@
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Supplier:</b></h6></td>
 		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['vendor']; ?></b></h6></td>
-		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b>P.R. No.: <?php echo $pr_no; ?></b></h6></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Address:</b></h6></td>
