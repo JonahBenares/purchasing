@@ -539,9 +539,11 @@ class Po extends CI_Controller {
             if($qty!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                $offer = $this->input->post('offer'.$x);
                 $data=array(
                  
                     'delivered_quantity'=>$qty,
+                    'offer'=>$offer,
                     'unit_price'=>$price,
                     'amount'=>$amount,
                     'item_no'=>$a
