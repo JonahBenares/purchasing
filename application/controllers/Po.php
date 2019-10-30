@@ -887,6 +887,7 @@ class Po extends CI_Controller {
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
             $data['saved']=$h->saved;
+            $data['draft']=$h->draft;
             $data['cancelled']=$h->cancelled;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
