@@ -473,9 +473,11 @@ class Reports extends CI_Controller {
                 'enduse'=>$pr->enduse,
                 'department'=>$pr->department,
                 'requestor'=>$pr->requestor,
+                'item_no'=>$pr->item_no,
                 'item_description'=>$pr->item_description,
                 'wh_stocks'=>$pr->wh_stocks,
                 'revised_qty'=>$revised,
+                'grouping_id'=>$pr->grouping_id,
                 'qty'=>$pr->quantity,
                 'uom'=>$pr->uom,
                 'status'=>$status,
@@ -511,11 +513,11 @@ class Reports extends CI_Controller {
              $date = $year;
         }
         $date_received=$this->uri->segment(5);
-        $purpose=$this->uri->segment(6);
-        $enduse=$this->uri->segment(7);
+        $purpose=str_replace("%20", " ", $this->uri->segment(6));
+        $enduse=str_replace("%20", " ", $this->uri->segment(7));
         $pr_no=$this->uri->segment(8);
-        $requestor=$this->uri->segment(9);
-        $description=$this->uri->segment(10);
+        $requestor=str_replace("%20", " ", $this->uri->segment(9));
+        $description=str_replace("%20", " ", $this->uri->segment(10));
         $purchase_request=$this->uri->segment(11);
 
         $sql="";
@@ -1300,10 +1302,10 @@ class Reports extends CI_Controller {
         $pr_no1=$this->uri->segment(5);
         $date_po=$this->uri->segment(6);
         $po_no=$this->uri->segment(7);
-        $purpose1=$this->uri->segment(8);
-        $enduse1=$this->uri->segment(9);
-        $requestor=$this->uri->segment(10);
-        $description=$this->uri->segment(11);
+        $purpose1=str_replace("%20", " ", $this->uri->segment(8));
+        $enduse1=str_replace("%20", " ", $this->uri->segment(9));
+        $requestor=str_replace("%20", " ", $this->uri->segment(10));
+        $description=str_replace("%20", " ", $this->uri->segment(11));
         $supplier=$this->uri->segment(12);
 
         $sql="";
