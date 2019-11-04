@@ -222,6 +222,7 @@ class Reports extends CI_Controller {
                 'enduse'=>$pr->enduse,
                 'department'=>$pr->department,
                 'requestor'=>$pr->requestor,
+                'grouping_id'=>$pr->grouping_id,
                 'item_description'=>$pr->item_description,
                 'item_no'=>$pr->item_no,
                 'wh_stocks'=>$pr->wh_stocks,
@@ -476,12 +477,15 @@ class Reports extends CI_Controller {
                 'enduse'=>$pr->enduse,
                 'department'=>$pr->department,
                 'requestor'=>$pr->requestor,
+                'item_no'=>$pr->item_no,
                 'item_description'=>$pr->item_description,
                 'wh_stocks'=>$pr->wh_stocks,
                 'revised_qty'=>$revised,
+                'grouping_id'=>$pr->grouping_id,
                 'qty'=>$pr->quantity,
                 'uom'=>$pr->uom,
                 'status'=>$status,
+                'date_needed'=>$pr->date_needed,
                 'status_remarks'=>$status_remarks,
                 'unserved_qty'=>$unserved_qty,
                 'unserved_uom'=>$unserved_uom,
@@ -513,11 +517,11 @@ class Reports extends CI_Controller {
              $date = $year;
         }
         $date_received=$this->uri->segment(5);
-        $purpose=$this->uri->segment(6);
-        $enduse=$this->uri->segment(7);
+        $purpose=str_replace("%20", " ", $this->uri->segment(6));
+        $enduse=str_replace("%20", " ", $this->uri->segment(7));
         $pr_no=$this->uri->segment(8);
-        $requestor=$this->uri->segment(9);
-        $description=$this->uri->segment(10);
+        $requestor=str_replace("%20", " ", $this->uri->segment(9));
+        $description=str_replace("%20", " ", $this->uri->segment(10));
         $purchase_request=$this->uri->segment(11);
 
         $sql="";
@@ -582,21 +586,24 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "Item No.");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I4', "Qty");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "Revised Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Grouping");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Item Description");
         /*$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "RO/with AOQ");*/
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Status Remarks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Status");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "Remarks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O4', "End User's Comments");
-        foreach(range('A','O') as $columnID){
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "Status Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O4', "Status");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P4', "Date Needed");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q4', "Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R4', "End User's Comments");
+        foreach(range('A','R') as $columnID){
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }
-        $objPHPExcel->getActiveSheet()->getStyle('A4:O4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:R4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle("A1:E1")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setSize(15);
         $objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:O4')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:O4')->applyFromArray($styleArray1);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:R4')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:R4')->applyFromArray($styleArray1);
         if($filt!=''){
             $num = 5;
             foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ".$query) AS $pr){
@@ -719,12 +726,15 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->quantity");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$revised");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$pr->item_description $unserved");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$pr->uom");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$pr->grouping_id");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->item_description $unserved");
                 /*$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "");*/
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$status_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$status");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$pr->add_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$status_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$pr->date_needed");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$pr->add_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "");
 
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('E'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -732,12 +742,16 @@ class Reports extends CI_Controller {
                 $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setWrapText(true);
                 /*$objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
                 /*$objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->applyFromArray($styleArray);
                 $num++;
             }
         }else {
@@ -888,11 +902,14 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->quantity");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$revised");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$pr->item_description $unserved");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$status_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$status");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$pr->add_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$pr->uom");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$pr->grouping_id");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->item_description $unserved");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$status_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$pr->date_needed");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$pr->add_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "");
 
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('E'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -900,12 +917,16 @@ class Reports extends CI_Controller {
                 $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setWrapText(true);
                 /*$objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
                 /*$objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->applyFromArray($styleArray);
                 $num++;
             }
         }
@@ -1285,10 +1306,10 @@ class Reports extends CI_Controller {
         $pr_no1=$this->uri->segment(5);
         $date_po=$this->uri->segment(6);
         $po_no=$this->uri->segment(7);
-        $purpose1=$this->uri->segment(8);
-        $enduse1=$this->uri->segment(9);
-        $requestor=$this->uri->segment(10);
-        $description=$this->uri->segment(11);
+        $purpose1=str_replace("%20", " ", $this->uri->segment(8));
+        $enduse1=str_replace("%20", " ", $this->uri->segment(9));
+        $requestor=str_replace("%20", " ", $this->uri->segment(10));
+        $description=str_replace("%20", " ", $this->uri->segment(11));
         $supplier=$this->uri->segment(12);
 
         $sql="";

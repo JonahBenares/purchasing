@@ -166,24 +166,30 @@
 			    	<div class="row">
 			    		<li class="dropdown" >
 							<a href="<?php echo base_url(); ?>po/po_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
-							<?php if($revised==0){ ?>
-							<a  href='<?php echo base_url(); ?>po/purchase_order_rev/<?php echo $po_id; ?>' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
+							<?php if($draft!=1){ ?>
+								<?php if($revised==0){ ?>
+								<a  href='<?php echo base_url(); ?>po/purchase_order_rev/<?php echo $po_id; ?>' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
+								<?php } ?>
 							<?php } ?>
 							<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b><?php if($revised==0){ echo 'PO'; }else { echo 'RFA'; } ?></b></u></a>
-							<?php if($revised==0){ ?>
-							<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
-							<?php } ?>
-							<?php if($revised==1){ ?>
-							<a  href="#" class="btn btn-primary btn-md p-l-25 p-r-25" data-toggle="modal" data-target="#uploadApproval"><span class="fa fa-upload"></span> Upload <u><b>Approval</b></u></a>
-							<?php } ?>							
-							<a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
-							<ul class="dropdown-menu dropdown-alerts animated fadeInDown" style="width:200px;top:30px;border:1px solid #e66614;left:650px;">
-								<?php foreach($dr AS $d){ ?>
-									<li style="text-align: left!important"><a href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $d->po_id; ?>/<?php echo $d->dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "DR# ".$d->dr_no; ?></a></li>
+							
+							<?php if($draft!=1){ ?>
+								<?php if($revised==0){ ?>
+								<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
 								<?php } ?>
-							<!-- 	<li style="text-align: left!important"><a href="" class="btn btn-link">Hello.mp4</a></li>
-								<li style="text-align: left!important"><a href="" class="btn btn-link">Hello.mp4</a></li> -->
-							</ul>
+								<?php if($revised==1){ ?>
+								<a  href="#" class="btn btn-primary btn-md p-l-25 p-r-25" data-toggle="modal" data-target="#uploadApproval"><span class="fa fa-upload"></span> Upload <u><b>Approval</b></u></a>
+								<?php } ?>	
+
+								<a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
+								<ul class="dropdown-menu dropdown-alerts animated fadeInDown" style="width:200px;top:30px;border:1px solid #e66614;left:650px;">
+									<?php foreach($dr AS $d){ ?>
+										<li style="text-align: left!important"><a href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $d->po_id; ?>/<?php echo $d->dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "DR# ".$d->dr_no; ?></a></li>
+									<?php } ?>
+								<!-- 	<li style="text-align: left!important"><a href="" class="btn btn-link">Hello.mp4</a></li>
+									<li style="text-align: left!important"><a href="" class="btn btn-link">Hello.mp4</a></li> -->
+								</ul>
+							<?php } ?>	
 						</li>
 							
 					</div>
@@ -222,7 +228,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['tel_no'];?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['telfax'];?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address2'];?></td></tr>
-		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4></td></tr>
+		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4><?php echo ($draft==1) ? '<small class="text-red">DRAFT</small>' : ''; ?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
