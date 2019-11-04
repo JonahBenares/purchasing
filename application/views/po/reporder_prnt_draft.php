@@ -363,6 +363,7 @@
 					    					<p class="f12 nomarg">Purpose: <?php echo $pr['purpose']?></p>
 					    					<p class="f12 nomarg">End Use: <?php echo $pr['enduse']?></p>
 					    					<p class="f12 nomarg">Requestor: <?php echo $pr['requestor']?></p>
+					    					<p class="f12 nomarg">PR No: <?php echo $pr_no; ?></p>
 						    			</b>
 						    		</td>
 					    			<td colspan="2" class="bor-right" align="center"><b></b></td>

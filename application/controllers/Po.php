@@ -887,6 +887,7 @@ class Po extends CI_Controller {
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
             $data['saved']=$h->saved;
+            $data['draft']=$h->draft;
             $data['cancelled']=$h->cancelled;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
@@ -1234,9 +1235,12 @@ class Po extends CI_Controller {
 
     public function reporder_prnt(){
         $po_id=$this->uri->segment(3);
-        $pr_id=$this->uri->segment(4);
+       // $pr_id=$this->uri->segment(4);
         $group_id=$this->uri->segment(5);
         $data['po_id']=$po_id;
+        
+       // $data['pr_id']=$pr_id;
+         $pr_id=$this->super_model->select_column_where('po_pr', 'pr_id', 'po_id', $po_id);
         $data['pr_id']=$pr_id;
         $data['group_id']=$group_id;
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
@@ -1338,6 +1342,7 @@ class Po extends CI_Controller {
                 'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id),
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id',$head->vendor_id)
             );
+            $data['pr_no']=$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $pr_id);
             $data['shipping']=$head->shipping;
             $data['discount']=$head->discount;
             $data['vendor_id']=$head->vendor_id;
