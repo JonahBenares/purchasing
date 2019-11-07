@@ -324,7 +324,7 @@ class Po extends CI_Controller {
              
                 foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'") AS $off){
 
-                    $total = $off->unit_price*$off->quantity;
+                    $total = $off->unit_price*$off->delivered_quantity;
                     $data['items'][] =  array(
                         'aoq_id'=>$off->aoq_id,
                         'aoq_offer_id'=>$off->aoq_offer_id,
@@ -349,7 +349,7 @@ class Po extends CI_Controller {
              } 
         } else {
              foreach($this->super_model->select_row_where("po_items", "po_id" , $po_id) AS $off){
-                  $total = $off->unit_price*$off->quantity;
+                  $total = $off->unit_price*$off->delivered_quantity;
                     $data['items'][] =  array(
                         'aoq_id'=>$this->super_model->select_column_where('po_pr', 'aoq_id', 'po_id', $po_id),
                         'aoq_offer_id'=>$off->aoq_offer_id,
@@ -887,7 +887,7 @@ class Po extends CI_Controller {
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
             );
             $data['shipping']=$h->shipping;
-            $data['discount']=$h->discount;
+              $data['disco  unt']=$h->discount;
             $data['saved']=$h->saved;
             $data['draft']=$h->draft;
             $data['cancelled']=$h->cancelled;
