@@ -324,7 +324,7 @@ class Po extends CI_Controller {
              
                 foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'") AS $off){
 
-                    $total = $off->unit_price*$off->delivered_quantity;
+                    $total = $off->unit_price*$off->quantity;
                     $data['items'][] =  array(
                         'aoq_id'=>$off->aoq_id,
                         'aoq_offer_id'=>$off->aoq_offer_id,
