@@ -162,7 +162,14 @@
 					<p class="text-white">Instructions: When printing DELIVERY RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;" >    		  			
+	    	<div style="background: #fff;" >    	
+	    		<table width="100%">
+	    			<tr>
+	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
+	    				<td width="50%"><center>Procurement System Generated</center></td>
+	    				<td width="25%"></td>
+	    			</tr>
+	    		</table>	  			
 		    	<table class="table-boddered" width="100%" style="border:0px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
@@ -199,14 +206,13 @@
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
-		    			<td colspan="10" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no; ?></b></td>
-		    			<td colspan="10" class="all-border "><b class="nomarg">PO No: <?php echo $h->po_no . (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
+		    			<td colspan="20" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no; ?></b></td>
 		    		</tr>
 		    		
 		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($h->po_date)); ?></b></td></tr>
 		    		<?php } ?>
 		    		<tr>
-		    			<td colspan="20" align="center"><br></td>
+		    			<td colspan="20"><b class="nomarg">PO No: <?php echo $h->po_no . (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
 		    		</tr>
 		    		<?php foreach($pr AS $p){ ?>
 		    		<tr>
@@ -216,11 +222,10 @@
 		    			<td colspan="20" class="all-border"><b class="nomarg">End Use: <?php echo $p['enduse']; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="10" class="all-border"><b class="nomarg">Requestor: <?php echo $p['requestor']; ?></b></td>
-		    			<td colspan="10" class="all-border "><b class="nomarg">PR No: <?php echo $p['pr_no'] . "; Item#: " . $p['item_no']; ?></b></td>
+		    			<td colspan="20" class="all-border"><b class="nomarg">Requestor: <?php echo $p['requestor']; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20" align="center"><br></td>
+		    			<td colspan="20"><b class="nomarg">PR No: <?php echo $p['pr_no'] ?></b></td>
 		    		</tr>
 		    		<?php } ?>
 		    		<!-- loop here end-->

@@ -887,7 +887,7 @@ class Po extends CI_Controller {
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
             );
             $data['shipping']=$h->shipping;
-              $data['disco  unt']=$h->discount;
+            $data['discount']=$h->discount;
             $data['saved']=$h->saved;
             $data['draft']=$h->draft;
             $data['cancelled']=$h->cancelled;

@@ -146,6 +146,13 @@
 				</center>
 			</div>
 	    	<div style="background: #fff;" class="<?php if($revised==1){ echo 'amend'; } else if($cancelled==1){ echo 'cancel'; }?>" >  <!-- add class or amend cancel -->
+	    		<table width="100%">
+	    			<tr>
+	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
+	    				<td width="50%"><center>Procurement System Generated</center></td>
+	    				<td width="25%"></td>
+	    			</tr>
+	    		</table>
 		    	<table class="table-borddered" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
@@ -346,6 +353,14 @@
 		    			<td colspan="2" align="right"><h6 class="nomarg text-red"><b>Reason:</b></h6></td>
 		    			<td colspan="12"><h6 class="nomarg text-red"><b></b></h6></td>
 		    		</tr> -->
+		    		<tr>		    			
+		    			<td colspan="20" style="padding: 10px!important">
+		    					<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+							 Add Other Instruction
+							</button><br>
+		    				Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
+		    			</td>
+		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
@@ -390,16 +405,7 @@
 		    					} 
 		    				?>
 		    			</td>
-		    		</tr>
-		    		<tr>
-		    			
-		    			<td colspan="20" style="padding: 10px!important">
-		    					<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
-							 Add Other Instruction
-							</button><br>
-		    				Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
-		    			</td>
-		    		</tr>
+		    		</tr>		    		
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>

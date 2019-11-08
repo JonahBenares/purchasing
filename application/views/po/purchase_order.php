@@ -162,7 +162,14 @@
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;">    		  			
+	    	<div style="background: #fff;">    	
+	    		<table width="100%">
+	    			<tr>
+	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
+	    				<td width="50%"><center>Procurement System Generated</center></td>
+	    				<td width="25%"></td>
+	    			</tr>
+	    		</table>	  			
 		    	<table class="table-borsdered" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
@@ -322,8 +329,13 @@
 					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency; ?></span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),2); ?></span></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20">
-		    				<i></i>
+		    			<td colspan="20" style="padding: 10px!important">
+		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+							 Add Other Instruction
+							</button>
+		    				<?php foreach($tc AS $t){ ?>
+								<span style = "color:blue;"><?php echo $t->notes;?></span>
+							<?php } ?>	
 		    			</td>
 		    		</tr>
 		    		<tr>
@@ -358,13 +370,7 @@
 			    						$x++; 
 			    					}
 		    					} 
-		    				?>
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
-							 Add Other Instruction
-							</button>
-		    				<?php foreach($tc AS $t){ ?>
-								<span style = "color:blue;"><?php echo $t->notes;?></span>
-							<?php } ?>		
+		    				?>		    					
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
