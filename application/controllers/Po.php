@@ -1664,7 +1664,7 @@ class Po extends CI_Controller {
 
                 $data['items'][] = array(
                     'pr_no'=>$pr_no,
-                    'pr_details_id'=>$item->pr_details_id,
+                    /*'pr_details_id'=>$this->super_model->custom_query_single('pr_details_id', "SELECT pr_details_id FROM pr_details WHERE pr_id = '$pr_id' AND "),*/
                     'pr_id'=>$item->pr_id,
                     'item_id'=>$item->po_items_id,
                     'offer'=>$offer,
