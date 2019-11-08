@@ -197,6 +197,13 @@
 				</center>
 			</div>
 	    	<div style="background: #fff;" class="<?php if($revised==1){ echo 'amend'; } else if($cancelled==1){ echo 'cancel'; }?>" >  <!-- add class or amend cancel -->
+	    		<table width="100%">
+	    			<tr>
+	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
+	    				<td width="50%"><center>Procurement System Generated</center></td>
+	    				<td width="25%"></td>
+	    			</tr>
+	    		</table>
 		    	<table class="table-borddered" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
@@ -391,6 +398,11 @@
 		    		</tr> -->
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
+		    				Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="20" style="padding: 10px!important">
 		    				Terms & Conditions:<br>
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
@@ -420,11 +432,7 @@
 		    				?>
 		    			</td>
 		    		</tr>
-		    		<tr>
-		    			<td colspan="20" style="padding: 10px!important">
-		    				Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
-		    			</td>
-		    		</tr>
+		    		
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>
