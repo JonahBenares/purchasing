@@ -87,7 +87,7 @@ class Po extends CI_Controller {
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');   
         $this->load->view('template/navbar');
-        foreach($this->super_model->select_custom_where("po_head", "(saved='1' OR draft = '1') AND served = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
+        foreach($this->super_model->select_custom_where("po_head", "served = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
              $rfd=$this->super_model->count_rows_where("rfd","po_id",$head->po_id);
              $pr='';
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
@@ -1637,9 +1637,12 @@ class Po extends CI_Controller {
         $data['po_id'] = $po_id;
         $data['old_po'] = $old_po;
         $data['vendor_id'] = $vendor_id;
+
+
         foreach($this->super_model->select_custom_where("pr_details", "pr_id='$pr_id' AND grouping_id='$group_id'") AS $p){
             $data['pr_det'][]=array(
-                'pr_details_id'=>$p->pr_details_id
+                'pr_details_id'=>$p->pr_details_id,
+                'item_description'=>$p->item_description
             );
         }
 
@@ -1664,7 +1667,7 @@ class Po extends CI_Controller {
 
                 $data['items'][] = array(
                     'pr_no'=>$pr_no,
-                    /*'pr_details_id'=>$this->super_model->custom_query_single('pr_details_id', "SELECT pr_details_id FROM pr_details WHERE pr_id = '$pr_id' AND "),*/
+                    'pr_details_id'=>$item->pr_details_id,
                     'pr_id'=>$item->pr_id,
                     'item_id'=>$item->po_items_id,
                     'offer'=>$offer,

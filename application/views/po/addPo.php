@@ -29,8 +29,9 @@
                                     <thead>
                                         <tr>
                                             <th width="10%">Qty</th>
+                                            <th width="15%"></th>
                                             <th width="10%">UOM</th>
-                                            <th width="50%">Description</th>
+                                            <th width="35%">Description</th>
                                             <th width="10%">Price</th>
                                             <th width="10%">Total</th>
                                             <th width="10%">PR No</th>
@@ -44,6 +45,12 @@
                                         
                                         <tr>
                                             <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" onblur='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
+                                            <td style="padding: 0px!important"><select class="form-control" name='pr_details_id<?php echo $x; ?>'>
+                                                <option value='' selected>-Choose Item-</option>
+                                                <?php foreach($pr_det AS $det){ ?>
+                                                    <option value="<?php echo $det['pr_details_id']; ?>"><?php echo $det['item_description']; ?></option>
+                                                <?php } ?>
+                                            </select></td>
                                             <td><?php echo $i['uom']; ?></td>
                                             <td><?php echo $i['offer']; ?></td>
                                             <td style="padding: 0px!important"><input type="text" name="price<?php echo $x; ?>" id="price<?php echo $x; ?>" value="<?php echo $i['price']; ?>"  onkeypress="return isNumberKey(this, event)" class="form-control" onblur='changePrice(<?php echo $x; ?>,0)' style='border:0px' readonly></td>
@@ -57,9 +64,9 @@
                                        <!--<input type='text' name='pr_details_id<?php echo $x; ?>' value="<?php echo $i['pr_details_id']; ?>">-->
                                         <?php $x++; } 
                                     } ?>
-                                    <?php $y=1; foreach($pr_det AS $p){ ?>
+                                  <!--   <?php $y=1; foreach($pr_det AS $p){ ?>
                                            <input type='text' name='pr_details_id<?php echo $y; ?>' value="<?php echo $p['pr_details_id']; ?>">
-                                    <?php $y++; } ?>
+                                    <?php $y++; } ?> -->
                                     </tbody>
                                 </table>
                                  <input type='hidden' name='old_po' value="<?php echo $old_po; ?>"> 

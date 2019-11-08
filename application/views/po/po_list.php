@@ -282,9 +282,16 @@
                                                 if($head['revised']==1) {
                                                     echo '<span class="label label-warning">Request for Revision</span>';
                                                 } else {
-                                                    echo (($head['served']==0) ? '<span class="label label-warning">PO Issued</span>' : '<span class="label label-success">Delivered</span>'); 
-                                                     echo (($head['draft']==1) ? ' <span class="label label-info">Draft</span>' : ''); 
-                                                    } ?></td>
+                                                    if($head['served']==0 && $head['saved']==1) {
+                                                        echo '<span class="label label-warning">PO Issued</span>';
+                                                    } else if($head['served']==1) {
+                                                      echo '<span class="label label-success">Delivered</span>'; 
+                                                    } 
+
+                                                     if($head['draft']==1) {
+                                                      echo '<span class="label label-info">Draft</span>'; 
+                                                    }
+                                                } ?></td>
                                                 <td><?php
                                                     if($head['po_type']==0){
                                                         echo "Purchase Request";
@@ -305,8 +312,16 @@
                                                             <span class="fa fa-thumbs-up"></span>
                                                         </a>
                                                         <?php } ?>
-                                                        <?php if($head['saved']==0 && $head['draft']==0){ ?>
+                                                        <?php if($head['saved']==0 && $head['draft']==0  && $head['po_type']==0){ ?>
                                                         <a href="<?php echo base_url(); ?>po/purchase_order/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                            <span class="fa fa-eye"></span>
+                                                        </a>
+                                                          <?php }else if($head['saved']==0 && $head['draft']==0  && $head['po_type']==1){ ?>
+                                                        <a href="<?php echo base_url(); ?>pod/po_direct/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                            <span class="fa fa-eye"></span>
+                                                        </a>
+                                                          <?php } else if($head['saved']==0 && $head['draft']==0  && $head['po_type']==2){ ?>
+                                                        <a href="<?php echo base_url(); ?>po/reporder_prnt/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
                                                         <?php } else if($head['saved']==0 && $head['draft']==1){ ?>
