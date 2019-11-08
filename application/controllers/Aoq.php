@@ -469,7 +469,7 @@ class Aoq extends CI_Controller {
                 'aoq_offer_id'=>$off->aoq_offer_id,
                 'vendor_id'=>$off->vendor_id,
                 'quantity'=>$off->quantity,
-                 'pr_details_id'=>$off->pr_details_id,
+                'pr_details_id'=>$off->pr_details_id,
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
                 'item_id'=>$off->aoq_items_id,
                 'currency'=>$off->currency,
@@ -570,8 +570,9 @@ class Aoq extends CI_Controller {
         $x=0;
         $y=1;
         foreach($this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id) AS $items){
+            $pn_no = $this->get_pn($items->pr_details_id);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num2, "$y");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$items->item_description");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$items->item_description, $pn_no");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num2, "$items->quantity");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num2, "$items->uom");
             $col='E';
@@ -939,8 +940,9 @@ class Aoq extends CI_Controller {
         $x=0;
         $y=1;
         foreach($this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id) AS $items){
+            $pn_no = $this->get_pn($items->pr_details_id);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num2, "$y");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$items->item_description");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$items->item_description, $pn_no");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num2, "$items->quantity");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num2, "$items->uom");
             $col='E';
@@ -1315,8 +1317,9 @@ class Aoq extends CI_Controller {
         $x=0;
         $y=1;
         foreach($this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id) AS $items){
+            $pn_no = $this->get_pn($items->pr_details_id);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num2, "$y");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$items->item_description");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$items->item_description, $pn_no");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num2, "$items->quantity");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num2, "$items->uom");
             $col='E';
@@ -1696,6 +1699,11 @@ class Aoq extends CI_Controller {
         $this->load->view('rfq/cancelled_rfq');
         $this->load->view('template/footer');
     } 
+
+    public function get_pn($pr_details_id){
+        $name = $this->super_model->select_column_where("pr_details", "part_no", "pr_details_id", $pr_details_id);
+        return $name;
+    }
 
 }
 

@@ -343,7 +343,7 @@
 		    			<input type='hidden' name='quantity_<?php echo $x; ?>' id="quantity_<?php echo $x; ?>" value='<?php echo $it->quantity; ?>'>
 		    		<tr style='border:2px solid #000'>
 		    			<td class="f10 table-borreg" align="center"><?php echo $x; ?></td>
-		    			<td class="f10 table-borreg" align="left" colspan="2"><?php echo $it->item_description; ?></td>
+		    			<td class="f10 table-borreg" align="left" colspan="2"><?php echo $it->item_description.", ".$CI->get_pn($it->pr_details_id); ?></td>
 		    			<td class="f10 table-borreg" align="center"><?php echo $it->quantity; ?></td>
 		    			<td class="f10 table-borreg" align="center"><?php echo $it->uom; ?></td>
 
