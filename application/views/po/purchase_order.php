@@ -1,3 +1,6 @@
+<?php 
+   	$CI =& get_instance();  
+?>
   	<script src="<?php echo base_url(); ?>assets/js/po.js"></script> 
   	<head>
         <meta charset="utf-8">
@@ -245,7 +248,7 @@
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
 		    			<td colspan="13" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
-		    			<td colspan="2" class="all-border" align="center"></td>
+		    			<td colspan="2" class="all-border" align="center"><b>Total</b></td>
 		    		</tr>
 		    		<?php 
 		    		$gtotal=array();
@@ -258,8 +261,8 @@
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' <?php echo (($revised!='r') ? "max=".$it['balance'] : ""); ?> style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['uom']; ?></b></td>
-		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"><?php echo utf8_encode($it['offer']); ?></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it['price']; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
+		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"><?php echo utf8_encode($it['offer'].", ".$CI->get_pn($it['pr_details_id'])); ?></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it['price'],2); ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it['total'],2); ?>" style='text-align:right;' readonly></b></td>
 		    		</tr>
 		    		<input type='hidden' name='currency<?php echo $x; ?>' value="<?php echo $it['currency']; ?>">
@@ -348,18 +351,18 @@
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>
-		    					<?php $x=4; ?>
+		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				$x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
+		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
 		    				<?php $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    				$x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
+		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				$x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
+		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				$x."."; ?> In-land Freight: <?php echo $freight; ?><br>
+		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php 
 		    					//$no=8;

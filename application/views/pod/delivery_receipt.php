@@ -157,7 +157,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="10" class="all-border"><b class="nomarg">Requestor: <?php echo $p['requestor']; ?></b></td>
-		    			<td colspan="10" class="all-border "><b class="nomarg">PR No: <?php echo $p['pr_no'] . "; Item#: " . $p['item_no']; ?></b></td>
+		    			<td colspan="10" class="all-border "><b class="nomarg">PR No: <?php echo (!empty($p['item_no'])) ? $p['pr_no'] . "; Item#: " . $p['item_no'] : $p['pr_no']; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" align="center"><br></td>

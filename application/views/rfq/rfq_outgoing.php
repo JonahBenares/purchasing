@@ -1,3 +1,6 @@
+<?php 
+   	$CI =& get_instance();  
+?>
   	<head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -207,7 +210,7 @@
 		    						<td class="f13" align="center"><?php echo $x; ?></td>
 		    						<td class="f13" align="center"><?php echo $it->quantity; ?></td>
 		    						<td class="f13" align="center"><?php echo $it->uom; ?></td>
-		    						<td class="f13" align="left" style='width:35%;padding-left: 2px'><?php echo $it->item_desc; ?></td>
+		    						<td class="f13" align="left" style='width:35%;padding-left: 2px'><?php echo $it->item_desc.", ".$CI->get_pn($it->pr_details_id); ?></td>
 		    						<td class="f13" align="center" style='width:45%;'>
 		    							<table width="100%">
 		    								<tr class="bor-btm">

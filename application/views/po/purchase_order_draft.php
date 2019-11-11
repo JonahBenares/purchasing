@@ -220,7 +220,7 @@
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
 		    			<td colspan="12" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
-		    			<td colspan="3" class="all-border" align="center">	</td>
+		    			<td colspan="3" class="all-border" align="center"><b>Total</b></td>
 		    		</tr>
 		    		<?php
 		    		$x=1; 
@@ -238,8 +238,8 @@
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<?php //echo utf8_encode($offer); ?>
 		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"><input type='text' style='width:100%' name='offer<?php echo $x; ?>' value='<?php echo utf8_encode($offer); ?>'></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it->unit_price; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
-		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $it->amount; ?>" style='text-align:right;' readonly></b></td>		
+		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it->unit_price,2); ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,2); ?>" style='text-align:right;' readonly></b></td>		
 		    		</tr>	
 		    	<!-- 	<input type='hidden' name='aoq_id<?php echo $x; ?>' value="<?php echo $it->aoq_id; ?>"> -->
 		    		<input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $it->po_items_id; ?>">
@@ -366,7 +366,7 @@
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
 							 Add Terms & Conditions
 							</button><br>
-							<?php $y=1; ?>
+							<!-- <?php $y=1; ?>
 		    				Terms & Conditions:<br>
 		    				<?php echo $y; 
 		    				$y++; ?> Price is inclusive of taxes.<br>
@@ -389,10 +389,28 @@
 		    				<?php if(!empty($freight)){ ?>
 		    				<?php echo $y; 
 		    				$y++; ?> In-land Freight: <?php echo $freight; ?><br>
-		    				<?php } ?>
+		    				<?php } ?> -->
+		    				<?php $x=3; ?>
+		    				<br>Terms & Conditions:<br>
+		    				1. Price is inclusive of taxes.<br>
+		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>
+		    				<?php $x=4; ?>
+		    				<?php if(!empty($payment_terms)){ 
+		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
+		    				<?php $x++; } ?>	
+		    				<?php if(!empty($item_warranty)){ 
+		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
+		    				<?php $x++; } ?>
+		    				<?php if(!empty($delivery_time)){ 
+		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
+		    				<?php $x++; } ?>
+		    				<?php if(!empty($freight)){ 
+		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?><br>
+		    				<?php $x++; } ?>
 		    				<?php 
 		    					//$no=8;
-		    					if(!empty($payment_terms) || !empty($item_warranty) || !empty($delivery_time) || !empty($freight)){
+		    					/*if(!empty($payment_terms) || !empty($item_warranty) || !empty($delivery_time) || !empty($freight)){
 		    						$no=8;
 		    					}else {
 		    						$no=4;
@@ -401,6 +419,12 @@
 		    						if(!empty($t->tc_desc)){
 			    						echo $no.". " . $t->tc_desc."<br>";
 			    						$no++; 
+			    					}
+		    					} */
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->tc_desc)){
+			    						echo $x.". " . $t->tc_desc."<br>";
+			    						$x++; 
 			    					}
 		    					} 
 		    				?>
