@@ -1,9 +1,16 @@
+<?php $letters = range('A', 'Z'); ?>
+
 <script type="text/javascript">
     $(document).on("click", ".cancelItem", function () {
          var details_id = $(this).data('id');
          var pr = document.getElementById("pr").value;
          $(".modal #details_id").val(details_id);
          $(".modal #pr").val(pr);
+    });
+
+    $(document).on("click", ".regroupItem", function () {
+         var pr_det_id = $(this).data('id');
+         $(".modal #pr_det_id").val(pr_det_id);
     });
 
      $(document).on("click", ".addVendor", function () {
@@ -40,6 +47,36 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div id="regroup_g" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header header-color-modal bg-color-2">
+                    <h4 class="modal-title">Regroup Item</h4>
+                    <div class="modal-close-area modal-close-df" >
+                        <a class="close" data-dismiss="modal" style="background: green" href="#"><i class="fa fa-close"></i></a>
+                    </div>
+                </div>
+                <form method="POST" action = "<?php echo base_url();?>pr/regroup_item">
+                    <div class="modal-body-lowpad">
+                        <div class="form-group">
+                            <p class="m-b-0">Regroup:</p>
+                            <select class="form-control text-black" name='grouping'>
+                                <option value='' selected="selected">-Select Group-</option>
+                                <?php foreach($letters AS $let){ ?>
+                                <option value='<?php echo $let; ?>'><?php echo $let; ?></option>
+                                <?php } ?>
+                            </select>
+                            <input type = "hidden" name = "pr_det_id" id = "pr_det_id">
+                             <input type='hidden' name='pr' id = "pr" value='<?php echo $pr_id; ?>'>
+                        </div>
+                        <center>              
+                            <input type = "submit" class="btn btn-custon-three btn-success btn-block" value = "Save">
+                        </center>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -200,7 +237,6 @@
                                         <tbody>
                                         <?php 
                                             $x=1;
-                                            $letters = range('A', 'Z');
                                             foreach($details AS $det){ 
                                         ?>
                                         <?php if($det['cancelled']==1){ ?>
@@ -252,9 +288,10 @@
                                                 <td><?php echo $det['vendor']; ?></td>
                                                 <?php } ?>
                                                 <td align="center">
+                                                    <a href="" class="regroupItem btn btn-xs btn-success btn-custon-three" data-toggle="modal" data-target="#regroup_g" title="Regroup" data-group="" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-object-group"> </span></a>
                                                     <?php if($saved==1){ ?>
                                                     <a href="" class="addVendor btn btn-xs btn-warning btn-custon-three" data-toggle="modal" data-target="#exampleModal" title="Add Vendor" data-group="<?php echo $det['grouping_id']; ?>" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-shopping-cart"> </span></a>
-                                                <?php } ?>
+                                                    <?php } ?>
                                                     <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </td>
                                             </tr>
