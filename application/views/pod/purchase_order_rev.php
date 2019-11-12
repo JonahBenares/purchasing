@@ -457,6 +457,18 @@
 		    				</div>
 		    			</td>
 		    		</tr>
+		    		<tr><td colspan="20" style="padding: 10px!important">
+		    				<?php if($revised==0){ ?>
+			    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+									Add Other Instruction
+								</button> 
+								<?php foreach($tc AS $t){ if(!empty($t->notes)){ ?>
+									<textarea type = "text" style='color:blue;width:92%' rows = '1' class="form-control" name = "notes"><?php echo $t->notes; ?></textarea><!-- <span style = "color:blue;"><?php echo $t->notes;?></span> --><?php } } ?>
+							<?php }else{ ?>
+								Other Instructions: <?php //foreach($tc_temp AS $t){ ?><span style = "color:blue;"><?php echo $tc_notes;?></span><?php //} ?>
+
+							<?php } ?>
+		    		</td></tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<?php if($revised==0){ ?>
@@ -511,18 +523,7 @@
 
 		    			</td>
 		    		</tr>
-		    		<tr><td colspan="20" style="padding: 10px!important">
-		    				<?php if($revised==0){ ?>
-			    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
-									Add Other Instruction
-								</button> 
-								<?php foreach($tc AS $t){ if(!empty($t->notes)){ ?>
-									<textarea type = "text" style='color:blue;width:92%' rows = '1' class="form-control" name = "notes"><?php echo $t->notes; ?></textarea><!-- <span style = "color:blue;"><?php echo $t->notes;?></span> --><?php } } ?>
-							<?php }else{ ?>
-								Other Instructions: <?php //foreach($tc_temp AS $t){ ?><span style = "color:blue;"><?php echo $tc_notes;?></span><?php //} ?>
-
-							<?php } ?>
-		    		</td></tr>
+		    		
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>
