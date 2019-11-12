@@ -470,16 +470,16 @@
 		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>
 		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				$x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
+		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
 		    				<?php $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    				$x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
+		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				$x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
+		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				$x."."; ?> In-land Freight: <?php echo $freight; ?><br>
+		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php 
 		    					//$no=8;
