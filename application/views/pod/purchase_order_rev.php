@@ -214,7 +214,7 @@
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
 		    			<td colspan="11" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>OLD U/P</b></td>
-		    			<td colspan="3" class="all-border" align="center"></td>
+		    			<td colspan="3" class="all-border" align="center"><b>Total</b></td>
 		    		</tr>
 		    		<?php
 		    		$x=1; 
@@ -321,7 +321,7 @@
 						    			<td colspan="" class="all-border yellow-back" align="center"><b>Unit</b></td>
 						    			<td colspan="11" class="all-border yellow-back" align="center"><b>New Description</b></td>
 						    			<td colspan="2" class="all-border yellow-back" align="center"><b>New U/P</b></td>
-						    			<td colspan="3" class="all-border yellow-back" align="center"></td>
+						    			<td colspan="3" class="all-border yellow-back" align="center"><b>Total</b></td>
 						    		</tr>
 
 						    		<?php
