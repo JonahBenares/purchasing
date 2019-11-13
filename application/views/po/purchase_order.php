@@ -261,16 +261,16 @@
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' <?php echo (($revised!='r') ? "max=".$it['balance'] : ""); ?> style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['uom']; ?></b></td>
-		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"><?php echo utf8_encode($it['offer'].", ".$CI->get_pn($it['pr_details_id'])); ?></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it['price'],2); ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
-		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it['total'],2); ?>" style='text-align:right;' readonly></b></td>
+		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"><?php echo $it['offer'].", ".$CI->get_pn($it['pr_details_id']); ?></b></td>
+		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it['price']; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
+		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $it['total']; ?>" style='text-align:right;' readonly></b></td>
 		    		</tr>
 		    		<input type='hidden' name='currency<?php echo $x; ?>' value="<?php echo $it['currency']; ?>">
 		    		<input type='hidden' name='aoq_id<?php echo $x; ?>' value="<?php echo $it['aoq_id']; ?>">
 		    		<input type='hidden' name='aoq_offer_id<?php echo $x; ?>' value="<?php echo $it['aoq_offer_id']; ?>">
 		    		<input type='hidden' name='aoq_items_id<?php echo $x; ?>' value="<?php echo $it['aoq_items_id']; ?>">
 		    		<input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $it['pr_details_id']; ?>">
-		    		<textarea hidden  name='offer<?php echo $x; ?>'><?php echo utf8_encode($it['offer']); ?></textarea>
+		    		<textarea hidden  name='offer<?php echo $x; ?>'><?php echo $it['offer']; ?></textarea>
 		    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
 			    		<?php 
 			    		$x++; 
