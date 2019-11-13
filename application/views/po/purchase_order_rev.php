@@ -1,3 +1,6 @@
+  	<?php
+	$ci =& get_instance();
+	?>
   	<script src="<?php echo base_url(); ?>assets/js/po.js"></script> 
   	<head>
         <meta charset="utf-8">
@@ -237,7 +240,7 @@
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b><?php echo number_format($it->delivered_quantity); ?></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
-		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"><?php echo $offer; ?></b></td>
+		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"><?php echo $offer.", ".$ci->get_pn($it->pr_details_id); ?></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b><?php echo $it->unit_price; ?></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
 		    		</tr>	
@@ -328,7 +331,7 @@
 						    			<td colspan="" class="all-border yellow-back" align="center"><b>Unit</b></td>
 						    			<td colspan="11" class="all-border yellow-back" align="center"><b>New Description</b></td>
 						    			<td colspan="2" class="all-border yellow-back" align="center"><b>New U/P</b></td>
-						    			<td colspan="3" class="all-border yellow-back" align="center"></td>
+						    			<td colspan="3" class="all-border yellow-back" align="center"><b>Total</b></td>
 						    		</tr>
 
 						    		<?php
@@ -347,9 +350,9 @@
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
 								    			<td colspan="2" class="bor-right" align="center"><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:100%; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
-								    			<td colspan="11" class="bor-right" align="left"><input type='text' style='width:100%' name='offer<?php echo $x; ?>' value='<?php echo utf8_encode($offer); ?>'></td>
+								    			<td colspan="11" class="bor-right" align="left"><input type='text' style='width:100%' name='offer<?php echo $x; ?>' value='<?php echo $offer; ?>'></td>
 								    			<td colspan="2" class="bor-right" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it->unit_price; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
-								    			<td colspan="3" class="bor-right" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,2); ?>" style='text-align:right;' readonly></td>		
+								    			<td colspan="3" class="bor-right" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $it->amount; ?>" style='text-align:right;' readonly></td>		
 								    		</tr>	
 								    			<?php 
 									    		$x++; 
@@ -374,7 +377,7 @@
 								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->delivered_quantity; ?></td>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 								    			<td colspan="11" class="bor-right" align="left"><?php echo utf8_encode($offer); ?></td>
-								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->unit_price; ?></td>
+								    			<td colspan="2" class="bor-right" align="center"><?php echo number_format($it->unit_price,2); ?></td>
 								    			<td colspan="3" class="bor-right" align="right"><?php echo number_format($it->amount,2); ?></td>		
 								    		</tr>	
 								    			<?php 
@@ -491,16 +494,16 @@
 		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>
 		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				$x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
+		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
 		    				<?php $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    				$x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
+		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				$x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
+		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				$x."."; ?> In-land Freight: <?php echo $freight; ?><br>
+		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php 
 		    					//$no=8;

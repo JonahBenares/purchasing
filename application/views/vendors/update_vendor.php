@@ -49,6 +49,10 @@
                                                             <input type="text" name="contact" class="form-control" value = "<?php echo $v->contact_person;?>">
                                                         </div>
                                                         <div class="form-group">
+                                                            <p class="m-b-0">Tin Number:</p>
+                                                            <input type="text" name="tin" class="form-control" value = "<?php echo $v->tin;?>">
+                                                        </div>
+                                                        <div class="form-group">
                                                             <p class="m-b-0">Notes:</p>
                                                             <textarea name="notes" class="form-control"><?php echo $v->notes;?></textarea>
                                                         </div>

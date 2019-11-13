@@ -375,7 +375,18 @@ class Pr extends CI_Controller {
         $this->load->view('pr/purchase_request',$data);
         $this->load->view('template/footer');
     }
+    
+    public function regroup_item(){
+        $pr_det_id=$this->input->post('pr_det_id');
+        $pr_id=$this->input->post('pr');
+        $data=array(
+            'grouping_id'=>$this->input->post('grouping'),
+        );
 
+        if($this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_det_id)){
+            redirect(base_url().'pr/purchase_request/'.$pr_id);
+        }
+    }    
 
     public function cancel_item(){
         $details_id=$this->input->post('details_id');

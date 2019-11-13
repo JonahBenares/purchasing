@@ -2432,6 +2432,11 @@ class Po extends CI_Controller {
 
           redirect(base_url().'po/delivery_receipt/'.$po_id.'/'.$dr_id, 'refresh');
     }
+
+    public function get_pn($pr_details_id){
+        $name = $this->super_model->select_column_where("pr_details", "part_no", "pr_details_id", $pr_details_id);
+        return $name;
+    }
     
 }
 ?>

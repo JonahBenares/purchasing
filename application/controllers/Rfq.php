@@ -187,7 +187,7 @@ class Rfq extends CI_Controller {
                 );
                 $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$num, $x);
                 $objPHPExcel->setActiveSheetIndex()->setCellValue('B'.$num, $item->uom);
-                $objPHPExcel->setActiveSheetIndex()->setCellValue('C'.$num, $item->item_desc);
+                $objPHPExcel->setActiveSheetIndex()->setCellValue('C'.$num, $item->item_desc.", ".$this->get_pn($item->pr_details_id));
                 $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.':G'.$num);
                 $objPHPExcel->getActiveSheet()->mergeCells('H'.$num.':I'.$num);
                 $objPHPExcel->getActiveSheet()->mergeCells('J'.$num.':K'.$num);
@@ -600,6 +600,11 @@ class Rfq extends CI_Controller {
         $this->load->view('rfq/cancelled_rfq',$data);
         $this->load->view('template/footer');
     } 
+
+    public function get_pn($pr_details_id){
+        $name = $this->super_model->select_column_where("pr_details", "part_no", "pr_details_id", $pr_details_id);
+        return $name;
+    }
 
 }
 

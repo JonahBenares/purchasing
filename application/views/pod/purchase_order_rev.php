@@ -214,7 +214,7 @@
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
 		    			<td colspan="11" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>OLD U/P</b></td>
-		    			<td colspan="3" class="all-border" align="center"></td>
+		    			<td colspan="3" class="all-border" align="center"><b>Total</b></td>
 		    		</tr>
 		    		<?php
 		    		$x=1; 
@@ -321,7 +321,7 @@
 						    			<td colspan="" class="all-border yellow-back" align="center"><b>Unit</b></td>
 						    			<td colspan="11" class="all-border yellow-back" align="center"><b>New Description</b></td>
 						    			<td colspan="2" class="all-border yellow-back" align="center"><b>New U/P</b></td>
-						    			<td colspan="3" class="all-border yellow-back" align="center"></td>
+						    			<td colspan="3" class="all-border yellow-back" align="center"><b>Total</b></td>
 						    		</tr>
 
 						    		<?php
@@ -457,6 +457,18 @@
 		    				</div>
 		    			</td>
 		    		</tr>
+		    		<tr><td colspan="20" style="padding: 10px!important">
+		    				<?php if($revised==0){ ?>
+			    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+									Add Other Instruction
+								</button> 
+								<?php foreach($tc AS $t){ if(!empty($t->notes)){ ?>
+									<textarea type = "text" style='color:blue;width:92%' rows = '1' class="form-control" name = "notes"><?php echo $t->notes; ?></textarea><!-- <span style = "color:blue;"><?php echo $t->notes;?></span> --><?php } } ?>
+							<?php }else{ ?>
+								Other Instructions: <?php //foreach($tc_temp AS $t){ ?><span style = "color:blue;"><?php echo $tc_notes;?></span><?php //} ?>
+
+							<?php } ?>
+		    		</td></tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<?php if($revised==0){ ?>
@@ -470,16 +482,16 @@
 		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>
 		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				$x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
+		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
 		    				<?php $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    				$x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
+		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				$x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
+		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				$x."."; ?> In-land Freight: <?php echo $freight; ?><br>
+		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php 
 		    					//$no=8;
@@ -511,18 +523,7 @@
 
 		    			</td>
 		    		</tr>
-		    		<tr><td colspan="20" style="padding: 10px!important">
-		    				<?php if($revised==0){ ?>
-			    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
-									Add Other Instruction
-								</button> 
-								<?php foreach($tc AS $t){ if(!empty($t->notes)){ ?>
-									<textarea type = "text" style='color:blue;width:92%' rows = '1' class="form-control" name = "notes"><?php echo $t->notes; ?></textarea><!-- <span style = "color:blue;"><?php echo $t->notes;?></span> --><?php } } ?>
-							<?php }else{ ?>
-								Other Instructions: <?php //foreach($tc_temp AS $t){ ?><span style = "color:blue;"><?php echo $tc_notes;?></span><?php //} ?>
-
-							<?php } ?>
-		    		</td></tr>
+		    		
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>
