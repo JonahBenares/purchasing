@@ -11,6 +11,11 @@
           
         });
     </script>
+    <style>
+    .class{
+        background-color: green;
+    }
+    </style>
     <div id="filter_pr" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -119,9 +124,28 @@
                                         </tr>
                                        
                                     </thead>
+                                    <style type="text/css">
+                                        tr.fd td{
+                                            background-color: #b9ffb9;
+                                        }
+                                        tr.pd td{
+                                            background-color: #f3ff9e;
+                                        }
+                                        tr.cd td{
+                                            background-color: #cacaca;
+                                        }
+                                    </style>
                                     <tbody>    
-                                    <?php if(!empty($pr)){ foreach($pr AS $p) { ?>                      
-                                        <tr>
+                                    <?php if(!empty($pr)){ foreach($pr AS $p) { ?>   
+
+                                        <tr 
+                                        <?php if($p['status']=='Fully Delivered'){
+                                            echo "class='fd'";
+                                        } else if($p['status']=='Partially Delivered') {
+                                            echo "class='pd'";
+                                        } else if($p['status']=='Cancelled') {
+                                            echo "class='cd'";
+                                        } ?>>
                                             <td><?php echo date('F j, Y', strtotime($p['date_prepared'])); ?></td>
                                             <td><?php echo $p['purchase_request']; ?></td>
                                             <td><?php echo $p['purpose']; ?></td>

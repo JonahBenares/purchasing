@@ -781,7 +781,7 @@ class Pod extends CI_Controller {
                     $data_po=array(
                         "shipping"=>$headt->shipping,
                         "discount"=>$headt->discount,
-                        "po_no"=>$po_no,
+                       
                     );
                 }
                 $this->super_model->update_where("po_head", $data_po, "po_id", $head->po_id);
@@ -854,10 +854,10 @@ class Pod extends CI_Controller {
         }
 
         
-        foreach($this->super_model->custom_query("SELECT pr_details_id FROM po_items WHERE pr_details_id NOT IN (SELECT pr_details_id FROM po_items_temp WHERE po_id='$po_id')") AS $omit){
+      /*  foreach($this->super_model->custom_query("SELECT pr_details_id FROM po_items WHERE pr_details_id IN (SELECT pr_details_id FROM po_items_temp WHERE po_id='$po_id')") AS $omit){
              $delete_item = $this->super_model->delete_where("po_items", "pr_details_id", $omit->pr_details_id);
               $delete_dr = $this->super_model->delete_where("po_dr_items", "pr_details_id", $omit->pr_details_id);
-        }
+        }*/
 
         foreach($this->super_model->select_row_where("po_items_temp","po_id",$po_id) AS $poitems){
             $oldqty = $this->super_model->select_column_where('po_items', 'quantity', 'po_items_id',  $poitems->po_items_id);

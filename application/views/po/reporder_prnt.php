@@ -282,7 +282,7 @@
 					    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
 					    			<td colspan="12" class="all-border" align="center"><b>Description</b></td>
 					    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
-					    			<td colspan="3" class="all-border" align="center"></td>
+					    			<td colspan="3" class="all-border" align="center"><b>Total</b></td>
 					    			<!-- <td class="all-border" align="center"><span class="fa fa-times"></span></td> -->
 					    		</tr>	
 					    		<?php
@@ -291,12 +291,12 @@
 					    			foreach($items AS $it){ 
 					    				$total_amount[] = $it['amount']; ?>
 					    		<tr>
-					    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-					    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['quantity']; ?></b></td>
-					    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['uom']; ?></b></td>
+					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $x; ?></b></td>
+					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['quantity']; ?></b></td>
+					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['uom']; ?></b></td>
 					    			<td colspan="12" class="bor-right" align="left"><b><?php echo $it['offer']; ?></b></td>
-					    			<td colspan="2" class="bor-right" align="center"><b><?php echo number_format($it['price'],2); ?></b></td>
-					    			<td colspan="3" class="bor-right" align="right"><b><?php echo number_format($it['amount'],2); ?></b></td>
+					    			<td colspan="2" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo number_format($it['price'],2); ?></b></td>
+					    			<td colspan="3" class="bor-right" align="right" style='vertical-align: text-top;'><b><?php echo number_format($it['amount'],2); ?></b></td>
 					    			<!-- <td align="center"><a href='<?php echo base_url(); ?>/po/remove_po_item/' class="btn-danger btn-xs" onclick="return confirm('Are you sure you want to remove item?')"><span class="fa fa-times"></span></a></td>	 -->			
 					    		</tr> 
 					    		<?php 
