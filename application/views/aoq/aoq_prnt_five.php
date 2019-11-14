@@ -397,7 +397,7 @@
 		    		<input type='hidden' name='quantity_<?php echo $x; ?>' id="quantity_<?php echo $x; ?>" value='<?php echo $it->quantity; ?>'>
 		    		<tr>
 		    			<td class="f10 table-borreg" align="center"><?php echo $x; ?></td>
-		    			<td colspan="2" class="f10 table-borreg" align="left"><?php echo $it->item_description.", ".$CI->get_pn($it->pr_details_id); ?></td>
+		    			<td colspan="2" class="f10 table-borreg" align="left"><?php echo (!empty($CI->get_pn($it->pr_details_id))) ? $it->item_description.", ".$CI->get_pn($it->pr_details_id) : $it->item_description; ?></td>
 		    			<td class="f10 table-borreg" align="center"><?php echo $it->quantity; ?></td>
 		    			<td class="f10 table-borreg" align="center"><?php echo $it->uom; ?></td>
 		    			<?php

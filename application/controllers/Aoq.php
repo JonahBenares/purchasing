@@ -571,8 +571,13 @@ class Aoq extends CI_Controller {
         $y=1;
         foreach($this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id) AS $items){
             $pn_no = $this->get_pn($items->pr_details_id);
+            if(!empty($pn_no)){
+                $itm = $items->item_description.", ".$pn_no;
+            }else {
+                $itm = $items->item_description;
+            }
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num2, "$y");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$items->item_description, $pn_no");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$itm");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num2, "$items->quantity");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num2, "$items->uom");
             $col='E';
@@ -941,8 +946,13 @@ class Aoq extends CI_Controller {
         $y=1;
         foreach($this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id) AS $items){
             $pn_no = $this->get_pn($items->pr_details_id);
+            if(!empty($pn_no)){
+                $itm = $items->item_description.", ".$pn_no;
+            }else {
+                $itm = $items->item_description;
+            }
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num2, "$y");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$items->item_description, $pn_no");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$itm");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num2, "$items->quantity");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num2, "$items->uom");
             $col='E';
@@ -1318,8 +1328,13 @@ class Aoq extends CI_Controller {
         $y=1;
         foreach($this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id) AS $items){
             $pn_no = $this->get_pn($items->pr_details_id);
+            if(!empty($pn_no)){
+                $itm = $items->item_description.", ".$pn_no;
+            }else {
+                $itm = $items->item_description;
+            }
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num2, "$y");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$items->item_description, $pn_no");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num2, "$itm");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num2, "$items->quantity");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num2, "$items->uom");
             $col='E';

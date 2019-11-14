@@ -240,7 +240,7 @@
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b><?php echo number_format($it->delivered_quantity); ?></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
-		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"><?php echo $offer.", ".$ci->get_pn($it->pr_details_id); ?></b></td>
+		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"><?php echo (!empty($ci->get_pn($it->pr_details_id))) ? $offer.", ".$ci->get_pn($it->pr_details_id) : $offer; ?></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b><?php echo $it->unit_price; ?></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
 		    		</tr>	
