@@ -380,7 +380,7 @@ class Pr extends CI_Controller {
         $pr_det_id=$this->input->post('pr_det_id');
         $pr_id=$this->input->post('pr');
         $data=array(
-            'grouping_id'=>$this->input->post('grouping'),
+            'grouping_id'=>$this->input->post('grouping')
         );
 
         if($this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_det_id)){
