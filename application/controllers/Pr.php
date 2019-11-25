@@ -714,17 +714,12 @@ class Pr extends CI_Controller {
         $this->load->view('template/navbar');
         $count = $this->super_model->count_custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pd.cancelled = '1'");
         if($count!=0){
-          
-            foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pd.cancelled = '1' GROUP BY pr_no") AS $heads){
+            foreach($this->super_model->custom_query("SELECT * FROM pr_head WHERE cancelled = '1'") AS $heads){
                 
-                foreach($this->super_model->select_custom_where('pr_details',"pr_id='$heads->pr_id' AND cancelled='1'") AS $item){
-                    $data['cancelled_by'] = $this->super_model->select_column_where('users','fullname','user_id',$item->cancelled_by);
-                    $data['reason'] = $item->cancelled_reason;
-                    $data['items'][] = array(
-                        'pr_id'=>$item->pr_id,
-                        'item_name'=>$item->item_description,
-                        //'reason'=>$item->cancelled_reason,
-                    );
+            $items = '';
+                
+                foreach($this->super_model->select_row_where("pr_details", "pr_id", $heads->pr_id) AS $det){
+                    $items .= "-".$det->item_description."<br>"; 
                 }
 
                 $data['pr_head'][] = array(
@@ -732,7 +727,10 @@ class Pr extends CI_Controller {
                     'pr_no'=>$heads->pr_no,
                     'pr_date'=>$heads->date_prepared,
                     'urgency_num'=>$heads->urgency,
-                    'requestor'=>$heads->requestor,
+                    'cancelled_by'=> $this->super_model->select_column_where('users','fullname','user_id',$heads->cancelled_by),
+                    'cancel_date'=> $heads->cancelled_date,
+                    'cancel_reason'=> $heads->cancelled_reason,
+                    'items'=>$items
                 );
               
             }
