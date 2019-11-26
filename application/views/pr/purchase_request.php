@@ -253,7 +253,7 @@
                                                     <select class="form-control text-black" name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>
                                                         <?php foreach($letters AS $let){ ?>
-                                                        <option value='<?php echo $let; ?>'><?php echo $let; ?></option>
+                                                        <option value='<?php echo $let; ?>' <?php echo ($det['grouping_id'] == $let) ? ' selected' : ''; ?>><?php echo $let; ?></option>
                                                         <?php } ?>
                                                     </select>
                                                 </td>
@@ -278,7 +278,7 @@
                                                     <select class="form-control" name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>
                                                         <?php foreach($letters AS $let){ ?>
-                                                        <option value='<?php echo $let; ?>'><?php echo $let; ?></option>
+                                                        <option value='<?php echo $let; ?>' <?php echo ($det['grouping_id'] == $let) ? ' selected' : ''; ?>><?php echo $let; ?></option>
                                                         <?php } ?>
                                                     </select>
                                                 </td>
