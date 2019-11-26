@@ -60,24 +60,15 @@
                                         <tbody> 
                                         <?php 
                                             foreach($pr_head AS $c){ 
-                                                $item='';
-                                                //$cancelled_by='';
-                                                //$reason='';
-                                                foreach($items AS $it){ 
-                                                    if($c['pr_id']==$it['pr_id']){
-                                                        $item .="<b>- ".$it['item_name']."<br> ";
-                                                        //$cancelled_by .="<b>- ".$it['cancelled_by']."<br> ";
-                                                        //$reason .="<b>- ".$it['reason']."<br> ";
-                                                    }
-                                                }
+                                             
                                         ?>                                         
                                             <tr>
                                                 <td><?php echo $c['pr_no']; ?></td>
                                                 <td><?php echo $c['pr_date']; ?></td>
-                                                <td><?php echo $item; ?></td>
+                                                <td><?php echo $c['items']; ?></td>
                                                 <td ><center><?php echo $c['urgency_num']; ?></center></td>
-                                                <td><?php echo $cancelled_by; ?></td>
-                                                <td><?php echo $reason; ?></td>
+                                                <td><?php echo $c['cancelled_by'] . "/" .$c['cancel_date'] ; ?></td>
+                                                <td><?php echo $c['cancel_reason']; ?></td>
                                                 <td>
                                                     <center>
 

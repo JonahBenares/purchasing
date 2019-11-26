@@ -420,9 +420,21 @@
 		    			<td colspan="1"></td>
 		    			<td colspan="5"><b>Prepared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b>Checked by:</b></td>
+		    			<td colspan="6"><b>Checked by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6"><b>Approved by:</b></td>
+		    			<td colspan="5"><b>Approved by:</b></td>
+		    			<td colspan="1"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="6"><b></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="5"><b></b></td>
+		    			<td colspan="1"></td>
+		    		</tr>
+		    		<tr>
 		    			<td colspan="1"></td>
 		    			<td colspan="5" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
@@ -433,18 +445,9 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b><br></b></td>
+		    			<td colspan="5" class=""><b><?php echo $prepared; ?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="6"><b></b></td>
-		    			<td colspan="1"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="1"></td>
-		    			<td colspan="5" class="bor-btm"><b><?php echo $prepared; ?></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="5" class="bor-btm"><b>
+		    			<td colspan="6" class=""><b>
 			    			<?php if($saved==0){ ?>
 			    			<select name='checked' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
@@ -455,7 +458,7 @@
 			    			<?php }else { ?>
 			    			<?php echo $checked; } ?>
 		    			<td colspan="1"></td>
-		    			<td colspan="6" class="bor-btm"><b>
+		    			<td colspan="5" class=""><b>
 			    			<?php if($saved==0){ ?>
 			    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
