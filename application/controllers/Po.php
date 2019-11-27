@@ -254,9 +254,9 @@ class Po extends CI_Controller {
     public function getsupplierPR(){
         $supplier = $this->input->post('supplier');
         echo '<option value="">-Select PR No-</option>';
-        foreach($this->super_model->custom_query("SELECT ah.pr_id, ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE vendor_id = '$supplier' AND recommended = '1' and cancelled='0' GROUP BY ah.pr_id") AS $row){
+        foreach($this->super_model->custom_query("SELECT ah.pr_id, ah.aoq_id, ah.aoq_date FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE vendor_id = '$supplier' AND recommended = '1' and cancelled='0' GROUP BY ah.aoq_id") AS $row){
 
-            echo '<option value="'. $row->pr_id."_".$row->aoq_id .'">'. $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $row->pr_id) .'</option>';
+            echo '<option value="'. $row->pr_id."_".$row->aoq_id .'">'. $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $row->pr_id) .' ('.$row->aoq_date.')</option>';
       
          }
     }
