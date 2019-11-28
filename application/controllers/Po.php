@@ -36,7 +36,7 @@ class Po extends CI_Controller {
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $this->load->view('template/header');        
         $this->load->view('template/navbar');
-        foreach($this->super_model->select_custom_where("po_head", "saved='1' AND done_po = '0' AND cancelled = '1' ORDER BY po_id DESC") AS $head){
+        foreach($this->super_model->select_custom_where("po_head", "done_po = '0' AND cancelled = '1' ORDER BY po_id DESC") AS $head){
             $data['header'][]=array(
                 'po_id'=>$head->po_id,
                 'po_date'=>$head->po_date,
@@ -339,7 +339,9 @@ class Po extends CI_Controller {
                         'uom'=>$off->uom,
                         'total'=>$total
                     );
-                   
+                    
+                    $data['vendor_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'vendor_id', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+                    $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'aoq_vendors_id', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
@@ -363,7 +365,10 @@ class Po extends CI_Controller {
                         'uom'=>$off->uom,
                         'total'=>$total
                     );
-               
+                
+
+                    $data['vendor_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'vendor_id', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+                    $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'aoq_vendors_id', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
                     $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
@@ -387,6 +392,32 @@ class Po extends CI_Controller {
         $this->load->view('template/header');        
         $this->load->view('po/purchase_order', $data);
         $this->load->view('template/footer');
+    }
+
+    public function update_terms(){
+        $po_id = $this->input->post('po_id');
+        $aoq_vendors_id = $this->input->post('aoq_vendors_id');
+        $update = array(
+            'payment_terms'=>$this->input->post('payments'),
+            'delivery_date'=>$this->input->post('del_itm'),
+            'item_warranty'=>$this->input->post('item_war'),
+            'freight'=>$this->input->post('freigh'),
+        ); 
+        if($this->super_model->update_where("aoq_vendors", $update, "aoq_vendors_id",$aoq_vendors_id)){
+
+            redirect(base_url().'po/purchase_order/'.$po_id);
+        }
+    }
+
+    public function update_condition(){
+        $po_id = $this->input->post('po_id');
+        $tc_id = $this->input->post('tc_id');
+        $update = array(
+            'tc_desc'=>$this->input->post('condition'),
+        ); 
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
+            redirect(base_url().'po/purchase_order/'.$po_id);
+        }
     }
 
     public function add_notes(){
@@ -857,6 +888,8 @@ class Po extends CI_Controller {
                 'purpose'=>$ppr->purpose,
                 'requestor'=>$ppr->requestor
             );
+            $data['vendor_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'vendor_id', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'aoq_vendors_id', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
             $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
             $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
             $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
@@ -869,6 +902,32 @@ class Po extends CI_Controller {
         $this->load->view('template/header');        
         $this->load->view('po/purchase_order_draft',$data);
         $this->load->view('template/footer');
+    }
+
+    public function update_terms_draft(){
+        $po_id = $this->input->post('po_id');
+        $aoq_vendors_id = $this->input->post('aoq_vendors_id');
+        $update = array(
+            'payment_terms'=>$this->input->post('payments'),
+            'delivery_date'=>$this->input->post('del_itm'),
+            'item_warranty'=>$this->input->post('item_war'),
+            'freight'=>$this->input->post('freigh'),
+        ); 
+        if($this->super_model->update_where("aoq_vendors", $update, "aoq_vendors_id",$aoq_vendors_id)){
+            
+            redirect(base_url().'po/purchase_order_draft/'.$po_id);
+        }
+    }
+
+    public function update_condition_draft(){
+        $po_id = $this->input->post('po_id');
+        $tc_id = $this->input->post('tc_id');
+        $update = array(
+            'tc_desc'=>$this->input->post('condition'),
+        ); 
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
+            redirect(base_url().'po/purchase_order_draft/'.$po_id);
+        }
     }
 
 
@@ -909,6 +968,8 @@ class Po extends CI_Controller {
                 'purpose'=>$ppr->purpose,
                 'requestor'=>$ppr->requestor
             );
+            $data['vendor_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'vendor_id', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'aoq_vendors_id', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
             $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
             $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
             $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
@@ -920,6 +981,32 @@ class Po extends CI_Controller {
         $this->load->view('template/header');        
         $this->load->view('po/purchase_order_saved',$data);
         $this->load->view('template/footer');
+    }
+
+    public function update_terms_saved(){
+        $po_id = $this->input->post('po_id');
+        $aoq_vendors_id = $this->input->post('aoq_vendors_id');
+        $update = array(
+            'payment_terms'=>$this->input->post('payments'),
+            'delivery_date'=>$this->input->post('del_itm'),
+            'item_warranty'=>$this->input->post('item_war'),
+            'freight'=>$this->input->post('freigh'),
+        ); 
+        if($this->super_model->update_where("aoq_vendors", $update, "aoq_vendors_id",$aoq_vendors_id)){
+            
+            redirect(base_url().'po/purchase_order_saved/'.$po_id);
+        }
+    }
+
+    public function update_condition_saved(){
+        $po_id = $this->input->post('po_id');
+        $tc_id = $this->input->post('tc_id');
+        $update = array(
+            'tc_desc'=>$this->input->post('condition'),
+        ); 
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
+            redirect(base_url().'po/purchase_order_saved/'.$po_id);
+        }
     }
 
     public function revise_po(){
@@ -1317,6 +1404,17 @@ class Po extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function update_condition_reporder(){
+        $po_id = $this->input->post('po_id');
+        $tc_id = $this->input->post('tc_id');
+        $update = array(
+            'tc_desc'=>$this->input->post('condition'),
+        ); 
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
+            redirect(base_url().'po/reporder_prnt/'.$po_id);
+        }
+    }
+
     public function reporder_prnt_draft(){
         $po_id=$this->uri->segment(3);
         $pr_id=$this->uri->segment(4);
@@ -1396,6 +1494,17 @@ class Po extends CI_Controller {
         $this->load->view('template/header');        
         $this->load->view('po/reporder_prnt_draft',$data);
         $this->load->view('template/footer');
+    }
+
+    public function update_condition_reporderdraft(){
+        $po_id = $this->input->post('po_id');
+        $tc_id = $this->input->post('tc_id');
+        $update = array(
+            'tc_desc'=>$this->input->post('condition'),
+        ); 
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
+            redirect(base_url().'po/reporder_prnt_draft/'.$po_id);
+        }
     }
 
     public function add_tc_reporder(){
