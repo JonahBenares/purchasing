@@ -852,9 +852,9 @@ class Pod extends CI_Controller {
             $this->super_model->update_where("po_tc", $data_rev, "po_tc_id", $potcr->po_tc_id);
         }
 
-        // echo "SELECT pr_details_id FROM po_items WHERE pr_details_id NOT IN (SELECT pr_details_id FROM po_items_temp WHERE po_id='$po_id') AND po_id = '$po_id'";
+       
         foreach($this->super_model->custom_query("SELECT pr_details_id FROM po_items WHERE pr_details_id NOT IN (SELECT pr_details_id FROM po_items_temp WHERE po_id='$po_id')  AND po_id = '$po_id'") AS $omit){
-            //echo $omit->pr_details_id . "<br>";
+           
              $delete_item = $this->super_model->delete_where("po_items", "pr_details_id", $omit->pr_details_id);
               $delete_dr = $this->super_model->delete_where("po_dr_items", "pr_details_id", $omit->pr_details_id);
         }

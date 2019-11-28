@@ -2010,7 +2010,7 @@ class Po extends CI_Controller {
         $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
         $revision_no = $max_revision+1;
 
-   /*    $rows_dr = $this->super_model->count_rows("po_dr");
+       $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
             $dr_no=1000;
         } else {
@@ -2176,15 +2176,16 @@ class Po extends CI_Controller {
             );
             $this->super_model->update_where("po_tc", $data_rev, "po_tc_id", $potcr->po_tc_id);
         }
-*/
-        echo "SELECT pr_details_id FROM po_items WHERE pr_details_id NOT IN (SELECT pr_details_id FROM po_items_temp WHERE po_id='$po_id') AND po_id = '$po_id'";
-        foreach($this->super_model->custom_query("SELECT pr_details_id FROM po_items WHERE pr_details_id NOT IN (SELECT pr_details_id FROM po_items_temp WHERE po_id='$po_id') AND po_id = '$po_id'") AS $omit){
+
+
+        foreach($this->super_model->custom_query("SELECT pr_details_id FROM po_items WHERE pr_details_id NOT IN (SELECT pr_details_id FROM po_items_temp WHERE po_id='$po_id')  AND po_id = '$po_id'") AS $omit){
+           
              $delete_item = $this->super_model->delete_where("po_items", "pr_details_id", $omit->pr_details_id);
               $delete_dr = $this->super_model->delete_where("po_dr_items", "pr_details_id", $omit->pr_details_id);
         }
 
 
-     /*   foreach($this->super_model->select_row_where("po_items_temp","po_id",$po_id) AS $poitems){
+        foreach($this->super_model->select_row_where("po_items_temp","po_id",$po_id) AS $poitems){
             $oldqty = $this->super_model->select_column_where('po_items', 'quantity', 'po_items_id',  $poitems->po_items_id);
             if($oldqty==0){
                 $nqty=0;
@@ -2265,7 +2266,7 @@ class Po extends CI_Controller {
         );
         if($this->super_model->update_where("po_head", $data, "po_id", $po_id)){
             redirect(base_url().'po/po_list/', 'refresh');
-        }*/
+        }
     }
 
     public function deliver_po(){
