@@ -448,8 +448,14 @@
 		    					$no=4;
 		    					foreach($tc AS $t){ 
 		    						if(!empty($t->tc_desc)){
-			    						echo $no.". " . $t->tc_desc."<br>";
-			    						$no++; 
+			    						echo $no.". " . $t->tc_desc;
+			    				?>
+			    				<a class='btn btn-primary btn-xs' id = "updateTermRep" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+			    					<span class = 'fa fa-edit'></span>
+			    				</a>
+			    				<br>
+			    				<?php
+			    					$no++; 
 			    					}
 		    					} 
 		    				?>
@@ -549,6 +555,34 @@
 			</div>
 		</div>
     </div>
+	<div class="modal fade" id="UpdateTerms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Update Terms & Condition
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</h5>
+					
+				</div>
+				<form method="POST" action="<?php echo base_url(); ?>po/update_condition_reporder">
+					<div class="modal-body">
+						<div class="form-group">
+							Terms & Conditions:
+							<input type="text" class="form-control" name="condition" autocomplete="off" id = "termsrep">
+						</div>
+					</div>
+					<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+					<input type='hidden' name='tc_id' id = "tc_id">
+					<div class="modal-footer">
+						<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
     <script type="text/javascript">
     	function printPage() {
 		  window.print();

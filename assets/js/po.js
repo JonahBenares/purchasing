@@ -129,6 +129,22 @@ $(document).on("click", ".deliverpo", function () {
   
 });
 
+$(document).on("click", "#updateTerm", function () {
+    var tc_id = $(this).attr("data-id");
+    var terms = $(this).attr("data-name");
+    $("#tc_id").val(tc_id);
+    $("#terms").val(terms);
+  
+});
+
+$(document).on("click", "#updateTermRep", function () {
+    var tc_id = $(this).attr("data-id");
+    var terms = $(this).attr("data-name");
+    $("#tc_id").val(tc_id);
+    $("#termsrep").val(terms);
+  
+});
+
 
 function addItemPo(baseurl,pr) {
     window.open(baseurl+"index.php/po/add_itempo/"+pr, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=800,height=500");
