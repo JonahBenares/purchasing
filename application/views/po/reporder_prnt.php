@@ -53,7 +53,7 @@
 			.pad{
         	padding:0px 0px 0px 0px
         	}
-			#prnt_btn,#item-btn,#pr-btn{
+			#prnt_btn,#item-btn,#pr-btn,#updateTermRep{
 				display: none;
 			}
 			.emphasis{

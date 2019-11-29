@@ -63,7 +63,7 @@
 			.pad{
         	padding:0px 0px 0px 0px
         	}
-			#prnt_btn,#item-btn,#pr-btn{
+			#prnt_btn,#item-btn,#pr-btn,#updateTerm{
 				display: none;
 			}
 			.emphasis{
@@ -128,7 +128,7 @@
     </style>
 
 	<!-- Modal -->
-	<div class="modal fade" id="uploadApproval" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!-- <div class="modal fade" id="uploadApproval" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -157,7 +157,7 @@
 				</form>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -241,9 +241,9 @@
 								<?php if($revised==0){ ?>
 								<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
 								<?php } ?>
-								<?php if($revised==1){ ?>
+							<!-- 	<?php if($revised==1){ ?>
 								<a  href="#" class="btn btn-primary btn-md p-l-25 p-r-25" data-toggle="modal" data-target="#uploadApproval"><span class="fa fa-upload"></span> Upload <u><b>Approval</b></u></a>
-								<?php } ?>	
+								<?php } ?>	 -->
 
 								<a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
 								<ul class="dropdown-menu dropdown-alerts animated fadeInDown" style="width:200px;top:30px;border:1px solid #e66614;left:650px;">
@@ -260,7 +260,7 @@
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;" class="<?php if($revised==1){ echo 'amend'; } else if($cancelled==1){ echo 'cancel'; }?>" >  <!-- add class or amend cancel -->
+	    	<div style="background: #fff;" class="<?php  if($cancelled==1){ echo 'cancel'; }?>" >  <!-- add class or amend cancel -->
 	    		<table width="100%">
 	    			<tr>
 	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
@@ -473,22 +473,22 @@
 		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>
 		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#Edit">
+		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#Edit">
+		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#Edit">
+		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#Edit">
+		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>

@@ -63,7 +63,7 @@
 			.pad{
         	padding:0px 0px 0px 0px
         	}
-			#prnt_btn,#item-btn,#pr-btn{
+			#prnt_btn,#item-btn,#pr-btn,#updateTerm{
 				display: none;
 			}
 			.emphasis{
@@ -397,22 +397,22 @@
 		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>
 		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#Edit">
+		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#Edit">
+		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#Edit">
+		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#Edit">
+		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>
