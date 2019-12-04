@@ -234,7 +234,7 @@
 	    				} ?>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' max='<?php echo $it->delivered_quantity; ?>' value='<?php echo $it->delivered_quantity; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b><input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' max='<?php echo $it->delivered_quantity; ?>' value='<?php echo $it->delivered_quantity; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<?php //echo utf8_encode($offer); ?>
 		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"><textarea style='width:100%' name='offer<?php echo $x; ?>'><?php echo $offer; ?></textarea></b></td>
