@@ -993,7 +993,7 @@ class Reports extends CI_Controller {
 
             foreach($this->super_model->select_row_where('po_pr','po_id',$p->po_id) AS $pr){
                 $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$pr->pr_id);
-                echo $pr_no."<br>";
+                //echo $pr_no."<br>";
                 foreach($this->super_model->select_row_where('po_items','po_id',$p->po_id) AS $i){
                     if($i->item_id!=0){
                         foreach($this->super_model->select_row_where('item','item_id',$i->item_id) AS $it){

@@ -471,6 +471,7 @@
 			    				</tr>
 		    				</table>
 		    			</td>
+		    			<input type='hidden' name='uom_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->uom; ?>'>
 		    			<input type='hidden' name='quantity_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->quantity; ?>'>
 		    			<input type='hidden' name='item_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->aoq_items_id; ?>'>
 		    			<input type='hidden' name='pr_details_id_<?php echo $x; ?>_<?php echo $v; ?>' value='<?php echo $it->pr_details_id; ?>'>
