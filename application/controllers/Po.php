@@ -169,7 +169,8 @@ class Po extends CI_Controller {
                 'vendor_id'=>$this->input->post('vendor'),
                 'notes'=>$this->input->post('notes'),
                 'po_type'=>0,
-                'user_id'=>$_SESSION['user_id']
+                'user_id'=>$_SESSION['user_id'],
+                'prepared_date'=>date("Y-m-d H:i:s"),
             );  
 
             $data_series = array(

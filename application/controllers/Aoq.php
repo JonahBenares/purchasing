@@ -404,11 +404,14 @@ class Aoq extends CI_Controller {
 
         $noted_by=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
         $approved_by=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
+        $prepared_id=$this->super_model->select_column_where("aoq_head", "prepared_by", "aoq_id", $aoq_id);
+        $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $prepared_id);
 
         /*$data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $noted_id);
         $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $approved_id);*/
         $data['noted']=$noted_by;
         $data['approved']=$approved_by;
+        $data['prepared']=$prepared_by;
 
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $data['head'][] =  array(
@@ -772,11 +775,12 @@ class Aoq extends CI_Controller {
             $requested=$head->requestor;
             /*$noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
             $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);*/
+            $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $head->prepared_by);
             $noted=$head->noted_by;
             $approved=$head->approved_by;
 
-            $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, $_SESSION['fullname']);
-            $objPHPExcel->getActiveSheet()->setCellValue('G'.$h, $requested);
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, (empty($prepared_by)) ? $_SESSION['fullname'] : $prepared_by);
+            $objPHPExcel->getActiveSheet()->setCellValue('G'.$h, '');
             $objPHPExcel->getActiveSheet()->setCellValue('I'.$h, $approved);
             $objPHPExcel->getActiveSheet()->setCellValue('K'.$h, $noted);
 
@@ -832,7 +836,9 @@ class Aoq extends CI_Controller {
 
         $noted_by=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
         $approved_by=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
-
+        $prepared_id=$this->super_model->select_column_where("aoq_head", "prepared_by", "aoq_id", $aoq_id);
+        $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $prepared_id);
+        $data['prepared']=$prepared_by;
         $data['noted']=$noted_by;
         $data['approved']=$approved_by;
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
@@ -1154,11 +1160,12 @@ class Aoq extends CI_Controller {
             $requested=$head->requestor;
             /*$noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
             $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);*/
+            $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $head->prepared_by);
             $noted=$head->noted_by;
             $approved=$head->approved_by;
 
-            $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, $_SESSION['fullname']);
-            $objPHPExcel->getActiveSheet()->setCellValue('G'.$h, $requested);
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, (empty($prepared_by)) ? $_SESSION['fullname'] : $prepared_by);
+            $objPHPExcel->getActiveSheet()->setCellValue('G'.$h, '');
             $objPHPExcel->getActiveSheet()->setCellValue('I'.$h, $approved);
             $objPHPExcel->getActiveSheet()->setCellValue('K'.$h, $noted);
 
@@ -1214,7 +1221,9 @@ class Aoq extends CI_Controller {
 
         $noted_by=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
         $approved_by=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
-
+        $prepared_id=$this->super_model->select_column_where("aoq_head", "prepared_by", "aoq_id", $aoq_id);
+        $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $prepared_id);
+        $data['prepared']=$prepared_by;
         $data['noted']=$noted_by;
         $data['approved']=$approved_by;
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
@@ -1553,11 +1562,12 @@ class Aoq extends CI_Controller {
 
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $requested=$head->requestor;
+            $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $head->prepared_by);
             $noted=$head->noted_by;
             $approved=$head->approved_by;
 
-            $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, $_SESSION['fullname']);
-            $objPHPExcel->getActiveSheet()->setCellValue('J'.$h, $requested);
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, (empty($prepared_by)) ? $_SESSION['fullname'] : $prepared_by);
+            $objPHPExcel->getActiveSheet()->setCellValue('J'.$h, '');
             $objPHPExcel->getActiveSheet()->setCellValue('O'.$h, $approved);
             $objPHPExcel->getActiveSheet()->setCellValue('T'.$h, $noted);
 
@@ -1660,9 +1670,11 @@ class Aoq extends CI_Controller {
        // print_r($data_vendor);
 
         $head = array(
+            'prepared_by'=>$_SESSION['user_id'],
             'noted_by'=>$this->input->post('noted'),
             'approved_by'=>$this->input->post('approved'),
             'aoq_date'=>$aoq_date,
+            'prepared_date'=>date("Y-m-d H:i:s"),
             'saved'=>1
         );
         if($this->super_model->update_where("aoq_head", $head, "aoq_id", $aoq_id)){

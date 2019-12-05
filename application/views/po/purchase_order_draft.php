@@ -465,7 +465,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b><?php echo $_SESSION['fullname']; ?></b></td>
+		    			<td colspan="5"><b><?php echo $prepared; ?></b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="6"><b>
 		    				<select name='checked' class="select-des emphasis" style="width: 100%" required>

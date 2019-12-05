@@ -744,7 +744,7 @@
 		    		<tr><td class="f10" colspan="33" align="center"><br></td></tr>
 		    		<tr>
 		    			<td colspan="2"  class="" align="center"></td>
-		    			<td colspan="5" class="f10 bor-btm" align="center"><?php echo $_SESSION['fullname'];?></td>
+		    			<td colspan="5" class="f10 bor-btm" align="center"><?php echo (empty($prepared)) ? $_SESSION['fullname'] : $prepared;?></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="6" class="f10 bor-btm" align="center"></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
