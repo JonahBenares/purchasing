@@ -70,6 +70,7 @@
                                     </tbody>
                                 </table>
                                  <input type='hidden' name='old_po' value="<?php echo $old_po; ?>"> 
+                                 <input type='hidden' name='vendor_id' value="<?php echo $vendor_id; ?>"> 
                                 <input type='hidden' name='po_id' value="<?php echo $po_id; ?>">   
                                 <input type='hidden' name='count_item' value="<?php echo $x; ?>">
                                 <input type='submit' class="btn btn-primary btn-block" value='Save'>

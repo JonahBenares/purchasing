@@ -1393,6 +1393,7 @@ class Po extends CI_Controller {
                 'notes'=>$popr->notes,
             );
 
+            $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'aoq_vendors_id', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
             $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
             $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
             $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
@@ -1495,6 +1496,21 @@ class Po extends CI_Controller {
         $this->load->view('template/header');        
         $this->load->view('po/reporder_prnt_draft',$data);
         $this->load->view('template/footer');
+    }
+
+    public function update_terms__repordersave(){
+        $po_id = $this->input->post('po_id');
+        $aoq_vendors_id = $this->input->post('aoq_vendors_id');
+        $update = array(
+            'payment_terms'=>$this->input->post('payments'),
+            'delivery_date'=>$this->input->post('del_itm'),
+            'item_warranty'=>$this->input->post('item_war'),
+            'freight'=>$this->input->post('freigh'),
+        ); 
+        if($this->super_model->update_where("aoq_vendors", $update, "aoq_vendors_id",$aoq_vendors_id)){
+            
+            redirect(base_url().'po/purchase_order_saved/'.$po_id);
+        }
     }
 
     public function update_condition_reporderdraft(){
@@ -1795,13 +1811,13 @@ class Po extends CI_Controller {
     public function add_repeatPO(){
         $count_item = $this->input->post('count_item');
         $old_po = $this->input->post('old_po');
-
+        $vendor_id = $this->input->post('vendor_id');
+        $po_id = $this->input->post('po_id');
         for($x=1;$x<$count_item;$x++){
 
             $quantity = $this->input->post('quantity'.$x);
             if($quantity!=0){
 
-                $po_id = $this->input->post('po_id');
                 $max_item = $this->super_model->count_rows_where('po_items','po_id',$po_id);
                 if($max_item==0){
                     $item_no = 1;
@@ -1838,6 +1854,23 @@ class Po extends CI_Controller {
             'pr_id'=>$this->input->post('pr_id'),
         );
         $this->super_model->insert_into("po_pr", $data_pr);*/
+        foreach($this->super_model->select_row_where("po_pr", "po_id", $old_po) AS $ppr){
+            $price_validity = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $payment_terms= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $item_warranty= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $freight= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $delivery_time= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $rfq_id= $this->super_model->select_column_custom_where('aoq_vendors', 'rfq_id', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
+            $data_aoq = array(
+                'vendor_id'=>$vendor_id,
+                'price_validity'=>$price_validity,
+                'payment_terms'=>$payment_terms,
+                'item_warranty'=>$item_warranty,
+                'freight'=>$freight,
+                'delivery_date'=>$delivery_time,
+            );
+            $this->super_model->insert_into("aoq_vendors", $data_aoq);
+        }
 
         foreach($this->super_model->select_row_where('po_tc', 'po_id',  $old_po) AS $tc){
             $data_tc = array(
