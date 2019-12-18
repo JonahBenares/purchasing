@@ -41,3 +41,11 @@ $(document).on("click", ".cancelPO", function () {
      $(".modal #po_id").val(po_id);
   
 });
+
+$(document).on("click", "#updateTerm", function () {
+    var tc_id = $(this).attr("data-id");
+    var terms = $(this).attr("data-name");
+    $("#tc_id").val(tc_id);
+    $("#terms").val(terms);
+  
+});

@@ -138,7 +138,8 @@
 			    	<div class="abtn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
 						<?php if($saved==0){ ?>
-						<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" value="Save">	
+						<input type='submit' class="btn btn-warning btn-md p-l-100 p-r-100" name='submit' value="Save as Draft">
+						<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" name = "submit" value="Save">	
 						<?php } else { ?>
 
 						<a  href='<?php echo base_url(); ?>pod/purchase_order_rev/<?php echo $po_id; ?>' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
@@ -489,6 +490,7 @@
 	    	</div>
 	    	<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
 	    	<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+	    	<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
     	</form>
     	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">

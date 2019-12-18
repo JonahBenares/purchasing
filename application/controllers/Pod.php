@@ -203,6 +203,167 @@ class Pod extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function po_direct_draft(){
+        $this->load->view('template/header');
+        $po_id=$this->uri->segment(3);  
+        $pr_id=$this->uri->segment(4);  
+        $group_id=$this->uri->segment(5);  
+        $data['po_id']=$po_id;  
+        $data['pr_id']=$pr_id;
+        $data['group_id']=$group_id;
+        $supplier_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
+        $data['supplier_id']=$supplier_id;
+
+        foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
+            $data['head'][] = array(
+                'po_date'=>$h->po_date,
+                'po_no'=>$h->po_no,
+                'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $h->vendor_id),
+                'address'=>$this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $h->vendor_id),
+                'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
+                'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
+            );
+            $data['saved']=$h->saved;
+            $data['draft']=$h->draft;
+            $data['shipping']=$h->shipping;
+            $data['discount']=$h->discount;
+            $data['cancelled']=$h->cancelled;
+            $data['notes']=$h->notes;
+            $data['revised']=$h->revised;
+            $data['revision_no']=$h->revision_no;
+            $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
+            $data['approved_id']=$h->approved_by;
+            $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+            $data['checked_id']=$h->checked_by;
+            $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
+        }
+/*
+         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
+        $data['currency'] = $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);*/
+
+        $draft=$this->super_model->select_column_where('po_head', 'draft', 'po_id', $po_id);
+        if($draft==0){
+            foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$pr_id' AND grouping_id = '$group_id'") AS $items){
+                //$total = $items->quantity*$items->unit_price;
+                $data['items'][]= array(
+                    'pr_details_id'=>$items->pr_details_id,
+                    'po_items_id'=>$items->po_items_id,
+                    'item'=>$items->item_description,
+                    'uom'=>$items->uom,
+                    'quantity'=>$items->quantity,
+                    //'total'=>$total,
+                );
+            }
+        }else {
+            foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
+                $total = $items->delivered_quantity*$items->unit_price;
+                $data['items'][]= array(
+                    'pr_details_id'=>$items->pr_details_id,
+                    'po_items_id'=>$items->po_items_id,
+                    'item'=>$items->offer,
+                    'uom'=>$items->uom,
+                    'quantity'=>$items->delivered_quantity,
+                    'price'=>$items->unit_price,
+                    'total'=>$total,
+                );
+            }
+        }
+
+        foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $purpose){
+            $data['popurp'][]= array(
+                'po_pr_id'=>$purpose->po_pr_id,
+                'notes'=>$purpose->notes,
+                'purpose'=>$purpose->purpose,
+                'enduse'=>$purpose->enduse,
+                'requestor'=>$purpose->requestor
+                //'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $purpose->requestor)
+            );
+        }
+        $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
+        $this->load->view('pod/po_direct_draft',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function po_direct_saved(){
+        $this->load->view('template/header');
+        $po_id=$this->uri->segment(3);  
+        $pr_id=$this->uri->segment(4);  
+        $group_id=$this->uri->segment(5);  
+        $data['po_id']=$po_id;  
+        $data['pr_id']=$pr_id;
+        $data['group_id']=$group_id;
+        $supplier_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
+        $data['supplier_id']=$supplier_id;
+
+        foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
+            $data['head'][] = array(
+                'po_date'=>$h->po_date,
+                'po_no'=>$h->po_no,
+                'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $h->vendor_id),
+                'address'=>$this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $h->vendor_id),
+                'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
+                'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
+            );
+            $data['saved']=$h->saved;
+            $data['draft']=$h->draft;
+            $data['shipping']=$h->shipping;
+            $data['discount']=$h->discount;
+            $data['cancelled']=$h->cancelled;
+            $data['notes']=$h->notes;
+            $data['revised']=$h->revised;
+            $data['revision_no']=$h->revision_no;
+            $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
+            $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+            $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
+        }
+/*
+         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
+        $data['currency'] = $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);*/
+
+        $draft=$this->super_model->select_column_where('po_head', 'draft', 'po_id', $po_id);
+        if($draft==0){
+            foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$pr_id' AND grouping_id = '$group_id'") AS $items){
+                //$total = $items->quantity*$items->unit_price;
+                $data['items'][]= array(
+                    'pr_details_id'=>$items->pr_details_id,
+                    'item'=>$items->item_description,
+                    'uom'=>$items->uom,
+                    'quantity'=>$items->quantity,
+                    //'total'=>$total,
+                );
+            }
+        }else {
+            foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
+                $total = $items->delivered_quantity*$items->unit_price;
+                $data['items'][]= array(
+                    'pr_details_id'=>$items->pr_details_id,
+                    'po_items_id'=>$items->po_items_id,
+                    'item'=>$items->offer,
+                    'uom'=>$items->uom,
+                    'quantity'=>$items->delivered_quantity,
+                    'price'=>$items->unit_price,
+                    'total'=>$total,
+                );
+            }
+        }
+
+        foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $purpose){
+            $data['popurp'][]= array(
+                'po_pr_id'=>$purpose->po_pr_id,
+                'notes'=>$purpose->notes,
+                'purpose'=>$purpose->purpose,
+                'enduse'=>$purpose->enduse,
+                'requestor'=>$purpose->requestor
+                //'requestor'=>$this->super_model->select_column_where('employees','employee_name','employee_id', $purpose->requestor)
+            );
+        }
+        $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
+        $this->load->view('pod/po_direct_saved',$data);
+        $this->load->view('template/footer');
+    }
+
     public function add_po_purpose(){
         $po_id = $this->input->post('po_id');
         $data= array(
@@ -218,8 +379,10 @@ class Pod extends CI_Controller {
     }
 
     public function save_po(){
+        $submit = $this->input->post('submit');
         $po_id = $this->input->post('po_id');
         $pr_id = $this->input->post('pr_id');
+        $group_id = $this->input->post('group_id');
         $count_item = $this->input->post('count_item');
         $a=1;
 
@@ -290,18 +453,102 @@ class Pod extends CI_Controller {
             }
         }
 
-   
-        $head = array(
-             'shipping'=>$this->input->post('shipping'),
-            'discount'=>$this->input->post('discount'),
-            'checked_by'=>$this->input->post('checked'),
-            'approved_by'=>$this->input->post('approved'),
-            'checked_by'=>$this->input->post('checked'),
-            'saved'=>1
-        );
+        if($submit=='Save'){
+            $head = array(
+                 'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('discount'),
+                'checked_by'=>$this->input->post('checked'),
+                'approved_by'=>$this->input->post('approved'),
+                'checked_by'=>$this->input->post('checked'),
+                'saved'=>1
+            );
 
-        if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
-            redirect(base_url().'pod/po_direct/'.$po_id);
+            if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
+                redirect(base_url().'pod/po_direct/'.$po_id);
+            }
+        } else if($submit=='Save as Draft'){
+            $head = array(
+                 'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('discount'),
+                'checked_by'=>$this->input->post('checked'),
+                'approved_by'=>$this->input->post('approved'),
+                'checked_by'=>$this->input->post('checked'),
+                'saved'=>0,
+                'draft'=>1
+            );
+            if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
+                redirect(base_url().'pod/po_direct_draft/'.$po_id.'/'.$pr_id.'/'.$group_id);
+            }
+        }
+    }
+
+    public function save_po_draft(){
+        $submit = $this->input->post('submit');
+        $po_id = $this->input->post('po_id');
+        $pr_id = $this->input->post('pr_id');
+        $group_id = $this->input->post('group_id');
+        $count_item = $this->input->post('count_item');
+
+        $a=1;
+        for($x=1; $x<$count_item;$x++){
+            $qty=$this->input->post('quantity'.$x);
+            $po_items_id = $this->input->post('po_items_id'.$x);
+            if($qty!=0){
+                $price = str_replace(",", "", $this->input->post('price'.$x));
+                $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                $offer = $this->input->post('item'.$x);
+                $data=array(
+                    'delivered_quantity'=>$qty,
+                    'offer'=>$offer,
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
+                    'item_no'=>$a
+                );
+                $data_dr=array(
+                    'delivered_quantity'=>$qty,
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
+                    'item_no'=>$a
+                );
+
+                    $this->super_model->update_where("po_items", $data, "po_items_id", $po_items_id);
+                    $this->super_model->insert_into("po_dr_items", $data_dr, "po_items_id", $po_items_id);
+             $a++;
+            } else {
+                
+                $this->super_model->delete_where("po_items", "po_items_id", $po_items_id);
+                $this->super_model->delete_where("po_dr_items", "po_items_id", $po_items_id);
+            }
+            
+        }
+
+        if($submit=='Save'){
+            $head = array(
+                'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('discount'),
+                'checked_by'=>$this->input->post('checked'),
+                'approved_by'=>$this->input->post('approved'),
+                'saved'=>1,
+                'draft'=>0,
+                'revised'=>0
+            ); 
+             if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
+                redirect(base_url().'pod/po_direct/'.$po_id);
+             }
+
+        } else if($submit=='Save as Draft'){
+             $head = array(
+                'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('discount'),
+                'checked_by'=>$this->input->post('checked'),
+                'approved_by'=>$this->input->post('approved'),
+                'saved'=>0,
+                'draft'=>1,
+                'revised'=>0
+            ); 
+            if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
+                redirect(base_url().'pod/po_direct_draft/'.$po_id.'/'.$pr_id.'/'.$group_id);
+            }
         }
     }
 
@@ -313,8 +560,38 @@ class Pod extends CI_Controller {
             'po_id'=>$this->input->post('po_id'),
             'tc_desc'=>$this->input->post('tc_desc'),
         );
+
+
         if($this->super_model->insert_into("po_tc", $data)){
             redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
+        }
+    }
+
+    public function add_tc_draft(){
+        $po_id = $this->input->post('po_id');
+        $pr_id = $this->input->post('pr_id');
+        $group_id = $this->input->post('group_id');
+        $data = array(
+            'po_id'=>$this->input->post('po_id'),
+            'tc_desc'=>$this->input->post('tc_desc'),
+        );
+
+        
+        if($this->super_model->insert_into("po_tc", $data)){
+            redirect(base_url().'pod/po_direct_draft/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
+        }
+    }
+
+    public function update_condition_draft(){
+        $po_id = $this->input->post('po_id');
+        $pr_id = $this->input->post('pr_id');
+        $group_id = $this->input->post('group_id');
+        $tc_id = $this->input->post('tc_id');
+        $update = array(
+            'tc_desc'=>$this->input->post('condition'),
+        ); 
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
+            redirect(base_url().'pod/po_direct_draft/'.$po_id.'/'.$pr_id.'/'.$group_id);
         }
     }
 
