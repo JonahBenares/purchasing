@@ -87,8 +87,7 @@ class Reports extends CI_Controller {
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
             $unserved_qty=0;
-            $unserved_uom='';
-          
+            $unserved_uom='';  
             if($sum_po_qty!=0){
                 if($sum_po_qty < $pr->quantity){
                       $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
@@ -133,10 +132,9 @@ class Reports extends CI_Controller {
                         }
                   //  }
                 } else {
-                      $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
-              
-                      $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
-
+                    $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
+                    $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+                    $cancelled_items_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
                     if($served==0){
                         $status = 'PO Issued';
                         $status_remarks = '';
@@ -148,6 +146,13 @@ class Reports extends CI_Controller {
 
                         }
                     }
+
+                    if($cancelled_items_po==1){
+                        $cancel_reason = $this->super_model->select_column_where('po_head', 'cancel_reason', 'po_id', $po_id);
+                        $cancel_date = $this->super_model->select_column_where('po_head', 'cancelled_date', 'po_id', $po_id);
+                        $status = "Cancelled";
+                        $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
+                    } 
                 }
             } else {
                 $cancelled_items = $this->super_model->select_column_where('pr_details', 'cancelled', 'pr_details_id', $pr->pr_details_id);
