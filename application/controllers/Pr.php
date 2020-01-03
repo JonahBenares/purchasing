@@ -87,7 +87,7 @@ class Pr extends CI_Controller {
         foreach($this->super_model->custom_query("SELECT pr_details_id, pr_id, grouping_id FROM pr_details WHERE cancelled = '0' GROUP BY pr_id, grouping_id") AS $det){
             $count = $this->super_model->count_custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' GROUP BY pr_id, grouping_id");
 
-            $count_po = $this->super_model->count_custom_query("SELECT po_items_id FROM po_items WHERE pr_details_id = '$det->pr_details_id'");
+            $count_po = $this->super_model->count_custom_query("SELECT * FROM po_items pi LEFT JOIN po_head ph ON pi.po_id = ph.po_id WHERE pi.pr_details_id = '$det->pr_details_id' AND ph.cancelled = '0'");
             if($count==0 && $count_po==0){
                 //foreach($this->super_model->custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id != '$det->pr_id' AND grouping_id != '$det->grouping_id' GROUP BY pr_id, grouping_id") AS $rfq){
                     //echo "**".$it->pr_details_id . "<br>";
