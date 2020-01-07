@@ -4,11 +4,11 @@
              var year = $(this).data('year');
              var month = $(this).data('month');
              var remarks = $(this).data('remarks');
+             var cancel = $(this).data('cancel');
              $(".modal #pr_details_id").val(pr_details_id);
              $(".modal #year").val(year);
              $(".modal #month").val(month);
              $(".modal #remarks").val(remarks);
-          
         });
     </script>
     <style>
@@ -196,6 +196,10 @@
                 <form method='POST' action="<?php echo base_url(); ?>reports/add_remarks">
                     <div class="modal-body">
                         <textarea class="form-control" rows="5" name='remarks' id='remarks'></textarea>
+                        <br>
+                        <label>Cancel
+                            <input type = "checkbox" class="form-control" name='cancel' value = "1">
+                        </label>
                     </div>
                     <div class="modal-footer">
                         <input type='hidden' name='pr_details_id' id='pr_details_id'>

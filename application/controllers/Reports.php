@@ -240,7 +240,8 @@ class Reports extends CI_Controller {
                 'date_needed'=>$pr->date_needed,
                 'unserved_qty'=>$unserved_qty,
                 'unserved_uom'=>$unserved_uom,
-                'remarks'=>$pr->add_remarks
+                'remarks'=>$pr->add_remarks,
+                'cancelled'=>$pr->cancelled,
             );
 
         }
@@ -1679,13 +1680,36 @@ class Reports extends CI_Controller {
         $year =$this->input->post('year');
         $month =$this->input->post('month');
         $remarks=$this->input->post('remarks');
+        $cancel=$this->input->post('cancel');
         $remark_date = date('Y-m-d H:i:s');
-        $data=array(
-            'add_remarks'=>$remarks,
-            'remark_date'=>$remark_date,
-            'remark_by'=>$_SESSION['user_id']
-        );
+
+        if($cancel!=0){
+            $data=array(
+                'add_remarks'=>$remarks,
+                'remark_date'=>$remark_date,
+                'cancelled'=>$cancel,
+                'cancelled_date'=>date('Y-m-d'),
+                'cancelled_by'=>$_SESSION['user_id'],
+                'remark_by'=>$_SESSION['user_id']
+            );
+        }else {
+            $data=array(
+                'add_remarks'=>$remarks,
+                'remark_date'=>$remark_date,
+                'remark_by'=>$_SESSION['user_id']
+            );
+        }
+
         if($this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id)){
+            if($cancel!=0){
+                $po_id = $this->super_model->select_column_where("po_items",'po_id','pr_details_id',$pr_details_id);
+                $data_po=array(
+                    'cancelled'=>$cancel,
+                    'cancelled_by'=>$_SESSION['user_id'],
+                    'cancelled_date'=>date('Y-m-d'),
+                );
+                $this->super_model->update_where("po_head", $data_po, "po_id", $po_id);
+            }
             redirect(base_url().'reports/pr_report/'.$year.'/'.$month);
         }
     }
