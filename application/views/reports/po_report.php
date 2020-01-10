@@ -127,6 +127,15 @@
                                             <th>Remarks</th>										
                                         </tr>
                                     </thead>
+                                    <style type="text/css">
+                                        tr.fd td{
+                                            background-color: #b9ffb9;
+                                        }
+
+                                        tr.cd td{
+                                            background-color: #cacaca;
+                                        }
+                                    </style>
                                     <tbody>                               
                                         <tr>
                                             <?php 
@@ -135,7 +144,12 @@
                                                 /*foreach($po_items AS $items){*/
                                                     $total = $p['qty']*$p['unit_price'];
                                         ?>                                     
-                                        <tr>
+                                        <tr
+                                        <?php if($p['served']=='1'){
+                                            echo "class='fd'";
+                                        } else if($p['cancelled']=='1') {
+                                            echo "class='cd'";
+                                        } ?>>
                                             <td><?php echo $p['pr_no'];?></td>
                                             <td><?php echo $p['purpose'];?></td>
                                             <td><?php echo $p['enduse'];?></td>

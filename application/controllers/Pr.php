@@ -55,7 +55,8 @@ class Pr extends CI_Controller {
             'po_no'=>$po_no,
             'vendor_id'=>$this->input->post('vendor'),
             'po_type'=>1,
-            'user_id'=>$_SESSION['user_id']
+            'user_id'=>$_SESSION['user_id'],
+            'prepared_date'=>date("Y-m-d H:i:s"),
         );  
 
         $data_series = array(
@@ -168,7 +169,8 @@ class Pr extends CI_Controller {
             'notes'=>$this->input->post('notes'),
             'vendor_id'=>$this->input->post('supplier'),
             'user_id'=>$_SESSION['user_id'],
-            'po_type'=>2
+            'po_type'=>2,
+            'prepared_date'=>date("Y-m-d H:i:s"),
         );
 
         $data_popr = array(

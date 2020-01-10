@@ -190,7 +190,8 @@ class Po extends CI_Controller {
                 'vendor_id'=>$this->input->post('vendor'),
                 'notes'=>$this->input->post('notes'),
                 'po_type'=>1,
-                'user_id'=>$_SESSION['user_id']
+                'user_id'=>$_SESSION['user_id'],
+                'prepared_date'=>date("Y-m-d H:i:s"),
             );  
 
             $data_series = array(
@@ -245,7 +246,8 @@ class Po extends CI_Controller {
             'notes'=>$this->input->post('notes'),
             'vendor_id'=>$this->input->post('supplier'),
             'user_id'=>$_SESSION['user_id'],
-            'po_type'=>2
+            'po_type'=>2,
+            'prepared_date'=>date("Y-m-d H:i:s"),
         );
         if($this->super_model->insert_into("po_head", $data)){
             redirect(base_url().'po/reporder_prnt/'.$po_id);

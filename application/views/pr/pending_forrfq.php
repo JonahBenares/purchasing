@@ -119,7 +119,7 @@
                 <form method="POST" action = "<?php echo base_url();?>pr/redirect_pod">
                     <div class="modal-body">
                         Date:
-                        <input type="date" name="po_date" class="form-control">
+                        <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control" >
                         <br>
                         Vendor:
                         <select class="form-control" name = "vendor">
@@ -152,7 +152,7 @@
                 <form method="POST" action = "<?php echo base_url();?>pr/create_reorderpo">
                     <div class="modal-body">
                         Date:
-                        <input type="date" name="po_date" class="form-control">
+                        <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control">
                         <br>
                         Vendor:
                         <select class="form-control" name = "supplier">

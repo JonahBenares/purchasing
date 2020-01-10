@@ -79,7 +79,7 @@
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Date:</p>
-                            <input type="date" name="po_date" class="form-control">
+                            <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control">
                         </div>
                       <!--   <div class="form-group">
                             <p class="m-b-0">PO NO:</p>
@@ -134,7 +134,7 @@
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Date:</p>
-                            <input type="date" name="po_date" class="form-control">
+                            <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control">
                         </div>
                       <!--   <div class="form-group">
                             <p class="m-b-0">PO NO:</p>

@@ -117,7 +117,8 @@ class Pod extends CI_Controller {
             'vendor_id'=>$this->input->post('vendor'),
             'notes'=>$this->input->post('notes'),
             'po_type'=>1,
-            'user_id'=>$_SESSION['user_id']
+            'user_id'=>$_SESSION['user_id'],
+            'prepared_date'=>date("Y-m-d H:i:s"),
         );  
 
         if($this->super_model->insert_into("po_head", $data)){
