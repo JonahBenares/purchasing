@@ -94,6 +94,7 @@ class Pr extends CI_Controller {
                     //echo "**".$it->pr_details_id . "<br>";
                     $norfq[] = array(
                         'pr_id'=>$det->pr_id,
+                        'pr_details_id'=>$det->pr_details_id,
                         'grouping_id'=>$det->grouping_id
                     );
                 //}
@@ -103,7 +104,7 @@ class Pr extends CI_Controller {
             foreach($norfq AS $key){
                 $it='';
                 $ven='';
-                foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$key[pr_id]' AND grouping_id = '$key[grouping_id]' AND cancelled = '0'") AS $items){
+                foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$key[pr_id]' AND pr_details_id = '$key[pr_details_id]' AND grouping_id = '$key[grouping_id]' AND cancelled = '0'") AS $items){
                     $it .= ' - ' . $items->item_description . "<br>";
                 }
 
