@@ -98,6 +98,7 @@ class Reports extends CI_Controller {
                        /* $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);*/
                         $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
                         $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
+                        $delivered_qty = $this->super_model->select_column_where('po_items', 'delivered_quantity', 'pr_details_id', $pr->pr_details_id);
                         $served_uom = $this->super_model->select_column_where('po_items', 'uom', 'pr_details_id', $pr->pr_details_id);
 
                       /*  $unserved_qty = $this->super_model->select_column_custom_where('aoq_offers', 'balance', "pr_details_id='$pr->pr_details_id' AND recommended = '1'");
@@ -109,7 +110,8 @@ class Reports extends CI_Controller {
                         $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
 
                         if($served==0){
-                             $status = 'PO Issued - Partial';
+                             //$status = 'PO Issued - Partial';
+                            $status = "Partially Delivered <span style='font-size:11px; color:green; font-weight:bold'>(". $delivered_qty ." ".$served_uom.")</span>";
                              $status_remarks = '';
                         } else {
 
@@ -199,7 +201,7 @@ class Reports extends CI_Controller {
                          $status_remarks = 'For PO - AOQ Done (awarded)';
 
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
-                         $status = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                         $status = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                          $status_remarks = '';
                     } 
 
