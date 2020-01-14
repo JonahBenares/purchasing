@@ -1611,6 +1611,38 @@ class Aoq extends CI_Controller {
 
     }
 
+    public function add_item_supplier($vendor_id, $aoq_date, $pr_details_id, $offer, $unit_price){
+
+        $rows_series = $this->super_model->count_rows("item");
+        if($rows_series==0){
+            $item_id=1;
+        } else {
+            $max = $this->super_model->get_max("item", "item_id");
+            $item_id = $max+1;
+        }
+
+        $data_item = array(
+            'item_id'=>$item_id,
+            'item_specs'=>$offer,
+            'unit_price'=>$unit_price,
+            'offer_date'=>$aoq_date,
+            'pr_details_id'=>$pr_details_id,  
+        );
+
+        if($this->super_model->insert_into("item", $data_item)){
+
+            $data_vendor = array(
+                'vendor_id'=>$vendor_id,
+                'item_id'=>$item_id
+            );
+
+            $this->super_model->insert_into("vendor_details", $data_vendor);
+
+        }
+
+
+    }
+
     public function save_aoq(){
         $aoq_id = $this->input->post('aoq_id');
         $item_count = $this->input->post('item_count');
@@ -1629,6 +1661,7 @@ class Aoq extends CI_Controller {
                     $quantity = $this->input->post('quantity_'.$x.'_'.$v);
                     $uom = $this->input->post('uom_'.$x.'_'.$v);
                     $pr_details_id = $this->input->post('pr_details_id_'.$x.'_'.$v);
+
                     //echo $offer. " = " . 'offer_'.$x.'_'.$v.'_'.$a . '<br><br>';
                     //echo $up. " = " . 'price_'.$x.'_'.$v.'_'.$a . '<br><br>';
                     if(!empty($offer)){
@@ -1647,6 +1680,9 @@ class Aoq extends CI_Controller {
                         );
                         //print_r($offers);
                         $this->super_model->insert_into("aoq_offers", $offers);
+
+                        $this->add_item_supplier($vendor, $aoq_date, $pr_details_id, $offer, $up);
+
                     }
                 }
             }

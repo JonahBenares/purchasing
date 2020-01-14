@@ -139,6 +139,8 @@
                                             <th align="center"><input type="checkbox" name="" onClick="toggle_multi(this)"></th>
                                             <th>Item Description</th>
                                             <th>Brand</th>
+                                            <th>Unit Price</th>
+                                            <th>Offer Date</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -146,8 +148,10 @@
                                     <?php foreach($vendors AS $va){ ?>                                         
                                         <tr>
                                             <td align="center"><input type="checkbox" name="item_id[]" value="<?php echo $va['item_id']; ?>" class='vendor_list'></td>
-                                            <td><?php echo $va['item']. ", " . $va['specs']; ?></td>
+                                            <td><?php echo $va['item']. " ". $va['specs']; ?></td>
                                             <td><?php echo $va['brand'];?></td>
+                                            <td><?php echo $va['price'];?></td>
+                                            <td><?php echo $va['offer_date'];?></td>
                                             <td>
                                                 <center>
                                                     <a href="<?php echo base_url(); ?>index.php/vendors/delete_item/<?php echo $vendor_id;?>/<?php echo $va['vendordet_id'];?>" class="btn btn-custon-three btn-danger btn-xs" onclick="confirmationDelete(this);return false;">

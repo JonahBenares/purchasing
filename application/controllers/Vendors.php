@@ -159,6 +159,8 @@ class Vendors extends CI_Controller {
                         'brand'=>$this->super_model->select_column_where('item','brand_name','item_id',$v->item_id),
                         'item'=>$this->super_model->select_column_where('item','item_name','item_id',$v->item_id),
                         'specs'=>$this->super_model->select_column_where('item','item_specs','item_id',$v->item_id),
+                        'price'=>$this->super_model->select_column_where('item','unit_price','item_id',$v->item_id),
+                        'offer_date'=>$this->super_model->select_column_where('item','offer_date','item_id',$v->item_id),
                     );
                 }
             }
