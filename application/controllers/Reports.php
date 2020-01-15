@@ -122,6 +122,7 @@ class Reports extends CI_Controller {
                         $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
                         $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'pr_details_id', $pr->pr_details_id);
                         if($served==0){
+
                             if($cancelled_items_po==0){
                                 $status = 'PO Issued - Partial';
                             }else {
@@ -129,6 +130,11 @@ class Reports extends CI_Controller {
                             }
                             //$status = "Partially Delivered <span style='font-size:11px; color:green; font-weight:bold'>(". $delivered_qty ." ".$served_uom.")</span>";
                             $status_remarks = '';
+
+                             //$status = 'PO Issued - Partial';
+                            //$status = "Partially Delivered <span style='font-size:11px; color:green; font-weight:bold'>(". $delivered_qty ." ".$served_uom.")</span>";
+                             //$status_remarks = '';
+
                         } else {
 
                             $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
@@ -292,13 +298,22 @@ class Reports extends CI_Controller {
                         $status_remarks = 'For PO - AOQ Done (awarded)';
 
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
+
                          if($cancelled_items_po==0){
-                            $status = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                             $status = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                         } else {
                             $status = "Cancelled";
                         }
-                        //$status = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
-                        $status_remarks = '';
+
+                         $status_remarks = '';
+                      
+                    }  else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
+                            if($cancelled_items_po==0){
+                         $status = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                         } else {
+                            $status = "Cancelled";
+                        }
+                         $status_remarks = '';
 
                     } 
 
