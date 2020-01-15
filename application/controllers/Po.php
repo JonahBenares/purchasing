@@ -37,10 +37,13 @@ class Po extends CI_Controller {
         $this->load->view('template/header');        
         $this->load->view('template/navbar');
         foreach($this->super_model->select_custom_where("po_head", "done_po = '0' AND cancelled = '1' ORDER BY po_id DESC") AS $head){
+            $pr_id = $this->super_model->select_column_where("po_items","pr_id","po_id",$head->po_id);
+            $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id);
             $data['header'][]=array(
                 'po_id'=>$head->po_id,
                 'po_date'=>$head->po_date,
                 'po_no'=>$head->po_no,
+                'pr_no'=>$pr_no,
                 'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
                 'supplier_id'=>$head->vendor_id,
                 'saved'=>$head->saved,
