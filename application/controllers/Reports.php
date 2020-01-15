@@ -45,6 +45,7 @@ class Reports extends CI_Controller {
     }
 
 	public function pr_report(){
+        s
         $year1=$this->uri->segment(3);
         $month1=$this->uri->segment(4);
         /*$data['year']=$year;
