@@ -441,7 +441,7 @@ class Aoq extends CI_Controller {
             );
         }
 
-        $data['items'] = $this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id);
+        $data['items'] = $this->super_model->select_row_where_order_by("aoq_items", "aoq_id",  $aoq_id, "pr_details_id", "ASC");
 
         foreach($this->super_model->select_row_where("aoq_offers","aoq_id",$aoq_id) AS $off){
             $allprice[] = array(
@@ -868,7 +868,9 @@ class Aoq extends CI_Controller {
             );
         }
 
-        $data['items'] = $this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id);
+        //$data['items'] = $this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id);
+
+        $data['items'] = $this->super_model->select_row_where_order_by("aoq_items", "aoq_id",  $aoq_id, "pr_details_id", "ASC");
 
         foreach($this->super_model->select_row_where("aoq_offers","aoq_id",$aoq_id) AS $off){
             $allprice[] = array(
@@ -1253,7 +1255,8 @@ class Aoq extends CI_Controller {
             );
         }
 
-        $data['items'] = $this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id);
+        //$data['items'] = $this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id);
+        $data['items'] = $this->super_model->select_row_where_order_by("aoq_items", "aoq_id",  $aoq_id, "pr_details_id", "ASC");
 
         foreach($this->super_model->select_row_where("aoq_offers","aoq_id",$aoq_id) AS $off){
             $allprice[] = array(
