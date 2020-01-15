@@ -98,6 +98,8 @@ class Reports extends CI_Controller {
             }
             $unserved_qty=0;
             $unserved_uom='';  
+
+            //echo "SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'";
             if($sum_po_qty!=0){
                 if($sum_po_qty < $pr->quantity){
                       $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
@@ -227,6 +229,7 @@ class Reports extends CI_Controller {
                 } else {
                 
                     $count_po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND served = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+                    $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND served = '1' AND pi.pr_details_id = '$pr->pr_details_id'");
                     $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
                     $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
 
@@ -239,7 +242,11 @@ class Reports extends CI_Controller {
                    $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND cancelled='0'");
                     $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$pr->pr_details_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
                  
-
+              /*   echo "SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND served = '0' AND pi.pr_details_id = '$pr->pr_details_id'<br><br>";
+                echo "RFQ = " . $count_rfq . "<br>";
+                 echo "AOQ awarded = " . $count_aoq_awarded . "<br>";
+                 echo "PO = " . $count_po . "<br>";*/
+            
                     if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
                         if($cancelled_items_po==0){
                             $status = 'Pending';
@@ -292,6 +299,7 @@ class Reports extends CI_Controller {
                         }
                         //$status = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                         $status_remarks = '';
+
                     } 
 
                 }
