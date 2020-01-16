@@ -161,7 +161,11 @@
                                             <td><?php echo $p['item_description'] . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td>
                                             
                                             <td><?php echo $p['status_remarks']; ?></td>
-                                            <td><?php echo $p['status']; ?></td>
+                                            <?php if($p['cancelled_items_po']==0){ ?>
+                                                <td><?php echo $p['status']; ?></td>
+                                            <?php } else if($p['cancelled_items_po']==1){ ?>
+                                                <td><?php echo $p['statuss']; ?></td>
+                                            <?php } ?>
                                             <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
                                             <td><?php echo $p['remarks'];?></td>
                                             <td></td>

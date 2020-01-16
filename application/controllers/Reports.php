@@ -45,7 +45,6 @@ class Reports extends CI_Controller {
     }
 
 	public function pr_report(){
-        s
         $year1=$this->uri->segment(3);
         $month1=$this->uri->segment(4);
         /*$data['year']=$year;
@@ -83,14 +82,14 @@ class Reports extends CI_Controller {
         }*/
 
         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $pr){
+            //echo $pr->wh_stocks;
             $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
             $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
             $unserved_qty=0;
             $unserved_uom='';  
-
-            //echo "SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'";
+            $statuss='';
             if($sum_po_qty!=0){
                 if($sum_po_qty < $pr->quantity){
                       $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
@@ -111,77 +110,93 @@ class Reports extends CI_Controller {
                         $unserved_uom =  $served_uom;
 
                         $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
-
+                        $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'pr_details_id', $pr->pr_details_id);
                         if($served==0){
-
- 
-
+                             //$status = 'PO Issued - Partial';
                             if($cancelled_items_po==0){
-                                $status = 'PO Issued - Partial';
+                                $status = "Partially Delivered <span style='font-size:11px; color:green; font-weight:bold'>(". $delivered_qty ." ".$served_uom.")</span>";
                             }else {
+                                $statuss = "Partially Delivered <span style='font-size:11px; color:green; font-weight:bold'>(". $delivered_qty ." ".$served_uom.")</span>";
                                 $status='Cancelled';
                             }
-                          //$status = "Partially Delivered <span style='font-size:11px; color:green; font-weight:bold'>(". $delivered_qty ." ".$served_uom.")</span>";
                             $status_remarks = '';
-
-                             //$status = 'PO Issued - Partial';
-                            //$status = "Partially Delivered <span style='font-size:11px; color:green; font-weight:bold'>(". $delivered_qty ." ".$served_uom.")</span>";
-                             //$status_remarks = '';
-
                         } else {
 
                             $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
-                            $status = 'Partially Delivered';
+                            if($cancelled_items_po==0){
+                                $status = 'Partially Delivered';
+                            }else {
+                                $statuss = 'Partially Delivered';
+                                $status="Cancelled";
+                            }
                             //$status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Delivered ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
 
-                               $status_remarks='';
-                           foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $pr->pr_details_id) AS $del){
-                            if(!empty($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
+                            $status_remarks='';
+                            foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $pr->pr_details_id) AS $del){
+                                if(!empty($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
                                  $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
-
                                 }
                                 if(empty($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
                                     $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND ph.po_id = '$del->po_id' AND pi.pr_details_id = '$pr->pr_details_id'");
-                                        $status_remarks.="PO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty .")</span>";
+                                    $status_remarks.="PO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty .")</span>";
                                 }
                             }
-                         
                         }
                   //  }
                 } else {
                     $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
                     $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
-                    $cancelled_items_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
+                    $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
+                    $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'pr_details_id', $pr->pr_details_id);
                     if($served==0){
-                        $status = 'PO Issued';
+                        if($cancelled_items_po==0){
+                            $status = 'PO Issued';
+                        }else {
+                            $statuss = 'PO Issued';
+                            $status = 'Cancelled';
+                        }
                         $status_remarks = '';
                     } else {
-                        $status = 'Fully Delivered';
+                        if($cancelled_items_po==0){
+                            $status = 'Fully Delivered';
+                        }else {
+                            $statuss = 'Fully Delivered';
+                            $status = 'Cancelled';
+                        }
                         $status_remarks='';
-                       foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $pr->pr_details_id) AS $del){
+                        foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $pr->pr_details_id) AS $del){
                              $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
-
                         }
                     }
 
-                    if($cancelled_items_po==1){
+                    if($cancelled_head_po==1){
                         $cancel_reason = $this->super_model->select_column_where('po_head', 'cancel_reason', 'po_id', $po_id);
                         $cancel_date = $this->super_model->select_column_where('po_head', 'cancelled_date', 'po_id', $po_id);
+                        $statuss = "Cancelled";
                         $status = "Cancelled";
                         $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
-                    } 
+                    }
                 }
             } else {
+                $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'pr_details_id', $pr->pr_details_id);
                 $cancelled_items = $this->super_model->select_column_where('pr_details', 'cancelled', 'pr_details_id', $pr->pr_details_id);
                 if($cancelled_items==1){
                     $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr->pr_details_id);
                     $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr->pr_details_id);
+                    $statuss = "Cancelled";
+                    $status = "Cancelled";
+                    $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
+                }else if($cancelled_head_po==1){
+                    $cancel_reason = $this->super_model->select_column_where('po_head', 'cancel_reason', 'po_id', $po_id);
+                    $cancel_date = $this->super_model->select_column_where('po_head', 'cancelled_date', 'po_id', $po_id);
+                    $statuss = "Cancelled";
                     $status = "Cancelled";
                     $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
                 } else {
-                    s
+                
                     $count_po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND served = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
-                    $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND served = '1' AND pi.pr_details_id = '$pr->pr_details_id'");
+                     $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND served = '1' AND pi.pr_details_id = '$pr->pr_details_id'");
                     $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
                     $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
 
@@ -194,49 +209,67 @@ class Reports extends CI_Controller {
                    $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND cancelled='0'");
                     $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$pr->pr_details_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
                  
-              /*   echo "SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND served = '0' AND pi.pr_details_id = '$pr->pr_details_id'<br><br>";
-                echo "RFQ = " . $count_rfq . "<br>";
-                 echo "AOQ awarded = " . $count_aoq_awarded . "<br>";
-                 echo "PO = " . $count_po . "<br>";*/
-            
+
                     if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
-                        $status = 'Pending';
+                        if($cancelled_items_po==0){
+                            $status = 'Pending';
+                        }else {
+                            $statuss = 'Pending';
+                            $status = 'Cancelled';
+                        }
                         $status_remarks = 'For RFQ';
                     } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
-                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
-                         $status = 'Pending';
-                         $status_remarks = 'Canvassing Ongoing';
-                    
+                        $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
+                        if($cancelled_items_po==0){
+                            $status = 'Pending';
+                        }else {
+                            $statuss = 'Pending';
+                            $status = 'Cancelled';
+                        }
+                        $status_remarks = 'Canvassing Ongoing';
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq==0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
-                         $status = 'Pending';
-                         $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
+                        if($cancelled_items_po==0){
+                            $status = 'Pending';
+                        }else{
+                            $statuss = 'Pending';
+                            $status = 'Cancelled';
+                        }
+                        $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
-                         $status = 'Pending';
-                         $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date));
+                        if($cancelled_items_po==0){
+                            $status = 'Pending';
+                        }else {
+                            $statuss = 'Pending';
+                            $status = 'Cancelled';
+                        }
+                        $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date));
                     } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
-
-                         $status = 'Pending';
-                         $status_remarks = 'For PO - AOQ Done (awarded)';
-
+                        if($cancelled_items_po==0){
+                            $status = 'Pending';
+                        }else {
+                            $statuss = 'Pending';
+                            $status = 'Cancelled';
+                        }
+                        $status_remarks = 'For PO - AOQ Done (awarded)';
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
-
-                         if($cancelled_items_po==0){
-                             $status = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
-                        } else {
-                            $status = "Cancelled";
+                        if($cancelled_items_po==0){
+                            $status = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                        }else {
+                            $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            $status = 'Cancelled';
+                        }   
+                        $status_remarks = '';
+                    } 
+                    else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
+                        if($cancelled_items_po==0){
+                            $status = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                        }else {
+                            $statuss = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            $status = 'Cancelled';
                         }
-
-                    }  else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
-                            if($cancelled_items_po==0){
-                         $status = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
-                         } else {
-                            $status = "Cancelled";
-                        }
-                         $status_remarks = '';
-
-
+                        $status_remarks = '';
                     } 
 
                 }
@@ -252,6 +285,32 @@ class Reports extends CI_Controller {
                     }
                 }
             }
+
+
+        /*      $prs[] = array(
+                    'pr_details_id'=>$pr->pr_details_id,
+                    'date_prepared'=>$pr->date_prepared,
+                    'purchase_request'=>$pr->purchase_request,
+                    'pr_no'=>$pr->pr_no,
+                    'purpose'=>$pr->purpose,
+                    'enduse'=>$pr->enduse,
+                    'department'=>$pr->department,
+                    'requestor'=>$pr->requestor,
+                    'grouping_id'=>$pr->grouping_id,
+                    'item_description'=>$pr->item_description,
+                    'item_no'=>$pr->item_no,
+                    'wh_stocks'=>$pr->wh_stocks,
+                    'qty'=>$pr->quantity,
+                    'revised_qty'=>$revised,
+                    'uom'=>$pr->uom,
+                    'status'=>$status,
+                    'status_remarks'=>$status_remarks,
+                    'date_needed'=>$pr->date_needed,
+                    'unserved_qty'=>$unserved_qty,
+                    'unserved_uom'=>$unserved_uom,
+                    'remarks'=>$pr->add_remarks,
+                    'cancelled'=>$pr->cancelled,
+                );*/
 
             $data['pr'][] = array(
                 'pr_details_id'=>$pr->pr_details_id,
@@ -270,16 +329,18 @@ class Reports extends CI_Controller {
                 'revised_qty'=>$revised,
                 'uom'=>$pr->uom,
                 'status'=>$status,
+                'statuss'=>$statuss,
                 'status_remarks'=>$status_remarks,
                 'date_needed'=>$pr->date_needed,
                 'unserved_qty'=>$unserved_qty,
                 'unserved_uom'=>$unserved_uom,
                 'remarks'=>$pr->add_remarks,
                 'cancelled'=>$pr->cancelled,
+                'cancelled_items_po'=>$cancelled_items_po,
             );
 
         }
-
+        //print_r($prs);
 
         $this->load->view('template/header');        
         $this->load->view('reports/pr_report',$data);
@@ -1806,7 +1867,7 @@ class Reports extends CI_Controller {
         $cancel=$this->input->post('cancel');
         $remark_date = date('Y-m-d H:i:s');
 
-        if($cancel!=0){
+        /*if($cancel!=0){
             $data=array(
                 'add_remarks'=>$remarks,
                 'remark_date'=>$remark_date,
@@ -1815,23 +1876,24 @@ class Reports extends CI_Controller {
                 'cancelled_by'=>$_SESSION['user_id'],
                 'remark_by'=>$_SESSION['user_id']
             );
-        }else {
-            $data=array(
-                'add_remarks'=>$remarks,
-                'remark_date'=>$remark_date,
-                'remark_by'=>$_SESSION['user_id']
-            );
-        }
+        }else {*/
+        $data=array(
+            'add_remarks'=>$remarks,
+            'remark_date'=>$remark_date,
+            'remark_by'=>$_SESSION['user_id']
+        );
+        //}
 
         if($this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id)){
             if($cancel!=0){
                 $po_id = $this->super_model->select_column_where("po_items",'po_id','pr_details_id',$pr_details_id);
+                $aoq_offer = $this->super_model->select_column_where("po_items",'aoq_offer_id','pr_details_id',$pr_details_id);
                 $data_po=array(
-                    'cancelled'=>$cancel,
+                    'cancel'=>$cancel,
                     'cancelled_by'=>$_SESSION['user_id'],
                     'cancelled_date'=>date('Y-m-d'),
                 );
-                $this->super_model->update_where("po_head", $data_po, "po_id", $po_id);
+                $this->super_model->update_where("po_items", $data_po, "aoq_offer_id", $aoq_offer);
             }
             redirect(base_url().'reports/pr_report/'.$year.'/'.$month);
         }
