@@ -83,6 +83,7 @@ class Reports extends CI_Controller {
 
         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $pr){
             //echo $pr->wh_stocks;
+            $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
             $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
             $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
@@ -313,6 +314,7 @@ class Reports extends CI_Controller {
                 );*/
 
             $data['pr'][] = array(
+                'po_offer_id'=>$po_offer_id,
                 'pr_details_id'=>$pr->pr_details_id,
                 'date_prepared'=>$pr->date_prepared,
                 'purchase_request'=>$pr->purchase_request,
@@ -1860,6 +1862,7 @@ class Reports extends CI_Controller {
     }
 
     public function add_remarks(){
+        $po_offer_id =$this->input->post('po_offer_id');
         $pr_details_id =$this->input->post('pr_details_id');
         $year =$this->input->post('year');
         $month =$this->input->post('month');
@@ -1893,7 +1896,7 @@ class Reports extends CI_Controller {
                     'cancelled_by'=>$_SESSION['user_id'],
                     'cancelled_date'=>date('Y-m-d'),
                 );
-                $this->super_model->update_where("po_items", $data_po, "aoq_offer_id", $aoq_offer);
+                $this->super_model->update_where("po_items", $data_po, "aoq_offer_id", $po_offer_id);
             }
             redirect(base_url().'reports/pr_report/'.$year.'/'.$month);
         }

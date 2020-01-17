@@ -5,10 +5,12 @@
              var month = $(this).data('month');
              var remarks = $(this).data('remarks');
              var cancel = $(this).data('cancel');
+             var po_offer_id = $(this).data('offerid');
              $(".modal #pr_details_id").val(pr_details_id);
              $(".modal #year").val(year);
              $(".modal #month").val(month);
              $(".modal #remarks").val(remarks);
+             $(".modal #po_offer_id").val(po_offer_id);
         });
     </script>
     <style>
@@ -171,7 +173,7 @@
                                             <td></td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>">
+                                                    <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>">
                                                         <span class="fa fa-plus"></span>
                                                     </button>                                                 
                                                 </div>
@@ -207,6 +209,7 @@
                     </div>
                     <div class="modal-footer">
                         <input type='hidden' name='pr_details_id' id='pr_details_id'>
+                        <input type='hidden' name='po_offer_id' id='po_offer_id'>
                         <input type='hidden' name='year' id='year'>
                         <input type='hidden' name='month' id='month'>
                         <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
