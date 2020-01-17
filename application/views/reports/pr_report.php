@@ -165,7 +165,7 @@
                                             <td><?php echo $p['status_remarks']; ?></td>
                                             <?php if($p['cancelled_items_po']==0){ ?>
                                                 <td><?php echo $p['status']; ?></td>
-                                            <?php } else if($p['cancelled_items_po']==1){ ?>
+                                            <?php } else{ ?>
                                                 <td><?php echo $p['statuss']; ?></td>
                                             <?php } ?>
                                             <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
