@@ -295,6 +295,24 @@ class Po extends CI_Controller {
     
     }
 
+    public function item_checker($pr_details_id, $vendor_id){
+        $pr_qty = $this->super_model->select_column_where('pr_details', 'quantity', 'pr_details_id', $pr_details_id);
+
+        $delivered_qty = $this->super_model->select_sum_join("quantity","po_head","po_items", "pr_details_id = '$pr_details_id' AND cancelled = '0' ","po_id");
+
+       // if($delivered_qty!=0){
+            if($delivered_qty==$pr_qty){
+                $qty = 0;
+            } else {
+                $qty = $pr_qty-$delivered_qty;
+            }
+      /*  } else {
+            $qty = $this->super_model->select_column_join_where("balance", "aoq_head","aoq_offers", "vendor_id = '$vendor_id' AND recommended = '1'","aoq_id");
+        }*/
+
+        return $qty;
+    }
+
     public function purchase_order(){
         $po_id = $this->uri->segment(3);
         $revised = $this->uri->segment(4);
@@ -330,7 +348,12 @@ class Po extends CI_Controller {
              
                 foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'") AS $off){
                     //echo $off->unit_price. " * " .$off->balance."<br>";
-                    $total = $off->unit_price*$off->balance;
+                  
+
+                    $balance = $this->item_checker($off->pr_details_id, $vendor_id);
+                      $total = $off->unit_price*$balance;
+                      
+                    //echo $balance ."<br>";
                     $data['items'][] =  array(
                         'aoq_id'=>$off->aoq_id,
                         'aoq_offer_id'=>$off->aoq_offer_id,
@@ -340,7 +363,7 @@ class Po extends CI_Controller {
                         'offer'=>$off->offer,
                         'currency'=>$off->currency,
                         'price'=>$off->unit_price,
-                        'balance'=>$off->balance,
+                        'balance'=>$balance,
                         'amount'=>$off->amount,
                         'uom'=>$off->uom,
                         'total'=>$total
