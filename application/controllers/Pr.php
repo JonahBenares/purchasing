@@ -88,13 +88,15 @@ class Pr extends CI_Controller {
         foreach($this->super_model->custom_query("SELECT pr_details_id, pr_id, grouping_id FROM pr_details WHERE cancelled = '0' GROUP BY pr_id, grouping_id") AS $det){
             $count = $this->super_model->count_custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' GROUP BY pr_id, grouping_id");
 
+           //echo "SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' GROUP BY pr_id, grouping_id";
+
             $count_po = $this->super_model->count_custom_query("SELECT * FROM po_items pi LEFT JOIN po_head ph ON pi.po_id = ph.po_id WHERE pi.pr_details_id = '$det->pr_details_id' AND ph.cancelled = '0'");
             if($count==0 && $count_po==0){
                 //foreach($this->super_model->custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id != '$det->pr_id' AND grouping_id != '$det->grouping_id' GROUP BY pr_id, grouping_id") AS $rfq){
                     //echo "**".$it->pr_details_id . "<br>";
                     $norfq[] = array(
                         'pr_id'=>$det->pr_id,
-                        'pr_details_id'=>$det->pr_details_id,
+                       
                         'grouping_id'=>$det->grouping_id
                     );
                 //}
@@ -104,8 +106,14 @@ class Pr extends CI_Controller {
             foreach($norfq AS $key){
                 $it='';
                 $ven='';
-                foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$key[pr_id]' AND pr_details_id = '$key[pr_details_id]' AND grouping_id = '$key[grouping_id]' AND cancelled = '0'") AS $items){
+                foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$key[pr_id]' AND grouping_id = '$key[grouping_id]' AND cancelled = '0'") AS $items){
+                    $count_rfq = $this->super_model->count_custom_query("SELECT pr_id, grouping_id FROM rfq_head INNER JOIN rfq_details ON rfq_head.rfq_id = rfq_details.rfq_id WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' AND pr_details_id = '$items->pr_details_id'");
+                    //echo "SELECT pr_id, grouping_id FROM rfq_head INNER JOIN rfq_details ON rfq_head.rfq_id = rfq_details.rfq_id WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' AND pr_details_id = '$items->pr_details_id'<br>";
+                    $count_po1 = $this->super_model->count_custom_query("SELECT * FROM po_items pi LEFT JOIN po_head ph ON pi.po_id = ph.po_id WHERE pi.pr_details_id = '$items->pr_details_id' AND ph.cancelled = '0'");
+
+                    if($count_rfq==0 && $count_po1==0){
                     $it .= ' - ' . $items->item_description . "<br>";
+                    }
                 }
 
                 foreach($this->super_model->select_custom_where("pr_vendors", "pr_id = '$key[pr_id]' AND grouping_id = '$key[grouping_id]'") AS $vendors){
