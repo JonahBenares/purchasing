@@ -2137,7 +2137,7 @@ class Po extends CI_Controller {
                         "delivered_quantity"=>$this->input->post('quantity'.$x),
                         "quantity"=>$poitems->delivered_quantity,
                         "unit_price"=>$price,
-                        "uom"=>$poitems->uom,
+                        "uom"=>$this->input->post('uom'.$x),
                         "amount"=>$amount,
                         "item_no"=>$poitems->item_no,
                        /* "revision_no"=>$revision_no*/
