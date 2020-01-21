@@ -1646,6 +1646,34 @@ class Aoq extends CI_Controller {
 
     }
 
+    public function get_aoq_offer(){
+        foreach($this->super_model->custom_query("SELECT * FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ah.aoq_date BETWEEN '2019-10-22' AND '2020-01-13'") AS $aoq){
+            $rows_series = $this->super_model->count_rows("item");
+            if($rows_series==0){
+                $item_id=1;
+            } else {
+                $max = $this->super_model->get_max("item", "item_id");
+                $item_id = $max+1;
+            }
+            $data_item = array(
+                'item_id'=>$item_id,
+                'item_specs'=>$aoq->offer,
+                'unit_price'=>$aoq->unit_price,
+                'offer_date'=>$aoq->aoq_date,
+                'pr_details_id'=>$aoq->pr_details_id,  
+            );
+            //print_r($data_item);
+            if($this->super_model->insert_into("item", $data_item)){
+                $data_vendor = array(
+                    'vendor_id'=>$aoq->vendor_id,
+                    'item_id'=>$item_id
+                );
+                $this->super_model->insert_into("vendor_details", $data_vendor);
+
+            }
+        }
+    }
+
     public function save_aoq(){
         $aoq_id = $this->input->post('aoq_id');
         $item_count = $this->input->post('item_count');
