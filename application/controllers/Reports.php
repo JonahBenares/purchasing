@@ -86,10 +86,13 @@ class Reports extends CI_Controller {
             //echo $pr->wh_stocks;
             $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
             $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
-            $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
+            //$po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
+            $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $pr->pr_details_id, "po_id", "DESC", "1");
             $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
             $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+
+           //echo $pr->pr_details_id . " = " . $sum_po_qty . " - " .  $sum_delivered_qty . ", " . $pr->quantity . "<br>";
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
             $unserved_qty=0;
             $unserved_uom='';  
@@ -103,7 +106,8 @@ class Reports extends CI_Controller {
                     } else {*/
                        /* $dr_no = $this->super_model->select_column_where('po_dr', 'dr_no', 'po_id', $po_id);*/
                         $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
-                        $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
+                        //$served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
+                        $served_qty = $this->super_model->select_sum("po_items", "quantity", "pr_details_id",$pr->pr_details_id);
                         $delivered_qty = $this->super_model->select_column_where('po_items', 'delivered_quantity', 'pr_details_id', $pr->pr_details_id);
                         $served_uom = $this->super_model->select_column_where('po_items', 'uom', 'pr_details_id', $pr->pr_details_id);
 
@@ -114,6 +118,8 @@ class Reports extends CI_Controller {
                         $unserved_uom =  $served_uom;
 
                         $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+
+                       //  echo $po_id. " = " . $served . "<br>";
                         if($served==0){
                             if($cancelled_items_po==0){
                                 $status = 'PO Issued - Partial';
@@ -208,6 +214,7 @@ class Reports extends CI_Controller {
                     $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$pr->pr_details_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
                  
 
+                    //echo $po_id . "<br>";
                     if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
                         if($cancelled_items_po==0){
                             $status = 'Pending';

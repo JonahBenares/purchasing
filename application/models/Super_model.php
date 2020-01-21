@@ -70,6 +70,17 @@ class super_model extends CI_Model
         return $query->result();
     }
 
+    public function select_column_row_order_limit2($column,$table,$whr_clm, $whr_val,$ord_col, $order, $limit){
+        $this->db->select($column);
+        $this->db->where($whr_clm, $whr_val);
+        $this->db->order_by($ord_col, $order);
+        $this->db->limit($limit);
+         $query = $this->db->get($table);
+        foreach($query->result() as $result){
+            return $result->$column;
+        }
+    }
+
      public function select_column_row_order_limit($column,$table, $order, $limit)
     {
         $this->db->select($column);
