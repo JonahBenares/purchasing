@@ -43,7 +43,7 @@ class Jo extends CI_Controller {
 
     public function jo_list(){  
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
-        foreach($this->super_model->select_all_order_by("jo_head", "date_prepared", "DESC") AS $head){
+        foreach($this->super_model->select_custom_where("jo_head", "cancelled='0' ORDER BY date_prepared DESC") AS $head){
             $data['head'][]=array(
                 'jo_id'=>$head->jo_id,
                 'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
@@ -60,6 +60,46 @@ class Jo extends CI_Controller {
         $this->load->view('template/navbar');
         $this->load->view('jo/jo_list', $data);
         $this->load->view('template/footer');
+    }
+
+    public function cancelled_jo(){  
+        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        foreach($this->super_model->select_custom_where("jo_head", "cancelled='1' ORDER BY date_prepared DESC") AS $head){
+            $data['head'][]=array(
+                'jo_id'=>$head->jo_id,
+                'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
+                'date'=>$head->date_prepared,
+                'date_needed'=>$head->date_needed,
+                'cenjo_no'=>$head->cenpri_jo_no,
+                'jo_no'=>$head->jo_no,
+                'project_title'=>$head->project_title,
+                'revised'=>$head->revised,
+                'revision_no'=>$head->revision_no,
+                'cancelled_date'=>$head->cancelled_date,
+                'cancelled_reason'=>$head->cancelled_reason,
+            );
+        }
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('jo/cancelled_jo', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function cancel_jo(){
+        $jo_id=$this->input->post('jo_id');
+        $reason=$this->input->post('reason');
+        $create = date('Y-m-d H:i:s');
+
+        $data = array(
+            'cancelled'=>1,
+            'cancelled_by'=>$_SESSION['user_id'],
+            'cancelled_reason'=>$reason,
+            'cancelled_date'=>$create
+        );
+
+        if($this->super_model->update_where("jo_head", $data, "jo_id", $jo_id)){
+            redirect(base_url().'jo/jo_list', 'refresh');
+        }
     }
 
     public function job_order_saved_r(){  
@@ -86,6 +126,7 @@ class Jo extends CI_Controller {
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->prepared_by);
+            $data['cancelled']=$head->cancelled;
         }   
 
         $data['details'] = $this->super_model->select_custom_where("jo_details_revised", "jo_id='$jo_id' AND revision_no = '$revised_no'");
@@ -364,6 +405,7 @@ class Jo extends CI_Controller {
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->prepared_by);
+            $data['cancelled']=$head->cancelled;
         }   
 
         $data['details'] = $this->super_model->select_row_where("jo_details", "jo_id", $jo_id);
@@ -640,6 +682,7 @@ class Jo extends CI_Controller {
         $data['rows_rfd'] = $this->super_model->select_count("jo_rfd","jo_id",$jo_id);
         $vendor_id= $this->super_model->select_column_where("jo_head", "vendor_id", "jo_id", $jo_id);
         $data['jo_no']= $this->super_model->select_column_where("jo_head", "jo_no", "jo_id", $jo_id);
+        $data['cancelled']= $this->super_model->select_column_where("jo_head", "cancelled", "jo_id", $jo_id);
         $data['cenjo_no']= $this->super_model->select_column_where("jo_head", "cenpri_jo_no", "jo_id", $jo_id);
         $data['vendor_id']= $vendor_id;
         $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
@@ -717,6 +760,7 @@ class Jo extends CI_Controller {
         $data['jo_id'] = $jo_id;
         $this->load->view('template/header');
         $data['saved'] = $this->super_model->select_column_where("jo_ar", "saved", "jo_id", $jo_id);
+        $data['cancelled'] = $this->super_model->select_column_where("jo_head", "cancelled", "jo_id", $jo_id);
         $data['delivered_to'] = $this->super_model->select_column_where("jo_ar", "delivered_to", "jo_id", $jo_id);
         $data['address'] = $this->super_model->select_column_where("jo_ar", "address", "jo_id", $jo_id);
         $data['requested_by'] = $this->super_model->select_column_where("jo_ar", "requested_by", "jo_id", $jo_id);
@@ -758,6 +802,7 @@ class Jo extends CI_Controller {
         $data['jo_id'] = $jo_id;
         $this->load->view('template/header');
         $data['saved'] = $this->super_model->select_column_where("jo_dr", "saved", "jo_id", $jo_id);
+        $data['cancelled']= $this->super_model->select_column_where("jo_head", "cancelled", "jo_id", $jo_id);
         $data['delivered_to'] = $this->super_model->select_column_where("jo_dr", "delivered_to", "jo_id", $jo_id);
         $data['address'] = $this->super_model->select_column_where("jo_dr", "address", "jo_id", $jo_id);
         $data['requested_by'] = $this->super_model->select_column_where("jo_dr", "requested_by", "jo_id", $jo_id);

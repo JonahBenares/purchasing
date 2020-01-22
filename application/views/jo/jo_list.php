@@ -28,6 +28,30 @@
             </div>
         </div>
     </div>
+    <div id="cancelJO" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header header-color-modal bg-color-1">
+                    <h4 class="modal-title">Cancel JO</h4>
+                    <div class="modal-close-area modal-close-df">
+                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                    </div>
+                </div>
+                <form method="POST" action = "<?php echo base_url();?>jo/cancel_jo">
+                    <div class="modal-body-lowpad">
+                        <div class="form-group">
+                            <p class="m-b-0">Reason for Cancelling JO:</p>
+                            <textarea name="reason" class="form-control"></textarea>
+                        </div>
+                        <center>       
+                            <input type = "hidden" id='jo_id' name='jo_id' >                 
+                            <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
      <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -147,6 +171,7 @@
                                     <button type="button" class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#add_jo">
                                         <span class="fa fa-plus p-l-0"></span> Add JO
                                     </button>
+                                    <a href="<?php echo base_url(); ?>jo/cancelled_jo" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled JO</a>
                                 </div>                                
                             </div>
                         </div>                       
@@ -182,6 +207,7 @@
                                             <td><?php echo $h['vendor']; ?></td>
                                             <td>
                                                 <center>
+                                                    <a class="cancelJO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJO" data-id="<?php echo $h['jo_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                     <a href="<?php echo base_url(); ?>jo/job_order_saved/<?php echo $h['jo_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
