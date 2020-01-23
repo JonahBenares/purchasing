@@ -346,8 +346,9 @@
 	    					Enduse: <?php echo $pp['enduse']; ?><br>
 	    					Purpose: <?php echo $pp['purpose']; ?><br>
 	    					Requestor: <?php echo $pp['requestor']; ?><br>
+	    					PR No.: <?php echo $pp['pr_no']; ?><br>
 	    					<!-- Notes: <?php echo $pp['notes']; ?><br> -->
-	    					<br>
+	    				
 	    					<?php } } ?>
 	    				</p>
 	    				<br>

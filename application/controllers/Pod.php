@@ -190,6 +190,7 @@ class Pod extends CI_Controller {
 
         foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $purpose){
             $data['popurp'][]= array(
+                'pr_no'=>$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $purpose->pr_id),
                 'po_pr_id'=>$purpose->po_pr_id,
                 'notes'=>$purpose->notes,
                 'purpose'=>$purpose->purpose,
