@@ -163,16 +163,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="sparkline8-list shadow-reset">
-                        <div class="sparkline8-hd p-b-0" >
+                        <div class="sparkline8-hd" style="background: #ff6262">
                             <div class="main-sparkline8-hd">
-                                <h1>JO List</h1>
-                                <small>JOB ORDER</small> 
+                                <h1 class="text-white">CANCELLED JO List</h1>
+                                <small class="text-white">JOB ORDER</small>
                                 <div class="sparkline8-outline-icon">
-                                    <button type="button" class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#add_jo">
-                                        <span class="fa fa-plus p-l-0"></span> Add JO
-                                    </button>
-                                    <a href="<?php echo base_url(); ?>jo/cancelled_jo" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled JO</a>
-                                </div>                                
+                                    <h2><span class="fa fa-ban"></span></h2>
+                                </div>
                             </div>
                         </div>                       
                         <div class="sparkline8-graph">
@@ -185,6 +182,8 @@
                                             <th>CENJO #/JO #</th>
                                             <th>Project Title</th>
                                             <th>Supplier</th>
+                                            <th>Cancel Date</th>
+                                            <th>Cancel Reason</th>
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
@@ -196,26 +195,18 @@
                                             <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
                                             <td><?php echo date('F j, Y', strtotime($h['date_needed'])); ?></td>
                                             <td>
-
-                                                <!-- <?php echo $h['cenjo_no'] . "/".$h['jo_no']; ?> -->
                                                 <a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>','<?php echo $h['jo_id']; ?>','<?php echo $h['cenjo_no']; ?>','<?php echo $h['jo_no']; ?>')">
                                                     <?php echo $h['cenjo_no'] . "/".$h['jo_no'] . (($h['revision_no']!=0) ? ".r".$h['revision_no'] : "");?></a>
-
-
                                             </td>
                                             <td><?php echo $h['project_title']; ?></td>
                                             <td><?php echo $h['vendor']; ?></td>
+                                            <td><?php echo $h['cancelled_date']; ?></td>
+                                            <td><?php echo $h['cancelled_reason']; ?></td>
                                             <td>
                                                 <center>
-                                                    <a class="cancelJO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJO" data-id="<?php echo $h['jo_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                     <a href="<?php echo base_url(); ?>jo/job_order_saved/<?php echo $h['jo_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
-                                                    <?php if($h['revised']==1){ ?>
-                                                        <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $h['jo_id']?>">
-                                                            <span class="fa fa-thumbs-up"></span>
-                                                        </a>
-                                                    <?php } ?>
                                                 </center>
                                             </td>
 

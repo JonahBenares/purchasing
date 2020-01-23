@@ -591,6 +591,7 @@ class Po extends CI_Controller {
         $a=1;
         for($x=1; $x<$count_item;$x++){
             $qty=$this->input->post('quantity'.$x);
+            $uom=$this->input->post('uom'.$x);
             $po_items_id = $this->input->post('po_items_id'.$x);
             
 
@@ -604,12 +605,14 @@ class Po extends CI_Controller {
                  
                     'delivered_quantity'=>$qty,
                     'offer'=>$offer,
+                    'uom'=>$uom,
                     'unit_price'=>$price,
                     'amount'=>$amount,
                     'item_no'=>$a
                 );
                 $data_dr=array(
                     'delivered_quantity'=>$qty,
+                    'uom'=>$uom,
                     'unit_price'=>$price,
                     'amount'=>$amount,
                     'item_no'=>$a
