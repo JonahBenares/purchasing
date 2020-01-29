@@ -290,6 +290,7 @@ class Aoq extends CI_Controller {
     public function served_aoq(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
+        $data['head']=array();
         $count = $this->super_model->count_rows_where("aoq_head","saved",'1');
         if($count!=0){
             foreach($this->super_model->select_custom_where("aoq_head", "saved='1' and served = '1'") AS $list){
