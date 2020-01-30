@@ -62,7 +62,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($heads AS $h){ ?>
+                                        <?php if(!empty($heads)){ foreach($heads AS $h){ ?>
                                         <tr>
                                             <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
                                             <td><?php echo $h['pr_no']; ?></td>
@@ -107,7 +107,7 @@
                                                 </center>
                                             </td>
                                         </tr>  
-                                        <?php } ?>                      
+                                        <?php } } ?>                      
                                     </tbody>
                                 </table>
 
