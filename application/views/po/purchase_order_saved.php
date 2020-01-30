@@ -462,7 +462,7 @@
 		    		</tr> -->
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
+		    				Other Instructions:<br><?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes);?></span><?php } ?>
 		    			</td>
 		    		</tr>
 		    		<tr>

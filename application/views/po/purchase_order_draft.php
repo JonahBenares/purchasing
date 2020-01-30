@@ -358,7 +358,7 @@
 		    					<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
 							</button><br>
-		    				Other Instructions: <?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo $t->notes;?></span><?php } ?>
+		    				Other Instructions: <br><?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes);?></span><?php } ?>
 		    			</td>
 		    		</tr>
 		    		<tr>

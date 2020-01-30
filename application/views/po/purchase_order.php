@@ -335,9 +335,9 @@
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
-							</button>
+							</button><br>
 		    				<?php foreach($tc AS $t){ ?>
-								<span style = "color:blue;"><?php echo $t->notes;?></span>
+								<span style = "color:blue;"><?php echo nl2br($t->notes);?></span>
 							<?php } ?>	
 		    			</td>
 		    		</tr>

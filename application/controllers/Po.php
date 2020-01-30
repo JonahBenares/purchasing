@@ -619,7 +619,7 @@ class Po extends CI_Controller {
                 );
 
                     $this->super_model->update_where("po_items", $data, "po_items_id", $po_items_id);
-                    $this->super_model->insert_into("po_dr_items", $data_dr, "po_items_id", $po_items_id);
+                    $this->super_model->update_where("po_dr_items", $data_dr, "po_items_id", $po_items_id);
              $a++;
             } else {
                 
@@ -1679,6 +1679,7 @@ class Po extends CI_Controller {
         $a=1;
         for($x=1; $x<$count_item;$x++){
             $qty=$this->input->post('quantity'.$x);
+            $uom=$this->input->post('uom'.$x);
             $po_items_id = $this->input->post('po_items_id'.$x);
 
             if($qty!=0){
@@ -1689,6 +1690,7 @@ class Po extends CI_Controller {
                  
                     'offer'=>$offer,
                     'delivered_quantity'=>$qty,
+                    'uom'=>$uom,
                     'unit_price'=>$price,
                     'amount'=>$amount,
                     'item_no'=>$a
@@ -1696,12 +1698,13 @@ class Po extends CI_Controller {
                 $data_dr=array(
                     'offer'=>$offer,
                     'delivered_quantity'=>$qty,
+                    'uom'=>$uom,
                     'unit_price'=>$price,
                     'amount'=>$amount,
                     'item_no'=>$a
                 );
                 $this->super_model->update_where("po_items", $data, "po_items_id", $po_items_id);
-                $this->super_model->insert_into("po_dr_items", $data_dr, "po_items_id", $po_items_id);
+                $this->super_model->update_where("po_dr_items", $data_dr, "po_items_id", $po_items_id);
                 $a++;
             }else {
                 $this->super_model->delete_where("po_items", "po_items_id", $po_items_id);

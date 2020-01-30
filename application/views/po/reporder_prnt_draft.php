@@ -296,7 +296,7 @@
 					    				<!-- <b><?php echo $it['quantity']; ?></b> -->
 					    				<b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' max='<?php echo $it['quantity']; ?>' value='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b>
 					    			</td>
-					    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['uom']; ?></b></td>
+					    			<td colspan="" class="bor-right" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value='<?php echo $it['uom']; ?>' style = "width:100%;"><?php //echo $it['uom']; ?></b></td>
 					    			<td colspan="12" class="bor-right" align="left">
 					    				<!-- <b><?php echo $it['offer']; ?></b> -->
 					    				<b><textarea style="width:100%" name='offer<?php echo $x; ?>'><?php echo $it['offer']; ?></textarea></b>

@@ -510,7 +510,7 @@ class Pr extends CI_Controller {
         $data['prid'] = $prid;
         $data['group'] = $group;
         $data['category']=$category;
-        $data['vendor'] = $this->super_model->custom_query("SELECT vendor_id, vendor_name, product_services FROM vendor_head WHERE product_services LIKE '%$category%'");
+        $data['vendor'] = $this->super_model->custom_query("SELECT vendor_id, vendor_name, product_services FROM vendor_head WHERE product_services LIKE '%$category%' ORDER BY vendor_name ASC");
         $data['due_date']=$this->super_model->select_column_custom_where("pr_vendors",'due_date',"pr_id = '$prid' AND grouping_id='$group'");
         $data['noted_by']=$this->super_model->select_column_custom_where("pr_vendors",'noted_by',"pr_id = '$prid' AND grouping_id='$group'");
         $data['approved_by']=$this->super_model->select_column_custom_where("pr_vendors",'approved_by',"pr_id = '$prid' AND grouping_id='$group'");
