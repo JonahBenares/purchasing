@@ -2149,6 +2149,8 @@ class Po extends CI_Controller {
                        /* "revision_no"=>$revision_no*/
                     );
                     $data_dr=array(
+                        "offer"=>$this->input->post('offer'.$x),
+                        "delivered_quantity"=>$this->input->post('quantity'.$x),
                         'uom'=>$this->input->post('uom'.$x),
                     );
                 $this->super_model->insert_into("po_items_temp", $data_items);
