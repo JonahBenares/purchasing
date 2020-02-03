@@ -2148,7 +2148,11 @@ class Po extends CI_Controller {
                         "item_no"=>$poitems->item_no,
                        /* "revision_no"=>$revision_no*/
                     );
-                    $this->super_model->insert_into("po_items_temp", $data_items);
+                    $data_dr=array(
+                        'uom'=>$this->input->post('uom'.$x),
+                    );
+                $this->super_model->insert_into("po_items_temp", $data_items);
+                $this->super_model->update_where("po_dr_items", $data_dr, "po_items_id", $poitems->po_items_id);
         
             }
                 $x++;
@@ -2393,6 +2397,7 @@ class Po extends CI_Controller {
             $data_dr_items = array(
                 'delivered_quantity'=>$poitems->delivered_quantity,
                 'quantity'=>0,
+                "uom"=>$poitems->uom,
                 'unit_price'=>$poitems->unit_price,
                 'amount'=>$poitems->amount,
                 'offer'=>$poitems->offer
