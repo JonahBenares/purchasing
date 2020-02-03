@@ -339,7 +339,8 @@
 								    		<tr>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
 								    			<td colspan="2" class="bor-right" align="center"><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:100%; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
-								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
+								    			<!-- <td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td> -->
+								    			<td colspan="" class="bor-right" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value='<?php echo $it->uom; ?>' style = "width:100%;"></b></td>
 								    			<td colspan="11" class="bor-right" align="left"><input type='text' style='width:100%' name='offer<?php echo $x; ?>' value='<?php echo utf8_encode($offer); ?>'></td>
 								    			<td colspan="2" class="bor-right" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it->unit_price; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
 								    			<td colspan="3" class="bor-right" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,2); ?>" style='text-align:right;' readonly></td>		

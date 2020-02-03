@@ -131,6 +131,34 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="otherins" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add Other Instructions
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</h5>						
+				</div>
+				<form method="POST" action="<?php echo base_url(); ?>pod/add_notes">
+					<div class="modal-body">
+						<div class="form-group">
+							Other Instructions:
+							<textarea class="form-control" rows="5" name = "notes"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+						<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+						<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
+						<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
     <div  class="pad">
     	<form method='POST' action='<?php echo base_url(); ?>pod/save_po'>  
     		<div  id="prnt_btn">
@@ -376,6 +404,18 @@
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<?php if($saved==0){ ?>
+		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+							 Add Other Instruction
+							</button><br>
+							<?php } ?>
+		    				<?php foreach($tc AS $t){ ?>
+								Other Instructions: <br><span style = "color:blue;"><?php echo nl2br($t->notes);?></span>
+							<?php } ?>	
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="20" style="padding: 10px!important">
+		    				<?php if($saved==0){ ?>
 		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
 							 Add Terms & Conditions:
 							</button>
@@ -383,12 +423,14 @@
 		    				<br>Terms & Conditions:<br>
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>	
+		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>
 		    				<?php 
 		    					$no=4;
 			    				foreach($tc AS $t){ 
-			    					echo $no.". " . $t->tc_desc."<br>";
-			    					$no++; 
+			    					if(!empty($t->tc_desc)){
+				    					echo $no.". " . $t->tc_desc."<br>";
+				    					$no++; 
+			    					}
 			    				} 
 		    				?>	  	
 		    			</td>

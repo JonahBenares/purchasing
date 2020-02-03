@@ -287,6 +287,24 @@ class Pod extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function add_notes(){
+        $po_id = $this->input->post('po_id');
+        $pr_id = $this->input->post('pr_id');
+        $group_id = $this->input->post('group_id');
+        $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
+        $data = array(
+            'po_id'=>$this->input->post('po_id'),
+            'notes'=>$this->input->post('notes'),
+        );
+        if($this->super_model->insert_into("po_tc", $data)){
+            if($draft==0){
+                redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
+            } else {
+                 redirect(base_url().'pod/po_direct_draft/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
+            }
+        }
+    }
+
     public function po_direct_saved(){
         $this->load->view('template/header');
         $po_id=$this->uri->segment(3);  
@@ -495,6 +513,7 @@ class Pod extends CI_Controller {
         for($x=1; $x<$count_item;$x++){
             $qty=$this->input->post('quantity'.$x);
             $po_items_id = $this->input->post('po_items_id'.$x);
+            $uom=$this->input->post('uom'.$x);
             if($qty!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
@@ -502,6 +521,7 @@ class Pod extends CI_Controller {
                 $data=array(
                     'delivered_quantity'=>$qty,
                     'offer'=>$offer,
+                    'uom'=>$uom,
                     'unit_price'=>$price,
                     'amount'=>$amount,
                     'item_no'=>$a
@@ -509,12 +529,13 @@ class Pod extends CI_Controller {
                 $data_dr=array(
                     'delivered_quantity'=>$qty,
                     'unit_price'=>$price,
+                    'uom'=>$uom,
                     'amount'=>$amount,
                     'item_no'=>$a
                 );
 
                     $this->super_model->update_where("po_items", $data, "po_items_id", $po_items_id);
-                    $this->super_model->insert_into("po_dr_items", $data_dr, "po_items_id", $po_items_id);
+                    $this->super_model->update_where("po_dr_items", $data_dr, "po_items_id", $po_items_id);
              $a++;
             } else {
                 
@@ -917,7 +938,7 @@ class Pod extends CI_Controller {
                         "delivered_quantity"=>$this->input->post('quantity'.$x),
                         "quantity"=>$poitems->delivered_quantity,
                         "unit_price"=>$price,
-                        "uom"=>$poitems->uom,
+                        "uom"=>$this->input->post('uom'.$x),
                         "amount"=>$amount,
                         "item_no"=>$poitems->item_no,
                        /* "revision_no"=>$revision_no*/
@@ -1171,6 +1192,7 @@ class Pod extends CI_Controller {
                 $data_dr_items = array(
                     'delivered_quantity'=>$poitems->delivered_quantity,
                     'quantity'=>0,
+                    "uom"=>$poitems->uom,
                     'unit_price'=>$poitems->unit_price,
                     'amount'=>$poitems->amount,
                     'offer'=>$poitems->offer

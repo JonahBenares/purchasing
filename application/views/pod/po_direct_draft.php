@@ -235,7 +235,8 @@
 
 		    			<td colspan="" class="bor-right" align="center"><b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['quantity']; ?>' max='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
 
-		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['uom']; ?></b></td>
+		    			<!-- <td colspan="" class="bor-right" align="center"><b><?php //echo $it['uom']; ?></b></td> -->
+		    			<td colspan="" class="bor-right" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value='<?php echo $it['uom']; ?>' style = "width:100%;"></b></td>
 
 		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"><textarea class = "form-control" name='item<?php echo $x; ?>'><?php echo $it['item']; ?></textarea></b></td>
 
@@ -333,6 +334,16 @@
 		    				<i></i>
 		    			</td>
 		    		</tr>
+		    		<tr>		    			
+		    			<td colspan="20" style="padding: 10px!important">
+		    				<?php if($saved==0){ ?>
+		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+							 Add Other Instruction
+							</button><br>
+							<?php } ?>
+		    				Other Instructions: <br><?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes);?></span><?php } ?>
+		    			</td>
+		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<?php if($saved==0){ ?>
@@ -347,16 +358,14 @@
 		    				<?php 
 		    					$no=4;
 			    				foreach($tc AS $t){ 
-			    					echo $no.". " . $t->tc_desc;
+			    					if(!empty($t->tc_desc)){
+			    						echo $no.". " . $t->tc_desc;
+			    						$no++; 
 			    			?>
 			    			<a class='btn btn-primary btn-xs' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
 		    					<span class = 'fa fa-edit'></span>
-		    				</a>
-		    				<br>
-			    			<?php 
-			    					$no++; 
-			    				} 
-		    				?>	  	
+		    				</a><br>
+			    			<?php } } ?>	  	
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
