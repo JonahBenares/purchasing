@@ -1,4 +1,6 @@
-<?php $letters = range('A', 'Z'); ?>
+<?php $letters = range('A', 'Z');
+$ci =& get_instance();
+?>
 
 <script type="text/javascript">
     $(document).on("click", ".cancelItem", function () {
@@ -65,12 +67,9 @@
                             <p class="m-b-0">Regroup:</p>
                             <select class="form-control text-black" name='grouping'>
                                 <option value='' selected="selected">-Select Group-</option>
-                                <?php for($x=1;$x<=200;$x++){ ?>
-                                     <option value='<?php echo $x; ?>'><?php echo $x; ?></option>
-                                <?php } ?>
-                               <!--  <?php foreach($letters AS $let){ ?>
+                                <?php foreach($ci->createColumnsArray('ZZ') AS $let){ ?>
                                 <option value='<?php echo $let; ?>'><?php echo $let; ?></option>
-                                <?php } ?> -->
+                                <?php } ?>
                             </select>
                             <input type = "hidden" name = "pr_det_id" id = "pr_det_id">
                              <input type='hidden' name='pr' id = "pr" value='<?php echo $pr_id; ?>'>
@@ -255,7 +254,7 @@
                                                 <td style="padding: 0px!important" class="bor-red">
                                                     <select class="form-control text-black" name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>
-                                                        <?php foreach($letters AS $let){ ?>
+                                                        <?php foreach($ci->createColumnsArray('ZZ') AS $let){ ?>
                                                         <option value='<?php echo $let; ?>' <?php echo ($det['grouping_id'] == $let) ? ' selected' : ''; ?>><?php echo $let; ?></option>
                                                         <?php } ?>
                                                     </select>
@@ -280,7 +279,7 @@
                                                 <td style="padding: 0px!important" class="bor-red">
                                                     <select class="form-control" name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>
-                                                        <?php foreach($letters AS $let){ ?>
+                                                        <?php foreach($ci->createColumnsArray('ZZ') AS $let){ ?>
                                                         <option value='<?php echo $let; ?>' <?php echo ($det['grouping_id'] == $let) ? ' selected' : ''; ?>><?php echo $let; ?></option>
                                                         <?php } ?>
                                                     </select>
