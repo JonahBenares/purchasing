@@ -1632,6 +1632,7 @@ class Po extends CI_Controller {
                 'approved_by'=>$this->input->post('approved'),
                 'checked_by'=>$this->input->post('checked'),
                 'saved'=>1,
+                'draft'=>0,
                 'revised'=>0
             );
             if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
@@ -1719,6 +1720,7 @@ class Po extends CI_Controller {
                 'approved_by'=>$this->input->post('approved'),
                 'checked_by'=>$this->input->post('checked'),
                 'saved'=>1,
+                'draft'=>0,
                 'revised'=>0
             );
             if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
