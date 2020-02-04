@@ -80,16 +80,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($head AS $h){ ?>
+                                        <?php if(!empty($head)){ foreach($head AS $h){ ?>
                                         <tr>
-                                            <td><?php echo (!empty($h->dr_date) ? date('F j, Y', strtotime($h->dr_date)) : ''); ?></td>
-                                            <td><?php echo $h->dr_no; ?></td>
+                                            <td><?php echo (!empty($h['dr_date']) ? date('F j, Y', strtotime($h['dr_date'])) : ''); ?></td>
+                                            <td><?php echo $h['dr_no']; ?></td>
                                             <td><?php
-                                                if($h->dr_type==0){
+                                                if($h['dr_type']==0){
                                                     echo "Purchase Order";
-                                                } else if($h->dr_type==1){
+                                                } else if($h['dr_type']==1){
                                                     echo "Direct Purchase";
-                                                } else if($h->dr_type==2){
+                                                } else if($h['dr_type']==2){
                                                     echo "Direct Purchase w/o RFD";
                                                 } 
                                                 ?>
@@ -97,23 +97,26 @@
                                             <td>
                                                 <center>
                                                     <?php
-                                                     if($h->dr_type==0){ ?>
-                                                        <a href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $h->po_id; ?>/<?php echo $h->dr_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                     if($h['dr_type']==0){ ?>
+                                                        <a href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $h['po_id']; ?>/<?php echo $h['dr_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
-                                                    <?php } else if($h->dr_type==1){ ?>
-                                                         <a href="<?php echo base_url(); ?>rfdis/rfdis_dr/<?php echo $h->rfd_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                    <?php } else if($h['dr_type']==1){ ?>
+                                                        <a href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $h['po_id']; ?>/<?php echo $h['dr_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
-                                                    <?php } else if($h->dr_type==2){ ?>
-                                                         <a href="<?php echo base_url(); ?>dr/dr_prnt/<?php echo $h->dr_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                         <!-- <a href="<?php echo base_url(); ?>rfdis/rfdis_dr/<?php echo $h['rfd_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                            <span class="fa fa-eye"></span>
+                                                        </a> -->
+                                                    <?php } else if($h['dr_type']==2){ ?>
+                                                         <a href="<?php echo base_url(); ?>dr/dr_prnt/<?php echo $h['dr_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
                                                     <?php } ?>
                                                 </center>
                                             </td>
                                         </tr>  
-                                        <?php } ?>                      
+                                        <?php } } ?>                      
                                     </tbody>
                                 </table>
 

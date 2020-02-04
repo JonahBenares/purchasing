@@ -42,7 +42,19 @@ class Dr extends CI_Controller {
 	}
 
     public function dr_list(){   
-        $data['head']= $this->super_model->select_all_order_by("po_dr", "dr_date", "DESC");
+        //$data['head']= $this->super_model->select_all_order_by("po_dr", "dr_date", "DESC");
+        foreach($this->super_model->select_all("po_dr", "dr_date", "DESC") AS $d){
+            foreach($this->super_model->select_custom_where("po_dr_items", "dr_id = '$d->dr_id' GROUP BY dr_id") AS $da){
+                $data['head'][]=array(
+                    'po_id'=>$d->po_id,
+                    'rfd_id'=>$d->rfd_id,
+                    'dr_id'=>$d->dr_id,
+                    'dr_no'=>$d->dr_no,
+                    'dr_type'=>$d->dr_type,
+                    'dr_date'=>$d->dr_date,
+                );
+            }
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('dr/dr_list',$data);
