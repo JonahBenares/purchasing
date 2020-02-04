@@ -65,9 +65,12 @@
                             <p class="m-b-0">Regroup:</p>
                             <select class="form-control text-black" name='grouping'>
                                 <option value='' selected="selected">-Select Group-</option>
-                                <?php foreach($letters AS $let){ ?>
-                                <option value='<?php echo $let; ?>'><?php echo $let; ?></option>
+                                <?php for($x=1;$x<=200;$x++){ ?>
+                                     <option value='<?php echo $x; ?>'><?php echo $x; ?></option>
                                 <?php } ?>
+                               <!--  <?php foreach($letters AS $let){ ?>
+                                <option value='<?php echo $let; ?>'><?php echo $let; ?></option>
+                                <?php } ?> -->
                             </select>
                             <input type = "hidden" name = "pr_det_id" id = "pr_det_id">
                              <input type='hidden' name='pr' id = "pr" value='<?php echo $pr_id; ?>'>
