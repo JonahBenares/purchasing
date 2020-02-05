@@ -438,6 +438,7 @@ class Jo extends CI_Controller {
             $data['total_cost']= $head->total_cost;
             $data['grand_total']= $head->grand_total;
             $data['conforme']= $head->conforme;
+            $data['cancelled']= $head->cancelled;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['approved_id'] = $head->approved_by;
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
@@ -463,6 +464,7 @@ class Jo extends CI_Controller {
             $data['total_cost']= $headtemp->total_cost;
             $data['grand_total']= $headtemp->grand_total;
             $data['conforme']= $headtemp->conforme;
+            $data['cancelled']= $headtemp->cancelled;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $headtemp->approved_by);
             $data['approved_id'] = $headtemp->approved_by;
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $headtemp->checked_by);
@@ -502,6 +504,10 @@ class Jo extends CI_Controller {
                 "discount_percent"=>$johead->discount_percent,
                 "discount_amount"=>$johead->discount_amount,
                 "grand_total"=>$johead->grand_total,
+                "cancelled"=>$johead->cancelled,
+                "cancelled_by"=>$johead->cancelled_by,
+                "cancelled_reason"=>$johead->cancelled_reason,
+                "cancelled_date"=>$johead->cancelled_date,
             );
             $this->super_model->insert_into("jo_head_temp", $data_details);
         }
