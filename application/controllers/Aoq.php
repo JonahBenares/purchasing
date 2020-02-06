@@ -742,9 +742,9 @@ class Aoq extends CI_Controller {
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$d, "d. Items Warranty");
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$e, "e. In-land Freight");
 
-            $objPHPExcel->getActiveSheet()->mergeCells('E'.$a.':H'.$a);
+            /*$objPHPExcel->getActiveSheet()->mergeCells('E'.$a.':H'.$a);
             $objPHPExcel->getActiveSheet()->mergeCells('I'.$b.':L'.$b);
-            $objPHPExcel->getActiveSheet()->mergeCells('M'.$c.':P'.$c);
+            $objPHPExcel->getActiveSheet()->mergeCells('M'.$c.':P'.$c);*/
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$a, $validity);
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$b, $terms);
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$c, $delivery);
@@ -1124,9 +1124,9 @@ class Aoq extends CI_Controller {
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$d, "d. Items Warranty");
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$e, "e. In-land Freight");
 
-            $objPHPExcel->getActiveSheet()->mergeCells('E'.$a.':H'.$a);
+           /* $objPHPExcel->getActiveSheet()->mergeCells('E'.$a.':H'.$a);
             $objPHPExcel->getActiveSheet()->mergeCells('I'.$b.':L'.$b);
-            $objPHPExcel->getActiveSheet()->mergeCells('M'.$c.':P'.$c);
+            $objPHPExcel->getActiveSheet()->mergeCells('M'.$c.':P'.$c);*/
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$a, $validity);
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$b, $terms);
             /*if(empty($delivery)){
@@ -1529,9 +1529,9 @@ class Aoq extends CI_Controller {
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$d, "d. Items Warranty");
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$e, "e. In-land Freight");
 
-            $objPHPExcel->getActiveSheet()->mergeCells('E'.$a.':H'.$a);
+            /*$objPHPExcel->getActiveSheet()->mergeCells('E'.$a.':H'.$a);
             $objPHPExcel->getActiveSheet()->mergeCells('I'.$b.':L'.$b);
-            $objPHPExcel->getActiveSheet()->mergeCells('M'.$c.':P'.$c);
+            $objPHPExcel->getActiveSheet()->mergeCells('M'.$c.':P'.$c);*/
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$a, $validity);
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$b, $terms);
             /*if(empty($delivery)){

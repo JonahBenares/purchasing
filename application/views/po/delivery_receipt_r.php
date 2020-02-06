@@ -215,21 +215,21 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td></td>
-		    			<td colspan="6"><b></b></td>
+		    			<td colspan="6"><b>Complete & accepted by end-user:</b></td>
 		    			<td colspan="5"></td>
 		    			<td colspan="6"><b>Witnessed by:</b></td>
 		    			<td colspan="2"></td>
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td colspan="6"><b><br></b></td>
+		    			<td colspan="6" class="bor-btm"><b><br></b></td>
 		    			<td colspan="5"></td>
 		    			<td colspan="6" class="bor-btm"></td>
 		    			<td colspan="2"></td>
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td colspan="6"></td>
+		    			<td colspan="6">Print Name & Signature with Date Received</td>
 		    			<td colspan="5"></td>
 		    			<td colspan="6">Print Name & Signature with Date Received</td>
 		    			<td colspan="2"></td>
