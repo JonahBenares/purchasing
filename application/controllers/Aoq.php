@@ -511,7 +511,7 @@ class Aoq extends CI_Controller {
             $this->super_model->update_where("aoq_offers", $data, "aoq_offer_id", $this->input->post('offerid_'.$x));
         }
 
-        for($v=1;$v<=3;$v++){
+        for($v=1;$v<=$count;$v++){
             $datavendors = array(
                 'price_validity'=>$this->input->post('price_validity'.$v),
                 'payment_terms'=>$this->input->post('payment_terms'.$v),
