@@ -112,9 +112,9 @@
                                         <tr>
                                             <td></td>
                                             <td>
-                                                <a href="javascript:void(0)" class="btn-link txt-primary" onclick="itemDetails('<?php echo base_url(); ?>','<?php echo $i->item_id;?>')"><?php echo $i->item_name;?></a>
+                                               <?php echo $i->item_name;?>
                                             </td>
-                                            <td><?php echo $i->item_specs;?></td>
+                                            <td> <a href="javascript:void(0)" class="btn-link txt-primary" onclick="itemDetails('<?php echo base_url(); ?>','<?php echo $i->item_id;?>')"><?php echo $i->item_specs;?></a></td>
                                             <td><?php echo $i->brand_name;?></td>
                                             <td><?php echo $i->part_no;?></td>
                                             <td>
