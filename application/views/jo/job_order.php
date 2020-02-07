@@ -196,8 +196,8 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="5" align="center"><img width="150px" src="<?php echo $_SESSION['logo'];?>"></td>
-		    			<td colspan="15"><h4 style="margin: 0px"><b><?php echo $_SESSION['company_name'];?></b></h4></td>
+		    			<img style="position:absolute;left:260px;top:100px;z-index: 99" width="120px" src="<?php echo $_SESSION['logo'];?>">
+		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo $_SESSION['company_name'];?></b></h4></center></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center">Office: 88 Corner Rizal-Mabini Sts., Bacolod City</td></tr>
 		    		<tr><td class="f13" colspan="20" align="center">Bacolod Office Telefax: (034) 435-1932/476-7382</td></tr>
