@@ -132,7 +132,7 @@
                             <div class="row">
                                 <div class="col-md-6"> 
                                     <div class="form-group btn-block">
-                                       <?php echo $_SESSION['jo_name'];?> JO No.:
+                                       <?php echo JO_NAME;?> JO No.:
                                         <input type="Text" name="cenjo_no" class="form-control">
                                     </div>
                                 </div>

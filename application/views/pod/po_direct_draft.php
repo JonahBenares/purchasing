@@ -169,13 +169,13 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<img style="position:absolute;left:260px;top:100px;z-index: 99" width="120px" src="<?php echo $_SESSION['logo'];?>">
-		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo $_SESSION['company_name'];?></b></h4></center></td>
+		    			<img style="position:absolute;left:260px;top:100px;z-index: 99" width="120px" src="<?php echo base_url().LOGO;?>">
+		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address'];?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['tel_no'];?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['telfax'];?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address2'];?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
 		    		<tr><td colspan="20" align="center">
 		    			<br><h4 class="nomarg"><b>PURCHASE ORDER</b></h4><small class="text-red">DRAFT</small></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
@@ -354,7 +354,7 @@
 		    				<br>Terms & Conditions:<br>
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo $_SESSION['jo_name'];?>.<br>	
+		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>	
 		    				<?php 
 		    					$no=4;
 			    				foreach($tc AS $t){ 

@@ -134,13 +134,13 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="5" align="center"><img width="150px" src="<?php echo $_SESSION['logo'];?>"></td>
-		    			<td colspan="15"><h4 style="margin: 0px"><b><?php echo $_SESSION['company_name'];?></b></h4></td>
+		    			<td colspan="5" align="center"><img width="150px" src="<?php echo base_url().LOGO;?>"></td>
+		    			<td colspan="15"><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address'];?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['tel_no'];?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['telfax'];?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address2'];?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr><td colspan="20" align="center"><h5><b class="text-red">DELIVERY RECEIPT</b><br><small class="text-red">REVISED</small></h5></td></tr>
 		    		<?php foreach($head AS $h){ ?>
