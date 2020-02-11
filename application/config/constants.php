@@ -92,3 +92,4 @@ define('TEL_NO','Tel. No.: (034) 435-1932/476-7382');
 define('TELFAX','Telefax: (034) 435-1932');
 define('ADDRESS_2','Plant Site: Purok San Jose, Barangay Calumangan, Bago City');
 define('JO_NAME','CENPRI');
+ 
