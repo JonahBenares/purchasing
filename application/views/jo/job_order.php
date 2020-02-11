@@ -196,8 +196,8 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<img style="position:absolute;left:260px;top:100px;z-index: 99" width="120px" src="<?php echo $_SESSION['logo'];?>">
-		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo $_SESSION['company_name'];?></b></h4></center></td>
+		    			<img style="position:absolute;left:260px;top:100px;z-index: 99" width="120px" src="<?php echo base_url().LOGO;?>">
+		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center">Office: 88 Corner Rizal-Mabini Sts., Bacolod City</td></tr>
 		    		<tr><td class="f13" colspan="20" align="center">Bacolod Office Telefax: (034) 435-1932/476-7382</td></tr>
@@ -222,7 +222,7 @@
 		    			<td class="f13 p-l-5" colspan="3">Date Prepared:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_prepared)); ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3"><?php echo $_SESSION['jo_name'];?> JO No.:</td>
+		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
 		    			<td class="f13 bor-btm" colspan="6"><b><?php echo $cenjo_no; ?></b></td>
 		    		</tr>
 		    		<tr>

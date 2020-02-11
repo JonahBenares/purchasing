@@ -133,13 +133,13 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<img style="position:absolute;left:260px;top:100px;z-index: 99" width="120px" src="<?php echo $_SESSION['logo'];?>">
-		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo $_SESSION['company_name'];?></b></h4></center></td>
+		    			<img style="position:absolute;left:260px;top:100px;z-index: 99" width="120px" src="<?php echo base_url().LOGO;?>">
+		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address'];?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['tel_no'];?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['telfax'];?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo $_SESSION['address2'];?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4></td></tr>
 		    		<tr>
 		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
@@ -164,7 +164,7 @@
 		    			<td class="f13" colspan="4">Date Prepared:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_prepared));?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3"><?php echo $_SESSION['jo_name'];?> JO No.:</td>
+		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
 		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $cenjo_no; ?></b></td>
 		    		</tr>
 		    		<tr>

@@ -83,3 +83,13 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+
+define('LOGO','assets/img/logo_cenpri.png');
+define('COMPANY_NAME','CENTRAL NEGROS POWER RELIABILITY, INC.');
+define('ADDRESS','Office: 88 Corner Rizal-Mabini Sts., Bacolod City');
+define('TEL_NO','Tel. No.: (034) 435-1932/476-7382');
+define('TELFAX','Telefax: (034) 435-1932');
+define('ADDRESS_2','Plant Site: Purok San Jose, Barangay Calumangan, Bago City');
+define('JO_NAME','CENPRI');
+ 

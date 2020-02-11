@@ -258,6 +258,8 @@ class Jo extends CI_Controller {
     public function create_jo_details(){
         $jo_id = $this->input->post('jo_id');
         $total_cost = $this->input->post('quantity') * $this->input->post('unit_cost');
+            //$cost=number_format($total_cost,2);
+         //echo $this->input->post('quantity') ."*". $this->input->post('unit_cost') ." = " .  $total_cost;
         $data = array(
             'jo_id'=>$jo_id,
             'scope_of_work'=>$this->input->post('scope'),
@@ -266,6 +268,7 @@ class Jo extends CI_Controller {
             'unit_cost'=>$this->input->post('unit_cost'),
             'total_cost'=>$total_cost
         );
+        //print_r($data);
         if($this->super_model->insert_into("jo_details", $data)){
             redirect(base_url().'jo/job_order/'.$jo_id, 'refresh');
         }

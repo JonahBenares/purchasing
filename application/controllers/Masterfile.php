@@ -289,13 +289,13 @@ class Masterfile extends CI_Controller {
                    'username'=> $username,
                    'fullname'=> $fullname,
                    'logged_in'=> TRUE,
-                   'logo'=>base_url()."assets/img/logo_cenpri.png",
-                   'company_name'=>"CENTRAL NEGROS POWER RELIABILITY, INC.",
-                   'address'=>"Office: 88 Corner Rizal-Mabini Sts., Bacolod City",
-                   'tel_no'=>"Tel. No.: (034) 435-1932/476-7382",
-                   'telfax'=>"Telefax: (034) 435-1932",
-                   'address2'=>"Plant Site: Purok San Jose, Barangay Calumangan, Bago City",
-                   'jo_name'=>"CENPRI",
+                   // 'logo'=>base_url()."assets/img/logo_cenpri.png",
+                   // 'company_name'=>"CENTRAL NEGROS POWER RELIABILITY, INC.",
+                   // 'address'=>"Office: 88 Corner Rizal-Mabini Sts., Bacolod City",
+                   // 'tel_no'=>"Tel. No.: (034) 435-1932/476-7382",
+                   // 'telfax'=>"Telefax: (034) 435-1932",
+                   // 'address2'=>"Plant Site: Purok San Jose, Barangay Calumangan, Bago City",
+                   // 'jo_name'=>"CENPRI",
                 );
                 $this->session->set_userdata($newdata);
                 redirect(base_url());
