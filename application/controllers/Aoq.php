@@ -62,6 +62,7 @@ class Aoq extends CI_Controller {
             'QAR',
             'THB',
             'USD',
+            'GBP',
         );
 
         return $currency;

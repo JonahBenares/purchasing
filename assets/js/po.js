@@ -173,11 +173,13 @@ function changePrice(count){
           grandtotal += parseFloat(p);
     });
  
+    document.getElementById("orig_amount").value  =grandtotal;
      document.getElementById("grandtotal").innerHTML  =grandtotal;
 }
 
 function additionalCost(){
   var total = document.getElementById("orig_amount").value;
+//var total = document.getElementById("it_").value;
 
    var shipping = document.getElementById("shipping").value;
     var discount = document.getElementById("discount").value;
