@@ -179,9 +179,11 @@
 		}
 
 		function calculateAmount2(count){
-        
+        alert(count);
 		   var quantity = document.getElementById("quantity_"+count).value;
 		   var price = document.getElementById("price_"+count).value;
+		   alert(quantity);
+		   alert(price);
 		    var p = price.replace(",", "");
 		   
 		   var amount = parseFloat(p) * parseFloat(quantity);
@@ -340,6 +342,7 @@
 		    		<?php
 		    		$x=1; 
 		    		foreach($items AS $it){ ?>
+		    			
 		    			<input type='hidden' name='quantity_<?php echo $x; ?>' id="quantity_<?php echo $x; ?>" value='<?php echo $it->quantity; ?>'>
 		    		<tr style='border:2px solid #000'>
 		    			<td class="f10 table-borreg" align="center"><?php echo $x; ?></td>
@@ -526,7 +529,7 @@
 				    					</td>
 				    					
 				    				</tr>
-				    				<input type='hidden' name='quantity_<?php echo $a; ?>' id='quantity_<?php echo $a; ?>' value='<?php echo $of['quantity']; ?>'>
+				    				<input type='text' name='quantity_<?php echo $a; ?>' id='quantity_<?php echo $a; ?>' value='<?php echo $of['quantity']; ?>'>
 				    				<input type='hidden' name='offerid_<?php echo $a; ?>' value="<?php echo $of['aoq_offer_id']; ?>">
 				    				<?php }
 				    				$a++;

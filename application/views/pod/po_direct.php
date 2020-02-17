@@ -408,9 +408,11 @@
 							 Add Other Instruction
 							</button><br>
 							<?php } ?>
-		    				<?php foreach($tc AS $t){ ?>
-								Other Instructions: <br><span style = "color:blue;"><?php echo nl2br($t->notes);?></span>
-							<?php } ?>	
+		    				<?php foreach($tc AS $t){ 
+		    					if(!empty($t->notes)) { ?>
+								Notes: <br><span style = "color:blue;"><?php echo nl2br($t->notes);?></span>
+							<?php } 
+							} ?>	
 		    			</td>
 		    		</tr>
 		    		<tr>
