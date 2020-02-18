@@ -124,7 +124,7 @@ class Rfq extends CI_Controller {
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
         $exportfilename="RFQ.xlsx";
-        $gdImage = imagecreatefrompng($_SESSION['logo']);
+        $gdImage = imagecreatefrompng(LOGO);
         $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
         $objDrawing->setName('Sample image');
         $objDrawing->setDescription('Sample image');
@@ -136,11 +136,11 @@ class Rfq extends CI_Controller {
         $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', $_SESSION['company_name']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', $_SESSION['address']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', $_SESSION['tel_no']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', $_SESSION['telfax']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', $_SESSION['address2']);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', COMPANY_NAME);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', ADDRESS);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', TEL_NO);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', TELFAX);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', ADDRESS);
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C7', "REQUEST FOR QUOTATION");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', "Date:");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B10', "Supplier:");
