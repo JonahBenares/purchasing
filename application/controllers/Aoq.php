@@ -574,7 +574,7 @@ class Aoq extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', "OUM");
         $x=0;
         $y=1;
-        foreach($this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id) AS $items){
+        foreach($this->super_model->select_row_where_order_by("aoq_items","aoq_id",$aoq_id,"pr_details_id","ASC") AS $items){
             $pn_no = $this->get_pn($items->pr_details_id);
             if(!empty($pn_no)){
                 $itm = $items->item_description.", ".$pn_no;
@@ -954,7 +954,7 @@ class Aoq extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', "OUM");
         $x=0;
         $y=1;
-        foreach($this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id) AS $items){
+        foreach($this->super_model->select_row_where_order_by("aoq_items","aoq_id",$aoq_id,"pr_details_id","ASC") AS $items){
             $pn_no = $this->get_pn($items->pr_details_id);
             if(!empty($pn_no)){
                 $itm = $items->item_description.", ".$pn_no;
@@ -1340,7 +1340,7 @@ class Aoq extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', "OUM");
         $x=0;
         $y=1;
-        foreach($this->super_model->select_row_where("aoq_items","aoq_id",$aoq_id) AS $items){
+        foreach($this->super_model->select_row_where_order_by("aoq_items","aoq_id",$aoq_id,"pr_details_id","ASC") AS $items){
             $pn_no = $this->get_pn($items->pr_details_id);
             if(!empty($pn_no)){
                 $itm = $items->item_description.", ".$pn_no;
