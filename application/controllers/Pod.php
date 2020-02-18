@@ -914,9 +914,10 @@ class Pod extends CI_Controller {
         $x=1;
      /*   $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
         $revision_no = $max_revision+1;*/
-
+         $timestamp = date('Y-m-d');
         $data_head = array(
             'po_id'=>$po_id,
+             'po_date'=>$timestamp,
             'shipping'=>$this->input->post('shipping'),
             'discount'=>$this->input->post('discount')
         );
@@ -1079,6 +1080,7 @@ class Pod extends CI_Controller {
             if($this->super_model->insert_into("po_head_revised", $data_head)){
                 foreach($this->super_model->select_row_where("po_head_temp","po_id",$po_id) AS $headt){
                     $data_po=array(
+                        "po_date"=>$headt->po_date,
                         "shipping"=>$headt->shipping,
                         "discount"=>$headt->discount,
                        

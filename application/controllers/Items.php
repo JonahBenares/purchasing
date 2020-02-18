@@ -98,6 +98,8 @@ class Items extends CI_Controller {
                 'item_spec'=>$i->item_specs,
                 'brand_name'=>$i->brand_name,
                 'pn_no'=>$i->part_no,
+                'unit_price'=>$i->unit_price,
+                'offer_date'=>$i->offer_date
             );
         }
         $row = $this->super_model->count_rows_where("vendor_details",'item_id',$id);

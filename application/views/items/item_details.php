@@ -47,6 +47,18 @@
                                         <tr>
                                             <td><p><?php echo $i['pn_no'];?></p></td>                                            
                                         </tr>  
+                                        <tr>
+                                            <td><u><b>Unit Price:</b></u></td>
+                                        </tr>
+                                        <tr>
+                                            <td><p><?php echo $i['unit_price'];?></p></td>                                            
+                                        </tr>  
+                                        <tr>
+                                            <td><u><b>Offer Date:</b></u></td>
+                                        </tr>
+                                        <tr>
+                                            <td><p><?php echo $i['offer_date'];?></p></td>                                            
+                                        </tr>  
                                         <?php } ?>                                    
                                     </tbody>
                                 </table>

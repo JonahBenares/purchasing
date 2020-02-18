@@ -216,63 +216,63 @@ class Reports extends CI_Controller {
 
                     //echo $po_id . "<br>";
                     if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
-                        if($cancelled_items_po==0){
+                        //if($cancelled_items_po==0){
                             $status = 'Pending';
-                        }else {
+                        /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
-                        }
+                        }*/
                         $status_remarks = 'For RFQ';
                     } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                         $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
-                        if($cancelled_items_po==0){
+                         //if($cancelled_items_po==0){
                             $status = 'Pending';
-                        }else {
+                        /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
-                        }
+                        }*/
                         $status_remarks = 'Canvassing Ongoing';
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq==0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
-                        if($cancelled_items_po==0){
+                        //if($cancelled_items_po==0){
                             $status = 'Pending';
-                        }else{
+                        /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
-                        }
+                        }*/
                         $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
-                        if($cancelled_items_po==0){
+                         //if($cancelled_items_po==0){
                             $status = 'Pending';
-                        }else {
+                        /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
-                        }
+                        }*/
                         $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date));
                     } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
-                        if($cancelled_items_po==0){
+                        //if($cancelled_items_po==0){
                             $status = 'Pending';
-                        }else {
+                        /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
-                        }
+                        }*/
                         $status_remarks = 'For PO - AOQ Done (awarded)';
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
-                        if($cancelled_items_po==0){
+                        //if($cancelled_items_po==0){
                             $status = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
-                        }else {
+                        /*}else {
                             $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
-                        }   
+                        }   */
                         $status_remarks = '';
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
-                        if($cancelled_items_po==0){
+                        //if($cancelled_items_po==0){
                             $status = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
-                        }else {
+                        /*}else {
                             $statuss = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
-                        }
+                        }*/
                         $status_remarks = '';
                     } 
 
@@ -334,7 +334,7 @@ class Reports extends CI_Controller {
                 'revised_qty'=>$revised,
                 'uom'=>$pr->uom,
                 'status'=>$status,
-                'statuss'=>$statuss,
+               
                 'status_remarks'=>$status_remarks,
                 'date_needed'=>$pr->date_needed,
                 'unserved_qty'=>$unserved_qty,
