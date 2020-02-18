@@ -2119,10 +2119,12 @@ class Po extends CI_Controller {
     public function save_change_order(){
         $po_id = $this->input->post('po_id');
         $x=1;
+        $timestamp = date('Y-m-d');
      /*   $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
         $revision_no = $max_revision+1;*/
 
         $data_head = array(
+            'po_date'=>$timestamp,
             'po_id'=>$po_id,
             'shipping'=>$this->input->post('shipping'),
             'discount'=>$this->input->post('discount')
@@ -2284,12 +2286,17 @@ class Po extends CI_Controller {
             if($this->super_model->insert_into("po_head_revised", $data_head)){
                 foreach($this->super_model->select_row_where("po_head_temp","po_id",$po_id) AS $headt){
                     $data_po=array(
+                        "po_date"=>$headt->po_date,
                         "shipping"=>$headt->shipping,
                         "discount"=>$headt->discount,
                       
                     );
+
+
                 }
-                $this->super_model->update_where("po_head", $data_po, "po_id", $head->po_id);
+
+              
+                $this->super_model->update_where("po_head", $data_po, "po_id", $po_id);
             }
         }
 
