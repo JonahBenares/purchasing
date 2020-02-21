@@ -203,7 +203,14 @@
 					<p class="text-white">Instructions: When printing JOB ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;" class="<?php  if($cancelled==1){ echo 'cancel'; }?>">    		  			
+	    	<div style="background: #fff;" class="<?php  if($cancelled==1){ echo 'cancel'; }?>">  
+	    		<table width="100%">
+	    			<tr>
+	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
+	    				<td width="50%"><center>Procurement System Generated</center></td>
+	    				<td width="25%"></td>
+	    			</tr>
+	    		</table>    		  			
 		    	<table class="table-borsdered" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
@@ -231,6 +238,7 @@
 		    			<img class="img-st" width="120px" src="<?php echo base_url().LOGO;?>">
 		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
 		    		</tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TIN;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
@@ -246,6 +254,7 @@
                                     <option value="<?php echo $sup->vendor_id; ?>" <?php echo (($vendor_id == $sup->vendor_id) ? ' selected' : '');?>><?php echo $sup->vendor_name; ?></option>
                                 <?php } ?>        
                             </select>
+                            <span id='contact_person'><?php echo $contact_person; ?></span><br>
                             <span id='address'><?php echo $address; ?></span><br>
 		    				<span id='phone'><?php echo $phone; ?></span><br>
 		    				<!-- <b><?php echo $vendor; ?></b><br>

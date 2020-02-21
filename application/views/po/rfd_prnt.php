@@ -181,7 +181,7 @@
 		    		<tr>
 
 		    			<td colspan="3"><b class="nomarg">Pay To:</b></td>
-		    			<td colspan="9" class="bor-btm"><b class="nomarg"><?php echo $vendor; ?></b></td>
+		    			<td colspan="9" class="bor-btm"><b class="nomarg"><?php echo (!empty($tin)) ? $vendor." / ".$tin : $vendor; ?></b></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Date:</b></td>
 		    			<td colspan="5" class="bor-btm">
 		    				<?php if($rows_dr==0 || $saved ==0){ ?>

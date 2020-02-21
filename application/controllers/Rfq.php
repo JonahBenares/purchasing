@@ -137,10 +137,11 @@ class Rfq extends CI_Controller {
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', COMPANY_NAME);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', ADDRESS);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', TEL_NO);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', TELFAX);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', ADDRESS);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', TIN);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', ADDRESS);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', TEL_NO);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', TELFAX);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C6', ADDRESS_2);
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C7', "REQUEST FOR QUOTATION");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', "Date:");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B10', "Supplier:");
@@ -255,6 +256,7 @@ class Rfq extends CI_Controller {
         $objPHPExcel->getActiveSheet()->mergeCells('C3:H3');
         $objPHPExcel->getActiveSheet()->mergeCells('C4:H4');
         $objPHPExcel->getActiveSheet()->mergeCells('C5:H5');
+        $objPHPExcel->getActiveSheet()->mergeCells('C6:H6');
         $objPHPExcel->getActiveSheet()->mergeCells('C7:H7');
         $objPHPExcel->getActiveSheet()->mergeCells('C9:D9');
         $objPHPExcel->getActiveSheet()->mergeCells('C10:D10');
@@ -273,6 +275,7 @@ class Rfq extends CI_Controller {
         $objPHPExcel->getActiveSheet()->getStyle('C3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('C4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('C5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('C6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('C7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('C9:D9')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('C10:D10')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);

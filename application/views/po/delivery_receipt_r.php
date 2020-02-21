@@ -137,6 +137,7 @@
 		    			<td colspan="5" align="center"><img width="150px" src="<?php echo base_url().LOGO;?>"></td>
 		    			<td colspan="15"><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></td>
 		    		</tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TIN;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>

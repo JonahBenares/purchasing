@@ -180,6 +180,7 @@
 		    			<img class="img-st" width="120px" src="<?php echo base_url().LOGO;?>">
 		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
 		    		</tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TIN;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
@@ -358,7 +359,7 @@
 		    					<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
 							</button><br>
-		    				Other Instructions: <br><?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes);?></span><?php } ?>
+		    				Other Instructions: <br><?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes)."<br>";?></span><?php } ?>
 		    			</td>
 		    		</tr>
 		    		<tr>
