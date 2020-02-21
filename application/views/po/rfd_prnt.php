@@ -169,7 +169,7 @@
 		    			<?php } else {
 		    				echo $company;
 		    			} ?>
-		    			<td colspan="3" align="right"><b class="nomarg">APV No.:</b></td>
+		    			<td colspan="3" align="right"><b class="nomarg">APV/RFD No.:</b></td>
 		    			<td colspan="5" class="bor-btm">
 		    				<?php if($rows_dr==0){ ?>
 		    					<input type="text" style="width:100%" name="apv_no" autocomplete="off">

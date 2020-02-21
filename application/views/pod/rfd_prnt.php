@@ -327,15 +327,17 @@
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
-		    			<td colspan="5"><b class="nomarg">Prepared by:</b></td>
-		    			<td colspan="5"><b>Checked by:</b></td>
-		    			<td colspan="5"><b>Endorsed by:</b></td>
-		    			<td colspan="5"><b>Approved by:</b></td>
+		    			<td colspan="3"><b class="nomarg">Prepared by:</b></td>
+		    			<td colspan="3"><b>Checked by:</b></td>
+		    			<td colspan="3"><b>Noted by:</b></td>
+		    			<td colspan="3"><b>Endorsed by:</b></td>
+		    			<td colspan="3"><b>Approved by:</b></td>
+		    			<td colspan="5"><b>Payment Received by:</b></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
-		    			<td colspan="5"><b class="nomarg"><?php echo $_SESSION['fullname']; ?></b></td>
-		    			<td colspan="5">
+		    			<td colspan="3"><b class="nomarg"><?php echo $_SESSION['fullname']; ?></b></td>
+		    			<td colspan="3">
 		    			<b>
 		    				<?php if($rows_dr==0){ ?>
 		    			<select name='checked' class="select-des emphasis" required style="width:90%">
@@ -352,7 +354,27 @@
 		    			
 		    			</b>
 		    			</td>
-		    			<td colspan="5">
+
+		    				<td colspan="3">
+		    			<b>
+		    				<?php if($rows_dr==0){ ?>
+		    			<select name='noted' class="select-des emphasis"  style="width:90%">
+		    				
+			    			<option value='' selected>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+			    		</select>
+			    		<?php 	
+			    			} else { 
+			    				echo $noted; 
+			    			} ?>
+		    			
+		    			</b>
+		    			</td>
+
+
+		    			<td colspan="3">
 		    			<b>
 		    			<?php if($rows_dr==0){ ?>
 		    			<select name='endorsed' class="select-des emphasis" required style="width:90%">
@@ -367,7 +389,7 @@
 			    			} ?>
 		    			</b>
 		    			</td>
-		    			<td colspan="5">
+		    			<td colspan="3">
 		    			<b>
 		    				<?php if($rows_dr==0){ ?>
 		    			<select name='approved' class="select-des emphasis" required style="width:90%">
@@ -380,6 +402,24 @@
 			    			} else { 
 			    				echo $approved; 
 			    			} ?>
+		    			</b>
+		    			</td>
+
+		    			<td colspan="5">
+		    			<b>
+		    				<?php if($rows_dr==0){ ?>
+		    			<select name='received' class="select-des emphasis"  style="width:90%">
+		    				
+			    			<option value='' selected>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+			    		</select>
+			    		<?php 	
+			    			} else { 
+			    				echo $received; 
+			    			} ?>
+		    			
 		    			</b>
 		    			</td>
 		    		</tr>	    		
