@@ -1295,6 +1295,8 @@ class Po extends CI_Controller {
             
             $data['checked']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->checked_by);
             $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
+            $data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->noted_by);
+            $data['received']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->received_by);
             $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->approved_by);
         }
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
