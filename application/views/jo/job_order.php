@@ -171,7 +171,14 @@
 					<p class="text-white">Instructions: When printing JOB ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;">    		  			
+	    	<div style="background: #fff;">  
+	    		<table width="100%">
+	    			<tr>
+	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
+	    				<td width="50%"><center>Procurement System Generated</center></td>
+	    				<td width="25%"></td>
+	    			</tr>
+	    		</table>  		  			
 		    	<table class="table-borsdered" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
@@ -199,13 +206,17 @@
 		    			<img class="img-st" width="120px" src="<?php echo base_url().LOGO;?>">
 		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center">Office: 88 Corner Rizal-Mabini Sts., Bacolod City</td></tr>
-		    		<tr><td class="f13" colspan="20" align="center">Bacolod Office Telefax: (034) 435-1932/476-7382</td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TIN;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3" style="vertical-align:top">TO:</td>
 		    			<td class="f13" colspan="10" align="left">
 		    				<b><?php echo $vendor; ?></b><br>
+		    				<span id='contact_person'><?php echo $contact_person; ?></span><br>
 		    				<span id='address'><?php echo $address; ?></span><br>
 		    				<span id='phone'><?php echo $phone; ?></span><br>
 		    			</td>
