@@ -404,6 +404,7 @@ class Aoq extends CI_Controller {
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
+        $reviewed_by=$this->super_model->select_column_where("aoq_head", "reviewed_by", "aoq_id", $aoq_id);
         $noted_by=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
         $approved_by=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
         $prepared_id=$this->super_model->select_column_where("aoq_head", "prepared_by", "aoq_id", $aoq_id);
@@ -414,6 +415,7 @@ class Aoq extends CI_Controller {
         $data['noted']=$noted_by;
         $data['approved']=$approved_by;
         $data['prepared']=$prepared_by;
+        $data['reviewed']=$reviewed_by;
 
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $data['head'][] =  array(
@@ -497,6 +499,11 @@ class Aoq extends CI_Controller {
         
     } 
 
+    public function get_item_no($pr_details_id){
+        $item_no = $this->super_model->select_column_where("pr_details", "item_no", "pr_details_id", $pr_details_id);
+        return $item_no;
+    }
+
     public function update_aoq(){
         $count=$this->input->post('count_offer');
         for($x=1;$x<=$count;$x++){
@@ -552,15 +559,15 @@ class Aoq extends CI_Controller {
             $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
             $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $head->pr_id);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "ABSTRACT OF QUOTATION");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E2', "Department: $head->department");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E3', "Purpose: $head->purpose");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "Enduse: $head->enduse");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "Requested By: $head->requestor");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H2', "Date: ".date('F j, Y',strtotime($head->aoq_date)));
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H3', "PR#: $pr_no");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "Date Needed: ");
-            $objPHPExcel->getActiveSheet()->getStyle('F1:G1')->getFont()->setBold(true);
-            $objPHPExcel->getActiveSheet()->mergeCells('F1:G1');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B2', "Department: $head->department");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B3', "Purpose: $head->purpose");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B4', "Enduse: $head->enduse");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "Requested By: $head->requestor");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F2', "Date: ".date('F j, Y',strtotime($head->aoq_date)));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "PR#: $pr_no");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F4', "Date Needed: ");
+            $objPHPExcel->getActiveSheet()->getStyle('F1:H1')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->mergeCells('F1:H1');
         }
 
         $num1 = 8;
@@ -681,12 +688,11 @@ class Aoq extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":H".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                     $objPHPExcel->getActiveSheet()->getStyle('L'.$q.":M".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('L'.$q.":M".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+
                     $objPHPExcel->getActiveSheet()->getStyle('Q'.$q.":R".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('Q'.$q.":R".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    /*$objPHPExcel->getActiveSheet()->getStyle('R'.$q.":S".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('R'.$q.":S".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('V'.$q.":W".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('V'.$q.":W".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
+                   
+                  
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$q.":S".$q)->applyFromArray($styleArray);
                     $q++;
                 }
@@ -715,21 +721,15 @@ class Aoq extends CI_Controller {
             $num2++;
         }
 
-        /*$a = $num2+2;
-        $b = $num2+4;
-        $c = $num2+6;
-        $d = $num2+8;
-        $e = $num2+10;
-        $f = $num2+12;
-        $g = $num2+14;*/
+      
         $a = $num2+1;
         $b = $num2+2;
         $c = $num2+3;
         $d = $num2+4;
         $e = $num2+5;
-        $f = $num2+6;
-        $g = $num2+7;
-        $h = $num2+8;
+        $f = $num2+7;
+        $g = $num2+8;
+        $h = $num2+9;
         $cols = 'E';
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $rfq){
             $validity=$rfq->price_validity;
@@ -780,23 +780,36 @@ class Aoq extends CI_Controller {
             $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $head->prepared_by);
             $noted=$head->noted_by;
             $approved=$head->approved_by;
+            $reviewed=$head->reviewed_by;
 
-            $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, (empty($prepared_by)) ? $_SESSION['fullname'] : $prepared_by);
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$h, (empty($prepared_by)) ? $_SESSION['fullname'] : $prepared_by);
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$h, $reviewed);
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$h, '');
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$h, $approved);
-            $objPHPExcel->getActiveSheet()->setCellValue('K'.$h, $noted);
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$h, $approved);
+            $objPHPExcel->getActiveSheet()->setCellValue('O'.$h, $noted);
+            
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$f, "Prepared by: ");
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
 
-            $objPHPExcel->getActiveSheet()->setCellValue('E'.$f, "Prepared by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('E'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$f, "Reviewed and Checked by: ");
+            $objPHPExcel->getActiveSheet()->getStyle('D'.$g.':E'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$f.':E'.$f);
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$g.':E'.$g);
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$h.':E'.$h);
 
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$f, "Award Recommended by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('G'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('G'.$g.':I'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->mergeCells('G'.$f.':I'.$f);
+            
 
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$f, "Noted by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('I'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, "Recommending Approval: ");
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$g.':M'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->mergeCells('K'.$f.':M'.$f);
+            $objPHPExcel->getActiveSheet()->mergeCells('K'.$g.':M'.$g);
 
-            $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, "Approved by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('K'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+             $objPHPExcel->getActiveSheet()->setCellValue('O'.$f, "Approved by: ");
+            $objPHPExcel->getActiveSheet()->getStyle('O'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+
             $objPHPExcel->getActiveSheet()->getStyle('E'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $objPHPExcel->getActiveSheet()->getStyle('G'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $objPHPExcel->getActiveSheet()->getStyle('I'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -810,6 +823,44 @@ class Aoq extends CI_Controller {
             $objPHPExcel->getActiveSheet()->getStyle('I'.$h)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $objPHPExcel->getActiveSheet()->getStyle('K'.$h)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('B9:E'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('E1:E'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('J1:J'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('O1:O'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(10);
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(10);
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('R')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('R')->setWidth(10);
+    
 
         $objPHPExcel->getActiveSheet()->getStyle('A8:S8')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('A8:S8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -836,6 +887,7 @@ class Aoq extends CI_Controller {
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
+        $reviewed_by=$this->super_model->select_column_where("aoq_head", "reviewed_by", "aoq_id", $aoq_id);
         $noted_by=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
         $approved_by=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
         $prepared_id=$this->super_model->select_column_where("aoq_head", "prepared_by", "aoq_id", $aoq_id);
@@ -843,6 +895,7 @@ class Aoq extends CI_Controller {
         $data['prepared']=$prepared_by;
         $data['noted']=$noted_by;
         $data['approved']=$approved_by;
+        $data['reviewed']=$reviewed_by;
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $data['head'][] =  array(
                 'aoq_date'=>$head->aoq_date,
@@ -932,15 +985,15 @@ class Aoq extends CI_Controller {
             $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
             $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $head->pr_id);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "ABSTRACT OF QUOTATION");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E2', "Department: $head->department");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E3', "Purpose: $head->purpose");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "Enduse: $head->enduse");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "Requested By: $head->requestor");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H2', "Date: ".date('F j, Y',strtotime($head->aoq_date)));
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H3', "PR#: $pr_no");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "Date Needed: ");
-            $objPHPExcel->getActiveSheet()->getStyle('F1:G1')->getFont()->setBold(true);
-            $objPHPExcel->getActiveSheet()->mergeCells('F1:G1');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B2', "Department: $head->department");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B3', "Purpose: $head->purpose");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B4', "Enduse: $head->enduse");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "Requested By: $head->requestor");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E2', "Date: ".date('F j, Y',strtotime($head->aoq_date)));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E3', "PR#: $pr_no");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "Date Needed: ");
+            $objPHPExcel->getActiveSheet()->getStyle('F1:H1')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->mergeCells('F1:H1');
         }
 
         $num1 = 8;
@@ -1109,9 +1162,9 @@ class Aoq extends CI_Controller {
         $c = $num2+3;
         $d = $num2+4;
         $e = $num2+5;
-        $f = $num2+6;
-        $g = $num2+7;
-        $h = $num2+8;
+        $f = $num2+7;
+        $g = $num2+8;
+        $h = $num2+9;
         $cols = 'E';
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $rfq){
             $validity=$rfq->price_validity;
@@ -1167,22 +1220,35 @@ class Aoq extends CI_Controller {
             $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $head->prepared_by);
             $noted=$head->noted_by;
             $approved=$head->approved_by;
+            $reviewed=$head->reviewed_by;
 
-            $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, (empty($prepared_by)) ? $_SESSION['fullname'] : $prepared_by);
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$h, (empty($prepared_by)) ? $_SESSION['fullname'] : $prepared_by);
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$h, $reviewed);
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$h, '');
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$h, $approved);
-            $objPHPExcel->getActiveSheet()->setCellValue('K'.$h, $noted);
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$h, $approved);
+            $objPHPExcel->getActiveSheet()->setCellValue('O'.$h, $noted);
+            
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$f, "Prepared by: ");
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
 
-            $objPHPExcel->getActiveSheet()->setCellValue('E'.$f, "Prepared by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('E'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$f, "Reviewed and Checked by: ");
+            $objPHPExcel->getActiveSheet()->getStyle('D'.$g.':E'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$f.':E'.$f);
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$g.':E'.$g);
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$h.':E'.$h);
 
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$f, "Award Recommended by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('G'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('G'.$g.':I'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->mergeCells('G'.$f.':I'.$f);
+            
 
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$f, "Noted by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('I'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, "Recommending Approval: ");
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$g.':M'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->mergeCells('K'.$f.':M'.$f);
+            $objPHPExcel->getActiveSheet()->mergeCells('K'.$g.':M'.$g);
 
-            $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, "Approved by: ");
+             $objPHPExcel->getActiveSheet()->setCellValue('O'.$f, "Approved by: ");
+            $objPHPExcel->getActiveSheet()->getStyle('O'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->getStyle('K'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->getStyle('E'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $objPHPExcel->getActiveSheet()->getStyle('G'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -1197,6 +1263,56 @@ class Aoq extends CI_Controller {
             $objPHPExcel->getActiveSheet()->getStyle('I'.$h)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $objPHPExcel->getActiveSheet()->getStyle('K'.$h)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
+
+
+         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('B9:E'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('E1:E'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('J1:J'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('O1:O'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+         $objPHPExcel->getActiveSheet()->getColumnDimension('T')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('T')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('T1:T'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(10);
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(10);
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('R')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('R')->setWidth(10);
+
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('U')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('U')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('V')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('V')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('W')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('W')->setWidth(10);
 
         $objPHPExcel->getActiveSheet()->getStyle('A8:X8')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('A8:X8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -1223,6 +1339,7 @@ class Aoq extends CI_Controller {
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
         $data['awarded']=$this->super_model->select_column_where("aoq_head", "awarded", "aoq_id", $aoq_id);
 
+        $reviewed_by=$this->super_model->select_column_where("aoq_head", "reviewed_by", "aoq_id", $aoq_id);
         $noted_by=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
         $approved_by=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);
         $prepared_id=$this->super_model->select_column_where("aoq_head", "prepared_by", "aoq_id", $aoq_id);
@@ -1230,6 +1347,7 @@ class Aoq extends CI_Controller {
         $data['prepared']=$prepared_by;
         $data['noted']=$noted_by;
         $data['approved']=$approved_by;
+        $data['reviewed']=$reviewed_by;
         foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
             $data['head'][] =  array(
                 'aoq_date'=>$head->aoq_date,
@@ -1318,15 +1436,15 @@ class Aoq extends CI_Controller {
             $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
             $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $head->pr_id);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "ABSTRACT OF QUOTATION");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E2', "Department: $head->department");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E3', "Purpose: $head->purpose");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "Enduse: $head->enduse");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "Requested By: $head->requestor");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H2', "Date: ".date('F j, Y',strtotime($head->aoq_date)));
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H3', "PR#: $pr_no");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "Date Needed: ");
-            $objPHPExcel->getActiveSheet()->getStyle('F1:G1')->getFont()->setBold(true);
-            $objPHPExcel->getActiveSheet()->mergeCells('F1:G1');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B2', "Department: $head->department");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B3', "Purpose: $head->purpose");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B4', "Enduse: $head->enduse");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "Requested By: $head->requestor");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E2', "Date: ".date('F j, Y',strtotime($head->aoq_date)));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E3', "PR#: $pr_no");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "Date Needed: ");
+            $objPHPExcel->getActiveSheet()->getStyle('F1:H1')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->mergeCells('F1:H1');
         }
 
         $num1 = 8;
@@ -1514,9 +1632,9 @@ class Aoq extends CI_Controller {
         $c = $num2+3;
         $d = $num2+4;
         $e = $num2+5;
-        $f = $num2+6;
-        $g = $num2+7;
-        $h = $num2+8;
+        $f = $num2+7;
+        $g = $num2+8;
+        $h = $num2+9;
         $cols = 'E';
         foreach($this->super_model->select_row_where("aoq_vendors","aoq_id",$aoq_id) AS $rfq){
             $validity=$rfq->price_validity;
@@ -1569,24 +1687,35 @@ class Aoq extends CI_Controller {
             $requested=$head->requestor;
             $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $head->prepared_by);
             $noted=$head->noted_by;
-            $approved=$head->approved_by;
+             $reviewed=$head->reviewed_by;
 
-            $objPHPExcel->getActiveSheet()->setCellValue('E'.$h, (empty($prepared_by)) ? $_SESSION['fullname'] : $prepared_by);
-            $objPHPExcel->getActiveSheet()->setCellValue('J'.$h, '');
-            $objPHPExcel->getActiveSheet()->setCellValue('O'.$h, $approved);
-            $objPHPExcel->getActiveSheet()->setCellValue('T'.$h, $noted);
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$h, (empty($prepared_by)) ? $_SESSION['fullname'] : $prepared_by);
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$h, $reviewed);
+            $objPHPExcel->getActiveSheet()->setCellValue('G'.$h, '');
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$h, $approved);
+            $objPHPExcel->getActiveSheet()->setCellValue('O'.$h, $noted);
+            
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$f, "Prepared by: ");
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
 
-            $objPHPExcel->getActiveSheet()->setCellValue('E'.$f, "Prepared by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('E'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$f, "Reviewed and Checked by: ");
+            $objPHPExcel->getActiveSheet()->getStyle('D'.$g.':E'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$f.':E'.$f);
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$g.':E'.$g);
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$h.':E'.$h);
 
-            $objPHPExcel->getActiveSheet()->setCellValue('J'.$f, "Award Recommended by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('I'.$g.':K'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->setCellValue('G'.$f, "Award Recommended by: ");
+            $objPHPExcel->getActiveSheet()->getStyle('G'.$g.':I'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->mergeCells('G'.$f.':I'.$f);
+            
 
-            $objPHPExcel->getActiveSheet()->setCellValue('O'.$f, "Noted by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('N'.$g.':P'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, "Recommending Approval: ");
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$g.':M'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->mergeCells('K'.$f.':M'.$f);
+            $objPHPExcel->getActiveSheet()->mergeCells('K'.$g.':M'.$g);
 
-            $objPHPExcel->getActiveSheet()->setCellValue('T'.$f, "Approved by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('S'.$g.":U".$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+             $objPHPExcel->getActiveSheet()->setCellValue('O'.$f, "Approved by: ");
+            $objPHPExcel->getActiveSheet()->getStyle('O'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->getStyle('E'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $objPHPExcel->getActiveSheet()->getStyle('J'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $objPHPExcel->getActiveSheet()->getStyle('O'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -1600,6 +1729,68 @@ class Aoq extends CI_Controller {
             $objPHPExcel->getActiveSheet()->getStyle('O'.$h)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $objPHPExcel->getActiveSheet()->getStyle('T'.$h)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
+
+         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('B9:E'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('E1:E'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('J1:J'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('O1:O'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+
+         $objPHPExcel->getActiveSheet()->getColumnDimension('T')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('T')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('T1:T'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
+
+         $objPHPExcel->getActiveSheet()->getColumnDimension('Y')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('Y')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getStyle('Y1:Y'.$objPHPExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);  
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(10);
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(10);
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('R')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('R')->setWidth(10);
+
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('U')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('U')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('V')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('V')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('W')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('W')->setWidth(10);
+
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('Z')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('Z')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('AA')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('AA')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('AB')->setAutoSize(false);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('AB')->setWidth(10);
+
 
         $objPHPExcel->getActiveSheet()->getStyle('A8:AC8')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('A8:AC8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -1740,6 +1931,7 @@ class Aoq extends CI_Controller {
 
         $head = array(
             'prepared_by'=>$_SESSION['user_id'],
+            'reviewed_by'=>$this->input->post('reviewed'),
             'noted_by'=>$this->input->post('noted'),
             'approved_by'=>$this->input->post('approved'),
             'aoq_date'=>$aoq_date,

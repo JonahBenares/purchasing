@@ -740,6 +740,8 @@ class Pod extends CI_Controller {
             $data['checked']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->checked_by);
             $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
             $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->approved_by);
+            $data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->noted_by);
+            $data['received']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->received_by);
         }
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('pod/rfd_prnt',$data);
@@ -768,6 +770,8 @@ class Pod extends CI_Controller {
             'checked_by'=>$this->input->post('checked'),
             'endorsed_by'=>$this->input->post('endorsed'),
             'approved_by'=>$this->input->post('approved'),
+            'noted_by'=>$this->input->post('noted'),
+            'received_by'=>$this->input->post('received'),
             'user_id'=>$_SESSION['user_id'],
             'saved'=>1
         );

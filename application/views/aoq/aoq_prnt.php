@@ -345,7 +345,7 @@
 		    			
 		    			<input type='hidden' name='quantity_<?php echo $x; ?>' id="quantity_<?php echo $x; ?>" value='<?php echo $it->quantity; ?>'>
 		    		<tr style='border:2px solid #000'>
-		    			<td class="f10 table-borreg" align="center"><?php echo $x; ?></td>
+		    			<td class="f10 table-borreg" align="center"><?php echo $CI->get_item_no($it->pr_details_id); ?></td>
 		    			<td class="f10 table-borreg" align="left" colspan="2"><?php echo (!empty($CI->get_pn($it->pr_details_id))) ? $it->item_description.", ".$CI->get_pn($it->pr_details_id) : $it->item_description; ?></td>
 		    			<td class="f10 table-borreg" align="center"><?php echo $it->quantity; ?></td>
 		    			<td class="f10 table-borreg" align="center"><?php echo $it->uom; ?></td>
@@ -725,11 +725,13 @@
 		    		<tr><td class="f10" colspan="21" align="center"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"  class="" align="center"></td>
-		    			<td colspan="4" class="f10" align="center">Prepared by:</td>
+		    			<td colspan="3" class="f10" align="center">Prepared by:</td>
+		    			<td colspan="1" class="f10" align="left"><br></td>
+		    			<td colspan="2" class="f10" align="center"><br>Reviewed and Checked by</td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="3" class="f10" align="center">Award Recommended by:</td>
+		    			<td colspan="2" class="f10" align="center">Award Recommended by:</td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="3" class="f10" align="center">Recommending Approval:</td>
+		    			<td colspan="2" class="f10" align="center">Recommending Approval:</td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="3" class="f10" align="center">Approved by:</td>
 		    			<td colspan="1"  class="" align="center"></td>
@@ -737,19 +739,23 @@
 		    		<tr><td class="f10" colspan="21" align="center"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"  class="" align="center"></td>
-		    			<td colspan="4" class="f10 bor-btm" align="center"><?php echo (empty($prepared)) ? $_SESSION['fullname'] : $prepared; ?></td>
+		    			<td colspan="3" class="f10 bor-btm" align="center"><?php echo (empty($prepared)) ? $_SESSION['fullname'] : $prepared; ?></td>
+		    			<td colspan="1" class="f10" align="left"><br></td>
+		    			<td colspan="2" class="f10  bor-btm" align="left">
+		    			<?php if($saved==0){ ?>
+		    				<input type = "text" name='reviewed' class='emphasis btn-block'>
+		    		
+		    			<?php } else {
+		    				echo $reviewed;
+		    			} ?></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="3" class="f10 bor-btm" align="center"></td>
+		    			<td colspan="2" class="f10 bor-btm" align="center"></td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
-		    			<td colspan="3" class="f10 bor-btm" align="center">
+
+		    			<td colspan="2" class="f10 bor-btm" align="center">
 		    			<?php if($saved==0){ ?>
 		    				<input type = "text" name='approved' class='emphasis btn-block'>
-		    			<!-- <select name='approved' class='emphasis btn-block'>
-			    			<option value=''>-Select-</option>
-			    			<?php foreach($employee AS $emp){ ?>
-			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-			    			<?php } ?>
-		    			</select> -->
+		    		
 		    			<?php } else {
 		    				echo $approved;
 		    			} ?>
@@ -758,12 +764,7 @@
 		    			<td colspan="3" class="f10 bor-btm" align="center">
 		    			<?php if($saved==0){ ?>
 		    				<input type = "text" name='noted' class='emphasis btn-block'>
-		    				<!-- <select name='noted' class='emphasis btn-block'>
-				    			<option value=''>-Select-</option>
-				    			<?php foreach($employee AS $emp){ ?>
-				    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-				    			<?php } ?>
-			    			</select> -->
+		    				
 		    			<?php } else {
 		    				echo $noted;
 		    			} ?>
