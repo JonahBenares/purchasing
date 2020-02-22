@@ -489,6 +489,39 @@ class Jo extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function job_coc(){  
+        $jo_id = $this->uri->segment(3);
+        $data['jo_id'] = $jo_id;
+        $this->load->view('template/header');
+        foreach($this->super_model->select_row_where("jo_head", "jo_id", $jo_id) AS $head){
+            $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id);
+            $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
+            $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $head->vendor_id);
+            $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id);
+            $data['cenjo_no']= $head->cenpri_jo_no;
+            $data['jo_no']= $head->jo_no;
+            $data['project_title']= $head->project_title;
+            $data['date_prepared']= $head->date_prepared;
+            $data['date_needed']= $head->date_needed;
+            $data['start_of_work']= $head->start_of_work;
+            $data['work_completion']= $head->work_completion;
+            $data['discount_percent']= $head->discount_percent;
+            $data['discount_amount']= $head->discount_amount;
+            $data['total_cost']= $head->total_cost;
+            $data['grand_total']= $head->grand_total;
+            $data['conforme']= $head->conforme;
+            $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
+            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
+            $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->prepared_by);
+            $data['cancelled']=$head->cancelled;
+        }   
+
+        $data['details'] = $this->super_model->select_row_where("jo_details", "jo_id", $jo_id);
+        $data['terms'] = $this->super_model->select_row_where("jo_terms", "jo_id", $jo_id);
+        $this->load->view('jo/job_coc',$data);
+        $this->load->view('template/footer');
+    }
+
     public function save_change_order(){
         $jo_id = $this->input->post('jo_id');
         foreach($this->super_model->select_row_where("jo_head","jo_id",$jo_id) AS $johead){

@@ -338,7 +338,14 @@
 							 Add Other Instruction
 							</button><br>
 		    				<?php foreach($tc AS $t){ ?>
-								<span style = "color:blue;"><?php echo nl2br($t->notes)."<br>";?></span>
+								<p style = "color:blue;"><?php echo nl2br($t->notes);?> 
+									<a class='btn btn-primary btn-xs' id = "edits" data-toggle='modal' data-target='#EditIns' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
+				    					<span class = 'fa fa-edit'></span>
+				    				</a>
+				    				<a href="<?php echo base_url(); ?>index.php/po/delete_inst/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>" class="btn btn-custon-three btn-danger btn-xs" onclick="confirmationDelete(this);return false;">
+	                                    <span class="fa fa-times"></span>
+	                                </a>
+			    				</p>
 							<?php } ?>	
 		    			</td>
 		    		</tr>
@@ -540,6 +547,35 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="modal fade" id="EditIns" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Other Instructions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>po/update_notes">
+						<div class="modal-body">
+							<div class="form-group">
+								Other Instructions:
+								<textarea class="form-control" rows="5" name = "notes" id="notes"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+							<input type='hidden' name='tc_id' id = "tc1_id">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
 		<div class="modal fade" id="otherins" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">

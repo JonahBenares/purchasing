@@ -145,6 +145,14 @@ $(document).on("click", "#updateTermRep", function () {
   
 });
 
+$(document).on("click", "#edits", function () {
+    var tc_id = $(this).attr("data-id");
+    var notes = $(this).attr("data-name");
+    $("#tc1_id").val(tc_id);
+    $("#notes").val(notes);
+  
+});
+
 
 function addItemPo(baseurl,pr) {
     window.open(baseurl+"index.php/po/add_itempo/"+pr, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=800,height=500");

@@ -465,6 +465,46 @@ class Po extends CI_Controller {
         }
     }
 
+    public function update_notes(){
+        $po_id = $this->input->post('po_id');
+        $tc_id = $this->input->post('tc_id');
+        $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
+        $saved = $this->super_model->select_column_where("po_head", "saved", "po_id", $po_id);
+        $update = array(
+            'notes'=>$this->input->post('notes'),
+        ); 
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
+            if($saved==0 && $draft==0){
+                redirect(base_url().'po/purchase_order/'.$po_id, 'refresh');
+            } else if($saved!=0){
+                redirect(base_url().'po/purchase_order_saved/'.$po_id, 'refresh');
+            }else if($draft==1){
+                redirect(base_url().'po/purchase_order_draft/'.$po_id, 'refresh');
+            }
+            //redirect(base_url().'po/purchase_order/'.$po_id);
+        }
+    }
+
+    public function delete_inst(){
+        $id=$this->uri->segment(3);
+        $po_id=$this->uri->segment(4);
+        $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
+        $saved = $this->super_model->select_column_where("po_head", "saved", "po_id", $po_id);
+        if($this->super_model->delete_where('po_tc', 'po_tc_id', $id)){
+            if($saved==0 && $draft==0){
+                echo "<script>alert('Succesfully Deleted');</script>";
+                redirect(base_url().'po/purchase_order/'.$po_id, 'refresh');
+            }else if($saved!=0){
+                echo "<script>alert('Succesfully Deleted');</script>";
+                redirect(base_url().'po/purchase_order_saved/'.$po_id, 'refresh');
+            }else if($draft==1){
+                echo "<script>alert('Succesfully Deleted');</script>";
+                redirect(base_url().'po/purchase_order_draft/'.$po_id, 'refresh');
+            }
+
+        }
+    }
+
     public function save_po(){
         $submit = $this->input->post('submit');
         $po_id = $this->input->post('po_id');
@@ -2169,7 +2209,7 @@ class Po extends CI_Controller {
             );
             if($this->super_model->insert_into("po_tc_temp", $data_tci)){
                 $data_notes = array(
-                    "notes"=>$this->input->post('notes'),
+                    "notes"=>$this->input->post('notes'.$y),
                 );
                 $this->super_model->update_where("po_tc_temp", $data_notes, "po_tc_id", $potc->po_tc_id);
             }
