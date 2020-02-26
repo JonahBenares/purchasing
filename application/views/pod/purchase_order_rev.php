@@ -467,7 +467,7 @@
 								<?php foreach($tc AS $t){ if(!empty($t->notes)){ ?>
 									<textarea type = "text" style='color:blue;width:92%' rows = '1' class="form-control" name = "notes"><?php echo $t->notes; ?></textarea><!-- <span style = "color:blue;"><?php echo $t->notes;?></span> --><?php } } ?>
 							<?php }else{ ?>
-								Other Instructions:<br><?php //foreach($tc_temp AS $t){ ?><span style = "color:blue;"><?php echo nl2br($tc_notes);?></span><?php //} ?>
+								Other Instructions:<br><?php foreach($tc_temp AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes)."<br>";?></span><?php } ?>
 
 							<?php } ?>
 		    		</td></tr>

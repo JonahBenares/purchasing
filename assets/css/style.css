@@ -5931,10 +5931,10 @@ ul.b {
   list-style-type: square;
 }
 .img-st{
-	position:absolute;left:260px;top:100px;z-index: 99
+	position:absolute;left:300px;top:90px;z-index: 99;width: 100px
 }
 @media print{
 	.img-st{
-		position:absolute;left:15px;top:30px;z-index: 99
+		position:absolute;left:30px;top:10px;z-index: 99;width: 100px
 	}
 }
