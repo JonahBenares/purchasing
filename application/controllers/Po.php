@@ -1464,6 +1464,15 @@ class Po extends CI_Controller {
                 'orig_pono'=>$orig_po
 
             );
+
+            foreach($this->super_model->select_row_where("po_pr", "po_id", $items->source_poid) AS $poprs){
+                $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'aoq_vendors_id', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+                $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+                $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+                $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+                $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+                $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+            }
         }
 
         foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $popr){
@@ -1476,13 +1485,6 @@ class Po extends CI_Controller {
                 'purpose'=>$popr->purpose,
                 'notes'=>$popr->notes,
             );
-
-            $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'aoq_vendors_id', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
-            $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
-            $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
-            $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
-            $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
-            $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
         }
         $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
         $this->load->view('template/header');        
@@ -1560,6 +1562,14 @@ class Po extends CI_Controller {
                 'orig_pono'=>$orig_po
 
             );
+            foreach($this->super_model->select_row_where("po_pr", "po_id", $items->source_poid) AS $poprs){
+                $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('aoq_vendors', 'aoq_vendors_id', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+                $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+                $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+                $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+                $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+                $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$poprs->aoq_id' AND vendor_id='$vendor_id'");
+            }
         }
 
         foreach($this->super_model->select_row_where("po_pr", "po_id", $po_id) AS $popr){
@@ -1573,11 +1583,11 @@ class Po extends CI_Controller {
                 'notes'=>$popr->notes,
             );
 
-            $data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+            /*$data['price_validity'] = $this->super_model->select_column_custom_where('aoq_vendors', 'price_validity', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
             $data['payment_terms']= $this->super_model->select_column_custom_where('aoq_vendors', 'payment_terms', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
             $data['item_warranty']= $this->super_model->select_column_custom_where('aoq_vendors', 'item_warranty', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
             $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
-            $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");
+            $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id'");*/
         }
         $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
         $this->load->view('template/header');        
@@ -1596,7 +1606,22 @@ class Po extends CI_Controller {
         ); 
         if($this->super_model->update_where("aoq_vendors", $update, "aoq_vendors_id",$aoq_vendors_id)){
             
-            redirect(base_url().'po/purchase_order_saved/'.$po_id);
+            redirect(base_url().'po/reporder_prnt/'.$po_id);
+        }
+    }
+
+    public function update_terms__reporderdraft(){
+        $po_id = $this->input->post('po_id');
+        $aoq_vendors_id = $this->input->post('aoq_vendors_id');
+        $update = array(
+            'payment_terms'=>$this->input->post('payments'),
+            'delivery_date'=>$this->input->post('del_itm'),
+            'item_warranty'=>$this->input->post('item_war'),
+            'freight'=>$this->input->post('freigh'),
+        ); 
+        if($this->super_model->update_where("aoq_vendors", $update, "aoq_vendors_id",$aoq_vendors_id)){
+            
+            redirect(base_url().'po/reporder_prnt_draft/'.$po_id);
         }
     }
 

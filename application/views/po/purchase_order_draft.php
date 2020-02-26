@@ -362,12 +362,14 @@
 		    				Other Instructions: <br>
 		    				<?php foreach($tc AS $t){ ?>
 	    						<p style = "color:blue;"><?php echo nl2br($t->notes);?> 
-		    						<a class='btn btn-primary btn-xs' id = "edits" data-toggle='modal' data-target='#EditIns' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
-				    					<span class = 'fa fa-edit'></span>
-				    				</a>
-				    				<a href="<?php echo base_url(); ?>index.php/po/delete_inst/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>" class="btn btn-custon-three btn-danger btn-xs" onclick="confirmationDelete(this);return false;">
-	                                    <span class="fa fa-times"></span>
-	                                </a>
+	    							<?php if(!empty($t->notes)){ ?>
+			    						<a class='btn btn-primary btn-xs' id = "edits" data-toggle='modal' data-target='#EditIns' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
+					    					<span class = 'fa fa-edit'></span>
+					    				</a>
+					    				<a href="<?php echo base_url(); ?>index.php/po/delete_inst/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>" class="btn btn-custon-three btn-danger btn-xs" onclick="confirmationDelete(this);return false;">
+		                                    <span class="fa fa-times"></span>
+		                                </a>
+	                            	<?php } ?>
                             	</p>
 		    				<?php } ?>
 		    			</td>

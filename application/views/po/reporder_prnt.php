@@ -360,8 +360,8 @@
 					    			<td colspan="12" class="bor-right" align="left">
 					    				<b>
 					    				<!-- 	<p class="f12 nomarg">Notes: <?php echo $pr['notes']?></p> -->
-					    					<p class="f12 nomarg">Purpose: <?php echo $pr['purpose']?></p>
 					    					<p class="f12 nomarg">End Use: <?php echo $pr['enduse']?></p>
+					    					<p class="f12 nomarg">Purpose: <?php echo $pr['purpose']?></p>
 					    					<p class="f12 nomarg">Requestor: <?php echo $pr['requestor']?></p>
 					    					<p class="f12 nomarg">PR No: <?php echo $pr_no; ?></p>
 						    			</b>
