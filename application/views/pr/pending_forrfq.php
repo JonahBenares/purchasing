@@ -122,7 +122,7 @@
                         <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control" >
                         <br>
                         Vendor:
-                        <select class="form-control" name = "vendor">
+                        <select class="form-control selectpicker" name = "vendor" data-show-subtext="true" data-live-search="true">
                             <option value = ''>--Select Supplier--</option>
                             <?php foreach($supplier AS $sup){ ?>
                             <option value = "<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
@@ -155,7 +155,7 @@
                         <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control">
                         <br>
                         Vendor:
-                        <select class="form-control" name = "supplier">
+                        <select class="form-control selectpicker" name = "supplier" data-show-subtext="true" data-live-search="true">
                             <option value = ''>--Select Supplier--</option>
                             <?php foreach($supplier AS $sup){ ?>
                             <option value = "<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>

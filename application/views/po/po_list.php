@@ -1,4 +1,6 @@
     <script src="<?php echo base_url(); ?>assets/js/po.js"></script> 
+    <link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
+    <script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
     <script type="text/javascript">
         function Change() {
             if((document.getElementById('check').checked)) {
@@ -87,7 +89,7 @@
                         </div> -->
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
-                            <select name="supplier" id='supplierrep' onchange="chooseSupplierrep()" class="form-control">
+                            <select name="supplier" id='supplierrep' onchange="chooseSupplierrep()" class="form-control selectpicker" data-show-subtext="true" data-live-search="true">
                                 <option value='' selected>-Choose Supplier/Vendor-</option>
                                   <?php foreach($vendor AS $sup){ ?>
                                     <option value="<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
@@ -145,7 +147,7 @@
                         </div> -->
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
-                            <select name="vendor" id='supplier' onchange="chooseSupplierPR()" class="form-control">
+                            <select name="vendor" id='supplier' onchange="chooseSupplierPR()" class="form-control selectpicker" data-live-search="true">
                             <option value='' selected>-Choose Supplier/Vendor-</option>
                              <?php foreach($vendor AS $ven){ ?>
                                 <option value='<?php echo $ven->vendor_id; ?>'><?php echo $ven->vendor_name; ?></option>
@@ -155,7 +157,7 @@
                         <div id="show_hide">
                             <div class="form-group">
                                 <p class="m-b-0">PR No.:</p>
-                                <select name="prno" id='prno' onchange="choosePR()" class="form-control">
+                                <select name="prno" id='prno' onchange="choosePR()" style = 'width:100%;' class="form-control select2">
                                </select>
                             </div>
                             <div class="form-group">
@@ -372,4 +374,7 @@
             </form>
         </div>
     </div>
+    <script>
+        $('.select2').select2();
+    </script>
     <!-- Data table area End-->
