@@ -103,6 +103,13 @@
 				</center>
 			</div>
 	    	<div style="background: #fff;" class="<?php if($cancelled==1){ echo 'cancel'; } ?>"> <!-- add class cancel -->
+	    		<table width="100%">
+	    			<tr>
+	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
+	    				<td width="50%"><center>Procurement System Generated</center></td>
+	    				<td width="25%"></td>
+	    			</tr>
+	    		</table>	
 		    	<table class="table-bordsered" width="100%" style="border:1px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
@@ -127,15 +134,22 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<img class="img-st" width="120px" src="<?php echo base_url().LOGO;?>">
-		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
+		    			<td colspan="20">
+		    				<center>
+			    				<h4 class="company-st" >
+				    				<img class="logo-st" width="120px" src="<?php echo base_url().LOGO;?>">
+				    				<b><?php echo COMPANY_NAME;?></b>
+				    			</h4>
+			    				<div  class="det-st">
+			    					<?php echo ADDRESS;?><br>
+			    					<?php echo ADDRESS_2;?><br>
+			    					<?php echo TIN;?><br>
+			    					<?php echo TEL_NO;?><br>
+			    					<?php echo TELFAX;?><br>
+			    				</div>
+			    			</center>
+		    			</td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TIN;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr><td colspan="20" align="center"><h5><b class="text-red">DELIVERY RECEIPT</b></h5></td></tr>
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
 		    		<?php foreach($head AS $h){ ?>
