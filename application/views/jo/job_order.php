@@ -296,20 +296,33 @@
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Total Cost:</td>
+		    						<td colspan='2'>Amount:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost; ?>" readonly="readonly"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td>Less:</td>
-		    						<td><input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent' onblur='changePrice()'></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' readonly="readonly"></td>
+		    						<td>VAT %:</td>
+		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td>Net</td>
+		    						<td colspan='2'>Subtotal:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td>Less Discount:</td>
+		    						<td><!-- <input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent'> --></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount'  onblur='changePrice()'></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td>GRAND TOTAL:</td>
 		    						<td></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="<?php echo $sum_cost; ?>" readonly="readonly"></td>
 		    					</tr>
@@ -359,29 +372,33 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="5" align="center">Prepared by:</td>
+		    			<td class="f13 " colspan="4" align="center">Prepared by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="6" align="center">Checked by:</td>
+		    			<td class="f13" colspan="4" align="center">Reviewed/Checked by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="5" align="center">Approved by:</td>
+		    			<td class="f13 " colspan="4" align="center">Recommended by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>   
-		    		<tr>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="5" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 bor-btm" colspan="6" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="5" align="center"><br></td>
+		    			<td class="f13 " colspan="4" align="center">Approved by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="5" align="center">
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13 bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    		</tr>   
+		    		<tr>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center">
 		    				<?php echo $prepared; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="6" align="center">
+		    			<td class="f13" colspan="4" align="center">
 		    				<select type="text" name="checked_by" class="btn-block">
 		    					<option value=''>-Select-</option>
 		    					 <?php foreach($employee AS $emp){ ?>
@@ -390,7 +407,17 @@
 		    				</select>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="5" align="center">
+		    			<td class="f13" colspan="4" align="center">
+		    				<select type="text" name="recommended_by" class="btn-block">
+		    					<option value=''>-Select-</option>
+		    					 <?php foreach($employee AS $emp){ ?>
+                                    <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+								<?php } ?> 
+		    				</select>
+		    			</td>
+
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="3" align="center">
 		    				<select type="text" name="approved_by" class="btn-block">
 		    					<option value=''>-Select-</option>
 		    					 <?php foreach($employee AS $emp){ ?>
@@ -400,7 +427,7 @@
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>  
-		    		<tr>
+		    		<!-- <tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Purchasing Department</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -408,7 +435,7 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>   	
+		    		</tr>   	 -->
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>    	
 		    	</table>		    
 	    	</div>
