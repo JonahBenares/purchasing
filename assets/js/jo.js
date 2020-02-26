@@ -44,13 +44,20 @@ function changePrice(){
    var qty = document.getElementById("quantity").value;*/
    var sum_cost =document.getElementById("sum_cost").value;
 
+    var vat_percent = document.getElementById("vat_percent").value;
+    var vat = vat_percent/100;
+    var vat_amount = parseFloat(sum_cost) * parseFloat(vat);
+    document.getElementById("vat_amount").value  =vat_amount;
+     var subtotal = parseFloat(sum_cost) + parseFloat(vat_amount);
+       document.getElementById("subtotal").value  =subtotal;
 
-  var less_percent = document.getElementById("less_percent").value;
-   var less = less_percent/100;
-   var less_amount = parseFloat(sum_cost) * parseFloat(less);
+  /*var less_percent = document.getElementById("less_percent").value;
+   var less = less_percent/100;*/
+   var less =document.getElementById("less_amount").value;
+   /*var less_amount = parseFloat(subtotal) - parseFloat(less);*/
 
-   var net =  parseFloat(sum_cost) - parseFloat(less_amount);
-   document.getElementById("less_amount").value  =less_amount.toFixed(2);
+   var net =  parseFloat(subtotal) - parseFloat(less);
+   /*document.getElementById("less_amount").value  =less.toFixed(2);*/
    document.getElementById("net").value  =net;
 
 
