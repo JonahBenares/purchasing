@@ -49,3 +49,11 @@ $(document).on("click", "#updateTerm", function () {
     $("#terms").val(terms);
   
 });
+
+$(document).on("click", "#edits", function () {
+    var tc_id = $(this).attr("data-id");
+    var notes = $(this).attr("data-name");
+    $("#tc1_id").val(tc_id);
+    $("#notes").val(notes);
+  
+});

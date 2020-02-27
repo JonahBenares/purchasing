@@ -52,7 +52,7 @@
 			.pad{
         	padding:0px 0px 0px 0px
         	}
-			#prnt_btn,#item-btn,#pr-btn,#updateTerm{
+			.prnt,#prnt_btn,#item-btn,#pr-btn,#updateTerm{
 				display: none;
 			}
 			.emphasis{
@@ -342,7 +342,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+		    				<button type="button" class="btn btn-primary btn-xs prnt" data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
 							</button><br>
 		    				<?php foreach($tc AS $t){ ?>
@@ -361,7 +361,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
+		    				<button type="button" class="btn btn-primary btn-xs prnt" data-toggle="modal" data-target="#exampleModal">
 							 Add Terms & Conditions
 							</button>
 							<?php $x=3; ?>
@@ -397,7 +397,7 @@
 		    						if(!empty($t->tc_desc)){
 			    						echo $x.". " . $t->tc_desc;
 			    				?>
-			    				<a class='btn btn-primary btn-xs' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+			    				<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
 			    					<span class = 'fa fa-edit'></span>
 			    				</a>
 			    				<br>
