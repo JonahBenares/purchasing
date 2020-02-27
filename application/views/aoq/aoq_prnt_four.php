@@ -224,7 +224,7 @@
     		<div id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="<?php echo base_url(); ?>aoq/aoq_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+						<a onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
 						<?php if($saved==1 && $open==0){ ?>
 						<a href='<?php echo base_url(); ?>aoq/open_aoq_before/<?php echo $aoq_id; ?>' class="btn btn-info btn-md p-l-100 p-r-100">Open AOQ</a>
 						<!-- <input type='submit' class="btn btn-info btn-md p-l-100 p-r-100" value='Done'> -->
