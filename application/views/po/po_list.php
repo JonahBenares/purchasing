@@ -322,6 +322,10 @@
                                                         <a href="<?php echo base_url(); ?>pod/po_direct/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>
                                                         </a>
+                                                        <?php }else if($head['saved']==0 && $head['draft']==1  && $head['po_type']==1){ ?>
+                                                        <a href="<?php echo base_url(); ?>pod/po_direct_draft/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                            <span class="fa fa-eye"></span>
+                                                        </a>
                                                           <?php } else if($head['saved']==0 && $head['draft']==0  && $head['po_type']==2){ ?>
                                                         <a href="<?php echo base_url(); ?>po/reporder_prnt/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                             <span class="fa fa-eye"></span>

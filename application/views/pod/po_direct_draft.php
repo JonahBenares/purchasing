@@ -49,7 +49,7 @@
 			.pad{
         	padding:0px 0px 0px 0px
         	}
-			#prnt_btn,#item-btn,#pr-btn{
+			.prnt,#prnt_btn,#item-btn,#pr-btn{
 				display: none;
 			}
 			.emphasis{
@@ -338,17 +338,32 @@
 		    		<tr>		    			
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<?php if($saved==0){ ?>
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+		    				<button type="button" class="btn btn-primary btn-xs prnt" data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
 							</button><br>
 							<?php } ?>
-		    				Other Instructions: <br><?php foreach($tc AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes);?></span><?php } ?>
+		    				Other Instructions: 
+		    				<?php 
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->notes)) { 
+		    				?>
+		    					<p style = "color:blue;"><?php echo nl2br($t->notes);?>
+		    						<?php if(!empty($t->notes)){ ?>
+										<a class='btn btn-primary btn-xs prnt' id = "edits" data-toggle='modal' data-target='#EditIns' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
+					    					<span class = 'fa fa-edit'></span>
+					    				</a>
+					    				<a href="<?php echo base_url(); ?>index.php/pod/delete_inst/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>" class="btn btn-custon-three btn-danger btn-xs" id = "prnt_btn" onclick="confirmationDelete(this);return false;">
+		                                    <span class="fa fa-times"></span>
+		                                </a>
+	                            	<?php } ?>
+		    					</p>
+		    				<?php } } ?>
 		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<?php if($saved==0){ ?>
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
+		    				<button type="button" class="btn btn-primary btn-xs prnt" data-toggle="modal" data-target="#exampleModal">
 							 Add Terms & Conditions:
 							</button>
 							<?php } ?>
@@ -363,7 +378,7 @@
 			    						echo $no.". " . $t->tc_desc;
 			    						$no++; 
 			    			?>
-			    			<a class='btn btn-primary btn-xs' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+			    			<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
 		    					<span class = 'fa fa-edit'></span>
 		    				</a><br>
 			    			<?php } } ?>	  	
@@ -498,6 +513,63 @@
 			</div>
 		</div>
     </div>
+    <div class="modal fade" id="otherins" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add Other Instructions
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</h5>						
+				</div>
+				<form method="POST" action="<?php echo base_url(); ?>pod/add_notes">
+					<div class="modal-body">
+						<div class="form-group">
+							Other Instructions:
+							<textarea class="form-control" rows="5" name = "notes"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+						<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+						<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
+						<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="EditIns" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Other Instructions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>pod/update_notes">
+						<div class="modal-body">
+							<div class="form-group">
+								Other Instructions:
+								<textarea class="form-control" rows="5" name = "notes" id="notes"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+							<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+							<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
+							<input type='hidden' name='tc_id' id = "tc1_id">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
     <div class="modal fade" id="UpdateTerms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">

@@ -363,10 +363,21 @@
 		    				<i></i>
 		    			</td>
 		    		</tr>
+		    		<tr>		    			
+		    			<td colspan="20" style="padding: 10px!important">
+		    				Other Instructions: 
+		    				<?php 
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->notes)) { 
+		    				?>
+		    					<p style = "color:blue;"><?php echo nl2br($t->notes);?></p>
+		    				<?php } } ?>
+		    			</td>
+		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<?php if($draft==0){ ?>
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
+		    				<button type="button" class="btn btn-primary btn-xs " id = "prnt_btn" data-toggle="modal" data-target="#exampleModal">
 							 Add Terms & Conditions:
 							</button>
 							<?php } ?>
@@ -377,7 +388,9 @@
 		    				<?php 
 		    					$no=4;
 			    				foreach($tc AS $t){ 
-			    					echo $no.". " . $t->tc_desc."<br>";
+			    					if(!empty($t->tc_desc)){
+			    						echo $no.". " . $t->tc_desc."<br>";
+			    					}
 			    					$no++; 
 			    				} 
 		    				?>	  	
