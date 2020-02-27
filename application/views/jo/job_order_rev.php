@@ -182,6 +182,7 @@
 			</div>
 		</div>
 	</div>
+<body onload="changePrice()">
     <div  class="pad">
     	<form method='POST' action='<?php echo base_url(); ?>jo/save_change_order'>  
     		<div  id="prnt_btn">
@@ -235,14 +236,22 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<img class="img-st" width="120px" src="<?php echo base_url().LOGO;?>">
-		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
+		    			<td colspan="20">
+		    				<center>
+			    				<h4 class="company-st" >
+				    				<img class="logo-st" width="120px" src="<?php echo base_url().LOGO;?>">
+				    				<b><?php echo COMPANY_NAME;?></b>
+				    			</h4>
+			    				<div  class="det-st">
+			    					<?php echo ADDRESS;?><br>
+			    					<?php echo ADDRESS_2;?><br>
+			    					<?php echo TIN;?><br>
+			    					<?php echo TEL_NO;?><br>
+			    					<?php echo TELFAX;?><br>
+			    				</div>
+			    			</center>
+		    			</td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TIN;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4><small class="text-red">CHANGE ORDER FORM</small></td></tr>
 		    		<?php if($revised==0){ ?>
 		    		<tr>
@@ -398,14 +407,60 @@
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
+		    						<td class="
+		    						<tr>
+		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
+		    						<td class="f13" align="center"></td>
+		    						<td class="f13" align="center"></td>
+		    						<td class="f13" align="center"></td>
+		    					</tr>
+		    					<?php $sum_cost = array_sum($gtotal2);
+		    					$subtotal= $sum_cost + $vat_amount; ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>Amount:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost; ?>" readonly="readonly"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td>Less:</td>
-		    						<td><?php echo $discount_percent; ?>%</td>
-		    						<td align="right"><?php echo $discount_amount; ?></td>
+		    						<td>VAT %:</td>
+		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo number_format($vat_percent); ?>"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_amount; ?>"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>Subtotal:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" value="<?php echo $subtotal; ;?>"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>Less Discount:</td>
+		    						
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount_amount; ?>" onblur='changePrice()'></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>GRAND TOTAL:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="<?php echo $grand_total; ?>" readonly="readonly"></td>
+		    					</tr>
+		    				
+		    					<!-- <tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'><?php echo number_format($vat_percent) . "% VAT" ?>:</td>
+		    						<td align="right"><?php echo number_format($vat_amount,2); ?></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>Less Discount:</td>
+		    						<td align="right"><?php echo number_format($discount_amount,2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
@@ -413,7 +468,7 @@
 		    						<td>Net</td>
 		    						<td></td>
 		    						<td align="right" ><span id='grandtotal'><?php echo number_format(array_sum($gtotal2),2); ?></span></td>
-		    					</tr>
+		    					</tr> -->
 		    				</table>
 		    			</td>
 		    		</tr>
@@ -449,7 +504,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='grandtotal1'><?php echo number_format(array_sum($gtotal2),2); ?></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='grandtotal1'><?php echo number_format($grand_total,2); ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -471,29 +526,33 @@
 
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="5" align="center">Prepared by:</td>
+		    			<td class="f13 " colspan="4" align="center">Prepared by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="6" align="center">Checked by:</td>
+		    			<td class="f13" colspan="4" align="center">Checked by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="5" align="center">Approved by:</td>
+		    			<td class="f13 " colspan="4" align="center">Recommended by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>   
-		    		<tr>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="5" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 bor-btm" colspan="6" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="5" align="center"><br></td>
+		    			<td class="f13 " colspan="3" align="center">Approved by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="5" align="center">
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13 bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13  bor-btm" colspan="3" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    		</tr>   
+		    		<tr>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center">
 		    				<?php echo $prepared; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="6" align="center">
+		    			<td class="f13" colspan="4" align="center">
 		    				<!-- <?php echo $checked; ?> -->
 		    				<?php if($revised==0){ ?>
 		    				<select type="text" name="checked_by" class="btn-block">
@@ -505,7 +564,19 @@
 		    				<?php }else { echo $checked; }?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="5" align="center">
+		    			<td class="f13" colspan="4" align="center">
+		    				<!-- <?php echo $approved;?> -->
+		    				<?php if($revised==0){ ?>
+		    				<select type="text" name="recommended_by" class="btn-block">
+		    					<option value=''>-Select-</option>
+		    					 <?php foreach($employee AS $emp){ ?>
+                                    <option value="<?php echo $emp->employee_id; ?>" <?php echo (($recommended_id == $emp->employee_id) ? ' selected' : '');?>><?php echo $emp->employee_name; ?></option>
+								<?php } ?> 
+		    				</select>
+		    				<?php }else { echo $recommended; } ?>
+
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="3" align="center">
 		    				<!-- <?php echo $approved;?> -->
 		    				<?php if($revised==0){ ?>
 		    				<select type="text" name="approved_by" class="btn-block">
@@ -518,7 +589,7 @@
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr> 
-		    		<tr>
+		    		<!-- <tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Purchasing Department</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -526,7 +597,7 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>  
+		    		</tr>   -->
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
 		    		
 		    	</table>		    
@@ -535,6 +606,7 @@
 	    	<input type='hidden' name='jo_id' value="<?php echo $jo_id; ?>">
     	</form>
     </div>
+   </td>
     <script type="text/javascript">
     	function printPage() {
 		  window.print();

@@ -180,7 +180,14 @@
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;">    		  			
+	    	<div style="background: #fff;">   
+	    		<table width="100%">
+	    			<tr>
+	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
+	    				<td width="50%"><center>Procurement System Generated</center></td>
+	    				<td width="25%"></td>
+	    			</tr>
+	    		</table>	 		  			
 		    	<table class="table-borsdered" width="100%" style="border:2px solid #000;border-bottom: none;">
 		    		<tr>
 		    			<td width="5%"><br></td>
@@ -205,14 +212,22 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<img class="img-st" width="120px" src="<?php echo base_url().LOGO;?>">
-		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
+		    			<td colspan="20">
+		    				<center>
+			    				<h4 class="company-st" >
+				    				<img class="logo-st" width="120px" src="<?php echo base_url().LOGO;?>">
+				    				<b><?php echo COMPANY_NAME;?></b>
+				    			</h4>
+			    				<div  class="det-st">
+			    					<?php echo ADDRESS;?><br>
+			    					<?php echo ADDRESS_2;?><br>
+			    					<?php echo TIN;?><br>
+			    					<?php echo TEL_NO;?><br>
+			    					<?php echo TELFAX;?><br>
+			    				</div>
+			    			</center>
+		    			</td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TIN;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
 		    		<tr><td colspan="20" align="center">
 		    			<br><h4 class="nomarg"><b>PURCHASE ORDER</b></h4><small>D I R E C T</small></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
@@ -476,36 +491,42 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b>Prepared by:</b></td>
+		    			<td colspan="4"><b>Prepared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6"><b>Checked by:</b></td>
+		    			<td colspan="4"><b>Reviewed/Checked by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b>Approved by:</b></td>
+		    			<td colspan="4"><b>Recommended by:</b></td>
 		    			<td colspan="1"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="1"></td>
-		    			<td colspan="5"><b><br></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="6"><b></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="5"><b></b></td>
+		    			<td colspan="3"><b>Approved by:</b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="4"><b><br></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6" class="bor-btm"><b><br></b></td>
+		    			<td colspan="4"><b></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="4"><b></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="3"><b></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="5" class=""><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6" class=""><b>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="3" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class=""><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class=""><b>
 			    			<?php if($saved==0){ ?>
 			    			<select name='checked' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
@@ -515,8 +536,19 @@
 			    			</select></b></td>
 			    			<?php }else { ?>
 			    			<?php echo $checked; } ?>
+			    			<td colspan="1"></td>
+		    			<td colspan="4" class=""><b>
+			    			<?php if($saved==0){ ?>
+			    			<select name='recommended' class="select-des emphasis" style="width: 100%" required>
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select></b></td>
+			    			<?php }else { ?>
+			    			<?php echo $recommended; } ?>
 		    			<td colspan="1"></td>
-		    			<td colspan="5" class=""><b>
+		    			<td colspan="3" class=""><b>
 			    			<?php if($saved==0){ ?>
 			    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
