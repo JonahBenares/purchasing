@@ -5938,3 +5938,17 @@ ul.b {
 		position:absolute;left:30px;top:10px;z-index: 99;width: 100px
 	}
 }
+
+.company-st{
+	margin: 0px;top: -30px;left:-65px;position: relative;
+}
+.logo-st{
+	position: relative; z-index: 99;margin-right: 5px;
+}
+.det-st{
+	margin: 0px;top: -70px;position: relative;height: 10px
+}
+
+.company-h-st{
+	height: 50px
+}
