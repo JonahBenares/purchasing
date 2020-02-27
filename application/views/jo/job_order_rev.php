@@ -182,6 +182,7 @@
 			</div>
 		</div>
 	</div>
+<body onload="changePrice()">
     <div  class="pad">
     	<form method='POST' action='<?php echo base_url(); ?>jo/save_change_order'>  
     		<div  id="prnt_btn">
@@ -588,7 +589,7 @@
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr> 
-		    		<tr>
+		    		<!-- <tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Purchasing Department</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -596,7 +597,7 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>  
+		    		</tr>   -->
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
 		    		
 		    	</table>		    
@@ -605,6 +606,7 @@
 	    	<input type='hidden' name='jo_id' value="<?php echo $jo_id; ?>">
     	</form>
     </div>
+   </td>
     <script type="text/javascript">
     	function printPage() {
 		  window.print();

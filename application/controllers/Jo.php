@@ -481,24 +481,25 @@ class Jo extends CI_Controller {
             $data['work_completion']= $headtemp->work_completion;
             $data['discount_percent']= $headtemp->discount_percent;
             $data['discount_amount']= $headtemp->discount_amount;
-             $data['discount_percent']= $head->discount_percent;
-            $data['discount_amount']= $head->discount_amount;
+            $data['discount_percent']= $headtemp->discount_percent;
+            $data['discount_amount']= $headtemp->discount_amount;
+             $data['vat_percent']= $headtemp->vat_percent;
+            $data['vat_amount']= $headtemp->vat_amount;
             $data['total_cost']= $headtemp->total_cost;
             $data['grand_total']= $headtemp->grand_total;
             $data['conforme']= $headtemp->conforme;
             $data['cancelled']= $headtemp->cancelled;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $headtemp->approved_by);
             $data['approved_id'] = $headtemp->approved_by;
-            $data['recommended_id'] = $head->recommended_by;
+            $data['recommended_id'] = $headtemp->recommended_by;
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $headtemp->checked_by);
-             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
+             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $headtemp->recommended_by);
             $data['checked_id'] = $headtemp->checked_by;
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $headtemp->prepared_by);
         }   
 
         $data['details'] = $this->super_model->select_row_where("jo_details", "jo_id", $jo_id);
         $data['details_temp'] = $this->super_model->select_row_where("jo_details_temp", "jo_id", $jo_id);
-
         $data['terms'] = $this->super_model->select_row_where("jo_terms", "jo_id", $jo_id);
         $data['terms_temp'] = $this->super_model->select_row_where("jo_terms_temp", "jo_id", $jo_id);
         $this->load->view('jo/job_order_rev',$data);
@@ -561,11 +562,14 @@ class Jo extends CI_Controller {
                 "saved"=>$johead->saved,
                 "checked_by"=>$this->input->post('checked_by'),
                 "approved_by"=>$this->input->post('approved_by'),
+                "recommended_by"=>$this->input->post('recommended_by'),
                 "prepared_by"=>$johead->prepared_by,
-                "total_cost"=>$johead->total_cost,
-                "discount_percent"=>$johead->discount_percent,
+                "total_cost"=>$this->input->post('sum_cost'),
+                /*"discount_percent"=>$johead->discount_percent,*/
+                "vat_percent"=>$this->input->post('vat_percent'),
+                "vat_amount"=>$this->input->post('vat_amount'),
                 "discount_amount"=>$johead->discount_amount,
-                "grand_total"=>$johead->grand_total,
+                "grand_total"=>$this->input->post('net'),
                 "cancelled"=>$johead->cancelled,
                 "cancelled_by"=>$johead->cancelled_by,
                 "cancelled_reason"=>$johead->cancelled_reason,
@@ -610,6 +614,7 @@ class Jo extends CI_Controller {
 
         if($this->super_model->update_where("jo_head", $data_head, "jo_id", $jo_id)){
             redirect(base_url().'jo/job_order_rev/'.$jo_id);
+
         }
     }
 
@@ -634,10 +639,13 @@ class Jo extends CI_Controller {
                 "saved"=>$joh->saved,
                 "checked_by"=>$joh->checked_by,
                 "approved_by"=>$joh->approved_by,
+                "recommended_by"=>$joh->recommended_by,
                 "prepared_by"=>$joh->prepared_by,
                 "total_cost"=>$joh->total_cost,
                 "discount_percent"=>$joh->discount_percent,
                 "discount_amount"=>$joh->discount_amount,
+                "vat_percent"=>$joh->vat_percent,
+                "vat_amount"=>$joh->vat_amount,
                 "grand_total"=>$joh->grand_total,
                 "revision_no"=>$joh->revision_no,
                 "revised_date"=>$joh->revised_date,
@@ -666,9 +674,12 @@ class Jo extends CI_Controller {
                 "checked_by"=>$joht->checked_by,
                 "approved_by"=>$joht->approved_by,
                 "prepared_by"=>$joht->prepared_by,
+                "recommended_by"=>$joht->recommended_by,
                 "total_cost"=>$joht->total_cost,
                 "discount_percent"=>$joht->discount_percent,
                 "discount_amount"=>$joht->discount_amount,
+                 "vat_percent"=>$joht->vat_percent,
+                "vat_amount"=>$joht->vat_amount,
                 "grand_total"=>$joht->grand_total,
                 "revision_no"=>$revision_no,
                 "revised_date"=>$revised_date,
