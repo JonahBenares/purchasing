@@ -471,6 +471,7 @@ class Jo extends CI_Controller {
             $data['revised'] = $headtemp->revised;
             $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $headtemp->vendor_id);
             $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $headtemp->vendor_id);
+            $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $headtemp->vendor_id);
             $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $headtemp->vendor_id);
             $data['cenjo_no']= $headtemp->cenpri_jo_no;
             $data['jo_no']= $headtemp->jo_no;

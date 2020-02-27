@@ -208,7 +208,7 @@
                                             <td>
                                                 <center>
                                                     <a class="cancelJO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJO" data-id="<?php echo $h['jo_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
-                                                    <a href="<?php echo base_url(); ?>jo/job_order_saved/<?php echo $h['jo_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                    <a href="<?php echo base_url(); ?>jo/job_order_saved/<?php echo $h['jo_id']; ?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                     <?php if($h['revised']==1){ ?>

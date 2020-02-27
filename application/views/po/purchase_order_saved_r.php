@@ -414,7 +414,7 @@
 		    			<td colspan="1"></td>
 		    			<td colspan="5"><b>Prepared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6"><b>Checked by:</b></td>
+		    			<td colspan="6"><b>Reviewed/Checked by:</b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="5"><b>Approved by:</b></td>
 		    			<td colspan="1"></td>

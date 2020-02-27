@@ -778,6 +778,8 @@ class Pod extends CI_Controller {
             'approved_by'=>$this->input->post('approved'),
             'noted_by'=>$this->input->post('noted'),
             'received_by'=>$this->input->post('received'),
+            'rfd_type'=>$this->input->post('po_type'),
+            'notes'=>$this->input->post('notes'),
             'user_id'=>$_SESSION['user_id'],
             'saved'=>1
         );
