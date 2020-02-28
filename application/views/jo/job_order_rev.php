@@ -266,6 +266,7 @@
                             <span id='contact_person'><?php echo $contact_person; ?></span><br>
                             <span id='address'><?php echo $address; ?></span><br>
 		    				<span id='phone'><?php echo $phone; ?></span><br>
+		    				<span id='fax'><?php echo $fax; ?></span><br>
 		    				<!-- <b><?php echo $vendor; ?></b><br>
 		    				<span id='address'><?php echo $address; ?></span><br>
 		    				<span id='phone'><?php echo $phone; ?></span><br> -->
@@ -303,6 +304,7 @@
 		    				<span id='contact_person'><?php echo $contact_person; ?></span><br>
 		    				<span id='address'><?php echo $address; ?></span><br>
 		    				<span id='phone'><?php echo $phone; ?></span><br>
+		    				<span id='fax'><?php echo $fax; ?></span><br>
 		    				<br>
 		    			</td>
 		    			<td colspan="7"></td>

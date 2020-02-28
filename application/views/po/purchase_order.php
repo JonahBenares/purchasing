@@ -241,6 +241,11 @@
 		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['phone']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
+		    		<tr>
+		    			<td colspan="3"><h6 class="nomarg"><b>Telefax #:</b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['fax']; ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
+		    		</tr>
 		    		<?php } ?>
 		    		<!-- <tr id="pr-btn">
 		    			<td colspan="20" style="padding-left: 10px">
