@@ -233,149 +233,147 @@
     </div>
     <div class="admin-dashone-data-table-area">
         <div class="container-fluid">
-            <form name="myform" action="<?php echo base_url(); ?>index.php/aoq/add_aoq" method="POST">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="sparkline8-list shadow-reset">
-                            <div class="sparkline8-hd">
-                                <div class="main-sparkline8-hd">
-                                    <h1>PO List</h1>
-                                    <small>PURCHASE ORDER</small>
-                                    <div class="sparkline8-outline-icon">
-                                    <a type='button' class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#addPO">
-                                        <span class="fa fa-plus p-l-0"></span> Add PO
-                                    </a>
-                                    <!-- <a type='button' class="btn btn-custon-three btn-info" data-toggle="modal" data-target="#addrepPO">
-                                        <span class="fa fa-repeat p-l-0 "> </span> Add Repeat Order
-                                    </a> -->
-                                    <a href="<?php echo base_url(); ?>po/served_po" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Delivered PO</a> 
-                                    <a href="<?php echo base_url(); ?>po/incom_podel" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-adjust"></span> Incomplete PO Delivery</a> 
-                                    <a href="<?php echo base_url(); ?>po/cancelled_po" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PO</a>
-                                    </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="sparkline8-list shadow-reset">
+                        <div class="sparkline8-hd">
+                            <div class="main-sparkline8-hd">
+                                <h1>PO List</h1>
+                                <small>PURCHASE ORDER</small>
+                                <div class="sparkline8-outline-icon">
+                                <a type='button' class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#addPO">
+                                    <span class="fa fa-plus p-l-0"></span> Add PO
+                                </a>
+                                <!-- <a type='button' class="btn btn-custon-three btn-info" data-toggle="modal" data-target="#addrepPO">
+                                    <span class="fa fa-repeat p-l-0 "> </span> Add Repeat Order
+                                </a> -->
+                                <a href="<?php echo base_url(); ?>po/served_po" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Delivered PO</a> 
+                                <a href="<?php echo base_url(); ?>po/incom_podel" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-adjust"></span> Incomplete PO Delivery</a> 
+                                <a href="<?php echo base_url(); ?>po/cancelled_po" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PO</a>
                                 </div>
-                            </div>                       
-                            <div class="sparkline8-graph">
-                                <div class="datatable-dashv1-list custom-datatable-overright">
-                                    <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
-                                        <thead>
-                                            <tr>
-                                                <th>PO Date</th>
-                                                <th>PO #</th>
-                                                <th>Supplier</th>
-                                                <th>PR #</th>
-                                                <th>Status</th>
-                                                <th>Mode of Purchase</th>
-                                                <th><center><span class="fa fa-bars"></span></center></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php 
-                                                if(!empty($header)){
-                                                    foreach($header AS $head){ 
-                                            ?>
-                                            <tr>
-                                                <td><?php echo date('F j, Y', strtotime($head['po_date'])); ?></td>
-                                               <!--  <td></td> -->
-                                                <td><a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>','<?php echo $head['po_id']; ?>','<?php echo $head['po_no']; ?>')"><?php echo $head['po_no'] . (($head['revision_no']!=0) ? ".r".$head['revision_no'] : "");?></a></td>
-                                                <td><?php echo $head['supplier']; ?></td>
-                                                <td><?php echo $head['pr']; ?></td>
-                                                <td><?php 
-
-                                                if($head['revised']==1) {
-                                                    echo '<span class="label label-warning">Request for Revision</span>';
-                                                } else {
-                                                    if($head['served']==0 && $head['saved']==1) {
-                                                        echo '<span class="label label-warning">PO Issued</span>';
-                                                    } else if($head['served']==1) {
-                                                      echo '<span class="label label-success">Delivered</span>'; 
-                                                    } 
-
-                                                     if($head['draft']==1) {
-                                                      echo '<span class="label label-info">Draft</span>'; 
-                                                    }
-                                                } ?></td>
-                                                <td><?php
-                                                    if($head['po_type']==0){
-                                                        echo "Purchase Request";
-                                                    } else if($head['po_type']==1){
-                                                        echo "Direct Purchase";
-                                                    } else if($head['po_type']==2){
-                                                        echo "Repeat Order";
-                                                    }
-                                                ?></td>
-                                                <td>
-                                                    <center>       
-                                                    <?php if($head['saved']==1){ ?>                                                 
-                                                        <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>','<?php echo $head['po_id']?>','<?php echo $head['dr_id']?>')">
-                                                            <span class="fa fa-truck"></span>
-                                                        </a>
-                                                        <?php } if($head['revised']==1){ ?>
-                                                        <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $head['po_id']?>">
-                                                            <span class="fa fa-thumbs-up"></span>
-                                                        </a>
-                                                        <?php } ?>
-                                                        <?php if($head['saved']==0 && $head['draft']==0  && $head['po_type']==0){ ?>
-                                                        <a href="<?php echo base_url(); ?>po/purchase_order/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                          <?php }else if($head['saved']==0 && $head['draft']==0  && $head['po_type']==1){ ?>
-                                                        <a href="<?php echo base_url(); ?>pod/po_direct/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                        <?php }else if($head['saved']==0 && $head['draft']==1  && $head['po_type']==1){ ?>
-                                                        <a href="<?php echo base_url(); ?>pod/po_direct_draft/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                          <?php } else if($head['saved']==0 && $head['draft']==0  && $head['po_type']==2){ ?>
-                                                        <a href="<?php echo base_url(); ?>po/reporder_prnt/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                        <?php } else if($head['saved']==0 && $head['draft']==1 && $head['po_type']==2){ ?>
-                                                        <a href="<?php echo base_url(); ?>po/reporder_prnt_draft/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                        <?php } else if($head['saved']==0 && $head['draft']==1){ ?>
-                                                        <a href="<?php echo base_url(); ?>po/purchase_order_draft/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                        <?php } else if($head['saved']==1 && $head['po_type']==0 && $head['revised']==0){ ?>
-                                                        <a href="<?php echo base_url(); ?>po/purchase_order_saved/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                        <?php } else if($head['saved']==1 && $head['po_type']==0 && $head['revised']==1){ ?>
-                                                        <a href="<?php echo base_url(); ?>po/purchase_order_rev/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                        <?php } else if($head['saved']==1 && $head['po_type']==1){ ?>
-                                                        <a href="<?php echo base_url(); ?>pod/po_direct/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                        <?php } else if($head['saved']==1 && $head['po_type']==2){ ?>
-                                                        <a href="<?php echo base_url(); ?>po/reporder_prnt/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>
-                                                        <?php } ?>
-                                                        <!-- <a href="<?php echo base_url(); ?>po/reporder_prnt/" class="btn btn-custon-three btn-warning btn-xs" title='View'>
-                                                            <span class="fa fa-eye"></span>
-                                                        </a> -->
-                                                     <!--    <a class="cancelDuplicatePO btn btn-custon-three btn-info btn-xs" data-toggle="modal" data-target="#cancelDuplicatePO" data-id="" title="Cancel and Duplicate">
-                                                            <span class="fa fa-ban"></span> 
-                                                            <span class="fa fa-files-o"></span>
-                                                        </a> -->
-                                                        <a class="cancelPO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPO" data-id="<?php echo $head['po_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
-                                                        <!--<a href="" class="btn btn-custon-three btn-danger btn-xs"  data-toggle="modal" data-target="#cancelPO" title="WITH MODAL REASON">Cancel</a>-->
-                                                    </center>
-                                                </td>
-                                            </tr>   
-                                            <?php } } ?>                                 
-                                        </tbody>
-                                    </table>
-                                </div>                           
                             </div>
+                        </div>                       
+                        <div class="sparkline8-graph">
+                            <div class="datatable-dashv1-list custom-datatable-overright">
+                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+                                    <thead>
+                                        <tr>
+                                            <th>PO Date</th>
+                                            <th>PO #</th>
+                                            <th>Supplier</th>
+                                            <th>PR #</th>
+                                            <th>Status</th>
+                                            <th>Mode of Purchase</th>
+                                            <th><center><span class="fa fa-bars"></span></center></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                            if(!empty($header)){
+                                                foreach($header AS $head){ 
+                                        ?>
+                                        <tr>
+                                            <td><?php echo date('F j, Y', strtotime($head['po_date'])); ?></td>
+                                           <!--  <td></td> -->
+                                            <td><a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>','<?php echo $head['po_id']; ?>','<?php echo $head['po_no']; ?>')"><?php echo $head['po_no'] . (($head['revision_no']!=0) ? ".r".$head['revision_no'] : "");?></a></td>
+                                            <td><?php echo $head['supplier']; ?></td>
+                                            <td><?php echo $head['pr']; ?></td>
+                                            <td><?php 
+
+                                            if($head['revised']==1) {
+                                                echo '<span class="label label-warning">Request for Revision</span>';
+                                            } else {
+                                                if($head['served']==0 && $head['saved']==1) {
+                                                    echo '<span class="label label-warning">PO Issued</span>';
+                                                } else if($head['served']==1) {
+                                                  echo '<span class="label label-success">Delivered</span>'; 
+                                                } 
+
+                                                 if($head['draft']==1) {
+                                                  echo '<span class="label label-info">Draft</span>'; 
+                                                }
+                                            } ?></td>
+                                            <td><?php
+                                                if($head['po_type']==0){
+                                                    echo "Purchase Request";
+                                                } else if($head['po_type']==1){
+                                                    echo "Direct Purchase";
+                                                } else if($head['po_type']==2){
+                                                    echo "Repeat Order";
+                                                }
+                                            ?></td>
+                                            <td>
+                                                <center>       
+                                                <?php if($head['saved']==1){ ?>                                                 
+                                                    <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_po('<?php echo base_url(); ?>','<?php echo $head['po_id']?>','<?php echo $head['dr_id']?>')">
+                                                        <span class="fa fa-truck"></span>
+                                                    </a>
+                                                    <?php } if($head['revised']==1){ ?>
+                                                    <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $head['po_id']?>">
+                                                        <span class="fa fa-thumbs-up"></span>
+                                                    </a>
+                                                    <?php } ?>
+                                                    <?php if($head['saved']==0 && $head['draft']==0  && $head['po_type']==0){ ?>
+                                                    <a href="<?php echo base_url(); ?>po/purchase_order/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                      <?php }else if($head['saved']==0 && $head['draft']==0  && $head['po_type']==1){ ?>
+                                                    <a href="<?php echo base_url(); ?>pod/po_direct/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php }else if($head['saved']==0 && $head['draft']==1  && $head['po_type']==1){ ?>
+                                                    <a href="<?php echo base_url(); ?>pod/po_direct_draft/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                      <?php } else if($head['saved']==0 && $head['draft']==0  && $head['po_type']==2){ ?>
+                                                    <a href="<?php echo base_url(); ?>po/reporder_prnt/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } else if($head['saved']==0 && $head['draft']==1 && $head['po_type']==2){ ?>
+                                                    <a href="<?php echo base_url(); ?>po/reporder_prnt_draft/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } else if($head['saved']==0 && $head['draft']==1){ ?>
+                                                    <a href="<?php echo base_url(); ?>po/purchase_order_draft/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } else if($head['saved']==1 && $head['po_type']==0 && $head['revised']==0){ ?>
+                                                    <a href="<?php echo base_url(); ?>po/purchase_order_saved/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } else if($head['saved']==1 && $head['po_type']==0 && $head['revised']==1){ ?>
+                                                    <a href="<?php echo base_url(); ?>po/purchase_order_rev/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } else if($head['saved']==1 && $head['po_type']==1){ ?>
+                                                    <a href="<?php echo base_url(); ?>pod/po_direct/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } else if($head['saved']==1 && $head['po_type']==2){ ?>
+                                                    <a href="<?php echo base_url(); ?>po/reporder_prnt/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } ?>
+                                                    <!-- <a href="<?php echo base_url(); ?>po/reporder_prnt/" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a> -->
+                                                 <!--    <a class="cancelDuplicatePO btn btn-custon-three btn-info btn-xs" data-toggle="modal" data-target="#cancelDuplicatePO" data-id="" title="Cancel and Duplicate">
+                                                        <span class="fa fa-ban"></span> 
+                                                        <span class="fa fa-files-o"></span>
+                                                    </a> -->
+                                                    <a class="cancelPO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPO" data-id="<?php echo $head['po_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
+                                                    <!--<a href="" class="btn btn-custon-three btn-danger btn-xs"  data-toggle="modal" data-target="#cancelPO" title="WITH MODAL REASON">Cancel</a>-->
+                                                </center>
+                                            </td>
+                                        </tr>   
+                                        <?php } } ?>                                 
+                                    </tbody>
+                                </table>
+                            </div>                           
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
     <script>
