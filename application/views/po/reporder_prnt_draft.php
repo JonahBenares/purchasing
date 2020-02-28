@@ -53,7 +53,7 @@
 			.pad{
         	padding:0px 0px 0px 0px
         	}
-			#prnt_btn,#item-btn,#pr-btn,#updateTermRep{
+			.prnt,#prnt_btn,#item-btn,#pr-btn,#updateTermRep{
 				display: none;
 			}
 			.emphasis{
@@ -66,6 +66,10 @@
 	        #prhide{
 				display: none!important;
 			}
+			input, textarea {
+		        border: 0 !important;
+		        border-style: none !important;
+		    }
 		}
 		.text-white{
 			color: #fff;
@@ -154,13 +158,13 @@
 							<a  href='<?php echo base_url(); ?>po/purchase_order_rev/<?php echo $po_id; ?>' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a>
 						<?php } ?>
 						<!-- <a  href='<?php echo base_url(); ?>po/revise_repeatpo/' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a> -->
-						<?php if($saved==1){ ?>
-						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>PO</b></u></a>
-						<a  href="<?php echo base_url(); ?>po/reporder_dr/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
-						<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
-						<?php } else { ?>
+						<?php if($draft==1){ ?>
+						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span>Print</a>
+						<!-- <a  href="<?php echo base_url(); ?>po/reporder_dr/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
+						<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a> -->
+						<?php //} else { ?>
 						<input type='submit' class="btn btn-warning btn-md p-l-100 p-r-100" name='submit' value="Save as Draft">
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" name='submit' value="Save">	
+						<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" name='submit' value="Save">	
 						<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
@@ -198,14 +202,27 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<img class="img-st" width="120px" src="<?php echo base_url().LOGO;?>">
-		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
+		    			<td colspan="20">
+		    				<center>
+			    				<h4 class="company-st" >
+				    				<img class="logo-st" width="120px" src="<?php echo base_url().LOGO;?>">
+				    				<b><?php echo COMPANY_NAME;?></b>
+				    			</h4>
+			    				<div  class="det-st">
+			    					<?php echo ADDRESS;?><br>
+			    					<?php echo ADDRESS_2;?><br>
+			    					<?php echo TIN;?><br>
+			    					<?php echo TEL_NO;?><br>
+			    					<?php echo TELFAX;?><br>
+			    				</div>
+			    			</center>
+		    			</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
-		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4></td></tr>
+		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4><small class="text-red">DRAFT</small></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
@@ -447,7 +464,7 @@
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<?php if($saved==0){ ?>
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#terms">
+		    				<button type="button" class="btn btn-primary btn-xs prnt" data-toggle="modal" data-target="#terms">
 							 Add Terms & Conditions:
 							</button>
 							<?php } ?>

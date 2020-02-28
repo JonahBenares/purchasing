@@ -94,7 +94,7 @@
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
+						<a href="<?php echo base_url(); ?>jo/jo_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
 						<!-- <?php //if($revised==0){ ?>
 							<a  href='<?php echo base_url(); ?>jo/job_order_rev/<?php echo $jo_id; ?>' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JO</b></u></a>
 						<?php //} ?> -->
@@ -140,14 +140,22 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<img class="img-st" width="120px" src="<?php echo base_url().LOGO;?>">
-		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
+		    			<td colspan="20">
+		    				<center>
+			    				<h4 class="company-st" >
+				    				<img class="logo-st" width="120px" src="<?php echo base_url().LOGO;?>">
+				    				<b><?php echo COMPANY_NAME;?></b>
+				    			</h4>
+			    				<div  class="det-st">
+			    					<?php echo ADDRESS;?><br>
+			    					<?php echo ADDRESS_2;?><br>
+			    					<?php echo TIN;?><br>
+			    					<?php echo TEL_NO;?><br>
+			    					<?php echo TELFAX;?><br>
+			    				</div>
+			    			</center>
+		    			</td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TIN;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4></td></tr>
 		    		<tr>
 		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>

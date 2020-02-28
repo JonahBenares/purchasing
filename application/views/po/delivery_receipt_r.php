@@ -134,15 +134,22 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="5" align="center"><img width="150px" src="<?php echo base_url().LOGO;?>"></td>
-		    			<td colspan="15"><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></td>
+		    			<td colspan="20">
+		    				<center>
+			    				<h4 class="company-st" >
+				    				<img class="logo-st" width="120px" src="<?php echo base_url().LOGO;?>">
+				    				<b><?php echo COMPANY_NAME;?></b>
+				    			</h4>
+			    				<div  class="det-st">
+			    					<?php echo ADDRESS;?><br>
+			    					<?php echo ADDRESS_2;?><br>
+			    					<?php echo TIN;?><br>
+			    					<?php echo TEL_NO;?><br>
+			    					<?php echo TELFAX;?><br>
+			    				</div>
+			    			</center>
+		    			</td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TIN;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr><td colspan="20" align="center"><h5><b class="text-red">DELIVERY RECEIPT</b><br><small class="text-red">REVISED</small></h5></td></tr>
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>

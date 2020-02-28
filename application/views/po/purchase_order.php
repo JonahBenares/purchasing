@@ -52,7 +52,7 @@
 			.pad{
         	padding:0px 0px 0px 0px
         	}
-			#prnt_btn,#item-btn,#pr-btn,#updateTerm{
+			.prnt,#prnt_btn,#item-btn,#pr-btn,#updateTerm{
 				display: none;
 			}
 			.emphasis{
@@ -197,14 +197,22 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<img class="img-st" width="120px" src="<?php echo base_url().LOGO;?>">
-		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
+		    			<td colspan="20">
+		    				<center>
+			    				<h4 class="company-st" >
+				    				<img class="logo-st" width="120px" src="<?php echo base_url().LOGO;?>">
+				    				<b><?php echo COMPANY_NAME;?></b>
+				    			</h4>
+			    				<div  class="det-st">
+			    					<?php echo ADDRESS;?><br>
+			    					<?php echo ADDRESS_2;?><br>
+			    					<?php echo TIN;?><br>
+			    					<?php echo TEL_NO;?><br>
+			    					<?php echo TELFAX;?><br>
+			    				</div>
+			    			</center>
+		    			</td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TIN;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<?php foreach($head AS $h){ ?>
@@ -334,7 +342,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+		    				<button type="button" class="btn btn-primary btn-xs prnt" data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
 							</button><br>
 		    				<?php foreach($tc AS $t){ ?>
@@ -353,7 +361,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
+		    				<button type="button" class="btn btn-primary btn-xs prnt" data-toggle="modal" data-target="#exampleModal">
 							 Add Terms & Conditions
 							</button>
 							<?php $x=3; ?>
@@ -389,7 +397,7 @@
 		    						if(!empty($t->tc_desc)){
 			    						echo $x.". " . $t->tc_desc;
 			    				?>
-			    				<a class='btn btn-primary btn-xs' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+			    				<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
 			    					<span class = 'fa fa-edit'></span>
 			    				</a>
 			    				<br>

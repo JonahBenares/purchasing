@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2020 at 01:55 AM
+-- Generation Time: Feb 27, 2020 at 03:07 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `aoq_head` (
   `prepared_by` int(11) NOT NULL DEFAULT '0',
   `prepared_date` varchar(20) DEFAULT NULL,
   `reviewed_by` varchar(150) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=184 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `aoq_head`
@@ -239,7 +239,9 @@ INSERT INTO `aoq_head` (`aoq_id`, `cancelled`, `cancelled_reason`, `cancel_date`
 (180, 1, 'Corrected address for VCY SALES CORP from Prk. Katilingban 2, Lacson St., Brgy. 39, Bacolod City to Cor. Yakal, Molave St, Brgy. Villamonte, Bacolod City', '2020-02-17 07:42:03', '8', '2020-02-17', 224, 'Special Projects', 'Water Supply System for Canteen and Ladies Dorm (Additional)', 'Canteen and Ladies Dorm', 'Iris J. Sixto', 'Ma. Milagros Arana / David Tan ', 'Eric Jabiniar', 1, 1, 0, NULL, 0, 0, NULL, 8, '2020-02-17 07:14:07', NULL),
 (181, 0, NULL, NULL, NULL, '2020-02-17', 224, 'Special Projects', 'Water Supply System for Canteen and Ladies Dorm (Additional)', 'Canteen and Ladies Dorm', 'Iris J. Sixto', 'Ma. Milagros Arana / David Tan ', 'Eric Jabiniar', 1, 1, 0, NULL, 0, 0, NULL, 8, '2020-02-17 07:49:27', NULL),
 (182, 0, NULL, NULL, NULL, '2020-02-21', 237, 'IT', 'purpose', 'enduse', 'Henne', 'test approved', 'test recomm', 1, 0, 0, NULL, 0, 0, NULL, 1, '2020-02-21 05:01:59', NULL),
-(183, 0, NULL, NULL, NULL, '2020-02-21', 237, 'IT', 'purpose', 'enduse', 'Henne', 'app', 'recom', 1, 1, 0, NULL, 0, 0, NULL, 1, '2020-02-21 05:07:55', 'test reviewed');
+(183, 0, NULL, NULL, NULL, '2020-02-21', 237, 'IT', 'purpose', 'enduse', 'Henne', 'app', 'recom', 1, 1, 0, NULL, 0, 0, NULL, 1, '2020-02-21 05:07:55', 'test reviewed'),
+(184, 0, NULL, NULL, NULL, '2020-02-26', 142, 'Special Projects', 'Water Supply System for Canteen and Ladies Dorm', 'Canteen and Ladies Dorm', 'Iris J. Sixto', 'sdfsdf', 'dsfsdfsdf', 1, 1, 0, NULL, 0, 0, NULL, 1, '2020-02-26 04:43:32', ''),
+(185, 0, NULL, NULL, NULL, '2020-02-26', 237, 'IT', 'purpose', 'enduse', 'Henne', 'asd', 'fgd', 1, 1, 0, NULL, 0, 0, NULL, 1, '2020-02-26 04:51:03', 'sdfsdfsdf');
 
 -- --------------------------------------------------------
 
@@ -254,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `aoq_items` (
   `item_description` text,
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
   `uom` varchar(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=743 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=747 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `aoq_items`
@@ -995,7 +997,11 @@ INSERT INTO `aoq_items` (`aoq_items_id`, `aoq_id`, `pr_details_id`, `item_descri
 (739, 182, 1037, 'Paper', '5.00', ''),
 (740, 183, 1033, 'Black Ink', '7.00', ''),
 (741, 183, 1034, 'Keyboard', '29.00', ''),
-(742, 183, 1035, 'Mouse', '15.00', '');
+(742, 183, 1035, 'Mouse', '15.00', ''),
+(743, 184, 612, 'Channel, C, Stainless Steel, 1/4" x 2" x 4" x 20ft', '3.00', 'lgths'),
+(744, 185, 1038, 'Ballpen', '3.00', ''),
+(745, 185, 1036, 'Cord', '10.00', ''),
+(746, 185, 1037, 'Paper', '5.00', '');
 
 -- --------------------------------------------------------
 
@@ -1018,7 +1024,7 @@ CREATE TABLE IF NOT EXISTS `aoq_offers` (
   `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `comments` text,
   `recommended` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=904 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=916 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `aoq_offers`
@@ -1929,7 +1935,19 @@ INSERT INTO `aoq_offers` (`aoq_offer_id`, `aoq_id`, `vendor_id`, `aoq_items_id`,
 (900, 183, 79, 741, 1034, 'dgdfg', 'PHP', '16.00', '29.00', '29.00', '', '464.00', '', 0),
 (901, 183, 16, 742, 1035, 'sdf', 'PHP', '15.00', '15.00', '15.00', '', '225.00', '', 0),
 (902, 183, 73, 742, 1035, 'fgdfgdfg', 'PHP', '17.00', '15.00', '15.00', '', '255.00', '', 0),
-(903, 183, 79, 742, 1035, 'dfgdg', 'PHP', '17.00', '15.00', '15.00', '', '255.00', '', 0);
+(903, 183, 79, 742, 1035, 'dfgdg', 'PHP', '17.00', '15.00', '15.00', '', '255.00', '', 0),
+(904, 184, 72, 743, 612, 'bscc offer', 'PHP', '10.00', '3.00', '3.00', 'lgths', '30.00', '', 1),
+(905, 184, 74, 743, 612, 'triumph offer', 'PHP', '20.00', '3.00', '3.00', 'lgths', '60.00', '', 0),
+(906, 184, 206, 743, 612, 'yutek', 'PHP', '15.00', '3.00', '3.00', 'lgths', '45.00', '', 0),
+(907, 185, 45, 745, 1036, 'cord', 'PHP', '11.00', '10.00', '10.00', '', '110.00', '', 1),
+(908, 185, 68, 745, 1036, 'cord', 'PHP', '13.00', '10.00', '10.00', '', '130.00', '', 0),
+(909, 185, 395, 745, 1036, 'cord', 'PHP', '14.00', '10.00', '10.00', '', '140.00', '', 0),
+(910, 185, 45, 746, 1037, 'paper', 'PHP', '10.00', '5.00', '5.00', '', '50.00', '', 1),
+(911, 185, 68, 746, 1037, 'paper', 'PHP', '14.00', '5.00', '5.00', '', '70.00', '', 0),
+(912, 185, 395, 746, 1037, 'paper', 'PHP', '12.00', '5.00', '5.00', '', '60.00', '', 0),
+(913, 185, 45, 744, 1038, 'ballpen', 'PHP', '12.00', '3.00', '3.00', '', '36.00', '', 1),
+(914, 185, 68, 744, 1038, 'ballpen', 'PHP', '12.00', '3.00', '3.00', '', '36.00', '', 0),
+(915, 185, 395, 744, 1038, 'ballpen', 'PHP', '14.00', '3.00', '3.00', '', '42.00', '', 0);
 
 -- --------------------------------------------------------
 
@@ -1947,7 +1965,7 @@ CREATE TABLE IF NOT EXISTS `aoq_vendors` (
   `delivery_date` varchar(100) DEFAULT NULL,
   `item_warranty` varchar(100) DEFAULT NULL,
   `freight` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=521 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=527 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `aoq_vendors`
@@ -2470,7 +2488,13 @@ INSERT INTO `aoq_vendors` (`aoq_vendors_id`, `aoq_id`, `rfq_id`, `vendor_id`, `p
 (517, 182, 635, 395, '', '', '', '', ''),
 (518, 183, 630, 16, '', '', '', '', ''),
 (519, 183, 631, 73, '', '', '', '', ''),
-(520, 183, 632, 79, '', '', '', '', '');
+(520, 183, 632, 79, '', '', '', '', ''),
+(521, 184, 509, 72, '', '', '', '', ''),
+(522, 184, 510, 74, '', '', '', '', ''),
+(523, 184, 511, 206, '', '', '', '', ''),
+(524, 185, 633, 45, '', '', '', '', ''),
+(525, 185, 634, 68, '', '', '', '', ''),
+(526, 185, 635, 395, '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -2670,7 +2694,7 @@ CREATE TABLE IF NOT EXISTS `item` (
   `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `offer_date` varchar(20) DEFAULT NULL,
   `pr_details_id` int(10) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1435 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1447 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `item`
@@ -4053,7 +4077,19 @@ INSERT INTO `item` (`item_id`, `item_name`, `item_specs`, `brand_name`, `part_no
 (1431, NULL, 'dgdfg', NULL, NULL, '16.00', '2020-02-21', 1034),
 (1432, NULL, 'sdf', NULL, NULL, '15.00', '2020-02-21', 1035),
 (1433, NULL, 'fgdfgdfg', NULL, NULL, '17.00', '2020-02-21', 1035),
-(1434, NULL, 'dfgdg', NULL, NULL, '17.00', '2020-02-21', 1035);
+(1434, NULL, 'dfgdg', NULL, NULL, '17.00', '2020-02-21', 1035),
+(1435, NULL, 'bscc offer', NULL, NULL, '10.00', '2020-02-26', 612),
+(1436, NULL, 'triumph offer', NULL, NULL, '20.00', '2020-02-26', 612),
+(1437, NULL, 'yutek', NULL, NULL, '15.00', '2020-02-26', 612),
+(1438, NULL, 'cord', NULL, NULL, '11.00', '2020-02-26', 1036),
+(1439, NULL, 'cord', NULL, NULL, '13.00', '2020-02-26', 1036),
+(1440, NULL, 'cord', NULL, NULL, '14.00', '2020-02-26', 1036),
+(1441, NULL, 'paper', NULL, NULL, '10.00', '2020-02-26', 1037),
+(1442, NULL, 'paper', NULL, NULL, '14.00', '2020-02-26', 1037),
+(1443, NULL, 'paper', NULL, NULL, '12.00', '2020-02-26', 1037),
+(1444, NULL, 'ballpen', NULL, NULL, '12.00', '2020-02-26', 1038),
+(1445, NULL, 'ballpen', NULL, NULL, '12.00', '2020-02-26', 1038),
+(1446, NULL, 'ballpen', NULL, NULL, '14.00', '2020-02-26', 1038);
 
 -- --------------------------------------------------------
 
@@ -4072,7 +4108,16 @@ CREATE TABLE IF NOT EXISTS `jo_ar` (
   `requested_by` varchar(50) DEFAULT NULL,
   `gatepass_no` varchar(50) DEFAULT NULL,
   `saved` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jo_ar`
+--
+
+INSERT INTO `jo_ar` (`joar_id`, `jo_id`, `year`, `series`, `ar_date`, `delivered_to`, `address`, `requested_by`, `gatepass_no`, `saved`) VALUES
+(1, 1, 'AR 2020', '01', '2020-02-26', NULL, NULL, NULL, NULL, 0),
+(2, 2, '1', NULL, '2020-02-12', NULL, NULL, NULL, NULL, 0),
+(3, 3, '1', NULL, '2020-02-28', NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -4089,7 +4134,19 @@ CREATE TABLE IF NOT EXISTS `jo_details` (
   `unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `revision_no` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jo_details`
+--
+
+INSERT INTO `jo_details` (`jo_details_id`, `jo_id`, `scope_of_work`, `quantity`, `uom`, `unit_cost`, `total_cost`, `revision_no`) VALUES
+(1, 1, '8', 1, 'feet', '100000.00', '100000.00', 8),
+(2, 2, 'test scope of JO', 1, 'meter', '100000.00', '100000.00', 0),
+(3, 3, 'asdasaf', 1, 'feet', '150000.00', '150000.00', 0),
+(4, 2, 'sdfsfsdf', 1, 'm', '50000.00', '50000.00', 0),
+(5, 2, 'dfsfsd', 1, 'm', '250.00', '250.00', 0),
+(6, 1, '8', 2, 'm', '125.00', '250.00', 8);
 
 -- --------------------------------------------------------
 
@@ -4108,6 +4165,28 @@ CREATE TABLE IF NOT EXISTS `jo_details_revised` (
   `revision_no` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `jo_details_revised`
+--
+
+INSERT INTO `jo_details_revised` (`jo_details_id`, `jo_id`, `scope_of_work`, `quantity`, `uom`, `unit_cost`, `total_cost`, `revision_no`) VALUES
+(1, 1, 'test scope', 1, 'feet', '100000.00', '100000.00', 0),
+(6, 1, 'asdasdas', 2, 'm', '125.00', '250.00', 0),
+(1, 1, '1', 1, 'feet', '100000.00', '100000.00', 1),
+(6, 1, '1', 2, 'm', '125.00', '250.00', 1),
+(1, 1, '2', 1, 'feet', '100000.00', '100000.00', 2),
+(6, 1, '2', 2, 'm', '125.00', '250.00', 2),
+(1, 1, '3', 1, 'feet', '100000.00', '100000.00', 3),
+(6, 1, '3', 2, 'm', '125.00', '250.00', 3),
+(1, 1, '4', 1, 'feet', '100000.00', '100000.00', 4),
+(6, 1, '4', 2, 'm', '125.00', '250.00', 4),
+(1, 1, '5', 1, 'feet', '100000.00', '100000.00', 5),
+(6, 1, '5', 2, 'm', '125.00', '250.00', 5),
+(1, 1, '6', 1, 'feet', '100000.00', '100000.00', 6),
+(6, 1, '6', 2, 'm', '125.00', '250.00', 6),
+(1, 1, '7', 1, 'feet', '100000.00', '100000.00', 7),
+(6, 1, '7', 2, 'm', '125.00', '250.00', 7);
+
 -- --------------------------------------------------------
 
 --
@@ -4125,6 +4204,15 @@ CREATE TABLE IF NOT EXISTS `jo_details_temp` (
   `revision_no` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `jo_details_temp`
+--
+
+INSERT INTO `jo_details_temp` (`jo_details_id`, `jo_id`, `scope_of_work`, `quantity`, `uom`, `unit_cost`, `total_cost`, `revision_no`) VALUES
+(2, 2, 'test scope of JO', 1, 'meter', '100000.00', '100000.00', 0),
+(4, 2, 'sdfsfsdf', 1, 'm', '50000.00', '50000.00', 0),
+(5, 2, 'dfsfsd', 1, 'm', '250.00', '250.00', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -4141,7 +4229,16 @@ CREATE TABLE IF NOT EXISTS `jo_dr` (
   `address` text,
   `requested_by` varchar(50) DEFAULT NULL,
   `saved` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jo_dr`
+--
+
+INSERT INTO `jo_dr` (`jodr_id`, `jo_id`, `year`, `series`, `dr_date`, `delivered_to`, `address`, `requested_by`, `saved`) VALUES
+(1, 1, 'DR 2020', '01', '2020-02-26', NULL, NULL, NULL, 0),
+(2, 2, '1', NULL, '2020-02-12', NULL, NULL, NULL, 0),
+(3, 3, '1', NULL, '2020-02-28', NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -4151,6 +4248,57 @@ CREATE TABLE IF NOT EXISTS `jo_dr` (
 
 CREATE TABLE IF NOT EXISTS `jo_head` (
 `jo_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL DEFAULT '0',
+  `cenpri_jo_no` varchar(100) DEFAULT NULL,
+  `jo_no` varchar(100) DEFAULT NULL,
+  `date_prepared` varchar(20) DEFAULT NULL,
+  `project_title` text,
+  `start_of_work` varchar(20) DEFAULT NULL,
+  `work_completion` varchar(20) DEFAULT NULL,
+  `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `vat_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `vat_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `grand_total` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `conforme` varchar(100) DEFAULT NULL,
+  `prepared_by` int(11) NOT NULL DEFAULT '0',
+  `approved_by` int(11) NOT NULL DEFAULT '0',
+  `checked_by` int(11) NOT NULL DEFAULT '0',
+  `recommended_by` int(11) NOT NULL DEFAULT '0',
+  `saved` int(11) NOT NULL DEFAULT '0',
+  `date_needed` varchar(20) DEFAULT NULL,
+  `revised` int(11) NOT NULL DEFAULT '0',
+  `revised_date` varchar(20) DEFAULT NULL,
+  `revision_no` int(11) NOT NULL DEFAULT '0',
+  `approve_rev_by` varchar(50) DEFAULT NULL,
+  `approve_rev_date` varchar(20) DEFAULT NULL,
+  `cancelled` int(11) NOT NULL DEFAULT '0',
+  `cancelled_by` int(11) NOT NULL DEFAULT '0',
+  `cancelled_reason` text,
+  `cancelled_date` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jo_head`
+--
+
+INSERT INTO `jo_head` (`jo_id`, `vendor_id`, `cenpri_jo_no`, `jo_no`, `date_prepared`, `project_title`, `start_of_work`, `work_completion`, `total_cost`, `vat_percent`, `vat_amount`, `discount_percent`, `discount_amount`, `grand_total`, `conforme`, `prepared_by`, `approved_by`, `checked_by`, `recommended_by`, `saved`, `date_needed`, `revised`, `revised_date`, `revision_no`, `approve_rev_by`, `approve_rev_date`, `cancelled`, `cancelled_by`, `cancelled_reason`, `cancelled_date`) VALUES
+(1, 2, '12345', 'JO 2020-01', '2020-02-26', 'testing JO', '2020-02-27', '2020-03-20', '100250.00', '12.00', '12030.00', '0.00', '1500.00', '110780.00', '', 1, 117, 68, 41, 1, '2020-03-31', 0, '2020-02-27', 8, 'fgfg', '2020-02-27', 0, 0, NULL, NULL),
+(2, 2, '123123', 'JO 2020-2', '2020-02-12', 'sdfsdfsdf', '2020-02-20', '2020-02-27', '100000.00', '12.00', '12000.00', '0.00', '5000.00', '107000.00', '', 1, 22, 17, 0, 1, '2020-02-05', 1, NULL, 0, NULL, NULL, 0, 0, NULL, NULL),
+(3, 21, '45456456', 'JO 2020-3', '2020-02-28', 'fhhfghfghfghfgh', '2020-02-28', '2020-02-28', '150000.00', '0.00', '0.00', '0.00', '0.00', '150000.00', '', 1, 22, 41, 93, 1, '2020-02-26', 0, NULL, 0, NULL, NULL, 0, 0, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jo_head_revised`
+--
+
+CREATE TABLE IF NOT EXISTS `jo_head_revised` (
+  `jo_id` int(11) NOT NULL,
+  `vat_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `vat_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `recommended_by` int(11) NOT NULL DEFAULT '0',
   `vendor_id` int(11) NOT NULL DEFAULT '0',
   `cenpri_jo_no` varchar(100) DEFAULT NULL,
   `jo_no` varchar(100) DEFAULT NULL,
@@ -4179,37 +4327,19 @@ CREATE TABLE IF NOT EXISTS `jo_head` (
   `cancelled_date` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `jo_head_revised`
+-- Dumping data for table `jo_head_revised`
 --
 
-CREATE TABLE IF NOT EXISTS `jo_head_revised` (
-  `jo_id` int(11) NOT NULL,
-  `vendor_id` int(11) NOT NULL DEFAULT '0',
-  `cenpri_jo_no` varchar(100) DEFAULT NULL,
-  `jo_no` varchar(100) DEFAULT NULL,
-  `date_prepared` varchar(20) DEFAULT NULL,
-  `project_title` text,
-  `start_of_work` varchar(20) DEFAULT NULL,
-  `work_completion` varchar(20) DEFAULT NULL,
-  `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `grand_total` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `conforme` varchar(100) DEFAULT NULL,
-  `prepared_by` int(11) NOT NULL DEFAULT '0',
-  `approved_by` int(11) NOT NULL DEFAULT '0',
-  `checked_by` int(11) NOT NULL DEFAULT '0',
-  `saved` int(11) NOT NULL DEFAULT '0',
-  `date_needed` varchar(20) DEFAULT NULL,
-  `revised` int(11) NOT NULL DEFAULT '0',
-  `revised_date` varchar(20) DEFAULT NULL,
-  `revision_no` int(11) NOT NULL DEFAULT '0',
-  `approve_rev_by` varchar(50) DEFAULT NULL,
-  `approve_rev_date` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `jo_head_revised` (`jo_id`, `vat_percent`, `vat_amount`, `recommended_by`, `vendor_id`, `cenpri_jo_no`, `jo_no`, `date_prepared`, `project_title`, `start_of_work`, `work_completion`, `total_cost`, `discount_percent`, `discount_amount`, `grand_total`, `conforme`, `prepared_by`, `approved_by`, `checked_by`, `saved`, `date_needed`, `revised`, `revised_date`, `revision_no`, `approve_rev_by`, `approve_rev_date`, `cancelled`, `cancelled_by`, `cancelled_reason`, `cancelled_date`) VALUES
+(1, '0.00', '0.00', 0, 2, '12345', 'JO 2020-01', '2020-02-26', 'testing JO', '2020-02-27', '2020-03-20', '100000.00', '0.00', '1500.00', '110500.00', '', 1, 117, 68, 1, '2020-03-31', 1, NULL, 0, NULL, NULL, 0, 0, NULL, NULL),
+(1, '0.00', '0.00', 0, 2, '12345', 'JO 2020-01', '2020-02-26', 'testing JO', '2020-02-27', '2020-03-20', '100000.00', '0.00', '1500.00', '110500.00', '', 1, 117, 68, 1, '2020-03-31', 1, '2020-02-27', 1, NULL, NULL, 0, 0, NULL, NULL),
+(1, '0.00', '0.00', 0, 2, '12345', 'JO 2020-01', '2020-02-26', 'testing JO', '2020-02-27', '2020-03-20', '100000.00', '0.00', '1500.00', '110500.00', '', 1, 117, 68, 1, '2020-03-31', 1, '2020-02-27', 2, NULL, NULL, 0, 0, NULL, NULL),
+(1, '12.00', '12030.00', 41, 2, '12345', 'JO 2020-01', '2020-02-26', 'testing JO', '2020-02-27', '2020-03-20', '100000.00', '0.00', '1500.00', '110500.00', '', 1, 117, 68, 1, '2020-03-31', 1, '2020-02-27', 3, NULL, NULL, 0, 0, NULL, NULL),
+(1, '12.00', '12030.00', 41, 2, '12345', 'JO 2020-01', '2020-02-26', 'testing JO', '2020-02-27', '2020-03-20', '100000.00', '0.00', '1500.00', '110500.00', '', 1, 117, 68, 1, '2020-03-31', 1, '2020-02-27', 4, NULL, NULL, 0, 0, NULL, NULL),
+(1, '12.00', '12030.00', 41, 2, '12345', 'JO 2020-01', '2020-02-26', 'testing JO', '2020-02-27', '2020-03-20', '100000.00', '0.00', '1500.00', '110500.00', '', 1, 117, 68, 1, '2020-03-31', 1, '2020-02-27', 5, NULL, NULL, 0, 0, NULL, NULL),
+(1, '12.00', '12030.00', 41, 2, '12345', 'JO 2020-01', '2020-02-26', 'testing JO', '2020-02-27', '2020-03-20', '100250.00', '0.00', '1500.00', '110500.00', '', 1, 117, 68, 1, '2020-03-31', 1, '2020-02-27', 6, NULL, NULL, 0, 0, NULL, NULL),
+(1, '12.00', '12030.00', 41, 2, '12345', 'JO 2020-01', '2020-02-26', 'testing JO', '2020-02-27', '2020-03-20', '100250.00', '0.00', '1500.00', '110500.00', '', 1, 117, 68, 1, '2020-03-31', 1, '2020-02-27', 7, NULL, NULL, 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -4219,6 +4349,9 @@ CREATE TABLE IF NOT EXISTS `jo_head_revised` (
 
 CREATE TABLE IF NOT EXISTS `jo_head_temp` (
   `jo_id` int(11) NOT NULL,
+  `vat_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `vat_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `recommended_by` int(11) NOT NULL DEFAULT '0',
   `vendor_id` int(11) NOT NULL DEFAULT '0',
   `cenpri_jo_no` varchar(100) DEFAULT NULL,
   `jo_no` varchar(100) DEFAULT NULL,
@@ -4240,7 +4373,11 @@ CREATE TABLE IF NOT EXISTS `jo_head_temp` (
   `revised_date` varchar(20) DEFAULT NULL,
   `revision_no` int(11) NOT NULL DEFAULT '0',
   `approve_rev_by` varchar(50) DEFAULT NULL,
-  `approve_rev_date` varchar(20) DEFAULT NULL
+  `approve_rev_date` varchar(20) DEFAULT NULL,
+  `cancelled` int(11) NOT NULL DEFAULT '0',
+  `cancelled_by` int(11) NOT NULL DEFAULT '0',
+  `cancelled_reason` text,
+  `cancelled_date` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -4280,7 +4417,16 @@ CREATE TABLE IF NOT EXISTS `jo_series` (
 `jo_series_id` int(11) NOT NULL,
   `year` int(11) NOT NULL DEFAULT '0',
   `series` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jo_series`
+--
+
+INSERT INTO `jo_series` (`jo_series_id`, `year`, `series`) VALUES
+(1, 2020, 1),
+(2, 2020, 2),
+(3, 2020, 3);
 
 -- --------------------------------------------------------
 
@@ -4338,7 +4484,7 @@ CREATE TABLE IF NOT EXISTS `po_dr` (
   `revision_no` int(11) NOT NULL DEFAULT '0',
   `received` int(11) NOT NULL DEFAULT '0',
   `date_received` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=277 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=284 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `po_dr`
@@ -4616,8 +4762,15 @@ INSERT INTO `po_dr` (`dr_id`, `po_id`, `rfd_id`, `dr_no`, `dr_date`, `dr_type`, 
 (272, 300, 0, '1333', NULL, 0, 0, 0, 0, NULL),
 (273, 301, 0, '1346', '2020-02-17', 0, 0, 2, 0, NULL),
 (274, 302, 0, '1335', NULL, 1, 0, 0, 0, NULL),
-(275, 303, 0, '1336', NULL, 1, 0, 0, 0, NULL),
-(276, 304, 0, '1352', '2020-02-18', 0, 0, 0, 0, NULL);
+(275, 303, 0, '1353', NULL, 1, 0, 1, 0, NULL),
+(276, 304, 0, '1352', '2020-02-18', 0, 0, 0, 0, NULL),
+(277, 305, 0, '1354', NULL, 1, 0, 0, 0, NULL),
+(278, 306, 0, '1355', NULL, 0, 0, 0, 0, NULL),
+(279, 306, 0, '1356', NULL, 0, 0, 0, 0, NULL),
+(280, 306, 0, '1357', NULL, 0, 0, 0, 0, NULL),
+(281, 306, 0, '1358', NULL, 0, 0, 0, 0, NULL),
+(282, 307, 0, '1359', '2020-02-26', 0, 0, 0, 0, NULL),
+(283, 308, 0, '1361', '2020-02-26', 0, 0, 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -4659,7 +4812,7 @@ CREATE TABLE IF NOT EXISTS `po_dr_items` (
   `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `item_no` int(11) NOT NULL DEFAULT '0',
   `revision_no` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=586 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=591 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `po_dr_items`
@@ -5236,7 +5389,12 @@ INSERT INTO `po_dr_items` (`dr_items_id`, `po_items_id`, `dr_id`, `pr_id`, `po_i
 (582, 374, 273, 176, 301, 625, 548, 789, 'Loctite; 401', 'PHP', 0, '1.00', '0.00', '495.00', 'bot.', '495.00', 1, 0),
 (583, 375, 274, 27, 302, 0, 0, 135, 'Chalkstone', NULL, 0, '10.00', '0.00', '4.00', 'pcs', '40.00', 1, 0),
 (584, 376, 275, 27, 303, 0, 0, 138, 'Thinner; Lacquer, Brand: CES/ML', NULL, 0, '1.00', '0.00', '220.00', 'gal', '220.00', 1, 0),
-(585, 377, 276, 164, 304, 527, 471, 715, 'Soap; Liquid', 'PHP', 0, '-3.00', '0.00', '280.00', 'gallon', '-840.00', 1, 0);
+(585, 377, 276, 164, 304, 527, 471, 715, 'Soap; Liquid', 'PHP', 0, '-3.00', '0.00', '280.00', 'gallon', '-840.00', 1, 0),
+(586, 378, 277, 2, 305, 0, 0, 23, 'Oxygen', NULL, 0, '2.00', '0.00', '10.00', 'cylinders', '20.00', 1, 0),
+(587, 379, 277, 2, 305, 0, 0, 24, 'Acetylene', NULL, 0, '1.00', '0.00', '15.00', 'cylinders', '15.00', 2, 0),
+(588, 380, 283, 237, 308, 907, 745, 1036, 'cord', 'PHP', 0, '10.00', '0.00', '11.00', '', '110.00', 1, 0),
+(589, 381, 283, 237, 308, 910, 746, 1037, 'paper', 'PHP', 0, '5.00', '0.00', '10.00', '', '50.00', 2, 0),
+(590, 382, 283, 237, 308, 913, 744, 1038, 'ballpen', 'PHP', 0, '3.00', '0.00', '12.00', '', '36.00', 3, 0);
 
 -- --------------------------------------------------------
 
@@ -5429,7 +5587,11 @@ INSERT INTO `po_dr_items_revised` (`dr_items_id`, `po_items_id`, `dr_id`, `pr_id
 (577, 369, 268, 195, 295, 0, 0, 878, 'Rags; Cotton', NULL, 0, '10.00', '0.00', '50.00', 'kgs.', '500.00', 1, 0),
 (567, 359, 260, 156, 287, 0, 0, 656, 'Tie: Cable, 4.8 x 200 mm, Brand: Arrow', NULL, 0, '2.00', '0.00', '175.00', 'packs', '350.00', 1, 0),
 (567, 359, 260, 156, 287, 0, 0, 656, 'Tie: Cable, 4.8 x 200 mm, Brand: Arrow', NULL, 0, '2.00', '0.00', '175.00', 'packs', '350.00', 1, 0),
-(567, 359, 260, 156, 287, 0, 0, 656, 'Tie: Cable, 4.8 x 200 mm, Brand: Arrow', NULL, 0, '2.00', '0.00', '175.00', 'packs', '350.00', 1, 0);
+(567, 359, 260, 156, 287, 0, 0, 656, 'Tie: Cable, 4.8 x 200 mm, Brand: Arrow', NULL, 0, '2.00', '0.00', '175.00', 'packs', '350.00', 1, 0),
+(584, 376, 275, 27, 303, 0, 0, 138, 'Thinner; Lacquer, Brand: CES/ML', NULL, 0, '1.00', '0.00', '220.00', 'gal', '220.00', 1, 0),
+(588, 380, 283, 237, 308, 907, 745, 1036, 'cord', NULL, 0, '10.00', '0.00', '11.00', '', '110.00', 1, 0),
+(589, 381, 283, 237, 308, 910, 746, 1037, 'paper', NULL, 0, '5.00', '0.00', '10.00', '', '50.00', 2, 0),
+(590, 382, 283, 237, 308, 913, 744, 1038, 'ballpen', NULL, 0, '3.00', '0.00', '12.00', '', '36.00', 3, 0);
 
 -- --------------------------------------------------------
 
@@ -5533,7 +5695,9 @@ INSERT INTO `po_dr_revised` (`dr_id`, `po_id`, `rfd_id`, `dr_no`, `dr_date`, `dr
 (268, 295, 0, '1329', NULL, 0, 0, 0),
 (260, 287, 0, '1318', NULL, 1, 0, 0),
 (260, 287, 0, '1349', NULL, 1, 0, 1),
-(260, 287, 0, '1350', NULL, 1, 0, 2);
+(260, 287, 0, '1350', NULL, 1, 0, 2),
+(275, 303, 0, '1336', NULL, 1, 0, 0),
+(283, 308, 0, '1360', '2020-02-26', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -5552,6 +5716,7 @@ CREATE TABLE IF NOT EXISTS `po_head` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `approved_by` int(11) DEFAULT '0',
   `checked_by` int(11) NOT NULL DEFAULT '0',
+  `recommended_by` int(11) NOT NULL DEFAULT '0',
   `saved` int(11) NOT NULL DEFAULT '0',
   `draft` int(11) NOT NULL DEFAULT '0',
   `done_po` int(11) NOT NULL DEFAULT '0',
@@ -5572,301 +5737,305 @@ CREATE TABLE IF NOT EXISTS `po_head` (
   `shipping` decimal(10,2) NOT NULL DEFAULT '0.00',
   `discount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `prepared_date` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=305 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=309 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `po_head`
 --
 
-INSERT INTO `po_head` (`po_id`, `po_date`, `po_no`, `dr_no`, `vendor_id`, `notes`, `po_type`, `user_id`, `approved_by`, `checked_by`, `saved`, `draft`, `done_po`, `cancelled`, `cancelled_by`, `cancel_reason`, `cancelled_date`, `revised`, `date_revised`, `revision_no`, `revise_attachment`, `served`, `date_served`, `served_by`, `repeat_order`, `approve_rev_by`, `approve_rev_date`, `shipping`, `discount`, `prepared_date`) VALUES
-(1, '2019-10-23', 'POPE19-1000-1000', '', 243, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 3, 0, '', '', '0.00', '0.00', NULL),
-(2, '2019-10-28', 'POPE19-1000-1001', '', 243, '', 0, 1, 0, 0, 0, 0, 0, 0, 0, '', '', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
-(4, '2019-10-30', 'PMAI19-1015-1003', '', 92, '', 0, 3, 1, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(5, '2019-10-30', 'PMAI19-1014-1004', '', 92, '', 0, 3, 1, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(6, '2019-10-30', 'PMAI19-1012-1005', '', 92, '', 0, 3, 121, 6, 0, 1, 0, 1, 3, 'Typographical error in word HIgh, second letter should be in lower case, superseded by PO No: PMA119-1012-1008.', '2019-10-30 15:43:15', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
-(7, '2019-10-30', 'PMAI19-1025-1006', '', 92, '', 0, 3, 1, 6, 1, 0, 0, 1, 8, '11.04.19 - Cancelled by End User', '2019-11-16 15:01:21', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
-(8, '2019-10-30', 'PEIC19-1010-1007', '', 92, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(9, '2019-10-30', 'PMAI19-1012-1008', '', 92, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(10, '2019-10-31', 'POPE19-1006-1009', '', 155, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(11, '2019-10-31', 'PMAI19-1008-1010', '', 155, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(12, '2019-10-31', 'POPE19-1006-1011', '', 140, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(13, '2019-11-04', 'POPE19-1005-1012', '', 85, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(14, '2019-11-04', 'PWHC19-1052-1013', '', 221, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(17, '2019-11-04', 'POPE19-1001-1016', '', 85, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(18, '2019-11-04', 'POPE19-1001-1017', '', 270, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(19, '2019-11-04', 'RPO-1018', '', 243, '', 2, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(20, '2019-11-04', 'POPE19-1000-1019', '', 69, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
-(21, '2019-11-04', 'PHAS19-1004-1020', '', 9, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
-(24, '2019-11-07', 'POPE19-1000-1023', '', 74, '', 0, 4, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 1, '', 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-20', '0.00', '0.00', NULL),
-(25, '2019-11-07', 'POPE19-1000-1024', '', 132, '', 0, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 1, '', 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-14', '0.00', '0.00', NULL),
-(30, '2019-11-08', 'RPO-1029', '', 85, '', 2, 3, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(31, '2019-11-08', 'RPO-1030', '', 85, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(32, '2019-11-08', 'POPE19-1009-1031', '', 140, '', 0, 8, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(37, '2019-11-08', 'POPE19-1000-1036', '', 92, '', 0, 8, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(38, '2019-11-08', 'RPO-1037', '', 270, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(40, '2019-11-08', 'POPE19-1001-1039', '', 140, '', 0, 4, 121, 6, 1, 0, 0, 1, 4, 'corrected spelling for subject item Disc; Cutting, 4", superseded by POPE19-1001-1045.\r\n', '2019-11-08 16:20:47', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
-(44, '2019-11-08', 'POPE19-1006-1043', '', 270, '', 0, 4, 121, 6, 1, 0, 0, 1, 4, 'Correction of spelling in item Thinner; Lacquer, Superseded by: POPE19-1006-1046.', '2019-11-08 16:38:52', 1, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
-(45, '2019-11-08', 'POPE19-1006-1044', '', 140, '', 0, 4, 0, 0, 0, 0, 0, 0, 0, '', '', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
-(46, '2019-11-08', 'POPE19-1001-1045', '', 140, '', 0, 4, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(47, '2019-11-08', 'POPE19-1006-1046', '', 270, '', 0, 4, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(48, '2019-11-08', 'POPE19-1071-1047', '', 270, '', 0, 4, 121, 6, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
-(49, '2019-11-11', 'POPE19-1000-1048', '', 74, '', 0, 4, 0, 0, 0, 0, 0, 1, 4, 'for repeat order', '2019-11-11 15:27:11', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
-(50, '2019-11-11', 'POPE19-1000-1049', '', 74, '', 0, 4, 0, 0, 0, 0, 0, 1, 4, 'should be repeat order', '2019-11-11 14:28:07', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
-(51, '2019-11-13', 'POPE19-1070-1050', NULL, 206, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(52, '2019-11-13', 'POPE19-1070-1051', NULL, 166, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(53, '2019-11-13', 'POPE19-1001-1052', NULL, 74, '', 2, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(54, '2019-11-13', 'POPE19-1006-1053', NULL, 74, '', 2, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(55, '2019-11-13', 'PEIC19-1122-1054', NULL, 5, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(56, '2019-11-14', 'PSPE19-1125-1055', NULL, 21, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(57, '2019-11-14', 'POPE19-1102-1056', NULL, 74, '', 2, 4, 121, 6, 1, 0, 0, 1, 4, 'Cancelled by the End User Sir Joselito Panes. ', '2019-11-20 14:38:56', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(58, '2019-11-15', 'POPE19-1070-1058', NULL, 270, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(59, '2019-11-15', 'POPE19-1070-1059', NULL, 74, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(60, '2019-11-15', 'POPE19-1000-1060', NULL, 132, NULL, 0, 8, 0, 0, 0, 0, 0, 1, 8, 'for re-entry in system', '2019-11-15 10:58:45', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(61, '2019-11-15', 'POPE19-1000-1061', NULL, 132, '', 2, 8, 1, 6, 1, 0, 0, 1, 8, 'Double entry in System, uploaded new PR with Series No:OPE19-1127', '2019-11-15 11:05:20', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(62, '2019-11-15', 'POPE19-1127-1062', NULL, 132, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(63, '2019-11-15', 'POPE19-1001-1063', NULL, 132, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(64, '2019-11-15', 'POPE19-1001-1064', NULL, 132, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(65, '2019-11-15', 'POPE19-1001-1065', NULL, 206, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(66, '2019-11-15', 'POPE19-1001-1066', NULL, 132, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(67, '2019-11-15', 'POPE19-1001-1067', NULL, 92, '', 2, 8, 121, 6, 1, 1, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(68, '2019-11-16', 'POPE19-1123-1068', NULL, 221, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(69, '2019-11-18', 'PSPE19-1065-1069', NULL, 74, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-18', '0.00', '0.00', NULL),
-(70, '2019-11-20', 'POPE19-1138-1071', NULL, 206, NULL, 0, 8, 121, 6, 0, 1, 0, 1, 8, 'Awarded item should be Sleeve Coupling, 3"', '2019-11-20 11:13:34', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(71, '2019-11-20', 'POPE19-1138-1072', NULL, 206, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(72, '2019-11-20', 'POPE19-1138-1073', NULL, 132, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(73, '2019-11-20', 'PEIC19-1137-1074', NULL, 157, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 4, 'Change of price and wrong specification given by the supplier.', '2019-11-25 15:39:16', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(74, '2019-11-21', 'POPE19-1106-1076', NULL, 140, NULL, 0, 8, 121, 6, 1, 0, 0, 1, 8, 'Wrong input of Price from Greenlane should be 11.45 from 11.40, Superseded of new PO No:POPE19-1106-1077', '2019-11-21 14:11:05', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(75, '2019-11-21', 'POPE19-1106-1077', NULL, 140, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(76, '2019-11-22', 'PENV19-1045-1078', NULL, 519, NULL, 1, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(77, '2019-11-22', 'PSPE19-1065-1079', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(78, '2019-11-22', 'POPE19-1006-1080', NULL, 140, NULL, 0, 8, 0, 0, 0, 0, 0, 1, 8, 'For repeat order', '2019-11-22 13:49:37', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(79, '2019-11-22', 'POPE19-1006-1081', NULL, 140, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(80, '2019-11-22', 'PSPE19-1018-1082', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(81, '2019-11-22', 'PSPE19-1065-1083', NULL, 84, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 2, 0, 'Mila B. Arana', '2019-11-22', '0.00', '0.00', NULL),
-(82, '2019-11-22', 'PSPE19-1065-1084', NULL, 97, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-25', '0.00', '0.00', NULL),
-(83, '2019-11-25', 'POPE19-1143-1088', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 1, 8, 'PR cancelled, Superseded by OPE19-1149', '2019-11-26 15:38:16', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(84, '2019-11-25', 'PEIC19-1137-1089', NULL, 5, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-26', '0.00', '0.00', NULL),
-(85, '2019-11-25', 'PSPE19-1024-1090', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-26', '0.00', '0.00', NULL),
-(86, '2019-11-25', 'PMAI19-1092-1091', NULL, 279, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(87, '2019-11-26', 'POPE19-1106-1093', NULL, 530, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-26', '0.00', '0.00', NULL),
-(88, '2019-11-26', 'PSPE19-1146-1094', NULL, 74, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(89, '2019-11-26', 'POPE19-1009-1095', NULL, 514, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-26', '0.00', '0.00', NULL),
-(90, '2019-11-26', 'PSPE19-1148-1098', NULL, 74, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(91, '2019-11-26', 'POPE19-1149-1099', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-27', '0.00', '0.00', NULL),
-(92, '2019-11-26', 'POPE19-1123-1101', NULL, 221, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(93, '2019-11-26', 'PSPE19-1018-1102', NULL, 140, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(94, '2019-11-26', 'PSPE19-1050-1103', NULL, 157, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(95, '2019-11-26', 'PSPE19-1050-1104', NULL, 5, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(96, '2019-11-26', 'PSPE19-1018-1105', NULL, 270, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(97, '2019-11-27', 'PSPE19-1065-1108', NULL, 21, NULL, 0, 8, 121, 6, 1, 0, 0, 1, 8, 'Item#1 lowest price under VCS, Item#2: requested by end user to cancel reflected on email thread. Thus cancelled PO and superseded by PO# PSPE19-1065-1120', '2019-11-28 19:00:01', 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2019-11-28', '0.00', '0.00', NULL),
-(98, '2019-11-27', 'PSPE19-1065-1109', NULL, 270, NULL, 0, 8, 0, 0, 0, 0, 0, 1, 8, 'Test, addressed to IT  ', '2019-11-27 13:26:33', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(99, '2019-11-27', 'PSPE19-1065-1110', NULL, 270, NULL, 0, 8, 0, 0, 0, 0, 0, 1, 8, 'Test , addressed w/ IT Dept. ', '2019-11-27 14:10:24', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(100, '2019-11-27', 'PSPE19-1065-1111', NULL, 270, NULL, 0, 8, 0, 0, 0, 0, 0, 1, 8, 'Test , addressed w/ IT Dept. ', '2019-11-27 14:10:19', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(101, '2019-11-27', 'PSPE19-1065-1112', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 1, 8, 'End user advised to cancel item#s: 3, 5 and 6 c/o Ms. Joy Bating via Hang out. Thus, created new Purchase Order to supersede under # PSPE19-1065-1119', '2019-11-28 18:55:41', 1, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2019-11-28', '0.00', '0.00', NULL),
-(102, '2019-11-27', 'PSPE19-1065-1113', NULL, 72, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(103, '2019-11-27', 'PSPE19-1018-1114', NULL, 72, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(104, '2019-11-27', 'PSPE19-1065-1115', NULL, 74, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(105, '2019-11-27', 'PSPE19-1018-1116', NULL, 74, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(106, '2019-11-28', 'PSPE19-1065-1119', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 1, 8, 'Cancelled superseded by PO#PSPE19-1065-1124.r1', '2019-11-29 11:31:45', 0, NULL, 3, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2019-11-29', '0.00', '0.00', NULL),
-(107, '2019-11-28', 'PSPE19-1065-1120', NULL, 21, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-29', '0.00', '0.00', NULL),
-(108, '2019-11-29', 'PSPE19-1065-1124', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-29', '0.00', '0.00', NULL),
-(109, '2019-11-29', 'PSPE19-1065-1127', NULL, 140, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(110, '2019-11-29', 'PSPE19-1065-1128', NULL, 270, NULL, 0, 8, 0, 0, 0, 0, 0, 1, 8, 'TEST', '2019-11-29 14:40:30', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(111, '2019-11-29', 'PSPE19-1065-1129', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 1, 8, 'Cancelled, superseded by PO# PSPE19-1065-1130.', '2019-12-02 08:34:55', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(112, '2019-11-29', 'PSPE19-1065-1130', NULL, 231, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(113, '2019-12-02', 'PSPE19-1065-1131', NULL, 21, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(114, '2019-12-02', 'PSPE19-1050-1132', NULL, 49, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(115, '2019-12-02', 'PSPE19-1050-1133', NULL, 473, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-06', '0.00', '0.00', NULL),
-(116, '2019-12-03', 'POPE19-1126-1134', NULL, 132, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-04', '0.00', '0.00', NULL),
-(117, '2019-12-03', 'POPE19-1126-1135', NULL, 166, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-04', '0.00', '0.00', NULL),
-(118, '2019-12-03', 'PSPE19-1018-1136', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(119, '2019-12-03', 'POPE19-1126-1137', NULL, 270, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(120, '2019-12-03', 'PSPE19-1050-1138', NULL, 21, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(121, '2019-12-03', 'PSPE19-1050-1139', NULL, 140, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(122, '2019-12-03', 'PSPE19-1050-1140', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(123, '2019-12-03', 'PSPE19-1050-1141', NULL, 21, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(124, '2019-12-03', 'PSPE19-1065-1142', NULL, 21, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(125, '2019-12-04', 'PSPE19-1050-1145', NULL, 5, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(126, '2019-12-04', 'PSPE19-1018-1146', NULL, 21, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-10', '0.00', '0.00', NULL),
-(127, '2019-12-04', 'PSPE19-1018-1147', NULL, 140, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 8, 'Cancelled by End User last 11.28.19 reflected in email thread of FR-544-2019', '2019-12-05 09:07:20', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(128, '2019-12-04', 'POPE19-1106-1148', NULL, 69, '', 2, 4, 0, 0, 0, 0, 0, 1, 4, 'For AOQ', '2019-12-04 17:24:14', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(129, '2019-12-04', 'POPE19-1106-1149', NULL, 69, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 4, 'Change of Quantity ', '2019-12-04 17:48:21', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(130, '2019-12-04', 'POPE19-1106-1150', NULL, 93, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(131, '2019-12-04', 'POPE19-1106-1151', NULL, 69, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(132, '2019-12-05', 'PEIC19-1156-1152', NULL, 473, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-06', '0.00', '0.00', '2019-12-05 15:26:28'),
-(133, '2019-12-05', 'PSPE19-1065-1153', NULL, 270, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-05 16:55:01'),
-(134, '2019-12-06', 'PEIC19-1156-1154', NULL, 530, '', 2, 8, 121, 6, 1, 0, 0, 1, 8, 'Out of Stock to Supplier.', '2020-01-03 09:03:40', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(135, '2019-12-06', 'PEIC19-1156-1155', NULL, 221, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(136, '2019-12-06', 'PSPE19-1065-1158', NULL, 470, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-10', '0.00', '0.00', '2019-12-06 14:40:20'),
-(137, '2019-12-09', 'PENV19-1040-1159', NULL, 529, NULL, 1, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(138, '2019-12-09', 'PENV19-1040-1160', NULL, 221, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(139, '2019-12-09', 'PENV19-1040-1161', NULL, 140, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(140, '2019-12-09', 'PMAI19-1093-1162', NULL, 92, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-09 15:43:11'),
-(141, '2019-12-09', 'POPE19-1121-1163', NULL, 30, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-09 16:17:52'),
-(142, '2019-12-09', 'PSPE19-1065-1164', NULL, 270, NULL, 0, 8, 0, 0, 0, 0, 0, 1, 8, 'PO should be from SPE1065(2019-11-27)', '2019-12-09 17:01:00', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-09 16:45:25'),
-(143, '2019-12-09', 'PSPE19-1065-1165', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2019-12-10', '0.00', '0.00', '2019-12-09 16:57:24'),
-(144, '2019-12-09', 'PMAI19-1093-1166', NULL, 92, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(145, '2019-12-09', 'PSPE19-1065-1167', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-09 17:31:45'),
-(146, '2019-12-11', 'PSPE19-1050-1171', NULL, 140, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-11 15:08:42'),
-(147, '2019-12-11', 'PHAS19-1033-1172', NULL, 270, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 4, 'change of Price', '2019-12-13 14:22:50', 0, NULL, 2, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2019-12-12', '0.00', '0.00', '2019-12-11 15:48:43'),
-(148, '2019-12-11', 'PEIC19-1159-1173', NULL, 270, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-11 16:52:19'),
-(149, '2019-12-12', 'PSPE19-1065-1174', NULL, 140, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(150, '2019-12-12', 'PSPE19-1065-1175', NULL, 231, NULL, 0, 2, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-13', '0.00', '0.00', '2019-12-12 15:58:22'),
-(151, '2019-12-12', 'PSPE19-1065-1179', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-12 17:23:26'),
-(152, '2019-12-13', 'PHAS19-1033-1181', NULL, 270, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 4, 'change specification ', '2019-12-16 14:51:17', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-13 14:23:27'),
-(153, '2019-12-13', 'PSPE19-1065-1182', NULL, 74, NULL, 0, 8, 0, 0, 0, 0, 0, 1, 8, 'Item fully served under PR No: PSPE19-1065 re-uploaded PR for the same project with series No: SPE19-1161', '2019-12-13 16:15:31', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-13 15:15:42'),
-(154, '2019-12-13', 'PSPE19-1161-1183', NULL, 74, NULL, 0, 8, 121, 6, 1, 0, 0, 1, 8, 'Price increase, transferred PO to BSCC.', '2019-12-18 11:27:54', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-13 16:35:43'),
-(155, '2019-12-13', 'PSPE19-1065-1184', NULL, 74, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(156, '2019-12-13', 'PSPE19-1065-1185', NULL, 74, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-13 17:18:17'),
-(157, '2019-12-13', 'PSPE19-1018-1186', NULL, 74, NULL, 0, 8, 0, 0, 0, 0, 0, 1, 8, 'Cancelled, PO under PSPE19-1018-1187', '2019-12-16 15:47:39', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-13 17:29:20'),
-(158, '2019-12-13', 'PSPE19-1018-1187', NULL, 74, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(159, '2019-12-16', 'PHAS19-1033-1188', NULL, 270, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-16 14:51:52'),
-(160, '2019-12-16', 'PSPE19-1065-1189', NULL, 21, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2019-12-16', '0.00', '0.00', '2019-12-16 15:11:41'),
-(161, '2019-12-16', 'PSPE19-1065-1190', NULL, 231, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2019-12-16', '0.00', '0.00', '2019-12-16 15:41:33'),
-(162, '2019-12-16', 'PSPE19-1065-1191', NULL, 396, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 2, 'Change in specs. Will PO 88 pcs. only for 20 cm x 30 cm.', '2020-01-07 17:12:11', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-16 16:00:01'),
-(163, '2019-12-16', 'POPE19-1009-1192', NULL, 532, NULL, 1, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2019-12-16', '0.00', '0.00', NULL),
-(164, '2019-12-16', 'PSPE19-1065-1193', NULL, 270, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 2, 'Change in specs. Will PO 88 pcs. only for 20 cm x 30 cm.', '2020-01-07 17:12:22', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-16 16:14:52'),
-(165, '2019-12-16', 'POPE19-1009-1196', NULL, 530, NULL, 1, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(166, '2019-12-16', 'PSPE19-1050-1197', NULL, 473, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 4, 'as per advised  of Sir RDA. He requested to prioritize serving of metal utility box. ', '2019-12-17 15:17:48', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-16 16:51:11'),
-(167, '2019-12-16', 'POPE19-1009-1200', NULL, 395, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-16 17:23:05'),
-(168, '2019-12-17', 'PSPE19-1065-1201', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-13', '0.00', '0.00', '2019-12-17 13:40:29'),
-(169, '2019-12-17', 'PSPE19-1163-1202', NULL, 21, NULL, 0, 8, 121, 6, 1, 0, 0, 1, 8, 'Supplier cannot provide materials used for Purchase Item, thus AOQ revised by end user with given requirement for materials needed and awarded to Visayan Construction Supply', '2019-12-26 11:13:21', 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2019-12-17', '0.00', '0.00', '2019-12-17 14:04:01'),
-(170, '2019-12-17', 'PSPE19-1163-1203', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-17 14:07:22'),
-(171, '2019-12-17', 'PHAS19-1067-1205', NULL, 157, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 4, 'change of terms ', '2019-12-19 15:14:55', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-17 16:29:34'),
-(172, '2019-12-17', 'POPE19-1164-1206', NULL, 221, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(173, '2019-12-17', 'POPE19-1164-1207', NULL, 85, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(174, '2019-12-17', 'POPE19-1164-1208', NULL, 270, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(175, '2019-12-17', 'POPE19-1164-1209', NULL, 140, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(176, '2019-12-17', 'PHAS19-1165-1210', NULL, 142, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 2, 'Cancelled PO. To issue new PO with automated date.', '2020-02-10 14:44:50', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-17 17:12:28'),
-(177, '2019-12-17', 'POPE19-1164-1211', NULL, 473, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(178, '2019-12-17', 'POPE19-1164-1212', NULL, 140, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(179, '2019-12-18', 'PSPE19-1161-1213', NULL, 72, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-18 11:29:01'),
-(180, '2019-12-18', 'POPE19-1164-1214', NULL, 514, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-18 11:37:15'),
-(181, '2019-12-19', 'PHAS19-1067-1216', NULL, 157, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-19 15:17:11'),
-(182, '2019-12-19', 'P-1217', NULL, 132, NULL, 0, 8, 0, 0, 0, 0, 0, 1, 8, 'Superseded by PO # POPE19-1170-1218', '2019-12-19 17:07:34', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-19 17:03:23'),
-(183, '2019-12-19', 'POPE19-1170-1218', NULL, 132, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-19 17:05:18'),
-(184, '2019-12-20', 'PEIC19-1171-1219', NULL, 88, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-20 13:53:36'),
-(185, '2019-12-26', 'PSPE19-1163-1220', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-26 11:19:27'),
-(186, '2019-12-26', 'POPE19-1164-1221', NULL, 268, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-26 11:42:19'),
-(187, '2020-01-02', 'PMAI19-1055-1222', NULL, 132, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-03', '0.00', '0.00', '2020-01-02 08:42:47'),
-(188, '2020-01-02', 'POPE19-1170-1223', NULL, 132, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-13', '0.00', '0.00', '2020-01-02 14:03:13'),
-(189, '2020-01-02', 'POPE19-1164-1224', NULL, 255, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-02 14:37:46'),
-(190, '2020-01-02', 'PSPE19-1162-1225', NULL, 49, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-02 15:35:46'),
-(191, '2020-01-02', 'PMAI20-1175-1226', NULL, 161, NULL, 0, 8, 121, 6, 1, 0, 0, 1, 8, 'Installation fee subject for JO, superseded by PO#PMAI20-1175-1229', '2020-01-03 08:31:46', 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2020-01-02', '0.00', '0.00', '2020-01-02 16:01:24'),
-(192, '2020-01-02', 'PMAI19-1085-1227', NULL, 70, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-02 16:02:35'),
-(193, '2020-01-03', 'PMAI20-1175-1229', NULL, 161, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-03 08:30:51'),
-(194, '2020-01-03', 'PEIC19-1156-1230', NULL, 255, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(195, '2020-01-03', 'PSPE19-1142-1232', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-06', '0.00', '0.00', '2020-01-03 14:09:54'),
-(196, '2020-01-03', 'PSPE19-1142-1233', NULL, 231, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-03 14:10:41'),
-(197, '2020-01-03', 'PSPE19-1142-1234', NULL, 270, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(198, '2020-01-06', 'POPE19-1164-1235', NULL, 157, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 4, 'change Specification ', '2020-01-06 17:02:54', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-06 15:55:09'),
-(199, '2020-01-06', 'POPE19-1164-1236', NULL, 473, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-06 16:24:56'),
-(200, '2020-01-06', 'POPE19-1164-1237', NULL, 473, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-06 16:26:58'),
-(201, '2020-01-06', 'POPE19-1164-1239', NULL, 157, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-06 17:03:12'),
-(202, '2020-01-07', 'PEIC20-1176-1241', NULL, 221, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(203, '2020-01-07', 'PEIC20-1176-1242', NULL, 473, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(204, '2020-01-07', 'PEIC20-1176-1243', NULL, 270, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(205, '2020-01-07', 'PEIC20-1176-1244', NULL, 85, '', 2, 8, 0, 0, 0, 0, 0, 1, 8, 'System Error, endorsed to IT c/o Ms. Hennelen Tanan.', '2020-01-07 11:39:04', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(206, '2020-01-07', 'PEIC20-1176-1245', NULL, 140, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(207, '2020-01-07', 'PEIC20-1176-1246', NULL, 140, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-07 11:08:30'),
-(208, '2020-01-07', 'POPE20-1179-1247', NULL, 473, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-07 11:26:29'),
-(209, '2020-01-07', 'PEIC20-1176-1248', NULL, 85, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
-(210, '2020-01-07', 'PSPE19-1065-1249', NULL, 441, NULL, 0, 2, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2020-01-09', '0.00', '0.00', '2020-01-07 17:28:43'),
-(211, '2020-01-08', 'PEIC20-1176-1250', NULL, 238, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 10:18:51'),
-(212, '2020-01-08', 'PSPE20-1178-1251', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 14:50:25'),
-(213, '2020-01-08', 'PSPE19-1169-1252', NULL, 72, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 15:23:12'),
-(214, '2020-01-08', 'PSPE19-1169-1253', NULL, 132, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 15:25:33'),
-(215, '2020-01-08', 'PSPE19-1169-1254', NULL, 72, NULL, 0, 8, 121, 6, 1, 0, 0, 1, 8, 'Double Entry, processed under PSPE19-1169-1252', '2020-01-08 15:49:44', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 15:39:43'),
-(216, '2020-01-08', 'PSPE19-1142-1255', NULL, 72, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 16:01:45'),
-(217, '2020-01-08', 'PSPE19-1018-1256', NULL, 74, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
-(218, '2020-01-09', 'PSPE19-1050-1258', NULL, 473, NULL, 0, 4, 121, 6, 0, 1, 0, 1, 4, 'change of Price', '2020-01-10 16:47:30', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-09 16:48:29'),
-(219, '2020-01-09', 'PSPE19-1050-1259', NULL, 5, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 4, 'double entry of P.O', '2020-01-11 15:17:57', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-09 17:01:26'),
-(220, '2020-01-09', 'PSPE19-1011-1260', NULL, 5, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 4, 'Revised Specification ', '2020-01-15 15:51:05', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-09 17:18:52'),
-(221, '2020-01-11', 'PSPE19-1050-1261', NULL, 157, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-11 14:57:43'),
-(222, '2020-01-11', 'PSPE19-1011-1262', NULL, 5, NULL, 0, 4, 0, 0, 0, 0, 0, 1, 4, 'double P.O', '2020-01-11 14:59:02', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-11 14:58:46'),
-(223, '2020-01-11', 'PSPE19-1050-1263', NULL, 5, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 0, NULL, 0, 0, 'Mila Arrana', '2020-01-27', '0.00', '0.00', '2020-01-11 15:14:27'),
-(224, '2020-01-11', 'PSPE19-1050-1264', NULL, 473, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 4, 'Change of Specification and price', '2020-01-15 15:57:20', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-11 15:22:10'),
-(225, '2020-01-11', 'PEIC20-1186-1265', NULL, 157, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-11 16:20:13'),
-(226, '2020-01-13', 'PEIC20-1176-1268', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-13', '0.00', '0.00', '2020-01-13 08:57:30'),
-(227, '2020-01-13', 'PEIC20-1176-1270', NULL, 9, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2020-01-13', '0.00', '0.00', '2020-01-13 11:35:06'),
-(228, '2020-01-14', 'PEIC19-1155-1272', NULL, 332, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-14 10:40:59'),
-(229, '2020-01-14', 'POPE19-1106-1273', NULL, 69, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-14 11:42:13'),
-(230, '2020-01-14', 'PEIC20-1181-1274', NULL, 530, NULL, 0, 8, 121, 6, 1, 0, 0, 1, 8, 'Item cancelled in PR due to changes in quantity needed, superseded by PR No: EIC20-1193 ', '2020-01-16 17:19:30', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-14 17:07:27'),
-(231, '2020-01-15', 'PEIC20-1181-1275', NULL, 9, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-15 13:58:20'),
-(232, '2020-01-15', 'PEIC20-1176-1276', NULL, 542, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-15 15:45:50'),
-(233, '2020-01-15', 'PSPE19-1011-1277', NULL, 5, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-15 15:53:39'),
-(234, '2020-01-15', 'PSPE19-1050-1278', NULL, 473, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-15 16:36:00'),
-(235, '2020-01-16', 'PSPE19-1050-1279', NULL, 270, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-16 15:36:30'),
-(236, '2020-01-17', 'POPE19-1107-1280', NULL, 9, '', 2, 8, 121, 6, 1, 0, 0, 1, 8, 'Out of Stock to Supplier, Transferred PO to TMVG', '2020-01-29 13:24:14', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-17 08:38:34'),
-(237, '2020-01-17', 'PEIC20-1194-1281', NULL, 530, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-17 09:21:31'),
-(238, '2020-01-17', 'POPE19-1164-1282', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-17 09:57:20'),
-(239, '2020-01-17', 'PEIC20-1176-1283', NULL, 140, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-17 11:22:09'),
-(240, '2020-01-21', 'PEIC20-1176-1284', NULL, 255, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-21 14:25:29'),
-(241, '2020-01-23', 'POPE19-1164-1285', NULL, 238, NULL, 1, 8, 121, 6, 1, 0, 0, 1, 8, '02.06.20 cancelled as per advise of end user c/o Julyn ', '2020-02-07 09:30:25', 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2020-01-24', '0.00', '0.00', '2020-01-23 10:08:28'),
-(242, '2020-01-23', 'PEIC20-1176-1286', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-23 16:19:28'),
-(243, '2020-01-24', 'PWHC20-1206-1288', NULL, 514, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-28', '0.00', '0.00', '2020-01-24 09:49:54'),
-(244, '2020-01-27', 'PSPE19-1050-1291', NULL, 5, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-27 15:18:21'),
-(245, '2020-01-27', 'POPE19-1133-1292', NULL, 276, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-27 16:01:25'),
-(246, '2020-01-27', 'PENV19-1045-1293', NULL, 395, NULL, 0, 4, 121, 6, 1, 0, 0, 1, 4, 'change supplier\r\n', '2020-02-12 14:39:15', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-27 16:30:31'),
-(247, '2020-01-29', 'PEIC20-1181-1295', NULL, 543, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-29 09:49:52'),
-(248, '2020-01-29', 'PEIC20-1176-1296', NULL, 140, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-29 09:59:03'),
-(249, '2020-01-29', 'PSPE19-1142-1297', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-29 10:06:01'),
-(250, '2020-01-29', 'PSPE20-1207-1298', NULL, 91, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-29 10:20:51'),
-(251, '2020-01-29', 'PSPE19-1050-1299', NULL, 473, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Mila Arana', '2020-01-31', '0.00', '0.00', '2020-01-29 15:37:19'),
-(252, '2020-01-29', 'PSPE19-1050-1300', NULL, 5, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-29 15:38:18'),
-(253, '2020-01-29', 'PSPE19-1011-1301', NULL, 276, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila Arana', '2020-01-31', '0.00', '0.00', '2020-01-29 16:31:56'),
-(254, '2020-01-30', 'PSPE19-1065-1302', NULL, 270, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-30 08:25:59'),
-(255, '2020-01-30', 'PSPE19-1065-1303', NULL, 132, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-30 10:16:11'),
-(256, '2020-01-30', 'PSPE19-1065-1304', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-30 10:47:07'),
-(257, '2020-01-31', 'PSPE19-1011-1308', NULL, 473, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-31 11:03:45'),
-(258, '2020-01-31', 'PMAI20-1188-1309', NULL, 21, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-31 11:23:55'),
-(259, '2020-01-31', 'PSPE19-1142-1310', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-31 16:19:10'),
-(260, '2020-02-03', 'PSPE19-1065-1311', NULL, 74, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-02-03', '0.00', '0.00', '2020-02-03 11:23:41'),
-(261, '2020-02-03', 'PSPE19-1065-1313', NULL, 132, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-03 11:51:26'),
-(262, '2020-02-03', 'PSPE19-1130-1315', NULL, 399, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-03 14:55:48'),
-(263, '2020-02-03', 'PSPE19-1065-1316', NULL, 243, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-03 17:20:57'),
-(264, '2020-02-04', 'PSPE19-1142-1317', NULL, 140, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-04 15:07:26'),
-(265, '2020-02-04', 'PEIC20-1219-1318', NULL, 537, NULL, 0, 2, 0, 0, 0, 0, 0, 1, 2, 'Cancelled. Will PO to Instruments Transformers Limited (Scotland, UK).', '2020-02-07 15:00:23', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-04 16:17:22'),
-(266, '2020-02-04', 'PEIC20-1219-1319', NULL, 537, NULL, 0, 2, 121, 6, 0, 1, 0, 1, 2, 'Cancelled. Will PO to Instruments Transformers Limited (Scotland, UK).', '2020-02-07 15:00:33', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '25000.00', '0.00', '2020-02-04 16:34:23'),
-(267, '2020-02-05', 'PSPE19-1065-1320', NULL, 270, '', 2, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 14:16:31'),
-(268, '2020-02-05', 'PSPE19-1142-1321', NULL, 140, '', 2, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 14:27:09'),
-(269, '2020-02-05', 'PSPE19-1065-1322', NULL, 70, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 15:17:56'),
-(270, '2020-02-05', 'PEIC20-1186-1323', NULL, 157, NULL, 0, 4, 0, 0, 0, 0, 0, 1, 4, 'double entry', '2020-02-05 16:16:14', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 16:15:57'),
-(271, '2020-02-05', 'PEIC20-1186-1324', NULL, 157, NULL, 0, 4, 0, 0, 0, 0, 0, 1, 4, 'testing', '2020-02-05 16:16:59', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 16:16:30'),
-(272, '2020-02-05', 'PEIC20-1186-1325', NULL, 157, NULL, 0, 4, 0, 0, 0, 0, 0, 1, 4, '', '2020-02-05 16:23:17', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 16:23:02'),
-(273, '2020-02-05', 'PEIC20-1186-1326', NULL, 157, NULL, 0, 4, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 16:24:55'),
-(274, '2020-02-06', 'PSPE19-1065-1327', NULL, 520, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-06 09:29:49'),
-(275, '2020-02-06', 'PEIC19-1156-1328', NULL, 157, '', 2, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-06 16:52:52'),
-(276, '2020-02-07', 'PEIC20-1176-1329', NULL, 255, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2020-02-07', '0.00', '0.00', '2020-02-07 16:09:55'),
-(277, '2020-02-07', 'PEIC20-1181-1330', NULL, 255, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-07 16:18:37'),
-(278, '2020-02-07', 'PEIC20-1176-1331', NULL, 243, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2020-02-07', '0.00', '0.00', '2020-02-07 16:41:47'),
-(279, '2020-02-10', 'PEIC19-1156-1334', NULL, 473, NULL, 1, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2020-02-11', '0.00', '0.00', '2020-02-10 14:30:57'),
-(280, '2020-02-10', 'PSPE20-1233-1335', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2020-02-11', '0.00', '0.00', '2020-02-10 14:35:37'),
-(281, '2020-02-10', 'PSPE20-1233-1336', NULL, 21, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-10 14:41:26'),
-(282, '2020-02-10', 'PSPE20-1233-1337', NULL, 231, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'mila arana', '2020-02-18', '0.00', '0.00', '2020-02-10 14:55:55'),
-(283, '2020-02-18', 'PEIC20-1219-1338', NULL, 537, NULL, 0, 2, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 0, NULL, 0, 0, 'asd', '2020-02-18', '25000.00', '0.00', '2020-02-10 15:11:46');
-INSERT INTO `po_head` (`po_id`, `po_date`, `po_no`, `dr_no`, `vendor_id`, `notes`, `po_type`, `user_id`, `approved_by`, `checked_by`, `saved`, `draft`, `done_po`, `cancelled`, `cancelled_by`, `cancel_reason`, `cancelled_date`, `revised`, `date_revised`, `revision_no`, `revise_attachment`, `served`, `date_served`, `served_by`, `repeat_order`, `approve_rev_by`, `approve_rev_date`, `shipping`, `discount`, `prepared_date`) VALUES
-(284, '2020-02-10', 'PEIC19-1156-1340', NULL, 221, '', 2, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-10 16:28:51'),
-(285, '2020-02-11', 'PHAS19-1165-1343', NULL, 142, NULL, 0, 2, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-11 09:48:28'),
-(286, '2020-02-12', 'PENV19-1045-1344', NULL, 408, NULL, 0, 4, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-12 14:39:28'),
-(287, '2020-02-18', 'PEIC19-1156-1345', NULL, 40, NULL, 1, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 3, NULL, 0, NULL, 0, 0, 'sad', '2020-02-18', '0.00', '0.00', '2020-02-12 15:21:49'),
-(288, '2020-02-12', 'PEIC19-1156-1346', NULL, 40, NULL, 1, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila Arana', '2020-02-12', '0.00', '0.00', '2020-02-12 15:25:32'),
-(289, '2020-02-12', 'PENV20-1235-1348', NULL, 408, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila Arana', '2020-02-12', '0.00', '0.00', '2020-02-12 16:04:44'),
-(290, '2020-02-12', 'POPE19-1164-1350', NULL, 255, NULL, 0, 2, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-12 17:37:45'),
-(291, '2020-02-13', 'PSPE19-1065-1351', NULL, 222, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2020-02-13', '0.00', '0.00', '2020-02-13 11:22:34'),
-(292, '2020-02-13', 'PEIC19-1156-1352', NULL, 270, NULL, 0, 4, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 0, NULL, 0, 0, 'AS', '2020-02-24', '0.00', '0.00', '2020-02-13 14:30:14'),
-(293, '2020-02-14', 'PWHC20-1236-1354', NULL, 74, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-14 09:48:47'),
-(294, '2020-02-14', 'PWHC20-1236-1355', NULL, 74, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 5, NULL, 0, NULL, 0, 0, 'fgdfg', '2020-02-18', '10.00', '0.00', '2020-02-14 10:20:45'),
-(295, '2020-02-18', 'POPE20-1195-1356', NULL, 221, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'asd', '2020-02-18', '0.00', '0.00', '2020-02-17 10:54:20'),
-(296, '2020-02-17', 'POPE19-1026-1357', NULL, 270, NULL, 1, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-17 11:23:14'),
-(297, '2020-02-17', 'PSPE20-1224-1358', NULL, 268, NULL, 0, 8, 0, 0, 0, 0, 0, 1, 8, 'Corrected address for VCY SALES CORP from Prk. Katilingban 2, Lacson St., Brgy. 39, Bacolod City to Cor. Yakal, Molave St, Brgy. Villamonte, Bacolod City', '2020-02-17 14:43:22', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-17 14:18:18'),
-(298, '2020-02-17', 'PSPE20-1224-1359', NULL, 547, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-17 14:50:12'),
-(299, '2020-02-17', 'POPE19-1026-1360', NULL, 270, NULL, 1, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-17 16:49:27'),
-(300, '2020-02-17', 'PSPE20-1233-1361', NULL, 270, '', 2, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-17 16:59:06'),
-(301, '2020-02-18', 'PEIC20-1176-1362', NULL, 270, NULL, 0, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'asd', '2020-02-18', '0.00', '0.00', '2020-02-17 17:22:50'),
-(302, '2020-02-18', 'POPE19-1026-1363', NULL, 140, NULL, 1, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-18 09:21:32'),
-(303, '2020-02-18', 'POPE19-1026-1364', NULL, 270, NULL, 1, 8, 121, 6, 1, 0, 0, 0, 0, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-18 09:31:33'),
-(304, '2020-02-18', 'POPE19-1164-1380', NULL, 255, NULL, 0, 1, 20, 20, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-18 11:15:58');
+INSERT INTO `po_head` (`po_id`, `po_date`, `po_no`, `dr_no`, `vendor_id`, `notes`, `po_type`, `user_id`, `approved_by`, `checked_by`, `recommended_by`, `saved`, `draft`, `done_po`, `cancelled`, `cancelled_by`, `cancel_reason`, `cancelled_date`, `revised`, `date_revised`, `revision_no`, `revise_attachment`, `served`, `date_served`, `served_by`, `repeat_order`, `approve_rev_by`, `approve_rev_date`, `shipping`, `discount`, `prepared_date`) VALUES
+(1, '2019-10-23', 'POPE19-1000-1000', '', 243, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 3, 0, '', '', '0.00', '0.00', NULL),
+(2, '2019-10-28', 'POPE19-1000-1001', '', 243, '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
+(4, '2019-10-30', 'PMAI19-1015-1003', '', 92, '', 0, 3, 1, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(5, '2019-10-30', 'PMAI19-1014-1004', '', 92, '', 0, 3, 1, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(6, '2019-10-30', 'PMAI19-1012-1005', '', 92, '', 0, 3, 121, 6, 0, 0, 1, 0, 1, 3, 'Typographical error in word HIgh, second letter should be in lower case, superseded by PO No: PMA119-1012-1008.', '2019-10-30 15:43:15', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
+(7, '2019-10-30', 'PMAI19-1025-1006', '', 92, '', 0, 3, 1, 6, 0, 1, 0, 0, 1, 8, '11.04.19 - Cancelled by End User', '2019-11-16 15:01:21', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
+(8, '2019-10-30', 'PEIC19-1010-1007', '', 92, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(9, '2019-10-30', 'PMAI19-1012-1008', '', 92, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(10, '2019-10-31', 'POPE19-1006-1009', '', 155, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(11, '2019-10-31', 'PMAI19-1008-1010', '', 155, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(12, '2019-10-31', 'POPE19-1006-1011', '', 140, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(13, '2019-11-04', 'POPE19-1005-1012', '', 85, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(14, '2019-11-04', 'PWHC19-1052-1013', '', 221, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(17, '2019-11-04', 'POPE19-1001-1016', '', 85, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(18, '2019-11-04', 'POPE19-1001-1017', '', 270, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(19, '2019-11-04', 'RPO-1018', '', 243, '', 2, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(20, '2019-11-04', 'POPE19-1000-1019', '', 69, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
+(21, '2019-11-04', 'PHAS19-1004-1020', '', 9, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
+(24, '2019-11-07', 'POPE19-1000-1023', '', 74, '', 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 1, '', 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-20', '0.00', '0.00', NULL),
+(25, '2019-11-07', 'POPE19-1000-1024', '', 132, '', 0, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 1, '', 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-14', '0.00', '0.00', NULL),
+(30, '2019-11-08', 'RPO-1029', '', 85, '', 2, 3, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(31, '2019-11-08', 'RPO-1030', '', 85, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(32, '2019-11-08', 'POPE19-1009-1031', '', 140, '', 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(37, '2019-11-08', 'POPE19-1000-1036', '', 92, '', 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(38, '2019-11-08', 'RPO-1037', '', 270, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(40, '2019-11-08', 'POPE19-1001-1039', '', 140, '', 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'corrected spelling for subject item Disc; Cutting, 4", superseded by POPE19-1001-1045.\r\n', '2019-11-08 16:20:47', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
+(44, '2019-11-08', 'POPE19-1006-1043', '', 270, '', 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'Correction of spelling in item Thinner; Lacquer, Superseded by: POPE19-1006-1046.', '2019-11-08 16:38:52', 1, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
+(45, '2019-11-08', 'POPE19-1006-1044', '', 140, '', 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
+(46, '2019-11-08', 'POPE19-1001-1045', '', 140, '', 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(47, '2019-11-08', 'POPE19-1006-1046', '', 270, '', 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(48, '2019-11-08', 'POPE19-1071-1047', '', 270, '', 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, '', '', 0, '', 0, '', 1, '', 8, 0, '', '', '0.00', '0.00', NULL),
+(49, '2019-11-11', 'POPE19-1000-1048', '', 74, '', 0, 4, 0, 0, 0, 0, 0, 0, 1, 4, 'for repeat order', '2019-11-11 15:27:11', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
+(50, '2019-11-11', 'POPE19-1000-1049', '', 74, '', 0, 4, 0, 0, 0, 0, 0, 0, 1, 4, 'should be repeat order', '2019-11-11 14:28:07', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00', NULL),
+(51, '2019-11-13', 'POPE19-1070-1050', NULL, 206, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(52, '2019-11-13', 'POPE19-1070-1051', NULL, 166, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(53, '2019-11-13', 'POPE19-1001-1052', NULL, 74, '', 2, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(54, '2019-11-13', 'POPE19-1006-1053', NULL, 74, '', 2, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(55, '2019-11-13', 'PEIC19-1122-1054', NULL, 5, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(56, '2019-11-14', 'PSPE19-1125-1055', NULL, 21, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(57, '2019-11-14', 'POPE19-1102-1056', NULL, 74, '', 2, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'Cancelled by the End User Sir Joselito Panes. ', '2019-11-20 14:38:56', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(58, '2019-11-15', 'POPE19-1070-1058', NULL, 270, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(59, '2019-11-15', 'POPE19-1070-1059', NULL, 74, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(60, '2019-11-15', 'POPE19-1000-1060', NULL, 132, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'for re-entry in system', '2019-11-15 10:58:45', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(61, '2019-11-15', 'POPE19-1000-1061', NULL, 132, '', 2, 8, 1, 6, 0, 1, 0, 0, 1, 8, 'Double entry in System, uploaded new PR with Series No:OPE19-1127', '2019-11-15 11:05:20', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(62, '2019-11-15', 'POPE19-1127-1062', NULL, 132, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(63, '2019-11-15', 'POPE19-1001-1063', NULL, 132, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(64, '2019-11-15', 'POPE19-1001-1064', NULL, 132, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(65, '2019-11-15', 'POPE19-1001-1065', NULL, 206, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(66, '2019-11-15', 'POPE19-1001-1066', NULL, 132, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(67, '2019-11-15', 'POPE19-1001-1067', NULL, 92, '', 2, 8, 121, 6, 0, 1, 1, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(68, '2019-11-16', 'POPE19-1123-1068', NULL, 221, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(69, '2019-11-18', 'PSPE19-1065-1069', NULL, 74, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-18', '0.00', '0.00', NULL),
+(70, '2019-11-20', 'POPE19-1138-1071', NULL, 206, NULL, 0, 8, 121, 6, 0, 0, 1, 0, 1, 8, 'Awarded item should be Sleeve Coupling, 3"', '2019-11-20 11:13:34', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(71, '2019-11-20', 'POPE19-1138-1072', NULL, 206, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(72, '2019-11-20', 'POPE19-1138-1073', NULL, 132, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(73, '2019-11-20', 'PEIC19-1137-1074', NULL, 157, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'Change of price and wrong specification given by the supplier.', '2019-11-25 15:39:16', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(74, '2019-11-21', 'POPE19-1106-1076', NULL, 140, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'Wrong input of Price from Greenlane should be 11.45 from 11.40, Superseded of new PO No:POPE19-1106-1077', '2019-11-21 14:11:05', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(75, '2019-11-21', 'POPE19-1106-1077', NULL, 140, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(76, '2019-11-22', 'PENV19-1045-1078', NULL, 519, NULL, 1, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(77, '2019-11-22', 'PSPE19-1065-1079', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(78, '2019-11-22', 'POPE19-1006-1080', NULL, 140, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'For repeat order', '2019-11-22 13:49:37', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(79, '2019-11-22', 'POPE19-1006-1081', NULL, 140, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(80, '2019-11-22', 'PSPE19-1018-1082', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(81, '2019-11-22', 'PSPE19-1065-1083', NULL, 84, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 2, 0, 'Mila B. Arana', '2019-11-22', '0.00', '0.00', NULL),
+(82, '2019-11-22', 'PSPE19-1065-1084', NULL, 97, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-25', '0.00', '0.00', NULL),
+(83, '2019-11-25', 'POPE19-1143-1088', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'PR cancelled, Superseded by OPE19-1149', '2019-11-26 15:38:16', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(84, '2019-11-25', 'PEIC19-1137-1089', NULL, 5, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-26', '0.00', '0.00', NULL),
+(85, '2019-11-25', 'PSPE19-1024-1090', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-26', '0.00', '0.00', NULL),
+(86, '2019-11-25', 'PMAI19-1092-1091', NULL, 279, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(87, '2019-11-26', 'POPE19-1106-1093', NULL, 530, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-26', '0.00', '0.00', NULL),
+(88, '2019-11-26', 'PSPE19-1146-1094', NULL, 74, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(89, '2019-11-26', 'POPE19-1009-1095', NULL, 514, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-26', '0.00', '0.00', NULL),
+(90, '2019-11-26', 'PSPE19-1148-1098', NULL, 74, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(91, '2019-11-26', 'POPE19-1149-1099', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-27', '0.00', '0.00', NULL),
+(92, '2019-11-26', 'POPE19-1123-1101', NULL, 221, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(93, '2019-11-26', 'PSPE19-1018-1102', NULL, 140, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(94, '2019-11-26', 'PSPE19-1050-1103', NULL, 157, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(95, '2019-11-26', 'PSPE19-1050-1104', NULL, 5, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(96, '2019-11-26', 'PSPE19-1018-1105', NULL, 270, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(97, '2019-11-27', 'PSPE19-1065-1108', NULL, 21, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'Item#1 lowest price under VCS, Item#2: requested by end user to cancel reflected on email thread. Thus cancelled PO and superseded by PO# PSPE19-1065-1120', '2019-11-28 19:00:01', 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2019-11-28', '0.00', '0.00', NULL),
+(98, '2019-11-27', 'PSPE19-1065-1109', NULL, 270, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'Test, addressed to IT  ', '2019-11-27 13:26:33', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(99, '2019-11-27', 'PSPE19-1065-1110', NULL, 270, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'Test , addressed w/ IT Dept. ', '2019-11-27 14:10:24', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(100, '2019-11-27', 'PSPE19-1065-1111', NULL, 270, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'Test , addressed w/ IT Dept. ', '2019-11-27 14:10:19', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(101, '2019-11-27', 'PSPE19-1065-1112', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'End user advised to cancel item#s: 3, 5 and 6 c/o Ms. Joy Bating via Hang out. Thus, created new Purchase Order to supersede under # PSPE19-1065-1119', '2019-11-28 18:55:41', 1, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2019-11-28', '0.00', '0.00', NULL),
+(102, '2019-11-27', 'PSPE19-1065-1113', NULL, 72, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(103, '2019-11-27', 'PSPE19-1018-1114', NULL, 72, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(104, '2019-11-27', 'PSPE19-1065-1115', NULL, 74, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(105, '2019-11-27', 'PSPE19-1018-1116', NULL, 74, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(106, '2019-11-28', 'PSPE19-1065-1119', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'Cancelled superseded by PO#PSPE19-1065-1124.r1', '2019-11-29 11:31:45', 0, NULL, 3, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2019-11-29', '0.00', '0.00', NULL),
+(107, '2019-11-28', 'PSPE19-1065-1120', NULL, 21, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-29', '0.00', '0.00', NULL),
+(108, '2019-11-29', 'PSPE19-1065-1124', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-11-29', '0.00', '0.00', NULL),
+(109, '2019-11-29', 'PSPE19-1065-1127', NULL, 140, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(110, '2019-11-29', 'PSPE19-1065-1128', NULL, 270, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'TEST', '2019-11-29 14:40:30', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(111, '2019-11-29', 'PSPE19-1065-1129', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'Cancelled, superseded by PO# PSPE19-1065-1130.', '2019-12-02 08:34:55', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(112, '2019-11-29', 'PSPE19-1065-1130', NULL, 231, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(113, '2019-12-02', 'PSPE19-1065-1131', NULL, 21, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(114, '2019-12-02', 'PSPE19-1050-1132', NULL, 49, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(115, '2019-12-02', 'PSPE19-1050-1133', NULL, 473, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-06', '0.00', '0.00', NULL),
+(116, '2019-12-03', 'POPE19-1126-1134', NULL, 132, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-04', '0.00', '0.00', NULL),
+(117, '2019-12-03', 'POPE19-1126-1135', NULL, 166, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-04', '0.00', '0.00', NULL),
+(118, '2019-12-03', 'PSPE19-1018-1136', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(119, '2019-12-03', 'POPE19-1126-1137', NULL, 270, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(120, '2019-12-03', 'PSPE19-1050-1138', NULL, 21, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(121, '2019-12-03', 'PSPE19-1050-1139', NULL, 140, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(122, '2019-12-03', 'PSPE19-1050-1140', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(123, '2019-12-03', 'PSPE19-1050-1141', NULL, 21, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(124, '2019-12-03', 'PSPE19-1065-1142', NULL, 21, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(125, '2019-12-04', 'PSPE19-1050-1145', NULL, 5, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(126, '2019-12-04', 'PSPE19-1018-1146', NULL, 21, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-10', '0.00', '0.00', NULL),
+(127, '2019-12-04', 'PSPE19-1018-1147', NULL, 140, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 8, 'Cancelled by End User last 11.28.19 reflected in email thread of FR-544-2019', '2019-12-05 09:07:20', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(128, '2019-12-04', 'POPE19-1106-1148', NULL, 69, '', 2, 4, 0, 0, 0, 0, 0, 0, 1, 4, 'For AOQ', '2019-12-04 17:24:14', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(129, '2019-12-04', 'POPE19-1106-1149', NULL, 69, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'Change of Quantity ', '2019-12-04 17:48:21', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(130, '2019-12-04', 'POPE19-1106-1150', NULL, 93, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(131, '2019-12-04', 'POPE19-1106-1151', NULL, 69, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(132, '2019-12-05', 'PEIC19-1156-1152', NULL, 473, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-06', '0.00', '0.00', '2019-12-05 15:26:28'),
+(133, '2019-12-05', 'PSPE19-1065-1153', NULL, 270, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-05 16:55:01'),
+(134, '2019-12-06', 'PEIC19-1156-1154', NULL, 530, '', 2, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'Out of Stock to Supplier.', '2020-01-03 09:03:40', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(135, '2019-12-06', 'PEIC19-1156-1155', NULL, 221, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(136, '2019-12-06', 'PSPE19-1065-1158', NULL, 470, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-10', '0.00', '0.00', '2019-12-06 14:40:20'),
+(137, '2019-12-09', 'PENV19-1040-1159', NULL, 529, NULL, 1, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(138, '2019-12-09', 'PENV19-1040-1160', NULL, 221, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(139, '2019-12-09', 'PENV19-1040-1161', NULL, 140, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(140, '2019-12-09', 'PMAI19-1093-1162', NULL, 92, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-09 15:43:11'),
+(141, '2019-12-09', 'POPE19-1121-1163', NULL, 30, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-09 16:17:52'),
+(142, '2019-12-09', 'PSPE19-1065-1164', NULL, 270, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'PO should be from SPE1065(2019-11-27)', '2019-12-09 17:01:00', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-09 16:45:25'),
+(143, '2019-12-09', 'PSPE19-1065-1165', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2019-12-10', '0.00', '0.00', '2019-12-09 16:57:24'),
+(144, '2019-12-09', 'PMAI19-1093-1166', NULL, 92, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(145, '2019-12-09', 'PSPE19-1065-1167', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-09 17:31:45'),
+(146, '2019-12-11', 'PSPE19-1050-1171', NULL, 140, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-11 15:08:42'),
+(147, '2019-12-11', 'PHAS19-1033-1172', NULL, 270, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'change of Price', '2019-12-13 14:22:50', 0, NULL, 2, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2019-12-12', '0.00', '0.00', '2019-12-11 15:48:43'),
+(148, '2019-12-11', 'PEIC19-1159-1173', NULL, 270, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-11 16:52:19'),
+(149, '2019-12-12', 'PSPE19-1065-1174', NULL, 140, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(150, '2019-12-12', 'PSPE19-1065-1175', NULL, 231, NULL, 0, 2, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2019-12-13', '0.00', '0.00', '2019-12-12 15:58:22'),
+(151, '2019-12-12', 'PSPE19-1065-1179', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-12 17:23:26'),
+(152, '2019-12-13', 'PHAS19-1033-1181', NULL, 270, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'change specification ', '2019-12-16 14:51:17', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-13 14:23:27'),
+(153, '2019-12-13', 'PSPE19-1065-1182', NULL, 74, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'Item fully served under PR No: PSPE19-1065 re-uploaded PR for the same project with series No: SPE19-1161', '2019-12-13 16:15:31', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-13 15:15:42'),
+(154, '2019-12-13', 'PSPE19-1161-1183', NULL, 74, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'Price increase, transferred PO to BSCC.', '2019-12-18 11:27:54', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-13 16:35:43'),
+(155, '2019-12-13', 'PSPE19-1065-1184', NULL, 74, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(156, '2019-12-13', 'PSPE19-1065-1185', NULL, 74, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-13 17:18:17'),
+(157, '2019-12-13', 'PSPE19-1018-1186', NULL, 74, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'Cancelled, PO under PSPE19-1018-1187', '2019-12-16 15:47:39', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-13 17:29:20'),
+(158, '2019-12-13', 'PSPE19-1018-1187', NULL, 74, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(159, '2019-12-16', 'PHAS19-1033-1188', NULL, 270, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-16 14:51:52'),
+(160, '2019-12-16', 'PSPE19-1065-1189', NULL, 21, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2019-12-16', '0.00', '0.00', '2019-12-16 15:11:41'),
+(161, '2019-12-16', 'PSPE19-1065-1190', NULL, 231, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2019-12-16', '0.00', '0.00', '2019-12-16 15:41:33'),
+(162, '2019-12-16', 'PSPE19-1065-1191', NULL, 396, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 2, 'Change in specs. Will PO 88 pcs. only for 20 cm x 30 cm.', '2020-01-07 17:12:11', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-16 16:00:01'),
+(163, '2019-12-16', 'POPE19-1009-1192', NULL, 532, NULL, 1, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2019-12-16', '0.00', '0.00', NULL),
+(164, '2019-12-16', 'PSPE19-1065-1193', NULL, 270, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 2, 'Change in specs. Will PO 88 pcs. only for 20 cm x 30 cm.', '2020-01-07 17:12:22', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-16 16:14:52'),
+(165, '2019-12-16', 'POPE19-1009-1196', NULL, 530, NULL, 1, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(166, '2019-12-16', 'PSPE19-1050-1197', NULL, 473, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'as per advised  of Sir RDA. He requested to prioritize serving of metal utility box. ', '2019-12-17 15:17:48', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-16 16:51:11'),
+(167, '2019-12-16', 'POPE19-1009-1200', NULL, 395, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-16 17:23:05'),
+(168, '2019-12-17', 'PSPE19-1065-1201', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-13', '0.00', '0.00', '2019-12-17 13:40:29'),
+(169, '2019-12-17', 'PSPE19-1163-1202', NULL, 21, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'Supplier cannot provide materials used for Purchase Item, thus AOQ revised by end user with given requirement for materials needed and awarded to Visayan Construction Supply', '2019-12-26 11:13:21', 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2019-12-17', '0.00', '0.00', '2019-12-17 14:04:01'),
+(170, '2019-12-17', 'PSPE19-1163-1203', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-17 14:07:22'),
+(171, '2019-12-17', 'PHAS19-1067-1205', NULL, 157, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'change of terms ', '2019-12-19 15:14:55', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-17 16:29:34'),
+(172, '2019-12-17', 'POPE19-1164-1206', NULL, 221, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(173, '2019-12-17', 'POPE19-1164-1207', NULL, 85, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(174, '2019-12-17', 'POPE19-1164-1208', NULL, 270, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(175, '2019-12-17', 'POPE19-1164-1209', NULL, 140, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(176, '2019-12-17', 'PHAS19-1165-1210', NULL, 142, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 2, 'Cancelled PO. To issue new PO with automated date.', '2020-02-10 14:44:50', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-17 17:12:28'),
+(177, '2019-12-17', 'POPE19-1164-1211', NULL, 473, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(178, '2019-12-17', 'POPE19-1164-1212', NULL, 140, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(179, '2019-12-18', 'PSPE19-1161-1213', NULL, 72, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-18 11:29:01'),
+(180, '2019-12-18', 'POPE19-1164-1214', NULL, 514, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-18 11:37:15'),
+(181, '2019-12-19', 'PHAS19-1067-1216', NULL, 157, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-19 15:17:11'),
+(182, '2019-12-19', 'P-1217', NULL, 132, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'Superseded by PO # POPE19-1170-1218', '2019-12-19 17:07:34', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2019-12-19 17:03:23'),
+(183, '2019-12-19', 'POPE19-1170-1218', NULL, 132, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-19 17:05:18'),
+(184, '2019-12-20', 'PEIC19-1171-1219', NULL, 88, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-20 13:53:36'),
+(185, '2019-12-26', 'PSPE19-1163-1220', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-26 11:19:27'),
+(186, '2019-12-26', 'POPE19-1164-1221', NULL, 268, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2019-12-26 11:42:19'),
+(187, '2020-01-02', 'PMAI19-1055-1222', NULL, 132, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-03', '0.00', '0.00', '2020-01-02 08:42:47'),
+(188, '2020-01-02', 'POPE19-1170-1223', NULL, 132, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-13', '0.00', '0.00', '2020-01-02 14:03:13'),
+(189, '2020-01-02', 'POPE19-1164-1224', NULL, 255, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-02 14:37:46'),
+(190, '2020-01-02', 'PSPE19-1162-1225', NULL, 49, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-02 15:35:46'),
+(191, '2020-01-02', 'PMAI20-1175-1226', NULL, 161, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'Installation fee subject for JO, superseded by PO#PMAI20-1175-1229', '2020-01-03 08:31:46', 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2020-01-02', '0.00', '0.00', '2020-01-02 16:01:24'),
+(192, '2020-01-02', 'PMAI19-1085-1227', NULL, 70, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-02 16:02:35'),
+(193, '2020-01-03', 'PMAI20-1175-1229', NULL, 161, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-03 08:30:51'),
+(194, '2020-01-03', 'PEIC19-1156-1230', NULL, 255, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(195, '2020-01-03', 'PSPE19-1142-1232', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-06', '0.00', '0.00', '2020-01-03 14:09:54'),
+(196, '2020-01-03', 'PSPE19-1142-1233', NULL, 231, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-03 14:10:41'),
+(197, '2020-01-03', 'PSPE19-1142-1234', NULL, 270, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(198, '2020-01-06', 'POPE19-1164-1235', NULL, 157, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'change Specification ', '2020-01-06 17:02:54', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-06 15:55:09'),
+(199, '2020-01-06', 'POPE19-1164-1236', NULL, 473, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-06 16:24:56'),
+(200, '2020-01-06', 'POPE19-1164-1237', NULL, 473, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-06 16:26:58'),
+(201, '2020-01-06', 'POPE19-1164-1239', NULL, 157, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-06 17:03:12'),
+(202, '2020-01-07', 'PEIC20-1176-1241', NULL, 221, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(203, '2020-01-07', 'PEIC20-1176-1242', NULL, 473, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(204, '2020-01-07', 'PEIC20-1176-1243', NULL, 270, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(205, '2020-01-07', 'PEIC20-1176-1244', NULL, 85, '', 2, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'System Error, endorsed to IT c/o Ms. Hennelen Tanan.', '2020-01-07 11:39:04', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(206, '2020-01-07', 'PEIC20-1176-1245', NULL, 140, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(207, '2020-01-07', 'PEIC20-1176-1246', NULL, 140, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-07 11:08:30'),
+(208, '2020-01-07', 'POPE20-1179-1247', NULL, 473, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-07 11:26:29'),
+(209, '2020-01-07', 'PEIC20-1176-1248', NULL, 85, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', NULL),
+(210, '2020-01-07', 'PSPE19-1065-1249', NULL, 441, NULL, 0, 2, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila B. Arana', '2020-01-09', '0.00', '0.00', '2020-01-07 17:28:43'),
+(211, '2020-01-08', 'PEIC20-1176-1250', NULL, 238, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 10:18:51'),
+(212, '2020-01-08', 'PSPE20-1178-1251', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 14:50:25'),
+(213, '2020-01-08', 'PSPE19-1169-1252', NULL, 72, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 15:23:12'),
+(214, '2020-01-08', 'PSPE19-1169-1253', NULL, 132, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 15:25:33'),
+(215, '2020-01-08', 'PSPE19-1169-1254', NULL, 72, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'Double Entry, processed under PSPE19-1169-1252', '2020-01-08 15:49:44', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 15:39:43'),
+(216, '2020-01-08', 'PSPE19-1142-1255', NULL, 72, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-08 16:01:45'),
+(217, '2020-01-08', 'PSPE19-1018-1256', NULL, 74, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', NULL),
+(218, '2020-01-09', 'PSPE19-1050-1258', NULL, 473, NULL, 0, 4, 121, 6, 0, 0, 1, 0, 1, 4, 'change of Price', '2020-01-10 16:47:30', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-09 16:48:29'),
+(219, '2020-01-09', 'PSPE19-1050-1259', NULL, 5, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'double entry of P.O', '2020-01-11 15:17:57', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-09 17:01:26'),
+(220, '2020-01-09', 'PSPE19-1011-1260', NULL, 5, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'Revised Specification ', '2020-01-15 15:51:05', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-09 17:18:52'),
+(221, '2020-01-11', 'PSPE19-1050-1261', NULL, 157, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-11 14:57:43'),
+(222, '2020-01-11', 'PSPE19-1011-1262', NULL, 5, NULL, 0, 4, 0, 0, 0, 0, 0, 0, 1, 4, 'double P.O', '2020-01-11 14:59:02', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-11 14:58:46'),
+(223, '2020-01-11', 'PSPE19-1050-1263', NULL, 5, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 0, NULL, 0, 0, 'Mila Arrana', '2020-01-27', '0.00', '0.00', '2020-01-11 15:14:27'),
+(224, '2020-01-11', 'PSPE19-1050-1264', NULL, 473, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'Change of Specification and price', '2020-01-15 15:57:20', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-11 15:22:10'),
+(225, '2020-01-11', 'PEIC20-1186-1265', NULL, 157, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-11 16:20:13'),
+(226, '2020-01-13', 'PEIC20-1176-1268', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-13', '0.00', '0.00', '2020-01-13 08:57:30'),
+(227, '2020-01-13', 'PEIC20-1176-1270', NULL, 9, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2020-01-13', '0.00', '0.00', '2020-01-13 11:35:06'),
+(228, '2020-01-14', 'PEIC19-1155-1272', NULL, 332, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-14 10:40:59'),
+(229, '2020-01-14', 'POPE19-1106-1273', NULL, 69, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-14 11:42:13'),
+(230, '2020-01-14', 'PEIC20-1181-1274', NULL, 530, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'Item cancelled in PR due to changes in quantity needed, superseded by PR No: EIC20-1193 ', '2020-01-16 17:19:30', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-14 17:07:27'),
+(231, '2020-01-15', 'PEIC20-1181-1275', NULL, 9, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-15 13:58:20'),
+(232, '2020-01-15', 'PEIC20-1176-1276', NULL, 542, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-15 15:45:50'),
+(233, '2020-01-15', 'PSPE19-1011-1277', NULL, 5, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-15 15:53:39'),
+(234, '2020-01-15', 'PSPE19-1050-1278', NULL, 473, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-15 16:36:00'),
+(235, '2020-01-16', 'PSPE19-1050-1279', NULL, 270, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-16 15:36:30'),
+(236, '2020-01-17', 'POPE19-1107-1280', NULL, 9, '', 2, 8, 121, 6, 0, 1, 0, 0, 1, 8, 'Out of Stock to Supplier, Transferred PO to TMVG', '2020-01-29 13:24:14', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-17 08:38:34'),
+(237, '2020-01-17', 'PEIC20-1194-1281', NULL, 530, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-17 09:21:31'),
+(238, '2020-01-17', 'POPE19-1164-1282', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-17 09:57:20'),
+(239, '2020-01-17', 'PEIC20-1176-1283', NULL, 140, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-17 11:22:09'),
+(240, '2020-01-21', 'PEIC20-1176-1284', NULL, 255, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-21 14:25:29'),
+(241, '2020-01-23', 'POPE19-1164-1285', NULL, 238, NULL, 1, 8, 121, 6, 0, 1, 0, 0, 1, 8, '02.06.20 cancelled as per advise of end user c/o Julyn ', '2020-02-07 09:30:25', 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2020-01-24', '0.00', '0.00', '2020-01-23 10:08:28'),
+(242, '2020-01-23', 'PEIC20-1176-1286', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-23 16:19:28'),
+(243, '2020-01-24', 'PWHC20-1206-1288', NULL, 514, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-01-28', '0.00', '0.00', '2020-01-24 09:49:54'),
+(244, '2020-01-27', 'PSPE19-1050-1291', NULL, 5, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-27 15:18:21'),
+(245, '2020-01-27', 'POPE19-1133-1292', NULL, 276, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-27 16:01:25'),
+(246, '2020-01-27', 'PENV19-1045-1293', NULL, 395, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 1, 4, 'change supplier\r\n', '2020-02-12 14:39:15', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-27 16:30:31'),
+(247, '2020-01-29', 'PEIC20-1181-1295', NULL, 543, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-29 09:49:52'),
+(248, '2020-01-29', 'PEIC20-1176-1296', NULL, 140, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-29 09:59:03'),
+(249, '2020-01-29', 'PSPE19-1142-1297', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-29 10:06:01'),
+(250, '2020-01-29', 'PSPE20-1207-1298', NULL, 91, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-29 10:20:51'),
+(251, '2020-01-29', 'PSPE19-1050-1299', NULL, 473, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Mila Arana', '2020-01-31', '0.00', '0.00', '2020-01-29 15:37:19'),
+(252, '2020-01-29', 'PSPE19-1050-1300', NULL, 5, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-29 15:38:18'),
+(253, '2020-01-29', 'PSPE19-1011-1301', NULL, 276, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 1, NULL, 8, 0, 'Mila Arana', '2020-01-31', '0.00', '0.00', '2020-01-29 16:31:56'),
+(254, '2020-01-30', 'PSPE19-1065-1302', NULL, 270, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-30 08:25:59'),
+(255, '2020-01-30', 'PSPE19-1065-1303', NULL, 132, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-30 10:16:11'),
+(256, '2020-01-30', 'PSPE19-1065-1304', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-30 10:47:07'),
+(257, '2020-01-31', 'PSPE19-1011-1308', NULL, 473, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-31 11:03:45'),
+(258, '2020-01-31', 'PMAI20-1188-1309', NULL, 21, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-01-31 11:23:55'),
+(259, '2020-01-31', 'PSPE19-1142-1310', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-01-31 16:19:10'),
+(260, '2020-02-03', 'PSPE19-1065-1311', NULL, 74, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 1, NULL, 8, 0, 'Ma. Milagros Arana', '2020-02-03', '0.00', '0.00', '2020-02-03 11:23:41'),
+(261, '2020-02-03', 'PSPE19-1065-1313', NULL, 132, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-03 11:51:26'),
+(262, '2020-02-03', 'PSPE19-1130-1315', NULL, 399, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-03 14:55:48'),
+(263, '2020-02-03', 'PSPE19-1065-1316', NULL, 243, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-03 17:20:57'),
+(264, '2020-02-04', 'PSPE19-1142-1317', NULL, 140, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-04 15:07:26'),
+(265, '2020-02-04', 'PEIC20-1219-1318', NULL, 537, NULL, 0, 2, 0, 0, 0, 0, 0, 0, 1, 2, 'Cancelled. Will PO to Instruments Transformers Limited (Scotland, UK).', '2020-02-07 15:00:23', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-04 16:17:22'),
+(266, '2020-02-04', 'PEIC20-1219-1319', NULL, 537, NULL, 0, 2, 121, 6, 0, 0, 1, 0, 1, 2, 'Cancelled. Will PO to Instruments Transformers Limited (Scotland, UK).', '2020-02-07 15:00:33', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '25000.00', '0.00', '2020-02-04 16:34:23'),
+(267, '2020-02-05', 'PSPE19-1065-1320', NULL, 270, '', 2, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 14:16:31'),
+(268, '2020-02-05', 'PSPE19-1142-1321', NULL, 140, '', 2, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 14:27:09'),
+(269, '2020-02-05', 'PSPE19-1065-1322', NULL, 70, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 15:17:56'),
+(270, '2020-02-05', 'PEIC20-1186-1323', NULL, 157, NULL, 0, 4, 0, 0, 0, 0, 0, 0, 1, 4, 'double entry', '2020-02-05 16:16:14', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 16:15:57'),
+(271, '2020-02-05', 'PEIC20-1186-1324', NULL, 157, NULL, 0, 4, 0, 0, 0, 0, 0, 0, 1, 4, 'testing', '2020-02-05 16:16:59', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 16:16:30'),
+(272, '2020-02-05', 'PEIC20-1186-1325', NULL, 157, NULL, 0, 4, 0, 0, 0, 0, 0, 0, 1, 4, '', '2020-02-05 16:23:17', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 16:23:02'),
+(273, '2020-02-05', 'PEIC20-1186-1326', NULL, 157, NULL, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-05 16:24:55'),
+(274, '2020-02-06', 'PSPE19-1065-1327', NULL, 520, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-06 09:29:49'),
+(275, '2020-02-06', 'PEIC19-1156-1328', NULL, 157, '', 2, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-06 16:52:52'),
+(276, '2020-02-07', 'PEIC20-1176-1329', NULL, 255, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2020-02-07', '0.00', '0.00', '2020-02-07 16:09:55'),
+(277, '2020-02-07', 'PEIC20-1181-1330', NULL, 255, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-07 16:18:37'),
+(278, '2020-02-07', 'PEIC20-1176-1331', NULL, 243, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2020-02-07', '0.00', '0.00', '2020-02-07 16:41:47'),
+(279, '2020-02-10', 'PEIC19-1156-1334', NULL, 473, NULL, 1, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2020-02-11', '0.00', '0.00', '2020-02-10 14:30:57');
+INSERT INTO `po_head` (`po_id`, `po_date`, `po_no`, `dr_no`, `vendor_id`, `notes`, `po_type`, `user_id`, `approved_by`, `checked_by`, `recommended_by`, `saved`, `draft`, `done_po`, `cancelled`, `cancelled_by`, `cancel_reason`, `cancelled_date`, `revised`, `date_revised`, `revision_no`, `revise_attachment`, `served`, `date_served`, `served_by`, `repeat_order`, `approve_rev_by`, `approve_rev_date`, `shipping`, `discount`, `prepared_date`) VALUES
+(280, '2020-02-10', 'PSPE20-1233-1335', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila B. Arana', '2020-02-11', '0.00', '0.00', '2020-02-10 14:35:37'),
+(281, '2020-02-10', 'PSPE20-1233-1336', NULL, 21, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-10 14:41:26'),
+(282, '2020-02-10', 'PSPE20-1233-1337', NULL, 231, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'mila arana', '2020-02-18', '0.00', '0.00', '2020-02-10 14:55:55'),
+(283, '2020-02-18', 'PEIC20-1219-1338', NULL, 537, NULL, 0, 2, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 0, NULL, 0, 0, 'asd', '2020-02-18', '25000.00', '0.00', '2020-02-10 15:11:46'),
+(284, '2020-02-10', 'PEIC19-1156-1340', NULL, 221, '', 2, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-10 16:28:51'),
+(285, '2020-02-11', 'PHAS19-1165-1343', NULL, 142, NULL, 0, 2, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, 8, 0, NULL, NULL, '0.00', '0.00', '2020-02-11 09:48:28'),
+(286, '2020-02-12', 'PENV19-1045-1344', NULL, 408, NULL, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-12 14:39:28'),
+(287, '2020-02-18', 'PEIC19-1156-1345', NULL, 40, NULL, 1, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 3, NULL, 0, NULL, 0, 0, 'sad', '2020-02-18', '0.00', '0.00', '2020-02-12 15:21:49'),
+(288, '2020-02-12', 'PEIC19-1156-1346', NULL, 40, NULL, 1, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila Arana', '2020-02-12', '0.00', '0.00', '2020-02-12 15:25:32'),
+(289, '2020-02-12', 'PENV20-1235-1348', NULL, 408, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Mila Arana', '2020-02-12', '0.00', '0.00', '2020-02-12 16:04:44'),
+(290, '2020-02-12', 'POPE19-1164-1350', NULL, 255, NULL, 0, 2, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-12 17:37:45'),
+(291, '2020-02-13', 'PSPE19-1065-1351', NULL, 222, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'Ma. Milagros Arana', '2020-02-13', '0.00', '0.00', '2020-02-13 11:22:34'),
+(292, '2020-02-13', 'PEIC19-1156-1352', NULL, 270, NULL, 0, 4, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 2, NULL, 0, NULL, 0, 0, 'AS', '2020-02-24', '0.00', '0.00', '2020-02-13 14:30:14'),
+(293, '2020-02-14', 'PWHC20-1236-1354', NULL, 74, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-14 09:48:47'),
+(294, '2020-02-14', 'PWHC20-1236-1355', NULL, 74, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 5, NULL, 0, NULL, 0, 0, 'fgdfg', '2020-02-18', '10.00', '0.00', '2020-02-14 10:20:45'),
+(295, '2020-02-18', 'POPE20-1195-1356', NULL, 221, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'asd', '2020-02-18', '0.00', '0.00', '2020-02-17 10:54:20'),
+(296, '2020-02-17', 'POPE19-1026-1357', NULL, 270, NULL, 1, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-17 11:23:14'),
+(297, '2020-02-17', 'PSPE20-1224-1358', NULL, 268, NULL, 0, 8, 0, 0, 0, 0, 0, 0, 1, 8, 'Corrected address for VCY SALES CORP from Prk. Katilingban 2, Lacson St., Brgy. 39, Bacolod City to Cor. Yakal, Molave St, Brgy. Villamonte, Bacolod City', '2020-02-17 14:43:22', 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-17 14:18:18'),
+(298, '2020-02-17', 'PSPE20-1224-1359', NULL, 547, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-17 14:50:12'),
+(299, '2020-02-17', 'POPE19-1026-1360', NULL, 270, NULL, 1, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-17 16:49:27'),
+(300, '2020-02-17', 'PSPE20-1233-1361', NULL, 270, '', 2, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-17 16:59:06'),
+(301, '2020-02-18', 'PEIC20-1176-1362', NULL, 270, NULL, 0, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'asd', '2020-02-18', '0.00', '0.00', '2020-02-17 17:22:50'),
+(302, '2020-02-18', 'POPE19-1026-1363', NULL, 140, NULL, 1, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-18 09:21:32'),
+(303, NULL, 'POPE19-1026-1364', NULL, 270, NULL, 1, 8, 121, 6, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'dfsdf', '2020-02-19', '0.00', '0.00', '2020-02-18 09:31:33'),
+(304, '2020-02-18', 'POPE19-1164-1380', NULL, 255, NULL, 0, 1, 20, 20, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-18 11:15:58'),
+(305, '2020-02-26', 'POPE19-1001-1382', NULL, 2, NULL, 1, 1, 25, 75, 20, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-26 11:27:57'),
+(306, '2020-02-26', 'PMAI19-1042-1383', NULL, 13, 'dsfsdf', 2, 1, 41, 17, 48, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-26 11:35:32'),
+(307, '2020-02-26', 'PSPE19-1142-1384', NULL, 72, NULL, 0, 1, 48, 41, 0, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00', '2020-02-26 11:44:10'),
+(308, '2020-02-26', 'PITB20-1237-1385', NULL, 45, NULL, 0, 1, 68, 118, 17, 1, 0, 0, 0, 0, NULL, NULL, 0, NULL, 1, NULL, 0, NULL, 0, 0, 'sdgdfgdfg', '2020-02-26', '0.00', '0.00', '2020-02-26 11:51:35');
 
 -- --------------------------------------------------------
 
@@ -5980,7 +6149,9 @@ INSERT INTO `po_head_revised` (`po_id`, `po_date`, `po_no`, `dr_no`, `vendor_id`
 (295, '2020-02-17', 'POPE20-1195-1356', NULL, 221, '', 2, 8, 121, 1, 0, 0, 0, 6, NULL, NULL, 0, '2020-02-18', 0, NULL, '0.00', '0.00'),
 (287, '2020-02-12', 'PEIC19-1156-1345', NULL, 40, NULL, 1, 4, 121, 1, 0, 0, 0, 6, NULL, NULL, 0, '2020-02-18', 0, NULL, '0.00', '0.00'),
 (287, NULL, 'PEIC19-1156-1345', NULL, 40, NULL, 1, 4, 121, 1, 0, 0, 0, 6, NULL, NULL, 0, '2020-02-18', 1, NULL, '0.00', '0.00'),
-(287, NULL, 'PEIC19-1156-1345', NULL, 40, NULL, 1, 4, 121, 1, 0, 0, 0, 6, NULL, NULL, 0, '2020-02-18', 2, NULL, '0.00', '0.00');
+(287, NULL, 'PEIC19-1156-1345', NULL, 40, NULL, 1, 4, 121, 1, 0, 0, 0, 6, NULL, NULL, 0, '2020-02-18', 2, NULL, '0.00', '0.00'),
+(303, '2020-02-18', 'POPE19-1026-1364', NULL, 270, NULL, 1, 8, 121, 1, 0, 0, 0, 6, NULL, NULL, 0, '2020-02-19', 0, NULL, '0.00', '0.00'),
+(308, '2020-02-26', 'PITB20-1237-1385', NULL, 45, NULL, 0, 1, 68, 1, 0, 0, 0, 118, NULL, NULL, 0, '2020-02-26', 0, NULL, '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -6027,7 +6198,7 @@ CREATE TABLE IF NOT EXISTS `po_head_temp` (
 INSERT INTO `po_head_temp` (`po_id`, `po_date`, `po_no`, `dr_no`, `vendor_id`, `notes`, `po_type`, `user_id`, `approved_by`, `checked_by`, `saved`, `draft`, `done_po`, `cancelled`, `cancelled_by`, `cancel_reason`, `cancelled_date`, `revised`, `date_revised`, `revision_no`, `revise_attachment`, `served`, `date_served`, `served_by`, `repeat_order`, `approve_rev_by`, `approve_rev_date`, `shipping`, `discount`) VALUES
 (44, '', '', '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, '', 0, '', 0, '', 0, 0, '', '', '0.00', '0.00'),
 (101, NULL, NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00'),
-(303, NULL, NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00');
+(300, '2020-02-26', NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, 0, NULL, NULL, '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -6057,7 +6228,7 @@ CREATE TABLE IF NOT EXISTS `po_items` (
   `cancel` int(11) NOT NULL DEFAULT '0',
   `cancelled_by` int(11) NOT NULL DEFAULT '0',
   `cancelled_date` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=378 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=383 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `po_items`
@@ -6427,8 +6598,13 @@ INSERT INTO `po_items` (`po_items_id`, `pr_id`, `po_id`, `aoq_offer_id`, `aoq_it
 (373, 233, 300, 0, 0, 999, 'Disc; Cutting, 4" x 3/32" x 5/8" ,Basic 41 A30Q-BF, Brand: Tyrolit, (1box = 25pcs)', NULL, 0, '2.00', '0.00', '2412.50', 'boxes', '4825.00', 1, 91, NULL, 0, 1, 1, '2020-02-21'),
 (374, 176, 301, 625, 548, 789, 'Loctite; 401', 'PHP', 0, '1.00', '0.00', '495.00', 'bot.', '495.00', 1, 0, NULL, 1, 0, 0, NULL),
 (375, 27, 302, 0, 0, 135, 'Chalkstone', NULL, 0, '10.00', '0.00', '4.00', 'pcs', '40.00', 1, 0, NULL, 0, 1, 1, '2020-02-21'),
-(376, 27, 303, 0, 0, 138, 'Thinner; Lacquer, Brand: CES/ML', NULL, 0, '1.00', '0.00', '220.00', 'gal', '220.00', 1, 0, NULL, 0, 1, 1, '2020-02-21'),
-(377, 164, 304, 527, 471, 715, 'Soap; Liquid', 'PHP', 0, '-3.00', '0.00', '280.00', 'gallon', '-840.00', 1, 0, NULL, 0, 0, 0, NULL);
+(376, 27, 303, 0, 0, 138, 'Thinner; Lacquer, Brand: CES/ML', NULL, 0, '1.00', '0.00', '220.00', 'gal', '220.00', 1, 0, NULL, 1, 1, 1, '2020-02-21'),
+(377, 164, 304, 527, 471, 715, 'Soap; Liquid', 'PHP', 0, '-3.00', '0.00', '280.00', 'gallon', '-840.00', 1, 0, NULL, 0, 0, 0, NULL),
+(378, 2, 305, 0, 0, 23, 'Oxygen', NULL, 0, '2.00', '0.00', '10.00', 'cylinders', '20.00', 1, 0, NULL, 0, 0, 0, NULL),
+(379, 2, 305, 0, 0, 24, 'Acetylene', NULL, 0, '1.00', '0.00', '15.00', 'cylinders', '15.00', 2, 0, NULL, 0, 0, 0, NULL),
+(380, 237, 308, 907, 745, 1036, 'cord', 'PHP', 0, '10.00', '0.00', '11.00', '', '110.00', 1, 0, NULL, 1, 0, 0, NULL),
+(381, 237, 308, 910, 746, 1037, 'paper', 'PHP', 0, '5.00', '0.00', '10.00', '', '50.00', 2, 0, NULL, 1, 0, 0, NULL),
+(382, 237, 308, 913, 744, 1038, 'ballpen', 'PHP', 0, '3.00', '0.00', '12.00', '', '36.00', 3, 0, NULL, 1, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -6617,7 +6793,11 @@ INSERT INTO `po_items_revised` (`po_items_id`, `pr_id`, `po_id`, `aoq_offer_id`,
 (369, 195, 295, 0, 0, 878, 'Rags; Cotton', NULL, 0, '10.00', '0.00', '50.00', 'kgs.', '500.00', 1, 0, 0, 0, NULL),
 (359, 156, 287, 0, 0, 656, 'Tie: Cable, 4.8 x 200 mm, Brand: Arrow', NULL, 0, '2.00', '0.00', '175.00', 'packs', '350.00', 1, 0, 0, 0, NULL),
 (359, 156, 287, 0, 0, 656, 'Tie: Cable, 4.8 x 200 mm, Brand: Arrow', NULL, 0, '2.00', '0.00', '175.00', 'packs', '350.00', 1, 1, 0, 0, NULL),
-(359, 156, 287, 0, 0, 656, 'Tie: Cable, 4.8 x 200 mm, Brand: Arrow', NULL, 0, '2.00', '0.00', '175.00', 'packs', '350.00', 1, 2, 0, 0, NULL);
+(359, 156, 287, 0, 0, 656, 'Tie: Cable, 4.8 x 200 mm, Brand: Arrow', NULL, 0, '2.00', '0.00', '175.00', 'packs', '350.00', 1, 2, 0, 0, NULL),
+(376, 27, 303, 0, 0, 138, 'Thinner; Lacquer, Brand: CES/ML', NULL, 0, '1.00', '0.00', '220.00', 'gal', '220.00', 1, 0, 0, 0, NULL),
+(380, 237, 308, 907, 745, 1036, 'cord', NULL, 0, '10.00', '0.00', '11.00', '', '110.00', 1, 0, 0, 0, NULL),
+(381, 237, 308, 910, 746, 1037, 'paper', NULL, 0, '5.00', '0.00', '10.00', '', '50.00', 2, 0, 0, 0, NULL),
+(382, 237, 308, 913, 744, 1038, 'ballpen', NULL, 0, '3.00', '0.00', '12.00', '', '36.00', 3, 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -6655,7 +6835,7 @@ INSERT INTO `po_items_temp` (`po_items_id`, `pr_id`, `po_id`, `aoq_offer_id`, `a
 (105, 66, 101, 278, 224, 283, 'Door; Jamb, 2"x 4" ', NULL, 0, '4.00', '4.00', '1200.00', 'set', '4800.00', 2, 0, NULL),
 (107, 66, 101, 287, 228, 303, 'Elbow; PVC, 90 degrees, 1/2", Ordinary ', NULL, 0, '5.00', '5.00', '6.75', 'pcs.', '33.75', 4, 0, NULL),
 (110, 66, 101, 313, 241, 309, 'Valve; Ball, PVC, 1/2", Brand:Shark', NULL, 0, '1.00', '1.00', '46.00', 'pc.', '46.00', 7, 0, NULL),
-(376, 27, 303, 0, 0, 138, 'Thinner; Lacquer, Brand: CES/ML', NULL, 0, '1.00', '1.00', '220.00', 'gal', '220.00', 1, 0, NULL);
+(373, 233, 300, 0, 0, 999, 'Disc; Cutting, 4" x 3/32" x 5/8" ,Basic 41 A30Q-BF, Brand: Tyrolit, (1box = 25pcs)', NULL, 0, '2.00', '2.00', '2412.50', 'boxes', '4825.00', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -6673,7 +6853,7 @@ CREATE TABLE IF NOT EXISTS `po_pr` (
   `requestor` text,
   `notes` text,
   `revision_no` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=305 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=309 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `po_pr`
@@ -6965,8 +7145,12 @@ INSERT INTO `po_pr` (`po_pr_id`, `po_id`, `pr_id`, `aoq_id`, `enduse`, `purpose`
 (300, 300, 233, 0, 'ECMG Personnel', 'ECMG Office Renovation', 'Iris J. Sixto/  Irish Dawn E. Torres', NULL, 0),
 (301, 301, 176, 124, 'Spare Stator', 'Consumables for Stator Rewinding.', 'Julius Pangilinan / Kennah Sasamoto', NULL, 1),
 (302, 302, 27, 0, 'Jacket Water System', 'Jacket Water Recovery System', 'Joselito E. Panes/Exequil L. Corino', NULL, 0),
-(303, 303, 27, 0, 'Jacket Water System', 'Jacket Water Recovery System', 'Joselito E. Panes/Exequil L. Corino', NULL, 0),
-(304, 304, 164, 110, 'DG Unit 1', '500 R-hrs Preventive Maintenance Requirement', 'Alona T. Arroyo', NULL, 0);
+(303, 303, 27, 0, 'Jacket Water System', 'Jacket Water Recovery System', 'Joselito E. Panes/Exequil L. Corino', NULL, 1),
+(304, 304, 164, 110, 'DG Unit 1', '500 R-hrs Preventive Maintenance Requirement', 'Alona T. Arroyo', NULL, 0),
+(305, 305, 2, 0, 'HFO Recovery (Mitsubishi SJ600 Purifier)', 'Installation of Piping in HFO Recovery (Mitsubishi SJ600 Purifier)', 'J. Dagupan/J .Panes', NULL, 0),
+(306, 306, 43, 0, 'DG Unit 4 and 5', 'Replacement of Injector Cooling Hose', 'Elmer Torrijos', NULL, 0),
+(307, 307, 142, 184, 'Canteen and Ladies Dorm', 'Water Supply System for Canteen and Ladies Dorm', 'Iris J. Sixto', NULL, 0),
+(308, 308, 237, 185, 'enduse', 'purpose', 'Henne', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -7066,7 +7250,9 @@ INSERT INTO `po_pr_revised` (`po_pr_id`, `po_id`, `pr_id`, `aoq_id`, `enduse`, `
 (295, 295, 0, 0, 'Running Units', 'Operations and Maintenance Consumables', 'Alona T. Arroyo', NULL, 0),
 (287, 287, 0, 0, 'Electrical', 'Electrical Consumables', 'Kennah Sasamoto', NULL, 0),
 (287, 287, 0, 0, 'Electrical', 'Electrical Consumables', 'Kennah Sasamoto', NULL, 1),
-(287, 287, 0, 0, 'Electrical', 'Electrical Consumables', 'Kennah Sasamoto', NULL, 2);
+(287, 287, 0, 0, 'Electrical', 'Electrical Consumables', 'Kennah Sasamoto', NULL, 2),
+(303, 303, 0, 0, 'Jacket Water System', 'Jacket Water Recovery System', 'Joselito E. Panes/Exequil L. Corino', NULL, 0),
+(308, 308, 0, 185, 'enduse', 'purpose', 'Henne', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -7077,7 +7263,7 @@ INSERT INTO `po_pr_revised` (`po_pr_id`, `po_id`, `pr_id`, `aoq_id`, `enduse`, `
 CREATE TABLE IF NOT EXISTS `po_series` (
 `series_id` int(11) NOT NULL,
   `series` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=382 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=388 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `po_series`
@@ -7464,7 +7650,13 @@ INSERT INTO `po_series` (`series_id`, `series`) VALUES
 (378, 1377),
 (379, 1378),
 (380, 1379),
-(381, 1380);
+(381, 1380),
+(382, 1381),
+(383, 1382),
+(384, 1383),
+(385, 1384),
+(386, 1385),
+(387, 1386);
 
 -- --------------------------------------------------------
 
@@ -7690,8 +7882,8 @@ INSERT INTO `po_tc` (`po_tc_id`, `po_id`, `tc_desc`, `notes`, `revision_no`) VAL
 (206, 302, 'Delivery Term: Ex-stock to Supplier', NULL, 0),
 (207, 302, NULL, 'Repeat Order of PO No: PR-014-5008', 0),
 (208, 303, NULL, 'Repeat Order of PO No: PROGEN-011-057', 0),
-(209, 303, 'Payment Term: COD', NULL, 0),
-(210, 303, 'Delivery Term: Ex-stock to Supplier', NULL, 0);
+(209, 303, 'Payment Term: COD', 'Repeat Order of PO No: PROGEN-011-057', 0),
+(210, 303, 'Delivery Term: Ex-stock to Supplier', 'Repeat Order of PO No: PROGEN-011-057', 0);
 
 -- --------------------------------------------------------
 
@@ -7763,7 +7955,10 @@ INSERT INTO `po_tc_revised` (`po_tc_id`, `po_id`, `tc_desc`, `notes`, `revision_
 (193, 295, 'Delivery Time: Ex-stock to Supplier', NULL, 0),
 (188, 287, NULL, 'Price and availability of the item confirmed during field work, Feb. 11, 2020. ', 0),
 (188, 287, NULL, 'Price and availability of the item confirmed during field work, Feb. 11, 2020. ', 0),
-(188, 287, NULL, 'Price and availability of the item confirmed during field work, Feb. 11, 2020. ', 0);
+(188, 287, NULL, 'Price and availability of the item confirmed during field work, Feb. 11, 2020. ', 0),
+(208, 303, NULL, 'Repeat Order of PO No: PROGEN-011-057', 0),
+(209, 303, 'Payment Term: COD', NULL, 0),
+(210, 303, 'Delivery Term: Ex-stock to Supplier', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -7786,9 +7981,9 @@ CREATE TABLE IF NOT EXISTS `po_tc_temp` (
 INSERT INTO `po_tc_temp` (`po_tc_id`, `po_id`, `tc_desc`, `notes`, `revision_no`) VALUES
 (18, 44, '', 'Price and availability of stocks confirm by Mrs. Chua, Nov. 08, 2019, 10:16 an', 0),
 (68, 101, NULL, 'Price, Stocks and Specification verified by Mrs. Chua via phone call as of 11/27/19; PM', 0),
-(208, 303, NULL, 'Repeat Order of PO No: PROGEN-011-057', 0),
-(209, 303, 'Payment Term: COD', 'Repeat Order of PO No: PROGEN-011-057', 0),
-(210, 303, 'Delivery Term: Ex-stock to Supplier', 'Repeat Order of PO No: PROGEN-011-057', 0);
+(202, 300, NULL, NULL, 0),
+(203, 300, 'Payment Term: 20 days PDC', NULL, 0),
+(204, 300, 'Delivery Term: Ex-stock to Supplier', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -7814,7 +8009,7 @@ CREATE TABLE IF NOT EXISTS `pr_details` (
   `remark_date` varchar(20) DEFAULT NULL,
   `remark_by` int(11) NOT NULL DEFAULT '0',
   `item_no` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1039 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1045 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pr_details`
@@ -8859,7 +9054,13 @@ INSERT INTO `pr_details` (`pr_details_id`, `pr_id`, `quantity`, `uom`, `part_no`
 (1035, 237, '15.00', '', '', 'Mouse', '2020-02-21', 'A', '0.00', 0, 0, '', '', NULL, NULL, 0, 3),
 (1036, 237, '10.00', '', '', 'Cord', '2020-02-21', 'B', '0.00', 0, 0, '', '', NULL, NULL, 0, 4),
 (1037, 237, '5.00', '', '', 'Paper', '2020-02-21', 'B', '0.00', 0, 0, '', '', NULL, NULL, 0, 5),
-(1038, 237, '3.00', '', '', 'Ballpen', '2020-02-21', 'B', '0.00', 0, 0, '', '', NULL, NULL, 0, 6);
+(1038, 237, '3.00', '', '', 'Ballpen', '2020-02-21', 'B', '0.00', 0, 0, '', '', NULL, NULL, 0, 6),
+(1039, 238, '7.00', '', '', 'Black Ink', '2020-02-26', 'A', '0.00', 0, 0, '', '', NULL, NULL, 0, 1),
+(1040, 238, '29.00', '', '', 'Keyboard', '2020-02-26', 'A', '0.00', 0, 0, '', '', NULL, NULL, 0, 2),
+(1041, 238, '15.00', '', '', 'Mouse', '2020-02-26', 'A', '0.00', 0, 0, '', '', NULL, NULL, 0, 3),
+(1042, 238, '10.00', '', '', 'Cord', '2020-02-26', 'A', '0.00', 0, 0, '', '', NULL, NULL, 0, 4),
+(1043, 238, '5.00', '', '', 'Paper', '2020-02-26', 'B', '0.00', 0, 0, '', '', NULL, NULL, 0, 5),
+(1044, 238, '3.00', '', '', 'Ballpen', '2020-02-26', 'B', '0.00', 0, 0, '', '', NULL, NULL, 0, 6);
 
 -- --------------------------------------------------------
 
@@ -8886,7 +9087,7 @@ CREATE TABLE IF NOT EXISTS `pr_head` (
   `cancelled_reason` text,
   `cancelled_by` int(11) NOT NULL DEFAULT '0',
   `cancelled_date` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=238 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=239 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pr_head`
@@ -9130,7 +9331,8 @@ INSERT INTO `pr_head` (`pr_id`, `user_pr_no`, `pr_no`, `purchase_request`, `date
 (234, NULL, 'ENV20-1234', 'Manila', '2020-02-12', 'Genielyne V. Mondejar', 'Environment', 'For pH meter use', 'For replacement of pH meter electrode', 1, NULL, '2020-02-12 13:22:46', 2, 0, 0, NULL, 0, NULL),
 (235, NULL, 'ENV20-1235', '', '2019-08-24', 'Genielyn Mondejar', 'Environment/PCO', 'ENVIRONMENT AND POLLUTION CONTROL CONSUMABLES', 'FOR ENVIRONMENT DEPARTMENT USE', 1, '', '2020-02-12 15:57:10', 4, 1, 0, NULL, 0, NULL),
 (236, NULL, 'WHC20-1236', '', '2019-05-14', 'Donna Gellada', 'Warehouse - CENPRI', 'CENPRI Warehouse', 'Fabrication of 3 Steel Drum Cabinets & 4 Drum Racks (3-Layered)', 1, NULL, '2020-02-13 13:41:48', 8, 0, 0, NULL, 0, NULL),
-(237, NULL, 'ITB20-1237', '', '2020-02-21', 'Henne', 'IT', 'enduse', 'purpose', 0, '', '2020-02-21 11:04:44', 1, 1, 0, NULL, 0, NULL);
+(237, NULL, 'ITB20-1237', '', '2020-02-21', 'Henne', 'IT', 'enduse', 'purpose', 0, '', '2020-02-21 11:04:44', 1, 1, 0, NULL, 0, NULL),
+(238, NULL, 'ITB20-1238', '', '2020-02-21', 'Henne', 'IT', 'enduse', 'purpose', 0, '', '2020-02-26 11:47:06', 1, 1, 0, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -9141,7 +9343,7 @@ INSERT INTO `pr_head` (`pr_id`, `user_pr_no`, `pr_no`, `purchase_request`, `date
 CREATE TABLE IF NOT EXISTS `pr_series` (
 `pr_series_id` int(11) NOT NULL,
   `series_no` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=239 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=240 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pr_series`
@@ -9385,7 +9587,8 @@ INSERT INTO `pr_series` (`pr_series_id`, `series_no`) VALUES
 (235, 1234),
 (236, 1235),
 (237, 1236),
-(238, 1237);
+(238, 1237),
+(239, 1238);
 
 -- --------------------------------------------------------
 
@@ -9401,7 +9604,7 @@ CREATE TABLE IF NOT EXISTS `pr_vendors` (
   `due_date` varchar(20) DEFAULT NULL,
   `noted_by` int(11) NOT NULL,
   `approved_by` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=725 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=728 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pr_vendors`
@@ -10129,7 +10332,10 @@ INSERT INTO `pr_vendors` (`pr_vendors_id`, `pr_id`, `vendor_id`, `grouping_id`, 
 (721, 237, 79, 'A', '', 0, 0),
 (722, 237, 45, 'B', '', 0, 0),
 (723, 237, 68, 'B', '', 0, 0),
-(724, 237, 395, 'B', '', 0, 0);
+(724, 237, 395, 'B', '', 0, 0),
+(725, 238, 45, 'B', '', 0, 0),
+(726, 238, 473, 'B', '', 0, 0),
+(727, 238, 68, 'B', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -10174,7 +10380,7 @@ CREATE TABLE IF NOT EXISTS `rfd` (
   `received_by` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `saved` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=207 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `rfd`
@@ -10384,8 +10590,9 @@ INSERT INTO `rfd` (`rfd_id`, `po_id`, `apv_no`, `rfd_date`, `due_date`, `check_d
 (201, 276, '', '2020-02-12', '2020-02-13', '', 'CENPRI-SITE', 255, 'TMVG Multi-Sales, Inc.', 2, '', '2973.21', 0, '', 22, 27, 122, 0, 0, 8, 1),
 (202, 291, '', '2020-02-15', '2020-02-17', '2020-02-17', 'CENPRI-SITE', 222, 'Ravson Enterprises', 2, '', '12933.48', 0, 'For Accountability of Irish Torres', 22, 27, 122, 0, 0, 8, 1),
 (203, 295, '', '2020-02-18', '2020-02-18', '', 'CENPRI-SITE', 221, '', 1, '', '500.00', 2, 'Payment c/o Working Fund', 22, 27, 122, 0, 0, 8, 0),
-(204, 304, '', '2020-02-13', '2020-02-06', '2020-02-20', 'sample', 255, 'assa', 2, '34324', '-832.50', 0, 'sdfsdf', 41, 93, 113, 0, 0, 1, 1),
-(205, 290, 'dfsdf', '2020-02-03', '2020-02-10', '2020-02-24', 'sdfsdf', 255, 'sdfsdf', 1, 'sdfsdf', '277.50', 0, 'ghf', 17, 93, 118, 92, 76, 1, 1);
+(204, 304, '', '2020-02-13', '2020-02-06', '2020-02-20', 'sample', 255, 'assa', 2, '34324', '-832.50', 0, 'sdfsdf', 41, 93, 113, 0, 0, 1, 0),
+(205, 290, 'dfsdf', '2020-02-03', '2020-02-10', '2020-02-24', 'sdfsdf', 255, 'sdfsdf', 1, 'sdfsdf', '277.50', 0, 'ghf', 17, 93, 118, 92, 76, 1, 1),
+(206, 308, '34324', '2020-02-03', '2020-01-28', '2020-02-04', 'dsfsdf', 45, 'sdf', 1, '', '192.50', 0, 'sdf', 118, 68, 75, 22, 112, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -10433,7 +10640,7 @@ CREATE TABLE IF NOT EXISTS `rfq_details` (
   `recommended` text,
   `unit_price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `pn_no` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1871 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1881 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `rfq_details`
@@ -12312,7 +12519,17 @@ INSERT INTO `rfq_details` (`rfq_details_id`, `rfq_id`, `pr_details_id`, `item_de
 (1867, 634, 1038, 'Ballpen', '3.00', '', NULL, NULL, '0.00', ''),
 (1868, 635, 1036, 'Cord', '10.00', '', NULL, NULL, '0.00', ''),
 (1869, 635, 1037, 'Paper', '5.00', '', NULL, NULL, '0.00', ''),
-(1870, 635, 1038, 'Ballpen', '3.00', '', NULL, NULL, '0.00', '');
+(1870, 635, 1038, 'Ballpen', '3.00', '', NULL, NULL, '0.00', ''),
+(1871, 636, 261, 'Pipe Tap, 1/2" NPT x 14 pitch (TPI), uncoated high-speed steel', '2.00', 'set/s', NULL, NULL, '0.00', ''),
+(1872, 637, 261, 'Pipe Tap, 1/2" NPT x 14 pitch (TPI), uncoated high-speed steel', '2.00', 'set/s', NULL, NULL, '0.00', ''),
+(1873, 638, 261, 'Pipe Tap, 1/2" NPT x 14 pitch (TPI), uncoated high-speed steel', '2.00', 'set/s', NULL, NULL, '0.00', ''),
+(1874, 639, 261, 'Pipe Tap, 1/2" NPT x 14 pitch (TPI), uncoated high-speed steel', '2.00', 'set/s', NULL, NULL, '0.00', ''),
+(1875, 640, 1043, 'Paper', '5.00', '', NULL, NULL, '0.00', ''),
+(1876, 640, 1044, 'Ballpen', '3.00', '', NULL, NULL, '0.00', ''),
+(1877, 641, 1043, 'Paper', '5.00', '', NULL, NULL, '0.00', ''),
+(1878, 641, 1044, 'Ballpen', '3.00', '', NULL, NULL, '0.00', ''),
+(1879, 642, 1043, 'Paper', '5.00', '', NULL, NULL, '0.00', ''),
+(1880, 642, 1044, 'Ballpen', '3.00', '', NULL, NULL, '0.00', '');
 
 -- --------------------------------------------------------
 
@@ -12348,7 +12565,7 @@ CREATE TABLE IF NOT EXISTS `rfq_head` (
   `cancel_reason` text,
   `cancelled_date` varchar(20) DEFAULT NULL,
   `cancelled_by` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=636 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=643 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `rfq_head`
@@ -12752,9 +12969,9 @@ INSERT INTO `rfq_head` (`rfq_id`, `rfq_no`, `vendor_id`, `pr_id`, `grouping_id`,
 (394, '201912-1146-W', 231, 66, 'W', '2019-12-03 16:32:07', '2019-12-03', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 8, 6, 121, '2019-12-03 16:32:07', 1, 1, NULL, 0, 0, NULL, NULL, 0),
 (395, '201912-1146-W', 270, 66, 'W', '2019-12-03 16:32:07', '2019-12-03', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 8, 6, 121, '2019-12-03 16:32:07', 1, 1, NULL, 0, 0, NULL, NULL, 0),
 (396, 'LAB19-1147-C', 380, 141, 'C', '2019-12-04 11:09:24', '2019-12-02', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y', 2, 6, 121, '2019-12-04 11:09:24', 1, 1, NULL, 0, 0, NULL, NULL, 0),
-(397, '201912-1148-N', 13, 55, 'N', '2019-12-04 17:29:07', '2019-10-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 4, 6, 121, '2019-12-04 17:29:07', 1, 0, NULL, 0, 0, NULL, NULL, 0),
-(398, '201912-1148-N', 21, 55, 'N', '2019-12-04 17:29:07', '2019-10-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 4, 6, 121, '2019-12-04 17:29:07', 1, 0, NULL, 0, 0, NULL, NULL, 0),
-(399, '201912-1148-N', 40, 55, 'N', '2019-12-04 17:29:07', '2019-10-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 4, 6, 121, '2019-12-04 17:29:07', 1, 0, NULL, 0, 0, NULL, NULL, 0),
+(397, '201912-1148-N', 13, 55, 'N', '2019-12-04 17:29:07', '2019-10-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 4, 6, 121, '2019-12-04 17:29:07', 1, 1, NULL, 0, 0, NULL, NULL, 0),
+(398, '201912-1148-N', 21, 55, 'N', '2019-12-04 17:29:07', '2019-10-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 4, 6, 121, '2019-12-04 17:29:07', 1, 1, NULL, 0, 0, NULL, NULL, 0),
+(399, '201912-1148-N', 40, 55, 'N', '2019-12-04 17:29:07', '2019-10-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 4, 6, 121, '2019-12-04 17:29:07', 1, 1, NULL, 0, 0, NULL, NULL, 0),
 (400, '201912-1148-N', 88, 55, 'N', '2019-12-04 17:29:07', '2019-10-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 4, 6, 121, '2019-12-04 17:29:07', 1, 0, NULL, 0, 0, NULL, NULL, 0),
 (401, '201912-1148-N', 132, 55, 'N', '2019-12-04 17:29:07', '2019-10-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 4, 6, 121, '2019-12-04 17:29:07', 1, 0, NULL, 0, 0, NULL, NULL, 0),
 (402, '201912-1149-Q', 40, 56, 'Q', '2019-12-04 17:30:34', '2019-11-04', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'X', 4, 6, 121, '2019-12-04 17:30:34', 1, 1, NULL, 0, 0, NULL, NULL, 0),
@@ -12991,7 +13208,14 @@ INSERT INTO `rfq_head` (`rfq_id`, `rfq_no`, `vendor_id`, `pr_id`, `grouping_id`,
 (632, 'ITB20-1247-A', 79, 237, 'A', '2020-02-21 11:06:17', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '2020-02-21 11:06:17', 1, 1, NULL, 0, 0, NULL, NULL, 0),
 (633, 'ITB20-1247-B', 45, 237, 'B', '2020-02-21 11:06:17', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '2020-02-21 11:06:17', 1, 1, NULL, 0, 0, NULL, NULL, 0),
 (634, 'ITB20-1247-B', 68, 237, 'B', '2020-02-21 11:06:17', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '2020-02-21 11:06:17', 1, 1, NULL, 0, 0, NULL, NULL, 0),
-(635, 'ITB20-1247-B', 395, 237, 'B', '2020-02-21 11:06:17', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '2020-02-21 11:06:17', 1, 1, NULL, 0, 0, NULL, NULL, 0);
+(635, 'ITB20-1247-B', 395, 237, 'B', '2020-02-21 11:06:17', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '2020-02-21 11:06:17', 1, 1, NULL, 0, 0, NULL, NULL, 0),
+(636, '202002-1248-Q', 21, 58, 'Q', '2020-02-26 11:41:11', '2019-11-10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y', 1, 6, 121, '2020-02-26 11:41:11', 1, 0, NULL, 0, 0, NULL, NULL, 0),
+(637, '202002-1248-Q', 132, 58, 'Q', '2020-02-26 11:41:11', '2019-11-10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y', 1, 6, 121, '2020-02-26 11:41:11', 1, 0, NULL, 0, 0, NULL, NULL, 0),
+(638, '202002-1248-Q', 140, 58, 'Q', '2020-02-26 11:41:11', '2019-11-10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y', 1, 6, 121, '2020-02-26 11:41:11', 1, 0, NULL, 0, 0, NULL, NULL, 0),
+(639, '202002-1248-Q', 270, 58, 'Q', '2020-02-26 11:41:11', '2019-11-10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Y', 1, 6, 121, '2020-02-26 11:41:11', 1, 0, NULL, 0, 0, NULL, NULL, 0),
+(640, 'ITB20-1249-B', 45, 238, 'B', '2020-02-26 11:47:54', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '2020-02-26 11:47:54', 1, 0, NULL, 0, 0, NULL, NULL, 0),
+(641, 'ITB20-1249-B', 473, 238, 'B', '2020-02-26 11:47:54', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '2020-02-26 11:47:54', 1, 0, NULL, 0, 0, NULL, NULL, 0),
+(642, 'ITB20-1249-B', 68, 238, 'B', '2020-02-26 11:47:54', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 0, 0, '2020-02-26 11:47:54', 1, 0, NULL, 0, 0, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -13003,7 +13227,7 @@ CREATE TABLE IF NOT EXISTS `rfq_series` (
 `rfq_series_id` int(11) NOT NULL,
   `year_month` varchar(20) DEFAULT NULL,
   `series` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=252 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=254 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `rfq_series`
@@ -13260,7 +13484,9 @@ INSERT INTO `rfq_series` (`rfq_series_id`, `year_month`, `series`) VALUES
 (248, '202002', 1244),
 (249, 'MAI19', 1245),
 (250, '202002', 1246),
-(251, 'ITB20', 1247);
+(251, 'ITB20', 1247),
+(252, '202002', 1248),
+(253, 'ITB20', 1249);
 
 -- --------------------------------------------------------
 
@@ -13351,7 +13577,7 @@ CREATE TABLE IF NOT EXISTS `vendor_details` (
 `vendordet_id` int(11) NOT NULL,
   `vendor_id` int(11) unsigned NOT NULL DEFAULT '0',
   `item_id` int(11) unsigned NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1351 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1363 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `vendor_details`
@@ -14707,7 +14933,19 @@ INSERT INTO `vendor_details` (`vendordet_id`, `vendor_id`, `item_id`) VALUES
 (1347, 79, 1431),
 (1348, 16, 1432),
 (1349, 73, 1433),
-(1350, 79, 1434);
+(1350, 79, 1434),
+(1351, 72, 1435),
+(1352, 74, 1436),
+(1353, 206, 1437),
+(1354, 45, 1438),
+(1355, 68, 1439),
+(1356, 395, 1440),
+(1357, 45, 1441),
+(1358, 68, 1442),
+(1359, 395, 1443),
+(1360, 45, 1444),
+(1361, 68, 1445),
+(1362, 395, 1446);
 
 -- --------------------------------------------------------
 
@@ -15463,22 +15701,22 @@ ALTER TABLE `vendor_head`
 -- AUTO_INCREMENT for table `aoq_head`
 --
 ALTER TABLE `aoq_head`
-MODIFY `aoq_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=184;
+MODIFY `aoq_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=186;
 --
 -- AUTO_INCREMENT for table `aoq_items`
 --
 ALTER TABLE `aoq_items`
-MODIFY `aoq_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=743;
+MODIFY `aoq_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=747;
 --
 -- AUTO_INCREMENT for table `aoq_offers`
 --
 ALTER TABLE `aoq_offers`
-MODIFY `aoq_offer_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=904;
+MODIFY `aoq_offer_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=916;
 --
 -- AUTO_INCREMENT for table `aoq_vendors`
 --
 ALTER TABLE `aoq_vendors`
-MODIFY `aoq_vendors_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=521;
+MODIFY `aoq_vendors_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=527;
 --
 -- AUTO_INCREMENT for table `brand`
 --
@@ -15498,27 +15736,27 @@ MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=123;
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1435;
+MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1447;
 --
 -- AUTO_INCREMENT for table `jo_ar`
 --
 ALTER TABLE `jo_ar`
-MODIFY `joar_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `joar_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `jo_details`
 --
 ALTER TABLE `jo_details`
-MODIFY `jo_details_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `jo_details_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `jo_dr`
 --
 ALTER TABLE `jo_dr`
-MODIFY `jodr_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `jodr_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `jo_head`
 --
 ALTER TABLE `jo_head`
-MODIFY `jo_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `jo_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `jo_rfd`
 --
@@ -15528,7 +15766,7 @@ MODIFY `rfd_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `jo_series`
 --
 ALTER TABLE `jo_series`
-MODIFY `jo_series_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `jo_series_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `jo_terms`
 --
@@ -15538,7 +15776,7 @@ MODIFY `jo_terms_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `po_dr`
 --
 ALTER TABLE `po_dr`
-MODIFY `dr_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=277;
+MODIFY `dr_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=284;
 --
 -- AUTO_INCREMENT for table `po_dr_details`
 --
@@ -15548,27 +15786,27 @@ MODIFY `dr_details_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `po_dr_items`
 --
 ALTER TABLE `po_dr_items`
-MODIFY `dr_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=586;
+MODIFY `dr_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=591;
 --
 -- AUTO_INCREMENT for table `po_head`
 --
 ALTER TABLE `po_head`
-MODIFY `po_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=305;
+MODIFY `po_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=309;
 --
 -- AUTO_INCREMENT for table `po_items`
 --
 ALTER TABLE `po_items`
-MODIFY `po_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=378;
+MODIFY `po_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=383;
 --
 -- AUTO_INCREMENT for table `po_pr`
 --
 ALTER TABLE `po_pr`
-MODIFY `po_pr_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=305;
+MODIFY `po_pr_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=309;
 --
 -- AUTO_INCREMENT for table `po_series`
 --
 ALTER TABLE `po_series`
-MODIFY `series_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=382;
+MODIFY `series_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=388;
 --
 -- AUTO_INCREMENT for table `po_tc`
 --
@@ -15578,22 +15816,22 @@ MODIFY `po_tc_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=211;
 -- AUTO_INCREMENT for table `pr_details`
 --
 ALTER TABLE `pr_details`
-MODIFY `pr_details_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1039;
+MODIFY `pr_details_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1045;
 --
 -- AUTO_INCREMENT for table `pr_head`
 --
 ALTER TABLE `pr_head`
-MODIFY `pr_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=238;
+MODIFY `pr_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=239;
 --
 -- AUTO_INCREMENT for table `pr_series`
 --
 ALTER TABLE `pr_series`
-MODIFY `pr_series_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=239;
+MODIFY `pr_series_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=240;
 --
 -- AUTO_INCREMENT for table `pr_vendors`
 --
 ALTER TABLE `pr_vendors`
-MODIFY `pr_vendors_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=725;
+MODIFY `pr_vendors_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=728;
 --
 -- AUTO_INCREMENT for table `reminder`
 --
@@ -15603,7 +15841,7 @@ MODIFY `reminder_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `rfd`
 --
 ALTER TABLE `rfd`
-MODIFY `rfd_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=206;
+MODIFY `rfd_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=207;
 --
 -- AUTO_INCREMENT for table `rfd_items`
 --
@@ -15618,17 +15856,17 @@ MODIFY `rfd_purpose_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `rfq_details`
 --
 ALTER TABLE `rfq_details`
-MODIFY `rfq_details_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1871;
+MODIFY `rfq_details_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1881;
 --
 -- AUTO_INCREMENT for table `rfq_head`
 --
 ALTER TABLE `rfq_head`
-MODIFY `rfq_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=636;
+MODIFY `rfq_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=643;
 --
 -- AUTO_INCREMENT for table `rfq_series`
 --
 ALTER TABLE `rfq_series`
-MODIFY `rfq_series_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=252;
+MODIFY `rfq_series_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=254;
 --
 -- AUTO_INCREMENT for table `to_do_today`
 --
@@ -15653,7 +15891,7 @@ MODIFY `usertype_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `vendor_details`
 --
 ALTER TABLE `vendor_details`
-MODIFY `vendordet_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1351;
+MODIFY `vendordet_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1363;
 --
 -- AUTO_INCREMENT for table `vendor_head`
 --

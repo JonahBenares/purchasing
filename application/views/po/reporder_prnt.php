@@ -198,13 +198,22 @@
 		    			<td width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<img class="img-st" width="120px" src="<?php echo base_url().LOGO;?>">
-		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
+		    			<td colspan="20">
+		    				<center>
+			    				<h4 class="company-st" >
+				    				<img class="logo-st" width="120px" src="<?php echo base_url().LOGO;?>">
+				    				<b><?php echo COMPANY_NAME;?></b>
+				    			</h4>
+			    				<div  class="det-st">
+			    					<?php echo ADDRESS;?><br>
+			    					<?php echo ADDRESS_2;?><br>
+			    					<?php echo TIN;?><br>
+			    					<?php echo TEL_NO;?><br>
+			    					<?php echo TELFAX;?><br>
+			    				</div>
+			    			</center>
+		    			</td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
 		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<?php foreach($head AS $h){ ?>
@@ -565,33 +574,34 @@
 	    		<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
 	    		<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
     	</form>
-    	<div class="modal fade" id="terms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Add Terms & Conditions
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-							</button>
-						</h5>
-						
-					</div>
-					<form method="POST" action="<?php echo base_url(); ?>po/add_tc_reporder">
-						<div class="modal-body">
-							<div class="form-group">
-								Terms & Conditions:
-								<input type="text" class="form-control" name="tc_desc" autocomplete="off">
-							</div>
-						</div>
-						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
-						<div class="modal-footer">
-							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
-						</div>
-					</form>
+    	
+    </div>
+    <div class="modal fade" id="terms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add Terms & Conditions
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</h5>
+					
 				</div>
+				<form method="POST" action="<?php echo base_url(); ?>po/add_tc_reporder">
+					<div class="modal-body">
+						<div class="form-group">
+							Terms & Conditions:
+							<input type="text" class="form-control" name="tc_desc" autocomplete="off">
+						</div>
+					</div>
+					<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+					<div class="modal-footer">
+						<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+					</div>
+				</form>
 			</div>
 		</div>
-    </div>
+	</div>
 	<div class="modal fade" id="UpdateTerms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -636,17 +646,23 @@
 					<div class="modal-body">
 						<div class="form-group">
 							Payment:
-							<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>">
+							<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo (!empty($payment_terms)) ? $payment_terms : '';?>">
+						</div>
+						<div class="form-group">
 							Item Warranty:
-							<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>">
+							<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo (!empty($item_warranty)) ? $item_warranty : '';?>">
+							</div>
+						<div class="form-group">
 							Delivery_item:
-							<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>">
+							<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo (!empty($delivery_time)) ? $delivery_time : '';?>">
+							</div>
+						<div class="form-group">
 							Freight:
-							<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>">
+							<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo (!empty($freight)) ? $freight : '';?>">
 						</div>
 					</div>
 					<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
-					<input type='hidden' name='aoq_vendors_id' value='<?php echo $aoq_vendors_id; ?>'>
+					<input type='hidden' name='aoq_vendors_id' value='<?php echo (!empty($aoq_vendors_id)) ? $aoq_vendors_id : ''; ?>'>
 					<div class="modal-footer">
 						<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 					</div>

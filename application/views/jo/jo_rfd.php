@@ -145,8 +145,14 @@
 		    			<td width="5%"><br></td>
 		    		</tr>		    		
 		    		<tr>
-		    			<img class="img-st" width="120px" src="<?php echo base_url().LOGO;?>">
-		    			<td colspan="20"><center><h4 style="margin: 0px"><b><?php echo COMPANY_NAME;?></b></h4></center></td>
+		    			<td colspan="20">
+		    				<center>
+			    				<h4 class="company-st company-h-st" >
+				    				<img class="logo-st" width="120px" src="<?php echo base_url().LOGO;?>">
+				    				<b><?php echo COMPANY_NAME;?></b>
+				    			</h4>
+			    			</center>
+		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20" align="center"><h5><b>REQUEST FOR DISBURSEMENT</b></h5></td></tr>
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
@@ -267,9 +273,26 @@
 		    			<td align="left" colspan="7" ></td>
 		    			<td align="right" colspan="10" class="bor-right"><br><br><br></td>
 		    			<td align="right" colspan="3"></td>
+		    			</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent."% VAT"; ?></b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"></span>
+		    				<span class="nomarg" id=''><?php echo number_format($vat_amount,2); ?></span>
+		    			</td>
+		    		</tr>
+		    		<?php $subtotal = $total_cost + $vat_amount; ?>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">SubTotal:</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"></span>
+		    				<span class="nomarg" id=''><?php echo number_format($subtotal,2); ?></span>
+		    			</td>
+		    		</tr>
+		    		
 		    		</tr>
 		    			<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less: " .number_format($disc_percent); ?>% Discount</b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less Discount"; ?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
 		    				<span class="nomarg" id=''><?php echo number_format($disc_amount,2); ?></span>
