@@ -248,6 +248,7 @@
 			</div>
 	    	<div style="background: #fff;width: 200%!important" class = "<?php if($served==1){ echo 'served';} ?>"> 
 		    	<table class="table-boddered" width="100%" style="border:2px solid #000">
+		    		<tr><td colspan="21"><h5><b>AOQ - <?php echo $aoq_id; ?></b></h5></td></tr>
 		    		<tr>
 		    			<td width="2%"><br></td>
 		    			<td width="7%"><br></td>
