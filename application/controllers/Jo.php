@@ -716,7 +716,7 @@ class Jo extends CI_Controller {
                 "uom"=>$jodetst->uom,
                 "total_cost"=>$jodetst->total_cost,
                 "scope_of_work"=>$jodetst->scope_of_work,
-                "scope_of_work"=>$revision_no,
+                "revision_no"=>$revision_no,
             );
             $this->super_model->update_where("jo_details", $data_detailst, "jo_details_id", $jodetst->jo_details_id);
         }
