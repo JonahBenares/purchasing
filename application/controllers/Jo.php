@@ -112,6 +112,7 @@ class Jo extends CI_Controller {
             $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
             $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $head->vendor_id);
             $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id);
+            $data['fax'] = $this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id', $head->vendor_id);
             $data['cenjo_no']= $head->cenpri_jo_no;
             $data['jo_no']= $head->jo_no;
             $data['project_title']= $head->project_title;
@@ -187,6 +188,7 @@ class Jo extends CI_Controller {
             $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
             $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $head->vendor_id);
             $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id);
+            $data['fax'] = $this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id', $head->vendor_id);
             $data['cenjo_no']= $head->cenpri_jo_no;
             $data['jo_no']= $head->jo_no;
             $data['project_title']= $head->project_title;
@@ -385,9 +387,10 @@ class Jo extends CI_Controller {
         $address= $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $vendor);
         $contact_person= $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $vendor);
         $phone= $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $vendor);
+        $fax= $this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id', $vendor);
 
         
-        $return = array('address' => $address, 'phone' => $phone, 'contact_person' => $contact_person);
+        $return = array('address' => $address, 'phone' => $phone, 'contact_person' => $contact_person, 'fax' => $fax);
         echo json_encode($return);
     
     }
@@ -401,6 +404,7 @@ class Jo extends CI_Controller {
             $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
             $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $head->vendor_id);
             $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id);
+            $data['fax'] = $this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id', $head->vendor_id);
             $data['cenjo_no']= $head->cenpri_jo_no;
             $data['jo_no']= $head->jo_no;
             $data['project_title']= $head->project_title;
@@ -442,6 +446,7 @@ class Jo extends CI_Controller {
             $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
             $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $head->vendor_id);
             $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id);
+            $data['fax'] = $this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id', $head->vendor_id);
             $data['cenjo_no']= $head->cenpri_jo_no;
             $data['jo_no']= $head->jo_no;
             $data['project_title']= $head->project_title;
@@ -471,6 +476,7 @@ class Jo extends CI_Controller {
             $data['revised'] = $headtemp->revised;
             $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $headtemp->vendor_id);
             $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $headtemp->vendor_id);
+            $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $headtemp->vendor_id);
             $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $headtemp->vendor_id);
             $data['cenjo_no']= $headtemp->cenpri_jo_no;
             $data['jo_no']= $headtemp->jo_no;
@@ -516,6 +522,7 @@ class Jo extends CI_Controller {
             $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
             $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $head->vendor_id);
             $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id);
+            $data['fax'] = $this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id', $head->vendor_id);
             $data['cenjo_no']= $head->cenpri_jo_no;
             $data['jo_no']= $head->jo_no;
             $data['project_title']= $head->project_title;

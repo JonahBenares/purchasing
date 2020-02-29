@@ -188,7 +188,7 @@
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
+						<a href="<?php echo base_url(); ?>jo/jo_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
 						<?php if($revised==0){ ?>
 							<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" value="Save & Print Change Order Form">	
@@ -266,6 +266,7 @@
                             <span id='contact_person'><?php echo $contact_person; ?></span><br>
                             <span id='address'><?php echo $address; ?></span><br>
 		    				<span id='phone'><?php echo $phone; ?></span><br>
+		    				<span id='fax'><?php echo $fax; ?></span><br>
 		    				<!-- <b><?php echo $vendor; ?></b><br>
 		    				<span id='address'><?php echo $address; ?></span><br>
 		    				<span id='phone'><?php echo $phone; ?></span><br> -->
@@ -300,8 +301,10 @@
 		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
 		    			<td class="f13" colspan="10" align="left">
 		    				<b><?php echo $vendor; ?></b><br>
+		    				<span id='contact_person'><?php echo $contact_person; ?></span><br>
 		    				<span id='address'><?php echo $address; ?></span><br>
 		    				<span id='phone'><?php echo $phone; ?></span><br>
+		    				<span id='fax'><?php echo $fax; ?></span><br>
 		    				<br>
 		    			</td>
 		    			<td colspan="7"></td>

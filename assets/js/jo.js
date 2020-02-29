@@ -15,6 +15,7 @@ function chooseVendor()
                document.getElementById("address").innerHTML  = response.address;
                document.getElementById("phone").innerHTML  = response.phone;
                document.getElementById("contact_person").innerHTML  = response.contact_person;
+               document.getElementById("fax").innerHTML  = response.fax;
             
            }
         }); 

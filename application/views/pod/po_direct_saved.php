@@ -219,6 +219,11 @@
 		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['phone']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
+		    		<tr>
+		    			<td colspan="3"><h6 class="nomarg"><b>Telefax #:</b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['fax']; ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
+		    		</tr>
 		    		<?php } ?>
 		    		<!-- <tr id="pr-btn">
 		    			<td colspan="20" style="padding-left: 10px">
@@ -378,10 +383,21 @@
 		    				<i></i>
 		    			</td>
 		    		</tr>
+		    		<tr>		    			
+		    			<td colspan="20" style="padding: 10px!important">
+		    				Other Instructions: 
+		    				<?php 
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->notes)) { 
+		    				?>
+		    					<p style = "color:blue;"><?php echo nl2br($t->notes);?></p>
+		    				<?php } } ?>
+		    			</td>
+		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<?php if($draft==0){ ?>
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
+		    				<button type="button" class="btn btn-primary btn-xs " id = "prnt_btn" data-toggle="modal" data-target="#exampleModal">
 							 Add Terms & Conditions:
 							</button>
 							<?php } ?>
@@ -392,7 +408,9 @@
 		    				<?php 
 		    					$no=4;
 			    				foreach($tc AS $t){ 
-			    					echo $no.". " . $t->tc_desc."<br>";
+			    					if(!empty($t->tc_desc)){
+			    						echo $no.". " . $t->tc_desc."<br>";
+			    					}
 			    					$no++; 
 			    				} 
 		    				?>	  	
@@ -427,7 +445,7 @@
 		    			<td colspan="1"></td>
 		    			<td colspan="5"><b>Prepared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6"><b>Checked by:</b></td>
+		    			<td colspan="6"><b>Reviewed/Checked by:</b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="5"><b>Approved by:</b></td>
 		    			<td colspan="1"></td>

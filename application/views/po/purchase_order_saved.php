@@ -63,7 +63,7 @@
 			.pad{
         	padding:0px 0px 0px 0px
         	}
-			#prnt_btn,#item-btn,#pr-btn,#updateTerm{
+			.prnt,#prnt_btn,#item-btn,#pr-btn,#updateTerm{
 				display: none;
 			}
 			.emphasis{
@@ -363,6 +363,11 @@
 		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['phone']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
+		    		<tr>
+		    			<td colspan="3"><h6 class="nomarg"><b>Telefax #:</b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['fax']; ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
+		    		</tr>
 		    		<?php } ?>
 		    		<!-- LOOp Here -->  
 					<tr>
@@ -504,7 +509,7 @@
 			    						<a class='btn btn-primary btn-xs' id = "prnt_btn" data-toggle='modal' data-target='#EditIns' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
 					    					<span class = 'fa fa-edit'></span>
 					    				</a>
-					    				<a href="<?php echo base_url(); ?>index.php/po/delete_inst/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>" class="btn btn-custon-three btn-danger btn-xs" onclick="confirmationDelete(this);return false;">
+					    				<a href="<?php echo base_url(); ?>index.php/po/delete_inst/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>" class="btn btn-custon-three btn-danger btn-xs prnt" onclick="confirmationDelete(this);return false;">
 		                                    <span class="fa fa-times"></span>
 		                                </a>
 	                            	<?php } ?>

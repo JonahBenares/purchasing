@@ -52,7 +52,7 @@
 			.pad{
         	padding:0px 0px 0px 0px
         	}
-			#prnt_btn,#item-btn,#pr-btn,#updateTerm{
+			.prnt,#prnt_btn,#item-btn,#pr-btn,#updateTerm{
 				display: none;
 			}
 			.emphasis{
@@ -241,6 +241,11 @@
 		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['phone']; ?></b></h6></td>
 		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
 		    		</tr>
+		    		<tr>
+		    			<td colspan="3"><h6 class="nomarg"><b>Telefax #:</b></h6></td>
+		    			<td colspan="12"><h6 class="nomarg bor-btm"><b><?php echo $h['fax']; ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b></b></h6></td>
+		    		</tr>
 		    		<?php } ?>
 		    		<!-- <tr id="pr-btn">
 		    			<td colspan="20" style="padding-left: 10px">
@@ -342,7 +347,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
+		    				<button type="button" class="btn btn-primary btn-xs prnt" data-toggle="modal" data-target="#otherins">
 							 Add Other Instruction
 							</button><br>
 		    				<?php foreach($tc AS $t){ ?>
@@ -361,7 +366,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#exampleModal">
+		    				<button type="button" class="btn btn-primary btn-xs prnt" data-toggle="modal" data-target="#exampleModal">
 							 Add Terms & Conditions
 							</button>
 							<?php $x=3; ?>
@@ -397,7 +402,7 @@
 		    						if(!empty($t->tc_desc)){
 			    						echo $x.". " . $t->tc_desc;
 			    				?>
-			    				<a class='btn btn-primary btn-xs' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+			    				<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
 			    					<span class = 'fa fa-edit'></span>
 			    				</a>
 			    				<br>
