@@ -468,7 +468,7 @@
 		    			<td colspan="1"></td>
 		    			<td colspan="4" class=""><b>
 			    			<?php if($saved==0){ ?>
-			    			<select name='checked' class="select-des emphasis" style="width: 100%" required>
+			    			<select name='checked' class="select-des emphasis" style="width: 100%" >
 				    			<option value=''>-Select-</option>
 				    			<?php foreach($employee AS $emp){ ?>
 				    			<option value='<?php echo $emp->employee_id; ?>' <?php echo (($checked_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
@@ -480,7 +480,7 @@
 			    			<td colspan="1"></td>
 		    			<td colspan="4" class=""><b>
 			    			<?php if($saved==0){ ?>
-			    			<select name='recommended' class="select-des emphasis" style="width: 100%" required>
+			    			<select name='recommended' class="select-des emphasis" style="width: 100%" >
 				    			<option value=''>-Select-</option>
 				    			<?php foreach($employee AS $emp){ ?>
 				    			<option value='<?php echo $emp->employee_id; ?>' <?php echo (($recommended_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
