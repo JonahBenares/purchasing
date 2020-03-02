@@ -478,6 +478,7 @@ class Jo extends CI_Controller {
             $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $headtemp->vendor_id);
             $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $headtemp->vendor_id);
             $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $headtemp->vendor_id);
+            $data['fax'] = $this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id', $headtemp->vendor_id);
             $data['cenjo_no']= $headtemp->cenpri_jo_no;
             $data['jo_no']= $headtemp->jo_no;
             $data['project_title']= $headtemp->project_title;
@@ -723,7 +724,7 @@ class Jo extends CI_Controller {
                 "uom"=>$jodetst->uom,
                 "total_cost"=>$jodetst->total_cost,
                 "scope_of_work"=>$jodetst->scope_of_work,
-                "scope_of_work"=>$revision_no,
+                "revision_no"=>$revision_no,
             );
             $this->super_model->update_where("jo_details", $data_detailst, "jo_details_id", $jodetst->jo_details_id);
         }
