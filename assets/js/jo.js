@@ -63,6 +63,7 @@ function changePrice(){
 
 
   /*document.getElementById("gtotal").innerHTML  = net.toFixed(2);*/
+    document.getElementById("gtotal").innerHTML  = net.toFixed(2);
    document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
 }
 
