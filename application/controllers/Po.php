@@ -597,6 +597,7 @@ class Po extends CI_Controller {
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
                 'checked_by'=>$this->input->post('checked'),
+                'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
                 'saved'=>1,
                 'revised'=>0
