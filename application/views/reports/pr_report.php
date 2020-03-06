@@ -6,6 +6,10 @@
              var remarks = $(this).data('remarks');
              var cancel = $(this).data('cancel');
              var po_offer_id = $(this).data('offerid');
+             var status = $(this).data('status');
+              var pr_id = $(this).data('prid');
+               $(".modal #pr_id").val(pr_id);
+              $(".modal #status").val(status);
              $(".modal #pr_details_id").val(pr_details_id);
              $(".modal #year").val(year);
              $(".modal #month").val(month);
@@ -171,12 +175,13 @@
                                             <td><?php echo $p['remarks'];?></td>
                                             <td></td>
                                             <td>
+                                            
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>">
+                                                    <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
                                                         <span class="fa fa-plus"></span>
                                                     </button>                                                 
                                                 </div>
-                                            </td>
+                                          
                                         </tr>    
                                     <?php } } ?>               
                                     </tbody>
@@ -200,14 +205,19 @@
                 </div>
                 <form method='POST' action="<?php echo base_url(); ?>reports/add_remarks">
                     <div class="modal-body">
+                        <div class="form-group">
                         <textarea class="form-control" rows="5" name='remarks' id='remarks'></textarea>
-                        <br>
-                        <label>Cancel
-                            <input type = "checkbox" class="form-control" name='cancel' value = "1">
-                        </label>
+                        </div>
+                        <div class="form-group">
+                        <center>
+                          <input type = "checkbox" class="form-control" name='cancel' value = "1" ><span style='font-size:11px;'>Tick the box above if you need to cancel remaining items (applicable for partially delivered items only)</span>
+                        </center>
+                        </div>
                     </div>
                     <div class="modal-footer">
+                        <input type='hidden' name='status' id='status'>
                         <input type='hidden' name='pr_details_id' id='pr_details_id'>
+                        <input type='hidden' name='pr_id' id='pr_id'>
                         <input type='hidden' name='po_offer_id' id='po_offer_id'>
                         <input type='hidden' name='year' id='year'>
                         <input type='hidden' name='month' id='month'>

@@ -176,14 +176,14 @@ class Reports extends CI_Controller {
                              $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
                         }
                     }
-
+/*
                     if($cancelled_head_po==1){
                         $cancel_reason = $this->super_model->select_column_where('po_head', 'cancel_reason', 'po_id', $po_id);
                         $cancel_date = $this->super_model->select_column_where('po_head', 'cancelled_date', 'po_id', $po_id);
                         $statuss = "Cancelled";
                         $status = "Cancelled";
                         $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
-                    }
+                    }*/
                 }
             } else {
                 $cancelled_items = $this->super_model->select_column_where('pr_details', 'cancelled', 'pr_details_id', $pr->pr_details_id);
@@ -318,9 +318,13 @@ class Reports extends CI_Controller {
                     'cancelled'=>$pr->cancelled,
                 );*/
 
+            $pr_id = $pr->pr_id;
+
+
             $data['pr'][] = array(
                 'po_offer_id'=>$po_offer_id,
                 'pr_details_id'=>$pr->pr_details_id,
+                'pr_id'=>$pr_id,
                 'date_prepared'=>$pr->date_prepared,
                 'purchase_request'=>$pr->purchase_request,
                 'pr_no'=>$pr->pr_no,
@@ -2116,7 +2120,9 @@ class Reports extends CI_Controller {
 
     public function add_remarks(){
         $po_offer_id =$this->input->post('po_offer_id');
+        $pr_id =$this->input->post('pr_id');
         $pr_details_id =$this->input->post('pr_details_id');
+        $status =$this->input->post('status');
         $year =$this->input->post('year');
         $month =$this->input->post('month');
         $remarks=$this->input->post('remarks');
@@ -2139,19 +2145,23 @@ class Reports extends CI_Controller {
             'remark_by'=>$_SESSION['user_id']
         );
         //}
-
-        if($this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id)){
-            if($cancel!=0){
-                $po_id = $this->super_model->select_column_where("po_items",'po_id','pr_details_id',$pr_details_id);
-                $aoq_offer = $this->super_model->select_column_where("po_items",'aoq_offer_id','pr_details_id',$pr_details_id);
-                $data_po=array(
-                    'cancel'=>$cancel,
-                    'cancelled_by'=>$_SESSION['user_id'],
-                    'cancelled_date'=>date('Y-m-d'),
-                );
-                $this->super_model->update_where("po_items", $data_po, "aoq_offer_id", $po_offer_id);
+        if($status == 'Partially Delivered'){
+            if($this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id)){
+                if($cancel!=0){
+                    $po_id = $this->super_model->select_column_where("po_items",'po_id','pr_details_id',$pr_details_id);
+                    $aoq_offer = $this->super_model->select_column_where("po_items",'aoq_offer_id','pr_details_id',$pr_details_id);
+                    $data_po=array(
+                        'cancel'=>$cancel,
+                        'cancelled_by'=>$_SESSION['user_id'],
+                        'cancelled_date'=>date('Y-m-d'),
+                    );
+                    $this->super_model->update_custom_where("po_items", $data_po, "pr_id = '$pr_id' AND pr_details_id = '$pr_details_id'");
+                }
+                redirect(base_url().'reports/pr_report/'.$year.'/'.$month);
             }
-            redirect(base_url().'reports/pr_report/'.$year.'/'.$month);
+        } else {
+            echo "<script>alert('You can only use this cancel button for partially delivered items.');
+            window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
         }
     }
 
