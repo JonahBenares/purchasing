@@ -815,7 +815,6 @@ class Pr extends CI_Controller {
                 $this->super_model->insert_into("pr_vendors", $prven);
 
 
-
                   $timestamp = date("Y-m-d H:i:s");
                 $rfq_format = date("Ym");
                 $rfqdet=date('Y-m');
