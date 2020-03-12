@@ -588,7 +588,7 @@ class Jo extends CI_Controller {
 
         $x=1;
         foreach($this->super_model->select_row_where("jo_details","jo_id",$jo_id) AS $jodets){
-            if($this->input->post('quantity'.$x)!=0){
+            //if($this->input->post('quantity'.$x)!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
                 $data_details = array(
@@ -601,7 +601,7 @@ class Jo extends CI_Controller {
                     "scope_of_work"=>$this->input->post('scope_of_work'.$x),
                 );
                 $this->super_model->insert_into("jo_details_temp", $data_details);
-            }
+            //}
             $x++;
         }
 
