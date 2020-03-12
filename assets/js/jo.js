@@ -111,9 +111,13 @@ function changePrice_JO(count){
 
    var net =  parseFloat(subtotal) - parseFloat(less);
 
-    document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
-     document.getElementById("net").value  =net;
+  /*  document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
+     document.getElementById("net").value  =net;*/
+  document.getElementById("net").value  =net;
 
+
+  /*document.getElementById("gtotal").innerHTML  = net.toFixed(2);*/
+    document.getElementById("gtotal").innerHTML  = net.toFixed(2);
 
      /*document.getElementById("grandtotal").innerHTML  =grandtotal;
      document.getElementById("grandtotal1").innerHTML  =grandtotal1;*/
