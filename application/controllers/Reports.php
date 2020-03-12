@@ -1752,7 +1752,7 @@ class Reports extends CI_Controller {
         $supplier=$this->uri->segment(12);
 
         $sql="";
-        $filter = " ";
+        $filter = "";
 
         if($pr_no1!='null'){
             $sql.=" pp.pr_id = '$pr_no1' AND";
@@ -1784,7 +1784,7 @@ class Reports extends CI_Controller {
                 $empid = $r->employee_id;
                 $sql.=" pp.requestor = '$empid' OR";
             }
-            $filter .= "Requestor - ".$requestor.", ";
+            $filter .= $requestor;
         }
 
         if($requestor!='null'){
@@ -1802,7 +1802,7 @@ class Reports extends CI_Controller {
                 $it = $t->item_id;
                 $sql.=" pi.item_id = '$it' OR";
             }
-            $filter .= "Item Description - ".$description.", ";
+            $filter .= $description;
         }
 
         if($description!='null'){
@@ -1830,6 +1830,7 @@ class Reports extends CI_Controller {
         } else {
              $date = $year;
         }
+
         /*$data['year']=$year;
         $data['month']=$month;
         $date = $year."-".$month;
@@ -2012,14 +2013,14 @@ class Reports extends CI_Controller {
                         }else {
                             $requestor = $pr->requestor;
                         }*/
-                        $total=$i->quantity*$i->unit_price;
-                foreach($this->super_model->select_custom_where("po_head","po_date LIKE '%$po_date%' GROUP BY po_id") AS $p){
+                foreach($this->super_model->select_custom_where("po_head","po_date LIKE '%$date%' GROUP BY po_id") AS $p){
                     $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
                     $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
 
                     foreach($this->super_model->select_row_where('po_pr','po_id',$p->po_id) AS $pr){
                         $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$pr->pr_id);
                         foreach($this->super_model->select_row_where('po_items','po_id',$p->po_id) AS $i){
+                            $total=$i->quantity*$i->unit_price;
                             if($i->item_id!=0){
                                 foreach($this->super_model->select_row_where('item','item_id',$i->item_id) AS $it){
                                     $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
