@@ -2144,9 +2144,10 @@ class Reports extends CI_Controller {
             'remark_date'=>$remark_date,
             'remark_by'=>$_SESSION['user_id']
         );
+        $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
         //}
         if($status == 'Partially Delivered'){
-            if($this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id)){
+         
                 if($cancel!=0){
                     $po_id = $this->super_model->select_column_where("po_items",'po_id','pr_details_id',$pr_details_id);
                     $aoq_offer = $this->super_model->select_column_where("po_items",'aoq_offer_id','pr_details_id',$pr_details_id);
@@ -2158,7 +2159,7 @@ class Reports extends CI_Controller {
                     $this->super_model->update_custom_where("po_items", $data_po, "pr_id = '$pr_id' AND pr_details_id = '$pr_details_id'");
                 }
                 redirect(base_url().'reports/pr_report/'.$year.'/'.$month);
-            }
+            
         } else {
             echo "<script>alert('You can only use this cancel button for partially delivered items.');
             window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
