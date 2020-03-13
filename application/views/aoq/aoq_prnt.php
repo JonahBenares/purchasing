@@ -452,7 +452,7 @@
 		    						if($ven['vendor_id'] == $of['vendor_id'] && $it->aoq_items_id == $of['item_id']){ ?>				
 			    					<tr>
 				    					<td width="20%" class="bor-btm bor-right">
-				    						<?php echo $of['offer']; ?>
+				    						<?php echo nl2br($of['offer']); ?>
 				    					</td>
 				    						<td width="20%" class="bor-btm bor-right">
 				    						<center><?php echo $of['currency']; ?></center>
@@ -508,7 +508,7 @@
 		    						if($ven['vendor_id'] == $of['vendor_id'] && $it->aoq_items_id == $of['item_id']){ ?>				
 			    					<tr>
 				    					<td width="20%" class="bor-btm bor-right">
-				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>'><?php echo $of['offer']; ?></textarea>
+				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>'><?php echo nl2br($of['offer']); ?></textarea>
 				    					</td>
 				    					<td width="20%" class="bor-btm bor-right f10 " align="center">
 				    						<select name='currency_<?php echo $a; ?>'>
