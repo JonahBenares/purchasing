@@ -602,6 +602,7 @@ class Jo extends CI_Controller {
                 );
                 $this->super_model->insert_into("jo_details_temp", $data_details);
             //}
+                s
             $x++;
         }
 
