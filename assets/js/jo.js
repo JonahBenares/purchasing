@@ -118,7 +118,7 @@ function changePrice_JO(count){
 
   /*document.getElementById("gtotal").innerHTML  = net.toFixed(2);*/
     document.getElementById("gtotal").innerHTML  = net.toFixed(2);
-
+s
      /*document.getElementById("grandtotal").innerHTML  =grandtotal;
      document.getElementById("grandtotal1").innerHTML  =grandtotal1;*/
 }
