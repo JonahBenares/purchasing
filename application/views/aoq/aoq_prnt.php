@@ -530,7 +530,7 @@
 				    					</td>
 				    					
 				    				</tr>
-				    				<input type='text' name='quantity_<?php echo $a; ?>' id='quantity_<?php echo $a; ?>' value='<?php echo $of['quantity']; ?>'>
+				    				<input type='hidden' name='quantity_<?php echo $a; ?>' id='quantity_<?php echo $a; ?>' value='<?php echo $of['quantity']; ?>'>
 				    				<input type='hidden' name='offerid_<?php echo $a; ?>' value="<?php echo $of['aoq_offer_id']; ?>">
 				    				<?php }
 				    				$a++;
