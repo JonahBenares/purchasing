@@ -102,6 +102,9 @@
 		.nomarg{
 			margin: 0px 2px 0px 2px;
 		}
+		.v-align{
+			vertical-align: top;
+		}
     </style>
 
      <div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="approveLabel" aria-hidden="true">
@@ -251,12 +254,12 @@
 	    					$offer= $ci->get_name("item_name", "item", "item_id = '$it->item_id'");
 	    				} ?>
 		    		<tr>
-		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><?php echo number_format($it->delivered_quantity); ?></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
-		    			<td colspan="11" class="bor-right" align="left"><b class="nomarg"><?php echo (!empty($ci->get_pn($it->pr_details_id))) ? $offer.", ".$ci->get_pn($it->pr_details_id) : $offer; ?></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><?php echo $it->unit_price; ?></b></td>
-		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->delivered_quantity); ?></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
+		    			<td colspan="11" class="bor-right v-align" align="left"><b class="nomarg"><?php echo (!empty($ci->get_pn($it->pr_details_id))) ? $offer.", ".$ci->get_pn($it->pr_details_id) : $offer; ?></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it->unit_price; ?></b></td>
+		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
 		    		</tr>	
 		    		<?php 
 		    		$x++; } ?>
@@ -361,12 +364,12 @@
 							    					$offer= $ci->get_name("item_name", "item", "item_id = '$it->item_id'");
 							    				} ?>
 								    		<tr>
-								    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-								    			<td colspan="2" class="bor-right" align="center"><input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:100%; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
-								    			<td colspan="" class="bor-right" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value="<?php echo $it->uom; ?>" style='width:100%;'></b></td>
-								    			<td colspan="11" class="bor-right" align="left"><textarea style='width:100%' name='offer<?php echo $x; ?>'><?php echo $offer; ?></textarea></td>
-								    			<td colspan="2" class="bor-right" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it->unit_price; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
-								    			<td colspan="3" class="bor-right" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $it->amount; ?>" style='text-align:right;' readonly></td>		
+								    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
+								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:100%; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
+								    			<td colspan="" class="bor-right v-align" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value="<?php echo $it->uom; ?>" style='width:100%;'></b></td>
+								    			<td colspan="11" class="bor-right v-align" align="left"><textarea style='width:100%' name='offer<?php echo $x; ?>'><?php echo $offer; ?></textarea></td>
+								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it->unit_price; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
+								    			<td colspan="3" class="bor-right v-align" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $it->amount; ?>" style='text-align:right;' readonly></td>		
 								    		</tr>	
 								    			<?php 
 									    		$x++; 

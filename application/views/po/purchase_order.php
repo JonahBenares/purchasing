@@ -80,6 +80,9 @@
 		.nomarg{
 			margin: 0px 2px 0px 2px;
 		}
+		.v-align{
+			vertical-align: top;
+		}
     </style>
 
 	<div class="modal fade" id="add-pr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -272,12 +275,12 @@
 		    			if($it['balance']!=0){ 
 		    			$gtotal[] = $it['total']; ?>
 		    		<tr>
-		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b><input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' <?php echo (($revised!='r') ? "max=".$it['balance'] : ""); ?> style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it['uom']; ?></b></td>
-		    			<td colspan="13" class="bor-right" align="left"><b class="nomarg"><?php echo (!empty($CI->get_pn($it['pr_details_id']))) ? nl2br($it['offer']).", ".$CI->get_pn($it['pr_details_id']) : nl2br($it['offer']); ?></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it['price']; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
-		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $it['total']; ?>" style='text-align:right;' readonly></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' <?php echo (($revised!='r') ? "max=".$it['balance'] : ""); ?> style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it['uom']; ?></b></td>
+		    			<td colspan="13" class="bor-right v-align" align="left"><b class="nomarg"><?php echo (!empty($CI->get_pn($it['pr_details_id']))) ? nl2br($it['offer']).", ".$CI->get_pn($it['pr_details_id']) : nl2br($it['offer']); ?></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it['price']; ?>' onblur='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $it['total']; ?>" style='text-align:right;' readonly></b></td>
 		    		</tr>
 		    		<input type='hidden' name='currency<?php echo $x; ?>' value="<?php echo $it['currency']; ?>">
 		    		<input type='hidden' name='aoq_id<?php echo $x; ?>' value="<?php echo $it['aoq_id']; ?>">

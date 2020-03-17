@@ -103,6 +103,9 @@
 		.nomarg{
 			margin: 0px 2px 0px 2px;
 		}
+		.v-align{
+			vertical-align: top;
+		}
     </style>
 
 	<!-- Modal -->
@@ -259,12 +262,12 @@
 		    		foreach($items AS $it){ 
 		    			$gtotal[] = $it->amount; ?>
 		    		<tr>
-		    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b><?php echo number_format($it->delivered_quantity); ?></b></td>
-		    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
-		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"><?php echo $it->offer; ?></b></td>
-		    			<td colspan="2" class="bor-right" align="center"><b><?php echo $it->unit_price; ?></b></td>
-		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo number_format($it->delivered_quantity); ?></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
+		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it->offer; ?></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it->unit_price; ?></b></td>
+		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
 		    		</tr>	
 		    		<?php 
 		    		$x++; } ?>

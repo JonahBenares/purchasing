@@ -124,7 +124,9 @@
 		.dropdown-menu>li>a{
 			display: inline-block!important;
 		}
-
+		.v-align{
+			vertical-align: top;
+		}
     </style>
 
 	<!-- Modal -->
@@ -389,12 +391,12 @@
 	    					$offer= $ci->get_name("item_name", "item", "item_id = '$it->item_id'");
 	    				} ?>
 		    		<tr>
-		    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $x; ?></b></td>
-		    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo number_format($it->delivered_quantity,2); ?></b></td>
-		    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it->uom; ?></b></td>
-		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"><?php echo (!empty($ci->get_pn($it->pr_details_id))) ? nl2br($offer).", ".$ci->get_pn($it->pr_details_id) : nl2br($offer); ?></b></td>
-		    			<td colspan="2" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo number_format($it->unit_price,2); ?></b></td>
-		    			<td colspan="3" class="bor-right" align="right" style='vertical-align: text-top;'><b class="nomarg"><?php echo number_format($it->amount,2); ?></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo number_format($it->delivered_quantity,2); ?></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
+		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo (!empty($ci->get_pn($it->pr_details_id))) ? nl2br($offer).", ".$ci->get_pn($it->pr_details_id) : nl2br($offer); ?></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,2); ?></b></td>
+		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it->amount,2); ?></b></td>
 		    		</tr>	
 		    		<?php 
 		    		$x++; } ?>

@@ -69,6 +69,9 @@
 		.nomarg{
 			margin: 0px 2px 0px 2px;
 		}
+		.v-align{
+			vertical-align: top;
+		}
     </style>
     <!-- Modal -->
 	<div class="modal fade" id="add-pr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -296,12 +299,12 @@
 					    		 	$tprice = $it['quantity'] * $it['price'];
 					    		 	$pr_price[] = $tprice; ?>
 					    		<tr>
-					    			<td colspan="" class="all-border" align="center"><b><?php echo $x; ?></b></td>
-					    			<td colspan="" class="all-border" align="center"><b><input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>,<?php echo $a; ?>)'></b></td>
-					    			<td colspan="" class="all-border" align="center"><b><?php echo $it['unit']; ?></b></td>
-					    			<td colspan="12" class="all-border" align="left"><b class="nomarg"><?php echo $it['offer'].", ".$it['item']." " . $it['item_specs']; ?></b></td>
-					    			<td colspan="2" class="all-border" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>'  value='<?php echo $it['price']; ?>' onblur='changePrice(<?php echo $x; ?>,<?php echo $a; ?>)' style='color:red; width:100px'></b></td>
-					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($tprice,2); ?>" style='text-align:right' readonly></b></td>
+					    			<td colspan="" class="all-border v-align" align="center"><b><?php echo $x; ?></b></td>
+					    			<td colspan="" class="all-border v-align" align="center"><b><input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onblur='changePrice(<?php echo $x; ?>,<?php echo $a; ?>)'></b></td>
+					    			<td colspan="" class="all-border v-align" align="center"><b><?php echo $it['unit']; ?></b></td>
+					    			<td colspan="12" class="all-border v-align" align="left"><b class="nomarg"><?php echo $it['offer'].", ".$it['item']." " . $it['item_specs']; ?></b></td>
+					    			<td colspan="2" class="all-border v-align" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>'  value='<?php echo $it['price']; ?>' onblur='changePrice(<?php echo $x; ?>,<?php echo $a; ?>)' style='color:red; width:100px'></b></td>
+					    			<td colspan="3" class="all-border v-align" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($tprice,2); ?>" style='text-align:right' readonly></b></td>
 					    			
 					    			
 					    			<input type='hidden' name='reco_id<?php echo $x; ?>'  value='<?php echo $it['reco_id']; ?>'>
