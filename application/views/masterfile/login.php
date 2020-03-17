@@ -29,7 +29,7 @@
                 <div class="m-t-200"></div>
                 <div class="row">
                     <div class="col-lg-4"></div>
-                    <form method="POST" action="<?php echo base_url(); ?>index.php/masterfile/login" id="adminpro-form" class="adminpro-form">
+                    <form method="POST" action="<?php echo base_url(); ?>masterfile/loginprocess" id="adminpro-form" class="adminpro-form">
                         <div class="col-lg-4">
                             <div class="login-bg">
                                 <div class="row">

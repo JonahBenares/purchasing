@@ -37,8 +37,42 @@ class Masterfile extends CI_Controller {
             $this->load->view('template/footer');
         }
     }*/
-
     public function index(){
+        
+            $this->load->view('masterfile/login');    
+        
+    }
+
+    public function loginprocess(){
+            $username=$this->input->post('username');
+            $password=$this->input->post('password');
+            $count=$this->super_model->login_user($username,$password);
+            if($count>0){   
+                $password1 =md5($this->input->post('password'));
+                $fetch=$this->super_model->select_custom_where("users", "username = '$username' AND (password = '$password' OR password = '$password1')");
+                foreach($fetch AS $d){
+                    $userid = $d->user_id;
+                    $username = $d->username;
+                    $fullname = $d->fullname;
+                }
+                $newdata = array(
+                   'user_id'=> $userid,
+                   'username'=> $username,
+                   'fullname'=> $fullname,
+                   'logged_in'=> TRUE,
+                   
+                );
+                $this->session->set_userdata($newdata);
+                redirect('masterfile/dashboard');
+            }else{
+                $this->session->set_flashdata('error_msg', 'Username And Password Do not Exist!');
+                //$this->load->view('masterfile/index');     
+                redirect('masterfile/index'); 
+            }
+      
+    }
+
+    public function dashboard(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $count = $this->super_model->count_rows("reminder");
@@ -271,43 +305,7 @@ class Masterfile extends CI_Controller {
         }
     }
 
-    public function login(){
-        if($this->input->post()){
-            $username=$this->input->post('username');
-            $password=$this->input->post('password');
-            $count=$this->super_model->login_user($username,$password);
-            if($count>0){   
-                $password1 =md5($this->input->post('password'));
-                $fetch=$this->super_model->select_custom_where("users", "username = '$username' AND (password = '$password' OR password = '$password1')");
-                foreach($fetch AS $d){
-                    $userid = $d->user_id;
-                    $username = $d->username;
-                    $fullname = $d->fullname;
-                }
-                $newdata = array(
-                   'user_id'=> $userid,
-                   'username'=> $username,
-                   'fullname'=> $fullname,
-                   'logged_in'=> TRUE,
-                   // 'logo'=>base_url()."assets/img/logo_cenpri.png",
-                   // 'company_name'=>"CENTRAL NEGROS POWER RELIABILITY, INC.",
-                   // 'address'=>"Office: 88 Corner Rizal-Mabini Sts., Bacolod City",
-                   // 'tel_no'=>"Tel. No.: (034) 435-1932/476-7382",
-                   // 'telfax'=>"Telefax: (034) 435-1932",
-                   // 'address2'=>"Plant Site: Purok San Jose, Barangay Calumangan, Bago City",
-                   // 'jo_name'=>"CENPRI",
-                );
-                $this->session->set_userdata($newdata);
-                redirect(base_url());
-            }
-            else{
-                $this->session->set_flashdata('error_msg', 'Username And Password Do not Exist!');
-                $this->load->view('masterfile/login');      
-            }
-        } else {
-            $this->load->view('masterfile/login');    
-        }
-    }
+  
 
     public function user_logout(){
         $this->session->sess_destroy();
