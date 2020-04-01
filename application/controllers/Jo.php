@@ -339,8 +339,10 @@ class Jo extends CI_Controller {
         if($rows_dr==0){
             $dr_no= "DR ".$date_format."-01";
         } else {
-            $max = $this->super_model->get_max("jo_dr", "series");
-            $dr_no = "DR ".$date_format."-".$max+1;
+            $maxs = $this->super_model->get_max("jo_dr", "series");
+            $next = $maxs+1;
+            $nxt = str_pad($next, 2, "0", STR_PAD_LEFT);
+            $dr_no = "DR ".$date_format."-".$nxt;
         }
 
         $dr_det=explode("-", $dr_no);
@@ -360,7 +362,9 @@ class Jo extends CI_Controller {
             $ar_no= "AR ".$date_format."-01";
         } else {
             $max = $this->super_model->get_max("jo_ar", "series");
-            $ar_no = "AR ".$date_format."-".$max+1;
+            $nexts = $max+1;
+            $nxts = str_pad($nexts, 2, "0", STR_PAD_LEFT);
+            $ar_no = "AR ".$date_format."-0".$nxts;
         }
 
         $ar_det=explode("-", $ar_no);
