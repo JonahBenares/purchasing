@@ -88,9 +88,15 @@
                                         <a href="<?php echo base_url(); ?>reports/export_pr/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $date_receive; ?>/<?php echo $purpose1; ?>/<?php echo $enduse1; ?>/<?php echo $pr_no1; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $purchase_request; ?>" class="btn btn-custon-three btn-info"> 
                                             <span class="fa fa-upload"></span> Export to Excel
                                         </a>
+                                        <a href="<?php echo base_url(); ?>reports/export_pr_summary/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $date_receive; ?>/<?php echo $purpose1; ?>/<?php echo $enduse1; ?>/<?php echo $pr_no1; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $purchase_request; ?>" class="btn btn-custon-three btn-info"> 
+                                            <span class="fa fa-upload"></span> Calapan Export to Excel
+                                        </a>
                                     <?php } else { ?>
                                         <a href="<?php echo base_url(); ?>reports/export_pr/<?php echo $year; ?>/<?php echo $month; ?>" class="btn btn-custon-three btn-info"> 
                                             <span class="fa fa-upload"></span> Export to Excel
+                                        </a>
+                                        <a href="<?php echo base_url(); ?>reports/export_pr_summary/<?php echo $year; ?>/<?php echo $month; ?>" class="btn btn-custon-three btn-info"> 
+                                            <span class="fa fa-upload"></span> Calapan Export to Excel
                                         </a>
                                     <?php } ?>
                                     <a type='button' class="btn btn-custon-three btn-success"  data-toggle="modal" data-target="#filter_pr"> 
