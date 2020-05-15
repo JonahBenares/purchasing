@@ -30,8 +30,9 @@ function additionalCost(){
 
    var shipping = document.getElementById("shipping").value;
     var discount = document.getElementById("discount").value;
+    var packing = document.getElementById("packing").value;
 
-   var new_total = (parseFloat(total)+parseFloat(shipping))-parseFloat(discount);
+   var new_total = (parseFloat(total)+parseFloat(shipping)+parseFloat(packing))-parseFloat(discount);
  
     document.getElementById("grandtotal").innerHTML  =new_total;
 }

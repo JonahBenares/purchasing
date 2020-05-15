@@ -298,7 +298,17 @@
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='shipping' id='shipping' onchange='additionalCost()' style='width:100%' value='<?php echo $shipping; ?>'></b></td>		
 		    		</tr>
-		    			<tr>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="13" class="bor-right" align="right">
+		    				<p class="nomarg">Packing and Handling Fee</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='packing' id='packing' onchange='additionalCost()' value='<?php echo $packing; ?>' style='width:100%' ></b></td>		
+		    		</tr>
+		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -346,7 +356,7 @@
 		    		</tr>		   
 		    		<?php
 		    			$grtotal =array_sum($gtotal);
-		    			$grandtotal = ($grtotal+$shipping)-$discount;
+		    			$grandtotal = ($grtotal+$shipping+$packing)-$discount;
 		    		?> 		
 		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>   
 		    		<tr>

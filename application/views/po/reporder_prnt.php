@@ -342,6 +342,18 @@
 					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="12" class=" bor-right" align="right">Packing and Handling Fee</td>
+					    			<td colspan="2" class=" bor-right" align="center"></td>
+					    			<?php if($saved==0){ ?>
+					    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='packing' id='packing' onchange='additionalCost()' value='<?php echo ($packing!=0) ? $packing : '0'; ?>' style='width:100%' ></td>
+					    			<?php } else { ?>
+					    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($packing,2); ?></b></td>
+					    			<?php } ?>
+					    		</tr>
+					    		<tr>
+					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="12" class=" bor-right" align="right">Less: Discount</td>
 					    			<td colspan="2" class=" bor-right" align="center"></td>
 					    			<?php if($saved==0){ ?>
@@ -425,9 +437,13 @@
 					    			<td width="5%"></td>
 					    			<td width="5%"></td>
 					    		</tr>
+					    		<?php 
+					    			$total =array_sum($total_amount);
+					    			$grandtotal = ($total+$shipping+$packing)-$discount;
+					    		?>
 					    		<tr>
 					    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format(array_sum($total_amount),2); ?></span></b></td>
+					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
 					    		</tr>
 					    	<?php } ?>
 		    				</table>

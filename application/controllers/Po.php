@@ -596,6 +596,7 @@ class Po extends CI_Controller {
             $head = array(
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -610,6 +611,7 @@ class Po extends CI_Controller {
              $head = array(
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -676,6 +678,7 @@ class Po extends CI_Controller {
             $head = array(
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -691,6 +694,7 @@ class Po extends CI_Controller {
              $head = array(
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -944,6 +948,7 @@ class Po extends CI_Controller {
             );
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
+            $data['packing']=$h->packing_fee;
             $data['saved']=$h->saved;
             $data['cancelled']=$h->cancelled;
             $data['revised']=$h->revised;
@@ -1028,6 +1033,7 @@ class Po extends CI_Controller {
             );
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
+            $data['packing']=$h->packing_fee;
             $data['saved']=$h->saved;
             $data['draft']=$h->draft;
             $data['cancelled']=$h->cancelled;
@@ -1445,6 +1451,7 @@ class Po extends CI_Controller {
             $data['pr_no']=$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $pr_id);
             $data['shipping']=$head->shipping;
             $data['discount']=$head->discount;
+            $data['packing']=$head->packing_fee;
             $data['vendor_id']=$head->vendor_id;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
         }
@@ -1544,6 +1551,7 @@ class Po extends CI_Controller {
             $data['pr_no']=$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $pr_id);
             $data['shipping']=$head->shipping;
             $data['discount']=$head->discount;
+            $data['packing']=$head->packing_fee;
             $data['vendor_id']=$head->vendor_id;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
         }
@@ -1718,6 +1726,7 @@ class Po extends CI_Controller {
             $head = array(
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
@@ -1732,6 +1741,7 @@ class Po extends CI_Controller {
             $head = array(
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
@@ -1808,6 +1818,7 @@ class Po extends CI_Controller {
             $head = array(
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
@@ -1822,6 +1833,7 @@ class Po extends CI_Controller {
             $head = array(
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
@@ -2125,6 +2137,7 @@ class Po extends CI_Controller {
             );
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
+            $data['packing']=$h->packing_fee;
             $data['saved']=$h->saved;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
@@ -2161,6 +2174,7 @@ class Po extends CI_Controller {
         //$data['tc'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
         $data['shipping_temp'] = $this->super_model->select_column_where('po_head_temp', 'shipping', 'po_id', $po_id);
         $data['discount_temp'] = $this->super_model->select_column_where('po_head_temp', 'discount', 'po_id', $po_id);
+        $data['packing_temp'] = $this->super_model->select_column_where('po_head_temp', 'packing_fee', 'po_id', $po_id);
 
         $datarfd = array(
             'saved'=>0
@@ -2222,6 +2236,7 @@ class Po extends CI_Controller {
             'po_date'=>$timestamp,
             'po_id'=>$po_id,
             'shipping'=>$this->input->post('shipping'),
+            'packing_fee'=>$this->input->post('packing'),
             'discount'=>$this->input->post('discount')
         );
         $this->super_model->insert_into("po_head_temp", $data_head);
@@ -2370,6 +2385,7 @@ class Po extends CI_Controller {
                 "user_id"=>$head->user_id,
                 "shipping"=>$head->shipping,
                 "discount"=>$head->discount,
+                "packing_fee"=>$head->packing_fee,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
                 "saved"=>$head->saved,
@@ -2383,6 +2399,7 @@ class Po extends CI_Controller {
                     $data_po=array(
                         "po_date"=>$headt->po_date,
                         "shipping"=>$headt->shipping,
+                        "packing_fee"=>$headt->packing_fee,
                         "discount"=>$headt->discount,
                       
                     );

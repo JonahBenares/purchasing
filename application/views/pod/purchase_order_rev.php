@@ -280,6 +280,14 @@
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="11" class=" bor-right" align="right">Packing and Handling Fee</td>
+		    			<td colspan="2" class=" bor-right" align="center"><br></td>
+		    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($packing,2); ?></b></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="2" class=" bor-right" align="center"></td>
+		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="11" class=" bor-right" align="right">Less: Discount</td>
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($discount,2); ?></b></td>
@@ -302,7 +310,7 @@
 		    			<td colspan="3" class="bor-btm bor-right" align="center"></td>
 		    		</tr>		
 		    			<?php $grtotal =array_sum($gtotal);
-		    		$grandtotal = ($grtotal+$shipping)-$discount;
+		    		$grandtotal = ($grtotal+$shipping+$packing)-$discount;
 		    		?>    		
 		    		<tr>
 		    			<td colspan="17" class="all-border " align="right"><b class="nomarg">GRAND TOTAL</b></td>
@@ -425,6 +433,14 @@
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="11" class=" bor-right" align="right">Packing and Handling Fee</td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='packing' id='packing' onchange='additionalCost()' value='<?php echo $packing; ?>' style='width:100%' ></td>
+						    		</tr>
+						    		<tr>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="11" class=" bor-right" align="right">Less: Discount</td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='discount' id='discount' onchange='additionalCost()' value='<?php echo $discount; ?>' style='width:100%' ></td>
@@ -437,6 +453,14 @@
 						    			<td colspan="11" class=" bor-right" align="right">Shipping Cost</td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="right"><?php echo number_format($shipping_temp,2); ?></td>
+						    		</tr>
+						    		<tr>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="" class=" bor-right" align="center"></td>
+						    			<td colspan="11" class=" bor-right" align="right">Packing and Handling Fee</td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="3" class=" bor-right" align="right"><?php echo number_format($packing_temp,2); ?></td>
 						    		</tr>
 						    		<tr>
 						    			<td colspan="" class=" bor-right" align="center"></td>
@@ -465,8 +489,13 @@
 						    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
 						    			<td colspan="3" class="bor-btm bor-right" align="center"></td>
 						    		</tr>
-						    			<?php $grtotal2 =array_sum($gtotal2);
-						    		$grandtotal2 = ($grtotal2+$shipping)-$discount;
+						    		<?php 
+						    			$grtotal2 =array_sum($gtotal2);
+							    		if($revised==0){
+							    			$grandtotal2 = ($grtotal2+$shipping+$packing)-$discount;
+							    		}else {
+							    			$grandtotal2 = ($grtotal2+$shipping_temp+$packing_temp)-$discount_temp;
+							    		}
 						    		?>    			
 						    		<input type='hidden' id='orig_amount' value='<?php echo $grtotal2; ?>'>
 						    		<tr>

@@ -150,6 +150,7 @@ class Pod extends CI_Controller {
             $data['saved']=$h->saved;
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
+            $data['packing']=$h->packing_fee;
             $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
             $data['revised']=$h->revised;
@@ -232,6 +233,7 @@ class Pod extends CI_Controller {
             $data['draft']=$h->draft;
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
+            $data['packing']=$h->packing_fee;
             $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
             $data['revised']=$h->revised;
@@ -526,6 +528,7 @@ class Pod extends CI_Controller {
             $head = array(
                  'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -540,6 +543,7 @@ class Pod extends CI_Controller {
             $head = array(
                  'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'checked_by'=>$this->input->post('checked'),
                 'approved_by'=>$this->input->post('approved'),
                 'checked_by'=>$this->input->post('checked'),
@@ -599,6 +603,7 @@ class Pod extends CI_Controller {
             $head = array(
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -614,6 +619,7 @@ class Pod extends CI_Controller {
              $head = array(
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
+                'packing_fee'=>$this->input->post('packing'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -935,6 +941,7 @@ class Pod extends CI_Controller {
             );
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
+            $data['packing']=$h->packing_fee;
             $data['saved']=$h->saved;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
@@ -971,6 +978,7 @@ class Pod extends CI_Controller {
         //$data['tc'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
         $data['shipping_temp'] = $this->super_model->select_column_where('po_head_temp', 'shipping', 'po_id', $po_id);
         $data['discount_temp'] = $this->super_model->select_column_where('po_head_temp', 'discount', 'po_id', $po_id);
+        $data['packing_temp'] = $this->super_model->select_column_where('po_head_temp', 'packing_fee', 'po_id', $po_id);
 
         $datarfd = array(
             'saved'=>0
@@ -993,6 +1001,7 @@ class Pod extends CI_Controller {
             'po_id'=>$po_id,
              'po_date'=>$timestamp,
             'shipping'=>$this->input->post('shipping'),
+            'packing_fee'=>$this->input->post('packing'),
             'discount'=>$this->input->post('discount')
         );
         $this->super_model->insert_into("po_head_temp", $data_head);
@@ -1143,6 +1152,7 @@ class Pod extends CI_Controller {
                 "user_id"=>$head->user_id,
                 "shipping"=>$head->shipping,
                 "discount"=>$head->discount,
+                "packing_fee"=>$head->packing_fee,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
                 "saved"=>$head->saved,
@@ -1156,6 +1166,7 @@ class Pod extends CI_Controller {
                     $data_po=array(
                         "po_date"=>$headt->po_date,
                         "shipping"=>$headt->shipping,
+                        "packing_fee"=>$headt->packing_fee,
                         "discount"=>$headt->discount,
                        
                     );

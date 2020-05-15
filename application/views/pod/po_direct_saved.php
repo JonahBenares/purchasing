@@ -304,6 +304,16 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="13" class="bor-right" align="right">
+		    				<p class="nomarg">Packing and Handling Fee</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($packing,2); ?></b></td>		
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="13" class="bor-right" align="right">
 		    				<p class="nomarg">Less: Discount</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
@@ -320,7 +330,17 @@
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='shipping' id='shipping' value='0' onchange='additionalCost()' style='width:100%' ></b></td>		
 		    		</tr>
-		    			<tr>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="13" class="bor-right" align="right">
+		    				<p class="nomarg">Packing and Handling Fee</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='packing' id='packing' onchange='additionalCost()' value='0' style='width:100%' ></b></td>		
+		    		</tr>
+		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
@@ -373,7 +393,7 @@
 
 		    		if($draft==1) {
 		    			$grtotal =array_sum($gtotal);
-		    			$grandtotal = ($grtotal+$shipping)-$discount;
+		    			$grandtotal = ($grtotal+$shipping+$packing)-$discount;
 		    		}
 		    		?> 		
 		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>   
