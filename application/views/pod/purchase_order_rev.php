@@ -252,7 +252,7 @@
 	    				} ?>
 		    		<tr>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
-		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->delivered_quantity); ?></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->delivered_quantity,2); ?></b></td>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="11" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $offer; ?></b></td>
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it->unit_price; ?></b></td>
