@@ -754,6 +754,9 @@ class Pod extends CI_Controller {
         $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
         $data['po_no']= $this->super_model->select_column_where("po_head", "po_no", "po_id", $po_id);
         $data['po_type']= $this->super_model->select_column_where("po_head", "po_type", "po_id", $po_id);
+        $data['shipping']= $this->super_model->select_column_where("po_head", "shipping", "po_id", $po_id);
+        $data['discount']= $this->super_model->select_column_where("po_head", "discount", "po_id", $po_id);
+        $data['packing']= $this->super_model->select_column_where("po_head", "packing_fee", "po_id", $po_id);
         $data['po_id']= $po_id;
         $data['vendor_id']= $vendor_id;
         $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
@@ -777,6 +780,8 @@ class Pod extends CI_Controller {
                 'total'=>$total,
                 'uom'=>$items->uom,
             );
+
+            $data['currency'] = $items->currency;
         }
 
           foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
