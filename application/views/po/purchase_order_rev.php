@@ -291,7 +291,7 @@
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
-		    			<td colspan="11" class=" bor-right" align="right">VAT</td>
+		    			<td colspan="11" class=" bor-right" align="right"><?php echo $vat_percent; ?>% VAT</td>
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($vat,2); ?></b></td>
 		    		</tr>
@@ -451,7 +451,7 @@
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="" class=" bor-right" align="center"></td>
-						    			<td colspan="11" class=" bor-right" align="right">VAT</td>
+						    			<td colspan="11" class=" bor-right" align="right"><input name="vat_percent" id="vat_percent" value = "<?php echo $vat_percent; ?>" size="5">% VAT</td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='vat' id='vat' onchange='additionalCost()' value='<?php echo $vat; ?>' style='width:100%' ></td>
 						    		</tr>
@@ -484,7 +484,7 @@
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="" class=" bor-right" align="center"></td>
-						    			<td colspan="11" class=" bor-right" align="right">VAT</td>
+						    			<td colspan="11" class=" bor-right" align="right"><?php echo $vat_percent_temp; ?>% VAT</td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="right"><?php echo number_format($vat_temp,2); ?></td>
 						    		</tr>

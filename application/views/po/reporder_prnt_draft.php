@@ -218,10 +218,10 @@
 			    			</center>
 		    			</td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
+		    		<!-- <tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo TEL_NO;?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><?php echo TELFAX;?></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><?php echo ADDRESS_2;?></td></tr> -->
 		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4><small class="text-red">DRAFT</small></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<?php foreach($head AS $h){ ?>
@@ -338,6 +338,7 @@
 					    		</tr> 
 					    		<?php 
 					    		$x++;
+					    		$vat_amount=array_sum($total_amount)*0.12;
 					    			}
 					    		 ?>
 					    		 <input type='hidden' name='count_item' value="<?php echo $x; ?>">
@@ -370,9 +371,9 @@
 					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="" class=" bor-right" align="center"></td>
-					    			<td colspan="12" class=" bor-right" align="right">VAT</td>
+					    			<td colspan="12" class=" bor-right" align="right"><input type = "text" name="vat_percent" id="vat_percent" value="<?php echo $vat_percent; ?>" size="5">% VAT</td>
 					    			<td colspan="2" class=" bor-right" align="center"></td>
-					    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='vat' id='vat' onchange='additionalCost()' value='<?php echo ($vat!=0) ? $vat : '12'; ?>' style='width:100%' ></td>
+					    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='vat' id='vat' onchange='additionalCost()' value='<?php echo ($vat!=0) ? $vat : $vat_amount; ?>' style='width:100%' ></td>
 					    		</tr>
 					    		<tr>
 					    			<td colspan="" class=" bor-right" align="center"></td>

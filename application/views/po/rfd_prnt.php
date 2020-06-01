@@ -286,7 +286,7 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">VAT</b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent; ?>% VAT</b></td>
 		    			<td align="right" colspan="3" >
 		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b><?php echo number_format($vatt,2); ?></b></span>

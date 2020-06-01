@@ -152,6 +152,7 @@ class Pod extends CI_Controller {
             $data['discount']=$h->discount;
             $data['packing']=$h->packing_fee;
             $data['vat']=$h->vat;
+            $data['vat_percent']=$h->vat_percent;
             $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
             $data['revised']=$h->revised;
@@ -236,6 +237,7 @@ class Pod extends CI_Controller {
             $data['discount']=$h->discount;
             $data['packing']=$h->packing_fee;
             $data['vat']=$h->vat;
+            $data['vat_percent']=$h->vat_percent;
             $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
             $data['revised']=$h->revised;
@@ -384,6 +386,7 @@ class Pod extends CI_Controller {
             $data['discount']=$h->discount;
             $data['packing']=$h->packing_fee;
             $data['vat']=$h->vat;
+            $data['vat_percent']=$h->vat_percent;
             $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
             $data['revised']=$h->revised;
@@ -534,6 +537,7 @@ class Pod extends CI_Controller {
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
+                'vat_percent'=>$this->input->post('vat_percent'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -550,6 +554,7 @@ class Pod extends CI_Controller {
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
+                'vat_percent'=>$this->input->post('vat_percent'),
                 'checked_by'=>$this->input->post('checked'),
                 'approved_by'=>$this->input->post('approved'),
                 'checked_by'=>$this->input->post('checked'),
@@ -611,6 +616,7 @@ class Pod extends CI_Controller {
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
+                'vat_percent'=>$this->input->post('vat_percent'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -628,6 +634,7 @@ class Pod extends CI_Controller {
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
+                'vat_percent'=>$this->input->post('vat_percent'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -766,6 +773,7 @@ class Pod extends CI_Controller {
         $data['discount']= $this->super_model->select_column_where("po_head", "discount", "po_id", $po_id);
         $data['packing']= $this->super_model->select_column_where("po_head", "packing_fee", "po_id", $po_id);
         $data['vatt']= $this->super_model->select_column_where("po_head", "vat", "po_id", $po_id);
+        $data['vat_percent']= $this->super_model->select_column_where("po_head", "vat_percent", "po_id", $po_id);
         $data['po_id']= $po_id;
         $data['vendor_id']= $vendor_id;
         $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
@@ -957,6 +965,7 @@ class Pod extends CI_Controller {
             $data['discount']=$h->discount;
             $data['packing']=$h->packing_fee;
             $data['vat']=$h->vat;
+            $data['vat_percent']=$h->vat_percent;
             $data['saved']=$h->saved;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
@@ -995,6 +1004,7 @@ class Pod extends CI_Controller {
         $data['discount_temp'] = $this->super_model->select_column_where('po_head_temp', 'discount', 'po_id', $po_id);
         $data['packing_temp'] = $this->super_model->select_column_where('po_head_temp', 'packing_fee', 'po_id', $po_id);
         $data['vat_temp'] = $this->super_model->select_column_where('po_head_temp', 'vat', 'po_id', $po_id);
+        $data['vat_percent_temp'] = $this->super_model->select_column_where('po_head_temp', 'vat_percent', 'po_id', $po_id);
 
         $datarfd = array(
             'saved'=>0
@@ -1019,6 +1029,7 @@ class Pod extends CI_Controller {
             'shipping'=>$this->input->post('shipping'),
             'packing_fee'=>$this->input->post('packing'),
             'vat'=>$this->input->post('vat'),
+            'vat_percent'=>$this->input->post('vat_percent'),
             'discount'=>$this->input->post('discount')
         );
         $this->super_model->insert_into("po_head_temp", $data_head);
@@ -1171,6 +1182,7 @@ class Pod extends CI_Controller {
                 "discount"=>$head->discount,
                 "packing_fee"=>$head->packing_fee,
                 "vat"=>$head->vat,
+                "vat_percent"=>$head->vat_percent,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
                 "saved"=>$head->saved,
@@ -1186,6 +1198,7 @@ class Pod extends CI_Controller {
                         "shipping"=>$headt->shipping,
                         "packing_fee"=>$headt->packing_fee,
                         "vat"=>$headt->vat,
+                        "vat_percent"=>$headt->vat_percent,
                         "discount"=>$headt->discount,
                        
                     );

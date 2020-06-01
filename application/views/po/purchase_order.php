@@ -17,7 +17,6 @@
 	    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/mixins.css">
 	    <script src="<?php echo base_url(); ?>assets/js/all-scripts.js"></script> 
 	</head>
-
   	<style type="text/css">
         html, body{
             background: #2d2c2c!important;
@@ -327,9 +326,9 @@
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
-		    			<td colspan="13" class=" bor-right" align="right"><input name="vat" id="vat" value = "12" size="5" onchange='additionalCost()' >% VAT</td>
+		    			<td colspan="13" class=" bor-right" align="right"><input name="vat_percent" id="vat_percent" value = "12" size="5">% VAT</td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
-		    			<td colspan="2" class=" bor-right" align="center"><input type='text' name='vats' id='vats' value='<?php echo $vat_amount;?>' style='width:100%' ></td>
+		    			<td colspan="2" class=" bor-right" align="center"><input type='text' name='vat' id='vat' onchange='additionalCost()' value='<?php echo $vat_amount;?>' style='width:100%' ></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class=" bor-right" align="center"></td>

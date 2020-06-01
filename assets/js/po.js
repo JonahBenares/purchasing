@@ -180,9 +180,13 @@ function changePrice(count){
           var p = $(this).val().replace(",", "");
           grandtotal += parseFloat(p);
     });
- 
+    var vat = document.getElementById("vat_percent").value;
+    var percent=vat/100;
+    var new_vat = parseFloat(percent)*parseFloat(grandtotal);
+    $("#vat").val(new_vat);
+    document.getElementById("grandtotal").innerHTML  =grandtotal+new_vat;
     document.getElementById("orig_amount").value  =grandtotal;
-     document.getElementById("grandtotal").innerHTML  =grandtotal;
+    document.getElementById("grandtotal").innerHTML  =grandtotal;
 }
 
 function additionalCost(){
@@ -198,6 +202,25 @@ function additionalCost(){
  
     document.getElementById("grandtotal").innerHTML  =new_total;
 }
+
+$(document).ready(function(){
+    $('#vat_percent').keyup( function(){
+        var vat = document.getElementById("vat_percent").value;
+        var total = document.getElementById("orig_amount").value;
+        var percent=vat/100;
+        var new_vat = parseFloat(percent)*parseFloat(total);
+        $("#vat").val(new_vat);
+        var new_total=parseFloat(total)+parseFloat(new_vat);
+        document.getElementById("grandtotal").innerHTML  =new_total;
+    });
+});
+
+window.onload=function() {
+    var vat = document.getElementById("vat").value;
+    var total = document.getElementById("orig_amount").value;
+    var new_total = (parseFloat(total)+parseFloat(vat));
+    document.getElementById("grandtotal").innerHTML=new_total;
+};
 
 /*function deductCost(){
   var total = document.getElementById("orig_amount").value;

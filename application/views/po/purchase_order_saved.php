@@ -435,7 +435,7 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="12" class="bor-right" align="right">
-		    				<p class="nomarg">VAT</p>
+		    				<p class="nomarg"><?php echo $vat_percent; ?>% VAT</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($vat,2); ?></b></td>		
