@@ -301,6 +301,16 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="12" class="bor-right" align="right">
+		    				<p class="nomarg">VAT</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><input type='text' name='vat' id='vat' value='<?php echo $vat; ?>' onchange='additionalCost()' style='width:100%' ></b></td>		
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg">Less: Discount</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
@@ -333,7 +343,7 @@
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
 		    		</tr>	
 		    		<?php $grtotal =array_sum($gtotal);
-		    		$grandtotal = ($grtotal+$shipping+$packing)-$discount;
+		    		$grandtotal = ($grtotal+$shipping+$packing+$vat)-$discount;
 		    		?>
 		    		<tr>
 		    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>

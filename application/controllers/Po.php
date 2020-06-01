@@ -597,6 +597,7 @@ class Po extends CI_Controller {
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
+                'vat'=>$this->input->post('vat'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -612,6 +613,7 @@ class Po extends CI_Controller {
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
+                'vat'=>$this->input->post('vat'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -679,6 +681,7 @@ class Po extends CI_Controller {
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
+                'vat'=>$this->input->post('vat'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -695,6 +698,7 @@ class Po extends CI_Controller {
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
+                'vat'=>$this->input->post('vat'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -949,6 +953,7 @@ class Po extends CI_Controller {
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
             $data['packing']=$h->packing_fee;
+            $data['vat']=$h->vat;
             $data['saved']=$h->saved;
             $data['cancelled']=$h->cancelled;
             $data['revised']=$h->revised;
@@ -1034,6 +1039,7 @@ class Po extends CI_Controller {
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
             $data['packing']=$h->packing_fee;
+            $data['vat']=$h->vat;
             $data['saved']=$h->saved;
             $data['draft']=$h->draft;
             $data['cancelled']=$h->cancelled;
@@ -1297,6 +1303,7 @@ class Po extends CI_Controller {
         $data['shipping']= $this->super_model->select_column_where("po_head", "shipping", "po_id", $po_id);
         $data['discount']= $this->super_model->select_column_where("po_head", "discount", "po_id", $po_id);
         $data['packing']= $this->super_model->select_column_where("po_head", "packing_fee", "po_id", $po_id);
+        $data['vatt']= $this->super_model->select_column_where("po_head", "vat", "po_id", $po_id);
         $data['po_id']= $po_id;
         $data['vendor_id']= $vendor_id;
         $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
@@ -1454,6 +1461,7 @@ class Po extends CI_Controller {
             $data['shipping']=$head->shipping;
             $data['discount']=$head->discount;
             $data['packing']=$head->packing_fee;
+            $data['vat']=$head->vat;
             $data['vendor_id']=$head->vendor_id;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
         }
@@ -1554,6 +1562,7 @@ class Po extends CI_Controller {
             $data['shipping']=$head->shipping;
             $data['discount']=$head->discount;
             $data['packing']=$head->packing_fee;
+            $data['vat']=$head->vat;
             $data['vendor_id']=$head->vendor_id;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
         }
@@ -1729,6 +1738,7 @@ class Po extends CI_Controller {
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
+                'vat'=>$this->input->post('vat'),
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
@@ -1744,6 +1754,7 @@ class Po extends CI_Controller {
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
+                'vat'=>$this->input->post('vat'),
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
@@ -1821,6 +1832,7 @@ class Po extends CI_Controller {
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
+                'vat'=>$this->input->post('vat'),
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
@@ -1836,6 +1848,7 @@ class Po extends CI_Controller {
                 'shipping'=>$this->input->post('shipping'),
                 'discount'=>$this->input->post('discount'),
                 'packing_fee'=>$this->input->post('packing'),
+                'vat'=>$this->input->post('vat'),
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
@@ -2140,6 +2153,7 @@ class Po extends CI_Controller {
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
             $data['packing']=$h->packing_fee;
+            $data['vat']=$h->vat;
             $data['saved']=$h->saved;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
@@ -2177,6 +2191,7 @@ class Po extends CI_Controller {
         $data['shipping_temp'] = $this->super_model->select_column_where('po_head_temp', 'shipping', 'po_id', $po_id);
         $data['discount_temp'] = $this->super_model->select_column_where('po_head_temp', 'discount', 'po_id', $po_id);
         $data['packing_temp'] = $this->super_model->select_column_where('po_head_temp', 'packing_fee', 'po_id', $po_id);
+        $data['vat_temp'] = $this->super_model->select_column_where('po_head_temp', 'vat', 'po_id', $po_id);
 
         $datarfd = array(
             'saved'=>0
@@ -2239,6 +2254,7 @@ class Po extends CI_Controller {
             'po_id'=>$po_id,
             'shipping'=>$this->input->post('shipping'),
             'packing_fee'=>$this->input->post('packing'),
+            'vat'=>$this->input->post('vat'),
             'discount'=>$this->input->post('discount')
         );
         $this->super_model->insert_into("po_head_temp", $data_head);
@@ -2388,6 +2404,7 @@ class Po extends CI_Controller {
                 "shipping"=>$head->shipping,
                 "discount"=>$head->discount,
                 "packing_fee"=>$head->packing_fee,
+                "vat"=>$head->vat,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
                 "saved"=>$head->saved,
@@ -2402,6 +2419,7 @@ class Po extends CI_Controller {
                         "po_date"=>$headt->po_date,
                         "shipping"=>$headt->shipping,
                         "packing_fee"=>$headt->packing_fee,
+                        "vat"=>$headt->vat,
                         "discount"=>$headt->discount,
                       
                     );

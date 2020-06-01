@@ -435,6 +435,16 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="12" class="bor-right" align="right">
+		    				<p class="nomarg">VAT</p>
+		    			</td>
+		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($vat,2); ?></b></td>		
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg">Less: Discount</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
@@ -467,7 +477,7 @@
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
 		    		</tr>	
 		    		<?php $grtotal =array_sum($gtotal);
-		    		$grandtotal = ($grtotal+$shipping+$packing)-$discount;
+		    		$grandtotal = ($grtotal+$shipping+$packing+$vat)-$discount;
 		    		?>
 		    		<tr>
 		    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>

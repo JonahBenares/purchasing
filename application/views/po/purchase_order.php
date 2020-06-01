@@ -293,8 +293,10 @@
 			    		$x++; 
 		    				} 
 		    			}
+		    			$vat_amount=array_sum($gtotal)*0.12;
 		    		} else {
 		    			$gtotal=array();
+
 		    		} ?>
 		    		<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    		<tr>
@@ -320,6 +322,14 @@
 		    			<td colspan="13" class=" bor-right" align="right">Packing and Handling Fee</td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    			<td colspan="2" class=" bor-right" align="center"><input type='text' name='packing' id='packing' onchange='additionalCost()' value='0' style='width:100%' ></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="" class=" bor-right" align="center"></td>
+		    			<td colspan="13" class=" bor-right" align="right"><input name="vat" id="vat" value = "12" size="5" onchange='additionalCost()' >% VAT</td>
+		    			<td colspan="2" class=" bor-right" align="center"></td>
+		    			<td colspan="2" class=" bor-right" align="center"><input type='text' name='vats' id='vats' value='<?php echo $vat_amount;?>' style='width:100%' ></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class=" bor-right" align="center"></td>

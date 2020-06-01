@@ -354,6 +354,18 @@
 					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="12" class=" bor-right" align="right">VAT</td>
+					    			<td colspan="2" class=" bor-right" align="center"></td>
+					    			<?php if($saved==0){ ?>
+					    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='vat' id='vat' onchange='additionalCost()' value='<?php echo ($vat!=0) ? $vat : '12'; ?>' style='width:100%' ></td>
+					    			<?php } else { ?>
+					    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($vat,2); ?></b></td>
+					    			<?php } ?>
+					    		</tr>
+					    		<tr>
+					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="" class=" bor-right" align="center"></td>
+					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="12" class=" bor-right" align="right">Less: Discount</td>
 					    			<td colspan="2" class=" bor-right" align="center"></td>
 					    			<?php if($saved==0){ ?>
@@ -439,7 +451,7 @@
 					    		</tr>
 					    		<?php 
 					    			$total =array_sum($total_amount);
-					    			$grandtotal = ($total+$shipping+$packing)-$discount;
+					    			$grandtotal = ($total+$shipping+$packing+$vat)-$discount;
 					    		?>
 					    		<tr>
 					    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
