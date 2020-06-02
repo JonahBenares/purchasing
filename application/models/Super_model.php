@@ -144,6 +144,8 @@ class super_model extends CI_Model
          return $query->result();
     }
 
+    
+
     public function custom_query_single($column,$q){
         $query = $this->db->query($q);
           foreach($query->result() as $result){
@@ -260,6 +262,8 @@ class super_model extends CI_Model
             return $result->total;
         }
     }
+
+  
 
     public function select_sum_where_group5($table, $column, $where,$grp1,$grp2,$grp3,$grp4,$grp5)
     {
