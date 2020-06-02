@@ -86,7 +86,7 @@ class Pr extends CI_Controller {
         //$gr="SELECT pr_id, grouping_id FROM pr_details WHERE ";
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         foreach($this->super_model->custom_query("SELECT pr_details_id, pr_id, grouping_id, quantity FROM pr_details WHERE cancelled = '0' GROUP BY pr_id, grouping_id") AS $det){
-              $pr_qty = $this->super_model->select_sum_where("pr_details", "quantity", "cancelled = '0' GROUP BY pr_id, grouping_id");
+              $pr_qty = $this->super_model->select_sum_where("pr_details", "quantity", "cancelled = '0' AND pr_id = '$det->pr_id' GROUP BY pr_id, grouping_id");
             $count = $this->super_model->count_custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' GROUP BY pr_id, grouping_id");
 
            //echo "SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' GROUP BY pr_id, grouping_id";
@@ -95,7 +95,7 @@ class Pr extends CI_Controller {
             $po_qty = $this->super_model->select_sum_join("quantity","po_items","po_head", "pr_id = '$det->pr_id' AND cancelled = '0'","po_id");
             //echo "pr_details_id = '$det->pr_details_id' AND cancelled = '0'";
      
-            //echo $pr_qty  ."=". $po_qty;
+            //echo $det->pr_id . ", ". $pr_qty  ."=". $po_qty . "<br>";
             if(($count==0 && $count_po==0) || ($pr_qty > $po_qty)){
                 //foreach($this->super_model->custom_query("SELECT pr_id, grouping_id FROM rfq_head WHERE cancelled = '0' AND pr_id != '$det->pr_id' AND grouping_id != '$det->grouping_id' GROUP BY pr_id, grouping_id") AS $rfq){
                     //echo "**".$it->pr_details_id . "<br>";
