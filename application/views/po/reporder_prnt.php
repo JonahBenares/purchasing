@@ -351,7 +351,6 @@
 					    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($packing,2); ?></b></td>
 					    			<?php } ?>
 					    		</tr>
-					    		<?php if($vat_percent!=0){ ?>
 					    		<tr>
 					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="" class=" bor-right" align="center"></td>
@@ -364,7 +363,6 @@
 					    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($vat,2); ?></b></td>
 					    			<?php } ?>
 					    		</tr>
-					    		<?php } ?>
 					    		<tr>
 					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="" class=" bor-right" align="center"></td>
