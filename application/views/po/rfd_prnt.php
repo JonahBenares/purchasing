@@ -285,6 +285,7 @@
 		    				<span class="nomarg" id=''><b><?php echo number_format($packing,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php if($vat_percent!=0){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent; ?>% VAT</b></td>
 		    			<td align="right" colspan="3" >
@@ -292,6 +293,7 @@
 		    				<span class="nomarg" id=''><b><?php echo number_format($vatt,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php } ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: Discount</b></td>
 		    			<td align="right" colspan="3" >
