@@ -264,7 +264,8 @@ class Pod extends CI_Controller {
                     'item'=>$items->item_description,
                     'uom'=>$items->uom,
                     'quantity'=>$items->quantity,
-                    //'total'=>$total,
+                    'price'=>'',
+                    'total'=>'',
                 );
             }
         }else {
