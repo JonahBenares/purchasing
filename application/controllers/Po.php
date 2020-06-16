@@ -2518,8 +2518,12 @@ class Po extends CI_Controller {
 
         foreach($this->super_model->custom_query("SELECT pr_details_id FROM po_items WHERE pr_details_id NOT IN (SELECT pr_details_id FROM po_items_temp WHERE po_id='$po_id')  AND po_id = '$po_id'") AS $omit){
            
-             $delete_item = $this->super_model->delete_where("po_items", "pr_details_id", $omit->pr_details_id);
-              $delete_dr = $this->super_model->delete_where("po_dr_items", "pr_details_id", $omit->pr_details_id);
+             $delete_item = $this->super_model->delete_custom_where("po_items", "pr_details_id= 
+                '$omit->pr_details_id' AND po_id= '$po_id'");
+
+              $delete_dr = $this->super_model->delete_custom_where("po_dr_items", "pr_details_id= 
+                '$omit->pr_details_id' AND po_id= '$po_id'");
+
         }
 
 
