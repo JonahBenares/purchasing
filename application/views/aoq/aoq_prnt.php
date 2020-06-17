@@ -182,8 +182,8 @@
         alert(count);
 		   var quantity = document.getElementById("quantity_"+count).value;
 		   var price = document.getElementById("price_"+count).value;
-		   alert(quantity);
-		   alert(price);
+		   //alert(quantity);
+		   //alert(price);
 		    var p = price.replace(",", "");
 		   
 		   var amount = parseFloat(p) * parseFloat(quantity);
