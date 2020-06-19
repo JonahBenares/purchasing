@@ -267,7 +267,7 @@ class Rfq extends CI_Controller {
         $objPHPExcel->getActiveSheet()->mergeCells('G9:H9');
         $objPHPExcel->getActiveSheet()->mergeCells('G10:H10');
         $objPHPExcel->getActiveSheet()->mergeCells('G11:H11');
-        $objPHPExcel->getActiveSheet()->mergeCells('C13:G13');
+        $objPHPExcel->getActiveSheet()->mergeCells('D13:G13');
         $objPHPExcel->getActiveSheet()->mergeCells('H13:I13');
         $objPHPExcel->getActiveSheet()->mergeCells('J13:K13');
         $objPHPExcel->getActiveSheet()->getStyle('A13:K13')->getFont()->setBold(true);
