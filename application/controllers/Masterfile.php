@@ -263,7 +263,7 @@ class Masterfile extends CI_Controller {
             'user_id'=>$user_id,
         );
         if($this->super_model->insert_into("reminder", $data)){
-            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."masterfile/index'; </script>";
+            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."masterfile/dashboard'; </script>";
         }
     }
 
@@ -274,7 +274,7 @@ class Masterfile extends CI_Controller {
         );
         
         if($this->super_model->update_where('reminder', $data, 'reminder_id', $reminder_id)){
-            echo "<script>alert('Successfully Done!'); window.location ='".base_url()."masterfile/index';</script>";
+            echo "<script>alert('Successfully Done!'); window.location ='".base_url()."masterfile/dashboard';</script>";
         }
     }
 
@@ -290,7 +290,7 @@ class Masterfile extends CI_Controller {
             'user_id'=>$user_id,
         );
         if($this->super_model->insert_into("to_do_today", $data)){
-            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."masterfile/index'; </script>";
+            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."masterfile/dashboard'; </script>";
         }
     }
 
@@ -301,7 +301,7 @@ class Masterfile extends CI_Controller {
         );
         
         if($this->super_model->update_where('to_do_today', $data, 'todo_id', $todo_id)){
-            echo "<script>alert('Successfully Done!'); window.location ='".base_url()."masterfile/index';</script>";
+            echo "<script>alert('Successfully Done!'); window.location ='".base_url()."masterfile/dashboard';</script>";
         }
     }
 
