@@ -179,7 +179,7 @@
 		}
 
 		function calculateAmount2(count){
-        alert(count);
+        //alert(count);
 		   var quantity = document.getElementById("quantity_"+count).value;
 		   var price = document.getElementById("price_"+count).value;
 		   //alert(quantity);
