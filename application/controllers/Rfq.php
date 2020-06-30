@@ -150,8 +150,9 @@ class Rfq extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F10', "Tel. No.:");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F11', "PR No.:");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A13', "No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B13', "Unit");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C13', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B13', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C13', "Unit");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D13', "Item Description");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H13', "Brand/Offer");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J13', "Unit Price");
         foreach($this->super_model->select_row_where('rfq_head', 'rfq_id', $rfq_id) AS $head){
@@ -178,7 +179,7 @@ class Rfq extends CI_Controller {
 
             $num=14;
             $x=1;
-            foreach($this->super_model->select_row_where_order_by('rfq_details', 'rfq_id', $rfq_id, 'item_desc', 'ASC') AS $item){
+            foreach($this->super_model->select_row_where_order_by('rfq_details', 'rfq_id', $rfq_id, 'pr_details_id', 'ASC') AS $item){
                 $styleArray = array(
                     'borders' => array(
                         'allborders' => array(
@@ -187,12 +188,15 @@ class Rfq extends CI_Controller {
                     )
                 );
                 $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$num, $x);
-                $objPHPExcel->setActiveSheetIndex()->setCellValue('B'.$num, $item->uom);
-                $objPHPExcel->setActiveSheetIndex()->setCellValue('C'.$num, $item->item_desc.", ".$this->get_pn($item->pr_details_id));
-                $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.':G'.$num);
+                $objPHPExcel->setActiveSheetIndex()->setCellValue('B'.$num, $item->quantity);
+                $objPHPExcel->setActiveSheetIndex()->setCellValue('C'.$num, $item->uom);
+                $objPHPExcel->setActiveSheetIndex()->setCellValue('D'.$num, $item->item_desc.", ".$this->get_pn($item->pr_details_id));
+                $objPHPExcel->getActiveSheet()->mergeCells('D'.$num.':G'.$num);
                 $objPHPExcel->getActiveSheet()->mergeCells('H'.$num.':I'.$num);
                 $objPHPExcel->getActiveSheet()->mergeCells('J'.$num.':K'.$num);
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':K'.$num)->applyFromArray($styleArray);
                 $num++;
                 $x++;
@@ -263,7 +267,7 @@ class Rfq extends CI_Controller {
         $objPHPExcel->getActiveSheet()->mergeCells('G9:H9');
         $objPHPExcel->getActiveSheet()->mergeCells('G10:H10');
         $objPHPExcel->getActiveSheet()->mergeCells('G11:H11');
-        $objPHPExcel->getActiveSheet()->mergeCells('C13:G13');
+        $objPHPExcel->getActiveSheet()->mergeCells('D13:G13');
         $objPHPExcel->getActiveSheet()->mergeCells('H13:I13');
         $objPHPExcel->getActiveSheet()->mergeCells('J13:K13');
         $objPHPExcel->getActiveSheet()->getStyle('A13:K13')->getFont()->setBold(true);
