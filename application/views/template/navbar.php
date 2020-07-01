@@ -10,7 +10,7 @@
                 <div class="left-custom-menu-adp-wrap">
                     <ul class="nav navbar-nav left-sidebar-menu-pro">
                         <li class="nav-item">
-                            <a href="<?php echo base_url(); ?>"  role="button" class="nav-link dropdown-toggle">
+                            <a href="<?php echo base_url(); ?>masterfile/dashboard"  role="button" class="nav-link dropdown-toggle">
                                 <i class="fa big-icon fa-home"></i>
                                 <span class="mini-dn">Dashboard</span> 
                                 <span class="indicator-right-menu mini-dn"></span>
