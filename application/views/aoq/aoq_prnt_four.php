@@ -502,9 +502,11 @@
 			    			<td colspan="7" style='border:1px solid #000;vertical-align: text-top;' >
 			    				<table class="" width="100%" style='border:0px solid #000;'>		
 			    				<?php 	
-			    				$a=1;
-			    				foreach($offers AS $of){
-		    						if($ven['vendor_id'] == $of['vendor_id'] && $it->aoq_items_id == $of['item_id']){ ?>				
+				    				$a=1;
+				    				foreach($offers AS $of){ 
+			    				?>
+			    				<input type='hidden' name='quantity_<?php echo $a; ?>' id='quantity_<?php echo $a; ?>' value='<?php echo $of['quantity']; ?>'>
+			    				<?php if($ven['vendor_id'] == $of['vendor_id'] && $it->aoq_items_id == $of['item_id']){ ?>				
 			    					<tr>
 				    					<td style='width:28.5%' class="bor-btm bor-right">
 				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>'><?php echo $of['offer']; ?></textarea>
@@ -529,14 +531,14 @@
 				    					</td>
 				    					
 				    				</tr>
-				    				<input type='hidden' name='quantity_<?php echo $a; ?>' id='quantity_<?php echo $a; ?>' value='<?php echo $of['quantity']; ?>'>
 				    				<input type='hidden' name='offerid_<?php echo $a; ?>' value="<?php echo $of['aoq_offer_id']; ?>">
 				    				<?php }
 				    				$a++;
+				    				$count=$a-1;
 				    				}
 				    				?>
 
-				    			<input type='hidden' name='count_offer' value='<?php echo $a; ?>'>
+				    			<input type='hidden' name='count_offer' value='<?php echo $count; ?>'>
 				    			
 			    				</table>		    			
 			    			</td>
