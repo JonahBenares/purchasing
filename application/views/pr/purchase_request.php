@@ -239,6 +239,7 @@ $ci =& get_instance();
                                         <tbody>
                                         <?php 
                                             $x=1;
+                                            if(!empty($details)){
                                             foreach($details AS $det){ 
                                         ?>
                                         <?php if($det['cancelled']==1){ ?>
@@ -299,7 +300,7 @@ $ci =& get_instance();
                                             </tr>
                                         <?php } ?>
                                             <input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $det['pr_details_id']; ?>">
-                                        <?php $x++; } ?>
+                                        <?php $x++; } } ?>
                                           
                                         </tbody>
                                     </table>

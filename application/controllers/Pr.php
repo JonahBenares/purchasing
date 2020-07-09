@@ -403,7 +403,7 @@ class Pr extends CI_Controller {
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         /*$data['details']=*/
-
+        $data['cancelled']='';
         foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid'") AS $det){
             $vendor='';
             foreach($this->super_model->select_custom_where("rfq_head", "pr_id='$prid' AND grouping_id = '$det->grouping_id' AND cancelled = '0' GROUP BY vendor_id") AS $ven){
