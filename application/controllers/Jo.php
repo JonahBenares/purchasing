@@ -107,6 +107,7 @@ class Jo extends CI_Controller {
         $revised_no = $this->uri->segment(4);
         $data['jo_id'] = $jo_id;
         $this->load->view('template/header');
+        $data['cancelled']='';
         foreach($this->super_model->select_custom_where("jo_head_revised", "jo_id='$jo_id' AND revision_no = '$revised_no'") AS $head){
             $subtotal = ($head->total_cost + $head->vat_amount);
             $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id);
