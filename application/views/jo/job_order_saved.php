@@ -236,12 +236,14 @@
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    					</tr>
+		    					<?php if($vat_amount!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'><?php echo number_format($vat_percent) . "% VAT:"; ?></td>
 		    						<td align="right"><?php echo number_format($vat_amount,2); ?></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>

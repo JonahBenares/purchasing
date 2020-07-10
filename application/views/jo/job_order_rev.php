@@ -374,6 +374,7 @@
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
+		    						<td width="15%" class="f13" align="center"></td>
 		    					</tr>
 		    					<?php 
 		    						$x=1; 
@@ -389,6 +390,7 @@
 		    						<td class="f13" align="center"><input type="text" name="uom<?php echo $x; ?>" style = "width:100%;text-align: center" value = "<?php echo $det->uom; ?>"></td>
 		    						<td class="f13" align="center"><input type="text" name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' style = "width:100%;text-align: center" value = "<?php echo $det->unit_cost; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'></td>
 		    						<td class="f13" align="right"><input type="text" name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo $det->total_cost; ?>"></td>
+		    						<td class="f13" align="right"><a href="<?php echo base_url(); ?>jo/delete_scope/<?php echo $det->jo_details_id?>/<?php echo $det->jo_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<?php $x++; } }else { $gtotal2=array(); } }else {
@@ -426,6 +428,7 @@
 		    						<td colspan='2'>Amount:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost; ?>" readonly="readonly"></td>
 		    					</tr>
+		    					<?php if($vat_amount!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -433,6 +436,10 @@
 		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo number_format($vat_percent); ?>"></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_amount; ?>"></td>
 		    					</tr>
+		    					<?php }else{ ?>
+		    						<input class="nobord" type="hidden" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo number_format($vat_percent); ?>">
+		    						<input class="nobord" type="hidden" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_amount; ?>">
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>

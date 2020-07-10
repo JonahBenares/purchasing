@@ -517,6 +517,15 @@ class Jo extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function delete_scope(){
+        $jo_details_id = $this->uri->segment(3);
+        $jo_id = $this->uri->segment(4);
+        if($this->super_model->delete_where('jo_details', 'jo_details_id', $jo_details_id)){
+            echo "<script>alert('Succesfully Deleted'); 
+                window.location ='".base_url()."jo/job_order_rev/".$jo_id."'; </script>";
+        }
+    }
+
     public function job_coc(){  
         $jo_id = $this->uri->segment(3);
         $data['jo_id'] = $jo_id;
@@ -626,7 +635,140 @@ class Jo extends CI_Controller {
         );
 
         if($this->super_model->update_where("jo_head", $data_head, "jo_id", $jo_id)){
-            redirect(base_url().'jo/job_order_rev/'.$jo_id);
+            //redirect(base_url().'jo/job_order_rev/'.$jo_id);
+            $max_revision = $this->super_model->get_max_where("jo_head", "revision_no","jo_id = '$jo_id'");
+            $revision_no = $max_revision+1;
+            $revised_date = date("Y-m-d");
+            foreach($this->super_model->select_row_where("jo_head","jo_id",$jo_id) AS $joh){
+                $data_joh=array(
+                    "jo_id"=>$joh->jo_id,
+                    "vendor_id"=>$joh->vendor_id,
+                    "jo_no"=>$joh->jo_no,
+                    "date_needed"=>$joh->date_needed,
+                    "work_completion"=>$joh->work_completion,
+                    "date_prepared"=>$joh->date_prepared,
+                    "cenpri_jo_no"=>$joh->cenpri_jo_no,
+                    "start_of_work"=>$joh->start_of_work,
+                    "project_title"=>$joh->project_title,
+                    "conforme"=>$joh->conforme,
+                    "revised"=>$joh->revised,
+                    "saved"=>$joh->saved,
+                    "checked_by"=>$joh->checked_by,
+                    "approved_by"=>$joh->approved_by,
+                    "recommended_by"=>$joh->recommended_by,
+                    "prepared_by"=>$joh->prepared_by,
+                    "total_cost"=>$joh->total_cost,
+                    "discount_percent"=>$joh->discount_percent,
+                    "discount_amount"=>$joh->discount_amount,
+                    "vat_percent"=>$joh->vat_percent,
+                    "vat_amount"=>$joh->vat_amount,
+                    "grand_total"=>$joh->grand_total,
+                    "revision_no"=>$joh->revision_no,
+                    "revised_date"=>$joh->revised_date,
+                );
+                $this->super_model->insert_into("jo_head_revised", $data_joh);
+            }
+
+            $data_head =array(
+                'revision_no'=>$revision_no
+            );
+            $this->super_model->update_where("jo_head", $data_head, "jo_id", $jo_id);
+
+            foreach($this->super_model->select_row_where("jo_head_temp","jo_id",$jo_id) AS $joht){
+                $data_joht=array(
+                    "vendor_id"=>$joht->vendor_id,
+                    "jo_no"=>$joht->jo_no,
+                    "date_needed"=>$joht->date_needed,
+                    "work_completion"=>$joht->work_completion,
+                    "date_prepared"=>$joht->date_prepared,
+                    "cenpri_jo_no"=>$joht->cenpri_jo_no,
+                    "start_of_work"=>$joht->start_of_work,
+                    "project_title"=>$joht->project_title,
+                    "conforme"=>$joht->conforme,
+                    "revised"=>$joht->revised,
+                    "saved"=>$joht->saved,
+                    "checked_by"=>$joht->checked_by,
+                    "approved_by"=>$joht->approved_by,
+                    "prepared_by"=>$joht->prepared_by,
+                    "recommended_by"=>$joht->recommended_by,
+                    "total_cost"=>$joht->total_cost,
+                    "discount_percent"=>$joht->discount_percent,
+                    "discount_amount"=>$joht->discount_amount,
+                     "vat_percent"=>$joht->vat_percent,
+                    "vat_amount"=>$joht->vat_amount,
+                    "grand_total"=>$joht->grand_total,
+                    "revision_no"=>$revision_no,
+                    "revised_date"=>$revised_date,
+                );
+                $this->super_model->update_where("jo_head", $data_joht, "jo_id", $joht->jo_id);
+            }
+            $this->super_model->delete_where("jo_head_temp", "jo_id", $jo_id);
+
+
+            foreach($this->super_model->select_row_where("jo_details","jo_id",$jo_id) AS $jodets){
+                $data_details = array(
+                    "jo_details_id"=>$jodets->jo_details_id,
+                    "jo_id"=>$jodets->jo_id,
+                    "quantity"=>$jodets->quantity,
+                    "unit_cost"=>$jodets->unit_cost,
+                    "uom"=>$jodets->uom,
+                    "total_cost"=>$jodets->total_cost,
+                    "scope_of_work"=>$jodets->scope_of_work,
+                    "revision_no"=>$jodets->revision_no,
+                );
+                $this->super_model->insert_into("jo_details_revised", $data_details);
+            }
+
+            $datadet =array(
+                'revision_no'=>$revision_no
+            );
+            $this->super_model->update_where("jo_details", $datadet, "jo_id", $jo_id);
+
+            foreach($this->super_model->select_row_where("jo_details_temp","jo_id",$jo_id) AS $jodetst){
+                $data_detailst = array(
+                    "jo_id"=>$jodetst->jo_id,
+                    "quantity"=>$jodetst->quantity,
+                    "unit_cost"=>$jodetst->unit_cost,
+                    "uom"=>$jodetst->uom,
+                    "total_cost"=>$jodetst->total_cost,
+                    "scope_of_work"=>$jodetst->scope_of_work,
+                    "revision_no"=>$revision_no,
+                );
+                $this->super_model->update_where("jo_details", $data_detailst, "jo_details_id", $jodetst->jo_details_id);
+            }
+            $this->super_model->delete_where("jo_details_temp", "jo_id", $jo_id);
+
+            foreach($this->super_model->select_row_where("jo_terms","jo_id",$jo_id) AS $jotc){
+                $data_tci = array(
+                    "jo_terms_id"=>$jotc->jo_terms_id,
+                    "jo_id"=>$jotc->jo_id,
+                    "terms"=>$jotc->terms,
+                    "revision_no"=>$jotc->revision_no,
+                );
+                $this->super_model->insert_into("jo_terms_revised", $data_tci);
+            }
+
+            foreach($this->super_model->select_row_where("jo_terms_temp","jo_id",$jo_id) AS $jotct){
+                $data_tcit = array(
+                    "jo_id"=>$jotct->jo_id,
+                    "terms"=>$jotct->terms,
+                    "revision_no"=>$revision_no,
+                );
+                $this->super_model->update_where("jo_terms", $data_tcit, "jo_terms_id", $jotct->jo_terms_id);
+            }
+            $this->super_model->delete_where("jo_terms_temp", "jo_id", $jo_id);
+
+            $data_revs =array(
+                'approve_rev_by'=>$this->input->post('approve_rev'),
+                'approve_rev_date'=>$this->input->post('approve_date'),
+                'revised'=>0,
+                'revised_date'=>date("Y-m-d"),
+                'revision_no'=>$revision_no
+            );
+
+            if($this->super_model->update_where("jo_head", $data_revs, "jo_id", $jo_id)){
+                redirect(base_url().'jo/jo_list/', 'refresh');
+            }
 
         }
     }
