@@ -228,7 +228,7 @@
 		    						<td class="f13" align="right"><?php echo number_format($det->total_cost,2); ?></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
-		    				<?php } ?>
+		    					<?php } ?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>

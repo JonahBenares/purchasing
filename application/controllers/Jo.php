@@ -108,6 +108,7 @@ class Jo extends CI_Controller {
         $data['jo_id'] = $jo_id;
         $this->load->view('template/header');
         foreach($this->super_model->select_custom_where("jo_head_revised", "jo_id='$jo_id' AND revision_no = '$revised_no'") AS $head){
+            $subtotal = ($head->total_cost + $head->vat_amount);
             $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id);
             $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
             $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $head->vendor_id);
@@ -122,10 +123,14 @@ class Jo extends CI_Controller {
             $data['work_completion']= $head->work_completion;
             $data['discount_percent']= $head->discount_percent;
             $data['discount_amount']= $head->discount_amount;
+            $data['vat_percent']= $head->vat_percent;
+            $data['subtotal']= $subtotal;
+            $data['vat_amount']= $head->vat_amount;
             $data['total_cost']= $head->total_cost;
             $data['grand_total']= $head->grand_total;
             $data['conforme']= $head->conforme;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
+            $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->prepared_by);
             $data['cancelled']=$head->cancelled;
@@ -529,6 +534,7 @@ class Jo extends CI_Controller {
                 "uom"=>$jodets->uom,
                 "total_cost"=>$jodets->total_cost,
                 "scope_of_work"=>$jodets->scope_of_work,
+                "revision_no"=>$jodets->revision_no,
             );
             if($this->super_model->insert_into("jo_details_revised", $data_details)){
                 $this->super_model->delete_where('jo_details', 'jo_details_id', $jo_details_id);
