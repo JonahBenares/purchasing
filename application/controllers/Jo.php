@@ -128,6 +128,7 @@ class Jo extends CI_Controller {
             $data['vat_amount']= $head->vat_amount;
             $data['total_cost']= $head->total_cost;
             $data['grand_total']= $head->grand_total;
+            $data['revision_no']=$head->revision_no;
             $data['conforme']= $head->conforme;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
@@ -428,6 +429,7 @@ class Jo extends CI_Controller {
             $data['vat_amount']= $head->vat_amount;
             $data['total_cost']= $head->total_cost;
             $data['grand_total']= $head->grand_total;
+            $data['revision_no']=$head->revision_no;
             $data['conforme']= $head->conforme;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
