@@ -131,7 +131,7 @@ class Jo extends CI_Controller {
             $data['cancelled']=$head->cancelled;
         }   
 
-        $data['details'] = $this->super_model->select_custom_where("jo_details_revised", "jo_id='$jo_id' AND revision_no = '$revised_no'");
+        $data['details'] = $this->super_model->select_custom_where("jo_details_revised", "jo_id='$jo_id' AND revision_no = '$revised_no' ORDER BY jo_details_id ASC");
         $data['terms'] = $this->super_model->select_custom_where("jo_terms_revised", "jo_id='$jo_id' AND revision_no = '$revised_no'");
         $this->load->view('jo/job_order_saved_r',$data);
         $this->load->view('template/footer');
@@ -520,9 +520,21 @@ class Jo extends CI_Controller {
     public function delete_scope(){
         $jo_details_id = $this->uri->segment(3);
         $jo_id = $this->uri->segment(4);
-        if($this->super_model->delete_where('jo_details', 'jo_details_id', $jo_details_id)){
-            echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."jo/job_order_rev/".$jo_id."'; </script>";
+        foreach($this->super_model->select_row_where("jo_details","jo_details_id",$jo_details_id) AS $jodets){
+            $data_details = array(
+                "jo_details_id"=>$jodets->jo_details_id,
+                "jo_id"=>$jodets->jo_id,
+                "quantity"=>$jodets->quantity,
+                "unit_cost"=>$jodets->unit_cost,
+                "uom"=>$jodets->uom,
+                "total_cost"=>$jodets->total_cost,
+                "scope_of_work"=>$jodets->scope_of_work,
+            );
+            if($this->super_model->insert_into("jo_details_revised", $data_details)){
+                $this->super_model->delete_where('jo_details', 'jo_details_id', $jo_details_id);
+                echo "<script>alert('Succesfully Deleted'); 
+                    window.location ='".base_url()."jo/job_order_rev/".$jo_id."'; </script>";
+            }
         }
     }
 
