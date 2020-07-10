@@ -191,7 +191,7 @@
 		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($start_of_work));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no; ?></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no.(($revision_no!=0) ? ".r".$revision_no : ""); ?></td>
 		    		</tr>	
 		    		<!-- <tr>
 		    			<td class="f13" colspan="4">Completion of Work:</td>
@@ -228,7 +228,7 @@
 		    						<td class="f13" align="right"><?php echo number_format($det->total_cost,2); ?></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
-		    				<?php } ?>
+		    					<?php } ?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
@@ -236,12 +236,14 @@
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    					</tr>
+		    					<?php if($vat_amount!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'><?php echo number_format($vat_percent) . "% VAT:"; ?></td>
 		    						<td align="right"><?php echo number_format($vat_amount,2); ?></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>

@@ -374,6 +374,7 @@
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
+		    						<td width="15%" class="f13" align="center"></td>
 		    					</tr>
 		    					<?php 
 		    						$x=1; 
@@ -389,6 +390,7 @@
 		    						<td class="f13" align="center"><input type="text" name="uom<?php echo $x; ?>" style = "width:100%;text-align: center" value = "<?php echo $det->uom; ?>"></td>
 		    						<td class="f13" align="center"><input type="text" name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' style = "width:100%;text-align: center" value = "<?php echo $det->unit_cost; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'></td>
 		    						<td class="f13" align="right"><input type="text" name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo $det->total_cost; ?>"></td>
+		    						<td class="f13" align="right"><a href="<?php echo base_url(); ?>jo/delete_scope/<?php echo $det->jo_details_id?>/<?php echo $det->jo_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<?php $x++; } }else { $gtotal2=array(); } }else {

@@ -274,6 +274,7 @@
 		    			<td align="right" colspan="10" class="bor-right"><br><br><br></td>
 		    			<td align="right" colspan="3"></td>
 		    			</tr>
+		    		<?php if($vat_amount!=0){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent."% VAT"; ?></b></td>
 		    			<td align="right" colspan="3">
@@ -281,6 +282,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($vat_amount,2); ?></span>
 		    			</td>
 		    		</tr>
+		    		<?php } ?>
 		    		<?php $subtotal = $total_cost + $vat_amount; ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">SubTotal:</b></td>

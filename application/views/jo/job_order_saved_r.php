@@ -190,7 +190,7 @@
 		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($start_of_work));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no; ?></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no.(($revision_no!=0) ? ".r".$revision_no : ""); ?></td>
 		    		</tr>	
 		    		<!-- <tr>
 		    			<td class="f13" colspan="4">Completion of Work:</td>
@@ -227,7 +227,7 @@
 		    						<td class="f13" align="right"><?php echo $det->total_cost; ?></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
-		    				<?php } ?>
+		    					<?php } ?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
@@ -235,7 +235,33 @@
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    					</tr>
+		    					<?php if($vat_amount!=0){ ?>
 		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'><?php echo number_format($vat_percent) . "% VAT:"; ?></td>
+		    						<td align="right"><?php echo number_format($vat_amount,2); ?></td>
+		    					</tr>
+		    					<?php } ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>Sub Total:</td>
+		    						<td align="right"><?php echo number_format($subtotal,2); ?></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>Less Discount:</td>
+		    						<td align="right"><?php echo number_format($discount_amount,2); ?></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>Grand Total:</td>
+		    						<td align="right"><?php echo number_format($grand_total,2); ?></td>
+		    					</tr>
+		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>Less:</td>
@@ -248,7 +274,7 @@
 		    						<td>Net</td>
 		    						<td></td>
 		    						<td align="right"><?php echo $grand_total; ?></td>
-		    					</tr>
+		    					</tr> -->
 		    				</table>
 		    			</td>
 		    		</tr>
@@ -286,38 +312,46 @@
 
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="5" align="center">Prepared by:</td>
+		    			<td class="f13 " colspan="4" align="center">Prepared by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="6" align="center">Checked by:</td>
+		    			<td class="f13" colspan="4" align="center">Checked by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="5" align="center">Approved by:</td>
+		    			<td class="f13 " colspan="4" align="center">Recommended by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>   
-		    		<tr>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="5" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 bor-btm" colspan="6" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="5" align="center"><br></td>
+		    			<td class="f13 " colspan="3" align="center">Approved by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="5" align="center">
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13 bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13  bor-btm" colspan="3" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    		</tr>   
+		    		<tr>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center">
 		    				<?php echo $prepared; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="6" align="center">
+		    			<td class="f13" colspan="4" align="center">
 		    				<?php echo $checked; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="5" align="center">
+		    			<td class="f13" colspan="4" align="center">
+		    				<?php echo $recommended; ?>
+		    			</td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="3" align="center">
 		    				<?php echo $approved;?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr> 
-		    		<tr>
+		    		<!-- <tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Purchasing Department</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -325,7 +359,7 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>  
+		    		</tr> -->  
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
 		    		
 		    	</table>		    
