@@ -428,7 +428,6 @@
 		    						<td colspan='2'>Amount:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost; ?>" readonly="readonly"></td>
 		    					</tr>
-		    					<?php if($vat_amount!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -436,10 +435,6 @@
 		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo number_format($vat_percent); ?>"></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_amount; ?>"></td>
 		    					</tr>
-		    					<?php }else{ ?>
-		    						<input class="nobord" type="hidden" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo number_format($vat_percent); ?>">
-		    						<input class="nobord" type="hidden" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_amount; ?>">
-		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
