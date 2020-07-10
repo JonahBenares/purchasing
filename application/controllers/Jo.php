@@ -408,6 +408,7 @@ class Jo extends CI_Controller {
         $jo_id = $this->uri->segment(3);
         $data['jo_id'] = $jo_id;
         $this->load->view('template/header');
+        $data['cancelled']='';
         foreach($this->super_model->select_row_where("jo_head", "jo_id", $jo_id) AS $head){
             $subtotal = ($head->total_cost + $head->vat_amount);
             $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id);
@@ -450,6 +451,7 @@ class Jo extends CI_Controller {
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('template/header');
+        $data['cancelled']='';
         foreach($this->super_model->select_custom_where("jo_head", "jo_id='$jo_id' AND revised = '0'") AS $head){
             $data['vendor_id'] = $head->vendor_id;
             $data['revised'] = $head->revised;
