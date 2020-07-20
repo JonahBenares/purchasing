@@ -612,7 +612,7 @@ class Jo extends CI_Controller {
                 /*"discount_percent"=>$johead->discount_percent,*/
                 "vat_percent"=>$this->input->post('vat_percent'),
                 "vat_amount"=>$this->input->post('vat_amount'),
-                "discount_amount"=>$johead->discount_amount,
+                "discount_amount"=>$this->input->post('less_amount'),
                 "grand_total"=>$this->input->post('net'),
                 "cancelled"=>$johead->cancelled,
                 "cancelled_by"=>$johead->cancelled_by,
