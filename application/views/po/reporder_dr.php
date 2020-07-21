@@ -73,6 +73,10 @@
 	        	background-size: contain!important;
 	        	background-position: center center!important;
 	        }
+	        .all-border
+	        {
+			    border: 1px solid #000!important;
+			}
 		}
 		.text-white{
 			color: #fff;
@@ -170,7 +174,7 @@
 	    				<td width="25%"></td>
 	    			</tr>
 	    		</table>	  			
-		    	<table class="table-boddered" width="100%" style="border:0px solid #000">
+		    	<table class="table-boddered" width="100%" style="border:1px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
