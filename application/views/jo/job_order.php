@@ -352,7 +352,7 @@
 		    			<td class="f13 p-l-5" colspan="11" align="left">
 		    				<b>Terms & Conditions:</b><br>
 		    			<?php foreach($terms AS $trm){
-		    				echo nl2br($trm->terms);
+		    				echo nl2br($trm->terms)."<br>";
 		    			} ?>
 		    			</td>
 		    			<td colspan="9"></td>

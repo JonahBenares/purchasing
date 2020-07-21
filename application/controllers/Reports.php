@@ -2159,7 +2159,8 @@ class Reports extends CI_Controller {
             'remark_date'=>$remark_date,
             'remark_by'=>$_SESSION['user_id']
         );
-        $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
+        $this->super_model->update_where("pr_details", $data, "pr_id", $pr_id);
+        //$this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
         //}
         if($status == 'Partially Delivered'){
          
