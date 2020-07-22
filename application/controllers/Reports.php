@@ -265,7 +265,13 @@ class Reports extends CI_Controller {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date));
+                        if(!empty($aoq_date)){
+                            $date=date('m.d.y', strtotime($aoq_date));
+                        }else{
+                            $date='';
+                        }
+
+                        $status_remarks = 'AOQ Done - For TE ' .$date;
                     } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                         //if($cancelled_items_po==0){
                             $status .= 'Pending';
@@ -681,7 +687,13 @@ class Reports extends CI_Controller {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date));
+                        if(!empty($aoq_date)){
+                            $date=date('m.d.y', strtotime($aoq_date));
+                        }else{
+                            $date='';
+                        }
+
+                        $status_remarks = 'AOQ Done - For TE ' .$date;
                     } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                         //if($cancelled_items_po==0){
                             $status .= 'Pending';
@@ -1052,7 +1064,12 @@ class Reports extends CI_Controller {
                                 $statuss = 'Pending';
                                 $status = 'Cancelled';
                             }*/
-                            $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date));
+                            if(!empty($aoq_date)){
+                                $date=date('m.d.y', strtotime($aoq_date));
+                            }else{
+                                $date='';
+                            }
+                            $status_remarks = 'AOQ Done - For TE ' .$date;
                         } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                             //if($cancelled_items_po==0){
                                 $status .= 'Pending';
