@@ -366,6 +366,7 @@ class Reports extends CI_Controller {
                 'unserved_qty'=>$unserved_qty,
                 'unserved_uom'=>$unserved_uom,
                 'remarks'=>$pr->add_remarks,
+                'cancel_remarks'=>$pr->cancel_remarks,
                 'cancelled'=>$pr->cancelled,
                 'cancelled_items_po'=>$cancelled_items_po,
             );
@@ -788,6 +789,7 @@ class Reports extends CI_Controller {
                 'unserved_qty'=>$unserved_qty,
                 'unserved_uom'=>$unserved_uom,
                 'remarks'=>$pr->add_remarks,
+                'cancel_remarks'=>$pr->cancel_remarks,
                 'cancelled'=>$pr->cancelled,
                 'cancelled_items_po'=>$cancelled_items_po,
             );
@@ -2158,6 +2160,7 @@ class Reports extends CI_Controller {
         $year =$this->input->post('year');
         $month =$this->input->post('month');
         $remarks=$this->input->post('remarks');
+        $cancel_remarks=$this->input->post('cancel_remarks');
         $cancel=$this->input->post('cancel');
         $remark_date = date('Y-m-d H:i:s');
 
@@ -2177,7 +2180,10 @@ class Reports extends CI_Controller {
             'remark_by'=>$_SESSION['user_id']
         );
         $this->super_model->update_where("pr_details", $data, "pr_id", $pr_id);
-        //$this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
+        $data=array(
+            'cancel_remarks'=>$cancel_remarks,
+        );
+        $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
         //}
         if($status == 'Partially Delivered'){
          
