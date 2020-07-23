@@ -258,20 +258,20 @@ class Reports extends CI_Controller {
                         }*/
                         $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
-                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' ");
                          //if($cancelled_items_po==0){
                             $status .= 'Pending';
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        if(!empty($aoq_date)){
+                      /*  if(!empty($aoq_date)){
                             $date=date('m.d.y', strtotime($aoq_date));
                         }else{
                             $date='';
-                        }
+                        }*/
 
-                        $status_remarks = 'AOQ Done - For TE ' .$date;
+                        $status_remarks = 'AOQ Done - For TE - ' .$aoq_date;
                     } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                         //if($cancelled_items_po==0){
                             $status .= 'Pending';
@@ -366,6 +366,7 @@ class Reports extends CI_Controller {
                 'unserved_qty'=>$unserved_qty,
                 'unserved_uom'=>$unserved_uom,
                 'remarks'=>$pr->add_remarks,
+                'cancel_remarks'=>$pr->cancel_remarks,
                 'cancelled'=>$pr->cancelled,
                 'cancelled_items_po'=>$cancelled_items_po,
             );
@@ -788,6 +789,7 @@ class Reports extends CI_Controller {
                 'unserved_qty'=>$unserved_qty,
                 'unserved_uom'=>$unserved_uom,
                 'remarks'=>$pr->add_remarks,
+                'cancel_remarks'=>$pr->cancel_remarks,
                 'cancelled'=>$pr->cancelled,
                 'cancelled_items_po'=>$cancelled_items_po,
             );
@@ -2158,6 +2160,7 @@ class Reports extends CI_Controller {
         $year =$this->input->post('year');
         $month =$this->input->post('month');
         $remarks=$this->input->post('remarks');
+        $cancel_remarks=$this->input->post('cancel_remarks');
         $cancel=$this->input->post('cancel');
         $remark_date = date('Y-m-d H:i:s');
 
@@ -2177,7 +2180,10 @@ class Reports extends CI_Controller {
             'remark_by'=>$_SESSION['user_id']
         );
         $this->super_model->update_where("pr_details", $data, "pr_id", $pr_id);
-        //$this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
+        $data=array(
+            'cancel_remarks'=>$cancel_remarks,
+        );
+        $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
         //}
         if($status == 'Partially Delivered'){
          

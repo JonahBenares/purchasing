@@ -178,7 +178,7 @@
                                            
                                            
                                             <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
-                                            <td><?php echo $p['remarks'];?></td>
+                                            <td><?php echo (!empty($p['cancel_remarks'])) ? $p['cancel_remarks'] : $p['remarks'];?></td>
                                             <td></td>
                                             <td>
                                             
@@ -213,6 +213,9 @@
                     <div class="modal-body">
                         <div class="form-group">
                         <textarea class="form-control" rows="5" name='remarks' id='remarks'></textarea>
+                        </div>
+                        <div class="form-group">
+                        <textarea class="form-control" rows="5" name='cancel_remarks' id='cancel_remarks' placeholder="Cancel Remarks"></textarea>
                         </div>
                         <div class="form-group">
                         <center>
