@@ -258,20 +258,20 @@ class Reports extends CI_Controller {
                         }*/
                         $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
-                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' ");
                          //if($cancelled_items_po==0){
                             $status .= 'Pending';
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        if(!empty($aoq_date)){
+                      /*  if(!empty($aoq_date)){
                             $date=date('m.d.y', strtotime($aoq_date));
                         }else{
                             $date='';
-                        }
+                        }*/
 
-                        $status_remarks = 'AOQ Done - For TE ' .$date;
+                        $status_remarks = 'AOQ Done - For TE - ' .$aoq_date;
                     } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                         //if($cancelled_items_po==0){
                             $status .= 'Pending';
