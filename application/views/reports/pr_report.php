@@ -131,6 +131,7 @@
                                             <th>Status</th>
                                             <th>Date Needed</th>
                                             <th>Remarks</th>
+                                            <th>Cancel Remarks</th>
                                             <th>End User's Comments</th>	
                                             <th align="center"><span class="fa fa-bars"></span></th>										
                                         </tr>
@@ -178,7 +179,8 @@
                                            
                                            
                                             <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
-                                            <td><?php echo (!empty($p['cancel_remarks'])) ? $p['cancel_remarks'] : $p['remarks'];?></td>
+                                            <td><?php echo $p['remarks'];?></td>
+                                            <td><?php echo $p['cancel_remarks'];?></td>
                                             <td></td>
                                             <td>
                                             
