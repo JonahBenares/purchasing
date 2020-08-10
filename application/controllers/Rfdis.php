@@ -269,6 +269,11 @@ class Rfdis extends CI_Controller {
         $this->load->view('rfdis/rfdis_dr',$data);
         $this->load->view('template/footer');
     }
+    public function rfdis_calapan(){ 
+        $this->load->view('template/header');         
+        $this->load->view('rfdis/rfdis_calapan');
+        $this->load->view('template/footer');
+    }
 
 }
 

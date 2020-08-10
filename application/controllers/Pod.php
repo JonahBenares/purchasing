@@ -1371,6 +1371,12 @@ class Pod extends CI_Controller {
         }
     }
 
+    public function rfd_calapan(){ 
+        $this->load->view('template/header');         
+        $this->load->view('pod/rfd_calapan');
+        $this->load->view('template/footer');
+    }
+
 }
 
 ?>

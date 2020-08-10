@@ -2769,6 +2769,16 @@ class Po extends CI_Controller {
         $name = $this->super_model->select_column_where("pr_details", "part_no", "pr_details_id", $pr_details_id);
         return $name;
     }
+    public function rfd_calapan(){ 
+        $this->load->view('template/header');         
+        $this->load->view('po/rfd_calapan');
+        $this->load->view('template/footer');
+    }
+    public function rfd_calapan_r(){ 
+        $this->load->view('template/header');         
+        $this->load->view('po/rfd_calapan_r');
+        $this->load->view('template/footer');
+    }
     
 }
 ?>
