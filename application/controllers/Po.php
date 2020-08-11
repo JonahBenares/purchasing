@@ -2870,10 +2870,9 @@ class Po extends CI_Controller {
             'saved'=>1
         );
 
-
-         /*if($this->super_model->insert_into("rfd", $data)){
+        if($this->super_model->insert_into("rfd", $data)){
             redirect(base_url().'po/rfd_calapan/'.$po_id, 'refresh');
-        }*/
+        }
     }
 
 
@@ -2884,10 +2883,10 @@ class Po extends CI_Controller {
             'due_date'=>$this->input->post('due_date'),
             'saved'=>1
         );
-        /*print_r($data);*/
-        /*if($this->super_model->update_where("rfd", $data, "po_id", $po_id)){
+        
+        if($this->super_model->update_where("rfd", $data, "po_id", $po_id)){
             redirect(base_url().'po/rfd_calapan/'.$po_id, 'refresh');
-        }*/
+        }
     }
 
     public function rfd_calapan_r(){ 
