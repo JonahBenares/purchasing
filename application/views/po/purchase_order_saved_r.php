@@ -157,6 +157,7 @@
 							<a  href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $po_id; ?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
 							<?php } ?>
 						<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
+						<a  href="<?php echo base_url(); ?>po/rfd_calapan/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD Calapan</b></u></a>
 						<?php } ?>
 						<?php if($revised==1){ ?>
 						<a  href="#" class="btn btn-primary btn-md p-l-25 p-r-25" data-toggle="modal" data-target="#uploadApproval"><span class="fa fa-upload"></span> Upload <u><b>Approval</b></u></a>

@@ -178,6 +178,7 @@
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
 						<a  href="<?php echo base_url(); ?>pod/delivery_receipt/<?php echo $po_id;?>" target='_blank' class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
 						<a  href="<?php echo base_url(); ?>pod/rfd_prnt/<?php echo $po_id;?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
+						<a  href="<?php echo base_url(); ?>pod/rfd_calapan/<?php echo $po_id;?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD Calapan</b></u></a>
 						<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>

@@ -2769,6 +2769,131 @@ class Po extends CI_Controller {
         $name = $this->super_model->select_column_where("pr_details", "part_no", "pr_details_id", $pr_details_id);
         return $name;
     }
+    public function rfd_calapan(){ 
+        $this->load->view('template/header');    
+        $po_id = $this->uri->segment(3);   
+        $data['saved']= $this->super_model->select_column_where("rfd", "saved", "po_id", $po_id);
+        $data['rows_dr'] = $this->super_model->select_count("rfd","po_id",$po_id);
+        $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
+        $data['po_no']= $this->super_model->select_column_where("po_head", "po_no", "po_id", $po_id);
+        $data['po_type']= $this->super_model->select_column_where("po_head", "po_type", "po_id", $po_id);
+        $data['shipping']= $this->super_model->select_column_where("po_head", "shipping", "po_id", $po_id);
+        $data['discount']= $this->super_model->select_column_where("po_head", "discount", "po_id", $po_id);
+        $data['packing']= $this->super_model->select_column_where("po_head", "packing_fee", "po_id", $po_id);
+        $data['vatt']= $this->super_model->select_column_where("po_head", "vat", "po_id", $po_id);
+        $data['vat_percent']= $this->super_model->select_column_where("po_head", "vat_percent", "po_id", $po_id);
+        $data['po_id']= $po_id;
+        $data['vendor_id']= $vendor_id;
+        $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
+        $data['tin']= $this->super_model->select_column_where("vendor_head", "tin", "vendor_id", $vendor_id);
+        $data['ewt']= $this->super_model->select_column_where("vendor_head", "ewt", "vendor_id", $vendor_id);
+        $data['vat']= $this->super_model->select_column_where("vendor_head", "vat", "vendor_id", $vendor_id);
+        $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
+        $data['cancelled']=$this->super_model->select_column_where("po_head", "cancelled", "po_id", $po_id);
+        foreach($this->super_model->select_row_where('po_items', 'po_id', $po_id) AS $items){
+            $total = $items->unit_price*$items->delivered_quantity;
+            if(!empty($items->offer)){
+                $offer = $items->offer;
+            } else {
+                $offer = $this->super_model->select_column_where("item", "item_name", "item_id", $items->item_id) . ", " . $this->super_model->select_column_where("item", "item_specs", "item_id", $items->item_id);
+            }
+            $data['items'][]= array(
+                'item_no'=>$items->item_no,
+                'offer'=>$offer,
+                'quantity'=>$items->delivered_quantity,
+                'price'=>$items->unit_price,
+                'total'=>$total,
+                'uom'=>$items->uom,
+            );
+
+            $data['currency'] = $items->currency;
+        }
+
+          foreach($this->super_model->select_row_where('po_pr', 'po_id', $po_id) AS $pr){
+             $itemno='';
+            foreach($this->super_model->select_custom_where('po_items', "pr_id='$pr->pr_id' AND po_id = '$po_id'") AS $it){
+                $itemno .= $it->item_no . ", ";
+            }
+            $item_no = substr($itemno, 0, -2);
+            $data['pr'][]=array(
+                'pr_id'=>$pr->pr_id,
+                'pr_no'=>$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $pr->pr_id),
+                'enduse'=>$pr->enduse,
+                'purpose'=>$pr->purpose,
+                'requestor'=>$pr->requestor,
+                'item_no'=>$item_no
+            );
+        }
+
+        foreach($this->super_model->select_row_where('rfd', 'po_id', $po_id) AS $r){
+            
+            $data['company']=$r->company;
+            $data['pay_to']=$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $r->pay_to);
+            $data['check_name']=$r->check_name;
+            $data['apv_no']=$r->apv_no;
+            $data['rfd_date']=$r->rfd_date;
+            $data['due_date']=$r->due_date;
+            $data['check_due']=$r->check_due;
+            $data['cash']=$r->cash_check;
+            $data['bank_no']=$r->bank_no;
+            $data['notes']=$r->notes;
+            
+            $data['checked']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->checked_by);
+            $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
+            $data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->noted_by);
+            $data['received']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->received_by);
+            $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->approved_by);
+        }
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");     
+        $this->load->view('po/rfd_calapan',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function save_rfd_calapan(){
+        $po_id= $this->input->post('po_id');
+        $data = array(
+            'po_id'=>$po_id,
+            'apv_no'=>$this->input->post('apv_no'),
+            'rfd_date'=>$this->input->post('rfd_date'),
+            'due_date'=>$this->input->post('due_date'),
+            'company'=>$this->input->post('company'),
+            'pay_to'=>$this->input->post('pay_to'),
+            'cash_check'=>$this->input->post('cash'),
+            'bank_no'=>$this->input->post('bank_no'),
+            'checked_by'=>$this->input->post('checked'),
+            'endorsed_by'=>$this->input->post('endorsed'),
+            'approved_by'=>$this->input->post('approved'),
+            'noted_by'=>$this->input->post('noted'),
+            'received_by'=>$this->input->post('received'),
+            'rfd_type'=>$this->input->post('po_type'),
+            'user_id'=>$_SESSION['user_id'],
+            'saved'=>1
+        );
+
+        if($this->super_model->insert_into("rfd", $data)){
+            redirect(base_url().'po/rfd_calapan/'.$po_id, 'refresh');
+        }
+    }
+
+
+    public function update_rfd_calapan(){
+        $po_id= $this->input->post('po_id');
+        $data = array(
+            'rfd_date'=>$this->input->post('rfd_date'),
+            'due_date'=>$this->input->post('due_date'),
+            'saved'=>1
+        );
+        
+        if($this->super_model->update_where("rfd", $data, "po_id", $po_id)){
+            redirect(base_url().'po/rfd_calapan/'.$po_id, 'refresh');
+        }
+    }
+
+    public function rfd_calapan_r(){ 
+        $this->load->view('template/header');         
+        $this->load->view('po/rfd_calapan_r');
+        $this->load->view('template/footer');
+    }
     
 }
 ?>
