@@ -253,7 +253,10 @@
 		    			<td align="left" colspan="17" class="bor-right"><b class="nomarg">Payment for:</b></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
-		    		<?php foreach($items AS $it){ ?>
+		    		<?php 
+		    			foreach($items AS $it){ 
+		    				$subtotal[] = $it['total'];
+		    		?>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">
 		    				<b class="nomarg"><?php echo number_format($it['quantity'],2) ." ".$it['uom'] ." " . $it['offer'] . ", " . "  @ ". $it['price'] ." per ".  $it['uom']; ?></b>
@@ -263,7 +266,18 @@
 		    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],2); ?></b></span>
 		    			</td>
 		    		</tr>
-		    		<?php } ?>
+		    		<?php
+		    			$stotal = array_sum($subtotal);
+		    		 	} 
+		    		?>
+		    		<tr>
+		    			<td align="left" colspan="7" ><b class="nomarg"></b></td>
+		    			<td align="right" colspan="10" class="bor-right"><b class="nomarg" style="font-weight: 900">Total Amount Due</b></td>
+		    			<td align="right" colspan="3" class=" bor-top">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,2); ?></b></span>
+		    			</td>
+		    		</tr>
 		    		<tr>
 		    			<td align="center" colspan="17" class="bor-right"><br>
 		    				<br>
