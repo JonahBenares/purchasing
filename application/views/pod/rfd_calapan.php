@@ -105,7 +105,7 @@
     </style>
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo $url; ?>'>  
+    	<form method='POST' action='<?php echo base_url(); ?>pod/save_rfd_calapan'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
@@ -113,7 +113,11 @@
 						
 						<!-- <a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a> -->
 					
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
+						<?php if($rows_dr!=0){ ?>
+							<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
+						<?php } else { ?>
+							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
+						<?php } ?>	
 					
 					</div>
 					<p class="text-white">Instructions: When printing PURCHASE ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
@@ -165,37 +169,68 @@
 		    		<tr>
 		    			<td colspan="3"><b class="nomarg">Sender:</b></td>
 		    			<td colspan="9" class="bor-btm">
-		    				<input type="text" style="width:100%" name="company" autocomplete="off"></td>
+		    				<?php if($rows_dr==0){ ?>
+			    				<input type="text" style="width:100%" name="company" autocomplete="off">
+			    			<?php } else {
+			    				echo $company;
+			    			} ?>
+		    			</td>
 		    			<td colspan="3" align="right"><b class="nomarg">RFCD No.:</b></td>
 		    			<td colspan="5" class="bor-btm">
-		    					<input type="text" style="width:100%" name="apv_no" autocomplete="off">
+		    					<?php if($rows_dr==0){ ?>
+		    						<input type="text" style="width:100%" name="apv_no" autocomplete="off">
+			    				<?php } else {
+			    					echo $apv_no;
+			    				} ?>
 		    			</td>
 		    		</tr>
 		    		<tr>
 
 		    			<td colspan="3"><b class="nomarg">Pay To:</b></td>
-		    			<td colspan="9" class="bor-btm"><b class="nomarg"></b></td>
+		    			<td colspan="9" class="bor-btm"><b class="nomarg"><?php echo (!empty($tin)) ? $vendor." / ".$tin : $vendor; ?></b></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Date Requested:</b></td>
-		    			<td colspan="5" class="bor-btm"></td>
+		    			<td colspan="5" class="bor-btm">
+		    				<?php if($rows_dr==0){ ?>
+		    					<input type="date" style="width:100%" name="rfd_date" value="<?php echo (!empty($rfd_date)) ? $rfd_date : ''; ?>">
+		    				<?php } else {
+		    					echo $rfd_date;
+		    				} ?>
+		    			</td>
 		    		</tr>		    		
 		    		<tr>
 		    			<td></td>
 		    			<td class="bor-btm" align="center">
-		    				<input type="radio"  name="cash" value='1'>
+		    				<?php if($rows_dr==0){ ?>
+		    					<input type="radio"  name="cash" value='1'>
+		    				<?php } else {
+		    					echo (($cash == 1) ? "<span class='fa fa-check'></span>" : "");
+		    				} ?>
 		    			</td>
 		    			<td><b class="nomarg">Cash</b></td>
 		    			<td class="bor-btm" align="center">
-	    					<input type="radio" name="cash" value='2'>
+	    					<?php if($rows_dr==0){ ?>
+	    						<input type="radio" name="cash" value='2'>
+	    					<?php } else {
+	    						echo (($cash == 2) ? "<span class='fa fa-check'></span>" : "");
+	    					} ?>
 	    				</td>
 		    			<td><b class="nomarg">Check</b></td>
 		    			<td></td>
 		    			<td colspan="2"><b class="nomarg">Bank / no.</b></td>
 		    			<td colspan="4" class="bor-btm">
-	    					<input type="text" style="width:100%" name="bank_no" autocomplete="off">
+	    					<?php if($rows_dr==0){ ?>
+		    					<input type="text" style="width:100%" name="bank_no" autocomplete="off">
+		    				<?php } else {
+		    					echo $bank_no;
+		    				} ?>
 	    				</td>
 		    			<td colspan="3" align="right"><b class="nomarg">Due Date:</b></td>
 		    			<td colspan="5" class="bor-btm">
-		    				<input type="date" style="width:100%" name="check_due" >
+		    				<?php if($rows_dr==0){ ?>
+		    					<input type="date" style="width:100%" name="due_date" value="<?php echo (!empty($due_date)) ? $due_date : ''; ?>">
+		    				<?php } else {
+		    					echo $due_date;
+		    				} ?>
 		    			</td>
 		    		</tr>
 		    		<tr>
@@ -213,16 +248,17 @@
 		    			<td align="left" colspan="17" class="bor-right"><b class="nomarg">Payment for:</b></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
-		    		
+		    		<?php foreach($items AS $it){ ?>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">
-		    				<b class="nomarg">2.00 pc Ping Pong Racket, 2pcs, with Ping Pong ball, 3pcs, Brand: Dunlop, @ 765.00 per pc</b>
+		    				<b class="nomarg"><?php echo number_format($it['quantity'],2) ." ".$it['uom'] ." " . $it['offer'] . ", " . "  @ ". $it['price'] ." per ".  $it['uom']; ?></b>
 		    			</td>
 		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg">P</span>
-		    				<span class="nomarg" id=''><b>9980</b></span>
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php } ?>
 		    		<tr>
 		    			<td align="center" colspan="17" class="bor-right"><br>
 		    				<br>
@@ -263,47 +299,90 @@
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
-		    			<td colspan="3"><b class="nomarg">Full Names</b></td>
+		    			<td colspan="3"><b class="nomarg"><?php echo $_SESSION['fullname']; ?></b></td>
 		    			<td colspan="3">
 		    			<b>
-		    			<select name='checked' class="select-des emphasis"  style="width:90%">		    				
+		    			<?php if($rows_dr==0){ ?>
+		    			<select name='checked' class="select-des emphasis"  style="width:90%">
+		    				
 			    			<option value='' selected>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 			    		</select>
+			    		<?php 	
+		    			} else { 
+		    				echo $checked; 
+		    			} ?>
 		    			</b>
 		    			</td>
 		    			<td colspan="3">
 		    			<b>
-		    			<select name='noted' class="select-des emphasis"  style="width:90%">		    				
+		    			<?php if($rows_dr==0){ ?>
+		    			<select name='noted' class="select-des emphasis"  style="width:90%">
 			    			<option value='' selected>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 			    		</select>
+			    		<?php 	
+		    			} else { 
+		    				echo $noted; 
+		    			} ?>
 		    			</b>
 		    			</td>
 		    			<td colspan="3">
 		    			<b>
+		    			<?php if($rows_dr==0){ ?>
 		    			<select name='endorsed' class="select-des emphasis"  style="width:90%">
 			    			<option value=''>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 		    			</select>
+		    			<?php 	
+		    			} else { 
+		    				echo $endorsed; 
+		    			} ?>
 		    			</b>
 		    			</td>
 		    			<td colspan="3">
 		    			<b>
+		    			<?php if($rows_dr==0){ ?>
 		    			<select name='approved' class="select-des emphasis" required style="width:90%">
 			    			<option value=''>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 		    			</select>
+	    				<?php 	
+		    			} else { 
+		    				echo $approved; 
+		    			} ?>
 		    			</b>
 		    			</td>
 		    			<td colspan="5">
 		    			<b>
+		    			<?php if($rows_dr==0){ ?>
 		    			<select name='received' class="select-des emphasis"  style="width:90%">
 			    			<option value='' selected>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
 			    		</select>
-		    			
+			    		<?php 	
+		    			} else { 
+		    				echo $received; 
+		    			} ?>
 		    			</b>
 		    			</td>
 		    		</tr>	    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
+	    	<input type='hidden' name='po_type' value='<?php echo $po_type; ?>'>
+	    	<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+	    	<input type='hidden' name='pay_to' value='<?php echo $vendor_id; ?>'>
     	</form>
     </div>
     <script type="text/javascript">

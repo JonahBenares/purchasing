@@ -196,7 +196,7 @@
 		    			<td colspan="3" align="right"><b class="nomarg">Date Requested:</b></td>
 		    			<td colspan="5" class="bor-btm">
 		    				<?php if($rows_dr==0 || $saved ==0){ ?>
-		    					<input type="date" style="width:100%" name="rfd_date" value="<?php echo $rfd_date; ?>">
+		    					<input type="date" style="width:100%" name="rfd_date" value="<?php echo (!empty($rfd_date)) ? $rfd_date : ''; ?>">
 		    				<?php } else {
 		    					echo $rfd_date;
 		    				} ?>
@@ -232,7 +232,7 @@
 		    			<td colspan="3" align="right"><b class="nomarg">Due Date:</b></td>
 		    			<td colspan="5" class="bor-btm">
 		    				<?php if($rows_dr==0 || $saved ==0){ ?>
-		    					<input type="date" style="width:100%" name="due_date" value="<?php echo $due_date; ?>">
+		    					<input type="date" style="width:100%" name="due_date" value="<?php echo (!empty($due_date)) ? $due_date : ''; ?>">
 		    				<?php } else {
 		    					echo $due_date;
 		    				} ?>
