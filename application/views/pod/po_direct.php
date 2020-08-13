@@ -167,7 +167,7 @@
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="abtn-group">
-						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-20 p-r-20"><span class="fa fa-arrow-left"></span> Back</a>
 						<?php if($saved==0){ ?>
 						<input type='submit' class="btn btn-warning btn-md p-l-100 p-r-100" name='submit' value="Save as Draft">
 						<input type='submit' class="btn btn-primary btn-md p-l-50 p-r-50" name = "submit" value="Save">	
