@@ -253,7 +253,8 @@
 		    			<td align="left" colspan="17" class="bor-right"><b class="nomarg">Payment for:</b></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
-		    		<?php foreach($items AS $it){ ?>
+		    		<?php foreach($items AS $it){ 
+		    			$subtotal[] = $it['total']; ?>
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right">
 		    				<b class="nomarg"><?php echo number_format($it['quantity'],2) ." ".$it['uom'] ." " . $it['offer'] . ", " . "  @ ". $it['price'] ." per ".  $it['uom']; ?></b>
@@ -262,19 +263,113 @@
 		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],2); ?></b></span>
 		    			</td>
+		    		</tr>	
+			    	<?php } ?>
+			    	<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Shipping Cost</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($shipping,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Packing and Handling Fee</b></td>
+		    			<td align="right" colspan="3" >
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($packing,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<?php if($vat_percent!=0){ ?>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent; ?>% VAT</b></td>
+		    			<td align="right" colspan="3" >
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($vatt,2); ?></b></span>
+		    			</td>
 		    		</tr>
 		    		<?php } ?>
 		    		<tr>
-		    			<td align="center" colspan="17" class="bor-right"><br>
-		    				<br>
-		    				<br>
-		    				<br>
-		    				<br>
-		    				<br>
-		    				<br>
-		    				<br>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: Discount</b></td>
+		    			<td align="right" colspan="3" >
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($discount,2); ?></b></span>
 		    			</td>
+		    		</tr>
+		    		<?php
+		    				$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt) - $discount;
+		    		?>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Subtotal</b></td>
+		    			<td align="right" colspan="3" class=" bor-top">
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,2); ?></b></span>
+		    			</td>
+		    		</tr>
+
+		    		<?php 
+		    		$percent=$ewt/100;
+		    		if($vat==1){
+		    			$less= ($stotal/1.12)*$percent;
+		    			$gtotal =$stotal-$less;
+		    		} else {
+		    			$less= $stotal*$percent;
+		    			$gtotal = $stotal-$less;
+		    		} ?>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: <?php echo number_format($ewt); ?>% EWT</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($less,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo (($vat==1) ? 'Vatable' : 'Non-Vatable'); ?></b></td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<?php foreach($pr AS $p){ ?>
+		    		<tr>
+		    			<td align="left" colspan="17" class="bor-right">
+		    				<b class="nomarg">Purpose: <?php echo $p['purpose']; ?></b>
+		    			</td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<tr>
+		    			<td align="left" colspan="17" class="bor-right">
+		    				<b class="nomarg">End Use:  <?php echo $p['enduse']; ?></b>
+		    			</td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<tr>
+		    			<td align="left" colspan="17" class="bor-right">
+		    				<b class="nomarg">Requestor:  <?php echo $p['requestor'] .(($p['pr_id']!=0) ? "; Item# ". $p['item_no'] : "") ?></b>
+		    			</td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<tr>
+		    			<td align="center" colspan="17" class="bor-right"><br></td>
 		    			<td align="center" colspan="3"><br></td>
+		    		</tr>
+		    		<?php } ?>		    		
+		    		<tr>
+		    			<td align="left" colspan="7" ><b class="nomarg">P.O. No: <?php echo $po_no; ?></b></td>
+		    			<td align="right" colspan="10" class="bor-right"><b class="nomarg" style="font-weight: 900">Total Amount Due</b></td>
+		    			<td align="right" colspan="3" style="border-bottom: 2px solid #000">
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="left" colspan="7" ><b class="nomarg">DR No: <?php echo $dr_no; ?></b></td>
+		    			<td align="right" colspan="10" class="bor-right"></td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<tr>
+		    			<td align="left" colspan="17" class="bor-right"><b class="nomarg">Notes: </b>
+		    				<?php if($rows_dr==0){ ?>
+		    				<textarea class="form-control"  name = "notes" rows="1" style="width: 100%"></textarea>
+		    				<?php }else { echo $notes; }?>
+		    			</td>
+		    			<td align="right" colspan="3" ></td>
 		    		</tr>	    		
 		    		<tr>
 		    			<td align="left" colspan="7" ></b></td>
@@ -285,13 +380,8 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="left" colspan="7" ><b class="nomarg"></b></td>
-		    			<td align="right" colspan="10" class="bor-right"></td>
-		    			<td align="right" colspan="3"></td>
-		    		</tr>
-		    		<tr>
-		    			<td align="center" colspan="17" class="bor-right bor-btm"><br></td>
-		    			<td align="center" colspan="3" class="bor-btm"><br></td>
+		    			<td align="center" colspan="17" class="bor-right bor-btm"></td>
+		    			<td align="center" colspan="3" class="bor-btm"></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
@@ -299,7 +389,7 @@
 		    			<td colspan="3"><b>Checked by:</b></td>
 		    			<td colspan="3"><b>Noted by:</b></td>
 		    			<td colspan="3"><b>Approved by:</b></td>
-		    			<td colspan="3"><b>Request Initiated	 by:</b></td>
+		    			<td colspan="3"><b>Request Initiated by:</b></td>
 		    			<td colspan="5"><b>Payment Received by:</b></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
