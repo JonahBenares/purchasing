@@ -13,6 +13,13 @@
             $("#pr_idro").val(pr_idro);
             $("#group_idro").val(group_idro);
         });
+
+        $(document).on("click", "#RfqSend", function () {
+            var pr_id= $(this).attr("data-id");
+            var group = $(this).attr("data-group");
+            $("#pr_id").val(pr_id);
+            $("#group").val(group);
+        });
     </script>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
@@ -59,7 +66,7 @@
                         </div>  
                         <div class="sparkline8-hd">
                             <div class="main-sparkline8-hd">                         
-                                <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq_group">
+                                <!-- <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq_group"> -->
                                     <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-resizable="true" data-toolbar="#toolbar" >
                                         <thead>
                                             <th ><span class="btn-block">PR No.</span></th>
@@ -80,9 +87,10 @@
                                                                     <?php if(empty($h['vendor'])){ ?>
                                                                         <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $h['group']; ?>','<?php echo $h['pr_id']; ?>')" class="btn btn-warning btn-sm " title="Choose Vendor">CV</a>                                                           
                                                                     <?php } else { ?>
-                                                                        <input type='hidden' name='pr_id' value='<?php echo $h['pr_id']; ?>'>
-                                                                        <input type='hidden' name='group' value='<?php echo $h['group']; ?>'>
-                                                                        <input type='submit' class="btn btn-primary btn-sm" value='RFQ' title="Create RFQ" onclick="return confirm('Are you sure you want to create RFQ?')">
+                                                                        <!-- <input type='text' name='pr_id' value='<?php echo $h['pr_id']; ?>'>
+                                                                        <input type='text' name='group' value='<?php echo $h['group']; ?>'> -->
+                                                                        <!-- <input type='submit' class="btn btn-primary btn-sm" value='RFQ' title="Create RFQ" onclick="return confirm('Are you sure you want to create RFQ?')"> -->
+                                                                        <a class="btn btn-primary btn-sm" id = "RfqSend" data-toggle="modal" data-target="#modalRfq" data-id = "<?php echo $h['pr_id']; ?>" data-group= "<?php echo $h['group']; ?>">RFQ</a>
                                                                     <?php } ?>     
                                                                     <a class="btn btn-info btn-sm" title="Direct Purchase" id="updateDP_button" data-id="<?php echo $h['pr_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-toggle="modal" data-target="#directpurch">DP</a>
                                                                     <a href=""  data-toggle="modal" id="updateRO_button" data-id="<?php echo $h['pr_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-target="#repord" class="btn btn-success btn-sm" title="Repeat Order">RO</a>
@@ -95,7 +103,7 @@
                                             </tr> 
                                         <?php } } ?>                  
                                     </table>
-                                </form>
+                                <!-- </form> -->
                             </div>
                         </div>
                     </div>
@@ -104,6 +112,33 @@
         </div>
     </div>
     <!-- Data table area End-->
+    <div class="modal fade" id="modalRfq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Confirmation
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button> -->
+                    </h5>
+                    
+                </div>
+                <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq_group">
+                    <div class="modal-body">
+                        Are you sure you want to create RFQ?
+                    </div> 
+                    <input type='hidden' name='pr_id' id="pr_id">
+                    <input type='hidden' name='group' id="group">
+                    <div class="modal-footer">
+                        <center>
+                            <input type="submit" class="btn btn-danger" data-dismiss="modal" aria-label="Close" value="Cancel">
+                            <input type="submit" name="submit" class="btn btn-primary" value="Ok">
+                        <center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="directpurch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
