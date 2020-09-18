@@ -196,8 +196,8 @@
 		    			<td class="all-border" align="center"><?php echo $it['item_no']; ?><br></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $it['vendor']; ?></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $it['offer']; ?></td>
-		    			<td class="all-border" align="center"><?php echo number_format($it['delivered_quantity']); ?></td>
-		    			<td class="all-border" align="center"><?php echo (($it['received_quantity']==0) ? '' : number_format($it['received_quantity'])); ?></td>
+		    			<td class="all-border" align="center"><?php echo number_format($it['delivered_quantity'],2); ?></td>
+		    			<td class="all-border" align="center"><?php echo (($it['received_quantity']==0) ? '' : number_format($it['received_quantity'],2)); ?></td>
 		    			<td class="all-border" align="center" colspan="2"><?php echo $it['uom']; ?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
