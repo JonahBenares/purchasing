@@ -131,12 +131,12 @@
                                         <tr>
                                             <?php 
                                                 if(!empty($po)){
-                                                    if(!empty($unserved)){
-                                                    foreach($unserved AS $u){
+                                                    //if(!empty($unserved)){
+                                                    //foreach($unserved AS $u){
                                                         foreach($po AS $p){ 
-                                                            if($p['pr_details_id']==$u['pr_details_id']){
+                                                            //if($p['pr_details_id']==$u['pr_details_id']){
                                                             /*foreach($po_items AS $items){*/
-                                                            $total = $u['unserved_qty']*$p['unit_price'];
+                                                            //$total = $u['unserved_qty']*$p['unit_price'];
                                             ?>                                     
                                         <tr>
                                             <td><?php echo $p['pr_no'];?></td>
@@ -145,7 +145,7 @@
                                             <td><?php echo $p['po_date'];?></td>
                                             <td><?php echo $p['po_no'];?></td>
                                             <td><?php echo $p['requested_by'];?></td>
-                                            <td><?php echo $u['unserved_qty'];?></td>
+                                            <td><?php echo $p['unserved_qty'];?></td>
                                             <td><?php echo $p['uom'];?></td>
                                             <td><?php echo $p['item'];?></td>
                                             <td><?php echo $p['status']; ?></td>
@@ -153,10 +153,10 @@
                                             <td><?php echo $p['supplier'];?></td>
                                             <td><?php echo $p['terms'];?></td>
                                             <td><?php echo $p['unit_price'];?></td>
-                                            <td><?php echo number_format($total,2);?></td>
+                                            <td><?php echo number_format($p['total'],2);?></td>
                                             <td><?php echo $p['notes'];?></td>
                                         </tr> 
-                                        <?php } } } } }  ?>
+                                        <?php } } //} //} //}  ?>
                                         </tr>                    
                                     </tbody>
                                 </table>

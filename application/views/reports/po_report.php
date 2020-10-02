@@ -145,9 +145,11 @@
                                                     $total = $p['qty']*$p['unit_price'];
                                         ?>                                     
                                         <tr
-                                        <?php if($p['served']=='1'){
+                                        <?php if($p['served']=='1' && $p['po_qty'] > $p['qty']){ 
+                                            echo "class=''";
+                                        } else if($p['served']=='1'){
                                             echo "class='fd'";
-                                        } else if($p['cancelled']=='1') {
+                                        }else if($p['cancelled']=='1') {
                                             echo "class='cd'";
                                         } ?>>
                                             <td><?php echo $p['pr_no'];?></td>
