@@ -208,9 +208,15 @@
                                             <td>
                                                 <center>
                                                     <a class="cancelJO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJO" data-id="<?php echo $h['jo_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
+                                                    <?php if($h['saved']==0){ ?>
+                                                    <a href="<?php echo base_url(); ?>jo/job_order/<?php echo $h['jo_id']; ?>" class="btn btn-custon-three btn-warning btn-xs">
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php }else { ?>
                                                     <a href="<?php echo base_url(); ?>jo/job_order_saved/<?php echo $h['jo_id']; ?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                     </a>
+                                                    <?php } ?>
                                                     <?php if($h['revised']==1){ ?>
                                                         <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $h['jo_id']?>">
                                                             <span class="fa fa-thumbs-up"></span>

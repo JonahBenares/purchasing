@@ -53,6 +53,7 @@ class Jo extends CI_Controller {
                 'jo_no'=>$head->jo_no,
                 'project_title'=>$head->project_title,
                 'revised'=>$head->revised,
+                'saved'=>$head->saved,
                 'revision_no'=>$head->revision_no,
             );
         }
