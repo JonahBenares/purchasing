@@ -119,8 +119,11 @@ class Reports extends CI_Controller {
 
                       /*  $unserved_qty = $this->super_model->select_column_custom_where('aoq_offers', 'balance', "pr_details_id='$pr->pr_details_id' AND recommended = '1'");
                         $unserved_uom = $this->super_model->select_column_custom_where('aoq_offers', 'uom', "pr_details_id='$pr->pr_details_id' AND recommended = '1'");*/
-
-                        $unserved_qty = $pr->quantity - $served_qty;
+                        if($cancelled_head_po==0){
+                            $unserved_qty = $pr->quantity - $served_qty;
+                        }else{
+                            $unserved_qty = '';
+                        }
                         $unserved_uom =  $served_uom;
 
                         $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
@@ -134,7 +137,7 @@ class Reports extends CI_Controller {
                         if($count_po_unserved !=0 && $count_po_served==0){
                             $status = 'PO Issued - Partial<br><br>';
                             $status_remarks='';
-                        }else if($count_po_unserved !=0  && $count_po_served!=0){
+                        }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
                             $status .= 'PO Issued - Partial<br><br>';
                             $status .= 'Partially Delivered';
                             $status_remarks='';
@@ -144,7 +147,9 @@ class Reports extends CI_Controller {
                        // } else {
 
                             $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
-                            if($cancelled_items_po==0){
+                            if($cancelled_head_po!=0){
+                                $status .='';
+                            }else if($cancelled_items_po==0){
                                 $status .= 'Partially Delivered';
                             }else {
                                 $statuss = 'Partially Delivered';
@@ -542,7 +547,12 @@ class Reports extends CI_Controller {
                       /*  $unserved_qty = $this->super_model->select_column_custom_where('aoq_offers', 'balance', "pr_details_id='$pr->pr_details_id' AND recommended = '1'");
                         $unserved_uom = $this->super_model->select_column_custom_where('aoq_offers', 'uom', "pr_details_id='$pr->pr_details_id' AND recommended = '1'");*/
 
-                        $unserved_qty = $pr->quantity - $served_qty;
+                        //$unserved_qty = $pr->quantity - $served_qty;
+                        if($cancelled_head_po==0){
+                            $unserved_qty = $pr->quantity - $served_qty;
+                        }else{
+                            $unserved_qty = '';
+                        }
                         $unserved_uom =  $served_uom;
 
                         $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
@@ -557,7 +567,7 @@ class Reports extends CI_Controller {
                             $status = 'PO Issued - Partial<br><br>';
                             $status_remarks = '';
                         }
-                        else if($count_po_unserved !=0  && $count_po_served!=0){
+                        else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
                             $status .= 'PO Issued - Partial<br><br>';
                              $status .= 'Partially Delivered';
                              $status_remarks = '';
@@ -567,7 +577,9 @@ class Reports extends CI_Controller {
                        // } else {
 
                             $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
-                            if($cancelled_items_po==0){
+                            if($cancelled_head_po!=0){
+                                $status .='';
+                            }else if($cancelled_items_po==0){
                                 $status .= 'Partially Delivered';
                             }else {
                                 $statuss = 'Partially Delivered';
@@ -931,10 +943,16 @@ class Reports extends CI_Controller {
                     if($sum_po_qty < $pr->quantity){
                         $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
                         $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
-                        $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
+                        //$served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
+                        $served_qty = $this->super_model->select_sum("po_items", "quantity", "pr_details_id",$pr->pr_details_id);
                         $delivered_qty = $this->super_model->select_column_where('po_items', 'delivered_quantity', 'pr_details_id', $pr->pr_details_id);
                         $served_uom = $this->super_model->select_column_where('po_items', 'uom', 'pr_details_id', $pr->pr_details_id);
-                        $unserved_qty = $pr->quantity - $served_qty;
+                        if($cancelled_head_po==0){
+                            $unserved_qty = $pr->quantity - $served_qty;
+                        }else{
+                            $unserved_qty = '';
+                        }
+                        //$unserved_qty = $pr->quantity - $served_qty;
                         $unserved_uom =  $served_uom;
                         $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
                         $count_po_unserved = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id WHERE served = '0' AND cancelled ='0' AND pr_details_id = '$pr->pr_details_id'");
@@ -944,13 +962,15 @@ class Reports extends CI_Controller {
                         if($count_po_unserved !=0 && $count_po_served==0){
                             $status = "PO Issued - Partial\n \n";
                             $status_remarks='';
-                        }else if($count_po_unserved !=0  && $count_po_served!=0){
+                        }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
                             $status .= "PO Issued - Partial\n \n";
                             $status .= 'Partially Delivered';
                             $status_remarks='';
                         } else if($count_po_unserved == 0 && $count_po_served == $count_po_all) {
                             $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
-                            if($cancelled_items_po==0){
+                            if($cancelled_head_po!=0){
+                                $status .='';
+                            }else if($cancelled_items_po==0){
                                 $status .= 'Partially Delivered';
                             }else {
                                 $statuss = 'Partially Delivered';
@@ -1195,10 +1215,16 @@ class Reports extends CI_Controller {
                     if($sum_po_qty < $pr->quantity){
                           $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
                             $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
-                            $served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
+                            //$served_qty = $this->super_model->select_column_where('po_items', 'quantity', 'pr_details_id', $pr->pr_details_id);
+                            $served_qty = $this->super_model->select_sum("po_items", "quantity", "pr_details_id",$pr->pr_details_id);
                             $delivered_qty = $this->super_model->select_column_where('po_items', 'delivered_quantity', 'pr_details_id', $pr->pr_details_id);
                             $served_uom = $this->super_model->select_column_where('po_items', 'uom', 'pr_details_id', $pr->pr_details_id);
-                            $unserved_qty = $pr->quantity - $served_qty;
+                            if($cancelled_head_po==0){
+                                $unserved_qty = $pr->quantity - $served_qty;
+                            }else{
+                                $unserved_qty = '';
+                            }
+                            //$unserved_qty = $pr->quantity - $served_qty;
                             $unserved_uom =  $served_uom;
 
                             $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
@@ -1208,13 +1234,15 @@ class Reports extends CI_Controller {
                             if($count_po_unserved !=0 && $count_po_served==0){
                                 $status = "PO Issued - Partial \n \n";
                                 $status_remarks='';
-                            }else if($count_po_unserved !=0  && $count_po_served!=0){
+                            }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
                                 $status .= "PO Issued - Partial \n \n";
                                 $status .= 'Partially Delivered';
                                 $status_remarks='';
                             } else if($count_po_unserved == 0 && $count_po_served == $count_po_all) {
                                 $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
-                                if($cancelled_items_po==0){
+                                if($cancelled_head_po!=0){
+                                    $status .='';
+                                }else if($cancelled_items_po==0){
                                     $status .= 'Partially Delivered';
                                 }else {
                                     $statuss = 'Partially Delivered';
