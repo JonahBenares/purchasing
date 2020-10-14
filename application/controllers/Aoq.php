@@ -737,11 +737,11 @@ class Aoq extends CI_Controller {
             $delivery=$rfq->delivery_date;
             $warranty=$rfq->item_warranty;
             $freight=$rfq->freight;
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$a, "a. Price Validity");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$b, "b. Payment Terms");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$c, "c. Date of Delivery");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$d, "d. Items Warranty");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$e, "e. In-land Freight");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$a, "a. Price Validity");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$b, "b. Payment Terms");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$c, "c. Date of Delivery");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$d, "d. Items Warranty");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$e, "e. In-land Freight");
 
             /*$objPHPExcel->getActiveSheet()->mergeCells('E'.$a.':H'.$a);
             $objPHPExcel->getActiveSheet()->mergeCells('I'.$b.':L'.$b);
@@ -1172,11 +1172,11 @@ class Aoq extends CI_Controller {
             $delivery=$rfq->delivery_date;
             $warranty=$rfq->item_warranty;
             $freight=$rfq->freight;
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$a, "a. Price Validity");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$b, "b. Payment Terms");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$c, "c. Date of Delivery");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$d, "d. Items Warranty");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$e, "e. In-land Freight");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$a, "a. Price Validity");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$b, "b. Payment Terms");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$c, "c. Date of Delivery");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$d, "d. Items Warranty");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$e, "e. In-land Freight");
 
            /* $objPHPExcel->getActiveSheet()->mergeCells('E'.$a.':H'.$a);
             $objPHPExcel->getActiveSheet()->mergeCells('I'.$b.':L'.$b);
@@ -1642,11 +1642,11 @@ class Aoq extends CI_Controller {
             $delivery=$rfq->delivery_date;
             $warranty=$rfq->item_warranty;
             $freight=$rfq->freight;
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$a, "a. Price Validity");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$b, "b. Payment Terms");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$c, "c. Date of Delivery");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$d, "d. Items Warranty");
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$e, "e. In-land Freight");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$a, "a. Price Validity");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$b, "b. Payment Terms");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$c, "c. Date of Delivery");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$d, "d. Items Warranty");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$e, "e. In-land Freight");
 
             /*$objPHPExcel->getActiveSheet()->mergeCells('E'.$a.':H'.$a);
             $objPHPExcel->getActiveSheet()->mergeCells('I'.$b.':L'.$b);
