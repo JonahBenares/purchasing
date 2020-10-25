@@ -50,8 +50,8 @@
                                      foreach($items AS $i){ ?>
                                     
                                     <tr>
-                                        <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" onkeyup='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
-                                        <td style="padding: 0px!important"><select class="form-control" name='pr_details_id<?php echo $x; ?>'>
+                                        <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" onblur="check_prdet(<?php echo $x; ?>);" onkeyup='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
+                                        <td style="padding: 0px!important"><select class="form-control" id = "pr_details_id<?php echo $x; ?>" name='pr_details_id<?php echo $x; ?>'>
                                             <option value='' selected>-Choose Item-</option>
                                             <?php foreach($pr_det AS $det){ ?>
                                                 <option value="<?php echo $det['pr_details_id']; ?>"><?php echo $det['item_description']; ?></option>
@@ -69,7 +69,7 @@
                                     <input type='hidden' name='group_id' value="<?php echo $group_id; ?>"> 
                                    <!--<input type='text' name='pr_details_id<?php echo $x; ?>' value="<?php echo $i['pr_details_id']; ?>">-->
                                     <?php $x++; } 
-                                } ?>
+                                } $counter = $x-1; ?>
                               <!--   <?php $y=1; foreach($pr_det AS $p){ ?>
                                        <input type='text' name='pr_details_id<?php echo $y; ?>' value="<?php echo $p['pr_details_id']; ?>">
                                 <?php $y++; } ?> -->
@@ -90,5 +90,39 @@
     </div>
 </div>
 <script>
+    function check_prdet(count){
+        var pr_details_id = document.getElementById("pr_details_id"+count).value;
+        var qty = document.getElementById("quantity"+count).value;
+        if(qty!='' && pr_details_id==''){
+            alert('Please select item in the dropdown');
+        }
+    }
+    /*$(document).on("click", "#submit", function () {
+        var count_item = document.getElementById("count_item").value;
+        for(x=1;x<=count_item;x++){
+            var pr_details_id = document.getElementById("pr_details_id"+x).value;
+            var qty = document.getElementById("quantity"+x).value;
+            if(qty!='' && pr_details_id==''){
+                alert('Please select item in the dropdown');
+            }else if(qty!='' && pr_details_id!=''){
+                var data = $("#addpo").serialize();
+                var loc= document.getElementById("baseurl").value;
+                var redirect=loc+'po/add_repeatPO';
+                $.ajax({
+                    type: "POST",
+                    url: redirect,
+                    data: data,
+                    success: function(output){
+                        //alert(output);
+                        window.onunload = refreshParent;
+                        function refreshParent() {
+                            window.opener.location.reload();
+                        }
+                        window.close();
+                    }
+                });
+            }
+        }
+    });*/
     $('.select2').select2();
 </script>
