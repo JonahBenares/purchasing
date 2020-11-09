@@ -139,9 +139,9 @@
                                             <?php foreach($header AS $h){ ?>
                                             <tr>
                                                 <td><?php echo date("F d, Y",strtotime($h['po_date'])); ?></td>
-                                                <td><?php echo $h['po_no'];?></td>
+                                                <td><?php echo $h['po_no']."-".COMPANY;?></td>
                                                 <td><?php echo $h['supplier']; ?></td>
-                                                <td><?php echo $h['pr_no']; ?></td>
+                                                <td><?php echo $h['pr_no']."-".COMPANY; ?></td>
                                                 <td><?php echo date("F d, Y",strtotime($h['cancelled_date'])); ?></td>
                                                 <td><?php echo $h['cancel_reason']; ?></td>
                                                 <td>

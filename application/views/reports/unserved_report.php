@@ -14,7 +14,7 @@
                             <select name="pr_no" class="form-control">
                                 <option value = "">--Select PR Number--</option>
                                 <?php foreach($pr_no1 AS $pr){ ?>
-                                <option value = "<?php echo $pr->pr_id;?>"><?php echo $pr->pr_no; ?></option>
+                                <option value = "<?php echo $pr->pr_id;?>"><?php echo $pr->pr_no."-".COMPANY; ?></option>
                                 <?php } ?>
                             </select>
                         </div>   
@@ -139,11 +139,11 @@
                                                             //$total = $u['unserved_qty']*$p['unit_price'];
                                             ?>                                     
                                         <tr>
-                                            <td><?php echo $p['pr_no'];?></td>
+                                            <td><?php echo $p['pr_no']."-".COMPANY;?></td>
                                             <td><?php echo $p['purpose'];?></td>
                                             <td><?php echo $p['enduse'];?></td>
                                             <td><?php echo $p['po_date'];?></td>
-                                            <td><?php echo $p['po_no'];?></td>
+                                            <td><?php echo $p['po_no']."-".COMPANY;?></td>
                                             <td><?php echo $p['requested_by'];?></td>
                                             <td><?php echo $p['unserved_qty'];?></td>
                                             <td><?php echo $p['uom'];?></td>

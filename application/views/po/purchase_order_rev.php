@@ -207,7 +207,7 @@
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
 		    			<td colspan="12"><h6 class="nomarg"><b><?php echo date('F j, Y', strtotime($h['po_date'])); ?></b></h6></td>
-		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: <?php echo $h['po_no'] . (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: <?php echo $h['po_no']."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></h6></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Supplier:</b></h6></td>
@@ -315,7 +315,7 @@
 		    					Enduse: <?php echo $pr['enduse']; ?><br>
 		    					Purpose: <?php echo $pr['purpose']; ?><br>
 		    					Requestor: <?php echo $pr['requestor']; ?><br>
-		    					PR no.: <?php echo $pr['pr_no']; ?><br>
+		    					PR no.: <?php echo $pr['pr_no']."-".COMPANY; ?><br>
 		    				</p><br>
 		    				<?php } ?>
 		    			</td>
@@ -509,7 +509,7 @@
 						    					Enduse: <?php echo $pr['enduse']; ?><br>
 						    					Purpose: <?php echo $pr['purpose']; ?><br>
 						    					Requestor: <?php echo $pr['requestor']; ?><br>
-						    					PR no.: <?php echo $pr['pr_no']; ?><br>
+						    					PR no.: <?php echo $pr['pr_no']."-".COMPANY; ?><br>
 						    				</p><br>
 						    				<?php } ?>
 						    				<br>

@@ -221,7 +221,7 @@
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
 		    			<td colspan="12"><h6 class="nomarg"><b><?php echo date('F j, Y', strtotime($h['po_date'])); ?></b></h6></td>
-		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: <?php echo $h['po_no']; ?></b></h6></td>
+		    			<td colspan="5"><h6 class="nomarg"><b>P.O. No.: <?php echo $h['po_no']."-".COMPANY; ?></b></h6></td>
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Supplier:</b></h6></td>
@@ -409,7 +409,7 @@
 					    					<p class="f12 nomarg">End Use: <?php echo $pr['enduse']?></p>
 					    					<p class="f12 nomarg">Purpose: <?php echo $pr['purpose']?></p>
 					    					<p class="f12 nomarg">Requestor: <?php echo $pr['requestor']?></p>
-					    					<p class="f12 nomarg">PR No: <?php echo $pr_no; ?></p>
+					    					<p class="f12 nomarg">PR No: <?php echo $pr_no."-".COMPANY; ?></p>
 						    			</b>
 						    		</td>
 					    			<td colspan="2" class="bor-right" align="center"><b></b></td>
@@ -477,7 +477,7 @@
 						    	if(!empty($items)){
 								    	foreach($items AS $it){ 
 								  ?>
-		    					<p class="f12 nomarg">Item No. <?php echo $it['item_no']; ?> is a repeat Order of PO No. <?php echo $it['orig_pono']; ?></p>
+		    					<p class="f12 nomarg">Item No. <?php echo $it['item_no']; ?> is a repeat Order of PO No. <?php echo $it['orig_pono']."-".COMPANY; ?></p>
 		    				 <?php } 
 							} ?>
 			    		</td>

@@ -265,7 +265,7 @@
 		    		</tr>
 		    		<?php } ?>
 		    		<tr>
-		    			<td align="left" colspan="7" ><?php echo $cenjo_no."/".$jo_no; ?></td>
+		    			<td align="left" colspan="7" ><?php echo $cenjo_no."/".$jo_no."-".COMPANY; ?></td>
 		    			<td align="right" colspan="10" class="bor-right"></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>

@@ -30,7 +30,7 @@
                                                                         <option value='' selected>-Select PR Number-</option>
                                                                         <?php foreach($pr AS $p){ ?>
                                                                             <option value="<?php echo $p->pr_id; ?>">
-                                                                            <?php echo $p->pr_no; ?>
+                                                                            <?php echo $p->pr_no."-".COMPANY; ?>
                                                                             </option>
                                                                         <?php }  ?> 
                                                                     </select>

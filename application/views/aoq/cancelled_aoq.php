@@ -69,7 +69,7 @@
                                         <?php foreach($heads AS $h){ ?>
                                         <tr>
                                             <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
-                                            <td><?php echo $h['pr_no']; ?></td>
+                                            <td><?php echo $h['pr_no']."-".COMPANY; ?></td>
                                             <td><?php echo $h['supplier']; ?></td>
                                             <td><?php echo $h['department']; ?></td>
                                             <td><?php echo $h['enduse']; ?></td>

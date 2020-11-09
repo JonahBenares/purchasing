@@ -154,7 +154,7 @@
 
 		    		<tr>
 		    			<td colspan="3" class="all-border "><b class="nomarg">DR No. </b></td>
-		    			<td colspan="17" class="all-border "><h4 style="margin:0px"><b><?php echo $dr_no; ?></b></h4> </td>
+		    			<td colspan="17" class="all-border "><h4 style="margin:0px"><b><?php echo $dr_no."-".COMPANY; ?></b></h4> </td>
 		    		</tr>
 		    		<?php foreach($jo_head AS $jh){ ?>		    		
 			    		<tr>
@@ -179,7 +179,7 @@
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">JO No.: </b></td>
-			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jh->jo_no; ?></b></td>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jh->jo_no."-".COMPANY; ?></b></td>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">Requested by: </b></td>

@@ -63,7 +63,7 @@
                                              
                                         ?>                                         
                                             <tr>
-                                                <td><?php echo $c['pr_no']; ?></td>
+                                                <td><?php echo $c['pr_no']."-".COMPANY; ?></td>
                                                 <td><?php echo $c['pr_date']; ?></td>
                                                 <td><?php echo $c['items']; ?></td>
                                                 <td ><center><?php echo $c['urgency_num']; ?></center></td>

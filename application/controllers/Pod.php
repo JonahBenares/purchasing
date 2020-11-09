@@ -480,7 +480,7 @@ class Pod extends CI_Controller {
             'dr_id'=>$dr_id,
             'dr_type'=>1,
             'po_id'=>$po_id,
-            'dr_no'=>$dr_no
+            'dr_no'=>$dr_no,
         );
         $this->super_model->insert_into("po_dr", $dr);
 

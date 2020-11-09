@@ -65,8 +65,8 @@
                                         
                                         <tr>
                                             
-                                            <td><?php echo $h['rfq_no']; ?></td>
-                                            <td><?php echo $h['pr_no']; ?></td>
+                                            <td><?php echo $h['rfq_no']."-".COMPANY; ?></td>
+                                            <td><?php echo $h['pr_no']."-".COMPANY; ?></td>
                                             <td><?php echo $h['vendor']; ?></td>
                                            
                                             <td>

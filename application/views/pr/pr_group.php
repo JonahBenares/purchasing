@@ -39,7 +39,7 @@
                         <div class="sparkline8-hd">
                             <div class="main-sparkline8-hd">
                                 <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq">
-                                    <h4>PR no: <b><?php echo $pr_no; ?></b></h4>
+                                    <h4>PR no: <b><?php echo $pr_no."-".COMPANY; ?></b></h4>
                                     <table class="table table-bordered" >
                                         <tr>
                                             <th>Group</th>

@@ -25,7 +25,7 @@
                                     <select class="form-control selectpicker" data-show-subtext="true" data-live-search="true" style="width: 25%" name='po' id='po' onchange="generatePO('<?php echo base_url(); ?>','<?php echo $vendor_id; ?>','<?php echo $po_id; ?>','<?php echo $pr_id; ?>','<?php echo $group_id; ?>',this.value);">
                                         <option value="" selected="">-Select PO-</option>
                                         <?php foreach($head As $h){ ?>
-                                            <option value="<?php echo $h->po_id; ?>"><?php echo $h->po_no; ?></option>
+                                            <option value="<?php echo $h->po_id; ?>"><?php echo $h->po_no."-".COMPANY; ?></option>
                                         <?php } ?>
                                     </select>   
                                 </div>

@@ -186,7 +186,7 @@ $ci =& get_instance();
                                         </tr>
                                         <tr>
                                             <td><i>PR No.:</i></td>
-                                            <td><?php echo $h->pr_no; ?></td>
+                                            <td><?php echo $h->pr_no."-".COMPANY; ?></td>
                                             <td><i>Processing Code:</i></td>
                                             <?php if($saved==0){ ?>
                                             <td style="padding: 0px!important" class="bor-red">

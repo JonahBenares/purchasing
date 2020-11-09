@@ -197,7 +197,7 @@
 		    			<td class="f13 bor-btm" colspan="9"><?php echo date('F j, Y', strtotime($rfq_date)); ?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="2">RFQ No.:</td>
-		    			<td class="f13 bor-btm" colspan="6"><?php echo $rfq_no; ?></td>
+		    			<td class="f13 bor-btm" colspan="6"><?php echo $rfq_no."-".COMPANY; ?></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"></td></tr>
 		    		<tr>
@@ -216,7 +216,7 @@
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="2">PR No:</td>
     					<td class="f13 bor-btm" colspan="6">
-			    			<?php echo $pr_no; ?>
+			    			<?php echo $pr_no."-".COMPANY; ?>
 		    			</td>   		
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"></td></tr>	    		

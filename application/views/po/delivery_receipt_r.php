@@ -153,13 +153,13 @@
 		    		<tr><td colspan="20" align="center"><h5><b class="text-red">DELIVERY RECEIPT</b><br><small class="text-red">REVISED</small></h5></td></tr>
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
-		    			<td colspan="20" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no; ?></b></td>
+		    			<td colspan="20" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no."-".COMPANY; ?></b></td>
 		    		</tr>
 		    		
 		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($h->po_date)); ?></b></td></tr>
 		    		<?php } ?>
 		    		<tr>
-		    			<td colspan="20"><b class="nomarg">PO No: <?php echo $h->po_no . (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
+		    			<td colspan="20"><b class="nomarg">PO No: <?php echo $h->po_no ."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
 		    		</tr>
 		    		<?php foreach($pr AS $p){ ?>
 		    		<tr>
@@ -172,7 +172,7 @@
 		    			<td colspan="20" class="all-border"><b class="nomarg">Requestor: <?php echo $p['requestor']; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20"><b class="nomarg">PR No: <?php echo $p['pr_no'] ?></td>
+		    			<td colspan="20"><b class="nomarg">PR No: <?php echo $p['pr_no']."-".COMPANY ?></td>
 		    		</tr>
 		    		<?php } ?>
 		    		<!-- Loop -->

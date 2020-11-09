@@ -63,10 +63,10 @@
                                         ?>
                                         <tr>
                                             <td><?php echo date('F j, Y', strtotime($head['po_date'])); ?></td>
-                                            <td><?php echo $head['po_no'];?></td>
+                                            <td><?php echo $head['po_no']."-".COMPANY;?></td>
                                             <!-- <td><a class="btn-link txt-primary" onclick="viewHistory()"></a></td> -->
                                             <td><?php echo $head['supplier']; ?></td>
-                                            <td><?php echo $head['pr']; ?></td>
+                                            <td><?php echo $head['pr']."-".COMPANY; ?></td>
                                             <td><?php
                                                     if($head['po_type']==0){
                                                         echo "Purchase Request";

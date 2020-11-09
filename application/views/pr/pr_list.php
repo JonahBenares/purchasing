@@ -119,7 +119,7 @@
                                         <tbody> 
                                             <?php foreach($pr_head AS $p){ ?>                                      
                                             <tr>
-                                                <td><?php echo $p->pr_no;?></td>
+                                                <td><?php echo $p->pr_no."-".COMPANY;?></td>
                                                 <td><?php echo $p->date_prepared;?></td>
                                                 <td><?php echo date("Y-m-d",strtotime($p->date_imported));?></td>
                                                 <td><?php echo $p->department;?></td>

@@ -297,7 +297,7 @@
 		    			<td colspan="4" class="f12" align="right">Purpose: &nbsp;</td>
 		    			<td colspan="5" class="f12" ><?php echo $h['purpose']; ?></td>		    			
 		    			<td colspan="3"class="f12" align="right">PR #: &nbsp;</td>
-		    			<td colspan="5" class="f12" ><?php echo $h['pr_no']; ?> </td>
+		    			<td colspan="5" class="f12" ><?php echo $h['pr_no']."-".COMPANY; ?> </td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="4" class="f12" align="right">Enduse: &nbsp;</td>

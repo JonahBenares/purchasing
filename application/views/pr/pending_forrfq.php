@@ -74,7 +74,7 @@
                                         </thead>
                                         <?php if(!empty($head)){ foreach($head as $h){ ?>
                                             <tr>
-                                                <td><span class="btn btn-block"><?php echo $h['pr_no']; ?></span></td>
+                                                <td><span class="btn btn-block"><?php echo $h['pr_no']."-".COMPANY; ?></span></td>
                                                 <td>
                                                     <table>                                                  
                                                         <tr>

@@ -1721,7 +1721,7 @@ class Po extends CI_Controller {
         $dr = array(
             'dr_id'=>$dr_id,
             'po_id'=>$po_id,
-            'dr_no'=>$dr_no
+            'dr_no'=>$dr_no,
         );
         $this->super_model->insert_into("po_dr", $dr);
 
@@ -1801,7 +1801,7 @@ class Po extends CI_Controller {
         $dr = array(
             'dr_id'=>$dr_id,
             'po_id'=>$po_id,
-            'dr_no'=>$dr_no
+            'dr_no'=>$dr_no,
         );
         $this->super_model->insert_into("po_dr", $dr);
         $a=1;

@@ -329,7 +329,7 @@
 		    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($start_of_work));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no; ?></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no."-".COMPANY; ?></td>
 		    		</tr>
 		    		<?php } ?>
 		    		<!-- <tr>

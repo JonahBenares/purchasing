@@ -221,7 +221,7 @@
                                             <?php foreach($header AS $h){ ?>
                                             <tr>
                                                 <td><?php echo date("F d, Y",strtotime($h['po_date'])); ?></td>
-                                                <td><?php echo $h['po_no'];?></td>
+                                                <td><?php echo $h['po_no']."-".COMPANY;?></td>
                                                 <td><?php echo $h['supplier']; ?></td>
                                                 <td></td>
                                                 <td></td>

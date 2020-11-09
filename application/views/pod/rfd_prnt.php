@@ -345,7 +345,7 @@
 		    		</tr>
 		    		<?php } ?>		    		
 		    		<tr>
-		    			<td align="left" colspan="7" ><b class="nomarg">P.O. No: <?php echo $po_no; ?></b></td>
+		    			<td align="left" colspan="7" ><b class="nomarg">P.O. No: <?php echo $po_no."-".COMPANY; ?></b></td>
 		    			<td align="right" colspan="10" class="bor-right"><b class="nomarg" style="font-weight: 900">Total Amount Due</b></td>
 		    			<td align="right" colspan="3" style="border-bottom: 2px solid #000">
 		    				<span class="pull-left nomarg">₱</span>
@@ -353,7 +353,7 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="left" colspan="7" ><b class="nomarg">DR No: <?php echo $dr_no; ?></b></td>
+		    			<td align="left" colspan="7" ><b class="nomarg">DR No: <?php echo $dr_no."-".COMPANY; ?></b></td>
 		    			<td align="right" colspan="10" class="bor-right"></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
