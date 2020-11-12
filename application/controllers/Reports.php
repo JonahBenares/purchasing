@@ -162,7 +162,7 @@ class Reports extends CI_Controller {
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr->pr_details_id' AND date_received!=''") AS $del){
                                // foreach($this->super_model->select_row_where("po_dr_items", "pr_details_id", $pr->pr_details_id) AS $del){
                                 if(!empty($this->super_model->select_column_custom_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
-                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
+                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
                                 }
                                 if(empty($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
                                     $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND ph.po_id = '$del->po_id' AND pi.pr_details_id = '$pr->pr_details_id'");
@@ -192,7 +192,7 @@ class Reports extends CI_Controller {
                         $status_remarks='';
                        foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr->pr_details_id' AND date_received!=''") AS $del){
                         //foreach($this->super_model->select_row_where("po_dr_items", "pr_details_id", $pr->pr_details_id) AS $del){
-                             $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                             $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."<br>";
                         }
                     }
 /*
@@ -592,7 +592,7 @@ class Reports extends CI_Controller {
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr->pr_details_id' AND date_received!=''") AS $del){
                                // foreach($this->super_model->select_row_where("po_dr_items", "pr_details_id", $pr->pr_details_id) AS $del){
                                 if(!empty($this->super_model->select_column_custom_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
-                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
+                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
                                 }
                                 if(empty($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
                                     $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND ph.po_id = '$del->po_id' AND pi.pr_details_id = '$pr->pr_details_id'");
@@ -622,7 +622,7 @@ class Reports extends CI_Controller {
                         $status_remarks='';
                        foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr->pr_details_id' AND date_received!=''") AS $del){
                         //foreach($this->super_model->select_row_where("po_dr_items", "pr_details_id", $pr->pr_details_id) AS $del){
-                             $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                             $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."<br>";
                         }
                     }
 /*
@@ -979,7 +979,7 @@ class Reports extends CI_Controller {
                             $status_remarks ='';
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr->pr_details_id' AND date_received!=''") AS $del){
                                 if(!empty($this->super_model->select_column_custom_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
-                                $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."(". $del->quantity . " ".$del->uom .")\n";
+                                $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."(". $del->quantity . " ".$del->uom .")\n";
                                 }
                                 if(empty($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
                                     $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND ph.po_id = '$del->po_id' AND pi.pr_details_id = '$pr->pr_details_id'");
@@ -1008,7 +1008,7 @@ class Reports extends CI_Controller {
                             $status_remarks='';
                         foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr->pr_details_id' AND date_received!=''") AS $del){
                             //foreach($this->super_model->select_row_where("po_dr_items", "pr_details_id", $pr->pr_details_id) AS $del){
-                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."\n";
+                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."\n";
                             }
                         }
 
@@ -1148,11 +1148,12 @@ class Reports extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                 }
+                $pr_no = $pr->pr_no."-".COMPANY;
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr->date_prepared");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purchase_request");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->purpose");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->enduse");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->pr_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr_no");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$pr->requestor");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$pr->wh_stocks");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
@@ -1252,7 +1253,7 @@ class Reports extends CI_Controller {
                                 foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr->pr_details_id' AND date_received!=''") AS $del){
                                    // foreach($this->super_model->select_row_where("po_dr_items", "pr_details_id", $pr->pr_details_id) AS $del){
                                     if(!empty($this->super_model->select_column_custom_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
-                                     $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."(". $del->quantity . " ".$del->uom .")\n";
+                                     $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."(". $del->quantity . " ".$del->uom .")\n";
                                     }
                                     if(empty($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
                                         $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND ph.po_id = '$del->po_id' AND pi.pr_details_id = '$pr->pr_details_id'");
@@ -1284,7 +1285,7 @@ class Reports extends CI_Controller {
                             $status_remarks='';
                             //foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $pr->pr_details_id) AS $del){
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr->pr_details_id' AND date_received!=''") AS $del){
-                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."\n";
+                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."\n";
                             }
                         }
 
@@ -1381,11 +1382,12 @@ class Reports extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                 }
+                $pr_no = $pr->pr_no."-".COMPANY;
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr->date_prepared");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purchase_request");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->purpose");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->enduse");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->pr_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr_no");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$pr->requestor");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$pr->wh_stocks");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
@@ -1519,7 +1521,7 @@ class Reports extends CI_Controller {
                            // $status = date('m.d.Y', strtotime($p->date_served))." - Delivered DR# ". $dr_no;
                                $status='';
                            foreach($this->super_model->select_custom_where("po_dr_items", "pr_details_id= '$i->pr_details_id' AND po_items_id = '$i->po_items_id' ORDER BY dr_id DESC LIMIT 1") AS $del){
-                                 $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                                 $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."-".COMPANY."<br>";
                             }
                         }
                     }
@@ -1762,7 +1764,7 @@ class Reports extends CI_Controller {
                    // $status = date('m.d.Y', strtotime($p->date_served))." - Delivered DR# ". $dr_no;
                        $status='';
                    foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $p->pr_details_id) AS $del){
-                         $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."<br>";
+                         $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."-".COMPANY."<br>";
                     }
                 }
             }
@@ -1958,7 +1960,7 @@ class Reports extends CI_Controller {
                     $requestor = $p->requestor;
                 }*/
                 $total=$p->quantity*$p->unit_price;
-                $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$p->pr_id);
+                $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$p->pr_id)."-".COMPANY;
                 $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
                 if($p->item_id!=0){
@@ -1995,7 +1997,7 @@ class Reports extends CI_Controller {
                            $status='';
                        //foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $p->pr_details_id) AS $del){
                         foreach($this->super_model->select_custom_where("po_dr_items", "pr_details_id= '$p->pr_details_id' AND po_items_id = '$p->po_items_id' ORDER BY dr_id DESC LIMIT 1") AS $del){
-                             $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."\n";
+                             $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."-".COMPANY."\n";
                         }
                     }
                 }
@@ -2015,11 +2017,12 @@ class Reports extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->getStyle("K".$num)->getFont()->getColor()->setRGB('ff0000');
                 }
                 //$partial = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ah.pr_id = '$p->pr_id' AND ai.aoq_items_id = '$p->aoq_items_id' AND ai.balance != '0' AND ai.balance != ai.quantity GROUP BY ai.aoq_items_id");
+                $po_no = $p->po_no."-".COMPANY;
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr_no");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->purpose");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->enduse");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->po_date");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->po_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$po_no");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$requestor");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->delivered_quantity");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->quantity");
@@ -2083,7 +2086,7 @@ class Reports extends CI_Controller {
                     $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
 
                     foreach($this->super_model->select_row_where('po_pr','po_id',$p->po_id) AS $pr){
-                        $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$pr->pr_id);
+                        $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$pr->pr_id)."-".COMPANY;
                         foreach($this->super_model->select_row_where('po_items','po_id',$p->po_id) AS $i){
                             $total=$i->quantity*$i->unit_price;
                             if($i->item_id!=0){
@@ -2120,7 +2123,7 @@ class Reports extends CI_Controller {
                                        $status='';
                                    //foreach($this->super_model->select_row_where("po_dr_items", 'pr_details_id', $i->pr_details_id) AS $del){
                                     foreach($this->super_model->select_custom_where("po_dr_items", "pr_details_id= '$i->pr_details_id' AND po_items_id = '$i->po_items_id' ORDER BY dr_id DESC LIMIT 1") AS $del){
-                                         $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id) ."\n";
+                                         $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."\n";
                                     }
                                 }
                             }
@@ -2140,11 +2143,12 @@ class Reports extends CI_Controller {
                             $objPHPExcel->getActiveSheet()->getStyle("K".$num)->getFont()->getColor()->setRGB('ff0000');
                         }
                         //$partial = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ah.pr_id = '$pr->pr_id' AND ai.aoq_items_id = '$i->aoq_items_id' AND ai.balance != '0' AND ai.balance != ai.quantity GROUP BY ai.aoq_items_id");
+                        $po_no = $p->po_no."-".COMPANY;
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr_no");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->enduse");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->po_date");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->po_no");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$po_no");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$requestor");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$i->delivered_quantity");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$i->quantity");

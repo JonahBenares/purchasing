@@ -291,7 +291,7 @@
                                                 } ?>
                                         <tr>
                                             <td><?php echo date('m.d.Y', strtotime($pr['pr_date'])); ?></td>
-                                            <td><?php echo $pr['pr_no']; ?></td>
+                                            <td><?php echo $pr['pr_no']."-".COMPANY; ?></td>
                                             <td><span style="color:blue"><?php echo $pr['item']; ?></span></td>
                                             <td class="datatable-ct"><?php echo (($pr['rfq_outgoing']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                           <!--   <td class="datatable-ct"><?php echo (($pr['rfq_incoming']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td> -->

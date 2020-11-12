@@ -113,7 +113,7 @@ class Masterfile extends CI_Controller {
             $today = date('Y-m-d');
             $data['todo'][] =  array(
                 'todo_id'=>$td->po_id,
-                'notes'=>'Follow up revision approval of PO '.$td->po_no,
+                'notes'=>'Follow up revision approval of PO '.$td->po_no."-".COMPANY,
                 'due_date'=>$today,
                 'done'=>'',
                 'remind'=>'',
