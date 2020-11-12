@@ -1447,6 +1447,7 @@ class Po extends CI_Controller {
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $data['saved']=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
         $data['revised']=$this->super_model->select_column_where('po_head', 'revised', 'po_id', $po_id);
+        $data['revision_no']=$this->super_model->select_column_where('po_head', 'revision_no', 'po_id', $po_id);
         $recommended_id = $this->super_model->select_column_where('po_head', 'recommended_by', 'po_id', $po_id);
         $approved_id = $this->super_model->select_column_where('po_head', 'approved_by', 'po_id', $po_id);
         $checked_id = $this->super_model->select_column_where('po_head', 'checked_by', 'po_id', $po_id);
@@ -1547,6 +1548,7 @@ class Po extends CI_Controller {
         $data['saved']=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
         $data['draft']=$this->super_model->select_column_where('po_head', 'draft', 'po_id', $po_id);
         $data['revised']=$this->super_model->select_column_where('po_head', 'revised', 'po_id', $po_id);
+        $data['revision_no']=$this->super_model->select_column_where('po_head', 'revision_no', 'po_id', $po_id);
         $approved_id = $this->super_model->select_column_where('po_head', 'approved_by', 'po_id', $po_id);
         $checked_id = $this->super_model->select_column_where('po_head', 'checked_by', 'po_id', $po_id);
         $recommended_id = $this->super_model->select_column_where('po_head', 'recommended_by', 'po_id', $po_id);
