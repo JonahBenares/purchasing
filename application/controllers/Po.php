@@ -1937,7 +1937,7 @@ class Po extends CI_Controller {
         $data['old_po'] = $old_po;
         $data['vendor_id'] = $vendor_id;
 
-
+        $quantity='';
         foreach($this->super_model->select_custom_where("pr_details", "pr_id='$pr_id' AND grouping_id='$group_id'") AS $p){
             $data['pr_det'][]=array(
                 'pr_details_id'=>$p->pr_details_id,
@@ -1963,13 +1963,15 @@ class Po extends CI_Controller {
                 } else {
                     $offer=$this->super_model->select_column_where('item', 'item_name', 'item_id', $item->item_id). ", " . $this->super_model->select_column_where('item', 'item_specs', 'item_id', $item->item_id);
                 }
-
+                $pr_details_id = $this->super_model->select_column_where('pr_details', 'pr_details_id', 'pr_id', $item->pr_id);
+                $quantity = $this->super_model->select_column_where('pr_details', 'quantity', 'pr_details_id', $pr_details_id);
                 $data['items'][] = array(
                     'pr_no'=>$pr_no,
                     'pr_details_id'=>$item->pr_details_id,
                     'pr_id'=>$item->pr_id,
                     'item_id'=>$item->po_items_id,
                     'offer'=>$offer,
+                    'quantity'=>$quantity,
                     'uom'=>$item->uom,
                     'price'=>$item->unit_price,
                     'amount'=>$item->amount

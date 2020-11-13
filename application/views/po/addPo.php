@@ -64,6 +64,7 @@
                                             <input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right; border:0px' readonly></span>
                                         <td><?php echo $i['pr_no']; ?></td>    
                                     </tr>
+                                    <input type='hidden' id='qty<?php echo $x; ?>' value="<?php echo $i['quantity']; ?>"> 
                                     <input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>"> 
                                     <input type='hidden' name='pr_id' value="<?php echo $pr_id; ?>">
                                     <input type='hidden' name='group_id' value="<?php echo $group_id; ?>"> 
@@ -96,7 +97,15 @@
         if(qty!='' && pr_details_id==''){
             alert('Please select item in the dropdown');
         }
+
+
+        var pr_qty = document.getElementById("qty"+count).value;
+        if(qty>=pr_qty){
+            alert("PR quantity is less than your PO quantity!");
+        }
     }
+
+
     /*$(document).on("click", "#submit", function () {
         var count_item = document.getElementById("count_item").value;
         for(x=1;x<=count_item;x++){
