@@ -1963,8 +1963,8 @@ class Po extends CI_Controller {
                 } else {
                     $offer=$this->super_model->select_column_where('item', 'item_name', 'item_id', $item->item_id). ", " . $this->super_model->select_column_where('item', 'item_specs', 'item_id', $item->item_id);
                 }
-                $pr_details_id = $this->super_model->select_column_where('pr_details', 'pr_details_id', 'pr_id', $item->pr_id);
-                $quantity = $this->super_model->select_column_where('pr_details', 'quantity', 'pr_details_id', $pr_details_id);
+                //$pr_details_id = $this->super_model->select_column_where('pr_details', 'pr_details_id', 'pr_id', $item->pr_id);
+                $quantity = $this->super_model->select_column_where('pr_details', 'quantity', 'pr_details_id', $item->pr_details_id);
                 $data['items'][] = array(
                     'pr_no'=>$pr_no,
                     'pr_details_id'=>$item->pr_details_id,
