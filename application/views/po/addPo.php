@@ -64,7 +64,7 @@
                                             <input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right; border:0px' readonly></span>
                                         <td><?php echo $i['pr_no']; ?></td>    
                                     </tr>
-                                    <input type='text' id='qty<?php echo $x; ?>' value="<?php echo $i['quantity']; ?>"> 
+                                    <input type='hidden' id='qty<?php echo $x; ?>' value="<?php echo $i['quantity']; ?>"> 
                                     <input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>"> 
                                     <input type='hidden' name='pr_id' value="<?php echo $pr_id; ?>">
                                     <input type='hidden' name='group_id' value="<?php echo $group_id; ?>"> 
