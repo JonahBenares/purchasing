@@ -766,6 +766,8 @@ class Pod extends CI_Controller {
     public function rfd_prnt(){
         $this->load->view('template/header'); 
          $po_id = $this->uri->segment(3);   
+        $data['revised']=$this->super_model->select_column_where('po_head', 'revised', 'po_id', $po_id);
+        $data['revision_no']=$this->super_model->select_column_where('po_head', 'revision_no', 'po_id', $po_id);
         $data['rows_dr'] = $this->super_model->select_count("rfd","po_id",$po_id);
         $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
         $data['po_no']= $this->super_model->select_column_where("po_head", "po_no", "po_id", $po_id);
