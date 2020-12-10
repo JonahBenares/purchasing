@@ -347,7 +347,7 @@ class Po extends CI_Controller {
         if(empty($revised)){
             foreach($this->super_model->select_row_where("po_pr", "po_id" , $po_id) AS $popr){
              
-                foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1'") AS $off){
+                foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1' ORDER BY pr_details_id ASC") AS $off){
                     //echo $off->unit_price. " * " .$off->balance."<br>";
                   
 
