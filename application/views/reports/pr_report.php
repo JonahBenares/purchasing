@@ -158,6 +158,8 @@
                                             echo "class='pd'";
                                         } else if($p['status']=='Cancelled') {
                                             echo "class='cd'";
+                                        } else if($p['status']=='Partially Delivered / Cancelled') {
+                                            echo "class='cd'";
                                         } ?>>
                                             <td><?php echo date('F j, Y', strtotime($p['date_prepared'])); ?></td>
                                             <td><?php echo $p['purchase_request']; ?></td>
