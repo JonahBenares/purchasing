@@ -373,7 +373,7 @@
 					    			<td colspan="" class=" bor-right" align="center"></td>
 					    			<td colspan="12" class=" bor-right" align="right"><input type = "text" name="vat_percent" id="vat_percent" value="<?php echo $vat_percent; ?>" size="5">% VAT</td>
 					    			<td colspan="2" class=" bor-right" align="center"></td>
-					    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='vat' id='vat' onchange='additionalCost()' value='<?php echo ($vat!=0) ? $vat : $vat_amount; ?>' style='width:100%' ></td>
+					    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='vat' id='vat' onchange='additionalCost()' value='<?php echo $vat; ?>' style='width:100%' ></td>
 					    		</tr>
 					    		<tr>
 					    			<td colspan="" class=" bor-right" align="center"></td>
