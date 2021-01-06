@@ -564,7 +564,7 @@
 		    				1. Price is inclusive of taxes.<br>
 		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>
-		    				<?php $x=4; ?>
+		    				<?php if($po_type!=1){ $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
 		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
 		    				<?php $x++; } ?>	
@@ -576,11 +576,12 @@
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
 		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?><br>
-		    				<?php $x++; } ?>
+		    				<?php $x++; } } ?>
 		    				<?php 
 		    					//$no=8;
 		    				
 		    					$y = 1;
+		    					$x = 4;
 		    					if($revised==0){
 		    						foreach($tc AS $t){ 
 		    							if(!empty($t->tc_desc)){

@@ -2171,6 +2171,7 @@ class Po extends CI_Controller {
                 'fax'=>$this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id',$h->vendor_id),
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
             );
+            $data['po_type']=$h->po_type;
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
             $data['packing']=$h->packing_fee;
