@@ -314,6 +314,7 @@ class Po extends CI_Controller {
     }
 
     public function purchase_order(){
+        s
         $po_id = $this->uri->segment(3);
         $revised = $this->uri->segment(4);
         $data['revised'] = $revised;
