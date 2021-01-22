@@ -93,6 +93,8 @@ class Po extends CI_Controller {
         foreach($this->super_model->select_custom_where("po_head", "served = '0' AND cancelled = '0' ORDER BY po_id DESC") AS $head){
              $rfd=$this->super_model->count_rows_where("rfd","po_id",$head->po_id);
              $pr='';
+             $pr_id='';
+             $grouping_id='';
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
                 $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
                 $pr .= $pr_no."<br>";
