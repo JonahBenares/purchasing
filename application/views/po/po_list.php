@@ -326,11 +326,11 @@
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                       <?php } else if($head['saved']==0 && $head['draft']==0  && $head['po_type']==2){ ?>
-                                                    <a href="<?php echo base_url(); ?>po/reporder_prnt/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                    <a href="<?php echo base_url(); ?>po/reporder_prnt/<?php echo $head['po_id']?>/<?php echo $head['pr_id'];?>/<?php echo $head['grouping_id'];?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                     <?php } else if($head['saved']==0 && $head['draft']==1 && $head['po_type']==2){ ?>
-                                                    <a href="<?php echo base_url(); ?>po/reporder_prnt_draft/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                    <a href="<?php echo base_url(); ?>po/reporder_prnt_draft/<?php echo $head['po_id']?>/<?php echo $head['pr_id'];?>/<?php echo $head['grouping_id'];?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                     <?php } else if($head['saved']==0 && $head['draft']==1){ ?>
@@ -350,7 +350,7 @@
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                     <?php } else if($head['saved']==1 && $head['po_type']==2){ ?>
-                                                    <a href="<?php echo base_url(); ?>po/reporder_prnt/<?php echo $head['po_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                    <a href="<?php echo base_url(); ?>po/reporder_prnt/<?php echo $head['po_id']?>/<?php echo $head['pr_id'];?>/<?php echo $head['grouping_id'];?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                     <?php } ?>
