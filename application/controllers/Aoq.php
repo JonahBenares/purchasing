@@ -1687,7 +1687,8 @@ class Aoq extends CI_Controller {
             $requested=$head->requestor;
             $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $head->prepared_by);
             $noted=$head->noted_by;
-             $reviewed=$head->reviewed_by;
+            $approved=$head->approved_by;
+            $reviewed=$head->reviewed_by;
 
             $objPHPExcel->getActiveSheet()->setCellValue('B'.$h, (empty($prepared_by)) ? $_SESSION['fullname'] : $prepared_by);
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$h, $reviewed);

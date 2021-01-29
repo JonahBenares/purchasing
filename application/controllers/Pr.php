@@ -187,6 +187,7 @@ class Pr extends CI_Controller {
             'po_id'=>$po_id,
             'po_date'=>$this->input->post('po_date'),
             'po_no'=>$po_no,
+            'grouping_id'=>$group_id,
             'notes'=>$this->input->post('notes'),
             'vendor_id'=>$this->input->post('supplier'),
             'user_id'=>$_SESSION['user_id'],
