@@ -420,6 +420,51 @@ class Masterfile extends CI_Controller {
                 window.location ='".base_url()."masterfile/unit_list'; </script>";
         }
     }
+
+    public function department_list(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['department']=$this->super_model->select_all_order_by('department', 'department_name', 'ASC');
+        $this->load->view('masterfile/department_list',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function insert_dept(){
+        $dept = trim($this->input->post('dept')," ");
+        $data = array(
+            'department_name'=>$dept
+        );
+        if($this->super_model->insert_into("department", $data)){
+            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."masterfile/department_list'; </script>";
+        }
+    }
+
+    public function update_department(){
+        $this->load->view('template/header');
+        $data['id']=$this->uri->segment(3);
+        $id=$this->uri->segment(3);
+        $data['department'] = $this->super_model->select_row_where('department', 'department_id', $id);
+        $this->load->view('masterfile/update_department',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function edit_dept(){
+        $data = array(
+            'department_name'=>$this->input->post('dept'),
+        );
+        $department_id = $this->input->post('dept_id');
+            if($this->super_model->update_where('department', $data, 'department_id', $department_id)){
+            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+        }
+    }
+
+    public function delete_dept(){
+        $id=$this->uri->segment(3);
+        if($this->super_model->delete_where('department', 'department_id', $id)){
+            echo "<script>alert('Succesfully Deleted'); 
+                window.location ='".base_url()."masterfile/department_list'; </script>";
+        }
+    }
     
 
 }
