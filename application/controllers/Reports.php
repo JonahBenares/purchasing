@@ -151,10 +151,13 @@ class Reports extends CI_Controller {
                             $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
                             if($cancelled_head_po!=0){
                                // $status .='';
-                                 $statuss = 'Partially Delivered';
+                                $statuss = 'Partially Delivered';
                                 $status.="Partially Delivered / Cancelled";
                             }else if($cancelled_items_po==0){
                                 $status .= 'Partially Delivered';
+                            }else {
+                                $statuss = 'Partially Delivered';
+                                $status.="Cancelled";
                             }
                             //$status_remarks ='';
                             //$status_remarks = date('m.d.y', strtotime($date_delivered)) . " - Delivered ". number_format($served_qty) . " " . $served_uom. " DR# ".$dr_no;
