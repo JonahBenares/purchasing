@@ -51,17 +51,19 @@ class Masterfile extends CI_Controller {
                 $password1 =md5($this->input->post('password'));
                 $fetch=$this->super_model->select_custom_where("users", "username = '$username' AND (password = '$password' OR password = '$password1')");
                 foreach($fetch AS $d){
-                    $userid = $d->user_id;
+               /*     $userid = $d->user_id;
                     $username = $d->username;
-                    $fullname = $d->fullname;
-                }
-                $newdata = array(
-                   'user_id'=> $userid,
-                   'username'=> $username,
-                   'fullname'=> $fullname,
+                    $fullname = $d->fullname;*/
+
+                  $newdata = array(
+                   'user_id'=> $d->user_id,
+                   'username'=> $d->username,
+                   'fullname'=> $d->fullname,
                    'logged_in'=> TRUE,
                    
-                );
+                      );
+                }
+             
                 $this->session->set_userdata($newdata);
                 redirect('masterfile/dashboard');
             }else{
@@ -122,7 +124,7 @@ class Masterfile extends CI_Controller {
             );
         }
 
-
+/*
         foreach($this->super_model->custom_query("SELECT ph.date_prepared, ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id, pd.quantity FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND pd.cancelled = '0' AND ph.cancelled='0'") AS $pr){
 
             $rfq_outgoing = $this->super_model->count_join_where("rfq_head","rfq_details", "rfq_head.pr_id = '$pr->pr_id' AND rfq_details.pr_details_id = '$pr->pr_details_id'","rfq_id");
@@ -145,7 +147,6 @@ class Masterfile extends CI_Controller {
                 'pr_no'=>$pr->pr_no,
                 'item'=>$pr->item_description,
                 'rfq_outgoing'=>$rfq_outgoing,
-               /* 'rfq_incoming'=>$rfq_incoming,*/
                 'for_te'=>$for_te,
                 'te_done'=>$te_done,
                 'po_issued'=>$po_issued,
@@ -153,7 +154,7 @@ class Masterfile extends CI_Controller {
                 'balance'=>$balance
             );
         }
-
+*/
 
         foreach($this->super_model->custom_query("SELECT ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id, pd.date_needed, pd.quantity FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND pd.cancelled = '0' AND ph.cancelled = '0'") AS $pr){
 
