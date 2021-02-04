@@ -3112,5 +3112,17 @@ class Reports extends CI_Controller {
         header('Content-Disposition: attachment; filename="PR SUMMARY Report.xlsx"');
         readfile($exportfilename);
     }
+
+    public function sum_weekly_recom(){
+        $this->load->view('template/header');        
+        $this->load->view('reports/sum_weekly_recom');
+        $this->load->view('template/footer');
+    }
+
+    public function pending_weekly_recom(){
+        $this->load->view('template/header');        
+        $this->load->view('reports/pending_weekly_recom');
+        $this->load->view('template/footer');
+    }
 }
 ?>

@@ -1,3 +1,17 @@
+    <style type="text/css">
+        tr td{
+            white-space: nowrap!important;
+        }
+        tr.fd td{
+            background-color: #b9ffb9;
+        }
+        tr.pd td{
+            background-color: #f3ff9e;
+        }
+        tr.cd td{
+            background-color: #cacaca;
+        }
+    </style>
     <script type="text/javascript">
         $(document).on("click", ".addremarks", function () {
              var pr_details_id = $(this).data('id');
@@ -111,8 +125,7 @@
                         <div class="sparkline8-graph" >
                             <div class="datatable-dashv1-list custom-datatable-overright" style="overflow-x: scroll;">
                                 <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
-                                    <thead>
-                                       
+                                    <thead>                                       
                                         <tr>
                                             <th>Date Received/ Emailed</th>
                                             <th>Purchase Request</th>
@@ -133,21 +146,11 @@
                                             <th>Remarks</th>
                                             <th>Cancel Remarks</th>
                                             <th>End User's Comments</th>	
-                                            <th align="center"><span class="fa fa-bars"></span></th>										
+                                            <th align="center" width="10%"><span class="fa fa-bars"></span></th>										
                                         </tr>
                                        
                                     </thead>
-                                    <style type="text/css">
-                                        tr.fd td{
-                                            background-color: #b9ffb9;
-                                        }
-                                        tr.pd td{
-                                            background-color: #f3ff9e;
-                                        }
-                                        tr.cd td{
-                                            background-color: #cacaca;
-                                        }
-                                    </style>
+                                    
                                     <tbody>    
                                     <?php if(!empty($pr)){ foreach($pr AS $p) { ?>   
 
@@ -174,24 +177,24 @@
                                             <td><?php echo $p['uom']; ?></td>
                                             <td><?php echo $p['grouping_id']; ?></td>
                                             <td><?php echo $p['item_description'] . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td>
-                                            
-                                            <td><?php echo $p['status_remarks']; ?></td>
-                                         
-                                            <td><?php echo $p['status']; ?></td>
-                                           
+                                            <td><?php echo $p['status_remarks']; ?></td>                                         
+                                            <td><?php echo $p['status']; ?></td>                                           
                                            
                                             <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
                                             <td><?php echo $p['remarks'];?></td>
                                             <td><?php echo $p['cancel_remarks'];?></td>
                                             <td></td>
-                                            <td>
-                                            
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
-                                                        <span class="fa fa-plus"></span>
-                                                    </button>                                                 
-                                                </div>
-                                          
+                                            <td>         
+                                                <button class="btn btn-primary btn-xs" title="Recom" data-toggle="modal" data-target="#recom">
+                                                    <span class=" fa fa-list-ul"></span>
+                                                </button>                                   
+                                                <button class="btn btn-primary btn-xs" title="Fulfilled by Sister Company" data-toggle="modal" data-target="#fulfilled">
+                                                    <span class=" fa fa-truck"></span>
+                                                </button>
+                                                <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
+                                                    <span class="fa fa-plus"></span>
+                                                </button>     
+                                            </td>
                                         </tr>    
                                     <?php } } ?>               
                                     </tbody>
@@ -240,6 +243,80 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="fulfilled" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Fulfilled by Sister Company
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>    
+                </div>
+                <form method='POST' action="<?php echo base_url(); ?>reports/">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <select  class="form-control" name="">
+                                <option>Select Company</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input placeholder="Date Needed" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="" class="form-control" placeholder="Supplier">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="number" name="" class="form-control" placeholder="Unit Price">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" name="" class="form-control" placeholder="Quantity Delivered">
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                    <div class="modal-footer">                        
+                        <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="recom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Recom
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>    
+                </div>
+                <form method='POST' action="<?php echo base_url(); ?>reports/">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input placeholder="Date From" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input placeholder="Date To" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                    <div class="modal-footer">                        
+                        <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 
     <script type="text/javascript">
