@@ -469,13 +469,46 @@ class Masterfile extends CI_Controller {
     public function company_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('masterfile/company_list');
+        $data['company']=$this->super_model->select_all_order_by('company', 'company_name', 'ASC');
+        $this->load->view('masterfile/company_list',$data);
         $this->load->view('template/footer');
     }
+
     public function update_company(){
         $this->load->view('template/header');
-        $this->load->view('masterfile/update_company');
+        $data['id']=$this->uri->segment(3);
+        $id=$this->uri->segment(3);
+        $data['company'] = $this->super_model->select_row_where('company', 'company_id', $id);
+        $this->load->view('masterfile/update_company',$data);
         $this->load->view('template/footer');
+    }
+
+    public function edit_company(){
+        $data = array(
+            'company_name'=>$this->input->post('company'),
+        );
+        $department_id = $this->input->post('company_id');
+            if($this->super_model->update_where('company', $data, 'company_id', $department_id)){
+            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+        }
+    }
+
+    public function insert_company(){
+        $dept = trim($this->input->post('company')," ");
+        $data = array(
+            'company_name'=>$dept
+        );
+        if($this->super_model->insert_into("company", $data)){
+            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."masterfile/company_list'; </script>";
+        }
+    }
+
+    public function delete_company(){
+        $id=$this->uri->segment(3);
+        if($this->super_model->delete_where('company', 'company_id', $id)){
+            echo "<script>alert('Succesfully Deleted'); 
+                window.location ='".base_url()."masterfile/company_list'; </script>";
+        }
     }
 
 }

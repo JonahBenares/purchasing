@@ -37,7 +37,7 @@
                                 <div class="sparkline8-outline-icon">
                                     <a class="btn btn-custon-three btn-primary" href="#" data-toggle="modal" data-target="#PrimaryModalhdbgcl">
                                         <span class="fa fa-plus p-l-0"></span>
-                                        Add Company
+                                        Add company
                                     </a>
                                     <div id="PrimaryModalhdbgcl" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
                                         <div class="modal-dialog">
@@ -48,11 +48,11 @@
                                                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                                                     </div>
                                                 </div>
-                                                <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/insert_comp">
+                                                <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/insert_company">
                                                     <div class="modal-body-lowpad">
                                                         <div class="form-group">
                                                             <p class="m-b-0">Company:</p>
-                                                            <input type="text" name="dept" class="form-control">
+                                                            <input type="text" name="company" class="form-control">
                                                         </div>
                                                         <center>
                                                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
@@ -83,20 +83,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <?php foreach($company AS $d){ ?>
                                         <tr>
                                             <td></td>
-                                            <td></td>
+                                            <td><?php echo $d->company_name?></td>
                                             <td>
                                                 <center>
-                                                    <a onclick="updateCompany('<?php echo base_url(); ?>')" class="btn btn-custon-three btn-info btn-xs">
+                                                    <a onclick="updateCompany('<?php echo base_url(); ?>','<?php echo $d->company_id;?>')" class="btn btn-custon-three btn-info btn-xs">
                                                         <span class="fa fa-pencil"></span>
                                                     </a>
-                                                    <a href="<?php echo base_url(); ?>index.php/masterfile/delete_comp/" class="btn btn-custon-three btn-danger btn-xs" onclick="confirmationDelete(this);return false;">
+                                                    <!-- <a href="<?php echo base_url(); ?>index.php/masterfile/delete_company/<?php echo $d->company_id;?>" class="btn btn-custon-three btn-danger btn-xs" onclick="confirmationDelete(this);return false;">
                                                         <span class="fa fa-times"></span>
-                                                    </a>
+                                                    </a> -->
                                                 </center>
                                             </td>
-                                        </tr>                                        
+                                        </tr>
+                                    <?php } ?>       
                                     </tbody>
                                 </table>
                             </div>

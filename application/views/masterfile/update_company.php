@@ -1,3 +1,4 @@
+
     <div class="admin-dashone-data-table-area m-t-15">
         <div class="container-fluid">
             <div class="row">
@@ -11,12 +12,14 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/edit_comp">
+                                                <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/edit_company">
                                                     <div class="modal-body-lowpad">
                                                         <div class="form-group">
                                                             <p class="m-b-0">Company:</p>
-                                                            <input type="text" name="dept" class="form-control" value = "">
-                                                            <input type = "hidden" name = "dept_id" value="">
+                                                            <?php foreach($company AS $d){ ?>
+                                                            <input type="text" name="company" class="form-control" value = "<?php echo $d->company_name?>">
+                                                            <?php } ?>
+                                                            <input type = "hidden" name = "company_id" value="<?php echo $id; ?>">
                                                         </div>
                                                         <center>
                                                             <input type = "submit" class="btn btn-custon-three btn-info btn-block" value = "Update">
