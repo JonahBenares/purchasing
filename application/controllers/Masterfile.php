@@ -465,7 +465,18 @@ class Masterfile extends CI_Controller {
                 window.location ='".base_url()."masterfile/department_list'; </script>";
         }
     }
-    
+
+    public function company_list(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('masterfile/company_list');
+        $this->load->view('template/footer');
+    }
+    public function update_company(){
+        $this->load->view('template/header');
+        $this->load->view('masterfile/update_company');
+        $this->load->view('template/footer');
+    }
 
 }
 
