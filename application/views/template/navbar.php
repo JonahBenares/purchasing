@@ -25,6 +25,7 @@
                             <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0" style="width: 180px">
                                 <a href="<?php echo base_url(); ?>items/item_list" class="dropdown-item">Items</a>
                                 <a href="<?php echo base_url(); ?>masterfile/department_list" class="dropdown-item">Department</a>
+                                <a href="<?php echo base_url(); ?>masterfile/company_list" class="dropdown-item">Company</a>
                                 <a href="<?php echo base_url(); ?>vendors/vendor_list" class="dropdown-item">Vendors</a>
                                 <a href="<?php echo base_url(); ?>masterfile/employee_list" class="dropdown-item">Employee</a>
                                 <a href="<?php echo base_url(); ?>masterfile/unit_list" class="dropdown-item">Unit</a>
