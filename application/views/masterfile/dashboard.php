@@ -297,7 +297,7 @@
             </div>
         </div>
     </div>
-
+<!-- 
      <div class="admin-dashone-data-table-area">
         <div class="container-fluid">
             <div class="row">
@@ -336,7 +336,7 @@
                                         </tr>
                                         <tr>
                                             <th width="20%">Outgoing</th>
-                                           <!--  <th width="20%">Incoming</th> -->
+                                       
                                             <th width="20%">For TE</th>
                                             <th width="20%">TE Done</th>
                                         </tr>
@@ -362,7 +362,7 @@
                                             <td><?php echo $pr['pr_no']."-".COMPANY; ?></td>
                                             <td><span style="color:blue"><?php echo $pr['item']; ?></span></td>
                                             <td class="datatable-ct"><?php echo (($pr['rfq_outgoing']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
-                                          <!--   <td class="datatable-ct"><?php echo (($pr['rfq_incoming']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td> -->
+                                       
                                             <td class="datatable-ct"><?php echo (($pr['for_te']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><?php echo (($pr['te_done']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><?php echo (($pr['po_issued']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
@@ -381,7 +381,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="modal fade" id="cancelPR" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

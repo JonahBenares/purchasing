@@ -344,8 +344,8 @@
                                     <i class="fa fa-bars"></i>
                                 </button>
                                 <div class="admin-logo logo-wrap-pro">
-                                    <a href="#"><img src="img/logo/log.png" alt="" />
-                                    </a>
+                                    <!-- <a href="#"><img src="img/logo/log.png" alt="" />
+                                    </a> -->
                                 </div>
                             </div>
                             
