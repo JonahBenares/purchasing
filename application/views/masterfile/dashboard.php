@@ -43,39 +43,41 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                    <div class="dashone-adminprowrap shadow-reset mg-b-30 pulse" style="height: 285px;max-height: 285px " >
+                    <div class="dashone-adminprowrap shadow-reset mg-b-30 pulse" style="height: 320px;max-height: 320px " >
                         <div class="dash-adminpro-project-title">
                             <h2 class="m-b-0" >
                                 <b>
-                                    <span>Reminders for this Week</span>
-                                    <button type="button" class="btn btn-primary btn-xs pull-right btn-custon-three" data-toggle="modal" data-target="#remindermowdal">
-                                        <span class="fa fa-plus"></span>
+                                    <span>Calendar</span>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right btn-custon-three" data-toggle="modal" data-target="#filter_pending">
+                                        <span class="fa fa-filter"></span>
                                     </button>
                                 </b>
-                                <p class="m-b-0">Process immediately.</p>
-                                <div class="modal fade" id="remindermowdal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <p class="m-b-0">Pending PR</p>
+                                <div class="modal fade" id="filter_pending" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Add Reminder
+                                                <h5 class="modal-title" id="exampleModalLabel">Filter
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </h5>                                                
                                             </div>
-                                            <form  method='POST' action='<?php echo base_url(); ?>index.php/masterfile/insert_reminder'>
+                                            <form method='POST' action="<?php echo base_url(); ?>reports/">
                                                 <div class="modal-body">
                                                     <div class="form-group">
-                                                        Reminder:
-                                                        <textarea class="form-control" name = "reminder" rows="5" placeholder="...."></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        Due Date:
-                                                        <input type="date" class="form-control" name="due_date">
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <input placeholder="Date From" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <input placeholder="Date To" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                                            </div>
+                                                        </div>   
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">                                            
-                                                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                                                <div class="modal-footer">                        
+                                                    <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
                                                 </div>
                                             </form>
                                         </div>
@@ -83,25 +85,77 @@
                                 </div>
                             </h2>                            
                         </div>
-                        <div style="overflow-y: scroll;height: 200px;max-height: 200px  ">
+                        <div style="overflow-y: scroll;height: 220px;max-height: 220px  ">
                             <!-- loop here -->
-                            <table>
-                                <tr>
-                                    <td>Date Needed</td>
-                                    <td>PR No</td>
-                                    <td>Item Desc</td>
-                                    <td>Qty</td>
-                                    <td>Estimated Price</td>
-                                    <td>Total Est. Price</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                            <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+                                <thead>
+                                    <tr>
+                                        <th>Date Needed</th>
+                                        <th>PR No</th>
+                                        <th>Item Desc</th>
+                                        <th>Qty</th>
+                                        <th>Estimated Price</th>
+                                        <th>Total Est. Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>sdsd</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>sdsd</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>sdsd</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>sdsd</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>sdsd</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>sdsd</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>sdsd</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
                             </table>
                                   
                         </div>    
