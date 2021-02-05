@@ -31,6 +31,26 @@
              $(".modal #po_offer_id").val(po_offer_id);
         });
     </script>
+
+        <script type="text/javascript">
+        $(document).on("click", ".fulfilled", function () {
+             var pr_details_id = $(this).data('id');
+             var year = $(this).data('year');
+             var month = $(this).data('month');
+             var remarks = $(this).data('remarks');
+             var cancel = $(this).data('cancel');
+             var po_offer_id = $(this).data('offerid');
+             var status = $(this).data('status');
+              var pr_id = $(this).data('prid');
+               $(".modal #pr_id").val(pr_id);
+              $(".modal #status").val(status);
+             $(".modal #pr_details_id").val(pr_details_id);
+             $(".modal #year").val(year);
+             $(".modal #month").val(month);
+             $(".modal #remarks").val(remarks);
+             $(".modal #po_offer_id").val(po_offer_id);
+        });
+    </script>
     <style>
     .class{
         background-color: green;
@@ -181,15 +201,15 @@
                                             <td><?php echo $p['status']; ?></td>                                           
                                            
                                             <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
-                                            <td><?php echo $p['remarks'];?></td>
+                                            <td><?php echo ($p['fulfilled_by']==1) ? $p['remarks'] ."<br> -".$p['date_delivered'] ."<br> -".$p['supplier'] ."<br> -".$p['unit_price'] ."<br> -".$p['qty_delivered'] : $p['remarks'];?></td>
                                             <td><?php echo $p['cancel_remarks'];?></td>
                                             <td></td>
                                             <td>         
                                                 <button class="btn btn-primary btn-xs" title="Recom" data-toggle="modal" data-target="#recom">
                                                     <span class=" fa fa-list-ul"></span>
-                                                </button>                                   
-                                                <button class="btn btn-primary btn-xs" title="Fulfilled by Sister Company" data-toggle="modal" data-target="#fulfilled">
-                                                    <span class=" fa fa-truck"></span>
+                                                </button>
+                                                <button type="button" class="btn btn-primary btn-xs fulfilled" data-toggle="modal" data-target="#fulfilled" title='Fulfilled by Sister Company' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
+                                                    <span class="fa fa-truck"></span>
                                                 </button>
                                                 <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
                                                     <span class="fa fa-plus"></span>
@@ -254,31 +274,51 @@
                         </button>
                     </h5>    
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>reports/">
+                <form method='POST' action="<?php echo base_url(); ?>reports/add_sister_company">
                     <div class="modal-body">
                         <div class="form-group">
-                            <select  class="form-control" name="">
-                                <option>Select Company</option>
+                            <label>Date Delivered:</label>
+                            <input placeholder="Date Delivered" name="date_delivered" class="form-control" type="date" onfocus="(this.type='date')" id="date_delivered">
+                        </div>
+                        <div class="form-group">
+                        <label>Company:</label>
+                            <select name="comp" class="form-control" cols="2">
+                                <option value = "">--Select Company--</option>
+                                <?php foreach($company AS $cn){ ?>
+                                <option value = "<?php echo $cn->company_id; ?>"><?php echo $cn->company_name?></option>
+                                <?php } ?>
                             </select>
                         </div>
+                        
                         <div class="form-group">
-                            <input placeholder="Date Needed" class="form-control" type="text" onfocus="(this.type='date')" id="date">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="" class="form-control" placeholder="Supplier">
+                            <label>Supplier:</label>
+                            <select name="supp" class="form-control" cols="2">
+                                <option value = "">--Select Supplier--</option>
+                                <?php foreach($supplier AS $sp){ ?>
+                                <option value = "<?php echo $sp->vendor_id; ?>"><?php echo $sp->vendor_name?></option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <input type="number" name="" class="form-control" placeholder="Unit Price">
+                                    <label>Unit Price:</label>
+                                    <input type="number" name="unit_price" class="form-control" placeholder="Unit Price">
                                 </div>
                                 <div class="col-lg-6">
-                                    <input type="text" name="" class="form-control" placeholder="Quantity Delivered">
+                                    <label>Quantity Delivered:</label>
+                                    <input type="text" name="qty_delivered" class="form-control" placeholder="Quantity Delivered">
                                 </div>
                             </div>   
                         </div>
                     </div>
-                    <div class="modal-footer">                        
+                    <div class="modal-footer"> 
+                        <input type='hidden' name='status' id='status'>
+                        <input type='hidden' name='pr_details_id' id='pr_details_id'>
+                        <input type='hidden' name='pr_id' id='pr_id'>
+                        <input type='hidden' name='po_offer_id' id='po_offer_id'>
+                        <input type='hidden' name='year' id='year'>
+                        <input type='hidden' name='month' id='month'>                       
                         <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
                     </div>
                 </form>
