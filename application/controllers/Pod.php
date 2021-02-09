@@ -126,6 +126,11 @@ class Pod extends CI_Controller {
         }
     }
 
+    public function get_pn($pr_details_id){
+        $name = $this->super_model->select_column_where("pr_details", "part_no", "pr_details_id", $pr_details_id);
+        return $name;
+    }
+
     public function po_direct(){
         $this->load->view('template/header');
         $po_id=$this->uri->segment(3);  

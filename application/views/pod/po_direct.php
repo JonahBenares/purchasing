@@ -1,3 +1,6 @@
+<?php 
+   	$CI =& get_instance();  
+?>  	
   	<script src="<?php echo base_url(); ?>assets/js/pod.js"></script> 
   	<head>
         <meta charset="utf-8">
@@ -300,7 +303,7 @@
 
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type = "text" style='width:50px; color:red' name='uom<?php echo $x; ?>' value = "<?php echo $it['uom']; ?>"><?php } else { echo $it['uom']; }?></b></td>
 
-		    			<td colspan="13" class="bor-right v-align" align="left"><b class="nomarg"><?php if($saved==0){ ?><textarea class = "form-control" name='item<?php echo $x; ?>'><?php echo $it['item']; ?></textarea><?php } else { echo $it['item']; }?></b></td>
+		    			<td colspan="13" class="bor-right v-align" align="left"><b class="nomarg"><?php if($saved==0){ ?><textarea class = "form-control" name='item<?php echo $x; ?>'><?php echo $it['item'].", ".$CI->get_pn($it['pr_details_id']); ?></textarea><?php } else { echo $it['item']; }?></b></td>
 
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>'  onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ><?php }else { echo $it['price']; } ?></b></td>
 
