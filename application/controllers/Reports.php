@@ -81,7 +81,8 @@ class Reports extends CI_Controller {
              $date = $year;
              $data['date']=$date;
         }*/
-
+        $data['company']=$this->super_model->select_all_order_by("company","company_name","ASC");
+        $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $pr){
             //echo $pr->wh_stocks;
             $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
@@ -96,6 +97,7 @@ class Reports extends CI_Controller {
             $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
             $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+            $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
             //echo $po_id." - ".$po_items_id." - ".$cancelled_items_po."<br>";
            //echo $pr->pr_details_id . " = " . $sum_po_qty . " - " .  $sum_delivered_qty . ", " . $pr->quantity . "<br>";
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
@@ -186,6 +188,8 @@ class Reports extends CI_Controller {
                     if($served==0){
                         if($cancelled_items_po==0){
                             $status .= 'PO Issued';
+                        }else if($cancelled_items_po==0 && $pr->fulfilled_by==1){
+                            $status="Delivered by ".$company;
                         }else {
                             $statuss = 'PO Issued';
                             $status .= 'Cancelled';
@@ -295,9 +299,17 @@ class Reports extends CI_Controller {
                             $status = 'Cancelled';
                         }*/
                         $status_remarks = 'For PO - AOQ Done (awarded)';
-                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0 && $pr->fulfilled_by==0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0 && $pr->fulfilled_by==0)){ 
                         //if($cancelled_items_po==0){
                             $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                        /*}else {
+                            $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            $status = 'Cancelled';
+                        }   */
+                        $status_remarks = '';
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0 && $pr->fulfilled_by==1) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0 && $pr->fulfilled_by==1)){ 
+                        //if($cancelled_items_po==0){
+                            $status .= "Delivered by ".$company;
                         /*}else {
                             $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
@@ -380,7 +392,13 @@ class Reports extends CI_Controller {
                 'unserved_qty'=>$unserved_qty,
                 'unserved_uom'=>$unserved_uom,
                 'remarks'=>$pr->add_remarks,
+                'company'=>$this->super_model->select_column_where('company','company_name','company_id',$pr->company_id),
+                'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$pr->vendor_id),
+                'date_delivered'=>$pr->date_delivered,
+                'unit_price'=>$pr->unit_price,
+                'qty_delivered'=>$pr->qty_delivered,
                 'cancel_remarks'=>$pr->cancel_remarks,
+                'fulfilled_by'=>$pr->fulfilled_by,
                 'cancelled'=>$pr->cancelled,
                 'cancelled_items_po'=>$cancelled_items_po,
                /* 'count_rfq'=>$count_rfq,
@@ -2258,6 +2276,34 @@ class Reports extends CI_Controller {
         } else {
             echo "<script>alert('You can only use this cancel button for partially delivered items.');
             window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
+        }
+    }
+
+    public function add_sister_company(){
+        $po_offer_id =$this->input->post('po_offer_id');
+        $pr_id =$this->input->post('pr_id');
+        $pr_details_id =$this->input->post('pr_details_id');
+        $status =$this->input->post('status');
+        $year =$this->input->post('year');
+        $month =$this->input->post('month');
+        $date_delivered=$this->input->post('date_delivered');
+        $supp =$this->input->post('supp');
+        $unit_price=$this->input->post('unit_price');
+        $qty_delivered=$this->input->post('qty_delivered');
+        $comp =$this->input->post('comp');
+        
+
+        $data=array(
+            'date_delivered'=>date('Y-m-d'),
+            'vendor_id'=>$supp,
+            'unit_price'=>$unit_price,
+            'qty_delivered'=>$qty_delivered,
+            'fulfilled_by'=>1,
+            'company_id'=>$comp,
+        );
+        $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
+    {
+            echo "<script>alert('Successfully Added!'); window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
         }
     }
 

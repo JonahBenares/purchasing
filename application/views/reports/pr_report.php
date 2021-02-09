@@ -1,19 +1,31 @@
     <style type="text/css">
         tr td{
             white-space: nowrap!important;
-        }
-        tr.fd td{
-            background-color: #b9ffb9;
-        }
-        tr.pd td{
-            background-color: #f3ff9e;
-        }
-        tr.cd td{
-            background-color: #cacaca;
-        }
+            padding-right: 5px!important;
+        }    
     </style>
     <script type="text/javascript">
         $(document).on("click", ".addremarks", function () {
+             var pr_details_id = $(this).data('id');
+             var year = $(this).data('year');
+             var month = $(this).data('month');
+             var remarks = $(this).data('remarks');
+             var cancel = $(this).data('cancel');
+             var po_offer_id = $(this).data('offerid');
+             var status = $(this).data('status');
+              var pr_id = $(this).data('prid');
+               $(".modal #pr_id").val(pr_id);
+              $(".modal #status").val(status);
+             $(".modal #pr_details_id").val(pr_details_id);
+             $(".modal #year").val(year);
+             $(".modal #month").val(month);
+             $(".modal #remarks").val(remarks);
+             $(".modal #po_offer_id").val(po_offer_id);
+        });
+    </script>
+
+        <script type="text/javascript">
+        $(document).on("click", ".fulfilled", function () {
              var pr_details_id = $(this).data('id');
              var year = $(this).data('year');
              var month = $(this).data('month');
@@ -86,6 +98,7 @@
             </div>
         </div>
     </div>
+
     <div class="admin-dashone-data-table-area m-t-15 ">
         <div class="container-fluid">
             <div class="row">
@@ -98,6 +111,7 @@
                                 </h1>
                                 <small class="p-l-25">&nbsp;PURCHASE REQUEST</small> 
                                 <div class="sparkline8-outline-icon">
+                                    <button class="btn btn-sm btn-warning btn-custon-three" data-toggle="modal" data-target="#legend">Legend</button>
                                     <?php if(!empty($filt)){ ?>
                                         <a href="<?php echo base_url(); ?>reports/export_pr/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $date_receive; ?>/<?php echo $purpose1; ?>/<?php echo $enduse1; ?>/<?php echo $pr_no1; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $purchase_request; ?>" class="btn btn-custon-three btn-info"> 
                                             <span class="fa fa-upload"></span> Export to Excel
@@ -127,6 +141,8 @@
                                 <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                     <thead>                                       
                                         <tr>
+                                            <th>On-hold</th>
+                                            <th>Proceed</th>
                                             <th>Date Received/ Emailed</th>
                                             <th>Purchase Request</th>
                                             <th>Purpose</th>
@@ -146,7 +162,7 @@
                                             <th>Remarks</th>
                                             <th>Cancel Remarks</th>
                                             <th>End User's Comments</th>	
-                                            <th align="center" width="10%"><span class="fa fa-bars"></span></th>										
+                                            <th align="center" width="15%"><center><span class="fa fa-bars"></span></center></th>										
                                         </tr>
                                        
                                     </thead>
@@ -163,7 +179,10 @@
                                             echo "class='cd'";
                                         } else if($p['status']=='Partially Delivered / Cancelled') {
                                             echo "class='cd'";
-                                        } ?>>
+                                        } ?>
+                                        >
+                                            <td><input type="checkbox" name="" class="form-control" style="width: 50%"></td>
+                                            <td><input type="checkbox" name="" class="form-control" style="width: 50%"></td>
                                             <td><?php echo date('F j, Y', strtotime($p['date_prepared'])); ?></td>
                                             <td><?php echo $p['purchase_request']; ?></td>
                                             <td><?php echo $p['purpose']; ?></td>
@@ -181,22 +200,45 @@
                                             <td><?php echo $p['status']; ?></td>                                           
                                            
                                             <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
-                                            <td><?php echo $p['remarks'];?></td>
+                                            <td><?php echo ($p['fulfilled_by']==1) ? $p['remarks'] ."<br> -".$p['date_delivered'] ."<br> -".$p['supplier'] ."<br> -".$p['unit_price'] ."<br> -".$p['qty_delivered'] : $p['remarks'];?></td>
                                             <td><?php echo $p['cancel_remarks'];?></td>
                                             <td></td>
-                                            <td>         
-                                                <button class="btn btn-primary btn-xs" title="Recom" data-toggle="modal" data-target="#recom">
-                                                    <span class=" fa fa-list-ul"></span>
-                                                </button>                                   
-                                                <button class="btn btn-primary btn-xs" title="Fulfilled by Sister Company" data-toggle="modal" data-target="#fulfilled">
-                                                    <span class=" fa fa-truck"></span>
-                                                </button>
-                                                <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
-                                                    <span class="fa fa-plus"></span>
-                                                </button>     
+                                            <td align="center">  
+                                                <center>    
+                                                    <button class="btn btn-primary btn-xs" title="Calendar" data-toggle="modal" data-target="#calen">
+                                                        <span class=" fa fa-calendar"></span>
+                                                    </button>         
+                                                    <button class="btn btn-primary btn-xs" title="Recom" data-toggle="modal" data-target="#recom">
+                                                        <span class=" fa fa-list-ul"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary btn-xs fulfilled" data-toggle="modal" data-target="#fulfilled" title='Fulfilled by Sister Company' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
+                                                        <span class="fa fa-truck"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
+                                                        <span class="fa fa-plus"></span>
+                                                    </button>  
+                                                </center>
                                             </td>
                                         </tr>    
-                                    <?php } } ?>               
+                                    <?php } } ?>   
+                                    <tr class="orange">
+                                        <td colspan="22"><br></td>
+                                    </tr>   
+                                    <tr class="green">
+                                        <td colspan="22"><br></td>
+                                    </tr>         
+                                    <tr class="yellow">
+                                        <td colspan="22"><br></td>
+                                    </tr>
+                                    <tr class="peach">
+                                        <td colspan="22"><br></td>
+                                    </tr>
+                                    <tr class="blue">
+                                        <td colspan="22"><br></td>
+                                    </tr>
+                                    <tr class="purple">
+                                        <td colspan="22"><br></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>                           
@@ -254,31 +296,51 @@
                         </button>
                     </h5>    
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>reports/">
+                <form method='POST' action="<?php echo base_url(); ?>reports/add_sister_company">
                     <div class="modal-body">
                         <div class="form-group">
-                            <select  class="form-control" name="">
-                                <option>Select Company</option>
+                            <label>Date Delivered:</label>
+                            <input placeholder="Date Delivered" name="date_delivered" class="form-control" type="date" onfocus="(this.type='date')" id="date_delivered">
+                        </div>
+                        <div class="form-group">
+                        <label>Company:</label>
+                            <select name="comp" class="form-control" cols="2">
+                                <option value = "">--Select Company--</option>
+                                <?php foreach($company AS $cn){ ?>
+                                <option value = "<?php echo $cn->company_id; ?>"><?php echo $cn->company_name?></option>
+                                <?php } ?>
                             </select>
                         </div>
+                        
                         <div class="form-group">
-                            <input placeholder="Date Needed" class="form-control" type="text" onfocus="(this.type='date')" id="date">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="" class="form-control" placeholder="Supplier">
+                            <label>Supplier:</label>
+                            <select name="supp" class="form-control" cols="2">
+                                <option value = "">--Select Supplier--</option>
+                                <?php foreach($supplier AS $sp){ ?>
+                                <option value = "<?php echo $sp->vendor_id; ?>"><?php echo $sp->vendor_name?></option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <input type="number" name="" class="form-control" placeholder="Unit Price">
+                                    <label>Unit Price:</label>
+                                    <input type="number" name="unit_price" class="form-control" placeholder="Unit Price">
                                 </div>
                                 <div class="col-lg-6">
-                                    <input type="text" name="" class="form-control" placeholder="Quantity Delivered">
+                                    <label>Quantity Delivered:</label>
+                                    <input type="text" name="qty_delivered" class="form-control" placeholder="Quantity Delivered">
                                 </div>
                             </div>   
                         </div>
                     </div>
-                    <div class="modal-footer">                        
+                    <div class="modal-footer"> 
+                        <input type='hidden' name='status' id='status'>
+                        <input type='hidden' name='pr_details_id' id='pr_details_id'>
+                        <input type='hidden' name='pr_id' id='pr_id'>
+                        <input type='hidden' name='po_offer_id' id='po_offer_id'>
+                        <input type='hidden' name='year' id='year'>
+                        <input type='hidden' name='month' id='month'>                       
                         <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
                     </div>
                 </form>
@@ -317,6 +379,101 @@
         </div>
     </div>
 
+    <div class="modal fade" id="calen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Calendar
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>    
+                </div>
+                <form method='POST' action="<?php echo base_url(); ?>reports/">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input placeholder="Date Needed" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input placeholder="Estimated Price" class="form-control" type="text" >
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                    <div class="modal-footer">                        
+                        <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="legend" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <table width="100%" style="margin: 40px">
+                    <tr>
+                        <td width="40%" style="background-color: #fd9c77"></td>
+                        <td width="5%"></td>
+                        <td>Recom Items</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #bcffc7"></td>
+                        <td></td>
+                        <td>Fully Delivered</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #f7ffb9 "></td>
+                        <td></td>
+                        <td>Partially Delivered</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #ffecd0 "></td>
+                        <td></td>
+                        <td>Issued PO</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #d2deff "></td>
+                        <td></td>
+                        <td>On-hold</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #eeccff "></td>
+                        <td></td>
+                        <td>Delivered by another company</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 
 
     <script type="text/javascript">
