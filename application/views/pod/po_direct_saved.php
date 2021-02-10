@@ -1,3 +1,6 @@
+<?php 
+   	$CI =& get_instance();  
+?>    	
   	<script src="<?php echo base_url(); ?>assets/js/pod.js"></script> 
   	<head>
         <meta charset="utf-8">
@@ -261,7 +264,7 @@
 
 		    			<td colspan="" class="bor-right v-align" align="center"><b><<?php echo $it['uom']; ?></b></td>
 
-		    			<td colspan="13" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it['item'];?></b></td>
+		    			<td colspan="13" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it['item'].", ".$CI->get_pn($it['pr_details_id']);?></b></td>
 
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it['price']; ?></b></td>
 
