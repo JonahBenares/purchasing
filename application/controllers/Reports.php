@@ -3170,5 +3170,11 @@ class Reports extends CI_Controller {
         $this->load->view('reports/pending_weekly_recom');
         $this->load->view('template/footer');
     }
+
+    public function purch_calendar(){
+        $this->load->view('template/header');
+        $this->load->view('reports/pending_weekly_recom');
+        $this->load->view('template/footer');
+    }
 }
 ?>
