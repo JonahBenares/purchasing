@@ -3173,7 +3173,7 @@ class Reports extends CI_Controller {
 
     public function purch_calendar(){
         $this->load->view('template/header');
-        $this->load->view('reports/pending_weekly_recom');
+        $this->load->view('reports/purch_calendar');
         $this->load->view('template/footer');
     }
 }
