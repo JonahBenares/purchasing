@@ -43,6 +43,16 @@ class Reports extends CI_Controller {
         $month = $this->input->post('month');
         redirect(base_url().'reports/unserved_report/'.$year.'/'.$month);
     }
+    public function generate_sum_weekly_recom_report(){
+        $date_recom_from = $this->input->post('date_recom_from');
+        $date_recom_to = $this->input->post('date_recom_to');
+        redirect(base_url().'reports/sum_weekly_recom/'.$date_recom_from.'/'.$date_recom_to);
+    }
+    public function generate_pending_weekly_recom_report(){
+        $date_recom_from = $this->input->post('date_recom_from');
+        $date_recom_to = $this->input->post('date_recom_to');
+        redirect(base_url().'reports/pending_weekly_recom/'.$date_recom_from.'/'.$date_recom_to);
+    }
 
 	public function pr_report(){
 
@@ -190,6 +200,8 @@ class Reports extends CI_Controller {
                             $status .= 'PO Issued';
                         }else if($cancelled_items_po==0 && $pr->fulfilled_by==1){
                             $status="Delivered by ".$company;
+                        }else if($cancelled_items_po==0 && $pr->for_recom==1){
+                            $status="For Recom";
                         }else {
                             $statuss = 'PO Issued';
                             $status .= 'Cancelled';
@@ -250,7 +262,7 @@ class Reports extends CI_Controller {
                  
  //$count_rfq ="SELECT rfq_details_id FROM rfq_details WHERE pr_details_id = '$pr->pr_details_id'";
                     //echo $po_id . "<br>";
-                    if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
+                    if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==0){
                         //if($cancelled_items_po==0){
                             $status .= 'Pending';
                         /*}else {
@@ -258,6 +270,14 @@ class Reports extends CI_Controller {
                             $status = 'Cancelled';
                         }*/
                         $status_remarks = 'For RFQ';
+                    } else if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==1){ 
+                        //if($cancelled_items_po==0){
+                            $status .= "For Recom";
+                        /*}else {
+                            $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            $status = 'Cancelled';
+                        }   */
+                        $status_remarks = 'For Recommendation';
                     } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                         $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                          //if($cancelled_items_po==0){
@@ -299,7 +319,7 @@ class Reports extends CI_Controller {
                             $status = 'Cancelled';
                         }*/
                         $status_remarks = 'For PO - AOQ Done (awarded)';
-                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0 && $pr->fulfilled_by==0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0 && $pr->fulfilled_by==0)){ 
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0 && $pr->fulfilled_by==0 && $pr->for_recom==0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0 && $pr->fulfilled_by==0 && $pr->for_recom==0)){ 
                         //if($cancelled_items_po==0){
                             $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                         /*}else {
@@ -310,12 +330,8 @@ class Reports extends CI_Controller {
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0 && $pr->fulfilled_by==1) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0 && $pr->fulfilled_by==1)){ 
                         //if($cancelled_items_po==0){
                             $status .= "Delivered by ".$company;
-                        /*}else {
-                            $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
-                            $status = 'Cancelled';
-                        }   */
                         $status_remarks = '';
-                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
+                    }  else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
                         //if($cancelled_items_po==0){
                             $status .= "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                         /*}else {
@@ -394,11 +410,14 @@ class Reports extends CI_Controller {
                 'remarks'=>$pr->add_remarks,
                 'company'=>$this->super_model->select_column_where('company','company_name','company_id',$pr->company_id),
                 'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$pr->vendor_id),
+                'ver_date_needed'=>$pr->ver_date_needed,
+                'estimated_price'=>$pr->estimated_price,
                 'date_delivered'=>$pr->date_delivered,
                 'unit_price'=>$pr->unit_price,
                 'qty_delivered'=>$pr->qty_delivered,
                 'cancel_remarks'=>$pr->cancel_remarks,
                 'fulfilled_by'=>$pr->fulfilled_by,
+                'for_recom'=>$pr->for_recom,
                 'cancelled'=>$pr->cancelled,
                 'cancelled_items_po'=>$cancelled_items_po,
                /* 'count_rfq'=>$count_rfq,
@@ -2286,7 +2305,7 @@ class Reports extends CI_Controller {
         $status =$this->input->post('status');
         $year =$this->input->post('year');
         $month =$this->input->post('month');
-        $date_delivered=$this->input->post('date_delivered');
+        $date=$this->input->post('date_delivered');
         $supp =$this->input->post('supp');
         $unit_price=$this->input->post('unit_price');
         $qty_delivered=$this->input->post('qty_delivered');
@@ -2294,12 +2313,38 @@ class Reports extends CI_Controller {
         
 
         $data=array(
-            'date_delivered'=>date('Y-m-d'),
+            'date_delivered'=>$date,
             'vendor_id'=>$supp,
             'unit_price'=>$unit_price,
             'qty_delivered'=>$qty_delivered,
             'fulfilled_by'=>1,
             'company_id'=>$comp,
+        );
+        $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
+    {
+            echo "<script>alert('Successfully Added!'); window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
+        }
+    }
+    public function on_recom(){
+        $po_offer_id =$this->input->post('po_offer_id');
+        $pr_id =$this->input->post('pr_id');
+        $pr_details_id =$this->input->post('pr_details_id');
+        $status =$this->input->post('status');
+        $year =$this->input->post('year');
+        $month =$this->input->post('month');
+        $recom_date_from=$this->input->post('recom_date_from');
+        $recom_date_to =$this->input->post('recom_date_to');
+        $recom_date = date('Y-m-d H:i:s');
+        
+
+        $data=array(
+            'recom_date_from'=>$recom_date_from,
+            'recom_date_to'=>$recom_date_to,
+            'for_recom'=>1,
+            'recom_date'=>$recom_date,
+            'recom_by'=>$_SESSION['user_id']
+
+
         );
         $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
     {
@@ -3160,15 +3205,858 @@ class Reports extends CI_Controller {
     }
 
     public function sum_weekly_recom(){
-        $this->load->view('template/header');        
-        $this->load->view('reports/sum_weekly_recom');
+        $date_from=$this->uri->segment(3);
+        $date_to=$this->uri->segment(4);  
+        $data['recom_date_from']=$date_from;
+        $data['recom_date_to']=$date_to;
+        foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$date_from' AND '$date_to' AND pd.recom_date_to BETWEEN '$date_from' AND '$date_to' AND pd.for_recom='1'") AS $p){
+            $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+            $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+            $total = $p->quantity * $unit_price;
+            $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $p->pr_details_id);
+            $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $p->pr_details_id);
+            if($po_offer_id==0){
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'po_items_id', $po_items_id);
+            }else{
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
+            }
+            $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $p->pr_details_id, "po_id", "DESC", "1");
+            $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+            if($served==0 && $cancelled_items_po==0){
+                $data['weekly_recom'][]=array(
+                    'enduse'=>$p->enduse,
+                    'requestor'=>$p->requestor,
+                    'quantity'=>$p->quantity,
+                    'uom'=>$p->uom,
+                    'item_description'=>$p->item_description,
+                    'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
+                    'pr_no'=>$p->pr_no,
+                    'terms'=>$this->super_model->select_column_custom_where('aoq_vendors','payment_terms',"vendor_id='$p->vendor_id' AND aoq_id='$aoq_id'"),
+                    'unit_price'=>$unit_price,
+                    'total'=>$total
+                );
+            }
+        }
+        $this->load->view('template/header');  
+        $this->load->view('reports/sum_weekly_recom',$data);
         $this->load->view('template/footer');
     }
 
-    public function pending_weekly_recom(){
+    public function search_weekly_recom(){
+        if(!empty($this->input->post('recom_date_from'))){
+            $data['recom_date_from'] = $this->input->post('recom_date_from');
+            $recom_date_from = $this->input->post('recom_date_from');
+        } else {
+            $data['recom_date_from']= "null";
+            $recom_date_from= "null";
+        }
+
+        if(!empty($this->input->post('recom_date_to'))){
+            $data['recom_date_to'] = $this->input->post('recom_date_to');
+            $recom_date_to = $this->input->post('recom_date_to');
+        } else {
+            $data['recom_date_to']= "null";
+            $recom_date_to= "null";
+        }
+
+        if(!empty($this->input->post('enduse'))){
+            $data['enduse'] = $this->input->post('enduse');
+            $enduse = $this->input->post('enduse');
+        } else {
+            $data['enduse']= "null";
+            $enduse= "null";
+        }
+
+        if(!empty($this->input->post('purpose'))){
+            $data['purpose'] = $this->input->post('purpose');
+            $purpose = $this->input->post('purpose');
+        } else {
+            $data['purpose']= "null";
+            $purpose= "null";
+        }
+
+        if(!empty($this->input->post('requestor'))){
+            $data['requestor'] = $this->input->post('requestor');
+            $requestor = $this->input->post('requestor');
+        } else {
+            $data['requestor']= "null";
+            $requestor= "null";
+        }
+
+        if(!empty($this->input->post('uom'))){
+            $data['uom'] = $this->input->post('uom');
+            $uom = $this->input->post('uom');
+        } else {
+            $data['uom']= "null";
+            $uom= "null";
+        }
+
+        if(!empty($this->input->post('description'))){
+            $data['description'] = $this->input->post('description');
+            $description = $this->input->post('description');
+        } else {
+            $data['description'] = "null";
+            $description = "null";
+        }
+
+        if(!empty($this->input->post('supplier'))){
+            $data['supplier'] = $this->input->post('supplier');
+            $supplier = $this->input->post('supplier');
+        } else {
+            $data['supplier'] = "null";
+            $supplier = "null";
+        }
+
+        if(!empty($this->input->post('pr_no'))){
+            $data['pr_no'] = $this->input->post('pr_no');
+            $pr_no = $this->input->post('pr_no');
+        } else {
+            $data['pr_no'] = "null";
+            $pr_no = "null";
+        } 
+
+        $sql="";
+        $filter = "";
+
+        if($recom_date_from!='null'){
+            $sql.=" pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
+            $filter .= $recom_date_from.", ";
+        }
+
+        if($recom_date_to!='null'){
+            $sql.=" pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
+            $filter .= $recom_date_to.", ";
+        }
+
+        if($enduse!='null'){
+            $sql.=" ph.enduse LIKE '%$enduse%' AND";
+            $filter .= $enduse.", ";
+        }
+
+        if($purpose!='null'){
+            $sql.=" ph.purpose LIKE '%$purpose%' AND";
+            $filter .= $purpose.", ";
+        }
+
+        if($requestor!='null'){
+            $sql.=" ph.requestor LIKE '%$requestor%' AND";
+            $filter .= $requestor.", ";
+        }
+
+        if($uom!='null'){
+            $sql.=" pd.uom LIKE '%$uom%' AND";
+            $filter .= $uom.", ";
+        }
+
+        if($description!='null'){
+                $sql.=" pd.item_description LIKE '%$description%' AND";
+            $filter .= $description.", ";
+        }
+
+        if($pr_no!='null'){
+            $sql.=" ph.pr_no LIKE '%$pr_no%' AND";
+            $filter .= $pr_no.", ";
+        }
+
+        /*if($supplier!='null'){
+            $sql.=" ph.vendor_id = '$supplier' AND";
+            $filter .= $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $supplier);
+        }*/
+
+        /*if($terms!='null'){
+            $sql.=" pp.terms = '$terms' AND";
+            $filter .= $terms;
+        }*/
+
+       /* if($company!='null'){
+            $sql.=" pd.company_id = '$company' AND";
+            $filter .= $this->super_model->select_column_where('company', 'company_name', 'company_id', $company);
+        }*/
+
+        $query=substr($sql, 0, -3);
+        $filt=substr($filter, 0, -2);
+        $data['filt']=$filt;
+        $date = $recom_date_from."-".$recom_date_to;
+        $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
+        $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
+        $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
+        foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE $query AND pd.for_recom='1'") AS $p){
+                $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $total = $p->quantity * $unit_price;
+                $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $p->pr_details_id);
+                $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $p->pr_details_id);
+                if($po_offer_id==0){
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'po_items_id', $po_items_id);
+                }else{
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
+                }
+                $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $p->pr_details_id, "po_id", "DESC", "1");
+                $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+                if($served==0 && $cancelled_items_po==0){
+                $data['weekly_recom'][]=array(
+                    'enduse'=>$p->enduse,
+                    'requestor'=>$p->requestor,
+                    'quantity'=>$p->quantity,
+                    'uom'=>$p->uom,
+                    'item_description'=>$p->item_description,
+                    'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
+                    'pr_no'=>$p->pr_no,
+                    'terms'=>$this->super_model->select_column_custom_where('aoq_vendors','payment_terms',"vendor_id='$p->vendor_id' AND aoq_id='$aoq_id'"),
+                    'unit_price'=>$p->$unit_price,
+                    'total'=>$total
+                );
+            }
+        }
         $this->load->view('template/header');        
-        $this->load->view('reports/pending_weekly_recom');
+        $this->load->view('reports/sum_weekly_recom',$data);
         $this->load->view('template/footer');
+    }
+
+    public function export_weekly_recom(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Summary of Weekly Recommendation.xlsx";
+        $recom_date_from=$this->uri->segment(3);
+        $recom_date_to=$this->uri->segment(4);
+        $enduse=str_replace("%20", " ", $this->uri->segment(5));
+        $purpose=str_replace("%20", " ", $this->uri->segment(6));
+        $requestor=str_replace("%20", " ", $this->uri->segment(7));
+        $uom=$this->uri->segment(8);
+        $description=str_replace("%20", " ", $this->uri->segment(9));
+        $supplier=$this->uri->segment(10);
+        $pr_no=str_replace("%20", " ", $this->uri->segment(11));
+
+        $sql="";
+        $filter = "";
+
+        /*if($recom_date_from!='null'){
+            $sql.=" pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
+            $filter .= $recom_date_from;
+        }
+
+        if($recom_date_to!='null'){
+            $sql.=" pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
+            $filter .= $recom_date_to;
+        }*/
+
+        if($enduse!='null'){
+            $sql.=" ph.enduse LIKE '%$enduse%' AND";
+            $filter .= $enduse;
+        }
+
+        if($purpose!='null'){
+            $sql.=" ph.purpose LIKE '%$purpose%' AND";
+            $filter .= $purpose;
+        }
+
+        if($requestor!='null'){
+            $sql.=" ph.requestor LIKE '%$requestor%' AND";
+            $filter .= $requestor;
+        }
+
+        if($uom!='null'){
+            $sql.=" pd.uom LIKE '%$uom%' AND";
+            $filter .= $uom;
+        }
+
+        if($description!='null'){
+                $sql.=" pd.item_description LIKE '%$description%' AND";
+            $filter .= $description;
+        }
+
+        /*if($supplier!='null'){
+            $sql.=" ph.vendor_id = '$supplier' AND";
+            $filter .= $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $supplier);
+        }*/
+
+        if($pr_no!='null'){
+            $sql.=" ph.pr_no = '$pr_no' AND";
+            $filter .= $pr_no;
+        }
+
+        /*if($terms!='null'){
+            $sql.=" pp.terms = '$terms' AND";
+            $filter .= $terms;
+        }*/
+
+        /*if($company!='null'){
+            $sql.=" pd.company_id = '$company' AND";
+            $filter .= $this->super_model->select_column_where('company', 'company_name', 'company_id', $company);
+        }*/
+
+        $query=substr($sql, 0, -3);
+        $filt=substr($filter, 0, -2);
+        $date = $recom_date_from." - ".$recom_date_to;
+        //$date = date('Y-m', strtotime($date));
+        /*$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "$company");*/
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', "MATERIALS RECOMMENDATION");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "$date");
+        $styleArray1 = array(
+            'borders' => array(
+                'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', "End-use");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "Requested by:");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', "QTY as per PR");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', "UoM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', "Supplier");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', "Site PR/JO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', "Delivery Lead Time / Work Duration");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', "UNIT PRICE (PESO)");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', "TOTAL PESO");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K5', "15 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', "30 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M5', "60 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N5', "TERMS");
+        foreach(range('A','N') as $columnID){
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:A3')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->applyFromArray($styleArray1);
+        if($filt!=''){
+            $styleArray = array(
+                'borders' => array(
+                    'allborders' => array(
+                      'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                )
+            );
+            $num = 6;
+            foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND $query AND pd.for_recom='1'") AS $p){
+                $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $total = $p->quantity * $unit_price;
+                $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+
+                 
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->requestor");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->quantity");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->uom");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->item_description");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$supplier");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->pr_no");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$unit_price");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$total");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$terms");
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                    $num++; 
+            }
+                
+        }else {
+            $num = 6;
+            $styleArray = array(
+                'borders' => array(
+                    'allborders' => array(
+                      'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                )
+            );
+            foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1'") AS $p){
+                $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $total = $p->quantity * $unit_price;
+                $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $p->pr_details_id);
+                $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $p->pr_details_id);
+                if($po_offer_id==0){
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'po_items_id', $po_items_id);
+                }else{
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
+                }
+                $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $p->pr_details_id, "po_id", "DESC", "1");
+                $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+                if($served==0 && $cancelled_items_po==0){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->requestor");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->quantity");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->uom");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->item_description");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$supplier");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->pr_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$unit_price");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$total");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$terms");
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                $num++;
+            }
+        }
+    }
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+                unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Summary of Weekly Recommendation.xlsx"');
+        readfile($exportfilename);
+    }
+
+    public function pending_weekly_recom(){
+        $date_from=$this->uri->segment(3);
+        $date_to=$this->uri->segment(4);  
+        $data['recom_date_from']=$date_from;
+        $data['recom_date_to']=$date_to;
+        foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$date_from' AND '$date_to' AND pd.recom_date_to BETWEEN '$date_from' AND '$date_to' AND pd.for_recom='1'") AS $p){
+            $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+            $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+            $total = $p->quantity * $unit_price;
+            $count_po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$p->pr_id' AND served = '0' AND pi.pr_details_id = '$p->pr_details_id'");
+            $count_rfq = $this->super_model->count_custom_query("SELECT rfq_details_id FROM rfq_details WHERE pr_details_id = '$p->pr_details_id'");
+            $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$p->pr_details_id' AND saved='1' AND cancelled='0'");
+            $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$p->pr_details_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
+            if($count_rfq==0 && $count_aoq==0 && $count_po==0){
+                $data['weekly_recom'][]=array(
+                    'enduse'=>$p->enduse,
+                    'requestor'=>$p->requestor,
+                    'quantity'=>$p->quantity,
+                    'uom'=>$p->uom,
+                    'item_description'=>$p->item_description,
+                    'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
+                    'pr_no'=>$p->pr_no,
+                    'terms'=>$this->super_model->select_column_custom_where('aoq_vendors','payment_terms',"vendor_id='$p->vendor_id' AND aoq_id='$aoq_id'"),
+                    'unit_price'=>$unit_price,
+                    'total'=>$total
+                );
+            }else{
+                $data['weekly_recom']=array();
+            }
+        }
+        $this->load->view('template/header');  
+        $this->load->view('reports/pending_weekly_recom',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function search_pending_weekly_recom(){
+        if(!empty($this->input->post('recom_date_from'))){
+            $data['recom_date_from'] = $this->input->post('recom_date_from');
+            $recom_date_from = $this->input->post('recom_date_from');
+        } else {
+            $data['recom_date_from']= "null";
+            $recom_date_from= "null";
+        }
+
+        if(!empty($this->input->post('recom_date_to'))){
+            $data['recom_date_to'] = $this->input->post('recom_date_to');
+            $recom_date_to = $this->input->post('recom_date_to');
+        } else {
+            $data['recom_date_to']= "null";
+            $recom_date_to= "null";
+        }
+
+        if(!empty($this->input->post('enduse'))){
+            $data['enduse'] = $this->input->post('enduse');
+            $enduse = $this->input->post('enduse');
+        } else {
+            $data['enduse']= "null";
+            $enduse= "null";
+        }
+
+        if(!empty($this->input->post('purpose'))){
+            $data['purpose'] = $this->input->post('purpose');
+            $purpose = $this->input->post('purpose');
+        } else {
+            $data['purpose']= "null";
+            $purpose= "null";
+        }
+
+        if(!empty($this->input->post('requestor'))){
+            $data['requestor'] = $this->input->post('requestor');
+            $requestor = $this->input->post('requestor');
+        } else {
+            $data['requestor']= "null";
+            $requestor= "null";
+        }
+
+        if(!empty($this->input->post('uom'))){
+            $data['uom'] = $this->input->post('uom');
+            $uom = $this->input->post('uom');
+        } else {
+            $data['uom']= "null";
+            $uom= "null";
+        }
+
+        if(!empty($this->input->post('description'))){
+            $data['description'] = $this->input->post('description');
+            $description = $this->input->post('description');
+        } else {
+            $data['description'] = "null";
+            $description = "null";
+        }
+
+        if(!empty($this->input->post('supplier'))){
+            $data['supplier'] = $this->input->post('supplier');
+            $supplier = $this->input->post('supplier');
+        } else {
+            $data['supplier'] = "null";
+            $supplier = "null";
+        }
+
+        if(!empty($this->input->post('pr_no'))){
+            $data['pr_no'] = $this->input->post('pr_no');
+            $pr_no = $this->input->post('pr_no');
+        } else {
+            $data['pr_no'] = "null";
+            $pr_no = "null";
+        } 
+
+        $sql="";
+        $filter = "";
+
+        if($recom_date_from!='null'){
+            $sql.=" pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
+            $filter .= $recom_date_from.", ";
+        }
+
+        if($recom_date_to!='null'){
+            $sql.=" pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
+            $filter .= $recom_date_to.", ";
+        }
+
+        if($enduse!='null'){
+            $sql.=" ph.enduse LIKE '%$enduse%' AND";
+            $filter .= $enduse.", ";
+        }
+
+        if($purpose!='null'){
+            $sql.=" ph.purpose LIKE '%$purpose%' AND";
+            $filter .= $purpose.", ";
+        }
+
+        if($requestor!='null'){
+            $sql.=" ph.requestor LIKE '%$requestor%' AND";
+            $filter .= $requestor.", ";
+        }
+
+        if($uom!='null'){
+            $sql.=" pd.uom LIKE '%$uom%' AND";
+            $filter .= $uom.", ";
+        }
+
+        if($description!='null'){
+                $sql.=" pd.item_description LIKE '%$description%' AND";
+            $filter .= $description.", ";
+        }
+
+        if($pr_no!='null'){
+            $sql.=" ph.pr_no LIKE '%$pr_no%' AND";
+            $filter .= $pr_no.", ";
+        }
+
+        /*if($supplier!='null'){
+            $sql.=" ph.vendor_id = '$supplier' AND";
+            $filter .= $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $supplier);
+        }*/
+
+        /*if($terms!='null'){
+            $sql.=" pp.terms = '$terms' AND";
+            $filter .= $terms;
+        }*/
+
+       /* if($company!='null'){
+            $sql.=" pd.company_id = '$company' AND";
+            $filter .= $this->super_model->select_column_where('company', 'company_name', 'company_id', $company);
+        }*/
+
+        $query=substr($sql, 0, -3);
+        $filt=substr($filter, 0, -2);
+        $data['filt']=$filt;
+        $date = $recom_date_from."-".$recom_date_to;
+        $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
+        $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
+        $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
+        foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1'") AS $p){
+            $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+            $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+            $total = $p->quantity * $unit_price;
+            $count_po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$p->pr_id' AND served = '0' AND pi.pr_details_id = '$p->pr_details_id'");
+            $count_rfq = $this->super_model->count_custom_query("SELECT rfq_details_id FROM rfq_details WHERE pr_details_id = '$p->pr_details_id'");
+            $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$p->pr_details_id' AND saved='1' AND cancelled='0'");
+            $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$p->pr_details_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
+            if($count_rfq==0 && $count_aoq==0 && $count_po==0){
+                $data['weekly_recom'][]=array(
+                    'enduse'=>$p->enduse,
+                    'requestor'=>$p->requestor,
+                    'quantity'=>$p->quantity,
+                    'uom'=>$p->uom,
+                    'item_description'=>$p->item_description,
+                    'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
+                    'pr_no'=>$p->pr_no,
+                    'terms'=>$this->super_model->select_column_custom_where('aoq_vendors','payment_terms',"vendor_id='$p->vendor_id' AND aoq_id='$aoq_id'"),
+                    'unit_price'=>$unit_price,
+                    'total'=>$total
+                );
+            }
+        }
+        $this->load->view('template/header');        
+        $this->load->view('reports/pending_weekly_recom',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function export_pending_weekly_recom(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Summary of Pending Weekly Recommendation.xlsx";
+        $recom_date_from=$this->uri->segment(3);
+        $recom_date_to=$this->uri->segment(4);
+        $enduse=str_replace("%20", " ", $this->uri->segment(5));
+        $purpose=str_replace("%20", " ", $this->uri->segment(6));
+        $requestor=str_replace("%20", " ", $this->uri->segment(7));
+        $uom=$this->uri->segment(8);
+        $description=str_replace("%20", " ", $this->uri->segment(9));
+        $supplier=$this->uri->segment(10);
+        $pr_no=str_replace("%20", " ", $this->uri->segment(11));
+
+        $sql="";
+        $filter = "";
+
+        /*if($recom_date_from!='null'){
+            $sql.=" pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
+            $filter .= $recom_date_from;
+        }
+
+        if($recom_date_to!='null'){
+            $sql.=" pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
+            $filter .= $recom_date_to;
+        }*/
+
+        if($enduse!='null'){
+            $sql.=" ph.enduse LIKE '%$enduse%' AND";
+            $filter .= $enduse;
+        }
+
+        if($purpose!='null'){
+            $sql.=" ph.purpose LIKE '%$purpose%' AND";
+            $filter .= $purpose;
+        }
+
+        if($requestor!='null'){
+            $sql.=" ph.requestor LIKE '%$requestor%' AND";
+            $filter .= $requestor;
+        }
+
+        if($uom!='null'){
+            $sql.=" pd.uom LIKE '%$uom%' AND";
+            $filter .= $uom;
+        }
+
+        if($description!='null'){
+                $sql.=" pd.item_description LIKE '%$description%' AND";
+            $filter .= $description;
+        }
+
+        /*if($supplier!='null'){
+            $sql.=" ph.vendor_id = '$supplier' AND";
+            $filter .= $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $supplier);
+        }*/
+
+        if($pr_no!='null'){
+            $sql.=" ph.pr_no = '$pr_no' AND";
+            $filter .= $pr_no;
+        }
+
+        /*if($terms!='null'){
+            $sql.=" pp.terms = '$terms' AND";
+            $filter .= $terms;
+        }*/
+
+        /*if($company!='null'){
+            $sql.=" pd.company_id = '$company' AND";
+            $filter .= $this->super_model->select_column_where('company', 'company_name', 'company_id', $company);
+        }*/
+
+        $query=substr($sql, 0, -3);
+        $filt=substr($filter, 0, -2);
+        $date = $recom_date_from." - ".$recom_date_to;
+        //$date = date('Y-m', strtotime($date));
+        /*$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "$company");*/
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', "MATERIALS RECOMMENDATION (PENDING)");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "$date");
+        $styleArray1 = array(
+            'borders' => array(
+                'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', "End-use");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "Requested by:");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', "QTY as per PR");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', "UoM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', "Supplier");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', "Site PR/JO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', "Delivery Lead Time / Work Duration");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', "UNIT PRICE (PESO)");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', "TOTAL PESO");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K5', "15 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', "30 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M5', "60 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N5', "TERMS");
+        foreach(range('A','N') as $columnID){
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:A3')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->applyFromArray($styleArray1);
+        if($filt!=''){
+            $styleArray = array(
+                'borders' => array(
+                    'allborders' => array(
+                      'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                )
+            );
+            $num = 6;
+            foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND $query AND pd.for_recom='1'") AS $p){
+                $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $total = $p->quantity * $unit_price;
+                $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+
+                 
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->requestor");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->quantity");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->uom");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->item_description");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$supplier");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->pr_no");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$unit_price");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$total");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$terms");
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                    $num++; 
+            }
+                
+        }else {
+            $num = 6;
+            $styleArray = array(
+                'borders' => array(
+                    'allborders' => array(
+                      'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                )
+            );
+            foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1'") AS $p){
+                $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $total = $p->quantity * $unit_price;
+                $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $total = $p->quantity * $unit_price;
+                $count_po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$p->pr_id' AND served = '0' AND pi.pr_details_id = '$p->pr_details_id'");
+                $count_rfq = $this->super_model->count_custom_query("SELECT rfq_details_id FROM rfq_details WHERE pr_details_id = '$p->pr_details_id'");
+                $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$p->pr_details_id' AND saved='1' AND cancelled='0'");
+                $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$p->pr_details_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
+                if($count_rfq==0 && $count_aoq==0 && $count_po==0){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->requestor");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->quantity");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->uom");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->item_description");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$supplier");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->pr_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$unit_price");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$total");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$terms");
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                $num++;
+            }
+        }
+    }
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+                unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Summary of Pending Weekly Recommendation.xlsx"');
+        readfile($exportfilename);
+    }
+
+    public function calendar(){
+        $po_offer_id =$this->input->post('po_offer_id');
+        $pr_id =$this->input->post('pr_id');
+        $pr_details_id =$this->input->post('pr_details_id');
+        $status =$this->input->post('status');
+        $year =$this->input->post('year');
+        $month =$this->input->post('month');
+        $ver_date_needed=$this->input->post('ver_date_needed');
+        $estimated_price =$this->input->post('estimated_price');
+        
+
+        $data=array(
+            'ver_date_needed'=>$ver_date_needed,
+            'estimated_price'=>$estimated_price,
+
+
+        );
+        $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
+    {
+            echo "<script>alert('Successfully Added!'); window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
+        }
     }
 }
 ?>

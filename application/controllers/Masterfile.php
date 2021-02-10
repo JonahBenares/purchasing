@@ -124,6 +124,20 @@ class Masterfile extends CI_Controller {
             );
         }
 
+        foreach($this->super_model->select_custom_where("pr_details","ver_date_needed!='' AND estimated_price!='0' ORDER BY ver_date_needed DESC") AS $ca){
+            $estimated_price = $this->super_model->select_column_custom_where('pr_details','estimated_price',"pr_details_id='$ca->pr_details_id'");
+            $total_ep = $ca->quantity * $estimated_price;
+            $data['dash_calendar'][] =  array(
+                'ver_date_needed'=>$ca->ver_date_needed,
+                'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$ca->pr_id),
+                'description'=>$ca->item_description,
+                'quantity'=>$ca->quantity,
+                'estimated_price'=>$ca->estimated_price,
+                'total_ep'=>$total_ep
+
+            );
+        }
+
 /*
         foreach($this->super_model->custom_query("SELECT ph.date_prepared, ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id, pd.quantity FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND pd.cancelled = '0' AND ph.cancelled='0'") AS $pr){
 
@@ -511,7 +525,158 @@ class Masterfile extends CI_Controller {
                 window.location ='".base_url()."masterfile/company_list'; </script>";
         }
     }
+    public function filter_pending(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $filter_date_from = trim($this->input->post('filter_date_from')," ");
+        $filter_date_to = trim($this->input->post('filter_date_to')," ");
+        $estimated_price =$this->input->post('estimated_price');
+        $quantity =$this->input->post('quantity');
+        $count = $this->super_model->count_rows("reminder");
+        if($count!=0){
+            foreach($this->super_model->select_all_order_by("reminder","due_date","ASC") AS $rem){
+                $data['reminder'][] = array(
+                    'reminder_id'=>$rem->reminder_id,
+                    'notes'=>$rem->notes,
+                    'due_date'=>$rem->due_date,
+                    'done'=>$rem->done,
+                    'remind'=>$this->super_model->select_column_where("users","fullname","user_id",$rem->user_id),
+                    'type'=>'manual',
+                    'source'=>''
+                );
+            }
+        } else {
+            $data=array();
+        }
 
+        $count = $this->super_model->count_rows("to_do_today");
+        if($count!=0){
+            foreach($this->super_model->select_all_order_by("to_do_today","due_date","ASC") AS $todo){
+                $data['todo'][] = array(
+                    'todo_id'=>$todo->todo_id,
+                    'notes'=>$todo->notes,
+                    'due_date'=>$todo->due_date,
+                    'done'=>$todo->done,
+                    'remind'=>$this->super_model->select_column_where("users","fullname","user_id",$todo->user_id),
+                    'type'=>'manual',
+                    'source'=>''
+                );
+            }
+        } else {
+            $data=array();
+        }
+
+        foreach($this->super_model->select_row_where("po_head", "revised", "1") AS $td){
+            $today = date('Y-m-d');
+            $data['todo'][] =  array(
+                'todo_id'=>$td->po_id,
+                'notes'=>'Follow up revision approval of PO '.$td->po_no."-".COMPANY,
+                'due_date'=>$today,
+                'done'=>'',
+                'remind'=>'',
+                'type'=>'auto',
+                'source'=>'po'
+            );
+        }
+
+        foreach($this->super_model->select_custom_where("pr_details","ver_date_needed!='' AND estimated_price!='0' ORDER BY ver_date_needed DESC") AS $ca){
+            $estimated_price = $this->super_model->select_column_custom_where('pr_details','estimated_price',"pr_details_id='$ca->pr_details_id'");
+            $total_ep = $ca->quantity * $estimated_price;
+            $data['dash_calendar'][] =  array(
+                'ver_date_needed'=>$ca->ver_date_needed,
+                'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$ca->pr_id),
+                'description'=>$ca->item_description,
+                'quantity'=>$ca->quantity,
+                'estimated_price'=>$ca->estimated_price,
+                'total_ep'=>$total_ep
+
+            );
+        }
+
+        foreach($this->super_model->custom_query("SELECT ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id, pd.date_needed, pd.quantity FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND pd.cancelled = '0' AND ph.cancelled = '0'") AS $pr){
+
+            $current_date= date('Y-m-d');
+            $diff= $this-> dateDifference($current_date , $pr->date_needed , $differenceFormat = '%a' );
+
+            $po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND pi.pr_details_id = '$pr->pr_details_id'");
+
+            $po_qty = $this->super_model->select_sum_join("quantity","po_head","po_items", "po_head.cancelled='0' AND po_items.pr_id = '$pr->pr_id' AND po_items.pr_details_id = '$pr->pr_details_id'","po_id");
+
+
+            if(($po==0 && ($diff>=1 && $diff<=7)) || ($po_qty !=$pr->quantity && ($diff>=1 && $diff<=7)) ){
+                if($po_qty !=$pr->quantity){
+                    $bal = $pr->quantity-$po_qty;
+                    $rem = 'Unserved: '.$bal;
+                }
+                $reminder = 'Process PO for PR No.: '. $pr->pr_no. " - " . $pr->item_description . ", ".$rem;
+                $due = date('M j, Y', strtotime($pr->date_needed));
+                $data['reminder'][]=array(
+                    'reminder_id'=>$pr->pr_id,
+                    'notes'=>$reminder,
+                    'due_date'=>$due,
+                    'done'=>'',
+                    'remind'=>'',
+                    'type'=>'auto',
+                    'source'=>'pr'
+                );
+            }
+
+
+            if(($po==0 && $diff<=0) || ($po_qty !=$pr->quantity && $diff<=0) ){
+                if($po_qty !=$pr->quantity){
+                    $bal = $pr->quantity-$po_qty;
+                    $rem = 'Unserved: '.$bal;
+                }
+                $reminder = 'Process PO for PR No.: '. $pr->pr_no. " - " . $pr->item_description . ", ".$rem;
+                $due = date('M j, Y', strtotime($pr->date_needed));
+                $data['todo'][]=array(
+                    'todo_id'=>$pr->pr_id,
+                    'notes'=>$reminder,
+                    'due_date'=>$due,
+                    'done'=>'',
+                    'remind'=>'',
+                    'type'=>'auto',
+                    'source'=>'pr'
+                );
+            }
+        
+        }
+
+        foreach($this->super_model->custom_query("SELECT quotation_date, vendor_id, rfq_no, rfq_id FROM rfq_head WHERE saved='1' AND cancelled = '0' AND completed = '0' GROUP BY rfq_id") AS $rfq){
+
+            $rfq_diff= $this-> dateDifference($current_date , $rfq->quotation_date , $differenceFormat = '%a' );
+
+            if($po==0 && ($rfq_diff>=1 && $rfq_diff<=7)){
+                $reminder = 'Follow up RFQ No. '. $rfq->rfq_no. " with " . $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$rfq->vendor_id);
+                $due = date('M j, Y', strtotime($rfq->quotation_date));
+                $data['reminder'][]=array(
+                    'reminder_id'=>$rfq->rfq_id,
+                    'notes'=>$reminder,
+                    'due_date'=>$due,
+                    'done'=>'',
+                    'remind'=>'',
+                    'type'=>'auto',
+                    'source'=>'rfq'
+                );
+            }
+
+             if($po==0 && $rfq_diff<=0){
+                $reminder = 'Follow up RFQ No. '. $rfq->rfq_no. " with " . $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$rfq->vendor_id);
+                $due = date('M j, Y', strtotime($rfq->quotation_date));
+                $data['todo'][]=array(
+                    'todo_id'=>$rfq->rfq_id,
+                    'notes'=>$reminder,
+                    'due_date'=>$due,
+                    'done'=>'',
+                    'remind'=>'',
+                    'type'=>'auto',
+                    'source'=>'rfq'
+                );
+            }
+        }      
+        $this->load->view('masterfile/dashboard',$data);
+        $this->load->view('template/footer');
+    }
 }
 
 ?>
