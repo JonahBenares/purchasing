@@ -48,9 +48,13 @@
                             <h2 class="m-b-0" >
                                 <b>
                                     <span>Calendar</span>
-                                    <button type="button" class="btn btn-primary btn-xs pull-right btn-custon-three" data-toggle="modal" data-target="#filter_pending">
-                                        <span class="fa fa-filter"></span>
-                                    </button>
+                                    <div class="btn-group pull-right ">
+                                        <button type="button" class="btn btn-success btn-md btn-custon-three" data-toggle="modal" data-target="#filter_pending" title="Filter">
+                                            <span class="fa fa-filter"></span>
+                                        </button>
+                                        <button class="btn btn-warning btn-custon-three">Total : <b>22563</b></button>    
+                                    </div>
+                                    
                                 </b>
                                 <p class="m-b-0">Pending PR</p>
                                 <div class="modal fade" id="filter_pending" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

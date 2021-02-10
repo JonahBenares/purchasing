@@ -1,3 +1,6 @@
+<?php 
+   	$CI =& get_instance();  
+?>    	
   	<script src="<?php echo base_url(); ?>assets/js/pod.js"></script> 
   	<head>
         <meta charset="utf-8">
@@ -261,10 +264,10 @@
 
 		    			<td colspan="" class="bor-right v-align" align="center"><b><<?php echo $it['uom']; ?></b></td>
 
-		    			<td colspan="13" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it['item'];?></b></td>
+		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it['item'].", ".$CI->get_pn($it['pr_details_id']);?></b></td>
 
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it['price']; ?></b></td>
-
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it['total'],2); ?></b></td>
 
 		    		</tr>
@@ -282,10 +285,11 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="left">
+		    			<td colspan="12" class="bor-right" align="left">
 		    				<p class="nomarg"><br></p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"></b></td>		
 		    		</tr>	
 		    		<?php if($draft==1){ ?>
@@ -293,20 +297,22 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg">Shipping Cost</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($shipping,2); ?></b></td>		
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg">Packing and Handling Fee</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($packing,2); ?></b></td>		
 		    		</tr>
 		    		<?php if($vat_percent!=0){ ?>
@@ -314,10 +320,11 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg"><?php echo $vat_percent; ?>% VAT</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($vat,2); ?></b></td>		
 		    		</tr>
 		    		<?php } ?>
@@ -325,10 +332,11 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg">Less: Discount</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($discount,2); ?></b></td>		
 		    		</tr>
 		    		<?php } else {  ?>
@@ -336,40 +344,44 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg">Shipping Cost</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='shipping' id='shipping' value='0' onchange='additionalCost()' style='width:100%' ></b></td>		
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg">Packing and Handling Fee</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='packing' id='packing' onchange='additionalCost()' value='0' style='width:100%' ></b></td>		
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg"><input name="vat_percent" id="vat_percent" value = "<?php echo $vat_percent; ?>" size="5">% VAT</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='vat' id='vat' onchange='additionalCost()' value='0' style='width:100%' ></b></td>		
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg">Less: Discount</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='discount' id='discount' onchange='additionalCost()' value='0' style='width:100%' ></b></td>		
 		    		</tr>
 		    		<?php } ?>
@@ -380,8 +392,9 @@
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
-		    			<td colspan="13" class=" bor-right" align="center"></td>
+		    			<td colspan="12" class=" bor-right" align="center"></td>
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    		</tr>
 
@@ -389,7 +402,7 @@
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
-		    			<td colspan="13" class="bor-btm bor-right" align="left">
+		    			<td colspan="12" class="bor-btm bor-right" align="left">
 	    				<p class="nomarg">
 	    					<!-- <?php if($draft==0){ ?>
 	    					<button type="button" data-toggle="modal" data-target="#addpurp" class="btn btn-xs btn-primary" onclick="" >Add Purpose/ Enduse/ Requestor</button>
@@ -409,6 +422,7 @@
 	    				<br>
 		    			</td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
+		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
 		    		</tr>		   
 		    		<?php 
