@@ -24,7 +24,7 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "">
+                <form method="POST" action = "<?php echo base_url();?>reports/search_pending_weekly_recom/<?php echo $recom_date_from;?>/<?php echo $recom_date_to;?>">
                     <div class="modal-body-lowpad">                        
                         <div class="form-group">
                             <p class="m-b-0">PR Number:</p>
@@ -50,7 +50,9 @@
                             <p class="m-b-0">Supplier:</p>
                             <input type = "text" name="description" class="form-control">
                         </div>                 
-                        <center>                           
+                        <center>
+                        <input type="hidden" name="recom_date_from" value = "<?php echo $recom_date_from; ?>">            
+                        <input type="hidden" name="recom_date_to" value = "<?php echo $recom_date_to; ?>">                            
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Proceed">
                         </center>
                     </div>
@@ -68,21 +70,26 @@
                                 <h1><button onclick="return quitBox('quit');" class=" btn btn-xs btn-success"><span class="fa fa-arrow-left"></span></button>
                                     Summary of <b>Pending</b> Weekly Recommendations 
                                 </h1>
-                                <p class="p-l-25">&nbsp;<b style="color:blue">October 10, 2021 - October 17, 2021 </b></p> 
+                                <p class="p-l-25">&nbsp;<b style="color:blue"><?php echo $recom_date_from;?> - <?php echo $recom_date_to;?></b></p> 
                                 <div class="sparkline8-outline-icon">                                    
-                                    <!-- <a class="btn btn-custon-three btn-warning" data-toggle="modal" data-target="#pending_recom"> 
-                                        <span class="fa fa-tasks" style="padding: 0px"></span> Pending
-                                    </a> -->
-                                    <a href="" class="btn btn-custon-three btn-info"> 
-                                        <span class="fa fa-upload" style="padding: 0px"></span> Export to Excel
+                                   <?php if(!empty($filt)){ ?>
+                                    <a href="<?php echo base_url(); ?>reports/export_pending_weekly_recom/<?php echo $recom_date_from; ?>/<?php echo $recom_date_to; ?>/<?php echo $enduse; ?>/<?php echo $purpose; ?>/<?php echo $requestor; ?>/<?php echo $uom; ?>/<?php echo $description; ?>/<?php echo $supplier; ?>/<?php echo $pr_no; ?>" class="btn btn-custon-three btn-info"> 
+                                        <span class="fa fa-upload"></span> Export to Excel
                                     </a>
+                                    <?php } else { ?>
+                                    <a href="<?php echo base_url(); ?>reports/export_pending_weekly_recom/<?php echo $recom_date_from; ?>/<?php echo $recom_date_to; ?>" class="btn btn-custon-three btn-info"> 
+                                        <span class="fa fa-upload"></span> Export to Excel
+                                    </a>
+                                    <?php } ?>
                                     <a type='button' class="btn btn-custon-three btn-success"  data-toggle="modal" data-target="#filter_pr"> 
                                         <span class="fa fa-filter p-l-0"></span> Filter
                                     </a>
                                 </div>
                             </div>
                         </div>     
-                          
+                          <?php if(!empty($filt)){ ?>     
+                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/reports/pending_weekly_recom/<?php echo $recom_date_from; ?>/<?php echo $recom_date_to; ?>/<?php echo $enduse; ?>/<?php echo $purpose; ?>/<?php echo $requestor; ?>/<?php echo $uom; ?>/<?php echo $description; ?>/<?php echo $supplier; ?>/<?php echo $pr_no; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
+                        <?php } ?>  
                         <!-- <span class='btn btn-success disabled'>Filter Applied</span>, <a href='' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>    -->                 
                               
                         <div class="sparkline8-graph" >
@@ -107,24 +114,26 @@
                                             <th align="center" width="10%"><span class="fa fa-bars"></span></th>								
                                         </tr>                                       
                                     </thead>                                    
-                                    <tbody>
+                                        <tbody>
+                                        <?php foreach($weekly_recom AS $p){ ?>
                                         <tr>
-                                            <td class="nowrap">Purpose: Top-Up of Units 1- 5 Low Levelled Charged Air Filter Lubricant; End Use: Running Units Auxiliary Equipment</td>
+                                            <td class="nowrap"><?php echo $p['enduse']; ?></td>
+                                            <td><?php echo $p['requestor']; ?></td>
+                                            <td><?php echo $p['quantity']; ?></td>
+                                            <td><?php echo $p['uom']; ?></td>
+                                            <td><?php echo $p['item_description']; ?></td>
+                                            <td><?php echo $p['supplier']; ?></td>
+                                            <td><?php echo $p['pr_no']."-".COMPANY; ?></td>
                                             <td></td>
+                                            <td><?php echo $p['unit_price']; ?></td>
+                                            <td><?php echo ($p['terms']!="15 days PDC AND 30 days PDC AND 60 days PDC") ? $p['total'] : ''; ?></td>
+                                            <td><?php echo ($p['terms']=="15 days PDC") ? $p['total'] : '';?></td>
+                                            <td><?php echo ($p['terms']=="30 days PDC") ? $p['total'] : '';?></td>
+                                            <td><?php echo ($p['terms']=="60 days PDC") ? $p['total'] : '';?></td>
+                                            <td><?php echo $p['terms']; ?></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>      
+                                        </tr> 
+                                        <?php }  ?>       
                                     </tbody>
                                 </table>
                             </div>                           

@@ -25,7 +25,7 @@
         });
     </script>
 
-        <script type="text/javascript">
+    <script type="text/javascript">
         $(document).on("click", ".fulfilled", function () {
              var pr_details_id = $(this).data('id');
              var year = $(this).data('year');
@@ -44,6 +44,44 @@
              $(".modal #po_offer_id").val(po_offer_id);
         });
     </script>
+    <script type="text/javascript">
+        $(document).on("click", ".on_recom", function () {
+             var pr_details_id = $(this).data('id');
+             var year = $(this).data('year');
+             var month = $(this).data('month');
+             var remarks = $(this).data('remarks');
+             var cancel = $(this).data('cancel');
+             var po_offer_id = $(this).data('offerid');
+             var status = $(this).data('status');
+              var pr_id = $(this).data('prid');
+               $(".modal #pr_id").val(pr_id);
+              $(".modal #status").val(status);
+             $(".modal #pr_details_id").val(pr_details_id);
+             $(".modal #year").val(year);
+             $(".modal #month").val(month);
+             $(".modal #remarks").val(remarks);
+             $(".modal #po_offer_id").val(po_offer_id);
+        });
+    </script>
+     <script type="text/javascript">
+        $(document).on("click", ".calendar", function () {
+             var pr_details_id = $(this).data('id');
+             var year = $(this).data('year');
+             var month = $(this).data('month');
+             var remarks = $(this).data('remarks');
+             var cancel = $(this).data('cancel');
+             var po_offer_id = $(this).data('offerid');
+             var status = $(this).data('status');
+              var pr_id = $(this).data('prid');
+               $(".modal #pr_id").val(pr_id);
+              $(".modal #status").val(status);
+             $(".modal #pr_details_id").val(pr_details_id);
+             $(".modal #year").val(year);
+             $(".modal #month").val(month);
+             $(".modal #remarks").val(remarks);
+             $(".modal #po_offer_id").val(po_offer_id);
+        });
+    </script>   
     <style>
     .class{
         background-color: green;
@@ -135,6 +173,7 @@
                                         </a>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                             </div>     
                             <?php if(!empty($filt)){ ?>     
                             <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href='<?php echo base_url(); ?>index.php/reports/pr_report/<?php echo $year; ?>/<?php echo $month; ?>' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
@@ -159,12 +198,14 @@
                                                 <th>UOM</th>
                                                 <th>Grouping</th>
                                                 <th>Description</th>
+                                                <th>Verified Date Needed</th>
+                                                <th>Estimated</th>
                                                 <th>Status Remarks</th>
                                                 <th>Status</th>
                                                 <th>Date Needed</th>
                                                 <th>Remarks</th>
                                                 <th>Cancel Remarks</th>
-                                                <th>End User's Comments</th>	
+                                                <th>End User's Comments</th>    
                                                 <th align="center" width="15%"><center><span class="fa fa-bars"></span></center></th>										
                                             </tr>
                                            
@@ -191,7 +232,6 @@
                                             } ?>
                                             >   
                                             
-
                                                 <?php if($p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['on_hold']==0){ ?>
                                                 <td><input type="checkbox" name="onhold[]" value="<?php echo $p['pr_details_id'];?>" class="form-control" style="width: 50%" <?php echo ((strpos($p['on_hold'], "1") !== false) ? ' checked' : '');?>></td>
                                                 <td></td>
@@ -215,6 +255,8 @@
                                                 <td><?php echo $p['uom']; ?></td>
                                                 <td><?php echo $p['grouping_id']; ?></td>
                                                 <td><?php echo $p['item_description'] . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td>
+                                                <td><?php echo $p['ver_date_needed']; ?></td> 
+                                                <td><?php echo $p['estimated_price']; ?></td> 
                                                 <td><?php echo $p['status_remarks']; ?></td>                                         
                                                 <td><?php echo $p['status']; ?></td>                                           
                                                
@@ -224,11 +266,11 @@
                                                 <td></td>
                                                 <td align="center">  
                                                     <center>    
-                                                        <button class="btn btn-primary btn-xs" title="Calendar" data-toggle="modal" data-target="#calen">
-                                                            <span class=" fa fa-calendar"></span>
-                                                        </button>         
-                                                        <button class="btn btn-primary btn-xs" title="Recom" data-toggle="modal" data-target="#recom">
-                                                            <span class=" fa fa-list-ul"></span>
+                                                         <button type="button" class="btn btn-primary btn-xs calendar" data-toggle="modal" data-target="#calendar" title='Calendar' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
+                                                            <span class="fa fa-calendar"></span>
+                                                        </button>                                                            
+                                                        <button type="button" class="btn btn-primary btn-xs on_recom" data-toggle="modal" data-target="#on_recom" title='Recom' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
+                                                            <span class="fa fa-list-ul"></span>
                                                         </button>
                                                         <button type="button" class="btn btn-primary btn-xs fulfilled" data-toggle="modal" data-target="#fulfilled" title='Fulfilled by Sister Company' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
                                                             <span class="fa fa-truck"></span>
@@ -322,7 +364,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Date Delivered:</label>
-                            <input placeholder="Date Delivered" name="date_delivered" class="form-control" type="date" onfocus="(this.type='date')" id="date_delivered">
+                            <input placeholder="Date Delivered" name="date_delivered" class="form-control" type="date" id="date_delivered">
                         </div>
                         <div class="form-group">
                         <label>Company:</label>
@@ -370,7 +412,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="recom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="on_recom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -380,28 +422,36 @@
                         </button>
                     </h5>    
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>reports/">
+                <form method='POST' action="<?php echo base_url(); ?>reports/on_recom">
                     <div class="modal-body">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <input placeholder="Date From" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                <label>Date From:</label>
+                                    <input placeholder="Date From" name="recom_date_from" class="form-control" type="date" onfocus="(this.type='date')" id="recom_date_from">
                                 </div>
                                 <div class="col-lg-6">
-                                    <input placeholder="Date To" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                <label>Date To:</label>
+                                    <input placeholder="Date To" name="recom_date_to" class="form-control" type="date" onfocus="(this.type='date')" id="recom_date_to">
                                 </div>
                             </div>   
                         </div>
                     </div>
-                    <div class="modal-footer">                        
-                        <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
+                    <div class="modal-footer">
+                    <input type='hidden' name='status' id='status'>
+                        <input type='hidden' name='pr_details_id' id='pr_details_id'>
+                        <input type='hidden' name='pr_id' id='pr_id'>
+                        <input type='hidden' name='po_offer_id' id='po_offer_id'>
+                        <input type='hidden' name='year' id='year'>
+                        <input type='hidden' name='month' id='month'>                       
+                        <input type="submit" class="btn btn-primary btn-block" value='Save changes'>                        
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="calen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="calendar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -411,20 +461,26 @@
                         </button>
                     </h5>    
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>reports/">
+                <form method='POST' action="<?php echo base_url(); ?>reports/calendar">
                     <div class="modal-body">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <input placeholder="Date Needed" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                    <input placeholder="Verified Date Needed" name="ver_date_needed" class="form-control" type="text" onfocus="(this.type='date')" id="ver_date_needed">
                                 </div>
                                 <div class="col-lg-6">
-                                    <input placeholder="Estimated Price" class="form-control" type="text" >
+                                    <input placeholder="Estimated Price" name="estimated_price" class="form-control" type="text" id="estimated_price">
                                 </div>
                             </div>   
                         </div>
                     </div>
-                    <div class="modal-footer">                        
+                    <div class="modal-footer">
+                        <input type='hidden' name='status' id='status'>
+                        <input type='hidden' name='pr_details_id' id='pr_details_id'>
+                        <input type='hidden' name='pr_id' id='pr_id'>
+                        <input type='hidden' name='po_offer_id' id='po_offer_id'>
+                        <input type='hidden' name='year' id='year'>
+                        <input type='hidden' name='month' id='month'>                         
                         <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
                     </div>
                 </form>

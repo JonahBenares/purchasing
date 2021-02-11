@@ -48,9 +48,13 @@
                             <h2 class="m-b-0" >
                                 <b>
                                     <span>Calendar</span>
-                                    <button type="button" class="btn btn-primary btn-xs pull-right btn-custon-three" data-toggle="modal" data-target="#filter_pending">
-                                        <span class="fa fa-filter"></span>
-                                    </button>
+                                    <div class="btn-group pull-right ">
+                                        <button type="button" class="btn btn-success btn-md btn-custon-three" data-toggle="modal" data-target="#filter_pending" title="Filter">
+                                            <span class="fa fa-filter"></span>
+                                        </button>
+                                        <button class="btn btn-warning btn-custon-three">Total : <b>22563</b></button>    
+                                    </div>
+                                    
                                 </b>
                                 <p class="m-b-0">Pending PR</p>
                                 <div class="modal fade" id="filter_pending" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -63,15 +67,15 @@
                                                     </button>
                                                 </h5>                                                
                                             </div>
-                                            <form method='POST' action="<?php echo base_url(); ?>reports/">
+                                            <form method='POST' action="<?php echo base_url(); ?>masterfile/filter_pending">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <div class="row">
                                                             <div class="col-lg-6">
-                                                                <input placeholder="Date From" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                                                <input placeholder="Date From" name="filter_date_from" class="form-control" type="text" onfocus="(this.type='date')" id="filter_date_from">
                                                             </div>
                                                             <div class="col-lg-6">
-                                                                <input placeholder="Date To" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                                                <input placeholder="Date To" class="form-control" name="filter_date_to" type="text" onfocus="(this.type='date')" id="filter_date_to">
                                                             </div>
                                                         </div>   
                                                     </div>
@@ -99,62 +103,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>sdsd</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>sdsd</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>sdsd</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>sdsd</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>sdsd</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>sdsd</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>sdsd</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                <?php foreach($dash_calendar AS $ca){ ?>
+                                        <tr>
+                                            <td><?php echo $ca['ver_date_needed']; ?></td>
+                                            <td><?php echo $ca['pr_no']; ?></td>
+                                            <td><?php echo $ca['description']; ?></td>
+                                            <td><?php echo $ca['quantity']; ?></td>
+                                            <td><?php echo $ca['estimated_price']; ?></td>
+                                            <td><?php echo $ca['total_ep']; ?></td>
+                                        </tr> 
+                                        <?php }  ?>      
                                 </tbody>
                             </table>
                                   

@@ -141,6 +141,7 @@
                                 <a class="dropdown-item" data-toggle="modal" data-target="#po_modal">PO Summary</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#unserved_modal">Unserved Report</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#weekly_recom">Summary of Weekly Recom</a>
+                                 <a href="<?php echo base_url(); ?>reports/purch_calendar" class="dropdown-item">Calendar</a>
                             </div>
                         </li> 
 
@@ -260,22 +261,22 @@
                             </button>
                         </h5>                            
                     </div>
-                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_unserved_report" target='_blank'>
+                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_sum_weekly_recom_report" target='_blank'>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <small>Date From:</small>
-                                    <input placeholder="Date From" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                    <input placeholder="Date From" class="form-control" name="date_recom_from" type="text" onfocus="(this.type='date')" id="date">
                                 </div>
                                 <div class="col-lg-6">
                                     <small>Date To:</small>
-                                    <input placeholder="Date To" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                    <input placeholder="Date To" class="form-control" name="date_recom_to" type="text" onfocus="(this.type='date')" id="date">
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
-                            <a href="<?php echo base_url(); ?>index.php/reports/sum_weekly_recom"  class="btn btn-primary " target="_blank">Proceed</a>
+                            <!--<a href="<?php echo base_url(); ?>index.php/reports/sum_weekly_recom"  class="btn btn-primary " target="_blank">Proceed</a>-->
                         </div>
                     </form>
                 </div>
