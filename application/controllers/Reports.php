@@ -44,6 +44,16 @@ class Reports extends CI_Controller {
         redirect(base_url().'reports/unserved_report/'.$year.'/'.$month);
     }
 
+    public function like($str, $searchTerm) {
+        $searchTerm = strtolower($searchTerm);
+        $str = strtolower($str);
+        $pos = strpos($str, $searchTerm);
+        if ($pos === false)
+            return false;
+        else
+            return true;
+    }
+
 	public function pr_report(){
 
         $year1=$this->uri->segment(3);
@@ -139,11 +149,19 @@ class Reports extends CI_Controller {
                         //echo $count_po_unserved . "<br>";
                         //echo $count_po_served . "<br>"; 
                         if($count_po_unserved !=0 && $count_po_served==0){
-                            $status = 'PO Issued - Partial<br><br>';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else{
+                                $status = 'PO Issued - Partial<br><br>';
+                            }
                             $status_remarks='';
                         }else if($count_po_unserved !=0  && $count_po_served!=0 ){
-                            $status .= 'PO Issued - Partial<br><br>';
-                            $status .= 'Partially Delivered';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else{
+                                $status .= 'PO Issued - Partial<br><br>';
+                                $status .= 'Partially Delivered';
+                            }
                             $status_remarks='';
                         } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
                            // $status_remarks = '';
@@ -154,9 +172,17 @@ class Reports extends CI_Controller {
                             if($cancelled_head_po!=0){
                                // $status .='';
                                 $statuss = 'Partially Delivered';
-                                $status.="Partially Delivered / Cancelled";
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else{
+                                    $status.="Partially Delivered / Cancelled";
+                                }
                             }else if($cancelled_items_po==0){
-                                $status .= 'Partially Delivered';
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else{
+                                    $status .= 'Partially Delivered';
+                                }
                             }else {
                                 $statuss = 'Partially Delivered';
                                 $status.="Cancelled";
@@ -187,7 +213,11 @@ class Reports extends CI_Controller {
                     $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
                     if($served==0){
                         if($cancelled_items_po==0){
-                            $status .= 'PO Issued';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else{
+                                $status .= 'PO Issued';
+                            }
                         }else if($cancelled_items_po==0 && $pr->fulfilled_by==1){
                             $status="Delivered by ".$company;
                         }else {
@@ -252,7 +282,11 @@ class Reports extends CI_Controller {
                     //echo $po_id . "<br>";
                     if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
                         //if($cancelled_items_po==0){
-                            $status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else{
+                                $status .= 'Pending';
+                            }
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
@@ -261,7 +295,11 @@ class Reports extends CI_Controller {
                     } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                         $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                          //if($cancelled_items_po==0){
-                            $status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else{
+                                $status .= 'Pending';
+                            }
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
@@ -270,7 +308,11 @@ class Reports extends CI_Controller {
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq==0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                         //if($cancelled_items_po==0){
-                            $status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else{
+                                $status .= 'Pending';
+                            }
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
@@ -279,7 +321,11 @@ class Reports extends CI_Controller {
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' ");
                          //if($cancelled_items_po==0){
+                        if($pr->on_hold==1){
+                            $status .="On-Hold";
+                        }else{
                             $status .= 'Pending';
+                        }
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
@@ -293,7 +339,11 @@ class Reports extends CI_Controller {
                         $status_remarks = 'AOQ Done - For TE - ' .$aoq_date;
                     } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                         //if($cancelled_items_po==0){
+                        if($pr->on_hold==1){
+                            $status .="On-Hold";
+                        }else{
                             $status .= 'Pending';
+                        }
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
@@ -301,7 +351,11 @@ class Reports extends CI_Controller {
                         $status_remarks = 'For PO - AOQ Done (awarded)';
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0 && $pr->fulfilled_by==0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0 && $pr->fulfilled_by==0)){ 
                         //if($cancelled_items_po==0){
-                            $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else{
+                                $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            }
                         /*}else {
                             $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
@@ -317,7 +371,11 @@ class Reports extends CI_Controller {
                         $status_remarks = '';
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
                         //if($cancelled_items_po==0){
-                            $status .= "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else{
+                                $status .= "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            }
                         /*}else {
                             $statuss = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
@@ -401,6 +459,7 @@ class Reports extends CI_Controller {
                 'fulfilled_by'=>$pr->fulfilled_by,
                 'cancelled'=>$pr->cancelled,
                 'cancelled_items_po'=>$cancelled_items_po,
+                'on_hold'=>$pr->on_hold,
                /* 'count_rfq'=>$count_rfq,
                 'count_aoq_awarded'=>$count_aoq_awarded,
                 'po_id'=>$po_id,
@@ -416,6 +475,40 @@ class Reports extends CI_Controller {
         $this->load->view('reports/pr_report',$data);
         $this->load->view('template/footer');
         
+    }
+
+    public function insert_changestatus(){
+        $count_onhold = count($this->input->post('onhold'));
+        $count_proceed = count($this->input->post('proceed'));
+        $year = $this->input->post('year');
+        $month = $this->input->post('month');
+        for($x=0;$x<$count_onhold;$x++){
+            $onhold = $this->input->post('onhold['.$x.']');
+            $onhold_date=$this->super_model->select_column_where("pr_details","onhold_date","pr_details_id",$onhold);
+            $data=array(
+                'on_hold'=>1,
+                'onhold_date'=>date('Y-m-d h:i:s'),
+                'onhold_by'=>$_SESSION['user_id'],
+            );
+
+            if($onhold_date==''){
+                if($this->super_model->update_where("pr_details", $data, "pr_details_id",$onhold)){
+                    echo "<script>alert('Successfully Changed Status!');</script>"; 
+                    echo "<script>window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
+                }
+            }
+        }
+
+        for($y=0;$y<$count_proceed;$y++){
+            $proceed = $this->input->post('proceed['.$y.']');
+            $data_proceed=array(
+                'on_hold'=>0,
+            );
+            if($this->super_model->update_where("pr_details", $data_proceed, "pr_details_id=",$proceed)){
+                echo "<script>alert('Successfully Changed Status!');</script>"; 
+                echo "<script>window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
+            }
+        }
     }
 
     public function search_pr(){
