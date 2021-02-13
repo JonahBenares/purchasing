@@ -161,13 +161,17 @@ class Reports extends CI_Controller {
                         if($count_po_unserved !=0 && $count_po_served==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
                             }else{
                                 $status = 'PO Issued - Partial<br><br>';
                             }
                             $status_remarks='';
-                        }else if($count_po_unserved !=0  && $count_po_served!=0 ){
+                        }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
                             }else{
                                 $status .= 'PO Issued - Partial<br><br>';
                                 $status .= 'Partially Delivered';
@@ -184,12 +188,16 @@ class Reports extends CI_Controller {
                                 $statuss = 'Partially Delivered';
                                 if($pr->on_hold==1){
                                     $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
                                 }else{
                                     $status.="Partially Delivered / Cancelled";
                                 }
                             }else if($cancelled_items_po==0){
                                 if($pr->on_hold==1){
                                     $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
                                 }else{
                                     $status .= 'Partially Delivered';
                                 }
@@ -296,6 +304,8 @@ class Reports extends CI_Controller {
                         //if($cancelled_items_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
                             }else{
                                 $status .= 'Pending';
                             }
@@ -306,7 +316,13 @@ class Reports extends CI_Controller {
                         $status_remarks = 'For RFQ';
                     } else if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==1){ 
                         //if($cancelled_items_po==0){
+                        if($pr->on_hold==1){
+                            $status .="On-Hold";
+                        }else if($pr->fulfilled_by==1){
+                            $status .= "Delivered by ".$company;
+                        }else{
                             $status .= "For Recom";
+                        }
                         /*}else {
                             $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
@@ -317,6 +333,8 @@ class Reports extends CI_Controller {
                          //if($cancelled_items_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
                             }else{
                                 $status .= 'Pending';
                             }
@@ -330,6 +348,8 @@ class Reports extends CI_Controller {
                         //if($cancelled_items_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
                             }else{
                                 $status .= 'Pending';
                             }
@@ -343,6 +363,8 @@ class Reports extends CI_Controller {
                          //if($cancelled_items_po==0){
                         if($pr->on_hold==1){
                             $status .="On-Hold";
+                        }else if($pr->fulfilled_by==1){
+                            $status .= "Delivered by ".$company;
                         }else{
                             $status .= 'Pending';
                         }
@@ -361,6 +383,8 @@ class Reports extends CI_Controller {
                         //if($cancelled_items_po==0){
                         if($pr->on_hold==1){
                             $status .="On-Hold";
+                        }else if($pr->fulfilled_by==1){
+                            $status .= "Delivered by ".$company;
                         }else{
                             $status .= 'Pending';
                         }
@@ -369,10 +393,12 @@ class Reports extends CI_Controller {
                             $status = 'Cancelled';
                         }*/
                         $status_remarks = 'For PO - AOQ Done (awarded)';
-                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0 && $pr->fulfilled_by==0 && $pr->for_recom==0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0 && $pr->fulfilled_by==0 && $pr->for_recom==0)){ 
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
                         //if($cancelled_items_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
                             }else{
                                 $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             }
@@ -381,14 +407,12 @@ class Reports extends CI_Controller {
                             $status = 'Cancelled';
                         }   */
                         $status_remarks = '';
-                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0 && $pr->fulfilled_by==1) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0 && $pr->fulfilled_by==1)){ 
-                        //if($cancelled_items_po==0){
-                            $status .= "Delivered by ".$company;
-                        $status_remarks = '';
-                    }  else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
                         //if($cancelled_items_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
                             }else{
                                 $status .= "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             }
@@ -654,6 +678,8 @@ class Reports extends CI_Controller {
              $data['date']=$date;
         }
         //$data['date']=date('F Y', strtotime($date));
+        $data['company']=$this->super_model->select_all_order_by("company","company_name","ASC");
+        $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ".$query) AS $pr){
             $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
             $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $pr->pr_details_id);
@@ -668,7 +694,7 @@ class Reports extends CI_Controller {
             $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
             $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
-
+            $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
            //echo $pr->pr_details_id . " = " . $sum_po_qty . " - " .  $sum_delivered_qty . ", " . $pr->quantity . "<br>";
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
             $unserved_qty=0;
@@ -709,23 +735,60 @@ class Reports extends CI_Controller {
                         //echo $count_po_unserved . "<br>";
                         //echo $count_po_served . "<br>"; 
                         if($count_po_unserved !=0 && $count_po_served==0){
-                            $status = 'PO Issued - Partial<br><br>';
+                            //$status = 'PO Issued - Partial<br><br>';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status = 'PO Issued - Partial<br><br>';
+                            }
                             $status_remarks = '';
-                        }
-                        else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
-                            $status .= 'PO Issued - Partial<br><br>';
-                             $status .= 'Partially Delivered';
-                             $status_remarks = '';
-                        } else if($count_po_unserved == 0 && $count_po_served == $count_po_all) {
+                        }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
+                            //$status .= 'PO Issued - Partial<br><br>';
+                             //$status .= 'Partially Delivered';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= 'PO Issued - Partial<br><br>';
+                                $status .= 'Partially Delivered';
+                            }
+                            $status_remarks = '';
+                        } //else if($count_po_unserved == 0 && $count_po_served == $count_po_all) {
+                        else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
                            // $status_remarks = '';
                             
                        // } else {
 
                             $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
-                            if($cancelled_head_po!=0){
+                            /*if($cancelled_head_po!=0){
                                 $status .='';
                             }else if($cancelled_items_po==0){
                                 $status .= 'Partially Delivered';
+                            }else {
+                                $statuss = 'Partially Delivered';
+                                $status.="Cancelled";
+                            }*/
+                            if($cancelled_head_po!=0){
+                               // $status .='';
+                                $statuss = 'Partially Delivered';
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status.="Partially Delivered / Cancelled";
+                                }
+                            }else if($cancelled_items_po==0){
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status .= 'Partially Delivered';
+                                }
                             }else {
                                 $statuss = 'Partially Delivered';
                                 $status.="Cancelled";
@@ -736,8 +799,8 @@ class Reports extends CI_Controller {
                            // $status_remarks='';
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr->pr_details_id' AND date_received!=''") AS $del){
                                // foreach($this->super_model->select_row_where("po_dr_items", "pr_details_id", $pr->pr_details_id) AS $del){
-                                if(!empty($this->super_model->select_column_custom_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
-                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
+                                if($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id!='')){
+                                    $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
                                 }
                                 if(empty($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
                                     $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND ph.po_id = '$del->po_id' AND pi.pr_details_id = '$pr->pr_details_id'");
@@ -751,7 +814,15 @@ class Reports extends CI_Controller {
                     $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
                     if($served==0){
                         if($cancelled_items_po==0){
-                            $status .= 'PO Issued';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else{
+                                $status .= 'PO Issued';
+                            }
+                        }else if($cancelled_items_po==0 && $pr->fulfilled_by==1){
+                            $status="Delivered by ".$company;
+                        }else if($cancelled_items_po==0 && $pr->for_recom==1){
+                            $status="For Recom";
                         }else {
                             $statuss = 'PO Issued';
                             $status .= 'Cancelled';
@@ -802,7 +873,8 @@ class Reports extends CI_Controller {
 
                     /*  echo "SELECT sum(delivered_quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id' = ". $sum_po_delivered_qty . "<br>";*/
                   
-                    $count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
+                    //$count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
+                    $count_rfq = $this->super_model->count_custom_query("SELECT rfq_details_id FROM rfq_details WHERE pr_details_id = '$pr->pr_details_id'");
                     //$count_rfq_completed = $this->super_model->count_custom_query("SELECT rh.rfq_id FROM rfq_head rh INNER JOIN rfq_details rd ON rh.rfq_id = rd.rfq_id WHERE rd.pr_details_id= '$pr->pr_details_id' AND completed='1'");
                     $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND cancelled='0'");
                     
@@ -811,18 +883,46 @@ class Reports extends CI_Controller {
                  
 
                     //echo $po_id . "<br>";
-                    if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
+                    if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==0){
                         //if($cancelled_items_po==0){
-                            $status .= 'Pending';
+                            //$status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= 'Pending';
+                            }
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
                         $status_remarks = 'For RFQ';
-                    } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
+                    } else if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==1){ 
+                        //if($cancelled_items_po==0){
+                        if($pr->on_hold==1){
+                            $status .="On-Hold";
+                        }else if($pr->fulfilled_by==1){
+                            $status .= "Delivered by ".$company;
+                        }else{
+                            $status .= "For Recom";
+                        }
+                        /*}else {
+                            $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            $status = 'Cancelled';
+                        }   */
+                        $status_remarks = 'For Recommendation';
+                    }else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                         $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                          //if($cancelled_items_po==0){
+                            //$status .= 'Pending';
+                        if($pr->on_hold==1){
+                            $status .="On-Hold";
+                        }else if($pr->fulfilled_by==1){
+                            $status .= "Delivered by ".$company;
+                        }else{
                             $status .= 'Pending';
+                        }
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
@@ -831,7 +931,14 @@ class Reports extends CI_Controller {
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq==0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                         //if($cancelled_items_po==0){
-                            $status .= 'Pending';
+                            //$status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= 'Pending';
+                            }
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
@@ -840,7 +947,14 @@ class Reports extends CI_Controller {
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                          //if($cancelled_items_po==0){
-                            $status .= 'Pending';
+                            //$status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= 'Pending';
+                            }
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
@@ -854,7 +968,14 @@ class Reports extends CI_Controller {
                         $status_remarks = 'AOQ Done - For TE ' .$date;
                     } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                         //if($cancelled_items_po==0){
+                            //$status .= 'Pending';
+                        if($pr->on_hold==1){
+                            $status .="On-Hold";
+                        }else if($pr->fulfilled_by==1){
+                            $status .= "Delivered by ".$company;
+                        }else{
                             $status .= 'Pending';
+                        }
                         /*}else {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
@@ -862,7 +983,14 @@ class Reports extends CI_Controller {
                         $status_remarks = 'For PO - AOQ Done (awarded)';
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
                         //if($cancelled_items_po==0){
-                            $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            //$status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            }
                         /*}else {
                             $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
@@ -870,7 +998,14 @@ class Reports extends CI_Controller {
                         $status_remarks = '';
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
                         //if($cancelled_items_po==0){
-                            $status .= "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            //$status .= "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            }
                         /*}else {
                             $statuss = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
@@ -940,15 +1075,24 @@ class Reports extends CI_Controller {
                 'revised_qty'=>$revised,
                 'uom'=>$pr->uom,
                 'status'=>$status,
-               
                 'status_remarks'=>$status_remarks,
                 'date_needed'=>$pr->date_needed,
                 'unserved_qty'=>$unserved_qty,
                 'unserved_uom'=>$unserved_uom,
                 'remarks'=>$pr->add_remarks,
+                'company'=>$this->super_model->select_column_where('company','company_name','company_id',$pr->company_id),
+                'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$pr->vendor_id),
+                'ver_date_needed'=>$pr->ver_date_needed,
+                'estimated_price'=>$pr->estimated_price,
+                'date_delivered'=>$pr->date_delivered,
+                'unit_price'=>$pr->unit_price,
+                'qty_delivered'=>$pr->qty_delivered,
                 'cancel_remarks'=>$pr->cancel_remarks,
+                'fulfilled_by'=>$pr->fulfilled_by,
+                'for_recom'=>$pr->for_recom,
                 'cancelled'=>$pr->cancelled,
                 'cancelled_items_po'=>$cancelled_items_po,
+                'on_hold'=>$pr->on_hold,
             );
 
         }
@@ -1036,34 +1180,39 @@ class Reports extends CI_Controller {
                 )
             )
         );
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A4', "Date Received/Emailed");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B4', "Purchase Request");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Purpose");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D4', "Enduse");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "PR No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F4', "Requestor");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G4', "WH Stocks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "Item No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I4', "Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "Revised Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "UOM");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Grouping");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A4', "On Hold");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B4', "Proceed");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Date Received/Emailed");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D4', "Purchase Request");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "Purpose");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F4', "Enduse");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G4', "PR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "Requestor");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I4', "WH Stocks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "Item No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Revised Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "Grouping");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O4', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P4', "Verified Date Needed");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q4', "Estimated");
         /*$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "RO/with AOQ");*/
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "Status Remarks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O4', "Status");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P4', "Date Needed");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q4', "Remarks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R4', "End User's Comments");
-        foreach(range('A','R') as $columnID){
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R4', "Status Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S4', "Status");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T4', "Date Needed");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U4', "Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V4', "Cancel Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('W4', "End User's Comments");
+        foreach(range('A','W') as $columnID){
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }
-        $objPHPExcel->getActiveSheet()->getStyle('A4:R4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle("A1:E1")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setSize(15);
         $objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:R4')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:R4')->applyFromArray($styleArray1);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->applyFromArray($styleArray1);
         if($filt!=''){
             $num = 5;
             foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ".$query) AS $pr){
@@ -1080,6 +1229,7 @@ class Reports extends CI_Controller {
                 $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
                 $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
                 $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+                $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
                 $unserved_qty=0;
                 $unserved_uom='';
                 $statuss='';
@@ -1105,25 +1255,66 @@ class Reports extends CI_Controller {
                         $count_po_all = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id WHERE  cancelled ='0' AND pr_details_id = '$pr->pr_details_id'");
 
                         if($count_po_unserved !=0 && $count_po_served==0){
-                            $status = "PO Issued - Partial\n \n";
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status = "PO Issued - Partial\n \n";
+                            }
                             $status_remarks='';
                         }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
-                            $status .= "PO Issued - Partial\n \n";
-                            $status .= 'Partially Delivered';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= "PO Issued - Partial\n \n";
+                                $status .= 'Partially Delivered';
+                            }
                             $status_remarks='';
-                        } else if($count_po_unserved == 0 && $count_po_served == $count_po_all) {
+                        }  else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
                             $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
-                            if($cancelled_head_po!=0){
-                                $status .='';
+                            /*if($cancelled_head_po!=0){
+                                //$status .='';
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status.="Partially Delivered / Cancelled";
+                                }
                             }else if($cancelled_items_po==0){
                                 $status .= 'Partially Delivered';
+                            }else {
+                                $statuss = 'Partially Delivered';
+                                $status.="Cancelled";
+                            }*/
+                            if($cancelled_head_po!=0){
+                               // $status .='';
+                                $statuss = 'Partially Delivered';
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status.="Partially Delivered / Cancelled";
+                                }
+                            }else if($cancelled_items_po==0){
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status .= 'Partially Delivered';
+                                }
                             }else {
                                 $statuss = 'Partially Delivered';
                                 $status.="Cancelled";
                             }
                             $status_remarks ='';
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr->pr_details_id' AND date_received!=''") AS $del){
-                                if(!empty($this->super_model->select_column_custom_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
+                                if($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id!='')){
                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."(". $del->quantity . " ".$del->uom .")\n";
                                 }
                                 if(empty($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
@@ -1137,7 +1328,16 @@ class Reports extends CI_Controller {
                         $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
                         if($served==0){
                             if($cancelled_items_po==0){
-                                $status .= 'PO Issued';
+                                //$status .= 'PO Issued';
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else{
+                                    $status .= 'PO Issued';
+                                }
+                            }else if($cancelled_items_po==0 && $pr->fulfilled_by==1){
+                                $status="Delivered by ".$company;
+                            }else if($cancelled_items_po==0 && $pr->for_recom==1){
+                                $status="For Recom";
                             }else {
                                 $statuss = 'PO Issued';
                                 $status .= 'Cancelled';
@@ -1188,7 +1388,8 @@ class Reports extends CI_Controller {
 
                         /*  echo "SELECT sum(delivered_quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id' = ". $sum_po_delivered_qty . "<br>";*/
                       
-                        $count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
+                        //$count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
+                        $count_rfq = $this->super_model->count_custom_query("SELECT rfq_details_id FROM rfq_details WHERE pr_details_id = '$pr->pr_details_id'");
                         //$count_rfq_completed = $this->super_model->count_custom_query("SELECT rh.rfq_id FROM rfq_head rh INNER JOIN rfq_details rd ON rh.rfq_id = rd.rfq_id WHERE rd.pr_details_id= '$pr->pr_details_id' AND completed='1'");
                         $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND cancelled='0'");
                         
@@ -1197,18 +1398,46 @@ class Reports extends CI_Controller {
                      
 
                         //echo $po_id . "<br>";
-                        if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
+                        if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==0){
                             //if($cancelled_items_po==0){
+                                //$status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
                                 $status .= 'Pending';
+                            }
                             /*}else {
                                 $statuss = 'Pending';
                                 $status = 'Cancelled';
                             }*/
                             $status_remarks = 'For RFQ';
+                        }  else if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==1){ 
+                            //if($cancelled_items_po==0){
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= "For Recom";
+                            }
+                            /*}else {
+                                $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                                $status = 'Cancelled';
+                            }   */
+                            $status_remarks = 'For Recommendation';
                         } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                              //if($cancelled_items_po==0){
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
                                 $status .= 'Pending';
+                            }
+                                //$status .= 'Pending';
                             /*}else {
                                 $statuss = 'Pending';
                                 $status = 'Cancelled';
@@ -1217,7 +1446,14 @@ class Reports extends CI_Controller {
                         } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq==0  && $count_aoq_awarded==0  && $count_po==0){
                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                             //if($cancelled_items_po==0){
-                                $status .= 'Pending';
+                                //$status .= 'Pending';
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status .= 'Pending';
+                                }
                             /*}else {
                                 $statuss = 'Pending';
                                 $status = 'Cancelled';
@@ -1226,7 +1462,14 @@ class Reports extends CI_Controller {
                         } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                              //if($cancelled_items_po==0){
-                                $status .= 'Pending';
+                                //$status .= 'Pending';
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status .= 'Pending';
+                                }
                             /*}else {
                                 $statuss = 'Pending';
                                 $status = 'Cancelled';
@@ -1239,7 +1482,14 @@ class Reports extends CI_Controller {
                             $status_remarks = 'AOQ Done - For TE ' .$date;
                         } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                             //if($cancelled_items_po==0){
+                                //$status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
                                 $status .= 'Pending';
+                            }
                             /*}else {
                                 $statuss = 'Pending';
                                 $status = 'Cancelled';
@@ -1247,14 +1497,26 @@ class Reports extends CI_Controller {
                             $status_remarks = 'For PO - AOQ Done (awarded)';
                         } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
                             //if($cancelled_items_po==0){
-                                $status .= "PO Issued (". $sum_po_issued_qty . " ".$pr->uom .")";
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status .= "PO Issued (". $sum_po_issued_qty . " ".$pr->uom .")";
+                                }
                             /*}else {
                                 $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                                 $status = 'Cancelled';
                             }   */
                             $status_remarks = '';
                         } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
-                            $status .= "Partially Delivered (". $sum_po_issued_qty . " ".$pr->uom .")";
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= "Partially Delivered (". $sum_po_issued_qty . " ".$pr->uom .")";
+                            }
                             $status_remarks = '';
                         } 
 
@@ -1285,55 +1547,101 @@ class Reports extends CI_Controller {
                     $unserved = '';
                 }
 
+                $po_issue=$this->like($status, "PO Issued");
+                $delivered_by=$this->like($status, "Delivered by");
+
                 if($status=='Fully Delivered'){
-                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('b9ffb9');
+                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
                 } else if($status=='Partially Delivered') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f3ff9e');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                 } else if($status=='Cancelled') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
+                }else if($status=='Partially Delivered / Cancelled') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
+                }else if($status=='For Recom') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('fd9c77');
+                }else if($status=='On-Hold') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('d2deff');
+                }else if($po_issue=='1') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                }else if($delivered_by=='1') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('eeccff');
                 }
                 $pr_no = $pr->pr_no."-".COMPANY;
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr->date_prepared");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purchase_request");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->purpose");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->enduse");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr_no");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$pr->requestor");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$pr->wh_stocks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->quantity");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$revised");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$pr->uom");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$pr->grouping_id");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->item_description $unserved");
+
+                if(empty($pr->date_needed)){
+                    $date_needed='';
+                }else{
+                    $date_needed=date('M j, Y', strtotime($pr->date_needed));
+                }
+
+                $supplier=$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$pr->vendor_id);
+                if($pr->fulfilled_by==1){
+                    $remarks=$pr->add_remarks."\n -".$pr->date_delivered."\n -".$supplier."\n -".$pr->unit_price."\n -".$pr->qty_delivered;
+                }else{
+                    $remarks=$pr->add_remarks;
+                }
+               if($status!='Fully Delivered' && $status!='Cancelled'){
+                    if($pr->on_hold==1){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "✓");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "");
+                    }else if($pr->on_hold==0 && $pr->onhold_date!=''){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "✓");
+                    }
+                }
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->date_prepared");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->purchase_request");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->purpose");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$pr->enduse");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$pr_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$pr->requestor");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->wh_stocks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$pr->item_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$pr->quantity");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$revised");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->uom");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$pr->grouping_id");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$pr->item_description $unserved");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$pr->ver_date_needed");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$pr->estimated_price");
                 /*$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "");*/
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$status_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$status_remarks");
                 //if($cancelled_items_po==0){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$status");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$status");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, "$date_needed");
                 //}else {
                     //$objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$statuss");
                 //}
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$pr->date_needed");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$pr->add_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U'.$num, "$remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V'.$num, "$pr->cancel_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('W'.$num, "");
 
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('E'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('C'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('P'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('T'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('Q'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('Q'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setWrapText(true);
                 /*$objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
                 /*$objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->applyFromArray($styleArray);
                 $num++;
             }
         }else {
@@ -1352,6 +1660,7 @@ class Reports extends CI_Controller {
                 $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
                 $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
                 $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+                $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
                // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
                 $unserved_qty=0;
                 $unserved_uom='';
@@ -1378,18 +1687,52 @@ class Reports extends CI_Controller {
                             $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id WHERE served = '1' AND cancelled ='0' AND pr_details_id = '$pr->pr_details_id'");
                             $count_po_all = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id WHERE  cancelled ='0' AND pr_details_id = '$pr->pr_details_id'");
                             if($count_po_unserved !=0 && $count_po_served==0){
-                                $status = "PO Issued - Partial \n \n";
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status = "PO Issued - Partial \n \n";
+                                }
                                 $status_remarks='';
                             }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
-                                $status .= "PO Issued - Partial \n \n";
-                                $status .= 'Partially Delivered';
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status .= "PO Issued - Partial \n \n";
+                                    $status .= 'Partially Delivered';
+                                }
                                 $status_remarks='';
-                            } else if($count_po_unserved == 0 && $count_po_served == $count_po_all) {
+                            } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
                                 $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
-                                if($cancelled_head_po!=0){
+                                /*if($cancelled_head_po!=0){
                                     $status .='';
                                 }else if($cancelled_items_po==0){
                                     $status .= 'Partially Delivered';
+                                }else {
+                                    $statuss = 'Partially Delivered';
+                                    $status.="Cancelled";
+                                }*/
+                                if($cancelled_head_po!=0){
+                                   // $status .='';
+                                    $statuss = 'Partially Delivered';
+                                    if($pr->on_hold==1){
+                                        $status .="On-Hold";
+                                    }else if($pr->fulfilled_by==1){
+                                        $status .= "Delivered by ".$company;
+                                    }else{
+                                        $status.="Partially Delivered / Cancelled";
+                                    }
+                                }else if($cancelled_items_po==0){
+                                    if($pr->on_hold==1){
+                                        $status .="On-Hold";
+                                    }else if($pr->fulfilled_by==1){
+                                        $status .= "Delivered by ".$company;
+                                    }else{
+                                        $status .= 'Partially Delivered';
+                                    }
                                 }else {
                                     $statuss = 'Partially Delivered';
                                     $status.="Cancelled";
@@ -1397,7 +1740,7 @@ class Reports extends CI_Controller {
                                 $status_remarks ='';
                                 foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr->pr_details_id' AND date_received!=''") AS $del){
                                    // foreach($this->super_model->select_row_where("po_dr_items", "pr_details_id", $pr->pr_details_id) AS $del){
-                                    if(!empty($this->super_model->select_column_custom_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
+                                    if($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id!='')){
                                      $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."(". $del->quantity . " ".$del->uom .")\n";
                                     }
                                     if(empty($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
@@ -1413,7 +1756,15 @@ class Reports extends CI_Controller {
                         if($served==0){
                             //$status = 'PO Issued';
                             if($cancelled_items_po==0){
-                                $status = 'PO Issued';
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else{
+                                    $status = 'PO Issued';
+                                }
+                            }else if($cancelled_items_po==0 && $pr->fulfilled_by==1){
+                                $status="Delivered by ".$company;
+                            }else if($cancelled_items_po==0 && $pr->for_recom==1){
+                                $status="For Recom";
                             }else {
                                 $statuss = 'PO Issued';
                                 $status = 'Cancelled';
@@ -1461,33 +1812,90 @@ class Reports extends CI_Controller {
                         $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr->pr_id' AND served = '1' AND pi.pr_details_id = '$pr->pr_details_id'");
                         $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
                         $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
-                        $count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
+                        //$count_rfq = $this->super_model->count_custom_where("rfq_details","pr_details_id = '$pr->pr_details_id'");
+                        $count_rfq = $this->super_model->count_custom_query("SELECT rfq_details_id FROM rfq_details WHERE pr_details_id = '$pr->pr_details_id'");
                         $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND cancelled='0'");
                         $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND cancelled='0'");
                         $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$pr->pr_details_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
-                        if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
-                            $status .= 'Pending';
+                        if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==0){
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= 'Pending';
+                            }
                             $status_remarks = 'For RFQ';
+                        }else if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==1){ 
+                            //if($cancelled_items_po==0){
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= "For Recom";
+                            }
+                            /*}else {
+                                $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                                $status = 'Cancelled';
+                            }   */
+                            $status_remarks = 'For Recommendation';
                         } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
-                            $status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= 'Pending';
+                            }
                             $status_remarks = 'Canvassing Ongoing';
                         } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq==0  && $count_aoq_awarded==0  && $count_po==0){
                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
-                            $status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= 'Pending';
+                            }
                             $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
                         } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
-                            $status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= 'Pending';
+                            }
                             $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date));
                         } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
-                            $status .= 'Pending';
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= 'Pending';
+                            }
                             $status_remarks = 'For PO - AOQ Done (awarded)';
                         } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
-                            $status .= "PO Issued (". $sum_po_issued_qty . " ".$pr->uom .")";
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= "PO Issued (". $sum_po_issued_qty . " ".$pr->uom .")";
+                            }
                             $status_remarks = '';
                         } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
-                            $status .= "Partially Delivered (". $sum_po_issued_qty . " ".$pr->uom .")";
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= "Partially Delivered (". $sum_po_issued_qty . " ".$pr->uom .")";
+                            }
                             $status_remarks = '';
                         }
                     }
@@ -1519,54 +1927,100 @@ class Reports extends CI_Controller {
                     $unserved = '';
                 }
 
+                $po_issue=$this->like($status, "PO Issued");
+                $delivered_by=$this->like($status, "Delivered by");
+
                 if($status=='Fully Delivered'){
-                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('b9ffb9');
+                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
                 } else if($status=='Partially Delivered') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f3ff9e');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                 } else if($status=='Cancelled') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
+                }else if($status=='Partially Delivered / Cancelled') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
+                }else if($status=='For Recom') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('fd9c77');
+                }else if($status=='On-Hold') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('d2deff');
+                }else if($po_issue=='1') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                }else if($delivered_by=='1') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('eeccff');
                 }
                 $pr_no = $pr->pr_no."-".COMPANY;
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$pr->date_prepared");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purchase_request");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->purpose");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->enduse");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr_no");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$pr->requestor");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$pr->wh_stocks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->quantity");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$revised");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$pr->uom");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$pr->grouping_id");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->item_description $unserved");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$status_remarks");
-               // if($cancelled_items_po==0){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$status");
+                if(empty($pr->date_needed)){
+                    $date_needed='';
+                }else{
+                    $date_needed=date('M j, Y', strtotime($pr->date_needed));
+                }
+
+                $supplier=$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$pr->vendor_id);
+                if($pr->fulfilled_by==1){
+                    $remarks=$pr->add_remarks."\n -".$pr->date_delivered."\n -".$supplier."\n -".$pr->unit_price."\n -".$pr->qty_delivered;
+                }else{
+                    $remarks=$pr->add_remarks;
+                }
+                if($status!='Fully Delivered' && $status!='Cancelled'){
+                    if($pr->on_hold==1){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "✓");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "");
+                    }else if($pr->on_hold==0 && $pr->onhold_date!=''){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "✓");
+                    }
+                }
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->date_prepared");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->purchase_request");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->purpose");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$pr->enduse");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$pr_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$pr->requestor");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->wh_stocks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$pr->item_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$pr->quantity");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$revised");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->uom");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$pr->grouping_id");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$pr->item_description $unserved");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$pr->ver_date_needed");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$pr->estimated_price");
+                /*$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "");*/
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$status_remarks");
+                //if($cancelled_items_po==0){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$status");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, "$date_needed");
                 //}else {
                     //$objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$statuss");
                 //}
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$pr->date_needed");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$pr->add_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U'.$num, "$remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V'.$num, "$pr->cancel_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('W'.$num, "");
 
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('E'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('C'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('P'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('T'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('Q'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('Q'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setWrapText(true);
                 /*$objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
                 /*$objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);*/
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->applyFromArray($styleArray);
                 $num++;
             }
         }
