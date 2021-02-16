@@ -3209,33 +3209,39 @@ class Reports extends CI_Controller {
         $date_to=$this->uri->segment(4);  
         $data['recom_date_from']=$date_from;
         $data['recom_date_to']=$date_to;
-        foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$date_from' AND '$date_to' AND pd.recom_date_to BETWEEN '$date_from' AND '$date_to' AND pd.for_recom='1'") AS $p){
-            $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
-            $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
-            $total = $p->quantity * $unit_price;
-            $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $p->pr_details_id);
-            $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $p->pr_details_id);
-            if($po_offer_id==0){
-                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'po_items_id', $po_items_id);
-            }else{
-                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
+        $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
+        $count_sum_weekly_recom = $this->super_model->count_custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$date_from' AND '$date_to' AND pd.recom_date_to BETWEEN '$date_from' AND '$date_to' AND pd.for_recom='1'");
+        if($count_sum_weekly_recom!=0){
+            foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$date_from' AND '$date_to' AND pd.recom_date_to BETWEEN '$date_from' AND '$date_to' AND pd.for_recom='1'") AS $p){
+                $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $total = $p->quantity * $unit_price;
+                $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $p->pr_details_id);
+                $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $p->pr_details_id);
+                if($po_offer_id==0){
+                    $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'po_items_id', $po_items_id);
+                }else{
+                    $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
+                }
+                $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $p->pr_details_id, "po_id", "DESC", "1");
+                $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+                if($served==0 && $cancelled_items_po==0){
+                    $data['weekly_recom'][]=array(
+                        'enduse'=>$p->enduse,
+                        'requestor'=>$p->requestor,
+                        'quantity'=>$p->quantity,
+                        'uom'=>$p->uom,
+                        'item_description'=>$p->item_description,
+                        'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
+                        'pr_no'=>$p->pr_no,
+                        'terms'=>$this->super_model->select_column_custom_where('aoq_vendors','payment_terms',"vendor_id='$p->vendor_id' AND aoq_id='$aoq_id'"),
+                        'unit_price'=>$unit_price,
+                        'total'=>$total
+                    );
+                }
             }
-            $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $p->pr_details_id, "po_id", "DESC", "1");
-            $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
-            if($served==0 && $cancelled_items_po==0){
-                $data['weekly_recom'][]=array(
-                    'enduse'=>$p->enduse,
-                    'requestor'=>$p->requestor,
-                    'quantity'=>$p->quantity,
-                    'uom'=>$p->uom,
-                    'item_description'=>$p->item_description,
-                    'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
-                    'pr_no'=>$p->pr_no,
-                    'terms'=>$this->super_model->select_column_custom_where('aoq_vendors','payment_terms',"vendor_id='$p->vendor_id' AND aoq_id='$aoq_id'"),
-                    'unit_price'=>$unit_price,
-                    'total'=>$total
-                );
-            }
+        }else{
+            $data['weekly_recom']=array();
         }
         $this->load->view('template/header');  
         $this->load->view('reports/sum_weekly_recom',$data);
@@ -3353,6 +3359,12 @@ class Reports extends CI_Controller {
             $filter .= $description.", ";
         }
 
+
+        if($supplier!='null'){
+            $sql.=" pd.vendor_id = '$supplier' AND";
+            $filter .= $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$supplier).", ";
+        }
+        
         if($pr_no!='null'){
             $sql.=" ph.pr_no LIKE '%$pr_no%' AND";
             $filter .= $pr_no.", ";
@@ -3380,6 +3392,8 @@ class Reports extends CI_Controller {
         $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
         $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
         $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
+        $count_search_weekly = $this->super_model->count_custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE $query AND pd.for_recom='1'");
+        if($count_search_weekly!=0){
         foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE $query AND pd.for_recom='1'") AS $p){
                 $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
                 $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
@@ -3403,10 +3417,13 @@ class Reports extends CI_Controller {
                     'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
                     'pr_no'=>$p->pr_no,
                     'terms'=>$this->super_model->select_column_custom_where('aoq_vendors','payment_terms',"vendor_id='$p->vendor_id' AND aoq_id='$aoq_id'"),
-                    'unit_price'=>$p->$unit_price,
+                    'unit_price'=>$p->unit_price,
                     'total'=>$total
                 );
             }
+        }
+        }else{
+            $data['weekly_recom']=array();
         }
         $this->load->view('template/header');        
         $this->load->view('reports/sum_weekly_recom',$data);
@@ -3630,6 +3647,7 @@ class Reports extends CI_Controller {
         $date_to=$this->uri->segment(4);  
         $data['recom_date_from']=$date_from;
         $data['recom_date_to']=$date_to;
+        $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
         foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$date_from' AND '$date_to' AND pd.recom_date_to BETWEEN '$date_from' AND '$date_to' AND pd.for_recom='1'") AS $p){
             $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
             $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
@@ -3771,6 +3789,12 @@ class Reports extends CI_Controller {
             $filter .= $description.", ";
         }
 
+
+        if($supplier!='null'){
+            $sql.=" pd.vendor_id = '$supplier' AND";
+            $filter .= $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$supplier).", ";
+        }
+
         if($pr_no!='null'){
             $sql.=" ph.pr_no LIKE '%$pr_no%' AND";
             $filter .= $pr_no.", ";
@@ -3798,6 +3822,8 @@ class Reports extends CI_Controller {
         $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
         $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
         $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
+        $count_search_pending_weekly = $this->super_model->count_custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1'");
+        if($count_search_pending_weekly!=0){
         foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1'") AS $p){
             $unit_price = $this->super_model->select_column_custom_where('aoq_offers','unit_price',"pr_details_id='$p->pr_details_id' AND recommended='1'");
             $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
@@ -3820,6 +3846,9 @@ class Reports extends CI_Controller {
                     'total'=>$total
                 );
             }
+        }
+        }else{
+            $data['weekly_recom']=array();
         }
         $this->load->view('template/header');        
         $this->load->view('reports/pending_weekly_recom',$data);
@@ -4057,6 +4086,35 @@ class Reports extends CI_Controller {
     {
             echo "<script>alert('Successfully Added!'); window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
         }
+    }
+    public function purch_calendar(){
+        $date_from=$this->uri->segment(3);
+        $date_to=$this->uri->segment(4);  
+        $data['recom_date_from']=$date_from;
+        $data['recom_date_to']=$date_to;
+        $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
+        foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$date_from' AND '$date_to' AND pd.recom_date_to BETWEEN '$date_from' AND '$date_to' AND pd.for_recom='1'") AS $p){
+            $estimated_price = $this->super_model->select_column_custom_where('pr_details','estimated_price',"pr_details_id='$ca->pr_details_id'");
+            $total_ep = $ca->quantity * $estimated_price;
+            $total_array[] = $total_ep;
+            $total_disp = array_sum($total_array);
+            $data['total_disp']=$total_disp;
+            $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $ca->pr_details_id, "po_id", "DESC", "1");
+            $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+            $data['dash_calendar'][] =  array(
+                'ver_date_needed'=>$ca->ver_date_needed,
+                'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$ca->pr_id),
+                'description'=>$ca->item_description,
+                'quantity'=>$ca->quantity,
+                'estimated_price'=>$ca->estimated_price,
+                'total_ep'=>$total_ep,
+                'served'=>$served
+
+            );
+        }
+        $this->load->view('template/header');  
+        $this->load->view('reports/purch_calendar',$data);
+        $this->load->view('template/footer');
     }
 }
 ?>

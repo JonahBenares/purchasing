@@ -247,6 +247,7 @@
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
 		    			<td colspan="13" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
+		    			<td colspan="2" class="all-border" align="center"><b>Currency</b></td>
 		    			<td colspan="2" class="all-border" align="center"></td>
 		    		</tr>
 		    		<?php 
@@ -267,6 +268,15 @@
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it['item'].", ".$CI->get_pn($it['pr_details_id']);?></b></td>
 
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it['price']; ?></b></td>
+		    			<td width="10%" class="bor-right v-align" align="center">
+		    				<?php if($saved==0){ ?>
+				    		<select style="width: 100%" name='currency<?php echo $x; ?>'>
+						    	<?php foreach($currency AS $curr){ ?>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    	<?php } ?>
+						    </select>
+							<?php }else{ echo $it['currency']; } ?>
+				    	</td>	
 		    			<td colspan="" class="bor-right v-align"></td>
 		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it['total'],2); ?></b></td>
 
@@ -435,7 +445,7 @@
 		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>   
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php if($draft==1){ echo number_format($grandtotal,2); } ?></span></b></td>
+					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php if($draft==1){ echo number_format($grandtotal,2); } ?></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">

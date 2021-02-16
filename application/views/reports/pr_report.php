@@ -444,10 +444,10 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <input placeholder="Verified Date Needed" name="ver_date_needed" class="form-control" type="text" onfocus="(this.type='date')" id="ver_date_needed">
+                                    <input placeholder="Verified Date Needed" name="ver_date_needed" class="form-control" type="text" onfocus="(this.type='date')" id="ver_date_needed" required>
                                 </div>
                                 <div class="col-lg-6">
-                                    <input placeholder="Estimated Price" name="estimated_price" class="form-control" type="text" id="estimated_price">
+                                    <input placeholder="Estimated Price" name="estimated_price" class="form-control" type="text" id="estimated_price" required>
                                 </div>
                             </div>   
                         </div>

@@ -307,7 +307,15 @@
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php if($saved==0){ ?><textarea class = "form-control" name='item<?php echo $x; ?>'><?php echo $it['item'].", ".$CI->get_pn($it['pr_details_id']); ?></textarea><?php } else { echo $it['item']; }?></b></td>
 
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>'  onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ><?php }else { echo $it['price']; } ?></b></td>
-		    			<td colspan="" class="bor-right v-align"><input type="text" name="" style="width: 80px"></td>
+		    			<td width="10%" class="bor-right v-align" align="center">
+		    				<?php if($saved==0){ ?>
+				    		<select style="width: 100%" name='currency<?php echo $x; ?>'>
+						    	<?php foreach($currency AS $curr){ ?>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    	<?php } ?>
+						    </select>
+							<?php }else{ echo $it['currency']; } ?>
+				    	</td>
 		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><?php if($saved==0){ ?><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right;' readonly><?php }else { echo number_format($it['total'],2); } ?></b></td>
 
 		    		</tr>
@@ -476,7 +484,7 @@
 		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>   
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php if($saved==1){ echo number_format($grandtotal,2); } ?></span></b></td>
+					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php if($saved==1){ echo number_format($grandtotal,2); } ?></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">

@@ -47,8 +47,13 @@
                             <input type = "text" name="description" class="form-control">
                         </div>  
                          <div class="form-group">
-                            <p class="m-b-0">Supplier:</p>
-                            <input type = "text" name="description" class="form-control">
+                         <label>Supplier:</label>
+                            <select name="supplier" class="form-control" cols="2">
+                                <option value = "">--Select Supplier--</option>
+                                <?php foreach($vendors AS $sp){ ?>
+                                <option value = "<?php echo $sp->vendor_id; ?>"><?php echo $sp->vendor_name?></option>
+                                <?php } ?>
+                            </select>
                         </div>                 
                         <center>
                         <input type="hidden" name="recom_date_from" value = "<?php echo $recom_date_from; ?>">            
@@ -115,7 +120,7 @@
                                         </tr>                                       
                                     </thead>                                    
                                         <tbody>
-                                        <?php foreach($weekly_recom AS $p){ ?>
+                                        <?php if(!empty($weekly_recom)){ foreach($weekly_recom AS $p){ ?>
                                         <tr>
                                             <td class="nowrap"><?php echo $p['enduse']; ?></td>
                                             <td><?php echo $p['requestor']; ?></td>
@@ -133,7 +138,7 @@
                                             <td><?php echo $p['terms']; ?></td>
                                             <td></td>
                                         </tr> 
-                                        <?php }  ?>       
+                                        <?php } }  ?>       
                                     </tbody>
                                 </table>
                             </div>                           

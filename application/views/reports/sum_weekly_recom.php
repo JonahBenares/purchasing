@@ -50,7 +50,7 @@
                          <label>Supplier:</label>
                             <select name="supplier" class="form-control" cols="2">
                                 <option value = "">--Select Supplier--</option>
-                                <?php foreach($supplier AS $sp){ ?>
+                                <?php foreach($vendors AS $sp){ ?>
                                 <option value = "<?php echo $sp->vendor_id; ?>"><?php echo $sp->vendor_name?></option>
                                 <?php } ?>
                             </select>
@@ -136,7 +136,7 @@
                                             <td><?php echo $p['pr_no']."-".COMPANY; ?></td>
                                             <td></td>
                                             <td><?php echo $p['unit_price']; ?></td>
-                                            <td><?php echo ($p['terms']!="15 days PDC" && $p['terms']!="30 days PDC" && $p['terms']!="60 days PDC") ? $p['total'] : ''; ?></td>
+                                            <td><?php echo ($p['terms']!="15 days PDC" && $p['terms']!="30 days PDC" && $p['terms']!="60 days PDC" && $p['terms']=="") ? $p['total'] : ''; ?></td>
                                             <td><?php echo ($p['terms']=="15 days PDC") ? $p['total'] : '';?></td>
                                             <td><?php echo ($p['terms']=="30 days PDC") ? $p['total'] : '';?></td>
                                             <td><?php echo ($p['terms']=="60 days PDC") ? $p['total'] : '';?></td>

@@ -52,7 +52,7 @@
                                         <button type="button" class="btn btn-success btn-md btn-custon-three" data-toggle="modal" data-target="#filter_pending" title="Filter">
                                             <span class="fa fa-filter"></span>
                                         </button>
-                                        <button class="btn btn-warning btn-custon-three">Total : <b>22563</b></button>    
+                                        <button class="btn btn-warning btn-custon-three">Total : <b><?php echo number_format($total_disp,2); ?></b></button>    
                                     </div>
                                     
                                 </b>
@@ -81,7 +81,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">                        
-                                                    <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
+                                                    <input type="submit" class="btn btn-primary btn-block" value='Search'>
                                                 </div>
                                             </form>
                                         </div>
@@ -89,6 +89,9 @@
                                 </div>
                             </h2>                            
                         </div>
+                        <?php if(!empty($filt)){ ?>     
+                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/masterfile/dashboard" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
+                        <?php } ?>  
                         <div style="overflow-y: scroll;height: 220px;max-height: 220px  ">
                             <!-- loop here -->
                             <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
@@ -103,16 +106,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach($dash_calendar AS $ca){ ?>
-                                        <tr>
-                                            <td><?php echo $ca['ver_date_needed']; ?></td>
-                                            <td><?php echo $ca['pr_no']; ?></td>
-                                            <td><?php echo $ca['description']; ?></td>
-                                            <td><?php echo $ca['quantity']; ?></td>
-                                            <td><?php echo $ca['estimated_price']; ?></td>
-                                            <td><?php echo $ca['total_ep']; ?></td>
-                                        </tr> 
-                                        <?php }  ?>      
+                                <?php 
+                                    foreach($dash_calendar AS $ca){ 
+                                    if($ca['served']==0){
+                                ?>
+                                    <tr>
+                                        <td><?php echo $ca['ver_date_needed']; ?></td>
+                                        <td><?php echo $ca['pr_no']; ?></td>
+                                        <td><?php echo $ca['description']; ?></td>
+                                        <td><?php echo $ca['quantity']; ?></td>
+                                        <td><?php echo $ca['estimated_price']; ?></td>
+                                        <td><?php echo number_format($ca['total_ep'],2); ?></td>
+                                    </tr> 
+                                <?php } } ?>      
                                 </tbody>
                             </table>
                                   

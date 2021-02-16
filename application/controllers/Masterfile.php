@@ -125,15 +125,20 @@ class Masterfile extends CI_Controller {
         }
 
         foreach($this->super_model->select_custom_where("pr_details","ver_date_needed!='' AND estimated_price!='0' ORDER BY ver_date_needed DESC") AS $ca){
-            $estimated_price = $this->super_model->select_column_custom_where('pr_details','estimated_price',"pr_details_id='$ca->pr_details_id'");
-            $total_ep = $ca->quantity * $estimated_price;
+            $total_ep = $ca->quantity * $ca->estimated_price;
+            $total_array[] = $total_ep;
+            $total_disp = array_sum($total_array);
+            $data['total_disp']=$total_disp;
+            $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $ca->pr_details_id, "po_id", "DESC", "1");
+            $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
             $data['dash_calendar'][] =  array(
                 'ver_date_needed'=>$ca->ver_date_needed,
                 'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$ca->pr_id),
                 'description'=>$ca->item_description,
                 'quantity'=>$ca->quantity,
                 'estimated_price'=>$ca->estimated_price,
-                'total_ep'=>$total_ep
+                'total_ep'=>$total_ep,
+                'served'=>$served
 
             );
         }
@@ -579,19 +584,35 @@ class Masterfile extends CI_Controller {
             );
         }
 
-        foreach($this->super_model->select_custom_where("pr_details","ver_date_needed!='' AND estimated_price!='0' ORDER BY ver_date_needed DESC") AS $ca){
-            $estimated_price = $this->super_model->select_column_custom_where('pr_details','estimated_price',"pr_details_id='$ca->pr_details_id'");
-            $total_ep = $ca->quantity * $estimated_price;
-            $data['dash_calendar'][] =  array(
-                'ver_date_needed'=>$ca->ver_date_needed,
-                'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$ca->pr_id),
-                'description'=>$ca->item_description,
-                'quantity'=>$ca->quantity,
-                'estimated_price'=>$ca->estimated_price,
-                'total_ep'=>$total_ep
+        $count_calendar = $this->super_model->count_custom_where("pr_details","ver_date_needed BETWEEN '$filter_date_from' AND '$filter_date_to' AND estimated_price!='0' ORDER BY ver_date_needed DESC");
+        if($count_calendar!=0){
+            foreach($this->super_model->select_custom_where("pr_details","ver_date_needed BETWEEN '$filter_date_from' AND '$filter_date_to' AND estimated_price!='0' ORDER BY ver_date_needed DESC") AS $ca){
+                //$estimated_price = $this->super_model->select_column_custom_where('pr_details','estimated_price',"pr_details_id='$ca->pr_details_id'");
+                $total_ep = $ca->quantity * $ca->estimated_price;
+                $total_array[] = $total_ep;
+                $total_disp = array_sum($total_array);
+                $data['total_disp']=$total_disp;
+                $data['filt']=$filter_date_from." - ".$filter_date_to;
+                $data['filter_date_from']=$filter_date_from;
+                $data['filter_date_to']=$filter_date_to;
+                $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $ca->pr_details_id, "po_id", "DESC", "1");
+                $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+                $data['dash_calendar'][] =  array(
+                    'ver_date_needed'=>$ca->ver_date_needed,
+                    'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$ca->pr_id),
+                    'description'=>$ca->item_description,
+                    'quantity'=>$ca->quantity,
+                    'estimated_price'=>$ca->estimated_price,
+                    'total_ep'=>$total_ep,
+                    'served'=>$served
 
-            );
+                );
+            }
+        }else{
+            $data['dash_calendar']=array();
+            $data['total_disp']=0.00;
         }
+
 
         foreach($this->super_model->custom_query("SELECT ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id, pd.date_needed, pd.quantity FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND pd.cancelled = '0' AND ph.cancelled = '0'") AS $pr){
 

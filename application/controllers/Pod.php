@@ -27,6 +27,34 @@ class Pod extends CI_Controller {
 
 	}
 
+    public function currency_list(){
+        $currency = array(
+            'AUD',
+            'BDT',
+            'CAD',
+            'EUR',
+            'HKD',
+            'IDR',
+            'INR',
+            'IQD',
+            'JPY',
+            'KPW',
+            'LBP',
+            'MXN',
+            'MMK',
+            'NZD',
+            'OMR',
+            'PHP',
+            'PKR',
+            'QAR',
+            'THB',
+            'USD',
+            'GBP',
+        );
+
+        return $currency;
+    }
+
     public function getname($column, $table, $col_id, $val_id){
         $name = $this->super_model->select_column_where($table, $column, $col_id, $val_id);
         return $name;
@@ -139,8 +167,10 @@ class Pod extends CI_Controller {
         $data['po_id']=$po_id;  
         $data['pr_id']=$pr_id;
         $data['group_id']=$group_id;
+        $data['currency'] = $this->currency_list();
         $supplier_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         $data['supplier_id']=$supplier_id;
+        $data['currency1']='';
 
         foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
             $data['head'][] = array(
@@ -186,6 +216,7 @@ class Pod extends CI_Controller {
         }else {
             foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
                 $total = $items->delivered_quantity*$items->unit_price;
+                $data['currency1']=$items->currency;
                 $data['items'][]= array(
                     'pr_details_id'=>$items->pr_details_id,
                     'po_items_id'=>$items->po_items_id,
@@ -193,6 +224,7 @@ class Pod extends CI_Controller {
                     'uom'=>$items->uom,
                     'quantity'=>$items->delivered_quantity,
                     'price'=>$items->unit_price,
+                    'currency'=>$items->currency,
                     'total'=>$total,
                 );
             }
@@ -223,8 +255,10 @@ class Pod extends CI_Controller {
         $data['po_id']=$po_id;  
         $data['pr_id']=$pr_id;
         $data['group_id']=$group_id;
+        $data['currency'] = $this->currency_list();
         $supplier_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         $data['supplier_id']=$supplier_id;
+        $data['currency1']='';
 
         foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
             $data['head'][] = array(
@@ -283,6 +317,7 @@ class Pod extends CI_Controller {
                     'uom'=>$items->uom,
                     'quantity'=>$items->delivered_quantity,
                     'price'=>$items->unit_price,
+                    'currency'=>$items->currency,
                     'total'=>$total,
                 );
             }
@@ -373,8 +408,10 @@ class Pod extends CI_Controller {
         $data['po_id']=$po_id;  
         $data['pr_id']=$pr_id;
         $data['group_id']=$group_id;
+        $data['currency'] = $this->currency_list();
         $supplier_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         $data['supplier_id']=$supplier_id;
+        $data['currency1']='';
 
         foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
             $data['head'][] = array(
@@ -427,6 +464,7 @@ class Pod extends CI_Controller {
                     'uom'=>$items->uom,
                     'quantity'=>$items->delivered_quantity,
                     'price'=>$items->unit_price,
+                    'currency'=>$items->currency,
                     'total'=>$total,
                 );
             }
@@ -512,6 +550,7 @@ class Pod extends CI_Controller {
                     'offer'=>$item,
                     'pr_details_id'=>$this->input->post('pr_details_id'.$x),
                     'unit_price'=>$this->input->post('price'.$x),
+                    'currency'=>$this->input->post('currency'.$x),
                     'amount'=>$this->input->post('tprice'.$x),
                     'uom'=>$this->input->post('uom'.$x),
                     'item_no'=>$a
@@ -527,6 +566,7 @@ class Pod extends CI_Controller {
                     'delivered_quantity'=>$qty,
                     'uom'=>$this->input->post('uom'.$x),
                     'unit_price'=>$this->input->post('price'.$x),
+                    'currency'=>$this->input->post('currency'.$x),
                     'amount'=>$this->input->post('tprice'.$x),
                     'item_no'=>$a
                 );
@@ -579,6 +619,7 @@ class Pod extends CI_Controller {
         $pr_id = $this->input->post('pr_id');
         $group_id = $this->input->post('group_id');
         $count_item = $this->input->post('count_item');
+        $data['currency1']='';
 
         $a=1;
         for($x=1; $x<$count_item;$x++){
@@ -593,6 +634,7 @@ class Pod extends CI_Controller {
                     'delivered_quantity'=>$qty,
                     'offer'=>$offer,
                     'uom'=>$uom,
+                    'currency'=>$currency,
                     'unit_price'=>$price,
                     'amount'=>$amount,
                     'item_no'=>$a
@@ -601,6 +643,7 @@ class Pod extends CI_Controller {
                     'delivered_quantity'=>$qty,
                     'unit_price'=>$price,
                     'uom'=>$uom,
+                    'currency'=>$currency,
                     'amount'=>$amount,
                     'item_no'=>$a
                 );
