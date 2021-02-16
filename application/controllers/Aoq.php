@@ -399,6 +399,7 @@ class Aoq extends CI_Controller {
         $aoq_id= $this->uri->segment(3);
         $data['aoq_id']=$aoq_id;
         $data['currency'] = $this->currency_list();
+        $data['draft']=$this->super_model->select_column_where("aoq_head", "draft", "aoq_id", $aoq_id);
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
          $data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
@@ -882,6 +883,7 @@ class Aoq extends CI_Controller {
         $aoq_id= $this->uri->segment(3);
         $data['currency'] = $this->currency_list();
         $data['aoq_id']=$aoq_id;
+        $data['draft']=$this->super_model->select_column_where("aoq_head", "draft", "aoq_id", $aoq_id);
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
          $data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
@@ -1334,6 +1336,7 @@ class Aoq extends CI_Controller {
         $aoq_id= $this->uri->segment(3);
          $data['currency'] = $this->currency_list();
         $data['aoq_id']=$aoq_id;
+        $data['draft']=$this->super_model->select_column_where("aoq_head", "draft", "aoq_id", $aoq_id);
         $data['saved']=$this->super_model->select_column_where("aoq_head", "saved", "aoq_id", $aoq_id);
          $data['open']=$this->super_model->select_column_where("aoq_head", "open", "aoq_id", $aoq_id);
         $data['served']=$this->super_model->select_column_where("aoq_head", "served", "aoq_id", $aoq_id);
@@ -1869,6 +1872,7 @@ class Aoq extends CI_Controller {
     }
 
     public function save_aoq(){
+        $submit = $this->input->post('submit');
         $aoq_id = $this->input->post('aoq_id');
         $item_count = $this->input->post('item_count');
         $vendor_count = $this->input->post('vendor_count');
@@ -1889,7 +1893,28 @@ class Aoq extends CI_Controller {
 
                     //echo $offer. " = " . 'offer_'.$x.'_'.$v.'_'.$a . '<br><br>';
                     //echo $up. " = " . 'price_'.$x.'_'.$v.'_'.$a . '<br><br>';
-                    if(!empty($offer)){
+                    if($submit=="Save AOQ"){
+                        if(!empty($offer)){
+                            $offers = array(
+                                'aoq_id'=>$aoq_id,
+                                'vendor_id'=>$vendor,
+                                'aoq_items_id'=>$item,
+                                'pr_details_id'=>$pr_details_id,
+                                'currency'=>$currency,
+                                'offer'=>$offer,
+                                'unit_price'=>$up,
+                                'quantity'=>$quantity,
+                                'balance'=>$quantity,
+                                'amount'=>$amount,
+                                'uom'=>$uom
+                            );
+                            //print_r($offers);
+                            $this->super_model->insert_into("aoq_offers", $offers);
+                            $this->super_model->delete_custom_where("aoq_offers", "offer='' AND aoq_id = '$aoq_id'");
+
+                            $this->add_item_supplier($vendor, $aoq_date, $pr_details_id, $offer, $up);
+                        }
+                    }else if($submit=="Save AOQ As Draft"){
                         $offers = array(
                             'aoq_id'=>$aoq_id,
                             'vendor_id'=>$vendor,
@@ -1907,8 +1932,7 @@ class Aoq extends CI_Controller {
                         $this->super_model->insert_into("aoq_offers", $offers);
 
                         $this->add_item_supplier($vendor, $aoq_date, $pr_details_id, $offer, $up);
-
-                    }
+                    }   
                 }
             }
         }
@@ -1929,23 +1953,116 @@ class Aoq extends CI_Controller {
         }
 
        // print_r($data_vendor);
+        if($submit=='Save AOQ'){ 
+            $head = array(
+                'prepared_by'=>$_SESSION['user_id'],
+                'reviewed_by'=>$this->input->post('reviewed'),
+                'noted_by'=>$this->input->post('noted'),
+                'approved_by'=>$this->input->post('approved'),
+                'aoq_date'=>$aoq_date,
+                'prepared_date'=>date("Y-m-d H:i:s"),
+                'saved'=>1,
+                'draft'=>0
+            );
+            if($this->super_model->update_where("aoq_head", $head, "aoq_id", $aoq_id)){
+                if($count==3){
+                    redirect(base_url().'aoq/aoq_prnt/'.$aoq_id, 'refresh');
+                }else if($count==4){
+                    redirect(base_url().'aoq/aoq_prnt_four/'.$aoq_id, 'refresh');
+                }else if($count==5){
+                    redirect(base_url().'aoq/aoq_prnt_five/'.$aoq_id, 'refresh');
+                }
+            }
+        }else if($submit=='Save AOQ As Draft'){
+            $head = array(
+                'prepared_by'=>$_SESSION['user_id'],
+                'reviewed_by'=>$this->input->post('reviewed'),
+                'noted_by'=>$this->input->post('noted'),
+                'approved_by'=>$this->input->post('approved'),
+                'aoq_date'=>$aoq_date,
+                'prepared_date'=>date("Y-m-d H:i:s"),
+                'saved'=>0,
+                'draft'=>1,
+            );
+            if($this->super_model->update_where("aoq_head", $head, "aoq_id", $aoq_id)){
+                if($count==3){
+                    redirect(base_url().'aoq/aoq_prnt/'.$aoq_id, 'refresh');
+                }else if($count==4){
+                    redirect(base_url().'aoq/aoq_prnt_four/'.$aoq_id, 'refresh');
+                }else if($count==5){
+                    redirect(base_url().'aoq/aoq_prnt_five/'.$aoq_id, 'refresh');
+                }
+            }
+        }
+    }
 
-        $head = array(
-            'prepared_by'=>$_SESSION['user_id'],
-            'reviewed_by'=>$this->input->post('reviewed'),
-            'noted_by'=>$this->input->post('noted'),
-            'approved_by'=>$this->input->post('approved'),
-            'aoq_date'=>$aoq_date,
-            'prepared_date'=>date("Y-m-d H:i:s"),
-            'saved'=>1
-        );
-        if($this->super_model->update_where("aoq_head", $head, "aoq_id", $aoq_id)){
-            if($count==3){
-                redirect(base_url().'aoq/aoq_prnt/'.$aoq_id, 'refresh');
-            }else if($count==4){
-                redirect(base_url().'aoq/aoq_prnt_four/'.$aoq_id, 'refresh');
-            }else if($count==5){
-                redirect(base_url().'aoq/aoq_prnt_five/'.$aoq_id, 'refresh');
+    public function save_aoq_draft(){
+        $submit = $this->input->post('submit');
+        $count=$this->input->post('count_offer');
+        $aoq_id=$this->input->post('aoq_id');
+        for($x=1;$x<=$count;$x++){
+            $price = str_replace(",", "", $this->input->post('price_'.$x));
+            $amount = str_replace(",", "", $this->input->post('amount_'.$x));
+            $data = array(
+                'currency'=>$this->input->post('currency_'.$x),
+                'offer'=>$this->input->post('offer_'.$x),
+                'unit_price'=>$price,
+                'quantity'=>$this->input->post('quantity_'.$x),
+                'amount'=>$amount
+            );
+            $this->super_model->update_where("aoq_offers", $data, "aoq_offer_id", $this->input->post('offerid_'.$x));
+            if($submit=='Save AOQ'){
+                $this->super_model->delete_custom_where("aoq_offers", "offer='' AND aoq_id = '$aoq_id'");
+            }
+        }
+
+        for($v=1;$v<=$count;$v++){
+            $datavendors = array(
+                'price_validity'=>$this->input->post('price_validity'.$v),
+                'payment_terms'=>$this->input->post('payment_terms'.$v),
+                'delivery_date'=>$this->input->post('delivery_date'.$v),
+                'item_warranty'=>$this->input->post('item_warranty'.$v),
+                'freight'=>$this->input->post('freight'.$v)
+            );
+            $this->super_model->update_where("aoq_vendors", $datavendors, "aoq_vendors_id", $this->input->post('vendor_id'.$v));
+        }
+
+        $count_vendors = $this->super_model->count_rows_where("aoq_vendors", "aoq_id", $aoq_id);
+        if($submit=='Save AOQ'){ 
+            $head = array(
+                'prepared_by'=>$_SESSION['user_id'],
+                'reviewed_by'=>$this->input->post('reviewed'),
+                'noted_by'=>$this->input->post('noted'),
+                'approved_by'=>$this->input->post('approved'),
+                'saved'=>1,
+                'draft'=>0
+            );
+            if($this->super_model->update_where("aoq_head", $head, "aoq_id", $aoq_id)){
+                if($count_vendors==3){
+                    redirect(base_url().'aoq/aoq_prnt/'.$aoq_id, 'refresh');
+                }else if($count_vendors==4){
+                    redirect(base_url().'aoq/aoq_prnt_four/'.$aoq_id, 'refresh');
+                }else if($count_vendors==5){
+                    redirect(base_url().'aoq/aoq_prnt_five/'.$aoq_id, 'refresh');
+                }
+            }
+        }else if($submit=='Save AOQ As Draft'){
+            $head = array(
+                'prepared_by'=>$_SESSION['user_id'],
+                'reviewed_by'=>$this->input->post('reviewed'),
+                'noted_by'=>$this->input->post('noted'),
+                'approved_by'=>$this->input->post('approved'),
+                'saved'=>0,
+                'draft'=>1,
+            );
+            if($this->super_model->update_where("aoq_head", $head, "aoq_id", $aoq_id)){
+                if($count_vendors==3){
+                    redirect(base_url().'aoq/aoq_prnt/'.$aoq_id, 'refresh');
+                }else if($count_vendors==4){
+                    redirect(base_url().'aoq/aoq_prnt_four/'.$aoq_id, 'refresh');
+                }else if($count_vendors==5){
+                    redirect(base_url().'aoq/aoq_prnt_five/'.$aoq_id, 'refresh');
+                }
             }
         }
     }
