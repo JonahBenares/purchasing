@@ -163,10 +163,10 @@ class Aoq extends CI_Controller {
 	public function aoq_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $count = $this->super_model->count_custom_where("aoq_head","saved='1' AND served='0' AND cancelled='0'");
+        $count = $this->super_model->count_custom_where("aoq_head","(saved='1' OR draft='1') AND served='0' AND cancelled='0'");
 
         if($count!=0){
-            foreach($this->super_model->select_custom_where("aoq_head", "saved='1' and served = '0' AND cancelled='0'") AS $list){
+            foreach($this->super_model->select_custom_where("aoq_head", "(saved='1' OR draft='1') AND served = '0' AND cancelled='0'") AS $list){
                 $rows = $this->super_model->count_rows_where("aoq_vendors","aoq_id",$list->aoq_id);
                 $supplier='';
                 $not_recom='';
@@ -202,6 +202,7 @@ class Aoq extends CI_Controller {
                     'enduse'=>$list->enduse,
                     'requestor'=>$list->requestor,
                     'saved'=>$list->saved,
+                    'draft'=>$list->draft,
                     'rows'=>$rows,
                     'awarded'=>$list->awarded,
                     'refer_mnl'=>$list->refer_mnl,
