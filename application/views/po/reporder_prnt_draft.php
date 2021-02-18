@@ -325,12 +325,12 @@
 					    			</td>
 					    			<td colspan="2" class="bor-right" align="center">
 					    				<!-- <b><?php echo number_format($it['price'],2); ?></b> -->
-					    				<b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it['price'],2); ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red;width:100%' ></b>
+					    				<b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it['price'],4); ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red;width:100%' ></b>
 					    			</td>
 					    			<td colspan="3" class="bor-right" align="right">
 					    				<b>
 					    				<!-- <?php echo number_format($it['amount'],2); ?> -->
-					    				<input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it['amount'],2); ?>" style='text-align:right;width:100%' readonly>
+					    				<input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it['amount'],4); ?>" style='text-align:right;width:100%' readonly>
 					    				</b>
 					    			</td>
 					    			<!-- <td align="center"><a href='<?php echo base_url(); ?>/po/remove_po_item/' class="btn-danger btn-xs" onclick="return confirm('Are you sure you want to remove item?')"><span class="fa fa-times"></span></a></td>	 -->
@@ -463,7 +463,7 @@
 					    		?>
 					    		<tr>
 					    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
+					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,4); ?></span></b></td>
 					    		</tr>
 					    	<?php } ?>
 		    				</table>

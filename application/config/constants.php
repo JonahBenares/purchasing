@@ -86,7 +86,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 
 define('LOGO','assets/img/logo/cenpri.png');
-define('TIN','TIN No. 008-691-287-000');
+define('TIN','TIN No. HERE');
 define('COMPANY_NAME','CENTRAL NEGROS POWER RELIABILITY, INC.');
 define('ADDRESS','Office: 88 Corner Rizal-Mabini Sts., Bacolod City');
 define('TEL_NO','Tel. No.: (034) 435-1932/476-7382');

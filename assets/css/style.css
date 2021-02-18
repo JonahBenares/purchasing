@@ -4083,7 +4083,7 @@ ul.breadcome-menu {
     padding-top: 8px;
 }
 .materialdesign .custom-datatable-overright table tbody tr td{
-	padding-right: 0px !important;
+	padding-right: 0px;
 }
 .materialdesign .mg-b-15, .materialdesign .materialdesign-alert{
 	margin-bottom:15px;
@@ -5951,4 +5951,39 @@ ul.b {
 
 .company-h-st{
 	height: 50px
+}
+tr.fd td{
+    background-color: #b9ffb9;
+}
+tr.pd td{
+    background-color: #f3ff9e;
+}
+tr.cd td{
+    background-color: #cacaca;
+}
+
+/*Orange = #fd9c77
+Green = #bcffc7
+Yellow = #f7ffb9 
+Peach = #ffecd0
+Blue = #d2deff
+Purple = #eeccff*/
+
+tr.orange td {
+	background:#ffe3b8;
+}
+tr.green td {
+	background:#bcffc7;
+}
+tr.yellow td {
+	background:#f1ff228c;
+}
+tr.peach td {
+	background:#ffecd0;
+}
+tr.blue td {
+	background:#d2deff;
+}
+tr.purple td {
+	background:#eeccff;
 }

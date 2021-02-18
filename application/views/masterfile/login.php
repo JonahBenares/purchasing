@@ -8,19 +8,19 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url(); ?>assets/img/message/logo4.ico">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/googleapis.css">
+       <!--  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/googleapis.css"> -->
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/login-css.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/font-awesome.min.css">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/adminpro-custon-icon.css">
+       <!--  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/adminpro-custon-icon.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/meanmenu.min.css">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/jquery.mCustomScrollbar.min.css">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/animate.css">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/normalize.css">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/jquery.mCustomScrollbar.min.css"> -->
+     <!--    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/animate.css">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/normalize.css"> -->
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/form.css">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/style.css">
+       <!--  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/style.css"> -->
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/responsive.css">
-        <script src="<?php echo base_url(); ?>assets/js/vendor/modernizr-2.8.3.min.js"></script>
+      <!--   <script src="<?php echo base_url(); ?>assets/js/vendor/modernizr-2.8.3.min.js"></script> -->
 
     </head>
     <body style="padding-top: 100px">

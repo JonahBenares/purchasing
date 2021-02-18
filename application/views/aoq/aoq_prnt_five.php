@@ -226,13 +226,15 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/mixins.css">
     <script src="<?php echo base_url(); ?>assets/js/all-scripts.js"></script> 
-      <?php if($saved==0 && $open==0){
+    <?php if($saved==0 && $open==0 && $draft==0){
     	$url = base_url()."aoq/save_aoq";
     } else if($saved==1 && $open==0){ 
     	$url = base_url()."aoq/award_aoq";
-     } else if($saved==1 && $open==1){ 
+    } else if($saved==1 && $open==1){ 
     	$url = base_url()."aoq/update_aoq";
-     } ?>
+    }else if($saved==0 && $open==0 && $draft==1){ 
+		$url = base_url()."aoq/save_aoq_draft";
+	} ?>
     <div  class="pad " id="printableArea">
     	<form method='POST' action='<?php echo $url ?>'>
     		<div id="prnt_btn">
@@ -248,7 +250,8 @@
 							<a href="<?php echo base_url(); ?>aoq/export_aoq_prnt_five/<?php echo $aoq_id;?>" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-export"></span> Export</a>
 						<?php } ?>
 						<?php  if($saved==0 && $open==0){ ?>
-							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save AOQ" >
+							<input type='submit' name ="submit" class="btn btn-warning btn-md p-l-100 p-r-100" value="Save AOQ As Draft" >
+							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" name = "submit" value="Save AOQ" >
 						<?php } else if ($saved==1 && $open==0 && $awarded==0){ ?>
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Award">
 						<?php } else if ($saved==1 && $open==1 && $awarded==0){ ?>
@@ -402,7 +405,7 @@
 		    			<td class="f10 table-borreg" align="center"><?php echo $it->quantity; ?></td>
 		    			<td class="f10 table-borreg" align="center"><?php echo $it->uom; ?></td>
 		    			<?php
-		    			if($saved==0 && $open==0){
+		    			if($saved==0 && $open==0 && $draft==0){
 			    			$v=1; 
 			    			foreach($vendors AS $ven) {
 			    		?>
@@ -495,16 +498,16 @@
 			    					</td>
 			    					<td class="bor-btm bor-right f10" style="width: 18%"><center><?php echo $of['currency']; ?></center></td>
 			    					<td  class="bor-btm bor-right f10 <?php echo (($of['price']==$of['min']) ? 'yellow-back' : ''); ?>" align="center" style="width: 16.2%">
-			    						<?php echo number_format($of['price'],2); ?>
+			    						<?php echo number_format($of['price'],4); ?>
 			    					</td>
 			    					<?php if($awarded==0){ ?>
 			    					<td class="bor-btm bor-btm-red bor-right" align="center" style="width: 16.2%">
-			    						<?php echo number_format($of['amount'],2); ?><br>
+			    						<?php echo number_format($of['amount'],4); ?><br>
 				    					<input type="checkbox" name="award_<?php echo $a; ?>" value="1" >
 			    					</td>
 			    					<?php } else { ?>
 			    					<td class="bor-btm bor-right <?php echo (($of['recommended'] == 1) ? 'green-back': ''); ?>" align="center" style="width: 16.2%">
-			    						<?php echo number_format($of['amount'],2); ?><br>
+			    						<?php echo number_format($of['amount'],4); ?><br>
 			    					</td>
 			    					<?php } ?>
 			    					<?php if($awarded==0){  ?>
@@ -548,11 +551,11 @@
 						    				</select></center>
 				    					</td>
 				    					<td style='width:16.2%' class="bor-btm bor-right f10 " align="center">
-				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],2); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)">
+				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],4); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)">
 				    					</td>
 				    					
 				    					<td style='width:16.2%' class="bor-btm-red bor-right" align="center">				    						
-				    						<input type='text' class="form-control f10" name='amount_<?php echo $a; ?>' id='amount_<?php echo $a; ?>' readonly="readonly" value="<?php echo number_format($of['amount'],2); ?>">
+				    						<input type='text' class="form-control f10" name='amount_<?php echo $a; ?>' id='amount_<?php echo $a; ?>' readonly="readonly" value="<?php echo number_format($of['amount'],4); ?>">
 				    						
 				    					</td> 
 				    					<td class="bor-btm-red bor-right">
@@ -571,11 +574,47 @@
 			    				</table>		    			
 			    			</td>
 			    		
-			    			<?php 
-			    			
-			    			}
-
-		    			 } ?>
+			    			<?php } } else if($saved==0 && $open==0 && $draft==1) { 
+		    					foreach($vendors AS $ven) {
+			    			?>
+			    			<td colspan="6" style='border:1px solid #000;vertical-align: text-top;' >
+			    				<table class="" width="100%" style='border:0px solid #000;'>		
+			    				<?php 	
+				    				$a=1;
+				    				foreach($offers AS $of){
+			    				?>
+			    				<input type='hidden' name='quantity_<?php echo $a; ?>' id='quantity_<?php echo $a; ?>' value='<?php echo $of['quantity']; ?>'>
+			    				<?php if($ven['vendor_id'] == $of['vendor_id'] && $it->aoq_items_id == $of['item_id']){ ?>				
+			    					<tr>
+				    					<td style='width:31.8%' class="bor-btm bor-right">
+				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>'><?php echo $of['offer']; ?></textarea>
+				    					</td>
+				    					<td style='width:18%' class="bor-btm bor-right f10 " align="center">
+				    						<center><select name='currency_<?php echo $a; ?>'>
+						    					<?php foreach($currency AS $curr){ ?>
+						    						<option value="<?php echo $curr; ?>" <?php echo (($curr==$of['currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    					<?php } ?>
+						    				</select></center>
+				    					</td>
+				    					<td style='width:16.2%' class="bor-btm bor-right f10 " align="center">
+				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],4); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)">
+				    					</td>
+				    					
+				    					<td style='width:16.2%' class="bor-btm-red bor-right" align="center">				    						
+				    						<input type='text' class="form-control f10" name='amount_<?php echo $a; ?>' id='amount_<?php echo $a; ?>' readonly="readonly" value="<?php echo number_format($of['amount'],4); ?>">
+				    						
+				    					</td> 
+				    					<td class="bor-btm-red bor-right">
+				    						
+				    					</td>
+				    					
+				    				</tr>
+				    				<input type='hidden' name='offerid_<?php echo $a; ?>' value="<?php echo $of['aoq_offer_id']; ?>">
+				    				<?php } $a++; } ?>
+				    				<input type='hidden' name='count_offer' value='<?php echo $a; ?>'>
+			    				</table>		    			
+			    			</td>
+			    		<?php } } ?>
 		    		<tr>
 		    		<?php $x++; } ?>
 		    		<input type='hidden' name='item_count' value='<?php echo $x; ?>'>
@@ -636,7 +675,7 @@
 		    			<td class="" align="center">a.</td>
 		    			<td colspan="4" class="f10" align="center">Price Validity</td>
 		    			<?php
-		    			if($saved==0 && $open==0){
+		    			if($saved==0 && $open==0 && $draft==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
 		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name="price_validity<?php echo $q; ?>"></td>
@@ -651,8 +690,12 @@
 		    				foreach($vendors AS $ven) { ?>
 		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="price_validity<?php echo $q; ?>" value="<?php echo $ven['validity']; ?>"></td>
 		    				<td colspan="2" class="f10" align="left"><input type='hidden' name='vendor_id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
-		    			<?php   $q++; }
-		    			} ?>    
+		    			<?php $q++; } } else if($saved==0 && $open==0 && $draft==1){ 
+		    				$q=1;
+		    				foreach($vendors AS $ven) { ?>
+		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="price_validity<?php echo $q; ?>" value="<?php echo $ven['validity']; ?>"></td>
+		    				<td colspan="2" class="f10" align="left"><input type='hidden' name='vendor_id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
+		    			<?php $q++; } } ?>    
 		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="1" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
@@ -666,7 +709,7 @@
 		    			<td class="" align="center">b.</td>
 		    			<td colspan="4" class="f10" align="center">Payment Terms</td>
 		    			<?php
-		    			if($saved==0 && $open==0){
+		    			if($saved==0 && $open==0 && $draft==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
 		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name="payment_terms<?php echo $q; ?>"></td>
@@ -683,7 +726,12 @@
 		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="payment_terms<?php echo $q; ?>" value="<?php echo $ven['terms']; ?>"></td>
 		    				<td colspan="2" class="f10" align="left"><input type='hidden' name='vendor_id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php   $q++; }
-		    			} ?>   	
+		    			} else if($saved==0 && $open==0 && $draft==1){ 
+		    					$q=1; 
+		    				foreach($vendors AS $ven) { ?>
+		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="payment_terms<?php echo $q; ?>" value="<?php echo $ven['terms']; ?>"></td>
+		    				<td colspan="2" class="f10" align="left"><input type='hidden' name='vendor_id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
+		    			<?php   $q++; } } ?>   	
 		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="1" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
@@ -697,7 +745,7 @@
 		    			<td class="" align="center">c.</td>
 		    			<td colspan="4" class="f10" align="center">Delivery Time</td>
 		    			<?php
-		    			if($saved==0 && $open==0){
+		    			if($saved==0 && $open==0 && $draft==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
 		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name="delivery_date<?php echo $q; ?>"></td>
@@ -713,7 +761,12 @@
 		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="delivery_date<?php echo $q; ?>" value="<?php echo $ven['delivery_date']; ?>"></td>
 		    				<td colspan="2" class="f10" align="left"><input type='hidden' name='vendor_id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php   $q++; }
-		    			} ?>   	
+		    			} else if($saved==0 && $open==0 && $draft==1){ 
+		    				$q=1;
+		    				foreach($vendors AS $ven) { ?>
+		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="delivery_date<?php echo $q; ?>" value="<?php echo $ven['delivery_date']; ?>"></td>
+		    				<td colspan="2" class="f10" align="left"><input type='hidden' name='vendor_id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
+		    			<?php $q++; } } ?>   	
 		    			<!-- <td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
 		    			<td colspan="1" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 " align="left"><input type="text" class="btn-block" name=""></td>
@@ -727,7 +780,7 @@
 		    			<td class="" align="center">d.</td>
 		    			<td colspan="4" class="f10" align="center">Item's Warranty</td>
 		    			<?php
-		    			if($saved==0 && $open==0){
+		    			if($saved==0 && $open==0 && $draft==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
 		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name="item_warranty<?php echo $q; ?>"></td>
@@ -742,13 +795,19 @@
 		    				foreach($vendors AS $ven) { ?>
 		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="item_warranty<?php echo $q; ?>" value="<?php echo $ven['warranty']; ?>"></td>
 		    				<td colspan="2" class="f10" align="left"><input type='hidden' name='vendor_id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
+		    			<?php $q++; } } 
+		    			else if($saved==0 && $open==0 && $draft==1){ 
+		    				$q=1;
+		    				foreach($vendors AS $ven) { ?>
+		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="item_warranty<?php echo $q; ?>" value="<?php echo $ven['warranty']; ?>"></td>
+		    				<td colspan="2" class="f10" align="left"><input type='hidden' name='vendor_id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php $q++; } } ?> 
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">e.</td>
 		    			<td colspan="4" class="f10" align="center">In-land Freight</td>
 		    			<?php
-		    			if($saved==0 && $open==0){
+		    			if($saved==0 && $open==0  && $draft==0){
 		    			$q=1; 
 		    			foreach($vendors AS $ven) { ?>
 		    			<td colspan="5" class="f10 " align="left"><input type="text" class="btn-block" name="freight<?php echo $q;?>"></td>
@@ -764,7 +823,12 @@
 		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="freight<?php echo $q; ?>" value="<?php echo $ven['freight']; ?>"></td>
 		    				<td colspan="2" class="f10" align="left"><input type='hidden' name='vendor_id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
 		    			<?php $q++; }
-		    			} ?>   	  
+		    			} else if($saved==0 && $open==0 && $draft==1){ 
+		    				$q=1;
+		    				foreach($vendors AS $ven) { ?>
+		    				<td colspan="4" class="f10 bor-btm" align="left"><input type='text' class="btn-block" autocomplete='off' name="freight<?php echo $q; ?>" value="<?php echo $ven['freight']; ?>"></td>
+		    				<td colspan="2" class="f10" align="left"><input type='hidden' name='vendor_id<?php echo $q; ?>' value="<?php echo $ven['id']; ?>"></td>
+		    			<?php $q++; } } ?>   	  
 		    		</tr>
 		    		<tr><td class="f10" colspan="30" align="center"><br></td></tr>
 		    		<tr>
@@ -792,9 +856,11 @@
 		    			<td colspan="2" class="f10" align="left"><br></td>
 
 		    			<td colspan="4" class="f10 bor-btm" align="center">
-		    				<?php if($saved==0){ ?>
+		    				<?php if($saved==0 && $draft==0){ ?>
 			    				<input type="text" name='reviewed' class='form-control emphasis btn-block'>
-			    			<?php } else { echo $reviewed; } ?></td>
+			    			<?php }else if($saved==0 && $draft==1){ ?>
+		    					<input type = "text" name='reviewed' class='emphasis btn-block' value="<?php echo $reviewed; ?>">
+		    				<?php } else { echo $reviewed; } ?></td>
 		    			<td colspan="2" class="f10" align="center"><br></td>
 
 		    			<td colspan="4" class="f10 bor-btm" align="center"></td>
@@ -803,27 +869,19 @@
 
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 bor-btm" align="center">
-			    			<?php if($saved==0){ ?>
+			    			<?php if($saved==0 && $draft==0){ ?>
 			    				<input type="text" name='approved' class='form-control emphasis btn-block'>
-				    			<!-- <select name='approved' class='emphasis btn-block'>
-					    			<option value=''>-Select-</option>
-					    			<?php foreach($employee AS $emp){ ?>
-					    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-					    			<?php } ?>
-				    			</select> -->
-			    			<?php } else { echo $approved; } ?>
+				    		<?php }else if($saved==0 && $draft==1){ ?>
+		    					<input type = "text" name='approved' class='emphasis btn-block' value="<?php echo $approved; ?>">
+	    					<?php } else { echo $approved; } ?>
 		    			</td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    			<td colspan="4" class="f10 bor-btm" align="center">
-			    			<?php if($saved==0){ ?>
+			    			<?php if($saved==0 && $draft==0){ ?>
 			    				<input type="text" name='noted' class='form-control emphasis btn-block'>
-			    				<!-- <select name='noted' class='emphasis btn-block'>
-				    				<option value=''>-Select-</option>
-				    				<?php foreach($employee AS $emp){ ?>
-				    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-				    				<?php } ?>
-				    			</select> -->
-			    			<?php } else { echo $noted; }?>
+			    			<?php }else if($saved==0 && $draft==1){ ?>
+		    					<input type = "text" name='noted' class='emphasis btn-block' value="<?php echo $noted; ?>">
+		    				<?php } else { echo $noted; }?>
 		    			</td>
 		    			<td colspan="2" class="f10" align="left"><br></td>
 		    		</tr>

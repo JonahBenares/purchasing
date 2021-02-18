@@ -105,6 +105,8 @@
                                                         echo "<span class='label label-warning'> For TE </span>";
                                                     } else if($h['saved'] == '1' && $h['awarded'] =='1'){
                                                         echo "<span class='label label-success'>Awarded</span";
+                                                    }else if($h['saved'] == '0' && $h['draft'] =='1'){
+                                                        echo "<span class='label label-info'>Draft</span";
                                                     }
                                                 ?>
                                             </td>

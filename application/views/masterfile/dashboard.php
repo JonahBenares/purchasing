@@ -42,6 +42,92 @@
     <div class="welcome-adminpro-area">
         <div class="container-fluid">
             <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    <div class="dashone-adminprowrap shadow-reset mg-b-30 pulse" style="height: 320px;max-height: 320px " >
+                        <div class="dash-adminpro-project-title">
+                            <h2 class="m-b-0" >
+                                <b>
+                                    <span>Calendar</span>
+                                    <div class="btn-group pull-right ">
+                                        <button type="button" class="btn btn-success btn-md btn-custon-three" data-toggle="modal" data-target="#filter_pending" title="Filter">
+                                            <span class="fa fa-filter"></span>
+                                        </button>
+                                        <button class="btn btn-warning btn-custon-three">Total : <b><?php echo number_format($total_disp,2); ?></b></button>    
+                                    </div>
+                                    
+                                </b>
+                                <p class="m-b-0">Pending PR</p>
+                                <div class="modal fade" id="filter_pending" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Filter
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </h5>                                                
+                                            </div>
+                                            <form method='POST' action="<?php echo base_url(); ?>masterfile/filter_pending">
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <input placeholder="Date From" name="filter_date_from" class="form-control" type="text" onfocus="(this.type='date')" id="filter_date_from">
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <input placeholder="Date To" class="form-control" name="filter_date_to" type="text" onfocus="(this.type='date')" id="filter_date_to">
+                                                            </div>
+                                                        </div>   
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">                        
+                                                    <input type="submit" class="btn btn-primary btn-block" value='Search'>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h2>                            
+                        </div>
+                        <?php if(!empty($filt)){ ?>     
+                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/masterfile/dashboard" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
+                        <?php } ?>  
+                        <div style="overflow-y: scroll;height: 220px;max-height: 220px  ">
+                            <!-- loop here -->
+                            <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+                                <thead>
+                                    <tr>
+                                        <th>Date Needed</th>
+                                        <th>PR No</th>
+                                        <th>Item Desc</th>
+                                        <th>Qty</th>
+                                        <th>Estimated Price</th>
+                                        <th>Total Est. Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php 
+                                    foreach($dash_calendar AS $ca){ 
+                                    if($ca['served']==0){
+                                ?>
+                                    <tr>
+                                        <td><?php echo $ca['ver_date_needed']; ?></td>
+                                        <td><?php echo $ca['pr_no']; ?></td>
+                                        <td><?php echo $ca['description']; ?></td>
+                                        <td><?php echo $ca['quantity']; ?></td>
+                                        <td><?php echo $ca['estimated_price']; ?></td>
+                                        <td><?php echo number_format($ca['total_ep'],2); ?></td>
+                                    </tr> 
+                                <?php } } ?>      
+                                </tbody>
+                            </table>
+                                  
+                        </div>    
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <!-- pr and for te -->
                 <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 ">
                     <div class="dashone-adminprowrap shadow-reset mg-b-30 pulse" style="height: 285px;max-height: 285px " >
@@ -229,7 +315,7 @@
             </div>
         </div>
     </div>
-
+<!-- 
      <div class="admin-dashone-data-table-area">
         <div class="container-fluid">
             <div class="row">
@@ -268,7 +354,7 @@
                                         </tr>
                                         <tr>
                                             <th width="20%">Outgoing</th>
-                                           <!--  <th width="20%">Incoming</th> -->
+                                       
                                             <th width="20%">For TE</th>
                                             <th width="20%">TE Done</th>
                                         </tr>
@@ -294,7 +380,7 @@
                                             <td><?php echo $pr['pr_no']."-".COMPANY; ?></td>
                                             <td><span style="color:blue"><?php echo $pr['item']; ?></span></td>
                                             <td class="datatable-ct"><?php echo (($pr['rfq_outgoing']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
-                                          <!--   <td class="datatable-ct"><?php echo (($pr['rfq_incoming']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td> -->
+                                       
                                             <td class="datatable-ct"><?php echo (($pr['for_te']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><?php echo (($pr['te_done']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
                                             <td class="datatable-ct"><?php echo (($pr['po_issued']==0) ? '' : '<i class="fa fa-check"></i>'); ?></td>
@@ -313,7 +399,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="modal fade" id="cancelPR" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

@@ -256,7 +256,7 @@
 			    			</td>
 			    			<td align="right" colspan="3">
 			    				<span class="pull-left nomarg">₱</span>
-			    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],2); ?></b></span>
+			    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],4); ?></b></span>
 			    			</td>
 			    		</tr>
 			    	<?php } ?>
@@ -297,7 +297,7 @@
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Subtotal</b></td>
 		    			<td align="right" colspan="3" class=" bor-top">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,2); ?></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,4); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<?php 
