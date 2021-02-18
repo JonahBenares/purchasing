@@ -48,9 +48,9 @@ function changePrice(){
     var vat_percent = document.getElementById("vat_percent").value;
     var vat = vat_percent/100;
     var vat_amount = parseFloat(sum_cost) * parseFloat(vat);
-    document.getElementById("vat_amount").value  =vat_amount;
+    document.getElementById("vat_amount").value  =vat_amount.toFixed(2);;
      var subtotal = parseFloat(sum_cost) + parseFloat(vat_amount);
-       document.getElementById("subtotal").value  =subtotal;
+       document.getElementById("subtotal").value  =subtotal.toFixed(2);;
 
   /*var less_percent = document.getElementById("less_percent").value;
    var less = less_percent/100;*/
@@ -59,11 +59,12 @@ function changePrice(){
 
    var net =  parseFloat(subtotal) - parseFloat(less);
    /*document.getElementById("less_amount").value  =less.toFixed(2);*/
-   document.getElementById("net").value  =net;
+   document.getElementById("net").value  =net.toFixed(2);
 
 
   /*document.getElementById("gtotal").innerHTML  = net.toFixed(2);*/
-   document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
+    document.getElementById("gtotal").innerHTML  = net.toFixed(2);
+   //document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
 }
 
 function changePrice_JO(count){
@@ -101,18 +102,22 @@ function changePrice_JO(count){
     var vat_percent = document.getElementById("vat_percent").value;
     var vat = vat_percent/100;
     var vat_amount = parseFloat(sum_cost) * parseFloat(vat);
-    document.getElementById("vat_amount").value  =vat_amount;
+    document.getElementById("vat_amount").value  =vat_amount.toFixed(2);;
      var subtotal = parseFloat(sum_cost) + parseFloat(vat_amount);
-       document.getElementById("subtotal").value  =subtotal;
+       document.getElementById("subtotal").value  =subtotal.toFixed(2);;
 
        var less =document.getElementById("less_amount").value;
    /*var less_amount = parseFloat(subtotal) - parseFloat(less);*/
 
    var net =  parseFloat(subtotal) - parseFloat(less);
 
-    document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
-     document.getElementById("net").value  =net;
+  /*  document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
+     document.getElementById("net").value  =net;*/
+  document.getElementById("net").value  =net.toFixed(2);;
 
+
+  /*document.getElementById("gtotal").innerHTML  = net.toFixed(2);*/
+    document.getElementById("gtotal").innerHTML  = net.toFixed(2);
 
      /*document.getElementById("grandtotal").innerHTML  =grandtotal;
      document.getElementById("grandtotal1").innerHTML  =grandtotal1;*/
