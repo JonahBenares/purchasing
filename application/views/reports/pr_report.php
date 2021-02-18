@@ -518,7 +518,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="background-color: #f1ff228c "></td>
+                        <td style="background-color: #f7ffb9 "></td>
                         <td></td>
                         <td>Partially Delivered</td>
                     </tr>
@@ -528,7 +528,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="background-color: #ffe3b8 "></td>
+                        <td style="background-color: #ffecd0 "></td>
                         <td></td>
                         <td>Issued PO</td>
                     </tr>
