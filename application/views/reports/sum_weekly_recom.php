@@ -40,7 +40,7 @@
                         </div>    
                         <div class="form-group">
                             <p class="m-b-0">Requestor:</p>
-                            <input type="requestor" name="requestor" class="form-control">
+                            <input type="text" name="requestor" class="form-control">
                         </div>   
                         <div class="form-group">
                             <p class="m-b-0">Item Description:</p>
@@ -137,9 +137,9 @@
                                             <td><?php echo $p['work_duration']; ?></td>
                                             <td><?php echo number_format($p['recom_unit_price'],2); ?></td>
                                             <td><?php echo ($p['terms']!="15 days PDC" || $p['terms']!="30 days PDC" || $p['terms']!="60 days PDC" || $p['terms']=="") ? number_format($p['total'],2) : '0.00'; ?></td>
-                                            <td><?php echo ($p['terms']=="15 days PDC") ? number_format($p['total'],2) : '';?></td>
-                                            <td><?php echo ($p['terms']=="30 days PDC") ? number_format($p['total'],2) : '';?></td>
-                                            <td><?php echo ($p['terms']=="60 days PDC") ? number_format($p['total'],2) : '';?></td>
+                                            <td><?php echo ($p['terms']=="15 days PDC") ? number_format($p['total'],2) : '0.00';?></td>
+                                            <td><?php echo ($p['terms']=="30 days PDC") ? number_format($p['total'],2) : '0.00';?></td>
+                                            <td><?php echo ($p['terms']=="60 days PDC") ? number_format($p['total'],2) : '0.00';?></td>
                                             <td><?php echo $p['terms']; ?></td>
                                             <td></td>
                                         </tr> 

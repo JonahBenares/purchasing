@@ -55,9 +55,31 @@ class Reports extends CI_Controller {
     }
 
     public function generate_purch_calendar_report(){
-        $cal_date_from = $this->input->post('cal_date_from');
-        $cal_date_to = $this->input->post('cal_date_to');
-        redirect(base_url().'reports/purch_calendar/'.$cal_date_from.'/'.$cal_date_to);
+        if($this->input->post('cal_date_from')!=''){
+            $cal_date_from = $this->input->post('cal_date_from');
+        }else{
+            $cal_date_from = 'null';
+        }
+
+        if($this->input->post('cal_date_to')!=''){
+            $cal_date_to = $this->input->post('cal_date_to');
+        }else{
+            $cal_date_to = 'null';
+        }
+
+        if($this->input->post('year')!=''){
+            $year = $this->input->post('year');
+        }else{
+            $year='null';
+        }
+
+        if($this->input->post('month')!=''){
+            $month = $this->input->post('month');
+        }else{
+            $month = "null";
+        }
+        
+        redirect(base_url().'reports/purch_calendar/'.$cal_date_from.'/'.$cal_date_to.'/'.$year.'/'.$month);
     }
 
     public function like($str, $searchTerm) {
@@ -3879,7 +3901,7 @@ class Reports extends CI_Controller {
         $sql="";
         $filter = "";
 
-        if($recom_date_from!='null'){
+        /*if($recom_date_from!='null'){
             $sql.=" pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
             $filter .= $recom_date_from.", ";
         }
@@ -3887,7 +3909,7 @@ class Reports extends CI_Controller {
         if($recom_date_to!='null'){
             $sql.=" pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
             $filter .= $recom_date_to.", ";
-        }
+        }*/
 
         if($enduse!='null'){
             $sql.=" ph.enduse LIKE '%$enduse%' AND";
@@ -3951,7 +3973,7 @@ class Reports extends CI_Controller {
         if($count_search_weekly!=0){
         foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE $query AND pd.for_recom='1'") AS $p){
                 $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
-                $total = $p->quantity * $unit_price;
+                $total = $p->quantity * $p->recom_unit_price;
                 $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $p->pr_details_id);
                 $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $p->pr_details_id);
                 if($po_offer_id==0){
@@ -4395,14 +4417,6 @@ class Reports extends CI_Controller {
             $requestor= "null";
         }
 
-        if(!empty($this->input->post('uom'))){
-            $data['uom'] = $this->input->post('uom');
-            $uom = $this->input->post('uom');
-        } else {
-            $data['uom']= "null";
-            $uom= "null";
-        }
-
         if(!empty($this->input->post('description'))){
             $data['description'] = $this->input->post('description');
             $description = $this->input->post('description');
@@ -4430,7 +4444,7 @@ class Reports extends CI_Controller {
         $sql="";
         $filter = "";
 
-        if($recom_date_from!='null'){
+        /*if($recom_date_from!='null'){
             $sql.=" pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
             $filter .= $recom_date_from.", ";
         }
@@ -4438,7 +4452,7 @@ class Reports extends CI_Controller {
         if($recom_date_to!='null'){
             $sql.=" pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND";
             $filter .= $recom_date_to.", ";
-        }
+        }*/
 
         if($enduse!='null'){
             $sql.=" ph.enduse LIKE '%$enduse%' AND";
@@ -4455,13 +4469,8 @@ class Reports extends CI_Controller {
             $filter .= $requestor.", ";
         }
 
-        if($uom!='null'){
-            $sql.=" pd.uom LIKE '%$uom%' AND";
-            $filter .= $uom.", ";
-        }
-
         if($description!='null'){
-                $sql.=" pd.item_description LIKE '%$description%' AND";
+            $sql.=" pd.item_description LIKE '%$description%' AND";
             $filter .= $description.", ";
         }
 
@@ -4498,9 +4507,9 @@ class Reports extends CI_Controller {
         $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
         $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
         $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
-        $count_search_pending_weekly = $this->super_model->count_custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1'");
+        $count_search_pending_weekly = $this->super_model->count_custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1' AND $query");
         if($count_search_pending_weekly!=0){
-        foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1'") AS $p){
+        foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1' AND $query") AS $p){
             $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
             $total = $p->quantity * $p->recom_unit_price;
             $count_po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$p->pr_id' AND served = '0' AND pi.pr_details_id = '$p->pr_details_id'");
@@ -4513,7 +4522,7 @@ class Reports extends CI_Controller {
                     'item_description'=>$p->item_description,
                     'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
                     'pr_no'=>$p->pr_no,
-                    'terms'=>$this->super_model->select_column_custom_where('aoq_vendors','payment_terms',"vendor_id='$p->vendor_id' AND aoq_id='$aoq_id'"),
+                    'terms'=>$this->super_model->select_column_where('terms','terms',"terms_id",$p->terms_id),
                     'recom_unit_price'=>$p->recom_unit_price,
                     'work_duration'=>$p->work_duration,
                     'total'=>$total
@@ -4647,11 +4656,29 @@ class Reports extends CI_Controller {
             $num = 6;
             foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND $query AND pd.for_recom='1'") AS $p){
                 $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $terms =  $this->super_model->select_column_where('terms','terms','terms_id',$p->terms_id);
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
                 $total = $p->quantity * $p->recom_unit_price;
                 $total_array[] = $p->quantity * $p->recom_unit_price;
                 $total_peso = array_sum($total_array);
-                $terms =  $this->super_model->select_column_where('terms','terms','terms_id',$p->terms_id);
-                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                if($terms!="15 days PDC" || $terms!="30 days PDC" || $terms!="60 days PDC" || $terms==""){
+                    $total_array[] = $p->quantity * $p->recom_unit_price;
+                    $total_peso = array_sum($total_array);
+                }
+                if($terms=="15 days PDC"){
+                    $total_array15[] = $p->quantity * $p->recom_unit_price;
+                    $total_peso15 = array_sum($total_array15);
+                }
+
+                if($terms=="30 days PDC"){
+                    $total_array30[] = $p->quantity * $p->recom_unit_price;
+                    $total_peso30 = array_sum($total_array30);
+                }
+
+                if($terms=="60 days PDC"){
+                    $total_array60[] = $p->quantity * $p->recom_unit_price;
+                    $total_peso60 = array_sum($total_array60);
+                }
 
                  
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
@@ -4697,35 +4724,26 @@ class Reports extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
                     $num++; 
-
                     $disp_terms[] = array(
-                    'terms'=>$terms,
-                );
+                        'terms'=>$terms,
+                    );
             }
             $a = $num+1;
             $b = $num;
             foreach($disp_terms AS $var=>$key){
                 if($key['terms']!="15 days PDC" || $key['terms']!="30 days PDC" || $key['terms']!="60 days PDC" || $key['terms']==""){
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$b, $total_peso);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$b, "0.00");
                 }
                 if($key['terms']=="15 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, "0.00");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso15);
                 }
 
                 if($key['terms']=="30 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, "0.00");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso30);
                 }
 
                 if($key['terms']=="60 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, "0.00");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso60);
                 }
             }
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$a, "Total (in PESO)");
@@ -4812,43 +4830,35 @@ class Reports extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->getStyle('I'.$num.":L".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                     $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
-                $num++;
-                     $disp_terms[] = array(
-                    'terms'=>$terms,
-                );
+                    $num++;
+                    $disp_terms[] = array(
+                        'terms'=>$terms,
+                    );
             }
         }
-            $a = $num+1;
-            $b = $num;
-            foreach($disp_terms AS $var=>$key){
-                if($key['terms']!="15 days PDC" || $key['terms']!="30 days PDC" || $key['terms']!="60 days PDC" || $key['terms']==""){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$b, $total_peso);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$b, "0.00");
-                }
-                if($key['terms']=="15 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso15);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, "0.00");
-                }
-
-                if($key['terms']=="30 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso30);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, "0.00");
-                }
-
-                if($key['terms']=="60 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso60);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, "0.00");
-                }
+        $a = $num+1;
+        $b = $num;
+        foreach($disp_terms AS $var=>$key){
+            if($key['terms']!="15 days PDC" || $key['terms']!="30 days PDC" || $key['terms']!="60 days PDC" || $key['terms']==""){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$b, $total_peso);
             }
-            $objPHPExcel->getActiveSheet()->setCellValue('G'.$a, "Total (in PESO)");
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$a, $total_peso);
-            $objPHPExcel->getActiveSheet()->getStyle('G'.$a.":I".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-            $objPHPExcel->getActiveSheet()->getStyle('I'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-            $objPHPExcel->getActiveSheet()->getStyle('J'.$b.":M".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            if($key['terms']=="15 days PDC"){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso15);
+            }
+
+            if($key['terms']=="30 days PDC"){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso30);
+            }
+
+            if($key['terms']=="60 days PDC"){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso60);
+            }
+        }
+        $objPHPExcel->getActiveSheet()->setCellValue('G'.$a, "Total (in PESO)");
+        $objPHPExcel->getActiveSheet()->setCellValue('I'.$a, $total_peso);
+        $objPHPExcel->getActiveSheet()->getStyle('G'.$a.":I".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('I'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $objPHPExcel->getActiveSheet()->getStyle('J'.$b.":M".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
     }
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
@@ -4872,6 +4882,9 @@ class Reports extends CI_Controller {
         $duration=$this->input->post('duration');
         $target_start_date=$this->input->post('target_start_date');
         $target_completion=$this->input->post('target_completion');
+        $actual_start=$this->input->post('actual_start');
+        $actual_completion=$this->input->post('actual_completion');
+        $est_total_materials=$this->input->post('est_total_materials');
         $ver_date_needed=$this->input->post('ver_date_needed');
         $estimated_price =$this->input->post('estimated_price');
         
@@ -4884,6 +4897,9 @@ class Reports extends CI_Controller {
             'duration'=>$duration,
             'target_start_date'=>$target_start_date,
             'target_completion'=>$target_completion,
+            'actual_start'=>$actual_start,
+            'actual_completion'=>$actual_completion,
+            'est_total_materials'=>$est_total_materials,
             'ver_date_needed'=>$ver_date_needed,
             'estimated_price'=>$estimated_price,
         );
@@ -4894,11 +4910,42 @@ class Reports extends CI_Controller {
     public function purch_calendar(){  
         $cdate_from=$this->uri->segment(3);
         $cdate_to=$this->uri->segment(4); 
+        $cyear=$this->uri->segment(5); 
+        $cmonth=$this->uri->segment(6); 
         $data['cal_date_from']=$cdate_from;
         $data['cal_date_to']=$cdate_to;
-        $count_calendar = $this->super_model->count_custom_where("pr_calendar","ver_date_needed BETWEEN '$cdate_from' AND '$cdate_to' ORDER BY ver_date_needed DESC");
+        $data['year']=$cyear;
+        $data['month']=$cmonth;
+        if($cmonth!='null'){
+             $date = $cyear."-".$cmonth;
+             $data['date']=date('F Y', strtotime($date));
+        } else {
+             $date = $cyear;
+             $data['date']=$date;
+        }
+
+        $sql="";
+        if($cdate_from!='null' && $cdate_to!='null'){
+            $sql.=" ver_date_needed BETWEEN '$cdate_from' AND '$cdate_to' AND";
+            //$filter .= $cdate_from." - ".$cdate_to.", ";
+        }
+
+        if($cyear!='null' && $cmonth!='null'){
+            $sql.=" ver_date_needed LIKE '%$date%' AND";
+            //$filter .= $date.", ";
+        }
+
+        if($cyear!='null' && $cmonth=='null'){
+            $sql.=" ver_date_needed LIKE '%$date%' AND";
+            //$filter .= $date.", ";
+
+        }
+
+        $query=substr($sql, 0, -3);
+      
+        $count_calendar = $this->super_model->count_custom_where("pr_calendar","$query ORDER BY ver_date_needed DESC");
         if($count_calendar!=0){
-        foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed BETWEEN '$cdate_from' AND '$cdate_to' ORDER BY ver_date_needed DESC") AS $cp){
+        foreach($this->super_model->select_custom_where("pr_calendar","$query ORDER BY ver_date_needed DESC") AS $cp){
             $data['purch_calendar'][] =  array(
                 'proj_act'=>$cp->proj_act,
                 'c_remarks'=>$cp->c_remarks,
@@ -4910,6 +4957,7 @@ class Reports extends CI_Controller {
                 'actual_completion'=>$cp->actual_completion,
                 'ver_date_needed'=>$cp->ver_date_needed,
                 'estimated_price'=>$cp->estimated_price,
+                'est_total_materials'=>$cp->est_total_materials,
 
             );
         }
@@ -4920,6 +4968,351 @@ class Reports extends CI_Controller {
         $this->load->view('template/header');  
         $this->load->view('reports/purch_calendar',$data);
         $this->load->view('template/footer');
+    }
+    public function search_purch_calendar(){
+        if(!empty($this->input->post('cal_date_from'))){
+            $data['cal_date_from'] = $this->input->post('cal_date_from');
+            $cal_date_from = $this->input->post('cal_date_from');
+        } else {
+            $data['cal_date_from']= "null";
+            $cal_date_from= "";
+        }
+
+        if(!empty($this->input->post('cal_date_to'))){
+            $data['cal_date_to'] = $this->input->post('cal_date_to');
+            $cal_date_to = $this->input->post('cal_date_to');
+        } else {
+            $data['cal_date_to']= "null";
+            $cal_date_to= "";
+        }
+
+        if(!empty($this->input->post('year'))){
+            $data['year'] = $this->input->post('year');
+            $year = $this->input->post('year');
+        } else {
+            $data['year']= "null";
+            $year= "";
+        }
+
+        if(!empty($this->input->post('month'))){
+            $data['month'] = $this->input->post('month');
+            $month = $this->input->post('month');
+        } else {
+            $data['month']= "null";
+            $month= "";
+        }
+
+        if($month!='null'){
+             $date1 = $year."-".$month;
+             $data['date']=date('F Y', strtotime($date1));
+        } else {
+             $date1 = str_replace("null", ' ', $year);
+             $data['date']=str_replace("null", ' ', $date1);
+        }
+
+
+
+        if(!empty($this->input->post('pr_no'))){
+            $data['pr_no'] = $this->input->post('pr_no');
+            $pr_no = $this->input->post('pr_no');
+        } else {
+            $data['pr_no'] = "null";
+            $pr_no = "";
+        }
+
+        if(!empty($this->input->post('proj_act'))){
+            $data['proj_act'] = $this->input->post('proj_act');
+            $proj_act = $this->input->post('proj_act');
+        } else {
+            $data['proj_act']= "null";
+            $proj_act= "";
+        }
+
+        if(!empty($this->input->post('c_remarks'))){
+            $data['c_remarks'] = $this->input->post('c_remarks');
+            $c_remarks = $this->input->post('c_remarks');
+        } else {
+            $data['c_remarks']= "null";
+            $c_remarks= "";
+        }
+
+        if(!empty($this->input->post('ver_date_needed'))){
+            $data['ver_date_needed'] = $this->input->post('ver_date_needed');
+            $ver_date_needed = $this->input->post('ver_date_needed');
+        } else {
+            $data['ver_date_needed']= "null";
+            $ver_date_needed= "";
+        }
+
+        if(!empty($this->input->post('target_start_date'))){
+            $data['target_start_date'] = $this->input->post('target_start_date');
+            $target_start_date = $this->input->post('target_start_date');
+        } else {
+            $data['target_start_date'] = "null";
+            $target_start_date = "";
+        }
+
+        if(!empty($this->input->post('target_completion'))){
+            $data['target_completion'] = $this->input->post('target_completion');
+            $target_completion = $this->input->post('target_completion');
+        } else {
+            $data['target_completion'] = "null";
+            $target_completion = "";
+        } 
+
+        if(!empty($this->input->post('actual_start'))){
+            $data['actual_start'] = $this->input->post('actual_start');
+            $actual_start = $this->input->post('actual_start');
+        } else {
+            $data['actual_start'] = "null";
+            $actual_start = "";
+        } 
+
+        if(!empty($this->input->post('actual_completion'))){
+            $data['actual_completion'] = $this->input->post('actual_completion');
+            $actual_completion = $this->input->post('actual_completion');
+        } else {
+            $data['actual_completion'] = "null";
+            $actual_completion = "";
+        } 
+
+        $sql="";
+        $filter = "";
+
+        if($pr_no!=''){
+            $sql.=" pr_head.pr_no LIKE '%$pr_no%' AND";
+            $filter .= $pr_no.", ";
+        }
+
+        if($proj_act!=''){
+            $sql.=" pr_calendar.proj_act LIKE '%$proj_act%' AND";
+            $filter .= $proj_act.", ";
+        }
+
+        if($c_remarks!=''){
+            $sql.=" pr_calendar.c_remarks LIKE '%$c_remarks%' AND";
+            $filter .= $c_remarks.", ";
+        }
+
+        if($ver_date_needed!=''){
+            $sql.=" pr_calendar.ver_date_needed LIKE '%$ver_date_needed%' AND";
+            $filter .= $ver_date_needed.", ";
+        }
+
+        if($target_start_date!=''){
+            $sql.=" pr_calendar.target_start_date LIKE '%$target_start_date%' AND";
+            $filter .= $target_start_date.", ";
+        }
+
+        if($target_completion!=''){
+                $sql.=" pr_calendar.target_completion LIKE '%$target_completion%' AND";
+            $filter .= $target_completion.", ";
+        }
+
+        if($actual_start!=''){
+                $sql.=" pr_calendar.actual_start LIKE '%$actual_start%' AND";
+            $filter .= $actual_start.", ";
+        }
+
+        if($actual_completion!=''){
+                $sql.=" pr_calendar.actual_completion LIKE '%$actual_completion%' AND";
+            $filter .= $actual_completion.", ";
+        }
+
+        $query=substr($sql, 0, -3);
+        $filt=substr($filter, 0, -2);
+        $data['filt']=$filt;
+        $date = $cal_date_from."-".$cal_date_to."-".$year."-".$month;
+        $count_search_purch_calendar = $this->super_model->count_join_where_order("pr_calendar","pr_head"," $query AND (pr_calendar.ver_date_needed BETWEEN '$cal_date_from' AND '$cal_date_to' OR pr_calendar.ver_date_needed LIKE '%$date1%')","pr_id","ver_date_needed",'DESC');
+        if($count_search_purch_calendar!=0){
+            foreach($this->super_model->select_join_where_order("pr_calendar","pr_head"," $query AND (pr_calendar.ver_date_needed BETWEEN '$cal_date_from' AND '$cal_date_to' OR pr_calendar.ver_date_needed LIKE '%$date1%')","pr_id","ver_date_needed",'DESC') AS $cp){
+                $data['purch_calendar'][] =  array(
+                    'proj_act'=>$cp->proj_act,
+                    'c_remarks'=>$cp->c_remarks,
+                    'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$cp->pr_id),
+                    'duration'=>$cp->duration,
+                    'target_start_date'=>$cp->target_start_date,
+                    'target_completion'=>$cp->target_completion,
+                    'actual_start'=>$cp->actual_start,
+                    'actual_completion'=>$cp->actual_completion,
+                    'ver_date_needed'=>$cp->ver_date_needed,
+                    'estimated_price'=>$cp->estimated_price,
+                    'est_total_materials'=>$cp->est_total_materials,
+
+                );
+            }
+        }else{
+            $data['purch_calendar']=array();
+        }
+        $this->load->view('template/header');        
+        $this->load->view('reports/purch_calendar',$data);
+        $this->load->view('template/footer');
+   }
+
+   public function export_purch_calendar(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Schedule of Activities.xlsx";
+        $cal_date_from=str_replace("null", " ", $this->uri->segment(3));
+        $cal_date_to=str_replace("null", " ", $this->uri->segment(4));
+        $year=str_replace("null", " ", $this->uri->segment(5));
+        $month=str_replace("null", " ", $this->uri->segment(6));
+        $pr_no=str_replace("%20", " ", $this->uri->segment(7));
+        $proj_act=str_replace("%20", " ", $this->uri->segment(8));
+        $c_remarks=str_replace("%20", " ", $this->uri->segment(9));
+        $ver_date_needed=str_replace("%20", " ", $this->uri->segment(10));
+        $target_start_date=str_replace("%20", " ", $this->uri->segment(11));
+        $target_completion=str_replace("%20", " ", $this->uri->segment(12));
+        $actual_start=str_replace("%20", " ", $this->uri->segment(13));
+        $actual_completion=str_replace("%20", " ", $this->uri->segment(14));
+
+
+        $sql="";
+        $filter = " ";
+
+        if($month!='null'){
+             $date1 = $year."-".$month;
+             $data['date']=date('F Y', strtotime($date1));
+        } else {
+             $date1 = str_replace("null", ' ', $year);
+             $data['date']=str_replace("null", ' ', $date1);
+        }
+
+        if($pr_no!=''){
+            $sql.=" pr_head.pr_no LIKE '%$pr_no%' AND";
+            $filter .= $pr_no;
+        }
+
+        if($proj_act!=''){
+            $sql.=" pr_calendar.proj_act LIKE '%$proj_act%' AND";
+            $filter .= $proj_act;
+        }
+
+        if($c_remarks!=''){
+            $sql.=" pr_calendar.c_remarks LIKE '%$c_remarks%' AND";
+            $filter .= $c_remarks;
+        }
+
+        if($ver_date_needed!=''){
+            $sql.=" pr_calendar.ver_date_needed LIKE '%$ver_date_needed%' AND";
+            $filter .= $ver_date_needed;
+        }
+
+        if($target_start_date!=''){
+            $sql.=" pr_calendar.target_start_date LIKE '%$target_start_date%' AND";
+            $filter .= $target_start_date;
+        }
+
+        if($target_completion!=''){
+                $sql.=" pr_calendar.target_completion LIKE '%$target_completion%' AND";
+            $filter .= $target_completion;
+        }
+
+        if($actual_start!=''){
+                $sql.=" pr_calendar.actual_start LIKE '%$actual_start%' AND";
+            $filter .= $actual_start;
+        }
+
+        if($actual_completion!=''){
+                $sql.=" pr_calendar.actual_completion LIKE '%$actual_completion%' AND";
+            $filter .= $actual_completion;
+        }
+
+        $query=substr($sql, 0, -3);
+        $filt=substr($filter, 0, -2);
+        $date = $cal_date_from." - ".$cal_date_to." - ".$year." - ".$month;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F2', "SCHEDULE OF ACTIVITIES");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "$date");
+        $styleArray1 = array(
+            'borders' => array(
+                'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', "Item Number");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "Project of Activity");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', "Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', "PR No/s.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "Duration (# of Days)");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', "Target Start Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', "Target Completion");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', "Actual Start");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', "Actual Completion");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', "Verified Date Needed");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K5', "Estimated Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', "Est Total(Materials)");
+        foreach(range('A','J') as $columnID){
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('F2:F3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:L5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('F1:F3')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:L5')->getFont()->setBold(true);
+        $num=6;
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        if($filt!=''){
+            $x = 1;
+             foreach($this->super_model->select_join_where_order("pr_calendar","pr_head","(pr_calendar.ver_date_needed BETWEEN '$cal_date_from' AND '$cal_date_to' OR pr_calendar.ver_date_needed LIKE '%$date1%') AND $query","pr_id","ver_date_needed",'DESC') AS $cp){
+                $pr_no=$this->super_model->select_column_where("pr_head","pr_no","pr_id",$cp->pr_id);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $cp->proj_act);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $cp->c_remarks);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, $pr_no);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, $cp->duration);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $cp->target_start_date);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, $cp->target_completion);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $cp->actual_start);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, $cp->actual_completion);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $cp->ver_date_needed);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $cp->estimated_price);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $cp->est_total_materials);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":L".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":J".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num.":L".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $num++;
+                $x++;
+            }
+        }else {
+            $x = 1;
+            foreach($this->super_model->select_custom_where("pr_calendar","(pr_calendar.ver_date_needed BETWEEN '$cal_date_from' AND '$cal_date_to' OR pr_calendar.ver_date_needed LIKE '%$date1%') ORDER BY ver_date_needed DESC") AS $cp){
+                $pr_no=$this->super_model->select_column_where("pr_head","pr_no","pr_id",$cp->pr_id);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $cp->proj_act);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $cp->c_remarks);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, $pr_no);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, $cp->duration);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $cp->target_start_date);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, $cp->target_completion);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $cp->actual_start);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, $cp->actual_completion);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $cp->ver_date_needed);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $cp->estimated_price);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $cp->est_total_materials);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":L".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":J".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num.":L".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $num++;
+                $x++;
+            }
+        }
+        $objPHPExcel->getActiveSheet()->getStyle("A5:L5")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+                unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Schedule of Activities.xlsx"');
+        readfile($exportfilename);
     }
 }
 ?>

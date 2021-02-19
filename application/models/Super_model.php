@@ -403,6 +403,18 @@ class super_model extends CI_Model
         return $rows;
     }
 
+     public function count_join_where_order($table1,$table2, $where,$group_id,$column,$order)
+    {
+        $this->db->from($table1);
+        $this->db->join($table2, $table1.'.'.$group_id .' = '.$table2.'.'.$group_id, 'left');
+        $this->db->where($where);
+        $this->db->group_by($table1.'.'.$group_id);
+        $this->db->order_by($column, $order);
+        $query = $this->db->get();
+        $rows=$query->num_rows();
+        return $rows;
+    }
+
     public function get_max($table, $column){
          $this->db->select_max($column);
          $this->db->from($table);

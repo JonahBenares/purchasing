@@ -490,11 +490,11 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label>Verified Date Needed:</label>
-                                    <input placeholder="Verified Date Needed" name="ver_date_needed" class="form-control" type="text" onfocus="(this.type='date')" id="ver_date_needed" required>
+                                    <input placeholder="Verified Date Needed" name="ver_date_needed" class="form-control" type="text" onfocus="(this.type='date')" id="ver_date_needed" required="required">
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Estimated Price:</label>
-                                    <input placeholder="Estimated Price" name="estimated_price" class="form-control" type="text" id="estimated_price" required>
+                                    <input placeholder="Estimated Price" name="estimated_price" class="form-control" type="text" id="estimated_price" required="required">
                                 </div>
                             </div>   
                         </div>
@@ -505,22 +505,41 @@
                         <div class="form-group">
                             <label>Remarks:</label>
                         <textarea class="form-control" rows="5" name='c_remarks' id='c_remarks' placeholder="Remarks"></textarea>
-                        </div>
-                        <div class="form-group">
-                             <label>Duration (# of days):</label>
-                            <input type="text" name="duration" class="form-control" placeholder="Duration">
                         </div> 
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label>Target Start Date:</label>
-                                    <input placeholder="Target Start Date" name="target_start_date" class="form-control" type="text" onfocus="(this.type='date')" id="target_start_date" required>
+                                    <input placeholder="Target Start Date" name="target_start_date" class="form-control" type="text" onfocus="(this.type='date')" id="target_start_date">
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Target Completion:</label>
-                                    <input placeholder="Target Completion" name="target_completion" class="form-control" type="text" onfocus="(this.type='date')" id="target_completion" required>
+                                    <input placeholder="Target Completion" name="target_completion" class="form-control" type="text" onfocus="(this.type='date')" id="target_completion">
                                 </div>
                             </div>   
+                        </div>
+                         <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label>Actual Start:</label>
+                                    <input placeholder="Actual Start" name="actual_start" class="form-control" type="text" onfocus="(this.type='date')" id="actual_start" >
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Actual Completion:</label>
+                                    <input placeholder="Actual Completion" name="actual_completion" class="form-control" type="text" onfocus="(this.type='date')" id="actual_completion">
+                                </div>
+                            </div>   
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6">
+                             <label>Duration (# of days):</label>
+                            <input type="text" name="duration" class="form-control" placeholder="Duration">
+                        </div>
+                        <div class="col-lg-6">
+                             <label>Estimated Total(Materials):</label>
+                            <input type="text" name="est_total_materials" class="form-control" placeholder="Estimated Total(Materials)">
+                        </div>
                         </div>
                     </div>
                     <div class="modal-footer">

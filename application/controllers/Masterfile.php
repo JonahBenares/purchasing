@@ -611,6 +611,9 @@ class Masterfile extends CI_Controller {
                 );
             }
         }else{
+            $data['filt']=$filter_date_from." - ".$filter_date_to;
+            $data['filter_date_from']=$filter_date_from;
+            $data['filter_date_to']=$filter_date_to;
             $data['dash_calendar']=array();
             $data['total_disp']=0.00;
         }

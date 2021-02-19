@@ -28,38 +28,53 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "">
+                <form method="POST" action = "<?php echo base_url(); ?>reports/search_purch_calendar">
                     <div class="modal-body-lowpad">                        
                         <div class="form-group">
                             <p class="m-b-0">PR Number:</p>
-                            <input type="text" name="pr_no" class="form-control">
+                            <input placeholder="PR Number" type="text" name="pr_no" class="form-control">
                         </div> 
                         <div class="form-group">
-                            <p class="m-b-0">Purpose:</p>
-                            <input type="text" name="purpose" class="form-control">
+                            <p class="m-b-0">Project / Activity:</p>
+                            <input placeholder="Project / Activity" type="text" name="proj_act" class="form-control">
                         </div>   
                         <div class="form-group">
-                            <p class="m-b-0">Enduse:</p>
-                            <input type="text" name="enduse" class="form-control">
+                            <p class="m-b-0">Remarks:</p>
+                            <input placeholder="Remarks" type="text" name="c_remarks" class="form-control">
                         </div>    
                         <div class="form-group">
-                            <p class="m-b-0">Requestor:</p>
-                            <input type="requestor" name="requestor" class="form-control">
-                        </div>   
-                        <div class="form-group">
-                            <p class="m-b-0">Item Description:</p>
-                            <input type = "text" name="description" class="form-control">
-                        </div>  
+                            <p class="m-b-0">Verified Date Needed:</p>
+                            <input placeholder="Verified Date Needed" type="text" onfocus="(this.type='date')" id="date" name="ver_date_needed" class="form-control">
+                        </div>
+                                                <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label>Target Start Date:</label>
+                                    <input placeholder="Target Start Date" name="target_start_date" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Target Completion:</label>
+                                    <input placeholder="Target Completion" name="target_completion" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                </div>
+                            </div>   
+                        </div>
                          <div class="form-group">
-                         <label>Supplier:</label>
-                            <select name="supplier" class="form-control" cols="2">
-                                <option value = "">--Select Supplier--</option>
-                                <?php foreach($vendors AS $sp){ ?>
-                                <option value = "<?php echo $sp->vendor_id; ?>"><?php echo $sp->vendor_name?></option>
-                                <?php } ?>
-                            </select>
-                        </div>                
-                        <center>                           
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label>Actual Start:</label>
+                                    <input placeholder="Actual Start" name="actual_start" class="form-control" type="text" onfocus="(this.type='date')" id="date" >
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Actual Completion:</label>
+                                    <input placeholder="Actual Completion" name="actual_completion" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                </div>
+                            </div>   
+                        </div>                      
+                        <center>    
+                        <input type="hidden" name="cal_date_from" value = "<?php echo $cal_date_from; ?>">            
+                        <input type="hidden" name="cal_date_to" value = "<?php echo $cal_date_to; ?>"> 
+                        <input type='hidden' name='year' value = "<?php echo $year; ?>">
+                        <input type='hidden' name='month' value = "<?php echo $month; ?>">                      
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Proceed">
                         </center>
                     </div>
@@ -77,18 +92,18 @@
                                 <h1><button onclick="return quitBox('quit');" class=" btn btn-xs btn-success"><span class="fa fa-arrow-left"></span></button>
                                     Purchasing Calendar <small>Schedule of Activities</small>
                                 </h1>
-                                <p class="p-l-25">&nbsp;<b style="color:blue"><?php echo $cal_date_from;?> - <?php echo $cal_date_to;?></b></p><!-- (Today) --> 
+                                <p class="p-l-25">&nbsp;<b style="color:blue"><?php echo $cal_date_from;?> - <?php echo $cal_date_to;?> - <?php echo $date;?></b></p><!-- (Today) --> 
                                 <div class="sparkline8-outline-icon">
                                     <!-- 
                                     <a class="btn btn-custon-three btn-warning" data-toggle="modal" data-target="#pending_recom"> 
                                         <span class="fa fa-tasks" style="padding: 0px"></span> Pending
                                     </a> -->
                                     <?php if(!empty($filt)){ ?>
-                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>/<?php echo $enduse; ?>/<?php echo $purpose; ?>/<?php echo $requestor; ?>/<?php echo $uom; ?>/<?php echo $description; ?>/<?php echo $supplier; ?>/<?php echo $pr_no; ?>" class="btn btn-custon-three btn-info"> 
+                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $pr_no; ?>/<?php echo $proj_act; ?>/<?php echo $c_remarks; ?>/<?php echo $ver_date_needed; ?>/<?php echo $target_start_date; ?>/<?php echo $target_completion; ?>/<?php echo $actual_start; ?>/<?php echo $actual_completion; ?>" class="btn btn-custon-three btn-info"> 
                                         <span class="fa fa-upload"></span> Export to Excel
                                     </a>
                                     <?php } else { ?>
-                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>" class="btn btn-custon-three btn-info"> 
+                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>/<?php echo $year; ?>/<?php echo $month; ?>" class="btn btn-custon-three btn-info"> 
                                         <span class="fa fa-upload"></span> Export to Excel
                                     </a>
                                     <?php } ?>
@@ -99,7 +114,7 @@
                             </div>
                         </div>
                         <?php if(!empty($filt)){ ?>     
-                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/reports/purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
+                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/reports/purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>/<?php echo $year; ?>/<?php echo $month; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
                         <?php } ?>     
                           
                         <!-- <span class='btn btn-success disabled'>Filter Applied</span>, <a href='' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>    -->                 
@@ -113,12 +128,12 @@
                                             <th>Project / Activity</th>
                                             <th>Remarks</th>
                                             <th>PR No/s.</th>
-                                            <th>Duaration (# of Days)</th>
+                                            <th>Duration (# of Days)</th>
                                             <th>Target Start date</th>
                                             <th>Target Completion</th>
                                             <th>Actual Start</th>
                                             <th>Actual Completion</th>
-                                            <th>Verified Date Neded</th>
+                                            <th>Verified Date Needed</th>
                                             <th>Estimated Price</th>
                                             <th>Est. Total(Materials)</th>
                                             <th>Total (Weekly Schedule)</th>
@@ -141,13 +156,13 @@
                                             <td><?php echo $pc['c_remarks']; ?></td>
                                             <td><?php echo $pc['pr_no']."-".COMPANY; ?></td>
                                             <td><?php echo $pc['duration']; ?></td>
-                                            <td><?php echo date('F j, Y', strtotime($pc['target_start_date'])); ?></td>
-                                            <td><?php echo date('F j, Y', strtotime($pc['target_completion'])); ?></td>
-                                            <td><?php echo date('F j, Y', strtotime($pc['actual_start'])); ?></td>
-                                            <td><?php echo date('F j, Y', strtotime($pc['actual_completion'])); ?></td>
+                                            <td><?php echo ($pc['target_start_date']=="") ? '' : date('F j, Y', strtotime($pc['target_start_date'])); ?></td>
+                                            <td><?php echo ($pc['target_completion']=="") ? '' : date('F j, Y', strtotime($pc['target_completion'])); ?></td>
+                                            <td><?php echo ($pc['actual_start']=="") ? '' : date('F j, Y', strtotime($pc['actual_start'])); ?></td>
+                                            <td><?php echo ($pc['actual_completion']=="") ? '' : date('F j, Y', strtotime($pc['actual_completion'])); ?></td>
                                             <td><?php echo date('F j, Y', strtotime($pc['ver_date_needed'])); ?></td>
                                             <td><?php echo number_format($pc['estimated_price'],2); ?></td>
-                                            <td></td>
+                                            <td><?php echo number_format($pc['est_total_materials'],2); ?></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>

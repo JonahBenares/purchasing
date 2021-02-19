@@ -28,7 +28,7 @@
                     <div class="modal-body-lowpad">                        
                         <div class="form-group">
                             <p class="m-b-0">PR Number:</p>
-                            <input type="date" name="date_receive" class="form-control">
+                            <input type="text" name="pr_no" class="form-control">
                         </div> 
                         <div class="form-group">
                             <p class="m-b-0">Purpose:</p>
@@ -78,7 +78,7 @@
                                 <p class="p-l-25">&nbsp;<b style="color:blue"><?php echo $recom_date_from;?> - <?php echo $recom_date_to;?></b></p> 
                                 <div class="sparkline8-outline-icon">                                    
                                    <?php if(!empty($filt)){ ?>
-                                    <a href="<?php echo base_url(); ?>reports/export_pending_weekly_recom/<?php echo $recom_date_from; ?>/<?php echo $recom_date_to; ?>/<?php echo $enduse; ?>/<?php echo $purpose; ?>/<?php echo $requestor; ?>/<?php echo $uom; ?>/<?php echo $description; ?>/<?php echo $supplier; ?>/<?php echo $pr_no; ?>" class="btn btn-custon-three btn-info"> 
+                                    <a href="<?php echo base_url(); ?>reports/export_pending_weekly_recom/<?php echo $recom_date_from; ?>/<?php echo $recom_date_to; ?>/<?php echo $enduse; ?>/<?php echo $purpose; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $supplier; ?>/<?php echo $pr_no; ?>" class="btn btn-custon-three btn-info"> 
                                         <span class="fa fa-upload"></span> Export to Excel
                                     </a>
                                     <?php } else { ?>
@@ -132,9 +132,9 @@
                                             <td><?php echo $p['work_duration']; ?></td>
                                             <td><?php echo number_format($p['recom_unit_price'],2); ?></td>
                                             <td><?php echo ($p['terms']!="15 days PDC" || $p['terms']!="30 days PDC" || $p['terms']!="60 days PDC" || $p['terms']=="") ? number_format($p['total'],2) : '0.00'; ?></td>
-                                            <td><?php echo ($p['terms']=="15 days PDC") ? number_format($p['total'],2) : '';?></td>
-                                            <td><?php echo ($p['terms']=="30 days PDC") ? number_format($p['total'],2) : '';?></td>
-                                            <td><?php echo ($p['terms']=="60 days PDC") ? number_format($p['total'],2) : '';?></td>
+                                            <td><?php echo ($p['terms']=="15 days PDC") ? number_format($p['total'],2) : '0.00';?></td>
+                                            <td><?php echo ($p['terms']=="30 days PDC") ? number_format($p['total'],2) : '0.00';?></td>
+                                            <td><?php echo ($p['terms']=="60 days PDC") ? number_format($p['total'],2) : '0.00';?></td>
                                             <td><?php echo $p['terms']; ?></td>
                                             <td></td>
                                         </tr> 
