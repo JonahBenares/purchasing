@@ -314,6 +314,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -322,20 +324,6 @@ class Reports extends CI_Controller {
                             $status = 'Cancelled';
                         }*/
                         $status_remarks = 'For RFQ';
-                    } else if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==1){ 
-                        //if($cancelled_items_po==0){
-                        if($pr->on_hold==1){
-                            $status .="On-Hold";
-                        }else if($pr->fulfilled_by==1){
-                            $status .= "Delivered by ".$company;
-                        }else{
-                            $status .= "For Recom";
-                        }
-                        /*}else {
-                            $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
-                            $status = 'Cancelled';
-                        }   */
-                        $status_remarks = 'For Recommendation';
                     } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                         $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                          //if($cancelled_items_po==0){
@@ -343,6 +331,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -358,6 +348,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -373,6 +365,8 @@ class Reports extends CI_Controller {
                             $status .="On-Hold";
                         }else if($pr->fulfilled_by==1){
                             $status .= "Delivered by ".$company;
+                        }else if($pr->for_recom==1){
+                            $status .= "For Recom";
                         }else{
                             $status .= 'Pending';
                         }
@@ -393,6 +387,8 @@ class Reports extends CI_Controller {
                             $status .="On-Hold";
                         }else if($pr->fulfilled_by==1){
                             $status .= "Delivered by ".$company;
+                        }else if($pr->for_recom==1){
+                            $status .= "For Recom";
                         }else{
                             $status .= 'Pending';
                         }
@@ -407,6 +403,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             }
@@ -421,6 +419,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             }
@@ -534,18 +534,15 @@ class Reports extends CI_Controller {
         $month = $this->input->post('month');
         for($x=0;$x<$count_onhold;$x++){
             $onhold = $this->input->post('onhold['.$x.']');
-            $onhold_date=$this->super_model->select_column_where("pr_details","onhold_date","pr_details_id",$onhold);
+            //$onhold_date=date('Y-m-d',strtotime($this->super_model->select_column_where("pr_details","onhold_date","pr_details_id",$onhold)));
             $data=array(
                 'on_hold'=>1,
                 'onhold_date'=>date('Y-m-d h:i:s'),
                 'onhold_by'=>$_SESSION['user_id'],
             );
-
-            if($onhold_date==''){
-                if($this->super_model->update_where("pr_details", $data, "pr_details_id",$onhold)){
-                    echo "<script>alert('Successfully Changed Status!');</script>"; 
-                    echo "<script>window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
-                }
+            if($this->super_model->update_where("pr_details", $data, "pr_details_id",$onhold)){
+                echo "<script>alert('Successfully Changed Status!');</script>"; 
+                echo "<script>window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
             }
         }
 
@@ -897,6 +894,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -905,20 +904,6 @@ class Reports extends CI_Controller {
                             $status = 'Cancelled';
                         }*/
                         $status_remarks = 'For RFQ';
-                    } else if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==1){ 
-                        //if($cancelled_items_po==0){
-                        if($pr->on_hold==1){
-                            $status .="On-Hold";
-                        }else if($pr->fulfilled_by==1){
-                            $status .= "Delivered by ".$company;
-                        }else{
-                            $status .= "For Recom";
-                        }
-                        /*}else {
-                            $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
-                            $status = 'Cancelled';
-                        }   */
-                        $status_remarks = 'For Recommendation';
                     }else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                         $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                          //if($cancelled_items_po==0){
@@ -927,6 +912,8 @@ class Reports extends CI_Controller {
                             $status .="On-Hold";
                         }else if($pr->fulfilled_by==1){
                             $status .= "Delivered by ".$company;
+                        }else if($pr->for_recom==1){
+                            $status .= "For Recom";
                         }else{
                             $status .= 'Pending';
                         }
@@ -943,6 +930,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -959,6 +948,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -980,6 +971,8 @@ class Reports extends CI_Controller {
                             $status .="On-Hold";
                         }else if($pr->fulfilled_by==1){
                             $status .= "Delivered by ".$company;
+                        }else if($pr->for_recom==1){
+                            $status .= "For Recom";
                         }else{
                             $status .= 'Pending';
                         }
@@ -995,6 +988,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             }
@@ -1010,6 +1005,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             }
@@ -1410,6 +1407,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -1418,20 +1417,6 @@ class Reports extends CI_Controller {
                                 $status = 'Cancelled';
                             }*/
                             $status_remarks = 'For RFQ';
-                        }  else if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==1){ 
-                            //if($cancelled_items_po==0){
-                            if($pr->on_hold==1){
-                                $status .="On-Hold";
-                            }else if($pr->fulfilled_by==1){
-                                $status .= "Delivered by ".$company;
-                            }else{
-                                $status .= "For Recom";
-                            }
-                            /*}else {
-                                $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
-                                $status = 'Cancelled';
-                            }   */
-                            $status_remarks = 'For Recommendation';
                         } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                              //if($cancelled_items_po==0){
@@ -1439,6 +1424,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -1456,6 +1443,8 @@ class Reports extends CI_Controller {
                                     $status .="On-Hold";
                                 }else if($pr->fulfilled_by==1){
                                     $status .= "Delivered by ".$company;
+                                }else if($pr->for_recom==1){
+                                    $status .= "For Recom";
                                 }else{
                                     $status .= 'Pending';
                                 }
@@ -1472,6 +1461,8 @@ class Reports extends CI_Controller {
                                     $status .="On-Hold";
                                 }else if($pr->fulfilled_by==1){
                                     $status .= "Delivered by ".$company;
+                                }else if($pr->for_recom==1){
+                                    $status .= "For Recom";
                                 }else{
                                     $status .= 'Pending';
                                 }
@@ -1492,6 +1483,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -1506,6 +1499,8 @@ class Reports extends CI_Controller {
                                     $status .="On-Hold";
                                 }else if($pr->fulfilled_by==1){
                                     $status .= "Delivered by ".$company;
+                                }else if($pr->for_recom==1){
+                                    $status .= "For Recom";
                                 }else{
                                     $status .= "PO Issued (". $sum_po_issued_qty . " ".$pr->uom .")";
                                 }
@@ -1519,6 +1514,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= "Partially Delivered (". $sum_po_issued_qty . " ".$pr->uom .")";
                             }
@@ -1827,30 +1824,20 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
                             $status_remarks = 'For RFQ';
-                        }else if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==1){ 
-                            //if($cancelled_items_po==0){
-                            if($pr->on_hold==1){
-                                $status .="On-Hold";
-                            }else if($pr->fulfilled_by==1){
-                                $status .= "Delivered by ".$company;
-                            }else{
-                                $status .= "For Recom";
-                            }
-                            /*}else {
-                                $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
-                                $status = 'Cancelled';
-                            }   */
-                            $status_remarks = 'For Recommendation';
                         } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -1861,6 +1848,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -1871,6 +1860,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -1880,6 +1871,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= 'Pending';
                             }
@@ -1889,6 +1882,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= "PO Issued (". $sum_po_issued_qty . " ".$pr->uom .")";
                             }
@@ -1898,6 +1893,8 @@ class Reports extends CI_Controller {
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
                             }else{
                                 $status .= "Partially Delivered (". $sum_po_issued_qty . " ".$pr->uom .")";
                             }
