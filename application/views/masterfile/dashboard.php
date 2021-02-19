@@ -90,7 +90,7 @@
                             </h2>                            
                         </div>
                         <?php if(!empty($filt)){ ?>     
-                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/masterfile/dashboard" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
+                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/masterfile/dashboard<?php echo $filter_date_from; ?>/<?php echo $filter_date_to; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
                         <?php } ?>  
                         <div style="overflow-y: scroll;height: 220px;max-height: 220px  ">
                             <!-- loop here -->
@@ -111,7 +111,7 @@
                                     if($ca['served']==0){
                                 ?>
                                     <tr>
-                                        <td><?php echo $ca['ver_date_needed']; ?></td>
+                                        <td><?php echo date('M j, Y', strtotime($ca['ver_date_needed'])); ?></td>
                                         <td><?php echo $ca['pr_no']; ?></td>
                                         <td><?php echo $ca['description']; ?></td>
                                         <td><?php echo $ca['quantity']; ?></td>

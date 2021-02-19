@@ -93,7 +93,7 @@
                             </div>
                         </div>     
                           <?php if(!empty($filt)){ ?>     
-                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/reports/pending_weekly_recom/<?php echo $recom_date_from; ?>/<?php echo $recom_date_to; ?>/<?php echo $enduse; ?>/<?php echo $purpose; ?>/<?php echo $requestor; ?>/<?php echo $uom; ?>/<?php echo $description; ?>/<?php echo $supplier; ?>/<?php echo $pr_no; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
+                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/reports/pending_weekly_recom/<?php echo $recom_date_from; ?>/<?php echo $recom_date_to; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
                         <?php } ?>  
                         <!-- <span class='btn btn-success disabled'>Filter Applied</span>, <a href='' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>    -->                 
                               
@@ -103,7 +103,7 @@
                                     <thead>                                       
                                         <tr>
                                             <th>Enduse</th>
-                                            <th>Request by</th>
+                                            <th>Requested by</th>
                                             <th>QTY as per PR</th>
                                             <th>UOM</th>
                                             <th>Description</th>
@@ -120,7 +120,7 @@
                                         </tr>                                       
                                     </thead>                                    
                                         <tbody>
-                                        <?php if(!empty($weekly_recom)){ foreach($weekly_recom AS $p){ ?>
+                                        <?php if(!empty($pending_weekly_recom)){ foreach($pending_weekly_recom AS $p){ ?>
                                         <tr>
                                             <td class="nowrap"><?php echo $p['enduse']; ?></td>
                                             <td><?php echo $p['requestor']; ?></td>
@@ -129,12 +129,12 @@
                                             <td><?php echo $p['item_description']; ?></td>
                                             <td><?php echo $p['supplier']; ?></td>
                                             <td><?php echo $p['pr_no']."-".COMPANY; ?></td>
-                                            <td></td>
-                                            <td><?php echo $p['unit_price']; ?></td>
-                                            <td><?php echo ($p['terms']!="15 days PDC AND 30 days PDC AND 60 days PDC") ? $p['total'] : ''; ?></td>
-                                            <td><?php echo ($p['terms']=="15 days PDC") ? $p['total'] : '';?></td>
-                                            <td><?php echo ($p['terms']=="30 days PDC") ? $p['total'] : '';?></td>
-                                            <td><?php echo ($p['terms']=="60 days PDC") ? $p['total'] : '';?></td>
+                                            <td><?php echo $p['work_duration']; ?></td>
+                                            <td><?php echo number_format($p['recom_unit_price'],2); ?></td>
+                                            <td><?php echo ($p['terms']!="15 days PDC" || $p['terms']!="30 days PDC" || $p['terms']!="60 days PDC" || $p['terms']=="") ? number_format($p['total'],2) : '0.00'; ?></td>
+                                            <td><?php echo ($p['terms']=="15 days PDC") ? number_format($p['total'],2) : '';?></td>
+                                            <td><?php echo ($p['terms']=="30 days PDC") ? number_format($p['total'],2) : '';?></td>
+                                            <td><?php echo ($p['terms']=="60 days PDC") ? number_format($p['total'],2) : '';?></td>
                                             <td><?php echo $p['terms']; ?></td>
                                             <td></td>
                                         </tr> 

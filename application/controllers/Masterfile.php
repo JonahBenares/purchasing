@@ -124,8 +124,9 @@ class Masterfile extends CI_Controller {
             );
         }
 
-        foreach($this->super_model->select_custom_where("pr_details","ver_date_needed!='' AND estimated_price!='0' ORDER BY ver_date_needed DESC") AS $ca){
-            $total_ep = $ca->quantity * $ca->estimated_price;
+        foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed!='' AND estimated_price!='0' ORDER BY ver_date_needed DESC") AS $ca){
+            $quantity=$this->super_model->select_column_where("pr_details","quantity","pr_details_id",$ca->pr_details_id);
+            $total_ep = $quantity * $ca->estimated_price;
             $total_array[] = $total_ep;
             $total_disp = array_sum($total_array);
             $data['total_disp']=$total_disp;
@@ -134,8 +135,8 @@ class Masterfile extends CI_Controller {
             $data['dash_calendar'][] =  array(
                 'ver_date_needed'=>$ca->ver_date_needed,
                 'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$ca->pr_id),
-                'description'=>$ca->item_description,
-                'quantity'=>$ca->quantity,
+                'description'=>$this->super_model->select_column_where("pr_details","item_description","pr_details_id",$ca->pr_details_id),
+                'quantity'=>$quantity,
                 'estimated_price'=>$ca->estimated_price,
                 'total_ep'=>$total_ep,
                 'served'=>$served
@@ -584,11 +585,12 @@ class Masterfile extends CI_Controller {
             );
         }
 
-        $count_calendar = $this->super_model->count_custom_where("pr_details","ver_date_needed BETWEEN '$filter_date_from' AND '$filter_date_to' AND estimated_price!='0' ORDER BY ver_date_needed DESC");
+        $count_calendar = $this->super_model->count_custom_where("pr_calendar","ver_date_needed BETWEEN '$filter_date_from' AND '$filter_date_to' AND estimated_price!='0' ORDER BY ver_date_needed DESC");
         if($count_calendar!=0){
-            foreach($this->super_model->select_custom_where("pr_details","ver_date_needed BETWEEN '$filter_date_from' AND '$filter_date_to' AND estimated_price!='0' ORDER BY ver_date_needed DESC") AS $ca){
+            foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed BETWEEN '$filter_date_from' AND '$filter_date_to' AND estimated_price!='0' ORDER BY ver_date_needed DESC") AS $ca){
                 //$estimated_price = $this->super_model->select_column_custom_where('pr_details','estimated_price',"pr_details_id='$ca->pr_details_id'");
-                $total_ep = $ca->quantity * $ca->estimated_price;
+                $quantity=$this->super_model->select_column_where("pr_details","quantity","pr_details_id",$ca->pr_details_id);
+                $total_ep = $quantity * $ca->estimated_price;
                 $total_array[] = $total_ep;
                 $total_disp = array_sum($total_array);
                 $data['total_disp']=$total_disp;
@@ -600,8 +602,8 @@ class Masterfile extends CI_Controller {
                 $data['dash_calendar'][] =  array(
                     'ver_date_needed'=>$ca->ver_date_needed,
                     'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$ca->pr_id),
-                    'description'=>$ca->item_description,
-                    'quantity'=>$ca->quantity,
+                    'description'=>$this->super_model->select_column_where("pr_details","item_description","pr_details_id",$ca->pr_details_id),
+                    'quantity'=>$quantity,
                     'estimated_price'=>$ca->estimated_price,
                     'total_ep'=>$total_ep,
                     'served'=>$served

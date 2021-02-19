@@ -53,6 +53,7 @@
              var cancel = $(this).data('cancel');
              var po_offer_id = $(this).data('offerid');
              var status = $(this).data('status');
+             var recom_unit_price = $(this).data('price');
               var pr_id = $(this).data('prid');
                $(".modal #pr_id").val(pr_id);
               $(".modal #status").val(status);
@@ -61,6 +62,7 @@
              $(".modal #month").val(month);
              $(".modal #remarks").val(remarks);
              $(".modal #po_offer_id").val(po_offer_id);
+             $(".modal #recom_unit_price").val(recom_unit_price);
         });
     </script>
      <script type="text/javascript">
@@ -197,8 +199,6 @@
                                                 <th>UOM</th>
                                                 <th>Grouping</th>
                                                 <th>Description</th>
-                                                <th>Verified Date Needed</th>
-                                                <th>Estimated</th>
                                                 <th>Status Remarks</th>
                                                 <th>Status</th>
                                                 <th>Date Needed</th>
@@ -258,14 +258,12 @@
                                                 <td ><span style='font-size:11px'><?php echo $p['revised_qty']; ?></span></td>
                                                 <td><?php echo $p['uom']; ?></td>
                                                 <td><?php echo $p['grouping_id']; ?></td>
-                                                <td><?php echo $p['item_description'] . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td>
-                                                <td><?php echo $p['ver_date_needed']; ?></td> 
-                                                <td><?php echo $p['estimated_price']; ?></td> 
+                                                <td><?php echo $p['item_description'] . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td> 
                                                 <td><?php echo $p['status_remarks']; ?></td>                                         
                                                 <td><?php echo $p['status']; ?></td>                                           
                                                
                                                 <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
-                                                <td><?php echo ($p['fulfilled_by']==1) ? $p['remarks'] ."<br> -".$p['date_delivered'] ."<br> -".$p['supplier'] ."<br> -".$p['unit_price'] ."<br> -".$p['qty_delivered'] : $p['remarks'];?></td>
+                                                <td><?php echo ($p['fulfilled_by']==1) ? $p['remarks'] ."<br> -".date('M j, Y', strtotime($p['date_delivered'])) ."<br> -".$p['supplier'] ."<br> -".$p['unit_price'] ."<br> -".$p['qty_delivered'] : $p['remarks'];?></td>
                                                 <td><?php echo $p['cancel_remarks'];?></td>
                                                 <td></td>
                                                 <td align="center">  
@@ -273,7 +271,7 @@
                                                          <button type="button" class="btn btn-primary btn-xs calendar" data-toggle="modal" data-target="#calendar" title='Calendar' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
                                                             <span class="fa fa-calendar"></span>
                                                         </button>                                                            
-                                                        <button type="button" class="btn btn-primary btn-xs on_recom" data-toggle="modal" data-target="#on_recom" title='Recom' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
+                                                        <button type="button" class="btn btn-primary btn-xs on_recom" data-toggle="modal" data-target="#on_recom" title='Recom' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-price="<?php echo $p['recom_unit_price'];?>">
                                                             <span class="fa fa-list-ul"></span>
                                                         </button>
                                                         <button type="button" class="btn btn-primary btn-xs fulfilled" data-toggle="modal" data-target="#fulfilled" title='Fulfilled by Sister Company' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
@@ -420,7 +418,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Recom
+                    <h5 class="modal-title" id="exampleModalLabel">For Recommendation
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -437,6 +435,27 @@
                                 <div class="col-lg-6">
                                 <label>Date To:</label>
                                     <input placeholder="Date To" name="recom_date_to" class="form-control" type="date" onfocus="(this.type='date')" id="recom_date_to">
+                                </div>
+                            </div>   
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery lead Time / Work Duration:</label>
+                        <textarea class="form-control" rows="5" name='work_duration' id='work_duration' placeholder="Delivery lead Time / Work Duration"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                 <div class="col-lg-6">
+                        <label>Terms:</label>
+                            <select name="terms" class="form-control" cols="2">
+                                <option value = "">--Select Terms--</option>
+                                <?php foreach($terms AS $t){ ?>
+                                <option value = "<?php echo $t->terms_id; ?>"><?php echo $t->terms?></option>
+                                <?php } ?>terms_id
+                            </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Unit Price:</label>
+                                    <input placeholder="Unit Price" name="recom_unit_price" class="form-control" type="text" id="recom_unit_price">
                                 </div>
                             </div>   
                         </div>
@@ -470,10 +489,36 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
+                                    <label>Verified Date Needed:</label>
                                     <input placeholder="Verified Date Needed" name="ver_date_needed" class="form-control" type="text" onfocus="(this.type='date')" id="ver_date_needed" required>
                                 </div>
                                 <div class="col-lg-6">
+                                    <label>Estimated Price:</label>
                                     <input placeholder="Estimated Price" name="estimated_price" class="form-control" type="text" id="estimated_price" required>
+                                </div>
+                            </div>   
+                        </div>
+                        <div class="form-group">
+                            <label>Project / Activity:</label>
+                        <textarea class="form-control" rows="5" name='proj_act' id='proj_act' placeholder="Project / Activity"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Remarks:</label>
+                        <textarea class="form-control" rows="5" name='c_remarks' id='c_remarks' placeholder="Remarks"></textarea>
+                        </div>
+                        <div class="form-group">
+                             <label>Duration (# of days):</label>
+                            <input type="text" name="duration" class="form-control" placeholder="Duration">
+                        </div> 
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label>Target Start Date:</label>
+                                    <input placeholder="Target Start Date" name="target_start_date" class="form-control" type="text" onfocus="(this.type='date')" id="target_start_date" required>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Target Completion:</label>
+                                    <input placeholder="Target Completion" name="target_completion" class="form-control" type="text" onfocus="(this.type='date')" id="target_completion" required>
                                 </div>
                             </div>   
                         </div>

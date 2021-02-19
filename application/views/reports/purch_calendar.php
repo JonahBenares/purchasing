@@ -77,18 +77,18 @@
                                 <h1><button onclick="return quitBox('quit');" class=" btn btn-xs btn-success"><span class="fa fa-arrow-left"></span></button>
                                     Purchasing Calendar <small>Schedule of Activities</small>
                                 </h1>
-                                <p class="p-l-25">&nbsp;<b style="color:blue">October 10, 2021</b></p><!-- (Today) --> 
+                                <p class="p-l-25">&nbsp;<b style="color:blue"><?php echo $cal_date_from;?> - <?php echo $cal_date_to;?></b></p><!-- (Today) --> 
                                 <div class="sparkline8-outline-icon">
                                     <!-- 
                                     <a class="btn btn-custon-three btn-warning" data-toggle="modal" data-target="#pending_recom"> 
                                         <span class="fa fa-tasks" style="padding: 0px"></span> Pending
                                     </a> -->
                                     <?php if(!empty($filt)){ ?>
-                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $recom_date_from; ?>/<?php echo $recom_date_to; ?>/<?php echo $enduse; ?>/<?php echo $purpose; ?>/<?php echo $requestor; ?>/<?php echo $uom; ?>/<?php echo $description; ?>/<?php echo $supplier; ?>/<?php echo $pr_no; ?>" class="btn btn-custon-three btn-info"> 
+                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>/<?php echo $enduse; ?>/<?php echo $purpose; ?>/<?php echo $requestor; ?>/<?php echo $uom; ?>/<?php echo $description; ?>/<?php echo $supplier; ?>/<?php echo $pr_no; ?>" class="btn btn-custon-three btn-info"> 
                                         <span class="fa fa-upload"></span> Export to Excel
                                     </a>
                                     <?php } else { ?>
-                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $recom_date_from; ?>/<?php echo $recom_date_to; ?>" class="btn btn-custon-three btn-info"> 
+                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>" class="btn btn-custon-three btn-info"> 
                                         <span class="fa fa-upload"></span> Export to Excel
                                     </a>
                                     <?php } ?>
@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <?php if(!empty($filt)){ ?>     
-                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/reports/purch_calendar/<?php echo $recom_date_from; ?>/<?php echo $recom_date_to; ?>/<?php echo $enduse; ?>/<?php echo $purpose; ?>/<?php echo $requestor; ?>/<?php echo $uom; ?>/<?php echo $description; ?>/<?php echo $supplier; ?>/<?php echo $pr_no; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
+                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/reports/purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
                         <?php } ?>     
                           
                         <!-- <span class='btn btn-success disabled'>Filter Applied</span>, <a href='' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>    -->                 
@@ -118,6 +118,8 @@
                                             <th>Target Completion</th>
                                             <th>Actual Start</th>
                                             <th>Actual Completion</th>
+                                            <th>Verified Date Neded</th>
+                                            <th>Estimated Price</th>
                                             <th>Est. Total(Materials)</th>
                                             <th>Total (Weekly Schedule)</th>
                                             <th>Jan 10-15</th>
@@ -130,16 +132,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                         <?php $x = 1; foreach($purch_calendar AS $pc){
+                                            
+                                            ?>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo $x; ?></td>
+                                            <td><?php echo $pc['proj_act']; ?></td>
+                                            <td><?php echo $pc['c_remarks']; ?></td>
+                                            <td><?php echo $pc['pr_no']."-".COMPANY; ?></td>
+                                            <td><?php echo $pc['duration']; ?></td>
+                                            <td><?php echo date('F j, Y', strtotime($pc['target_start_date'])); ?></td>
+                                            <td><?php echo date('F j, Y', strtotime($pc['target_completion'])); ?></td>
+                                            <td><?php echo date('F j, Y', strtotime($pc['actual_start'])); ?></td>
+                                            <td><?php echo date('F j, Y', strtotime($pc['actual_completion'])); ?></td>
+                                            <td><?php echo date('F j, Y', strtotime($pc['ver_date_needed'])); ?></td>
+                                            <td><?php echo number_format($pc['estimated_price'],2); ?></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -150,6 +157,8 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                         <?php $x++; } ?>  
+                                         
                                     </tbody>
                                 </table>
                             </div>                           
@@ -159,39 +168,6 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="pending_recom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Summary of Pending Weekly Recommendation
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </h5>                            
-                </div>
-                <form method='POST' action="<?php echo base_url(); ?>reports/generate_unserved_report" target='_blank'>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <small>Date From:</small>
-                                <input placeholder="Date From" class="form-control" type="text" onfocus="(this.type='date')" id="date">
-                            </div>
-                            <div class="col-lg-6">
-                                <small>Date To:</small>
-                                <input placeholder="Date To" class="form-control" type="text" onfocus="(this.type='date')" id="date">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
-                        <a href="<?php echo base_url(); ?>index.php/reports/pending_weekly_recom"  class="btn btn-primary " target="_blank">Proceed</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
 
     <script type="text/javascript">
         function goBack() {
