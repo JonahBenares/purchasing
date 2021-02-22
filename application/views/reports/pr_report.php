@@ -259,11 +259,11 @@
                                                 <td><?php echo $p['uom']; ?></td>
                                                 <td><?php echo $p['grouping_id']; ?></td>
                                                 <td><?php echo $p['item_description'] . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td> 
-                                                <td><?php echo $p['status_remarks']; ?></td>                                         
+                                                <td><?php echo ($p['for_recom']==1) ? $p['status_remarks'] ."<br>Recom By: ".$p['recom_by'] ."<br> Recom Dates: ".$p['recom_date_from']." to ".$p['recom_date_to'] : $p['status_remarks']; ?></td>                                         
                                                 <td><?php echo $p['status']; ?></td>                                           
                                                
                                                 <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
-                                                <td><?php echo ($p['fulfilled_by']==1) ? $p['remarks'] ."<br> -".date('M j, Y', strtotime($p['date_delivered'])) ."<br> -".$p['supplier'] ."<br> -".$p['unit_price'] ."<br> -".$p['qty_delivered'] : $p['remarks'];?></td>
+                                                <td><?php echo ($p['fulfilled_by']==1) ? $p['remarks'] ."<br> (Delivered by ".$p['company']." details: "."<br> - Date: ".date('M j, Y', strtotime($p['date_delivered'])) ."<br> - Supplier: ".$p['supplier'] ."<br> - Unit Price: ".$p['unit_price'] ."<br> - Qty: ".$p['qty_delivered'].")" : $p['remarks'];?></td>
                                                 <td><?php echo $p['cancel_remarks'];?></td>
                                                 <td></td>
                                                 <td align="center">  

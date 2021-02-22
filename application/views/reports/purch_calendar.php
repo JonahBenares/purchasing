@@ -72,9 +72,7 @@
                         </div>                      
                         <center>    
                         <input type="hidden" name="cal_date_from" value = "<?php echo $cal_date_from; ?>">            
-                        <input type="hidden" name="cal_date_to" value = "<?php echo $cal_date_to; ?>"> 
-                        <input type='hidden' name='year' value = "<?php echo $year; ?>">
-                        <input type='hidden' name='month' value = "<?php echo $month; ?>">                      
+                        <input type="hidden" name="cal_date_to" value = "<?php echo $cal_date_to; ?>">                       
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Proceed">
                         </center>
                     </div>
@@ -92,18 +90,18 @@
                                 <h1><button onclick="return quitBox('quit');" class=" btn btn-xs btn-success"><span class="fa fa-arrow-left"></span></button>
                                     Purchasing Calendar <small>Schedule of Activities</small>
                                 </h1>
-                                <p class="p-l-25">&nbsp;<b style="color:blue"><?php echo $cal_date_from;?> - <?php echo $cal_date_to;?> - <?php echo $date;?></b></p><!-- (Today) --> 
+                                <p class="p-l-25">&nbsp;<b style="color:blue"><?php echo $cal_date_from;?> - <?php echo $cal_date_to;?></b></p><!-- (Today) --> 
                                 <div class="sparkline8-outline-icon">
                                     <!-- 
                                     <a class="btn btn-custon-three btn-warning" data-toggle="modal" data-target="#pending_recom"> 
                                         <span class="fa fa-tasks" style="padding: 0px"></span> Pending
                                     </a> -->
                                     <?php if(!empty($filt)){ ?>
-                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $pr_no; ?>/<?php echo $proj_act; ?>/<?php echo $c_remarks; ?>/<?php echo $ver_date_needed; ?>/<?php echo $target_start_date; ?>/<?php echo $target_completion; ?>/<?php echo $actual_start; ?>/<?php echo $actual_completion; ?>" class="btn btn-custon-three btn-info"> 
+                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>/<?php echo $pr_no; ?>/<?php echo $proj_act; ?>/<?php echo $c_remarks; ?>/<?php echo $ver_date_needed; ?>/<?php echo $target_start_date; ?>/<?php echo $target_completion; ?>/<?php echo $actual_start; ?>/<?php echo $actual_completion; ?>" class="btn btn-custon-three btn-info"> 
                                         <span class="fa fa-upload"></span> Export to Excel
                                     </a>
                                     <?php } else { ?>
-                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>/<?php echo $year; ?>/<?php echo $month; ?>" class="btn btn-custon-three btn-info"> 
+                                    <a href="<?php echo base_url(); ?>reports/export_purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>" class="btn btn-custon-three btn-info"> 
                                         <span class="fa fa-upload"></span> Export to Excel
                                     </a>
                                     <?php } ?>
@@ -114,7 +112,7 @@
                             </div>
                         </div>
                         <?php if(!empty($filt)){ ?>     
-                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/reports/purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>/<?php echo $year; ?>/<?php echo $month; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
+                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/reports/purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
                         <?php } ?>     
                           
                         <!-- <span class='btn btn-success disabled'>Filter Applied</span>, <a href='' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>    -->                 

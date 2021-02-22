@@ -55,31 +55,9 @@ class Reports extends CI_Controller {
     }
 
     public function generate_purch_calendar_report(){
-        if($this->input->post('cal_date_from')!=''){
-            $cal_date_from = $this->input->post('cal_date_from');
-        }else{
-            $cal_date_from = 'null';
-        }
-
-        if($this->input->post('cal_date_to')!=''){
-            $cal_date_to = $this->input->post('cal_date_to');
-        }else{
-            $cal_date_to = 'null';
-        }
-
-        if($this->input->post('year')!=''){
-            $year = $this->input->post('year');
-        }else{
-            $year='null';
-        }
-
-        if($this->input->post('month')!=''){
-            $month = $this->input->post('month');
-        }else{
-            $month = "null";
-        }
-        
-        redirect(base_url().'reports/purch_calendar/'.$cal_date_from.'/'.$cal_date_to.'/'.$year.'/'.$month);
+        $cal_date_from = $this->input->post('cal_date_from');
+        $cal_date_to = $this->input->post('cal_date_to');
+        redirect(base_url().'reports/purch_calendar/'.$cal_date_from.'/'.$cal_date_to);
     }
 
     public function like($str, $searchTerm) {
@@ -495,7 +473,6 @@ class Reports extends CI_Controller {
 
             $pr_id = $pr->pr_id;
 
-
             $data['pr'][] = array(
                 'po_offer_id'=>$po_offer_id,
                 'pr_details_id'=>$pr->pr_details_id,
@@ -528,6 +505,9 @@ class Reports extends CI_Controller {
                 'cancel_remarks'=>$pr->cancel_remarks,
                 'fulfilled_by'=>$pr->fulfilled_by,
                 'for_recom'=>$pr->for_recom,
+                'recom_by'=>$this->super_model->select_column_where('users','fullname','user_id',$pr->recom_by),
+                'recom_date_from'=>$pr->recom_date_from,
+                'recom_date_to'=>$pr->recom_date_to,
                 'cancelled'=>$pr->cancelled,
                 'recom_unit_price'=>$recom_unit_price,
                 'cancelled_items_po'=>$cancelled_items_po,
@@ -1113,7 +1093,10 @@ class Reports extends CI_Controller {
                 'qty_delivered'=>$pr->qty_delivered,
                 'cancel_remarks'=>$pr->cancel_remarks,
                 'fulfilled_by'=>$pr->fulfilled_by,
-                'for_recom'=>$pr->for_recom,
+                'for_recom'=>$this->super_model->select_column_where('users','fullname','user_id',$pr->user_id),
+                'recom_by'=>$pr->recom_by,
+                'recom_date_from'=>$pr->recom_date_from,
+                'recom_date_to'=>$pr->recom_date_to,
                 'cancelled'=>$pr->cancelled,
                 'cancelled_items_po'=>$cancelled_items_po,
                 'on_hold'=>$pr->on_hold,
@@ -4909,43 +4892,12 @@ class Reports extends CI_Controller {
     }
     public function purch_calendar(){  
         $cdate_from=$this->uri->segment(3);
-        $cdate_to=$this->uri->segment(4); 
-        $cyear=$this->uri->segment(5); 
-        $cmonth=$this->uri->segment(6); 
+        $cdate_to=$this->uri->segment(4);  
         $data['cal_date_from']=$cdate_from;
         $data['cal_date_to']=$cdate_to;
-        $data['year']=$cyear;
-        $data['month']=$cmonth;
-        if($cmonth!='null'){
-             $date = $cyear."-".$cmonth;
-             $data['date']=date('F Y', strtotime($date));
-        } else {
-             $date = $cyear;
-             $data['date']=$date;
-        }
-
-        $sql="";
-        if($cdate_from!='null' && $cdate_to!='null'){
-            $sql.=" ver_date_needed BETWEEN '$cdate_from' AND '$cdate_to' AND";
-            //$filter .= $cdate_from." - ".$cdate_to.", ";
-        }
-
-        if($cyear!='null' && $cmonth!='null'){
-            $sql.=" ver_date_needed LIKE '%$date%' AND";
-            //$filter .= $date.", ";
-        }
-
-        if($cyear!='null' && $cmonth=='null'){
-            $sql.=" ver_date_needed LIKE '%$date%' AND";
-            //$filter .= $date.", ";
-
-        }
-
-        $query=substr($sql, 0, -3);
-      
-        $count_calendar = $this->super_model->count_custom_where("pr_calendar","$query ORDER BY ver_date_needed DESC");
+        $count_calendar = $this->super_model->count_custom_where("pr_calendar","ver_date_needed BETWEEN '$cdate_from' AND '$cdate_to' ORDER BY ver_date_needed DESC");
         if($count_calendar!=0){
-        foreach($this->super_model->select_custom_where("pr_calendar","$query ORDER BY ver_date_needed DESC") AS $cp){
+        foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed BETWEEN '$cdate_from' AND '$cdate_to' ORDER BY ver_date_needed DESC") AS $cp){
             $data['purch_calendar'][] =  array(
                 'proj_act'=>$cp->proj_act,
                 'c_remarks'=>$cp->c_remarks,
@@ -4975,7 +4927,7 @@ class Reports extends CI_Controller {
             $cal_date_from = $this->input->post('cal_date_from');
         } else {
             $data['cal_date_from']= "null";
-            $cal_date_from= "";
+            $cal_date_from= "null";
         }
 
         if(!empty($this->input->post('cal_date_to'))){
@@ -4983,34 +4935,8 @@ class Reports extends CI_Controller {
             $cal_date_to = $this->input->post('cal_date_to');
         } else {
             $data['cal_date_to']= "null";
-            $cal_date_to= "";
+            $cal_date_to= "null";
         }
-
-        if(!empty($this->input->post('year'))){
-            $data['year'] = $this->input->post('year');
-            $year = $this->input->post('year');
-        } else {
-            $data['year']= "null";
-            $year= "";
-        }
-
-        if(!empty($this->input->post('month'))){
-            $data['month'] = $this->input->post('month');
-            $month = $this->input->post('month');
-        } else {
-            $data['month']= "null";
-            $month= "";
-        }
-
-        if($month!='null'){
-             $date1 = $year."-".$month;
-             $data['date']=date('F Y', strtotime($date1));
-        } else {
-             $date1 = str_replace("null", ' ', $year);
-             $data['date']=str_replace("null", ' ', $date1);
-        }
-
-
 
         if(!empty($this->input->post('pr_no'))){
             $data['pr_no'] = $this->input->post('pr_no');
@@ -5122,10 +5048,10 @@ class Reports extends CI_Controller {
         $query=substr($sql, 0, -3);
         $filt=substr($filter, 0, -2);
         $data['filt']=$filt;
-        $date = $cal_date_from."-".$cal_date_to."-".$year."-".$month;
-        $count_search_purch_calendar = $this->super_model->count_join_where_order("pr_calendar","pr_head"," $query AND (pr_calendar.ver_date_needed BETWEEN '$cal_date_from' AND '$cal_date_to' OR pr_calendar.ver_date_needed LIKE '%$date1%')","pr_id","ver_date_needed",'DESC');
+        $date = $cal_date_from."-".$cal_date_to;
+        $count_search_purch_calendar = $this->super_model->count_join_where_order("pr_calendar","pr_head"," $query AND (pr_calendar.ver_date_needed BETWEEN '$cal_date_from' AND '$cal_date_to')","pr_id","ver_date_needed",'DESC');
         if($count_search_purch_calendar!=0){
-            foreach($this->super_model->select_join_where_order("pr_calendar","pr_head"," $query AND (pr_calendar.ver_date_needed BETWEEN '$cal_date_from' AND '$cal_date_to' OR pr_calendar.ver_date_needed LIKE '%$date1%')","pr_id","ver_date_needed",'DESC') AS $cp){
+            foreach($this->super_model->select_join_where_order("pr_calendar","pr_head"," $query AND (pr_calendar.ver_date_needed BETWEEN '$cal_date_from' AND '$cal_date_to')","pr_id","ver_date_needed",'DESC') AS $cp){
                 $data['purch_calendar'][] =  array(
                     'proj_act'=>$cp->proj_act,
                     'c_remarks'=>$cp->c_remarks,
@@ -5154,29 +5080,20 @@ class Reports extends CI_Controller {
         $objPHPExcel = new PHPExcel();
         $exportfilename="Schedule of Activities.xlsx";
         $cal_date_from=str_replace("null", " ", $this->uri->segment(3));
-        $cal_date_to=str_replace("null", " ", $this->uri->segment(4));
-        $year=str_replace("null", " ", $this->uri->segment(5));
-        $month=str_replace("null", " ", $this->uri->segment(6));
-        $pr_no=str_replace("%20", " ", $this->uri->segment(7));
-        $proj_act=str_replace("%20", " ", $this->uri->segment(8));
-        $c_remarks=str_replace("%20", " ", $this->uri->segment(9));
-        $ver_date_needed=str_replace("%20", " ", $this->uri->segment(10));
-        $target_start_date=str_replace("%20", " ", $this->uri->segment(11));
-        $target_completion=str_replace("%20", " ", $this->uri->segment(12));
-        $actual_start=str_replace("%20", " ", $this->uri->segment(13));
-        $actual_completion=str_replace("%20", " ", $this->uri->segment(14));
+        $cal_date_to=str_replace("null", " ", $this->uri->segment(4));;
+        $pr_no=str_replace("%20", " ", $this->uri->segment(5));
+        $proj_act=str_replace("%20", " ", $this->uri->segment(6));
+        $c_remarks=str_replace("%20", " ", $this->uri->segment(7));
+        $ver_date_needed=str_replace("%20", " ", $this->uri->segment(8));
+        $target_start_date=str_replace("%20", " ", $this->uri->segment(9));
+        $target_completion=str_replace("%20", " ", $this->uri->segment(10));
+        $actual_start=str_replace("%20", " ", $this->uri->segment(11));
+        $actual_completion=str_replace("%20", " ", $this->uri->segment(12));
 
 
         $sql="";
         $filter = " ";
 
-        if($month!='null'){
-             $date1 = $year."-".$month;
-             $data['date']=date('F Y', strtotime($date1));
-        } else {
-             $date1 = str_replace("null", ' ', $year);
-             $data['date']=str_replace("null", ' ', $date1);
-        }
 
         if($pr_no!=''){
             $sql.=" pr_head.pr_no LIKE '%$pr_no%' AND";
@@ -5220,7 +5137,7 @@ class Reports extends CI_Controller {
 
         $query=substr($sql, 0, -3);
         $filt=substr($filter, 0, -2);
-        $date = $cal_date_from." - ".$cal_date_to." - ".$year." - ".$month;
+        $date = $cal_date_from." - ".$cal_date_to;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F2', "SCHEDULE OF ACTIVITIES");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "$date");
         $styleArray1 = array(
