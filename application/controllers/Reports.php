@@ -4903,13 +4903,13 @@ class Reports extends CI_Controller {
         }
     }
     public function purch_calendar(){  
-        $cdate_from=$this->uri->segment(3);
-        $cdate_to=$this->uri->segment(4);  
-        $data['cal_date_from']=$cdate_from;
-        $data['cal_date_to']=$cdate_to;
-        $count_calendar = $this->super_model->count_custom_where("pr_calendar","ver_date_needed BETWEEN '$cdate_from' AND '$cdate_to' ORDER BY ver_date_needed DESC");
+        $year=$this->uri->segment(3);
+        $data['year'] = $year;
+  /*      $data['cal_date_from']=$cdate_from;
+        $data['cal_date_to']=$cdate_to;*/
+        $count_calendar = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' ORDER BY ver_date_needed DESC");
         if($count_calendar!=0){
-        foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed BETWEEN '$cdate_from' AND '$cdate_to' ORDER BY ver_date_needed DESC") AS $cp){
+        foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' ORDER BY ver_date_needed DESC") AS $cp){
             $data['purch_calendar'][] =  array(
                 'proj_act'=>$cp->proj_act,
                 'c_remarks'=>$cp->c_remarks,
@@ -4932,6 +4932,12 @@ class Reports extends CI_Controller {
         $this->load->view('template/header');  
         $this->load->view('reports/purch_calendar',$data);
         $this->load->view('template/footer');
+    }
+
+    public function get_weekly_total($week_start, $week_end){
+
+        $total = $this->super_model->select_sum_between("pr_calendar", "estimated_price","ver_date_needed BETWEEN '$week_start' AND '$week_end'");
+        return $total;
     }
     public function search_purch_calendar(){
         if(!empty($this->input->post('cal_date_from'))){
