@@ -3784,6 +3784,8 @@ class Reports extends CI_Controller {
                 }
                 $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $p->pr_details_id, "po_id", "DESC", "1");
                 $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+                $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
                 if($served==0 && $cancelled_items_po==0){
                     $data['weekly_recom'][]=array(
                         'enduse'=>$p->enduse,
@@ -3791,7 +3793,7 @@ class Reports extends CI_Controller {
                         'quantity'=>$p->quantity,
                         'uom'=>$p->uom,
                         'item_description'=>$p->item_description,
-                        'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
+                        'vendors'=>$supplier,
                         'pr_no'=>$p->pr_no,
                         'terms'=>$this->super_model->select_column_where('terms','terms',"terms_id",$p->terms_id),
                         'recom_unit_price'=>$p->recom_unit_price,
