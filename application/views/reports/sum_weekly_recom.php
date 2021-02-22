@@ -132,7 +132,7 @@
                                             <td><?php echo $p['quantity']; ?></td>
                                             <td><?php echo $p['uom']; ?></td>
                                             <td><?php echo $p['item_description']; ?></td>
-                                            <td><?php echo $p['vendors']; ?></td>
+                                            <td><?php echo $p['supplier']; ?></td>
                                             <td><?php echo $p['pr_no']."-".COMPANY; ?></td>
                                             <td><?php echo $p['work_duration']; ?></td>
                                             <td><?php echo number_format($p['recom_unit_price'],2); ?></td>

@@ -3793,7 +3793,7 @@ class Reports extends CI_Controller {
                         'quantity'=>$p->quantity,
                         'uom'=>$p->uom,
                         'item_description'=>$p->item_description,
-                        'vendors'=>$supplier,
+                        'supplier'=>$supplier,
                         'pr_no'=>$p->pr_no,
                         'terms'=>$this->super_model->select_column_where('terms','terms',"terms_id",$p->terms_id),
                         'recom_unit_price'=>$p->recom_unit_price,
@@ -3967,6 +3967,8 @@ class Reports extends CI_Controller {
                 $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
                 }
                 $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $p->pr_details_id, "po_id", "DESC", "1");
+                $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
                 $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
                 if($served==0 && $cancelled_items_po==0){
                 $data['weekly_recom'][]=array(
@@ -3975,7 +3977,7 @@ class Reports extends CI_Controller {
                     'quantity'=>$p->quantity,
                     'uom'=>$p->uom,
                     'item_description'=>$p->item_description,
-                    'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
+                    'supplier'=>$supplier,
                     'pr_no'=>$p->pr_no,
                     'terms'=>$this->super_model->select_column_where('terms','terms',"terms_id",$p->terms_id),
                     'recom_unit_price'=>$p->recom_unit_price,
@@ -4113,7 +4115,8 @@ class Reports extends CI_Controller {
                 $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
                 $total = $p->quantity * $p->recom_unit_price;
                 $terms =  $this->super_model->select_column_where('terms','terms','terms_id',$p->terms_id);
-                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
                 $total_array[] = $p->quantity * $p->recom_unit_price;
                 $total_peso = array_sum($total_array);
 
@@ -4210,7 +4213,8 @@ class Reports extends CI_Controller {
             );
             foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1'") AS $p){
                 $terms =  $this->super_model->select_column_where('terms','terms','terms_id',$p->terms_id);
-                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
                 $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
                 $total = $p->quantity * $p->recom_unit_price;
                 if($terms!="15 days PDC" || $terms!="30 days PDC" || $terms!="60 days PDC" || $terms==""){
@@ -4337,6 +4341,8 @@ class Reports extends CI_Controller {
         foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$date_from' AND '$date_to' AND pd.recom_date_to BETWEEN '$date_from' AND '$date_to' AND pd.for_recom='1'") AS $p){
             $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
             $total = $p->quantity * $p->recom_unit_price;
+            $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$p->pr_details_id' AND recommended='1'");
+            $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
             $count_po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$p->pr_id' AND served = '0' AND pi.pr_details_id = '$p->pr_details_id'");
             if($count_po==0){
                 $data['pending_weekly_recom'][]=array(
@@ -4345,7 +4351,7 @@ class Reports extends CI_Controller {
                     'quantity'=>$p->quantity,
                     'uom'=>$p->uom,
                     'item_description'=>$p->item_description,
-                    'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
+                    'supplier'=>$supplier,
                     'pr_no'=>$p->pr_no,
                     'terms'=>$this->super_model->select_column_where('terms','terms',"terms_id",$p->terms_id),
                     'recom_unit_price'=>$p->recom_unit_price,
@@ -4496,6 +4502,8 @@ class Reports extends CI_Controller {
         if($count_search_pending_weekly!=0){
         foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1' AND $query") AS $p){
             $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
+            $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$p->pr_details_id' AND recommended='1'");
+            $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
             $total = $p->quantity * $p->recom_unit_price;
             $count_po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$p->pr_id' AND served = '0' AND pi.pr_details_id = '$p->pr_details_id'");
             if($count_po==0){
@@ -4505,7 +4513,7 @@ class Reports extends CI_Controller {
                     'quantity'=>$p->quantity,
                     'uom'=>$p->uom,
                     'item_description'=>$p->item_description,
-                    'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id),
+                    'supplier'=>$supplier,
                     'pr_no'=>$p->pr_no,
                     'terms'=>$this->super_model->select_column_where('terms','terms',"terms_id",$p->terms_id),
                     'recom_unit_price'=>$p->recom_unit_price,
@@ -4642,7 +4650,8 @@ class Reports extends CI_Controller {
             foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND $query AND pd.for_recom='1'") AS $p){
                 $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
                 $terms =  $this->super_model->select_column_where('terms','terms','terms_id',$p->terms_id);
-                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
                 $total = $p->quantity * $p->recom_unit_price;
                 $total_array[] = $p->quantity * $p->recom_unit_price;
                 $total_peso = array_sum($total_array);
@@ -4748,7 +4757,8 @@ class Reports extends CI_Controller {
             );
             foreach($this->super_model->custom_query("SELECT * FROM pr_details pd INNER JOIN pr_head ph ON ph.pr_id = pd.pr_id WHERE pd.recom_date_from BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.recom_date_to BETWEEN '$recom_date_from' AND '$recom_date_to' AND pd.for_recom='1'") AS $p){
                 $terms =  $this->super_model->select_column_where('terms','terms','terms_id',$p->terms_id);
-                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$p->pr_details_id' AND recommended='1'");
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
                 $aoq_id = $this->super_model->select_column_custom_where('aoq_offers','aoq_id',"pr_details_id='$p->pr_details_id' AND recommended='1'");
                 $total = $p->quantity * $p->recom_unit_price;
                 $total_array[] = $p->quantity * $p->recom_unit_price;
