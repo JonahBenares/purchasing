@@ -127,6 +127,8 @@ class Reports extends CI_Controller {
             $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
             $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
+            $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
+            $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
             //echo $po_id." - ".$po_items_id." - ".$cancelled_items_po."<br>";
            //echo $pr->pr_details_id . " = " . $sum_po_qty . " - " .  $sum_delivered_qty . ", " . $pr->quantity . "<br>";
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
@@ -173,9 +175,16 @@ class Reports extends CI_Controller {
                             }else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;
                             }else{
-                                $status = 'PO Issued - Partial<br><br>';
+                                $status .= 'PO Issued - Partial<br><br>';
                             }
-                            $status_remarks='';
+
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks='';
+                            }
                         }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -185,7 +194,14 @@ class Reports extends CI_Controller {
                                 $status .= 'PO Issued - Partial<br><br>';
                                 $status .= 'Partially Delivered';
                             }
-                            $status_remarks='';
+
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks='';
+                            }
                         } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
                            // $status_remarks = '';
                             
@@ -253,7 +269,14 @@ class Reports extends CI_Controller {
                             $statuss = 'PO Issued';
                             $status .= 'Cancelled';
                         }
-                        $status_remarks = '';
+
+                        if($pr->on_hold==1){
+                            $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
                     } else {
                         if($cancelled_items_po==0){
                             $status .= 'Fully Delivered';
@@ -306,10 +329,9 @@ class Reports extends CI_Controller {
                     
                    $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND cancelled='0'");
                     $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$pr->pr_details_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
-                 
  //$count_rfq ="SELECT rfq_details_id FROM rfq_details WHERE pr_details_id = '$pr->pr_details_id'";
                     //echo $po_id . "<br>";
-                    if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==0){
+                    if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
                         //if($cancelled_items_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -324,7 +346,37 @@ class Reports extends CI_Controller {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = 'For RFQ';
+
+                        if($pr->on_hold==1){
+                            $status_remarks = 'For RFQ'."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = 'For RFQ'."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = 'For RFQ';
+                        }
+                    }else if(($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq==0 && $count_aoq_awarded==0 && $count_po!=0)){
+                        //if($cancelled_items_po==0){
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
+                            }else{
+                               $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            }
+                        /*}else {
+                            $statuss = 'Pending';
+                            $status = 'Cancelled';
+                        }*/
+
+                        if($pr->on_hold==1){
+                            $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
                     } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                         $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                          //if($cancelled_items_po==0){
@@ -341,7 +393,13 @@ class Reports extends CI_Controller {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = 'Canvassing Ongoing';
+                        if($pr->on_hold==1){
+                            $status_remarks = 'Canvassing Ongoing'."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = 'Canvassing Ongoing'."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = 'Canvassing Ongoing';
+                        }
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq==0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                         //if($cancelled_items_po==0){
@@ -358,7 +416,13 @@ class Reports extends CI_Controller {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
+                        if($pr->on_hold==1){
+                            $status_remarks = 'RFQ Completed - No. of RFQ completed: '.$count_rfq_completed."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
+                        }
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' ");
                          //if($cancelled_items_po==0){
@@ -380,8 +444,13 @@ class Reports extends CI_Controller {
                         }else{
                             $date='';
                         }*/
-
-                        $status_remarks = 'AOQ Done - For TE - ' .$aoq_date;
+                        if($pr->on_hold==1){
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date;
+                        }
                     } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                         //if($cancelled_items_po==0){
                         if($pr->on_hold==1){
@@ -397,8 +466,14 @@ class Reports extends CI_Controller {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = 'For PO - AOQ Done (awarded)';
-                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
+                        if($pr->on_hold==1){
+                            $status_remarks = 'For PO - AOQ Done (awarded)' .$aoq_date."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = 'For PO - AOQ Done (awarded)'."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = 'For PO - AOQ Done (awarded)';
+                        }
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq!=0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
                         //if($cancelled_items_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -413,7 +488,13 @@ class Reports extends CI_Controller {
                             $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
                         }   */
-                        $status_remarks = '';
+                        if($pr->on_hold==1){
+                            $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
                         //if($cancelled_items_po==0){
                             if($pr->on_hold==1){
@@ -429,7 +510,13 @@ class Reports extends CI_Controller {
                             $statuss = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = '';
+                        if($pr->on_hold==1){
+                            $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
                     } 
 
                 }
@@ -688,6 +775,7 @@ class Reports extends CI_Controller {
         $data['company']=$this->super_model->select_all_order_by("company","company_name","ASC");
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ".$query) AS $pr){
+            $recom_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $pr->pr_details_id);
             $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
             $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $pr->pr_details_id);
             if($po_offer_id==0){
@@ -702,6 +790,8 @@ class Reports extends CI_Controller {
             $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
             $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
+            $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
+            $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
            //echo $pr->pr_details_id . " = " . $sum_po_qty . " - " .  $sum_delivered_qty . ", " . $pr->quantity . "<br>";
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
             $unserved_qty=0;
@@ -750,7 +840,14 @@ class Reports extends CI_Controller {
                             }else{
                                 $status = 'PO Issued - Partial<br><br>';
                             }
-                            $status_remarks = '';
+
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = '';
+                            }
                         }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
                             //$status .= 'PO Issued - Partial<br><br>';
                              //$status .= 'Partially Delivered';
@@ -762,7 +859,14 @@ class Reports extends CI_Controller {
                                 $status .= 'PO Issued - Partial<br><br>';
                                 $status .= 'Partially Delivered';
                             }
-                            $status_remarks = '';
+
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = '';
+                            }
                         } //else if($count_po_unserved == 0 && $count_po_served == $count_po_all) {
                         else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
                            // $status_remarks = '';
@@ -834,7 +938,14 @@ class Reports extends CI_Controller {
                             $statuss = 'PO Issued';
                             $status .= 'Cancelled';
                         }
-                        $status_remarks = '';
+
+                        if($pr->on_hold==1){
+                            $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
                     } else {
                         if($cancelled_items_po==0){
                             $status .= 'Fully Delivered';
@@ -887,7 +998,6 @@ class Reports extends CI_Controller {
                     
                    $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND cancelled='0'");
                     $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$pr->pr_details_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
-                 
 
                     //echo $po_id . "<br>";
                     if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==0){
@@ -906,7 +1016,36 @@ class Reports extends CI_Controller {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = 'For RFQ';
+                        if($pr->on_hold==1){
+                            $status_remarks = 'For RFQ'."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = 'For RFQ'."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = 'For RFQ';
+                        }
+                    }else if(($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq==0 && $count_aoq_awarded==0 && $count_po!=0)){
+                        //if($cancelled_items_po==0){
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                            }else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                                $status .= "For Recom";
+                            }else{
+                               $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
+                            }
+                        /*}else {
+                            $statuss = 'Pending';
+                            $status = 'Cancelled';
+                        }*/
+
+                        if($pr->on_hold==1){
+                            $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
                     }else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                         $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                          //if($cancelled_items_po==0){
@@ -924,7 +1063,13 @@ class Reports extends CI_Controller {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = 'Canvassing Ongoing';
+                        if($pr->on_hold==1){
+                            $status_remarks = 'Canvassing Ongoing'."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = 'Canvassing Ongoing'."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = 'Canvassing Ongoing';
+                        }
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq==0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                         //if($cancelled_items_po==0){
@@ -942,7 +1087,13 @@ class Reports extends CI_Controller {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
+                        if($pr->on_hold==1){
+                            $status_remarks = 'RFQ Completed - No. of RFQ completed: '.$count_rfq_completed."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
+                        }
                     } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                          //if($cancelled_items_po==0){
@@ -966,7 +1117,13 @@ class Reports extends CI_Controller {
                             $date='';
                         }
 
-                        $status_remarks = 'AOQ Done - For TE ' .$date;
+                        if($pr->on_hold==1){
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = 'AOQ Done - For TE ' .$date;
+                        }
                     } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                         //if($cancelled_items_po==0){
                             //$status .= 'Pending';
@@ -983,8 +1140,14 @@ class Reports extends CI_Controller {
                             $statuss = 'Pending';
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = 'For PO - AOQ Done (awarded)';
-                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
+                        if($pr->on_hold==1){
+                            $status_remarks = 'For PO - AOQ Done (awarded)' .$aoq_date."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = 'For PO - AOQ Done (awarded)'."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = 'For PO - AOQ Done (awarded)';
+                        }
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq!=0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
                         //if($cancelled_items_po==0){
                             //$status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             if($pr->on_hold==1){
@@ -1000,7 +1163,13 @@ class Reports extends CI_Controller {
                             $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
                         }   */
-                        $status_remarks = '';
+                        if($pr->on_hold==1){
+                            $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
                     } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
                         //if($cancelled_items_po==0){
                             //$status .= "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
@@ -1017,7 +1186,13 @@ class Reports extends CI_Controller {
                             $statuss = "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                             $status = 'Cancelled';
                         }*/
-                        $status_remarks = '';
+                        if($pr->on_hold==1){
+                            $status_remarks = "-On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($pr->for_recom==1){
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
                     } 
 
                 }
@@ -1099,6 +1274,7 @@ class Reports extends CI_Controller {
                 'recom_date_from'=>$pr->recom_date_from,
                 'recom_date_to'=>$pr->recom_date_to,
                 'cancelled'=>$pr->cancelled,
+                'recom_unit_price'=>$recom_unit_price,
                 'cancelled_items_po'=>$cancelled_items_po,
                 'on_hold'=>$pr->on_hold,
             );
@@ -1224,6 +1400,7 @@ class Reports extends CI_Controller {
         if($filt!=''){
             $num = 5;
             foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ".$query) AS $pr){
+                $recom_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $pr->pr_details_id);
                 $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
                 $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $pr->pr_details_id);
                 if($po_offer_id==0){
@@ -1238,6 +1415,8 @@ class Reports extends CI_Controller {
                 $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
                 $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
                 $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
+                $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
+                $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
                 $unserved_qty=0;
                 $unserved_uom='';
                 $statuss='';
@@ -1270,7 +1449,14 @@ class Reports extends CI_Controller {
                             }else{
                                 $status = "PO Issued - Partial\n \n";
                             }
-                            $status_remarks='';
+
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks='';
+                            }
                         }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -1280,7 +1466,14 @@ class Reports extends CI_Controller {
                                 $status .= "PO Issued - Partial\n \n";
                                 $status .= 'Partially Delivered';
                             }
-                            $status_remarks='';
+
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks='';
+                            }
                         }  else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
                             $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
                             /*if($cancelled_head_po!=0){
@@ -1350,7 +1543,14 @@ class Reports extends CI_Controller {
                                 $statuss = 'PO Issued';
                                 $status .= 'Cancelled';
                             }
-                            $status_remarks = '';
+
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = '';
+                            }
                         } else {
                             if($cancelled_items_po==0){
                                 $status .= 'Fully Delivered';
@@ -1406,7 +1606,7 @@ class Reports extends CI_Controller {
                      
 
                         //echo $po_id . "<br>";
-                        if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==0){
+                        if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
                             //if($cancelled_items_po==0){
                                 //$status .= 'Pending';
                             if($pr->on_hold==1){
@@ -1422,7 +1622,36 @@ class Reports extends CI_Controller {
                                 $statuss = 'Pending';
                                 $status = 'Cancelled';
                             }*/
-                            $status_remarks = 'For RFQ';
+                            if($pr->on_hold==1){
+                                $status_remarks = 'For RFQ'."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = 'For RFQ'."\n -Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = 'For RFQ';
+                            }
+                        }else if(($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq==0 && $count_aoq_awarded==0 && $count_po!=0)){
+                            //if($cancelled_items_po==0){
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else if($pr->for_recom==1){
+                                    $status .= "For Recom";
+                                }else{
+                                   $status .= "PO Issued (". $sum_po_issued_qty . " ".$pr->uom .")";
+                                }
+                            /*}else {
+                                $statuss = 'Pending';
+                                $status = 'Cancelled';
+                            }*/
+
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = '';
+                            }
                         } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                              //if($cancelled_items_po==0){
@@ -1440,7 +1669,13 @@ class Reports extends CI_Controller {
                                 $statuss = 'Pending';
                                 $status = 'Cancelled';
                             }*/
-                            $status_remarks = 'Canvassing Ongoing';
+                            if($pr->on_hold==1){
+                                $status_remarks = 'Canvassing Ongoing'."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = 'Canvassing Ongoing'."\n -Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = 'Canvassing Ongoing';
+                            }
                         } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq==0  && $count_aoq_awarded==0  && $count_po==0){
                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                             //if($cancelled_items_po==0){
@@ -1458,7 +1693,13 @@ class Reports extends CI_Controller {
                                 $statuss = 'Pending';
                                 $status = 'Cancelled';
                             }*/
-                            $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
+                            if($pr->on_hold==1){
+                                $status_remarks = 'RFQ Completed - No. of RFQ completed: '.$count_rfq_completed."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed."\n -Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
+                            }
                         } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                              //if($cancelled_items_po==0){
@@ -1481,7 +1722,13 @@ class Reports extends CI_Controller {
                             }else{
                                 $date='';
                             }
-                            $status_remarks = 'AOQ Done - For TE ' .$date;
+                            if($pr->on_hold==1){
+                                $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."\n -Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = 'AOQ Done - For TE ' .$date;
+                            }
                         } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                             //if($cancelled_items_po==0){
                                 //$status .= 'Pending';
@@ -1498,7 +1745,13 @@ class Reports extends CI_Controller {
                                 $statuss = 'Pending';
                                 $status = 'Cancelled';
                             }*/
-                            $status_remarks = 'For PO - AOQ Done (awarded)';
+                            if($pr->on_hold==1){
+                                $status_remarks = 'For PO - AOQ Done (awarded)' .$aoq_date."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = 'For PO - AOQ Done (awarded)'."\n -Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = 'For PO - AOQ Done (awarded)';
+                            }
                         } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
                             //if($cancelled_items_po==0){
                                 if($pr->on_hold==1){
@@ -1514,7 +1767,13 @@ class Reports extends CI_Controller {
                                 $statuss = "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$pr->uom .")</span>";
                                 $status = 'Cancelled';
                             }   */
-                            $status_remarks = '';
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = '';
+                            }
                         } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -1525,7 +1784,13 @@ class Reports extends CI_Controller {
                             }else{
                                 $status .= "Partially Delivered (". $sum_po_issued_qty . " ".$pr->uom .")";
                             }
-                            $status_remarks = '';
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = '';
+                            }
                         } 
 
                     }
@@ -1669,6 +1934,8 @@ class Reports extends CI_Controller {
                 $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
                 $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
                 $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
+                $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
+                $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
                // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
                 $unserved_qty=0;
                 $unserved_uom='';
@@ -1702,7 +1969,14 @@ class Reports extends CI_Controller {
                                 }else{
                                     $status = "PO Issued - Partial \n \n";
                                 }
-                                $status_remarks='';
+
+                                if($pr->on_hold==1){
+                                    $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                                }else if($pr->for_recom==1){
+                                    $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                                }else{
+                                    $status_remarks='';
+                                }
                             }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
                                 if($pr->on_hold==1){
                                     $status .="On-Hold";
@@ -1712,7 +1986,14 @@ class Reports extends CI_Controller {
                                     $status .= "PO Issued - Partial \n \n";
                                     $status .= 'Partially Delivered';
                                 }
-                                $status_remarks='';
+
+                                if($pr->on_hold==1){
+                                    $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                                }else if($pr->for_recom==1){
+                                    $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                                }else{
+                                    $status_remarks='';
+                                }
                             } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
                                 $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
                                 /*if($cancelled_head_po!=0){
@@ -1777,7 +2058,13 @@ class Reports extends CI_Controller {
                                 $statuss = 'PO Issued';
                                 $status = 'Cancelled';
                             }
-                            $status_remarks = '';
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = '';
+                            }
                         } else {
                             //$status = 'Fully Delivered';
                             if($cancelled_items_po==0){
@@ -1825,7 +2112,7 @@ class Reports extends CI_Controller {
                         $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND cancelled='0'");
                         $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND cancelled='0'");
                         $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$pr->pr_details_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
-                        if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0 && $pr->for_recom==0){
+                        if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
@@ -1835,7 +2122,37 @@ class Reports extends CI_Controller {
                             }else{
                                 $status .= 'Pending';
                             }
-                            $status_remarks = 'For RFQ';
+
+                            if($pr->on_hold==1){
+                                $status_remarks = 'For RFQ'."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = 'For RFQ'."\n -Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = 'For RFQ';
+                            }
+                        } else if(($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq==0 && $count_aoq_awarded==0 && $count_po!=0)){
+                            //if($cancelled_items_po==0){
+                                if($pr->on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else if($pr->for_recom==1){
+                                    $status .= "For Recom";
+                                }else{
+                                   $status .= "PO Issued (". $sum_po_issued_qty . " ".$pr->uom .")";
+                                }
+                            /*}else {
+                                $statuss = 'Pending';
+                                $status = 'Cancelled';
+                            }*/
+
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = '';
+                            }
                         } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                             if($pr->on_hold==1){
@@ -1847,7 +2164,14 @@ class Reports extends CI_Controller {
                             }else{
                                 $status .= 'Pending';
                             }
-                            $status_remarks = 'Canvassing Ongoing';
+
+                            if($pr->on_hold==1){
+                                $status_remarks = 'Canvassing Ongoing'."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = 'Canvassing Ongoing'."\n -Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = 'Canvassing Ongoing';
+                            }
                         } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq==0  && $count_aoq_awarded==0  && $count_po==0){
                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                             if($pr->on_hold==1){
@@ -1859,7 +2183,14 @@ class Reports extends CI_Controller {
                             }else{
                                 $status .= 'Pending';
                             }
-                            $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
+
+                            if($pr->on_hold==1){
+                                $status_remarks = 'RFQ Completed - No. of RFQ completed: '.$count_rfq_completed."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed."\n -Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
+                            }
                         } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr->pr_details_id' AND saved='1' AND awarded = '0'");
                             if($pr->on_hold==1){
@@ -1871,7 +2202,14 @@ class Reports extends CI_Controller {
                             }else{
                                 $status .= 'Pending';
                             }
-                            $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date));
+
+                            if($pr->on_hold==1){
+                                $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."\n -Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = 'AOQ Done - For TE ' .date('m.d.y', strtotime($aoq_date));
+                            }
                         } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -1882,8 +2220,14 @@ class Reports extends CI_Controller {
                             }else{
                                 $status .= 'Pending';
                             }
-                            $status_remarks = 'For PO - AOQ Done (awarded)';
-                        } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
+                            if($pr->on_hold==1){
+                                $status_remarks = 'For PO - AOQ Done (awarded)' .$aoq_date."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = 'For PO - AOQ Done (awarded)'."\n -Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = 'For PO - AOQ Done (awarded)';
+                            }
+                        } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq!=0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
                             }else if($pr->fulfilled_by==1){
@@ -1893,7 +2237,14 @@ class Reports extends CI_Controller {
                             }else{
                                 $status .= "PO Issued (". $sum_po_issued_qty . " ".$pr->uom .")";
                             }
-                            $status_remarks = '';
+
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = '';
+                            }
                         } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -1904,7 +2255,14 @@ class Reports extends CI_Controller {
                             }else{
                                 $status .= "Partially Delivered (". $sum_po_issued_qty . " ".$pr->uom .")";
                             }
-                            $status_remarks = '';
+
+                            if($pr->on_hold==1){
+                                $status_remarks = "-On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                            }else if($pr->for_recom==1){
+                                $status_remarks = "-Recom By: ".$recom_by."\n -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));
+                            }else{
+                                $status_remarks = '';
+                            }
                         }
                     }
                 }

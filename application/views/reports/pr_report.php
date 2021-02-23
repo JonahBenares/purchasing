@@ -211,7 +211,7 @@
                                         </thead>
                                         
                                         <tbody>    
-                                        <?php if(!empty($pr)){ foreach($pr AS $p) { 
+                                        <?php if(!empty($pr)){ $x=1; foreach($pr AS $p) { 
                                             $po_issue=$CI->like($p['status'], "PO Issued");
                                             $delivered_by=$CI->like($p['status'], "Delivered by");
                                         ?>   
@@ -237,11 +237,11 @@
                                             >   
 
                                                 <?php if($p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['on_hold']==0){ ?>
-                                                <td><input type="checkbox" name="onhold[]" value="<?php echo $p['pr_details_id'];?>" class="form-control" style="width: 50%" <?php echo ((strpos($p['on_hold'], "1") !== false) ? ' checked' : '');?>></td>
+                                                <td><input type="checkbox" name="onhold[]" id="onhold<?php echo $x; ?>" value="<?php echo $p['pr_details_id'];?>" class="form-control" style="width: 50%" <?php echo ((strpos($p['on_hold'], "1") !== false) ? ' checked' : '');?> onclick="hidecheck(<?php echo $x; ?>);"></td>
                                                 <td></td>
                                                 <?php } else if($p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['on_hold']==1){ ?>
-                                                <td><input type="checkbox" name="onhold[]" value="<?php echo $p['pr_details_id'];?>" class="form-control" style="width: 50%" <?php echo ((strpos($p['on_hold'], "1") !== false) ? ' checked' : '');?>></td>
-                                                <td><input type="checkbox" name="proceed[]" value="<?php echo $p['pr_details_id'];?>" class="form-control" style="width: 50%" <?php echo ((strpos($p['on_hold'], "0") !== false) ? ' checked' : '');?>></td>
+                                                <td><input type="checkbox" name="onhold[]" id="onhold<?php echo $x; ?>" value="<?php echo $p['pr_details_id'];?>" class="form-control" style="width: 50%;pointer-events: none" <?php echo ((strpos($p['on_hold'], "1") !== false) ? ' checked' : '');?> onclick="hidecheck(<?php echo $x; ?>);"></td>
+                                                <td><input type="checkbox" name="proceed[]" id="proceed<?php echo $x; ?>" value="<?php echo $p['pr_details_id'];?>" class="form-control" style="width: 50%" <?php echo ((strpos($p['on_hold'], "0") !== false) ? ' checked' : '');?> onclick="hidecheck(<?php echo $x; ?>);"></td>
                                                 <?php }else{ ?>
                                                 <td></td>
                                                 <td></td>
@@ -270,21 +270,23 @@
                                                     <center>    
                                                          <button type="button" class="btn btn-primary btn-xs calendar" data-toggle="modal" data-target="#calendar" title='Calendar' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
                                                             <span class="fa fa-calendar"></span>
-                                                        </button>                                                            
+                                                        </button>  
+                                                        <?php if($p['on_hold']==0 && $p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['status']!='Partially Delivered / Cancelled'){ ?>                                                          
                                                         <button type="button" class="btn btn-primary btn-xs on_recom" data-toggle="modal" data-target="#on_recom" title='Recom' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-price="<?php echo $p['recom_unit_price'];?>">
                                                             <span class="fa fa-list-ul"></span>
                                                         </button>
                                                         <button type="button" class="btn btn-primary btn-xs fulfilled" data-toggle="modal" data-target="#fulfilled" title='Fulfilled by Sister Company' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
                                                             <span class="fa fa-truck"></span>
                                                         </button>
+                                                        <?php } ?>
                                                         <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
                                                             <span class="fa fa-plus"></span>
                                                         </button>  
                                                     </center>
                                                 </td>
                                             </tr>    
-                                        <?php } } ?>   
-                                        <tr class="orange">
+                                        <?php $x++; } } ?> 
+                                        <!-- <tr class="orange">
                                             <td colspan="22"><br></td>
                                         </tr>   
                                         <tr class="green">
@@ -301,7 +303,7 @@
                                         </tr>
                                         <tr class="purple">
                                             <td colspan="22"><br></td>
-                                        </tr>
+                                        </tr> -->
                                         </tbody>
                                     </table>
                                 </div>                           
@@ -633,6 +635,14 @@
     <script type="text/javascript">
         function goBack() {
             window.history.back();
+        }
+
+        function hidecheck(count) {
+             if(document.getElementById('proceed'+count).checked){
+                $('#onhold'+count).attr('disabled','disabled');
+             }else{
+                $('#onhold'+count).removeAttr('disabled');
+             }
         }
     </script>
 
