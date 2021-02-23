@@ -515,7 +515,7 @@
                                 <option value = "">--Select Terms--</option>
                                 <?php foreach($terms AS $t){ ?>
                                 <option value = "<?php echo $t->terms_id; ?>"><?php echo $t->terms?></option>
-                                <?php } ?>terms_id
+                                <?php } ?>
                             </select>
                             </div>
                             <div class="col-lg-6">
@@ -565,7 +565,12 @@
                         </div>
                         <div class="form-group">
                             <label>Project / Activity:</label>
-                        <textarea class="form-control" rows="5" name='proj_act' id='proj_act' placeholder="Project / Activity"></textarea>
+                            <select name="proj_act" class="form-control" cols="2">
+                                <option value = "">--Select Project / Activity--</option>
+                                <?php foreach($proj_act AS $pa){ ?>
+                                <option value = "<?php echo $pa->proj_act_id; ?>"><?php echo $pa->proj_activity?></option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Remarks:</label>

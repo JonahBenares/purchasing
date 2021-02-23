@@ -110,6 +110,7 @@ class Reports extends CI_Controller {
         $data['company']=$this->super_model->select_all_order_by("company","company_name","ASC");
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         $data['terms']=$this->super_model->select_all_order_by("terms","terms","ASC");
+        $data['proj_act']=$this->super_model->select_custom_where("project_activity","status='Active' ORDER BY proj_activity ASC");
         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $pr){
             //echo $pr->wh_stocks;
             $recom_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $pr->pr_details_id);
@@ -4872,7 +4873,7 @@ class Reports extends CI_Controller {
         $pr_details_id =$this->input->post('pr_details_id');
         $year =$this->input->post('year');
         $month =$this->input->post('month');
-        $proj_act=$this->input->post('proj_act');
+        $proj_activity =$this->input->post('proj_act');
         $c_remarks=$this->input->post('c_remarks');
         $duration=$this->input->post('duration');
         $target_start_date=$this->input->post('target_start_date');
@@ -4887,7 +4888,7 @@ class Reports extends CI_Controller {
         $data=array(
             'pr_id'=>$pr_id,
             'pr_details_id'=>$pr_details_id,
-            'proj_act'=>$proj_act,
+            'proj_act_id'=>$proj_activity,
             'c_remarks'=>$c_remarks,
             'duration'=>$duration,
             'target_start_date'=>$target_start_date,

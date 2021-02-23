@@ -531,6 +531,46 @@ class Masterfile extends CI_Controller {
                 window.location ='".base_url()."masterfile/company_list'; </script>";
         }
     }
+    public function proj_activity_list(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['proj_act']=$this->super_model->select_all_order_by('project_activity', 'proj_activity', 'ASC');
+        $this->load->view('masterfile/proj_activity_list',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function insert_proj_activity(){
+        $proj_activity = trim($this->input->post('proj_activity')," ");
+        $status = trim($this->input->post('status')," ");
+        $data = array(
+            'proj_activity'=>$proj_activity,
+            'status'=>$status,
+        );
+        if($this->super_model->insert_into("project_activity", $data)){
+            echo "<script>alert('Successfully Added!'); window.location ='".base_url()."masterfile/proj_activity_list'; </script>";
+        }
+    }
+
+    public function update_proj_activity(){
+        $this->load->view('template/header');
+        $data['id']=$this->uri->segment(3);
+        $id=$this->uri->segment(3);
+        $data['proj_act'] = $this->super_model->select_row_where('project_activity', 'proj_act_id', $id);
+        $this->load->view('masterfile/update_proj_activity',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function edit_proj_act(){
+        $data = array(
+            'proj_activity'=>$this->input->post('proj_activity'),
+            'status'=>$this->input->post('status'),
+        );
+        $proj_act_id = $this->input->post('proj_act_id');
+        if($this->super_model->update_where('project_activity', $data, 'proj_act_id', $proj_act_id)){
+            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+        }
+    }
+
     public function filter_pending(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
@@ -701,19 +741,6 @@ class Masterfile extends CI_Controller {
             }
         }      
         $this->load->view('masterfile/dashboard',$data);
-        $this->load->view('template/footer');
-    }
-
-    public function proj_activity(){
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
-        $this->load->view('masterfile/proj_activity');
-        $this->load->view('template/footer');
-    }
-
-    public function update_proj_activity(){
-        $this->load->view('template/header');
-        $this->load->view('masterfile/update_proj_activity');
         $this->load->view('template/footer');
     }
 }

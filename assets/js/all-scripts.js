@@ -35,8 +35,8 @@ function updateEnduse(baseurl,id) {
     window.open(baseurl+"index.php/masterfile/update_enduse/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
 }
 
-function updateproj(baseurl) {
-    window.open(baseurl+"index.php/masterfile/update_proj_activity/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
+function updateProjAct(baseurl,id) {
+    window.open(baseurl+"index.php/masterfile/update_proj_activity/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
 }
 
 function incomingRfq(baseurl, rfqid) {

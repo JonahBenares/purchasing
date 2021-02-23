@@ -13,20 +13,28 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/">
+                                                <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/edit_proj_act">
                                                     <div class="modal-body-lowpad">
-                                                        <div class="form-group">
-                                                            <p class="m-b-0">Project Name:</p>
-                                                            <input type="text" name="enduse" class="form-control" value = "">
-                                                            <br>
+                                                        <?php foreach($proj_act AS $pa){ ?>
+                                                            <div class="form-group">
+                                                                <p class="m-b-0">Project / Activity:</p>
+                                                                <input type = "text" name="proj_activity" class="form-control"  value = "<?php echo $pa->proj_activity?>">
+                                                            </div>
+                                                   <div class="form-group">
                                                             <p class="m-b-0">Status:</p>
-                                                            <select class="form-control">
-                                                                <option>active</option>
+                                                            <select type="text" name="status" class="form-control">
+                                                                <option value = "Active" <?php echo (($pa->status == 'Active') ? ' selected' : '');?>>Active</option>
+                                                                <option value = "Inactive" <?php echo (($pa->status == 'Inactive') ? ' selected' : '');?>>Inactive</option>
                                                             </select>
-                                                            <input type="hidden" name="enduse_id" value = "">
                                                         </div>
+                                                            <input type = "hidden" name = "proj_act_id" value="<?php echo $id; ?>">
+                                                            <!-- <div class="form-group">
+                                                                <p class="m-b-0">Location:</p>
+                                                                <input type="text" name="" class="form-control">
+                                                            </div> -->
+                                                        <?php } ?>
                                                         <center>
-                                                            <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
+                                                            <input type = "submit" class="btn btn-custon-three btn-info btn-block" value = "Update">
                                                         </center>
                                                     </div>
                                                 </form>
