@@ -703,6 +703,19 @@ class Masterfile extends CI_Controller {
         $this->load->view('masterfile/dashboard',$data);
         $this->load->view('template/footer');
     }
+
+    public function proj_activity(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('masterfile/proj_activity');
+        $this->load->view('template/footer');
+    }
+
+    public function update_proj_activity(){
+        $this->load->view('template/header');
+        $this->load->view('masterfile/update_proj_activity');
+        $this->load->view('template/footer');
+    }
 }
 
 ?>

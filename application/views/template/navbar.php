@@ -29,6 +29,7 @@
                                 <a href="<?php echo base_url(); ?>vendors/vendor_list" class="dropdown-item">Vendors</a>
                                 <a href="<?php echo base_url(); ?>masterfile/employee_list" class="dropdown-item">Employee</a>
                                 <a href="<?php echo base_url(); ?>masterfile/unit_list" class="dropdown-item">Unit</a>
+                                <a href="<?php echo base_url(); ?>masterfile/proj_activity" class="dropdown-item">Project Activity</a>
                             </div>
                         </li>
 

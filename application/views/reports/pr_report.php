@@ -314,6 +314,71 @@
             <input type="hidden" name="month" value="<?php echo $month; ?>">
         </form>
     </div>
+
+    <div class="modal fade" id="legend" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <table width="100%" style="margin: 40px">
+                    <tr>
+                        <td width="40%" style="background-color: #fd9c77"></td>
+                        <td width="5%"></td>
+                        <td>Recom Items</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #bcffc7"></td>
+                        <td></td>
+                        <td>Fully Delivered</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #f7ffb9 "></td>
+                        <td></td>
+                        <td>Partially Delivered</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #ffecd0 "></td>
+                        <td></td>
+                        <td>Issued PO</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #d2deff "></td>
+                        <td></td>
+                        <td>On-hold</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #eeccff "></td>
+                        <td></td>
+                        <td>Delivered by another company</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
     <div class="modal fade" id="addremarks" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -518,7 +583,7 @@
                                 </div>
                             </div>   
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label>Actual Start:</label>
@@ -557,69 +622,7 @@
     </div>
 
 
-    <div class="modal fade" id="legend" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content">
-                <table width="100%" style="margin: 40px">
-                    <tr>
-                        <td width="40%" style="background-color: #fd9c77"></td>
-                        <td width="5%"></td>
-                        <td>Recom Items</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div style="margin:5px"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #bcffc7"></td>
-                        <td></td>
-                        <td>Fully Delivered</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div style="margin:5px"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #f7ffb9 "></td>
-                        <td></td>
-                        <td>Partially Delivered</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div style="margin:5px"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #ffecd0 "></td>
-                        <td></td>
-                        <td>Issued PO</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div style="margin:5px"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #d2deff "></td>
-                        <td></td>
-                        <td>On-hold</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div style="margin:5px"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #eeccff "></td>
-                        <td></td>
-                        <td>Delivered by another company</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
+    
 
 
     <script type="text/javascript">
