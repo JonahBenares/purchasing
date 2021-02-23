@@ -29,6 +29,7 @@
                                 <a href="<?php echo base_url(); ?>vendors/vendor_list" class="dropdown-item">Vendors</a>
                                 <a href="<?php echo base_url(); ?>masterfile/employee_list" class="dropdown-item">Employee</a>
                                 <a href="<?php echo base_url(); ?>masterfile/unit_list" class="dropdown-item">Unit</a>
+                                <a href="<?php echo base_url(); ?>masterfile/proj_activity_list" class="dropdown-item">Project Activity</a>
                             </div>
                         </li>
 
@@ -304,35 +305,6 @@
                                     <small>Date To:</small>
                                     <input placeholder="Date To" class="form-control" name="cal_date_to" type="text" onfocus="(this.type='date')" id="date">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                Choose Month:
-                                <select class="form-control" name="month">
-                                    <option value='' selected="selected">-Select Month-</option>
-                                    <option value='01'>January</option>
-                                    <option value='02'>February</option>
-                                    <option value='03'>March</option>
-                                    <option value='04'>April</option>
-                                    <option value='05'>May</option>
-                                    <option value='06'>June</option>
-                                    <option value='07'>July</option>
-                                    <option value='08'>August</option>
-                                    <option value='09'>September</option>
-                                    <option value='10'>October</option>
-                                    <option value='11'>November</option>
-                                    <option value='12'>December</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                Choose Year:
-                                <select class="form-control" name="year">
-                                    <option value='' selected="selected">-Select Year-</option>
-                                    <?php
-                                    $curr_year = date('Y'); 
-                                    for($x=2017;$x<=$curr_year;$x++){ ?>
-                                        <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
-                                    <?php } ?>
-                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">

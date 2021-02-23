@@ -259,11 +259,11 @@
                                                 <td><?php echo $p['uom']; ?></td>
                                                 <td><?php echo $p['grouping_id']; ?></td>
                                                 <td><?php echo $p['item_description'] . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td> 
-                                                <td><?php echo $p['status_remarks']; ?></td>                                         
+                                                <td><?php echo ($p['for_recom']==1) ? $p['status_remarks'] ."<br>Recom By: ".$p['recom_by'] ."<br> Recom Dates: ".$p['recom_date_from']." to ".$p['recom_date_to'] : $p['status_remarks']; ?></td>                                         
                                                 <td><?php echo $p['status']; ?></td>                                           
                                                
                                                 <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
-                                                <td><?php echo ($p['fulfilled_by']==1) ? $p['remarks'] ."<br> -".date('M j, Y', strtotime($p['date_delivered'])) ."<br> -".$p['supplier'] ."<br> -".$p['unit_price'] ."<br> -".$p['qty_delivered'] : $p['remarks'];?></td>
+                                                <td><?php echo ($p['fulfilled_by']==1) ? $p['remarks'] ."<br> (Delivered by ".$p['company']." details: "."<br> - Date: ".date('M j, Y', strtotime($p['date_delivered'])) ."<br> - Supplier: ".$p['supplier'] ."<br> - Unit Price: ".$p['unit_price'] ."<br> - Qty: ".$p['qty_delivered'].")" : $p['remarks'];?></td>
                                                 <td><?php echo $p['cancel_remarks'];?></td>
                                                 <td></td>
                                                 <td align="center">  
@@ -316,6 +316,71 @@
             <input type="hidden" name="month" value="<?php echo $month; ?>">
         </form>
     </div>
+
+    <div class="modal fade" id="legend" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <table width="100%" style="margin: 40px">
+                    <tr>
+                        <td width="40%" style="background-color: #fd9c77"></td>
+                        <td width="5%"></td>
+                        <td>Recom Items</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #bcffc7"></td>
+                        <td></td>
+                        <td>Fully Delivered</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #f7ffb9 "></td>
+                        <td></td>
+                        <td>Partially Delivered</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #ffecd0 "></td>
+                        <td></td>
+                        <td>Issued PO</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #d2deff "></td>
+                        <td></td>
+                        <td>On-hold</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #eeccff "></td>
+                        <td></td>
+                        <td>Delivered by another company</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
     <div class="modal fade" id="addremarks" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -452,7 +517,7 @@
                                 <option value = "">--Select Terms--</option>
                                 <?php foreach($terms AS $t){ ?>
                                 <option value = "<?php echo $t->terms_id; ?>"><?php echo $t->terms?></option>
-                                <?php } ?>terms_id
+                                <?php } ?>
                             </select>
                             </div>
                             <div class="col-lg-6">
@@ -502,7 +567,12 @@
                         </div>
                         <div class="form-group">
                             <label>Project / Activity:</label>
-                        <textarea class="form-control" rows="5" name='proj_act' id='proj_act' placeholder="Project / Activity"></textarea>
+                            <select name="proj_act" class="form-control" cols="2">
+                                <option value = "">--Select Project / Activity--</option>
+                                <?php foreach($proj_act AS $pa){ ?>
+                                <option value = "<?php echo $pa->proj_act_id; ?>"><?php echo $pa->proj_activity?></option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Remarks:</label>
@@ -520,7 +590,7 @@
                                 </div>
                             </div>   
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label>Actual Start:</label>
@@ -559,69 +629,7 @@
     </div>
 
 
-    <div class="modal fade" id="legend" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content">
-                <table width="100%" style="margin: 40px">
-                    <tr>
-                        <td width="40%" style="background-color: #fd9c77"></td>
-                        <td width="5%"></td>
-                        <td>Recom Items</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div style="margin:5px"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #bcffc7"></td>
-                        <td></td>
-                        <td>Fully Delivered</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div style="margin:5px"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #f7ffb9 "></td>
-                        <td></td>
-                        <td>Partially Delivered</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div style="margin:5px"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #ffecd0 "></td>
-                        <td></td>
-                        <td>Issued PO</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div style="margin:5px"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #d2deff "></td>
-                        <td></td>
-                        <td>On-hold</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <div style="margin:5px"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #eeccff "></td>
-                        <td></td>
-                        <td>Delivered by another company</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
+    
 
 
     <script type="text/javascript">

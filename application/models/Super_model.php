@@ -291,6 +291,18 @@ class super_model extends CI_Model
         }
     }
 
+       public function select_sum_between($table, $column, $where)
+    {
+        $this->db->select('SUM('.$column.') as total');
+        $this->db->from($table);
+        $this->db->where($where);
+        $query = $this->db->get();
+        foreach($query->result() as $result)
+        {
+            return $result->total;
+        }
+    }
+
     
 
     public function select_ave($table, $column, $where_col, $where_value)
