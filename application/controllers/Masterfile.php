@@ -124,6 +124,8 @@ class Masterfile extends CI_Controller {
             );
         }
 
+        $count_calendar = $this->super_model->count_rows("pr_calendar");
+        if($count_calendar!=0){
         foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed!='' AND estimated_price!='0' ORDER BY ver_date_needed DESC") AS $ca){
             $quantity=$this->super_model->select_column_where("pr_details","quantity","pr_details_id",$ca->pr_details_id);
             $total_ep = $quantity * $ca->estimated_price;
@@ -142,6 +144,10 @@ class Masterfile extends CI_Controller {
                 'served'=>$served
 
             );
+            }
+        }else{
+            $data['dash_calendar']=array();
+            $data['total_disp']=0.00;
         }
 
 /*
