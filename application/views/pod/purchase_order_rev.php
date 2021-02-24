@@ -238,6 +238,7 @@
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
 		    			<td colspan="11" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>OLD U/P</b></td>
+		    			<td colspan="2" class="all-border" align="center"><b>Currency</b></td>
 		    			<td colspan="3" class="all-border" align="center"><b>Total</b></td>
 		    		</tr>
 		    		<?php
@@ -256,6 +257,7 @@
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="11" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $offer; ?></b></td>
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it->unit_price; ?></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it->currency; ?></b></td>
 		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
 		    		</tr>	
 		    		<?php 
@@ -266,6 +268,7 @@
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="11" class=" bor-right" align="center"></td>
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
+		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    			<td colspan="3" class=" bor-right" align="center"></td>
 		    		</tr>
 		    		<tr>
@@ -274,6 +277,7 @@
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="11" class=" bor-right" align="right">Shipping Cost</td>
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
+		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($shipping,2); ?></b></td>
 		    		</tr>
 		    		<tr>
@@ -281,6 +285,7 @@
 		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="11" class=" bor-right" align="right">Packing and Handling Fee</td>
+		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($packing,2); ?></b></td>
 		    		</tr>
@@ -291,6 +296,7 @@
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="11" class=" bor-right" align="right"><?php echo $vat_percent; ?>% VAT</td>
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
+		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($vat,2); ?></b></td>
 		    		</tr>
 		    		<?php } ?>
@@ -299,6 +305,7 @@
 		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="11" class=" bor-right" align="right">Less: Discount</td>
+		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="3" class=" bor-right" align="right"><b class="nomarg"><?php echo number_format($discount,2); ?></b></td>
 		    		</tr>
@@ -316,6 +323,7 @@
 		    				</p><br>
 		    				<?php } ?>
 		    			</td>
+		    			<td colspan="2" class=" bor-right" align="center"><br></td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
 		    			<td colspan="3" class="bor-btm bor-right" align="center"></td>
 		    		</tr>		
@@ -324,7 +332,7 @@
 		    		?>    		
 		    		<tr>
 		    			<td colspan="17" class="all-border " align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format($grandtotal,4); ?></b></td>
+					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left"></span><?php echo number_format($grandtotal,4); ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">
@@ -363,6 +371,7 @@
 						    			<td colspan="" class="all-border yellow-back" align="center"><b>Unit</b></td>
 						    			<td colspan="11" class="all-border yellow-back" align="center"><b>New Description</b></td>
 						    			<td colspan="2" class="all-border yellow-back" align="center"><b>New U/P</b></td>
+						    			<td colspan="2" class="all-border yellow-back" align="center"><b>Currency</b></td>
 						    			<td colspan="3" class="all-border yellow-back" align="center"><b>Total</b></td>
 						    		</tr>
 
@@ -385,6 +394,13 @@
 								    			<td colspan="" class="bor-right v-align" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value='<?php echo $it->uom; ?>' style = "width:100%;"></b></td>
 								    			<td colspan="11" class="bor-right v-align" align="left"><input type='text' style='width:100%' name='offer<?php echo $x; ?>' value='<?php echo utf8_encode($offer); ?>'></td>
 								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it->unit_price; ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
+								    			<td colspan="2" class="bor-right v-align" align="center">
+								    				<select style="width: 100%" name='currency<?php echo $x; ?>'>
+						    							<?php foreach($currency_list AS $curr){ ?>
+						    							<option value="<?php echo $curr; ?>" <?php echo (($curr==$it->currency) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    							<?php } ?>
+						   							</select>
+								    			</td>
 								    			<td colspan="3" class="bor-right v-align" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,4); ?>" style='text-align:right;' readonly></td>		
 								    		</tr>	
 								    			<?php 
@@ -411,6 +427,15 @@
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 								    			<td colspan="11" class="bor-right" align="left"><?php echo utf8_encode($offer); ?></td>
 								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->unit_price; ?></td>
+								    			<td colspan="2" class="bor-right v-align" align="center">
+		    										<?php if($saved==0){ ?>
+				    								<select style="width: 100%" name='currency<?php echo $x; ?>'>
+						    							<?php foreach($currency_list AS $curr){ ?>
+						    						<option value="<?php echo $curr; ?>" <?php echo (($curr==$it->currency) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    							<?php } ?>
+						   								 </select>
+													<?php }else{ echo $it->currency; } ?>
+				    							</td>
 								    			<td colspan="3" class="bor-right" align="right"><?php echo number_format($it->amount,4); ?></td>		
 								    		</tr>	
 								    			<?php 
@@ -428,6 +453,7 @@
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="11" class=" bor-right" align="center"></td>
 						    			<td colspan="2" class=" bor-right" align="center"><br></td>
+						    			<td colspan="2" class=" bor-right" align="center"><br></td>
 						    			<td colspan="3" class=" bor-right" align="center"></td>
 						    		</tr>
 						    		<?php if($revised==0){ ?>
@@ -437,6 +463,7 @@
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="11" class=" bor-right" align="right">Shipping Cost</td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='shipping' id='shipping' value='<?php echo $shipping; ?>' onchange='additionalCost()' style='width:100%' ></td>
 						    		</tr>
 						    		<tr>
@@ -444,6 +471,7 @@
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="11" class=" bor-right" align="right">Packing and Handling Fee</td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='packing' id='packing' onchange='additionalCost()' value='<?php echo $packing; ?>' style='width:100%' ></td>
 						    		</tr>
@@ -453,6 +481,7 @@
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="11" class=" bor-right" align="right"><input name="vat_percent" id="vat_percent" value = "<?php echo $vat_percent; ?>" size="5">% VAT</td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='vat' id='vat' onchange='additionalCost()' value='<?php echo $vat; ?>' style='width:100%' ></td>
 						    		</tr>
 						    		<tr>
@@ -460,6 +489,7 @@
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="11" class=" bor-right" align="right">Less: Discount</td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="center"><input type='text' name='discount' id='discount' onchange='additionalCost()' value='<?php echo $discount; ?>' style='width:100%' ></td>
 						    		</tr>
@@ -470,6 +500,7 @@
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="11" class=" bor-right" align="right">Shipping Cost</td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="right"><?php echo number_format($shipping_temp,2); ?></td>
 						    		</tr>
 						    		<tr>
@@ -477,6 +508,7 @@
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="11" class=" bor-right" align="right">Packing and Handling Fee</td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="right"><?php echo number_format($packing_temp,2); ?></td>
 						    		</tr>
@@ -486,6 +518,7 @@
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="11" class=" bor-right" align="right"><?php echo $vat_percent_temp; ?>% VAT</td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="right"><?php echo number_format($vat_temp,2); ?></td>
 						    		</tr>
 						    		<tr>
@@ -493,6 +526,7 @@
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="" class=" bor-right" align="center"></td>
 						    			<td colspan="11" class=" bor-right" align="right">Less: Discount</td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class=" bor-right" align="right"><?php echo number_format($discount_temp,2); ?></td>
 						    		</tr>
@@ -513,6 +547,7 @@
 						    				<br>
 						    			</td>
 						    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
+						    			<td colspan="2" class=" bor-right" align="center"></td>
 						    			<td colspan="3" class="bor-btm bor-right" align="center"></td>
 						    		</tr>
 						    		<?php 
@@ -525,8 +560,8 @@
 						    		?>    			
 						    		<input type='hidden' id='orig_amount' value='<?php echo $grtotal2; ?>'>
 						    		<tr>
-						    			<td colspan="17" class="all-border yellow-back" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-									    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency_temp; ?></span><span id='grandtotal'><?php echo number_format($grandtotal2,4); ?></span></b></td>
+						    			<td colspan="19" class="all-border yellow-back" align="right"><b class="nomarg">GRAND TOTAL</b></td>
+									    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php echo number_format($grandtotal2,4); ?></span></b></td>
 						    		</tr>
 						    		<tr>
 						    			<td colspan="20">

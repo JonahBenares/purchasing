@@ -456,6 +456,7 @@ class Pod extends CI_Controller {
             }
         }else {
             foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
+                $currency = $this->input->post('currency'.$x);
                 $total = $items->delivered_quantity*$items->unit_price;
                 $data['items'][]= array(
                     'pr_details_id'=>$items->pr_details_id,
@@ -630,6 +631,7 @@ class Pod extends CI_Controller {
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
                 $offer = $this->input->post('item'.$x);
+                $currency = $this->input->post('currency'.$x);
                 $data=array(
                     'delivered_quantity'=>$qty,
                     'offer'=>$offer,
@@ -994,6 +996,7 @@ class Pod extends CI_Controller {
       public function purchase_order_rev(){
 
         $po_id=$this->uri->segment(3); 
+        $data['currency1']='';
         foreach($this->super_model->select_row_where("po_head", "po_id",$po_id) AS $head){
             $data['approved_by']=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
             $data['prepared_by']=$this->super_model->select_column_where('users','fullname','user_id', $head->user_id);
@@ -1031,6 +1034,7 @@ class Pod extends CI_Controller {
 
         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
         $data['currency']= $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
+        $data['currency_list'] = $this->currency_list();
         $data['items_temp'] = $this->super_model->select_row_where('po_items_temp', 'po_id', $po_id);
         $data['currency_temp']= $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
       
@@ -1075,6 +1079,7 @@ class Pod extends CI_Controller {
      /*   $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
         $revision_no = $max_revision+1;*/
          $timestamp = date('Y-m-d');
+         $data['currency1']='';
         $data_head = array(
             'po_id'=>$po_id,
              'po_date'=>$timestamp,
@@ -1089,6 +1094,7 @@ class Pod extends CI_Controller {
             if($this->input->post('quantity'.$x)!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                $currency = $this->input->post('currency'.$x);
                 
                     $data_items = array(
                         "po_items_id"=>$poitems->po_items_id,
@@ -1103,6 +1109,7 @@ class Pod extends CI_Controller {
                         "quantity"=>$poitems->delivered_quantity,
                         "unit_price"=>$price,
                         "uom"=>$this->input->post('uom'.$x),
+                        "currency"=>$currency,
                         "amount"=>$amount,
                         "item_no"=>$poitems->item_no,
                        /* "revision_no"=>$revision_no*/

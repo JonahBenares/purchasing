@@ -270,7 +270,7 @@
 		    				<?php if($saved==0){ ?>
 				    		<select style="width: 100%" name='currency<?php echo $x; ?>'>
 						    	<?php foreach($currency AS $curr){ ?>
-						    		<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$it['currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    	<?php } ?>
 						    </select>
 							<?php }else{ echo $it['currency']; } ?>
