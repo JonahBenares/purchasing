@@ -259,7 +259,7 @@
                                                 <td><?php echo $p['uom']; ?></td>
                                                 <td><?php echo $p['grouping_id']; ?></td>
                                                 <td><?php echo $p['item_description'] . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td> 
-                                                <td><?php echo ($p['for_recom']==1) ? $p['status_remarks'] ."<br>Recom By: ".$p['recom_by'] ."<br> Recom Dates: ".$p['recom_date_from']." to ".$p['recom_date_to'] : $p['status_remarks']; ?></td>                                         
+                                                <td><?php echo $p['status_remarks']; ?></td>                                         
                                                 <td><?php echo $p['status']; ?></td>                                           
                                                
                                                 <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>

@@ -55,9 +55,8 @@ class Reports extends CI_Controller {
     }
 
     public function generate_purch_calendar_report(){
-        $cal_date_from = $this->input->post('cal_date_from');
-        $cal_date_to = $this->input->post('cal_date_to');
-        redirect(base_url().'reports/purch_calendar/'.$cal_date_from.'/'.$cal_date_to);
+        $year = $this->input->post('year');
+        redirect(base_url().'reports/purch_calendar/'.$year);
     }
 
     public function like($str, $searchTerm) {
@@ -5266,11 +5265,12 @@ class Reports extends CI_Controller {
         $data['year'] = $year;
   /*      $data['cal_date_from']=$cdate_from;
         $data['cal_date_to']=$cdate_to;*/
+        $data['proj_act']=$this->super_model->select_custom_where("project_activity","status='Active' ORDER BY proj_activity ASC");
         $count_calendar = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' ORDER BY ver_date_needed DESC");
         if($count_calendar!=0){
         foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' ORDER BY ver_date_needed DESC") AS $cp){
             $data['purch_calendar'][] =  array(
-                'proj_act'=>$cp->proj_act,
+                'proj_activity'=>$this->super_model->select_column_where('project_activity','proj_activity',"proj_act_id",$cp->proj_act_id),
                 'c_remarks'=>$cp->c_remarks,
                 'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$cp->pr_id),
                 'duration'=>$cp->duration,
@@ -5299,20 +5299,12 @@ class Reports extends CI_Controller {
         return $total;
     }
     public function search_purch_calendar(){
-        if(!empty($this->input->post('cal_date_from'))){
-            $data['cal_date_from'] = $this->input->post('cal_date_from');
-            $cal_date_from = $this->input->post('cal_date_from');
+        if(!empty($this->input->post('year'))){
+            $data['year'] = $this->input->post('year');
+            $year = $this->input->post('year');
         } else {
-            $data['cal_date_from']= "null";
-            $cal_date_from= "null";
-        }
-
-        if(!empty($this->input->post('cal_date_to'))){
-            $data['cal_date_to'] = $this->input->post('cal_date_to');
-            $cal_date_to = $this->input->post('cal_date_to');
-        } else {
-            $data['cal_date_to']= "null";
-            $cal_date_to= "null";
+            $data['year']= "null";
+            $year= "null";
         }
 
         if(!empty($this->input->post('pr_no'))){
@@ -5383,54 +5375,61 @@ class Reports extends CI_Controller {
         $filter = "";
 
         if($pr_no!=''){
-            $sql.=" pr_head.pr_no LIKE '%$pr_no%' AND";
+            $sql.=" ph.pr_no LIKE '%$pr_no%' AND";
             $filter .= $pr_no.", ";
         }
 
-        if($proj_act!=''){
+        /*if($proj_act!=''){
             $sql.=" pr_calendar.proj_act LIKE '%$proj_act%' AND";
             $filter .= $proj_act.", ";
+        }*/
+        if($proj_act!='null'){
+            $sql.=" pc.proj_act_id = '$proj_act' AND";
+            $filter .= $this->super_model->select_column_where("project_activity","proj_activity","proj_act_id",$proj_act).", ";
         }
 
         if($c_remarks!=''){
-            $sql.=" pr_calendar.c_remarks LIKE '%$c_remarks%' AND";
+            $sql.=" pc.c_remarks LIKE '%$c_remarks%' AND";
             $filter .= $c_remarks.", ";
         }
 
         if($ver_date_needed!=''){
-            $sql.=" pr_calendar.ver_date_needed LIKE '%$ver_date_needed%' AND";
+            $sql.=" pc.ver_date_needed LIKE '%$ver_date_needed%' AND";
             $filter .= $ver_date_needed.", ";
         }
 
         if($target_start_date!=''){
-            $sql.=" pr_calendar.target_start_date LIKE '%$target_start_date%' AND";
+            $sql.=" pc.target_start_date LIKE '%$target_start_date%' AND";
             $filter .= $target_start_date.", ";
         }
 
         if($target_completion!=''){
-                $sql.=" pr_calendar.target_completion LIKE '%$target_completion%' AND";
+                $sql.=" pc.target_completion LIKE '%$target_completion%' AND";
             $filter .= $target_completion.", ";
         }
 
         if($actual_start!=''){
-                $sql.=" pr_calendar.actual_start LIKE '%$actual_start%' AND";
+                $sql.=" pc.actual_start LIKE '%$actual_start%' AND";
             $filter .= $actual_start.", ";
         }
 
         if($actual_completion!=''){
-                $sql.=" pr_calendar.actual_completion LIKE '%$actual_completion%' AND";
+                $sql.=" pc.actual_completion LIKE '%$actual_completion%' AND";
             $filter .= $actual_completion.", ";
         }
 
         $query=substr($sql, 0, -3);
         $filt=substr($filter, 0, -2);
         $data['filt']=$filt;
-        $date = $cal_date_from."-".$cal_date_to;
-        $count_search_purch_calendar = $this->super_model->count_join_where_order("pr_calendar","pr_head"," $query AND (pr_calendar.ver_date_needed BETWEEN '$cal_date_from' AND '$cal_date_to')","pr_id","ver_date_needed",'DESC');
+        $date = $year;
+        $data['proj_act']=$this->super_model->select_custom_where("project_activity","status='Active' ORDER BY proj_activity ASC");
+        //$count_search_purch_calendar = $this->super_model->count_join_where_order("pr_calendar","pr_head"," $query AND pr_calendar.ver_date_needed LIKE '$year'","pr_id","ver_date_needed",'DESC');
+        $count_search_purch_calendar = $this->super_model->count_custom_query("SELECT * FROM pr_calendar pc INNER JOIN pr_head ph ON pc.pr_id = ph.pr_id WHERE pc.ver_date_needed LIKE '%$year%' AND $query ORDER BY pc.ver_date_needed DESC");
         if($count_search_purch_calendar!=0){
-            foreach($this->super_model->select_join_where_order("pr_calendar","pr_head"," $query AND (pr_calendar.ver_date_needed BETWEEN '$cal_date_from' AND '$cal_date_to')","pr_id","ver_date_needed",'DESC') AS $cp){
+            foreach($this->super_model->custom_query("SELECT * FROM pr_calendar pc INNER JOIN pr_head ph ON pc.pr_id = ph.pr_id WHERE pc.ver_date_needed LIKE '%$year%' AND $query ORDER BY pc.ver_date_needed DESC") AS $cp){
+                $proj_activity = $this->super_model->select_column_where("project_activity","proj_activity","proj_act_id",$cp->proj_act_id);
                 $data['purch_calendar'][] =  array(
-                    'proj_act'=>$cp->proj_act,
+                    'proj_activity'=>$proj_activity,
                     'c_remarks'=>$cp->c_remarks,
                     'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$cp->pr_id),
                     'duration'=>$cp->duration,

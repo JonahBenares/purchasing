@@ -296,15 +296,16 @@
                     </div>
                     <form method='POST' action="<?php echo base_url(); ?>reports/generate_purch_calendar_report" target='_blank'>
                         <div class="modal-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <small>Date From:</small>
-                                    <input placeholder="Date From" class="form-control" name="cal_date_from" type="text" onfocus="(this.type='date')" id="date">
-                                </div>
-                                <div class="col-lg-6">
-                                    <small>Date To:</small>
-                                    <input placeholder="Date To" class="form-control" name="cal_date_to" type="text" onfocus="(this.type='date')" id="date">
-                                </div>
+                            <div class="form-group">
+                                Choose Year:
+                                <select class="form-control" name="year">
+                                    <option value='' selected="selected">-Select Year-</option>
+                                    <?php
+                                    $curr_year = date('Y'); 
+                                    for($x=2021;$x<=$curr_year;$x++){ ?>
+                                        <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                    <?php } ?>
+                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">

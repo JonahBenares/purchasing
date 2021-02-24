@@ -39,9 +39,14 @@
                             <input placeholder="PR Number" type="text" name="pr_no" class="form-control">
                         </div> 
                         <div class="form-group">
-                            <p class="m-b-0">Project / Activity:</p>
-                            <input placeholder="Project / Activity" type="text" name="proj_act" class="form-control">
-                        </div>   
+                            <label>Project / Activity:</label>
+                            <select name="proj_act" class="form-control" cols="2">
+                                <option value = "">--Select Project / Activity--</option>
+                                <?php foreach($proj_act AS $pa){ ?>
+                                <option value = "<?php echo $pa->proj_act_id; ?>"><?php echo $pa->proj_activity?></option>
+                                <?php } ?>
+                            </select>
+                        </div> 
                         <div class="form-group">
                             <p class="m-b-0">Remarks:</p>
                             <input placeholder="Remarks" type="text" name="c_remarks" class="form-control">
@@ -75,8 +80,7 @@
                             </div>   
                         </div>                      
                         <center>    
-                        <input type="hidden" name="cal_date_from" value = "<?php echo $cal_date_from; ?>">            
-                        <input type="hidden" name="cal_date_to" value = "<?php echo $cal_date_to; ?>">                       
+                        <input type="hidden" name="year" value = "<?php echo $year; ?>">                                   
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Proceed">
                         </center>
                     </div>
@@ -115,9 +119,9 @@
                                 </div>
                             </div>
                         </div>
-                     <!--    <?php if(!empty($filt)){ ?>     
-                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/reports/purch_calendar/<?php echo $cal_date_from; ?>/<?php echo $cal_date_to; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
-                        <?php } ?>     --> 
+                     <?php if(!empty($filt)){ ?>     
+                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?><a href="<?php echo base_url(); ?>index.php/reports/purch_calendar/<?php echo $year; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
+                        <?php } ?>
                           
                         <!-- <span class='btn btn-success disabled'>Filter Applied</span>, <a href='' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>    -->                 
                             <?php   
@@ -165,7 +169,7 @@
                                             ?>
                                         <tr>
                                             <td><?php echo $x; ?></td>
-                                            <td><?php echo $pc['proj_act']; ?></td>
+                                            <td><?php echo $pc['proj_activity']; ?></td>
                                             <td><?php echo $pc['c_remarks']; ?></td>
                                             <td><?php echo $pc['pr_no']."-".COMPANY; ?></td>
                                             <td><?php echo $pc['duration']; ?></td>
