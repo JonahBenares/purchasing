@@ -54,13 +54,61 @@
                                                             <p class="m-b-0">Project Activity:</p>
                                                             <input type="text" name="proj_activity" class="form-control">
                                                         </div>
+                                                    <div class="form-group">
+                                                            <label>Remarks:</label>
+                                                        <textarea class="form-control" rows="5" name='c_remarks' id='c_remarks' placeholder="Remarks"></textarea>
+                                                        </div> 
                                                         <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <label>Target Start Date:</label>
+                                                                    <input placeholder="Target Start Date" name="target_start_date" class="form-control" type="text" onfocus="(this.type='date')" id="target_start_date">
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <label>Target Completion:</label>
+                                                                    <input placeholder="Target Completion" name="target_completion" class="form-control" type="text" onfocus="(this.type='date')" id="target_completion">
+                                                                </div>
+                                                            </div>   
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <label>Actual Start:</label>
+                                                                    <input placeholder="Actual Start" name="actual_start" class="form-control" type="text" onfocus="(this.type='date')" id="actual_start" >
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <label>Actual Completion:</label>
+                                                                    <input placeholder="Actual Completion" name="actual_completion" class="form-control" type="text" onfocus="(this.type='date')" id="actual_completion">
+                                                                </div>
+                                                            </div>   
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                            <label>Total (Weekly Schedule):</label>
+                                                            <input type="text" name="total_weekly_schedule" class="form-control" placeholder="Total (Weekly Schedule)">
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                             <label>Estimated Total(Materials):</label>
+                                                            <input type="text" name="est_total_materials" class="form-control" placeholder="Estimated Total(Materials)">
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                            <label>Duration (# of days):</label>
+                                                            <input type="text" name="duration" class="form-control" placeholder="Duration">
+                                                        </div>
+                                                            <div class="col-lg-6">
                                                             <p class="m-b-0">Status:</p>
                                                             <select type="text" name="status" class="form-control">
                                                                 <option value = "">--Select Status--</option>
                                                                 <option value = "Active">Active</option>
                                                                 <option value = "Inactive">Inactive</option>
                                                             </select>
+                                                            </div>
+                                                        </div>
                                                         </div>
                                                         <center>
                                                             <input type="submit" class="btn btn-custon-three btn-primary btn-block" value="Save">
@@ -79,6 +127,14 @@
                                     <thead>
                                         <tr>
                                             <th>Project / Activity</th>
+                                            <th>Remarks</th>
+                                            <th>Duration (# of Days)</th>
+                                            <th>Target Start Date</th>
+                                            <th>Target Compeltion</th>
+                                            <th>Actual  Start</th>
+                                            <th>Actual Completion</th>
+                                            <th>Est. Total(Materials)</th>
+                                            <th>Total(Weekly Schedule)</th>
                                             <th>Status</th>
                                             <th><center>Action</center></th>
                                         </tr>
@@ -87,6 +143,14 @@
                                     <?php foreach($proj_act AS $pa){ ?>
                                         <tr>
                                             <td><?php echo $pa->proj_activity; ?></td>
+                                            <td><?php echo $pa->c_remarks; ?></td>
+                                            <td><?php echo $pa->duration; ?></td>
+                                            <td><?php echo ($pa->target_start_date=="") ? '' : date('F j, Y', strtotime($pa->target_start_date)); ?></td>
+                                            <td><?php echo ($pa->target_completion=="") ? '' : date('F j, Y', strtotime($pa->target_completion)); ?></td>
+                                            <td><?php echo ($pa->actual_start=="") ? '' : date('F j, Y', strtotime($pa->actual_start)); ?></td>
+                                            <td><?php echo ($pa->actual_completion=="") ? '' : date('F j, Y', strtotime($pa->actual_completion)); ?></td>
+                                            <td><?php echo number_format($pa->est_total_materials,2); ?></td>
+                                            <td><?php echo number_format($pa->total_weekly_schedule,2); ?></td>
                                             <td><?php echo $pa->status; ?></td>
                                             <td>
                                                 <center>

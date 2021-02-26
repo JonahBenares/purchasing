@@ -547,9 +547,25 @@ class Masterfile extends CI_Controller {
 
     public function insert_proj_activity(){
         $proj_activity = trim($this->input->post('proj_activity')," ");
+        $c_remarks = trim($this->input->post('c_remarks')," ");
+        $duration = trim($this->input->post('duration')," ");
+        $target_start_date = trim($this->input->post('target_start_date')," ");
+        $target_completion = trim($this->input->post('target_completion')," ");
+        $actual_start = trim($this->input->post('actual_start')," ");
+        $actual_completion = trim($this->input->post('actual_completion')," ");
+        $est_total_materials = trim($this->input->post('est_total_materials')," ");
+        $total_weekly_schedule = trim($this->input->post('total_weekly_schedule')," ");
         $status = trim($this->input->post('status')," ");
         $data = array(
             'proj_activity'=>$proj_activity,
+            'c_remarks'=>$c_remarks,
+            'duration'=>$duration,
+            'target_start_date'=>$target_start_date,
+            'target_completion'=>$target_completion,
+            'actual_start'=>$actual_start,
+            'actual_completion'=>$actual_completion,
+            'est_total_materials'=>$est_total_materials,
+            'total_weekly_schedule'=>$total_weekly_schedule,
             'status'=>$status,
         );
         if($this->super_model->insert_into("project_activity", $data)){
@@ -569,6 +585,14 @@ class Masterfile extends CI_Controller {
     public function edit_proj_act(){
         $data = array(
             'proj_activity'=>$this->input->post('proj_activity'),
+            'c_remarks'=>$this->input->post('c_remarks'),
+            'duration'=>$this->input->post('duration'),
+            'target_start_date'=>$this->input->post('target_start_date'),
+            'target_completion'=>$this->input->post('target_completion'),
+            'actual_start'=>$this->input->post('actual_start'),
+            'actual_completion'=>$this->input->post('actual_completion'),
+            'est_total_materials'=>$this->input->post('est_total_materials'),
+            'total_weekly_schedule'=>$this->input->post('total_weekly_schedule'),
             'status'=>$this->input->post('status'),
         );
         $proj_act_id = $this->input->post('proj_act_id');
