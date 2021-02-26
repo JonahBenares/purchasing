@@ -5231,13 +5231,6 @@ class Reports extends CI_Controller {
         $year =$this->input->post('year');
         $month =$this->input->post('month');
         $proj_activity =$this->input->post('proj_act');
-        $c_remarks=$this->input->post('c_remarks');
-        $duration=$this->input->post('duration');
-        $target_start_date=$this->input->post('target_start_date');
-        $target_completion=$this->input->post('target_completion');
-        $actual_start=$this->input->post('actual_start');
-        $actual_completion=$this->input->post('actual_completion');
-        $est_total_materials=$this->input->post('est_total_materials');
         $ver_date_needed=$this->input->post('ver_date_needed');
         $estimated_price =$this->input->post('estimated_price');
         
@@ -5246,13 +5239,6 @@ class Reports extends CI_Controller {
             'pr_id'=>$pr_id,
             'pr_details_id'=>$pr_details_id,
             'proj_act_id'=>$proj_activity,
-            'c_remarks'=>$c_remarks,
-            'duration'=>$duration,
-            'target_start_date'=>$target_start_date,
-            'target_completion'=>$target_completion,
-            'actual_start'=>$actual_start,
-            'actual_completion'=>$actual_completion,
-            'est_total_materials'=>$est_total_materials,
             'ver_date_needed'=>$ver_date_needed,
             'estimated_price'=>$estimated_price,
         );
@@ -5268,7 +5254,7 @@ class Reports extends CI_Controller {
         $data['proj_act']=$this->super_model->select_custom_where("project_activity","status='Active' ORDER BY proj_activity ASC");
         $count_calendar = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' ORDER BY ver_date_needed DESC");
         if($count_calendar!=0){
-        foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' ORDER BY ver_date_needed DESC") AS $cp){
+        foreach($this->super_model->custom_query("SELECT * FROM pr_calendar pc INNER JOIN pr_head ph ON pc.pr_id = ph.pr_id INNER JOIN project_activity pa ON pc.proj_act_id = pa.proj_act_id WHERE pc.ver_date_needed LIKE '%$year%' ORDER BY pc.ver_date_needed DESC") AS $cp){
             $data['purch_calendar'][] =  array(
                 'proj_activity'=>$this->super_model->select_column_where('project_activity','proj_activity',"proj_act_id",$cp->proj_act_id),
                 'c_remarks'=>$cp->c_remarks,
@@ -5383,13 +5369,13 @@ class Reports extends CI_Controller {
             $sql.=" pr_calendar.proj_act LIKE '%$proj_act%' AND";
             $filter .= $proj_act.", ";
         }*/
-        if($proj_act!='null'){
-            $sql.=" pc.proj_act_id = '$proj_act' AND";
+        if($proj_act!=''){
+            $sql.=" pa.proj_act_id = '$proj_act' AND";
             $filter .= $this->super_model->select_column_where("project_activity","proj_activity","proj_act_id",$proj_act).", ";
         }
 
         if($c_remarks!=''){
-            $sql.=" pc.c_remarks LIKE '%$c_remarks%' AND";
+            $sql.=" pa.c_remarks LIKE '%$c_remarks%' AND";
             $filter .= $c_remarks.", ";
         }
 
@@ -5399,22 +5385,22 @@ class Reports extends CI_Controller {
         }
 
         if($target_start_date!=''){
-            $sql.=" pc.target_start_date LIKE '%$target_start_date%' AND";
+            $sql.=" pa.target_start_date LIKE '%$target_start_date%' AND";
             $filter .= $target_start_date.", ";
         }
 
         if($target_completion!=''){
-                $sql.=" pc.target_completion LIKE '%$target_completion%' AND";
+                $sql.=" pa.target_completion LIKE '%$target_completion%' AND";
             $filter .= $target_completion.", ";
         }
 
         if($actual_start!=''){
-                $sql.=" pc.actual_start LIKE '%$actual_start%' AND";
+                $sql.=" pa.actual_start LIKE '%$actual_start%' AND";
             $filter .= $actual_start.", ";
         }
 
         if($actual_completion!=''){
-                $sql.=" pc.actual_completion LIKE '%$actual_completion%' AND";
+                $sql.=" pa.actual_completion LIKE '%$actual_completion%' AND";
             $filter .= $actual_completion.", ";
         }
 
@@ -5424,9 +5410,9 @@ class Reports extends CI_Controller {
         $date = $year;
         $data['proj_act']=$this->super_model->select_custom_where("project_activity","status='Active' ORDER BY proj_activity ASC");
         //$count_search_purch_calendar = $this->super_model->count_join_where_order("pr_calendar","pr_head"," $query AND pr_calendar.ver_date_needed LIKE '$year'","pr_id","ver_date_needed",'DESC');
-        $count_search_purch_calendar = $this->super_model->count_custom_query("SELECT * FROM pr_calendar pc INNER JOIN pr_head ph ON pc.pr_id = ph.pr_id WHERE pc.ver_date_needed LIKE '%$year%' AND $query ORDER BY pc.ver_date_needed DESC");
+        $count_search_purch_calendar = $this->super_model->count_custom_query("SELECT * FROM pr_calendar pc INNER JOIN pr_head ph ON pc.pr_id = ph.pr_id INNER JOIN project_activity pa ON pc.proj_act_id = pa.proj_act_id WHERE pc.ver_date_needed LIKE '%$year%' AND $query ORDER BY pc.ver_date_needed DESC");
         if($count_search_purch_calendar!=0){
-            foreach($this->super_model->custom_query("SELECT * FROM pr_calendar pc INNER JOIN pr_head ph ON pc.pr_id = ph.pr_id WHERE pc.ver_date_needed LIKE '%$year%' AND $query ORDER BY pc.ver_date_needed DESC") AS $cp){
+            foreach($this->super_model->custom_query("SELECT * FROM pr_calendar pc INNER JOIN pr_head ph ON pc.pr_id = ph.pr_id INNER JOIN project_activity pa ON pc.proj_act_id = pa.proj_act_id WHERE pc.ver_date_needed LIKE '%$year%' AND $query ORDER BY pc.ver_date_needed DESC") AS $cp){
                 $proj_activity = $this->super_model->select_column_where("project_activity","proj_activity","proj_act_id",$cp->proj_act_id);
                 $data['purch_calendar'][] =  array(
                     'proj_activity'=>$proj_activity,

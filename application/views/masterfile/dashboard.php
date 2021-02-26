@@ -52,7 +52,6 @@
                                         <button type="button" class="btn btn-success btn-md btn-custon-three" data-toggle="modal" data-target="#filter_pending" title="Filter">
                                             <span class="fa fa-filter"></span>
                                         </button>
-                                        <button class="btn btn-warning btn-custon-three">Total : <b><?php echo number_format($total_disp,2); ?></b></button>    
                                     </div>
                                     
                                 </b>
@@ -97,12 +96,15 @@
                             <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
-                                        <th>Date Needed</th>
-                                        <th>PR No</th>
-                                        <th>Item Desc</th>
-                                        <th>Qty</th>
-                                        <th>Estimated Price</th>
-                                        <th>Total Est. Price</th>
+                                        <th>Purpose</th>
+                                        <th>End Use</th>
+                                        <th>Site Pr No</th>
+                                        <th>Requestor</th>
+                                        <th>QTY</th>
+                                        <th>UOM</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -111,12 +113,14 @@
                                     if($ca['served']==0){
                                 ?>
                                     <tr>
-                                        <td><?php echo date('M j, Y', strtotime($ca['ver_date_needed'])); ?></td>
-                                        <td><?php echo $ca['pr_no']; ?></td>
-                                        <td><?php echo $ca['description']; ?></td>
-                                        <td><?php echo $ca['quantity']; ?></td>
-                                        <td><?php echo $ca['estimated_price']; ?></td>
-                                        <td><?php echo number_format($ca['total_ep'],2); ?></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr> 
                                 <?php } } ?>      
                                 </tbody>
