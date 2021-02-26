@@ -171,7 +171,7 @@
                                             <td><?php echo $x; ?></td>
                                             <td><?php echo $pc['proj_activity']; ?></td>
                                             <td><?php echo $pc['c_remarks']; ?></td>
-                                            <td><?php echo $pc['pr_no']."-".COMPANY; ?></td>
+                                            <td><?php echo $pc['pr_no']; ?></td>
                                             <td><?php echo $pc['duration']; ?></td>
                                             <td><?php echo ($pc['target_start_date']=="") ? '' : date('F j, Y', strtotime($pc['target_start_date'])); ?></td>
                                             <td><?php echo ($pc['target_completion']=="") ? '' : date('F j, Y', strtotime($pc['target_completion'])); ?></td>

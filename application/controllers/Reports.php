@@ -5268,11 +5268,15 @@ class Reports extends CI_Controller {
         $data['proj_act']=$this->super_model->select_custom_where("project_activity","status='Active' ORDER BY proj_activity ASC");
         $count_calendar = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' ORDER BY ver_date_needed DESC");
         if($count_calendar!=0){
-        foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' ORDER BY ver_date_needed DESC") AS $cp){
+        foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' GROUP BY proj_act_id ORDER BY ver_date_needed DESC") AS $cp){
+            $pr_no = '';
+            foreach($this->super_model->select_row_where('pr_calendar',"proj_act_id",$cp->proj_act_id) AS $allpr){
+                $pr_no .=$this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY."<br>";
+            }
             $data['purch_calendar'][] =  array(
                 'proj_activity'=>$this->super_model->select_column_where('project_activity','proj_activity',"proj_act_id",$cp->proj_act_id),
                 'c_remarks'=>$cp->c_remarks,
-                'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$cp->pr_id),
+                'pr_no'=>$pr_no,
                 'duration'=>$cp->duration,
                 'target_start_date'=>$cp->target_start_date,
                 'target_completion'=>$cp->target_completion,
