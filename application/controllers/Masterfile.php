@@ -124,6 +124,42 @@ class Masterfile extends CI_Controller {
             );
         }
 
+        $date_raw = date('Y-m-d');
+        $start_date = date('Y-m-d', strtotime('-14 days', strtotime($date_raw)));
+        
+        $delivered = array();
+        foreach($this->super_model->custom_query("SELECT pi.pr_details_id FROM po_dr_items pi INNER JOIN po_dr pd ON pi.dr_id = pd.dr_id WHERE pd.received='1'") AS $dr){
+            $delivered[] = $dr->pr_details_id;
+        }
+         $calendar = array();
+        foreach($this->super_model->custom_query("SELECT pr_details_id FROM pr_calendar") AS $cal){
+            $calendar[] = $cal->pr_details_id;
+        }
+
+        $pending=array();
+        foreach($calendar AS $cl){
+            foreach($delivered AS $dl){
+                if($cl != $dl){
+                    $pending[]= $cl;
+                }
+            }
+        }
+
+       $result= array_unique($pending);
+       foreach($result AS $res){
+        $pr_id= $this->super_model->select_column_where("pr_details","pr_id","pr_details_id",$res);
+            $data['dash_calendar'][] = array(
+                'purpose'=>$this->super_model->select_column_where("pr_head","purpose","pr_id",$pr_id),
+                'enduse'=>$this->super_model->select_column_where("pr_head","enduse","pr_id",$pr_id),
+                'site_pr'=>$this->super_model->select_column_where("pr_details","add_remarks","pr_details_id",$res),
+                'requestor'=>$this->super_model->select_column_where("pr_head","requestor","pr_id",$pr_id),
+                'qty'=>$this->super_model->select_column_where("pr_details","quantity","pr_details_id",$res),
+                'uom'=>$this->super_model->select_column_where("pr_details","uom","pr_details_id",$res),
+                'description'=>$this->super_model->select_column_where("pr_details","item_description","pr_details_id",$res),
+                'status'=>'',
+            );
+       }
+/*
         $count_calendar = $this->super_model->count_rows("pr_calendar");
         if($count_calendar!=0){
         foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed!='' AND estimated_price!='0' ORDER BY ver_date_needed DESC") AS $ca){
@@ -148,7 +184,7 @@ class Masterfile extends CI_Controller {
         }else{
             $data['dash_calendar']=array();
             $data['total_disp']=0.00;
-        }
+        }*/
 
 /*
         foreach($this->super_model->custom_query("SELECT ph.date_prepared, ph.pr_id, ph.pr_no, pd.item_description, pd.pr_details_id, pd.quantity FROM pr_head ph INNER JOIN pr_details pd ON ph.pr_id = pd.pr_id WHERE saved='1' AND pd.cancelled = '0' AND ph.cancelled='0'") AS $pr){

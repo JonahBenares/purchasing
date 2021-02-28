@@ -110,19 +110,19 @@
                                 <tbody>
                                 <?php 
                                     foreach($dash_calendar AS $ca){ 
-                                    if($ca['served']==0){
+                                  
                                 ?>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td><?php echo $ca['purpose']; ?></td>
+                                        <td><?php echo $ca['enduse']; ?></td>
+                                        <td><?php echo $ca['site_pr']; ?></td>
+                                        <td><?php echo $ca['requestor']; ?></td>
+                                        <td><?php echo $ca['qty']; ?></td>
+                                        <td><?php echo $ca['uom']; ?></td>
+                                        <td><?php echo $ca['description']; ?></td>
                                         <td></td>
                                     </tr> 
-                                <?php } } ?>      
+                                <?php  } ?>      
                                 </tbody>
                             </table>
                                   

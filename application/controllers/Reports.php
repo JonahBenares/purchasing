@@ -5263,16 +5263,16 @@ class Reports extends CI_Controller {
 
             $data['purch_calendar'][] =  array(
                 'proj_activity'=>$this->super_model->select_column_where('project_activity','proj_activity',"proj_act_id",$cp->proj_act_id),
-                'c_remarks'=>$cp->c_remarks,
+                'c_remarks'=>$this->super_model->select_column_where('project_activity','c_remarks',"proj_act_id",$cp->proj_act_id),
                 'pr_no'=>$pr_no,
-                'duration'=>$cp->duration,
-                'target_start_date'=>$cp->target_start_date,
-                'target_completion'=>$cp->target_completion,
-                'actual_start'=>$cp->actual_start,
-                'actual_completion'=>$cp->actual_completion,
+                'duration'=>$this->super_model->select_column_where('project_activity','duration',"proj_act_id",$cp->proj_act_id),
+                'target_start_date'=>$this->super_model->select_column_where('project_activity','target_start_date',"proj_act_id",$cp->proj_act_id),
+                'target_completion'=>$this->super_model->select_column_where('project_activity','target_completion',"proj_act_id",$cp->proj_act_id),
+                'actual_start'=>$this->super_model->select_column_where('project_activity','actual_start',"proj_act_id",$cp->proj_act_id),
+                'actual_completion'=>$this->super_model->select_column_where('project_activity','actual_completion',"proj_act_id",$cp->proj_act_id),
                 'ver_date_needed'=>$cp->ver_date_needed,
                 'estimated_price'=>$cp->estimated_price,
-                'est_total_materials'=>$cp->est_total_materials,
+                'est_total_materials'=>0,
 
             );
         }

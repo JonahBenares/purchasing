@@ -147,8 +147,8 @@
                                             <th>Target Completion</th>
                                             <th>Actual Start</th>
                                             <th>Actual Completion</th>
-                                            <th>Verified Date Needed</th>
-                                            <th>Estimated Price</th>
+                                           <!--  <th>Verified Date Needed</th>
+                                            <th>Estimated Price</th> -->
                                             <th>Est. Total(Materials)</th>
                                             <th>Total (Weekly Schedule)</th>
                                             <?php
@@ -163,9 +163,15 @@
                                     </thead>
                                     <tbody>
                                          <?php $x = 1; 
-
+                                       
                                          foreach($purch_calendar AS $pc){
-                                            
+                                                $firstDayOfYear1 = mktime(0, 0, 0, 1, 1, $year);
+                                                $nextMonday1     = strtotime('monday', $firstDayOfYear1);
+                                                $nextSaturday1   = strtotime('saturday', $nextMonday1); 
+
+                                                $firstDayOfYear2 = mktime(0, 0, 0, 1, 1, $year);
+                                                $nextMonday2     = strtotime('monday', $firstDayOfYear2);
+                                                $nextSaturday2   = strtotime('saturday', $nextMonday2); 
                                             ?>
                                         <tr>
                                             <td><?php echo $x; ?></td>
@@ -177,20 +183,33 @@
                                             <td><?php echo ($pc['target_completion']=="") ? '' : date('F j, Y', strtotime($pc['target_completion'])); ?></td>
                                             <td><?php echo ($pc['actual_start']=="") ? '' : date('F j, Y', strtotime($pc['actual_start'])); ?></td>
                                             <td><?php echo ($pc['actual_completion']=="") ? '' : date('F j, Y', strtotime($pc['actual_completion'])); ?></td>
-                                            <td><?php echo date('F j, Y', strtotime($pc['ver_date_needed'])); ?></td>
-                                            <td><?php echo number_format($pc['estimated_price'],2); ?></td>
+                                            <!-- <td><?php echo date('F j, Y', strtotime($pc['ver_date_needed'])); ?></td>
+                                            <td><?php echo number_format($pc['estimated_price'],2); ?></td> -->
                                             <td><?php echo number_format($pc['est_total_materials'],2); ?></td>
-                                            <td></td>
+                                            <td>
+                                            <?php    $total = array();
+                                            // 
+                                             
+                                                while (date('Y', $nextMonday2) == $year) {
+                                                    $start2 = date("Y-m-d", ($nextMonday2));
+                                                    $end2 = date("Y-m-d",($nextSaturday2));
+                                                    $total[] = $CI->get_weekly_total($start2, $end2);
+
+                                                    $nextMonday2 = strtotime('+1 week', $nextMonday2);
+                                                    $nextSaturday2 = strtotime('+1 week', $nextSaturday2);
+                                                } 
+
+                                                echo number_format(array_sum($total),2);
+                                                ?>
+                                            </td>
                                              <?php
                                             // 
-                                                $firstDayOfYear1 = mktime(0, 0, 0, 1, 1, $year);
-                                                $nextMonday1     = strtotime('monday', $firstDayOfYear1);
-                                                $nextSaturday1   = strtotime('saturday', $nextMonday1);
+                                               
                                                 
                                                 while (date('Y', $nextMonday1) == $year) {
                                                     $start = date("Y-m-d", ($nextMonday1));
                                                     $end = date("Y-m-d",($nextSaturday1));
-                                                    echo "<td>".$CI->get_weekly_total($start, $end)."</td>";
+                                                    echo "<td>".number_format($CI->get_weekly_total($start, $end),2)."</td>";
 
                                                     $nextMonday1 = strtotime('+1 week', $nextMonday1);
                                                     $nextSaturday1 = strtotime('+1 week', $nextSaturday1);
