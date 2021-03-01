@@ -5441,9 +5441,9 @@ class Reports extends CI_Controller {
         $this->load->view('template/header');        
         $this->load->view('reports/purch_calendar',$data);
         $this->load->view('template/footer');
-   }
+    }
 
-   public function export_purch_calendar(){
+    public function export_purch_calendar(){
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
         $exportfilename="Schedule of Activities.xlsx";
@@ -5599,5 +5599,12 @@ class Reports extends CI_Controller {
         header('Content-Disposition: attachment; filename="Schedule of Activities.xlsx"');
         readfile($exportfilename);
     }
+
+    public function pending_pr(){        
+        $this->load->view('template/header');        
+        $this->load->view('template/navbar');        
+        $this->load->view('reports/pending_pr');
+        $this->load->view('template/footer');
+   }
 }
 ?>
