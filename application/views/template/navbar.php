@@ -142,6 +142,7 @@
                                 <a class="dropdown-item" data-toggle="modal" data-target="#po_modal">PO Summary</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#unserved_modal">Unserved Report</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#weekly_recom">Summary of Weekly Recom</a>
+                                <a class="dropdown-item" href="<?php echo base_url(); ?>reports/pending_pr" >Pending PR</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#purch_calendar">Calendar</a>
                             </div>
                         </li> 
