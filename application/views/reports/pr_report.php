@@ -267,10 +267,14 @@
                                                 <td><?php echo $p['cancel_remarks'];?></td>
                                                 <td></td>
                                                 <td align="center">  
-                                                    <center>    
+                                                    <center>
+                                                    <?php if($p['ver_date_needed']=='' && $p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['status']!='Partially Delivered / Cancelled'){ ?>    
                                                          <button type="button" class="btn btn-primary btn-xs calendar" data-toggle="modal" data-target="#calendar" title='Calendar' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
                                                             <span class="fa fa-calendar"></span>
-                                                        </button>  
+                                                        </button>
+                                                    <?php } ?>  
+
+
                                                         <?php if($p['on_hold']==0 && $p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['status']!='Partially Delivered / Cancelled'){ ?>                                                          
                                                         <button type="button" class="btn btn-primary btn-xs on_recom" data-toggle="modal" data-target="#on_recom" title='Recom' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-price="<?php echo $p['recom_unit_price'];?>">
                                                             <span class="fa fa-list-ul"></span>
@@ -576,7 +580,7 @@
                         </div>
                     <div class="modal-footer">
                         <input type='hidden' name='status' id='status'>
-                        <input type='hidden' name='pr_details_id' id='pr_details_id'>
+                        <input type='text' name='pr_details_id' id='pr_details_id'>
                         <input type='hidden' name='pr_id' id='pr_id'>
                         <input type='hidden' name='po_offer_id' id='po_offer_id'>
                         <input type='hidden' name='year' id='year'>
@@ -600,8 +604,10 @@
         function hidecheck(count) {
              if(document.getElementById('proceed'+count).checked){
                 $('#onhold'+count).attr('disabled','disabled');
+                $('#updateVerDate'+count).attr('disabled','disabled');
              }else{
                 $('#onhold'+count).removeAttr('disabled');
+                $('#updateVerDate'+count).removeAttr('disabled');
              }
         }
     </script>

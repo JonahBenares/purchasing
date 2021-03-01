@@ -128,6 +128,7 @@ class Reports extends CI_Controller {
             $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
             $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
             $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
+            $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$pr->pr_details_id);
             //echo $po_id." - ".$po_items_id." - ".$cancelled_items_po."<br>";
            //echo $pr->pr_details_id . " = " . $sum_po_qty . " - " .  $sum_delivered_qty . ", " . $pr->quantity . "<br>";
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
@@ -597,6 +598,7 @@ class Reports extends CI_Controller {
                 'recom_date_to'=>$pr->recom_date_to,
                 'cancelled'=>$pr->cancelled,
                 'recom_unit_price'=>$recom_unit_price,
+                'ver_date_needed'=>$ver_date_needed,
                 'cancelled_items_po'=>$cancelled_items_po,
                 'on_hold'=>$pr->on_hold,
                /* 'count_rfq'=>$count_rfq,
@@ -5262,6 +5264,7 @@ class Reports extends CI_Controller {
             }
 
             $data['purch_calendar'][] =  array(
+                'pr_calendar_id'=>$cp->pr_calendar_id,
                 'proj_activity'=>$this->super_model->select_column_where('project_activity','proj_activity',"proj_act_id",$cp->proj_act_id),
                 'c_remarks'=>$this->super_model->select_column_where('project_activity','c_remarks',"proj_act_id",$cp->proj_act_id),
                 'pr_no'=>$pr_no,
@@ -5290,6 +5293,21 @@ class Reports extends CI_Controller {
         $total = $this->super_model->select_sum_between("pr_calendar", "estimated_price","ver_date_needed BETWEEN '$week_start' AND '$week_end'");
         return $total;
     }
+
+    public function update_ver_date_needed(){
+        $pr_calendar_id =$this->input->post('pr_calendar_id');
+        $year =$this->input->post('year');
+        $ver_date_needed = trim($this->input->post('ver_date_needed')," ");
+
+        $data = array(
+            'ver_date_needed'=>$this->input->post('ver_date_needed'),
+        );
+        $pr_calendar_id = $this->input->post('pr_calendar_id');
+        if($this->super_model->update_where('pr_calendar', $data, 'pr_calendar_id', $pr_calendar_id)){
+            echo "<script>alert('Successfully Updated!'); window.location = '".base_url()."reports/purch_calendar/".$year."';</script>";
+        }
+    }
+
     public function search_purch_calendar(){
         if(!empty($this->input->post('year'))){
             $data['year'] = $this->input->post('year');
