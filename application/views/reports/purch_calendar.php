@@ -23,14 +23,14 @@
         }
 
     </style>
-     <script type="text/javascript">
+     <!-- <script type="text/javascript">
         $(document).on("click", "#Editverdate", function () {
              var pr_calendar_id = $(this).data('id');
              var ver_date_needed = $(this).data('year');
                $("#pr_calendar_id").val(pr_calendar_id);
                $("#ver_date_needed").val(ver_date_needed);
         });
-    </script>
+    </script> -->
     <div id="filter_purch_calendar" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -96,7 +96,7 @@
             </div>
         </div>
     </div>
-        <div id="updateVerDate" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+        <!-- <div id="updateVerDate" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header header-color-modal bg-color-1">
@@ -120,7 +120,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="admin-dashone-data-table-area m-t-15 ">
         <div class="container-fluid">
             <div class="row">
@@ -171,7 +171,7 @@
                                 <table id="table" class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th></th>
+                                            <!-- <th></th> -->
                                             <th>Item Number</th>
                                             <th>Project / Activity</th>
                                             <th>Remarks</th>
@@ -208,11 +208,11 @@
                                                 $nextSaturday2   = strtotime('saturday', $nextMonday2); 
                                             ?>
                                         <tr>
-                                            <td><center>
+                                           <!-- <td><center>
                                                     <button type="button" class="btn btn-primary btn-xs UpdateVerDate" data-toggle="modal" data-target="#updateVerDate" id="Editverdate" title='Update Verified Date Needed' data-id="<?php echo $pc['pr_calendar_id']; ?>" data-year="<?php echo $pc['ver_date_needed']; ?>">
                                                             <span class="fa fa-pencil"></span>
                                                         </button>
-                                                </center></td>
+                                                </center></td> -->
                                             <td><?php echo $x; ?></td>
                                             <td><?php echo $pc['proj_activity']; ?></td>
                                             <td><?php echo $pc['c_remarks']; ?></td>

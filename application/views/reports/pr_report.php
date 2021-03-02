@@ -75,6 +75,11 @@
              var po_offer_id = $(this).data('offerid');
              var status = $(this).data('status');
               var pr_id = $(this).data('prid');
+              var ver_date = $(this).data('verify');
+              var pr_calendar_id = $(this).data('prcalendar');
+              var proj_act_id = $(this).data('proj');
+              var estimated_price = $(this).data('estimated');
+
                $(".modal #pr_id").val(pr_id);
               $(".modal #status").val(status);
              $(".modal #pr_details_id").val(pr_details_id);
@@ -82,6 +87,23 @@
              $(".modal #month").val(month);
              $(".modal #remarks").val(remarks);
              $(".modal #po_offer_id").val(po_offer_id);
+             $(".modal #ver_date_needed").val(ver_date);
+             $(".modal #pr_calendar_id").val(pr_calendar_id);
+             $(".modal #proj_act_id").val(proj_act_id);
+             $(".modal #estimated_price").val(estimated_price);
+
+            if(estimated_price!=''){
+                $("#estimated_price").css({"pointer-events": "none"});
+            }else{
+                $("#estimated_price").css({});
+            }
+
+            if(proj_act_id!=''){
+                $("#proj_act_id").css({"pointer-events": "none"});
+            }else{
+                $("#proj_act_id").css({});
+            }
+
         });
     </script>   
     <style>
@@ -268,11 +290,10 @@
                                                 <td></td>
                                                 <td align="center">  
                                                     <center>
-                                                    <?php if($p['ver_date_needed']=='' && $p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['status']!='Partially Delivered / Cancelled'){ ?>    
-                                                         <button type="button" class="btn btn-primary btn-xs calendar" data-toggle="modal" data-target="#calendar" title='Calendar' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
+
+                                                         <button type="button" class="btn btn-primary btn-xs calendar" data-toggle="modal" data-target="#calendar" title='Calendar' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-verify="<?php echo $p['ver_date_needed']; ?>" data-prcalendar="<?php echo $p['pr_calendar_id']; ?>" data-proj="<?php echo $p['proj_act_id']; ?>" data-estimated="<?php echo $p['estimated_price']; ?>">
                                                             <span class="fa fa-calendar"></span>
                                                         </button>
-                                                    <?php } ?>  
 
 
                                                         <?php if($p['on_hold']==0 && $p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['status']!='Partially Delivered / Cancelled'){ ?>                                                          
@@ -571,7 +592,7 @@
                         </div>
                         <div class="form-group">
                             <label>Project / Activity:</label>
-                            <select name="proj_act" class="form-control" cols="2">
+                            <select name="proj_act" id="proj_act_id" class="form-control" cols="2">
                                 <option value = "">--Select Project / Activity--</option>
                                 <?php foreach($proj_act AS $pa){ ?>
                                 <option value = "<?php echo $pa->proj_act_id; ?>"><?php echo $pa->proj_activity?></option>
@@ -579,6 +600,7 @@
                             </select>
                         </div>
                     <div class="modal-footer">
+                        <input type='hidden' name='pr_calendar_id' id='pr_calendar_id'>
                         <input type='hidden' name='status' id='status'>
                         <input type='hidden' name='pr_details_id' id='pr_details_id'>
                         <input type='hidden' name='pr_id' id='pr_id'>

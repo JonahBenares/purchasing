@@ -129,6 +129,9 @@ class Reports extends CI_Controller {
             $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
             $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
             $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$pr->pr_details_id);
+            $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
+            $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
+            $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);
             //echo $po_id." - ".$po_items_id." - ".$cancelled_items_po."<br>";
            //echo $pr->pr_details_id . " = " . $sum_po_qty . " - " .  $sum_delivered_qty . ", " . $pr->quantity . "<br>";
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
@@ -601,6 +604,9 @@ class Reports extends CI_Controller {
                 'ver_date_needed'=>$ver_date_needed,
                 'cancelled_items_po'=>$cancelled_items_po,
                 'on_hold'=>$pr->on_hold,
+                'pr_calendar_id'=>$pr_calendar_id,
+                'estimated_price'=>$estimated_price,
+                'proj_act_id'=>$proj_act_id,
                /* 'count_rfq'=>$count_rfq,
                 'count_aoq_awarded'=>$count_aoq_awarded,
                 'po_id'=>$po_id,
@@ -796,6 +802,9 @@ class Reports extends CI_Controller {
             $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
             $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
             $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$pr->pr_details_id);
+            $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
+            $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
+            $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);
            //echo $pr->pr_details_id . " = " . $sum_po_qty . " - " .  $sum_delivered_qty . ", " . $pr->quantity . "<br>";
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
             $unserved_qty=0;
@@ -1282,6 +1291,9 @@ class Reports extends CI_Controller {
                 'ver_date_needed'=>$ver_date_needed,
                 'cancelled_items_po'=>$cancelled_items_po,
                 'on_hold'=>$pr->on_hold,
+                'pr_calendar_id'=>$pr_calendar_id,
+                'estimated_price'=>$estimated_price,
+                'proj_act_id'=>$proj_act_id,
             );
 
         }
@@ -1422,6 +1434,10 @@ class Reports extends CI_Controller {
                 $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
                 $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
                 $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
+                $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$pr->pr_details_id);
+                $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
+                $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
+                $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);
                 $unserved_qty=0;
                 $unserved_uom='';
                 $statuss='';
@@ -1941,6 +1957,10 @@ class Reports extends CI_Controller {
                 $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
                 $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
                 $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
+                $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$pr->pr_details_id);
+                $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
+                $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
+                $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);
                // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
                 $unserved_qty=0;
                 $unserved_uom='';
@@ -5234,22 +5254,31 @@ class Reports extends CI_Controller {
     public function calendar(){
         $pr_id =$this->input->post('pr_id');
         $pr_details_id =$this->input->post('pr_details_id');
+        $pr_calendar_id =$this->input->post('pr_calendar_id');
         $year =$this->input->post('year');
         $month =$this->input->post('month');
         $proj_activity =$this->input->post('proj_act');
         $ver_date_needed=$this->input->post('ver_date_needed');
         $estimated_price =$this->input->post('estimated_price');
         
-
-        $data=array(
-            'pr_id'=>$pr_id,
-            'pr_details_id'=>$pr_details_id,
-            'proj_act_id'=>$proj_activity,
-            'ver_date_needed'=>$ver_date_needed,
-            'estimated_price'=>$estimated_price,
-        );
-        if($this->super_model->insert_into("pr_calendar", $data)){
-            echo "<script>alert('Successfully Added!'); window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
+        if($pr_calendar_id==''){
+            $data=array(
+                'pr_id'=>$pr_id,
+                'pr_details_id'=>$pr_details_id,
+                'proj_act_id'=>$proj_activity,
+                'ver_date_needed'=>$ver_date_needed,
+                'estimated_price'=>$estimated_price,
+            );
+            if($this->super_model->insert_into("pr_calendar", $data)){
+                echo "<script>alert('Successfully Added!'); window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
+            }
+        }else{
+            $data=array(
+                'ver_date_needed'=>$ver_date_needed,
+            );
+            if($this->super_model->update_where("pr_calendar", $data, "pr_calendar_id", $pr_calendar_id)){
+                echo "<script>alert('Successfully Updated!'); window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
+            }
         }
     }
     public function purch_calendar(){  
