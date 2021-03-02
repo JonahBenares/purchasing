@@ -775,6 +775,8 @@ class Reports extends CI_Controller {
         //$data['date']=date('F Y', strtotime($date));
         $data['company']=$this->super_model->select_all_order_by("company","company_name","ASC");
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
+        $data['terms']=$this->super_model->select_all_order_by("terms","terms","ASC");
+        $data['proj_act']=$this->super_model->select_custom_where("project_activity","status='Active' ORDER BY proj_activity ASC");
         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ".$query) AS $pr){
             $recom_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $pr->pr_details_id);
             $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
