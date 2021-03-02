@@ -73,21 +73,30 @@
                                         <th>QTY</th>
                                         <th>UOM</th>
                                         <th>Description</th>
+                                         <th>Status Remarks</th>
                                         <th>Status</th>
+
                                         
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php 
+                                    foreach($pending_pr AS $ca){ 
+                                  
+                                ?>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>      
+                                        <td><?php echo $ca['purpose']; ?></td>
+                                        <td><?php echo $ca['enduse']; ?></td>
+                                        <td><?php echo $ca['site_pr']; ?></td>
+                                        <td><?php echo $ca['requestor']; ?></td>
+                                        <td><?php echo $ca['qty']; ?></td>
+                                        <td><?php echo $ca['uom']; ?></td>
+                                        <td><?php echo $ca['description']; ?></td>
+                                         <td><?php echo $ca['status_remarks']; ?></td>
+                                        <td><?php echo $ca['status']; ?></td>
+                                       
+                                    </tr> 
+                                <?php  } ?>      
                                 </tbody>
                             </table>
                             </div>

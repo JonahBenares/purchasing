@@ -124,8 +124,7 @@ class Masterfile extends CI_Controller {
             );
         }
 
-        $date_raw = date('Y-m-d');
-        $start_date = date('Y-m-d', strtotime('-14 days', strtotime($date_raw)));
+      
         
         $delivered = array();
         foreach($this->super_model->custom_query("SELECT pi.pr_details_id FROM po_dr_items pi INNER JOIN po_dr pd ON pi.dr_id = pd.dr_id WHERE pd.received='1'") AS $dr){

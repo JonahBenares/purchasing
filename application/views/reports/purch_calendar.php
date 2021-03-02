@@ -232,7 +232,7 @@
                                                 while (date('Y', $nextMonday2) == $year) {
                                                     $start2 = date("Y-m-d", ($nextMonday2));
                                                     $end2 = date("Y-m-d",($nextSaturday2));
-                                                    $total[] = $CI->get_weekly_total($start2, $end2);
+                                                    $total[] = $CI->get_weekly_total($start2, $end2, $pc['proj_act_id']);
 
                                                     $nextMonday2 = strtotime('+1 week', $nextMonday2);
                                                     $nextSaturday2 = strtotime('+1 week', $nextSaturday2);
@@ -248,7 +248,7 @@
                                                 while (date('Y', $nextMonday1) == $year) {
                                                     $start = date("Y-m-d", ($nextMonday1));
                                                     $end = date("Y-m-d",($nextSaturday1));
-                                                    echo "<td>".number_format($CI->get_weekly_total($start, $end),2)."</td>";
+                                                    echo "<td>".number_format($CI->get_weekly_total($start, $end, $pc['proj_act_id']),2)."</td>";
 
                                                     $nextMonday1 = strtotime('+1 week', $nextMonday1);
                                                     $nextSaturday1 = strtotime('+1 week', $nextSaturday1);

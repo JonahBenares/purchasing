@@ -103,8 +103,7 @@
                                         <th>QTY</th>
                                         <th>UOM</th>
                                         <th>Description</th>
-                                        <th>Status</th>
-                                        
+                                       
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -120,7 +119,7 @@
                                         <td><?php echo $ca['qty']; ?></td>
                                         <td><?php echo $ca['uom']; ?></td>
                                         <td><?php echo $ca['description']; ?></td>
-                                        <td></td>
+                                       
                                     </tr> 
                                 <?php  } ?>      
                                 </tbody>
