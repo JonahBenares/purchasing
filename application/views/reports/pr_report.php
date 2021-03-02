@@ -604,10 +604,8 @@
         function hidecheck(count) {
              if(document.getElementById('proceed'+count).checked){
                 $('#onhold'+count).attr('disabled','disabled');
-                $('#updateVerDate'+count).attr('disabled','disabled');
              }else{
                 $('#onhold'+count).removeAttr('disabled');
-                $('#updateVerDate'+count).removeAttr('disabled');
              }
         }
     </script>
