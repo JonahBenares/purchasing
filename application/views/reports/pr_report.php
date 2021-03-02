@@ -93,15 +93,15 @@
              $(".modal #estimated_price").val(estimated_price);
 
             if(estimated_price!=''){
-                $("#estimated_price").css({"pointer-events": "none"});
+                document.getElementById("estimated_price").disabled = true;
             }else{
-                $("#estimated_price").css({});
+                document.getElementById("estimated_price").disabled = false;
             }
 
             if(proj_act_id!=''){
-                $("#proj_act_id").css({"pointer-events": "none"});
+                document.getElementById("proj_act_id").disabled = true;
             }else{
-                $("#proj_act_id").css({});
+                document.getElementById("proj_act_id").disabled = false;
             }
 
         });
