@@ -793,6 +793,7 @@ class Reports extends CI_Controller {
             $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
             $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
             $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
+            $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$pr->pr_details_id);
            //echo $pr->pr_details_id . " = " . $sum_po_qty . " - " .  $sum_delivered_qty . ", " . $pr->quantity . "<br>";
            // echo "SELECT sum(quantity) AS total FROM po_items WHERE pr_details_id = '$pr->pr_details_id'";
             $unserved_qty=0;
@@ -1270,12 +1271,13 @@ class Reports extends CI_Controller {
                 'qty_delivered'=>$pr->qty_delivered,
                 'cancel_remarks'=>$pr->cancel_remarks,
                 'fulfilled_by'=>$pr->fulfilled_by,
-                'for_recom'=>$this->super_model->select_column_where('users','fullname','user_id',$pr->user_id),
+                'for_recom'=>$this->super_model->select_column_where('users','fullname','user_id',$pr->for_recom),
                 'recom_by'=>$pr->recom_by,
                 'recom_date_from'=>$pr->recom_date_from,
                 'recom_date_to'=>$pr->recom_date_to,
                 'cancelled'=>$pr->cancelled,
                 'recom_unit_price'=>$recom_unit_price,
+                'ver_date_needed'=>$ver_date_needed,
                 'cancelled_items_po'=>$cancelled_items_po,
                 'on_hold'=>$pr->on_hold,
             );
