@@ -17,15 +17,15 @@
                                                     <div class="modal-body-lowpad">
                                                         <?php foreach($proj_act AS $pa){ ?>
                                                             <div class="form-group">
-                                                                <p class="m-b-0">Project / Activity:</p>
+                                                                <label>Project/Activity:</label>
                                                                 <input type = "text" name="proj_activity" class="form-control"  value = "<?php echo $pa->proj_activity?>">
                                                             </div>
                                                         <div class="form-group">
-                                                                <p class="m-b-0">Remarks:</p>
+                                                                <label>Remarks:</label>
                                                                 <input type = "text" name="c_remarks" class="form-control"  value = "<?php echo $pa->c_remarks?>">
                                                             </div>
                                                         <div class="form-group">
-                                                                <p class="m-b-0">Duration:</p>
+                                                               <label>Duration:</label>
                                                                 <input type = "text" name="duration" class="form-control"  value = "<?php echo $pa->duration?>">
                                                             </div>
                                                         <div class="form-group">
@@ -58,14 +58,10 @@
                                                                     <label>Est. Total(Materials):</label>
                                                                     <input name="est_total_materials" class="form-control" type="text" id="est_total_materials" value = "<?php echo $pa->est_total_materials?>">
                                                                 </div>
-                                                                <div class="col-lg-6">
-                                                                    <label>Total (Weekly Scehdule):</label>
-                                                                    <input  name="total_weekly_schedule" class="form-control" type="text" id="total_weekly_schedule" value = "<?php echo $pa->total_weekly_schedule?>">
-                                                                </div>
                                                             </div>   
                                                         </div>
                                                    <div class="form-group">
-                                                            <p class="m-b-0">Status:</p>
+                                                            <label>Status:</label>
                                                             <select type="text" name="status" class="form-control">
                                                                 <option value = "Active" <?php echo (($pa->status == 'Active') ? ' selected' : '');?>>Active</option>
                                                                 <option value = "Inactive" <?php echo (($pa->status == 'Inactive') ? ' selected' : '');?>>Inactive</option>

@@ -84,23 +84,18 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="row">
-                                                                <div class="col-lg-6">
-                                                            <label>Total (Weekly Schedule):</label>
-                                                            <input type="text" name="total_weekly_schedule" class="form-control" placeholder="Total (Weekly Schedule)">
-                                                        </div>
                                                         <div class="col-lg-6">
                                                              <label>Estimated Total(Materials):</label>
                                                             <input type="text" name="est_total_materials" class="form-control" placeholder="Estimated Total(Materials)">
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>Duration (# of days):</label>
+                                                            <input type="text" name="duration" class="form-control" placeholder="Duration">
                                                         </div>
                                                         </div>
                                                     </div>
                                                         <div class="form-group">
                                                             <div class="row">
-                                                                <div class="col-lg-6">
-                                                            <label>Duration (# of days):</label>
-                                                            <input type="text" name="duration" class="form-control" placeholder="Duration">
-                                                        </div>
-                                                            <div class="col-lg-6">
                                                             <p class="m-b-0">Status:</p>
                                                             <select type="text" name="status" class="form-control">
                                                                 <option value = "">--Select Status--</option>
@@ -108,7 +103,6 @@
                                                                 <option value = "Inactive">Inactive</option>
                                                             </select>
                                                             </div>
-                                                        </div>
                                                         </div>
                                                         <center>
                                                             <input type="submit" class="btn btn-custon-three btn-primary btn-block" value="Save">
@@ -134,7 +128,6 @@
                                             <th>Actual  Start</th>
                                             <th>Actual Completion</th>
                                             <th>Est. Total(Materials)</th>
-                                            <th>Total(Weekly Schedule)</th>
                                             <th>Status</th>
                                             <th><center>Action</center></th>
                                         </tr>
@@ -150,7 +143,6 @@
                                             <td><?php echo ($pa->actual_start=="") ? '' : date('F j, Y', strtotime($pa->actual_start)); ?></td>
                                             <td><?php echo ($pa->actual_completion=="") ? '' : date('F j, Y', strtotime($pa->actual_completion)); ?></td>
                                             <td><?php echo number_format($pa->est_total_materials,2); ?></td>
-                                            <td><?php echo number_format($pa->total_weekly_schedule,2); ?></td>
                                             <td><?php echo $pa->status; ?></td>
                                             <td>
                                                 <center>
