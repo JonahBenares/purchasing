@@ -580,7 +580,7 @@
                         </div>
                     <div class="modal-footer">
                         <input type='hidden' name='status' id='status'>
-                        <input type='text' name='pr_details_id' id='pr_details_id'>
+                        <input type='hidden' name='pr_details_id' id='pr_details_id'>
                         <input type='hidden' name='pr_id' id='pr_id'>
                         <input type='hidden' name='po_offer_id' id='po_offer_id'>
                         <input type='hidden' name='year' id='year'>
