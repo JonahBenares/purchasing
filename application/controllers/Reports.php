@@ -6110,6 +6110,7 @@ class Reports extends CI_Controller {
                 'description'=>$this->super_model->select_column_where("pr_details","item_description","pr_details_id",$res),
                 'status_remarks'=>$status_remarks,
                 'status'=>$status,
+                'ver_date_needed'=>$ver_date_needed,
             );
        }
 

@@ -66,6 +66,7 @@
                                 <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
+                                        <th>Verified Date Needed</th>
                                         <th>Purpose</th>
                                         <th>End Use</th>
                                         <th>Site Pr No</th>
@@ -85,6 +86,7 @@
                                   
                                 ?>
                                     <tr>
+                                        <td><?php echo $ca['ver_date_needed']; ?></td>
                                         <td><?php echo $ca['purpose']; ?></td>
                                         <td><?php echo $ca['enduse']; ?></td>
                                         <td><?php echo $ca['site_pr']; ?></td>
