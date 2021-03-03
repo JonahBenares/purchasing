@@ -95,14 +95,12 @@
                                                         </div>
                                                     </div>
                                                         <div class="form-group">
-                                                            <div class="row">
                                                             <p class="m-b-0">Status:</p>
                                                             <select type="text" name="status" class="form-control">
                                                                 <option value = "">--Select Status--</option>
                                                                 <option value = "Active">Active</option>
                                                                 <option value = "Inactive">Inactive</option>
                                                             </select>
-                                                            </div>
                                                         </div>
                                                         <center>
                                                             <input type="submit" class="btn btn-custon-three btn-primary btn-block" value="Save">
