@@ -26,22 +26,32 @@
     </script>
 
     <script type="text/javascript">
-        $(document).on("click", ".fulfilled", function () {
-             var pr_details_id = $(this).data('id');
-             var year = $(this).data('year');
-             var month = $(this).data('month');
-             var remarks = $(this).data('remarks');
-             var cancel = $(this).data('cancel');
-             var po_offer_id = $(this).data('offerid');
-             var status = $(this).data('status');
-              var pr_id = $(this).data('prid');
-               $(".modal #pr_id").val(pr_id);
-              $(".modal #status").val(status);
-             $(".modal #pr_details_id").val(pr_details_id);
-             $(".modal #year").val(year);
-             $(".modal #month").val(month);
-             $(".modal #remarks").val(remarks);
-             $(".modal #po_offer_id").val(po_offer_id);
+        $(document).on("click", "#fulfilled_by", function () {
+            var pr_details_id = $(this).data('id');
+            var year = $(this).data('year');
+            var month = $(this).data('month');
+            var remarks = $(this).data('remarks');
+            var cancel = $(this).data('cancel');
+            var po_offer_id = $(this).data('offerid');
+            var status = $(this).data('status');
+            var pr_id = $(this).data('prid');
+            var date_delivered = $(this).data('datedel');
+            var supplier = $(this).data('vendorid');
+            var company = $(this).data('companyid');
+            var unit_price = $(this).data('unitp');
+            var qty_delivered = $(this).data('qtydel');
+            $(".modal #pr_id").val(pr_id);
+            $(".modal #status").val(status);
+            $(".modal #pr_details_id1").val(pr_details_id);
+            $(".modal #year").val(year);
+            $(".modal #month").val(month);
+            $(".modal #remarks").val(remarks);
+            $(".modal #po_offer_id").val(po_offer_id);
+            $(".modal #date_delivered").val(date_delivered);
+            $(".modal #supplier").val(supplier);
+            $(".modal #company").val(company);
+            $(".modal #unit_price").val(unit_price);
+            $(".modal #qty_delivered").val(qty_delivered);
         });
     </script>
     <script type="text/javascript">
@@ -300,7 +310,7 @@
                                                         <button type="button" class="btn btn-primary btn-xs on_recom" data-toggle="modal" data-target="#on_recom" title='Recom' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-price="<?php echo $p['recom_unit_price'];?>">
                                                             <span class="fa fa-list-ul"></span>
                                                         </button>
-                                                        <button type="button" class="btn btn-primary btn-xs fulfilled" data-toggle="modal" data-target="#fulfilled" title='Fulfilled by Sister Company' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
+                                                        <button type="button" class="btn btn-primary btn-xs fulfilled" data-toggle="modal" id = "fulfilled_by" data-target="#fulfilled" title='Fulfilled by Sister Company' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-datedel="<?php echo $p['date_delivered']; ?>" data-vendorid="<?php echo $p['supplier_id']; ?>" data-companyid="<?php echo $p['company_id']; ?>" data-unitp="<?php echo $p['unit_price']; ?>" data-qtydel="<?php echo $p['qty_delivered']; ?>" data-remarks="<?php echo $p['remarks']; ?>">
                                                             <span class="fa fa-truck"></span>
                                                         </button>
                                                         <?php } ?>
@@ -462,7 +472,7 @@
                         </div>
                         <div class="form-group">
                         <label>Company:</label>
-                            <select name="comp" class="form-control" cols="2">
+                            <select name="comp" id="company" class="form-control" cols="2">
                                 <option value = "">--Select Company--</option>
                                 <?php foreach($company AS $cn){ ?>
                                 <option value = "<?php echo $cn->company_id; ?>"><?php echo $cn->company_name?></option>
@@ -472,7 +482,7 @@
                         
                         <div class="form-group">
                             <label>Supplier:</label>
-                            <select name="supp" class="form-control" cols="2">
+                            <select name="supp" id="supplier" class="form-control" cols="2">
                                 <option value = "">--Select Supplier--</option>
                                 <?php foreach($supplier AS $sp){ ?>
                                 <option value = "<?php echo $sp->vendor_id; ?>"><?php echo $sp->vendor_name?></option>
@@ -483,18 +493,18 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label>Unit Price:</label>
-                                    <input type="number" name="unit_price" class="form-control" placeholder="Unit Price">
+                                    <input type="number" name="unit_price" class="form-control" id="unit_price" placeholder="Unit Price">
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Quantity Delivered:</label>
-                                    <input type="text" name="qty_delivered" class="form-control" placeholder="Quantity Delivered">
+                                    <input type="text" name="qty_delivered" class="form-control" id="qty_delivered" placeholder="Quantity Delivered">
                                 </div>
                             </div>   
                         </div>
                     </div>
                     <div class="modal-footer"> 
                         <input type='hidden' name='status' id='status'>
-                        <input type='hidden' name='pr_details_id' id='pr_details_id'>
+                        <input type='hidden' name='pr_details_id' id='pr_details_id1'>
                         <input type='hidden' name='pr_id' id='pr_id'>
                         <input type='hidden' name='po_offer_id' id='po_offer_id'>
                         <input type='hidden' name='year' id='year'>

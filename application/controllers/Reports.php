@@ -590,6 +590,8 @@ class Reports extends CI_Controller {
                 'remarks'=>$pr->add_remarks,
                 'company'=>$this->super_model->select_column_where('company','company_name','company_id',$pr->company_id),
                 'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$pr->vendor_id),
+                'company_id'=>$pr->company_id,
+                'supplier_id'=>$pr->vendor_id,
                 'date_delivered'=>$pr->date_delivered,
                 'unit_price'=>$pr->unit_price,
                 'qty_delivered'=>$pr->qty_delivered,
@@ -1277,6 +1279,8 @@ class Reports extends CI_Controller {
                 'remarks'=>$pr->add_remarks,
                 'company'=>$this->super_model->select_column_where('company','company_name','company_id',$pr->company_id),
                 'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$pr->vendor_id),
+                'company_id'=>$pr->company_id,
+                'supplier_id'=>$pr->vendor_id,
                 'date_delivered'=>$pr->date_delivered,
                 'unit_price'=>$pr->unit_price,
                 'qty_delivered'=>$pr->qty_delivered,
@@ -3248,8 +3252,9 @@ class Reports extends CI_Controller {
         $unit_price=$this->input->post('unit_price');
         $qty_delivered=$this->input->post('qty_delivered');
         $comp =$this->input->post('comp');
+        $fulfilled_by =$this->input->post('fulfilled');
         
-
+        if($fulfilled_by==''){
         $data=array(
             'date_delivered'=>$date,
             'vendor_id'=>$supp,
@@ -3258,11 +3263,23 @@ class Reports extends CI_Controller {
             'fulfilled_by'=>1,
             'company_id'=>$comp,
         );
-        $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
-    {
+        $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);{
             echo "<script>alert('Successfully Added!'); window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
         }
+    }else{
+        $data=array(
+            'date_delivered'=>$date,
+            'vendor_id'=>$supp,
+            'unit_price'=>$unit_price,
+            'qty_delivered'=>$qty_delivered,
+            'company_id'=>$comp,
+        );
+        $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);{
+            echo "<script>alert('Successfully Added!'); window.location = '".base_url()."reports/pr_report/".$year."/".$month."';</script>";
     }
+ }
+}
+
     public function on_recom(){
         $po_offer_id =$this->input->post('po_offer_id');
         $pr_id =$this->input->post('pr_id');
