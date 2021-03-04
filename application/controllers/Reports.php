@@ -5296,12 +5296,12 @@ class Reports extends CI_Controller {
                 $pr_no =array();
             foreach($this->super_model->select_row_where('pr_calendar',"proj_act_id",$cp->proj_act_id) AS $allpr){
             //    $pr_no .=$this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY."<br>";
-                   $status= $this->item_status($cp->pr_details_id);
-                   //echo$cp->pr_details_id . "-". $status . "<br>";
-                   //if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered' && substr($status, 0, 12) != 'Delivered by'){
+                   $status= $this->item_status($allpr->pr_details_id);
+                   //echo $allpr->pr_details_id . "-". $status . "<br>";
+                   if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
                     //echo $this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY."<br>";
                         $pr_no[] = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY;
-                   // }
+                    }
             }
 
             $pr = array_unique($pr_no);
@@ -5311,7 +5311,7 @@ class Reports extends CI_Controller {
             }
 
          
-           // if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered' && substr($status, 0, 12) != 'Delivered by'){
+            //if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
 
                 $data['purch_calendar'][] =  array(
 
@@ -5332,7 +5332,7 @@ class Reports extends CI_Controller {
                     'est_total_materials'=>0,
 
                 );
-           // }
+          //  }
         }
         }else{
             $data['purch_calendar']=array();
@@ -5344,8 +5344,19 @@ class Reports extends CI_Controller {
     }
 
     public function get_weekly_total($week_start, $week_end, $proj_act_id){
+        $sum=array();
+        foreach($this->super_model->select_custom_where('pr_calendar',"proj_act_id='$proj_act_id' AND ver_date_needed BETWEEN '$week_start' AND '$week_end'") AS $allpr){
+       
+               $status= $this->item_status($allpr->pr_details_id);
+             
+               if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
+            
+                    $sum[] = $allpr->estimated_price;
+                }
+        }
 
-        $total = $this->super_model->select_sum_between("pr_calendar", "estimated_price","proj_act_id = '$proj_act_id' AND ver_date_needed BETWEEN '$week_start' AND '$week_end'");
+        $total =array_sum($sum);
+      //  $total = $this->super_model->select_sum_between("pr_calendar", "estimated_price","proj_act_id = '$proj_act_id' AND ver_date_needed BETWEEN '$week_start' AND '$week_end'");
         return $total;
     }
 
