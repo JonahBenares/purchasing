@@ -5296,7 +5296,12 @@ class Reports extends CI_Controller {
                 $pr_no =array();
             foreach($this->super_model->select_row_where('pr_calendar',"proj_act_id",$cp->proj_act_id) AS $allpr){
             //    $pr_no .=$this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY."<br>";
-                $pr_no[] = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY;
+                   $status= $this->item_status($cp->pr_details_id);
+                   //echo$cp->pr_details_id . "-". $status . "<br>";
+                   //if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered' && substr($status, 0, 12) != 'Delivered by'){
+                    //echo $this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY."<br>";
+                        $pr_no[] = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY;
+                   // }
             }
 
             $pr = array_unique($pr_no);
@@ -5305,8 +5310,8 @@ class Reports extends CI_Controller {
                 $prno .= $p."<br>";
             }
 
-            $status= $this->item_status($cp->pr_details_id);
-            //if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered' && substr($status, 0, 12) != 'Delivered by'){
+         
+           // if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered' && substr($status, 0, 12) != 'Delivered by'){
 
                 $data['purch_calendar'][] =  array(
 
@@ -6113,7 +6118,7 @@ class Reports extends CI_Controller {
                 }
             }
       
-            if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered' && substr($status, 0, 12) != 'Delivered by'){
+            if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
                 $data['pending_pr'][] = array(
                     'purpose'=>$this->super_model->select_column_where("pr_head","purpose","pr_id",$pr_id),
                     'enduse'=>$this->super_model->select_column_where("pr_head","enduse","pr_id",$pr_id),
