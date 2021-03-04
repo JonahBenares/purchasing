@@ -5718,7 +5718,6 @@ class Reports extends CI_Controller {
             $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$res'");
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$res'");
             $company=$this->super_model->select_column_where("company","company_name","company_id",$company_id);
-
             $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by);
             $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$recom_by);
             $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$res);
@@ -6126,6 +6125,7 @@ class Reports extends CI_Controller {
                     'status_remarks'=>$status_remarks,
                     'status'=>$status,
                     'ver_date_needed'=>$ver_date_needed,
+                    'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id),
                 );
             }
        }

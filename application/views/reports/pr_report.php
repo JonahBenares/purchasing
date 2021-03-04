@@ -290,7 +290,7 @@
                                                 <td></td>
                                                 <td align="center">  
                                                     <center>
-                                                        <?php if($p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['fulfilled_by']==0  && $p['status']!='Partially Delivered / Cancelled'){ ?>
+                                                        <?php if($p['status']!='Fully Delivered' && $p['status']!='Cancelled'  && $p['status']!='Partially Delivered / Cancelled'){ ?>
                                                          <button type="button" class="btn btn-primary btn-xs calendar" data-toggle="modal" data-target="#calendar" title='Calendar' data-id="<?php echo $p['pr_details_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['po_offer_id']; ?>" data-month="<?php echo $month; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['pr_id']; ?>" data-remarks="<?php echo $p['remarks']; ?>" data-verify="<?php echo $p['ver_date_needed']; ?>" data-prcalendar="<?php echo $p['pr_calendar_id']; ?>" data-proj="<?php echo $p['proj_act_id']; ?>" data-estimated="<?php echo $p['estimated_price']; ?>">
                                                             <span class="fa fa-calendar"></span>
                                                         </button>
