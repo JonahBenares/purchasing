@@ -5290,19 +5290,26 @@ class Reports extends CI_Controller {
         $count_calendar = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' ORDER BY ver_date_needed DESC");
         if($count_calendar!=0){
 
+        $pr_no =array();
         foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' GROUP BY proj_act_id ORDER BY ver_date_needed DESC") AS $cp){
-            $pr_no = '';
+           // $pr_no = '';
             foreach($this->super_model->select_row_where('pr_calendar',"proj_act_id",$cp->proj_act_id) AS $allpr){
-                $pr_no .=$this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY."<br>";
+            //    $pr_no .=$this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY."<br>";
+                $pr_no[] = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY;
             }
 
+            $pr = array_unique($pr_no);
+            $prno='';
+            foreach($pr AS $p){
+                $prno .= $p."<br>";
+            }
             $data['purch_calendar'][] =  array(
                 'proj_act_id'=>$cp->proj_act_id,
                 'pr_calendar_id'=>$cp->pr_calendar_id,
                 'pr_details_id'=>$cp->pr_details_id,
                 'proj_activity'=>$this->super_model->select_column_where('project_activity','proj_activity',"proj_act_id",$cp->proj_act_id),
                 'c_remarks'=>$this->super_model->select_column_where('project_activity','c_remarks',"proj_act_id",$cp->proj_act_id),
-                'pr_no'=>$pr_no,
+                'pr_no'=>$prno,
                 'duration'=>$this->super_model->select_column_where('project_activity','duration',"proj_act_id",$cp->proj_act_id),
                 'target_start_date'=>$this->super_model->select_column_where('project_activity','target_start_date',"proj_act_id",$cp->proj_act_id),
                 'target_completion'=>$this->super_model->select_column_where('project_activity','target_completion',"proj_act_id",$cp->proj_act_id),
@@ -6098,20 +6105,21 @@ class Reports extends CI_Controller {
                 }
             }
       
-
-            $data['pending_pr'][] = array(
-                'purpose'=>$this->super_model->select_column_where("pr_head","purpose","pr_id",$pr_id),
-                'enduse'=>$this->super_model->select_column_where("pr_head","enduse","pr_id",$pr_id),
-                'site_pr'=>$this->super_model->select_column_where("pr_details","add_remarks","pr_details_id",$res),
-                'requestor'=>$this->super_model->select_column_where("pr_head","requestor","pr_id",$pr_id),
-                'qty'=>$this->super_model->select_column_where("pr_details","quantity","pr_details_id",$res),
-                'uom'=>$this->super_model->select_column_where("pr_details","uom","pr_details_id",$res),
-                'description'=>$this->super_model->select_column_where("pr_details","item_description","pr_details_id",$res),
-                'status_remarks'=>$status_remarks,
-                'status'=>$status,
-                'ver_date_needed'=>$ver_date_needed,
-                'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id),
-            );
+            if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered' && substr($status, 0, 12) != 'Delivered by'){
+                $data['pending_pr'][] = array(
+                    'purpose'=>$this->super_model->select_column_where("pr_head","purpose","pr_id",$pr_id),
+                    'enduse'=>$this->super_model->select_column_where("pr_head","enduse","pr_id",$pr_id),
+                    'site_pr'=>$this->super_model->select_column_where("pr_details","add_remarks","pr_details_id",$res),
+                    'requestor'=>$this->super_model->select_column_where("pr_head","requestor","pr_id",$pr_id),
+                    'qty'=>$this->super_model->select_column_where("pr_details","quantity","pr_details_id",$res),
+                    'uom'=>$this->super_model->select_column_where("pr_details","uom","pr_details_id",$res),
+                    'description'=>$this->super_model->select_column_where("pr_details","item_description","pr_details_id",$res),
+                    'status_remarks'=>$status_remarks,
+                    'status'=>$status,
+                    'ver_date_needed'=>$ver_date_needed,
+                    'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id),
+                );
+            }
        }
 
         $this->load->view('reports/pending_pr',$data);
