@@ -88,7 +88,7 @@
                                 ?>
                                     <tr>
                                         <td><?php echo $ca['ver_date_needed']; ?></td>
-                                        <td><?php echo $ca['pr_no']; ?></td>
+                                        <td><?php echo $ca['pr_no']."-".COMPANY;; ?></td>
                                         <td><?php echo $ca['purpose']; ?></td>
                                         <td><?php echo $ca['enduse']; ?></td>
                                         <td><?php echo $ca['site_pr']; ?></td>
