@@ -21,7 +21,9 @@
         tr.cd td{
             background-color: #cacaca;
         }
-
+        .modal-lg {
+            width: 1300px;
+        }
     </style>
      <!-- <script type="text/javascript">
         $(document).on("click", "#Editverdate", function () {
@@ -216,7 +218,7 @@
                                             <td><?php echo $x; ?></td>
                                             <td><?php echo $pc['proj_activity']; ?></td>
                                             <td><?php echo $pc['c_remarks']; ?></td>
-                                            <td><?php echo $pc['pr_no']; ?></td>
+                                            <td><a class="btn btn-link" style="color:blue" data-toggle="modal" data-target="#exampleModal"><?php echo $pc['pr_no']; ?></a></td>
                                             <td><?php echo $pc['duration']; ?></td>
                                             <td><?php echo ($pc['target_start_date']=="") ? '' : date('F j, Y', strtotime($pc['target_start_date'])); ?></td>
                                             <td><?php echo ($pc['target_completion']=="") ? '' : date('F j, Y', strtotime($pc['target_completion'])); ?></td>
@@ -260,6 +262,53 @@
                                     </tbody>
                                 </table>
                             </div>                           
+                        </div>
+
+                        <!-- modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="exampleModalLabel">
+                                            <b>PR-20094-9494</b>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </h4>                                        
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <td>Item Desc</td>
+                                                <td>Qty</td>
+                                                <td>Uom</td>
+                                                <td>Supplier</td>
+                                                <td>Status</td>
+                                                <td>Unit Price</td>
+                                                <td>Estimated Price</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5" align="right">Total Price</td>
+                                                <td>22133</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5" align="right">Total Estimated Price</td>
+                                                <td colspan="2" align="right">22133</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
