@@ -5298,17 +5298,79 @@ class Reports extends CI_Controller {
             }
         }
     }
+
+    public function getCalendar(){
+        $pr_id=$this->input->post('pr_id');
+        $proj_act_id=$this->input->post('id');
+        $year=$this->input->post('year');
+        $data['year']=$year;
+        $data['proj_act_id']=$proj_act_id;
+        foreach($this->super_model->custom_query("SELECT * FROM pr_calendar WHERE proj_act_id = '$proj_act_id' GROUP BY pr_id ORDER BY pr_id") AS $prss){
+            $status= $this->item_status($prss->pr_details_id);
+            if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
+                $data['prs'][]=array(
+                    'pr_id'=>$prss->pr_id,
+                    'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$prss->pr_id) . "-".COMPANY,
+                );
+            }
+        }
+        $this->load->view('reports/getCalendar',$data);
+    }
+
+    public function getCalendar_disp(){
+        $pr_id=$this->input->post('pr_id');
+        $proj_act_id=$this->input->post('id');
+        $year=$this->input->post('year');
+        $data['year']=$year;
+        $data['proj_act_id']=$proj_act_id;
+        $count = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' AND pr_id = '$pr_id' GROUP BY proj_act_id ORDER BY ver_date_needed DESC");
+        if($count!=0){
+            foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' AND pr_id = '$pr_id' GROUP BY proj_act_id ORDER BY ver_date_needed DESC") AS $cp){
+                $cal_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $cp->pr_details_id);
+                $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$cp->pr_details_id' AND recommended='1'");
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
+                $total_array[] = $cp->estimated_price;
+                $total_est = array_sum($total_array);
+                $total_arrayp[] = $cal_unit_price;
+                $total_unit = array_sum($total_arrayp);
+                $data['purch'][]=array(
+                    'purpose'=>$this->super_model->select_column_where('pr_head','purpose',"pr_id",$cp->pr_id),
+                    'enduse'=>$this->super_model->select_column_where('pr_head','enduse',"pr_id",$cp->pr_id),
+                    'requestor'=>$this->super_model->select_column_where('pr_head','requestor',"pr_id",$cp->pr_id),
+                    'item_description'=>$this->super_model->select_column_where('pr_details','item_description',"pr_details_id",$cp->pr_details_id),
+                    'quantity'=>$this->super_model->select_column_where('pr_details','quantity',"pr_details_id",$cp->pr_details_id),
+                    'uom'=>$this->super_model->select_column_where('pr_details','uom',"pr_details_id",$cp->pr_details_id),
+                    'estimated_price'=>$cp->estimated_price,
+                    'unit_price'=>$cal_unit_price,
+                    'supplier'=>$supplier,
+                    'total_est'=>$total_est,
+                    'total_unit'=>$total_unit,
+                );
+            }
+        }else{
+            $data['purch']=array();
+        }
+        $this->load->view('reports/getCalendar_disp',$data);
+    }
+
     public function purch_calendar(){  
         $year=$this->uri->segment(3);
         $data['year'] = $year;
   /*      $data['cal_date_from']=$cdate_from;
         $data['cal_date_to']=$cdate_to;*/
         $data['proj_act']=$this->super_model->select_custom_where("project_activity","status='Active' ORDER BY proj_activity ASC");
-        $count_calendar = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' ORDER BY ver_date_needed DESC");
+        $count_calendar = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' ORDER BY ver_date_needed DESC");  
         if($count_calendar!=0){
 
     
         foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' GROUP BY proj_act_id ORDER BY ver_date_needed DESC") AS $cp){
+            $cal_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $cp->pr_details_id);
+            $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$cp->pr_details_id' AND recommended='1'");
+            $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
+            $total_array[] = $cp->estimated_price;
+            $total_est = array_sum($total_array);
+            $total_arrayp[] = $cal_unit_price;
+            $total_unit = array_sum($total_arrayp);
            // $pr_no = '';
                 $pr_no =array();
             foreach($this->super_model->select_row_where('pr_calendar',"proj_act_id",$cp->proj_act_id) AS $allpr){
@@ -5328,7 +5390,7 @@ class Reports extends CI_Controller {
             }
 
          
-            //if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
+            if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
 
                 $data['purch_calendar'][] =  array(
 
@@ -5346,10 +5408,20 @@ class Reports extends CI_Controller {
                     'actual_completion'=>$this->super_model->select_column_where('project_activity','actual_completion',"proj_act_id",$cp->proj_act_id),
                     'ver_date_needed'=>$cp->ver_date_needed,
                     'estimated_price'=>$cp->estimated_price,
+                    'purpose'=>$this->super_model->select_column_where('pr_head','purpose',"pr_id",$cp->pr_id),
+                    'enduse'=>$this->super_model->select_column_where('pr_head','enduse',"pr_id",$cp->pr_id),
+                    'requestor'=>$this->super_model->select_column_where('pr_head','requestor',"pr_id",$cp->pr_id),
+                    'item_description'=>$this->super_model->select_column_where('pr_details','item_description',"pr_details_id",$cp->pr_details_id),
+                    'quantity'=>$this->super_model->select_column_where('pr_details','quantity',"pr_details_id",$cp->pr_details_id),
+                    'uom'=>$this->super_model->select_column_where('pr_details','uom',"pr_details_id",$cp->pr_details_id),
+                    'unit_price'=>$cal_unit_price,
+                    'supplier'=>$supplier,
+                    'total_est'=>$total_est,
+                    'total_unit'=>$total_unit,
                     'est_total_materials'=>0,
 
                 );
-          //  }
+            }
         }
         }else{
             $data['purch_calendar']=array();

@@ -22,17 +22,17 @@
             background-color: #cacaca;
         }
         .modal-lg {
-            width: 1300px;
+            width: 1500px;
         }
     </style>
-     <!-- <script type="text/javascript">
-        $(document).on("click", "#Editverdate", function () {
-             var pr_calendar_id = $(this).data('id');
-             var ver_date_needed = $(this).data('year');
-               $("#pr_calendar_id").val(pr_calendar_id);
-               $("#ver_date_needed").val(ver_date_needed);
+    <script type="text/javascript">
+        $(document).on("click", "#show", function () {
+             var proj_act_id = $(this).data('id');
+             var pr_no = $(this).data('pr');
+               $("#proj_act_id").val(proj_act_id);
+               $("#pr_no").html(pr_no);
         });
-    </script> -->
+    </script>
     <div id="filter_purch_calendar" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -218,7 +218,8 @@
                                             <td><?php echo $x; ?></td>
                                             <td><?php echo $pc['proj_activity']; ?></td>
                                             <td><?php echo $pc['c_remarks']; ?></td>
-                                            <td><a class="btn btn-link" style="color:blue" data-toggle="modal" data-target="#exampleModal"><?php echo $pc['pr_no']; ?></a></td>
+                                            <td>
+                                                <a class="btn btn-link" style="color:blue" data-toggle="modal" id="show" data-target="#exampleModal" data-id = '<?php echo $pc['proj_act_id'] ?>' data-year="<?php echo $year; ?>"><?php echo $pc['pr_no']; ?></a></td>
                                             <td><?php echo $pc['duration']; ?></td>
                                             <td><?php echo ($pc['target_start_date']=="") ? '' : date('F j, Y', strtotime($pc['target_start_date'])); ?></td>
                                             <td><?php echo ($pc['target_completion']=="") ? '' : date('F j, Y', strtotime($pc['target_completion'])); ?></td>
@@ -265,48 +266,11 @@
                         </div>
 
                         <!-- modal -->
+                        <input type="hidden" id="baseurl" value="<?php echo base_url(); ?>">
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="exampleModalLabel">
-                                            <b>PR-20094-9494</b>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </h4>                                        
-                                    </div>
-                                    <div class="modal-body">
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <td>Item Desc</td>
-                                                <td>Qty</td>
-                                                <td>Uom</td>
-                                                <td>Supplier</td>
-                                                <td>Status</td>
-                                                <td>Unit Price</td>
-                                                <td>Estimated Price</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="5" align="right">Total Price</td>
-                                                <td>22133</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="5" align="right">Total Estimated Price</td>
-                                                <td colspan="2" align="right">22133</td>
-                                            </tr>
-                                        </table>
-                                    </div>
+                                    <div id="showall"></div>
                                 </div>
                             </div>
                         </div>
@@ -320,6 +284,24 @@
         function goBack() {
             window.history.back();
         }
+        $(document).on('click', '#show', function(e){
+            e.preventDefault();
+            var uid = $(this).data('id');    
+            var year = $(this).data('year'); 
+            var loc= document.getElementById("baseurl").value;
+            var redirect1=loc+'reports/getCalendar';
+            $.ajax({
+                  url: redirect1,
+                  type: 'POST',
+                  data: 'id='+uid+'&year'+year,
+                beforeSend:function(){
+                    $("#showall").html('Please wait ..');
+                },
+                success:function(data){
+                   $("#showall").html(data);
+                },
+            })
+        });
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
