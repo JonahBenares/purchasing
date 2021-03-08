@@ -22,7 +22,7 @@
             background-color: #cacaca;
         }
         .modal-lg {
-            width: 1500px;
+            width: 1200px;
         }
     </style>
     <script type="text/javascript">
@@ -270,7 +270,8 @@
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
-                                    <div id="showall"></div>
+                                    
+                                        <div id="showall"></div>
                                 </div>
                             </div>
                         </div>
