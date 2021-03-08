@@ -126,7 +126,7 @@ class Masterfile extends CI_Controller {
 
       
         
-        $delivered = array();
+/*        $delivered = array();
         foreach($this->super_model->custom_query("SELECT pi.pr_details_id FROM po_dr_items pi INNER JOIN po_dr pd ON pi.dr_id = pd.dr_id WHERE pd.received='1'") AS $dr){
             $delivered[] = $dr->pr_details_id;
         }
@@ -157,7 +157,7 @@ class Masterfile extends CI_Controller {
                 'description'=>$this->super_model->select_column_where("pr_details","item_description","pr_details_id",$res),
                 'status'=>'',
             );
-       }
+       }*/
 /*
         $count_calendar = $this->super_model->count_rows("pr_calendar");
         if($count_calendar!=0){
