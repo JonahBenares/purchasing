@@ -345,7 +345,7 @@ class Po extends CI_Controller {
                 'pr_id'=>$off->pr_id,
                 'pr_no'=>$this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $off->pr_id),
             );
-            $data['currency'] = $off->currency;
+            //$data['currency'] = $off->currency;
         }
 
         if(empty($revised)){
@@ -354,7 +354,7 @@ class Po extends CI_Controller {
                 foreach($this->super_model->select_custom_where("aoq_offers", "aoq_id = '$popr->aoq_id' AND vendor_id='$vendor_id' AND recommended='1' ORDER BY pr_details_id ASC") AS $off){
                     //echo $off->unit_price. " * " .$off->balance."<br>";
                   
-
+                    $data['currency'] = $off->currency;
                     $balance = $this->item_checker($off->pr_details_id, $vendor_id);
                       $total = $off->unit_price*$balance;
                       
@@ -385,6 +385,7 @@ class Po extends CI_Controller {
              } 
         } else {
              foreach($this->super_model->select_row_where("po_items", "po_id" , $po_id) AS $off){
+                    $data['currency'] = $off->currency;
                   $total = $off->unit_price*$off->quantity;
                     $data['items'][] =  array(
                         'aoq_id'=>$this->super_model->select_column_where('po_pr', 'aoq_id', 'po_id', $po_id),
