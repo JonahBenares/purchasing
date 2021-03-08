@@ -5323,9 +5323,9 @@ class Reports extends CI_Controller {
         $year=$this->input->post('year');
         $data['year']=$year;
         $data['proj_act_id']=$proj_act_id;
-        $count = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' AND pr_id = '$pr_id' GROUP BY proj_act_id ORDER BY ver_date_needed DESC");
+        $count = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' AND proj_act_id='$proj_act_id' AND pr_id = '$pr_id' ORDER BY ver_date_needed DESC");
         if($count!=0){
-            foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' AND pr_id = '$pr_id' GROUP BY proj_act_id ORDER BY ver_date_needed DESC") AS $cp){
+            foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' AND proj_act_id='$proj_act_id' AND pr_id = '$pr_id' ORDER BY ver_date_needed DESC") AS $cp){
                 $cal_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $cp->pr_details_id);
                 $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$cp->pr_details_id' AND recommended='1'");
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
@@ -5800,13 +5800,13 @@ class Reports extends CI_Controller {
        foreach($result AS $res){
         $pr_id= $this->super_model->select_column_where("pr_details","pr_id","pr_details_id",$res);
         $company_id= $this->super_model->select_column_custom_where("pr_details","company_id","pr_id='$pr_id' AND pr_details_id = '$res'");
-         $on_hold= $this->super_model->select_column_custom_where("pr_details","on_hold","pr_id='$pr_id' AND pr_details_id = '$res'");
+        $on_hold= $this->super_model->select_column_custom_where("pr_details","on_hold","pr_id='$pr_id' AND pr_details_id = '$res'");
         $onhold_by= $this->super_model->select_column_custom_where("pr_details","onhold_by","pr_id='$pr_id' AND pr_details_id = '$res'");
         $recom_by= $this->super_model->select_column_custom_where("pr_details","recom_by","pr_id='$pr_id' AND pr_details_id = '$res'");
         $fulfilled_by= $this->super_model->select_column_custom_where("pr_details","fulfilled_by","pr_id='$pr_id' AND pr_details_id = '$res'");
         $for_recom= $this->super_model->select_column_custom_where("pr_details","for_recom","pr_id='$pr_id' AND pr_details_id = '$res'");
-         $quantity= $this->super_model->select_column_custom_where("pr_details","quantity","pr_id='$pr_id' AND pr_details_id = '$res'");
-         $uom= $this->super_model->select_column_custom_where("pr_details","uom","pr_id='$pr_id' AND pr_details_id = '$res'");
+        $quantity= $this->super_model->select_column_custom_where("pr_details","quantity","pr_id='$pr_id' AND pr_details_id = '$res'");
+        $uom= $this->super_model->select_column_custom_where("pr_details","uom","pr_id='$pr_id' AND pr_details_id = '$res'");
 
 
             $recom_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $res);
