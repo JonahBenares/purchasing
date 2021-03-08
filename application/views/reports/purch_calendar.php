@@ -270,8 +270,9 @@
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
-                                    
-                                        <div id="showall"></div>
+                                    <div class="modal-body">
+                                         <div id="showall"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -290,7 +291,7 @@
             var uid = $(this).data('id');    
             var year = $(this).data('year'); 
             var loc= document.getElementById("baseurl").value;
-            var redirect1=loc+'reports/getCalendar';
+            var redirect1=loc+'reports/getCalendar_disp';
             $.ajax({
                   url: redirect1,
                   type: 'POST',

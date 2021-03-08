@@ -1,6 +1,7 @@
 <div style="overflow-x: scroll">
     <table class="table table-bordered">
         <tr>
+            <td>PR No.</td>
             <td>Purpose</td>
             <td>Enduse</td>
             <td>Requestor</td>
@@ -16,6 +17,7 @@
 
              ?>
             <tr>
+                <td><?php echo $pc['pr_no']; ?></td>
                 <td><?php echo $pc['purpose']; ?></td>
                 <td><?php echo $pc['enduse']; ?></td>
                 <td><?php echo $pc['requestor']; ?></td>
