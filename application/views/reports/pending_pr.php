@@ -31,7 +31,7 @@
                                                     </button>
                                                 </h5>                                                
                                             </div>
-                                            <form method='POST' action="<?php echo base_url(); ?>masterfile/filter_pending">
+                                            <form method='POST' action="<?php echo base_url(); ?>reports/search_pending_pr">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <div class="row">
@@ -44,7 +44,9 @@
                                                         </div>   
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">                        
+                                                <div class="modal-footer"> <!-- 
+                                                <input type="hidden" name="recom_date_from" value = "<?php echo $filter_date_from; ?>">            
+                                                <input type="hidden" name="recom_date_to" value = "<?php echo $filter_date_to; ?>">    -->                    
                                                     <input type="submit" class="btn btn-primary btn-block" value='Search'>
                                                 </div>
                                             </form>
@@ -63,6 +65,10 @@
                                         <option value="selected">Export Selected</option>
                                     </select>
                                 </div>
+                                <?php if(!empty($filt)){ ?>     
+                                    <div style="text-align: left!important">
+                                <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/reports/pending_pr" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>  <br><br> </div>                 
+                                 <?php } ?> 
                                 <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
@@ -83,7 +89,7 @@
                                 </thead>
                                 <tbody>
                                     <?php 
-                                    foreach($pending_pr AS $ca){ 
+                                    if(!empty($pending_pr)){ foreach($pending_pr AS $ca){ 
                                   
                                 ?>
                                     <tr>
@@ -100,7 +106,7 @@
                                         <td><?php echo $ca['status']; ?></td>
                                        
                                     </tr> 
-                                <?php  } ?>      
+                                <?php  } } ?>      
                                 </tbody>
                             </table>
                             </div>

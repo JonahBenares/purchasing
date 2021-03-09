@@ -5782,9 +5782,7 @@ class Reports extends CI_Controller {
 
     public function pending_pr(){        
         $this->load->view('template/header');        
-        $this->load->view('template/navbar');        
-
-
+        $this->load->view('template/navbar');      
         $delivered = array();
         foreach($this->super_model->custom_query("SELECT pi.pr_details_id FROM po_dr_items pi INNER JOIN po_dr pd ON pi.dr_id = pd.dr_id WHERE pd.received='1'") AS $dr){
             $delivered[] = $dr->pr_details_id;
@@ -6245,6 +6243,490 @@ class Reports extends CI_Controller {
         $this->load->view('reports/pending_pr',$data);
         $this->load->view('template/footer');
    }
+
+   public function search_pending_pr(){
+    $this->load->view('template/header');        
+    $this->load->view('template/navbar'); 
+        $filter = "";
+        if(!empty($this->input->post('filter_date_from'))){
+            $data['filter_date_from'] = $this->input->post('filter_date_from');
+            $filter_date_from = $this->input->post('filter_date_from');
+        } else {
+            $data['filter_date_from']= "null";
+            $filter_date_from= "null";
+        }
+
+        if(!empty($this->input->post('filter_date_to'))){
+            $data['filter_date_to'] = $this->input->post('filter_date_to');
+            $filter_date_to = $this->input->post('filter_date_to');
+        } else {
+            $data['filter_date_to']= "null";
+            $filter_date_to= "null";
+        }
+        $data['filt'] = $filter_date_from." - ".$filter_date_to;
+
+
+        $delivered = array();
+        foreach($this->super_model->custom_query("SELECT pi.pr_details_id FROM po_dr_items pi INNER JOIN po_dr pd ON pi.dr_id = pd.dr_id WHERE pd.received='1'") AS $dr){
+            $delivered[] = $dr->pr_details_id;
+        }
+         $calendar = array();
+        foreach($this->super_model->custom_query("SELECT pr_details_id FROM pr_calendar WHERE ver_date_needed BETWEEN '$filter_date_from' AND '$filter_date_to'") AS $cal){
+            $calendar[] = $cal->pr_details_id;
+        }
+
+        $pending=array();
+        foreach($calendar AS $cl){
+            foreach($delivered AS $dl){
+                if($cl != $dl){
+                    $pending[]= $cl;
+                }
+            }
+        }
+
+       $result= array_unique($pending);
+       foreach($result AS $res){
+        $pr_id= $this->super_model->select_column_where("pr_details","pr_id","pr_details_id",$res);
+        $company_id= $this->super_model->select_column_custom_where("pr_details","company_id","pr_id='$pr_id' AND pr_details_id = '$res'");
+        $on_hold= $this->super_model->select_column_custom_where("pr_details","on_hold","pr_id='$pr_id' AND pr_details_id = '$res'");
+        $onhold_by= $this->super_model->select_column_custom_where("pr_details","onhold_by","pr_id='$pr_id' AND pr_details_id = '$res'");
+        $recom_by= $this->super_model->select_column_custom_where("pr_details","recom_by","pr_id='$pr_id' AND pr_details_id = '$res'");
+        $fulfilled_by= $this->super_model->select_column_custom_where("pr_details","fulfilled_by","pr_id='$pr_id' AND pr_details_id = '$res'");
+        $for_recom= $this->super_model->select_column_custom_where("pr_details","for_recom","pr_id='$pr_id' AND pr_details_id = '$res'");
+        $quantity= $this->super_model->select_column_custom_where("pr_details","quantity","pr_id='$pr_id' AND pr_details_id = '$res'");
+        $uom= $this->super_model->select_column_custom_where("pr_details","uom","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+
+            $recom_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $res);
+            $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id',$res);
+            $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $res);
+            if($po_offer_id==0){
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'po_items_id', $po_items_id);
+            }else{
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
+            }
+            
+            $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id",$res, "po_id", "DESC", "1");
+            $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
+            $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$res'");
+            $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$res'");
+            $company=$this->super_model->select_column_where("company","company_name","company_id",$company_id);
+            $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by);
+            $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$recom_by);
+            $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$res);
+            $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$res);
+            $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$res);
+            $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$res);
+         
+            $unserved_qty=0;
+            $unserved_uom='';  
+            $statuss='';
+            $status='';
+            $status_remarks='';
+            if($sum_po_qty!=0){
+                if($sum_po_qty < $quantity){
+
+                      $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
+             
+                        $dr_date = $this->super_model->select_column_where('po_dr', 'dr_date', 'po_id', $po_id);
+                        
+                        $served_qty = $this->super_model->select_sum("po_items", "quantity", "pr_details_id",$res);
+                        $delivered_qty = $this->super_model->select_column_where('po_items', 'delivered_quantity', 'pr_details_id', $res);
+                        $served_uom = $this->super_model->select_column_where('po_items', 'uom', 'pr_details_id', $res);
+
+                  
+                        if($cancelled_head_po==0){
+                            $unserved_qty = $quantity - $served_qty;
+                        }else{
+                            $unserved_qty = '';
+                        }
+                        $unserved_uom =  $served_uom;
+
+                        $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+                        $count_po_unserved = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id WHERE served = '0' AND cancelled ='0' AND pr_details_id = '$res'");
+                        $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id WHERE served = '1' AND cancelled ='0' AND pr_details_id = '$res'");
+                        $count_po_all = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id WHERE  cancelled ='0' AND pr_details_id = '$res'");
+                    
+                        if($count_po_unserved !=0 && $count_po_served==0){
+                            if($on_hold==1){
+                                $status .="On-Hold";
+                            }else if($fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= 'PO Issued - Partial<br><br>';
+                            }
+
+                            if($on_hold==1){
+                                 $onhold_date= $this->super_model->select_column_custom_where("pr_details","onhold_date","pr_id='$pr_id' AND pr_details_id = '$res'");
+                                $status_remarks = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                            }else if($for_recom==1){
+                                 $recom_date_from= $this->super_model->select_column_custom_where("pr_details","recom_date_from","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $recom_date_to= $this->super_model->select_column_custom_where("pr_details","recom_date_to","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+                                $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
+                            }else{
+                                $status_remarks='';
+                            }
+                        }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
+                            if($on_hold==1){
+                                $status .="On-Hold";
+                            }else if($fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else{
+                                $status .= 'PO Issued - Partial<br><br>';
+                                $status .= 'Partially Delivered';
+                            }
+
+                            if($on_hold==1){
+                                $onhold_date= $this->super_model->select_column_custom_where("pr_details","onhold_date","pr_id='$pr_id' AND pr_details_id = '$res'");
+                                $status_remarks = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                            }else if($for_recom==1){
+                                   $recom_date_from= $this->super_model->select_column_custom_where("pr_details","recom_date_from","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $recom_date_to= $this->super_model->select_column_custom_where("pr_details","recom_date_to","pr_id='$pr_id' AND pr_details_id = '$res'");
+                                $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
+                            }else{
+                                $status_remarks='';
+                            }
+                        } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
+                        
+                            
+                            $date_delivered=  $this->super_model->select_column_where('po_head', 'date_served', 'po_id', $po_id);
+                            if($cancelled_head_po!=0){
+                               
+                                $statuss = 'Partially Delivered';
+                                if($on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status.="Partially Delivered / Cancelled";
+                                }
+                            }else if($cancelled_items_po==0){
+                                if($on_hold==1){
+                                    $status .="On-Hold";
+                                }else if($fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else{
+                                    $status .= 'Partially Delivered';
+                                }
+                            }else {
+                                $statuss = 'Partially Delivered';
+                                $status.="Cancelled";
+                            }
+                          
+                            foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$res' AND date_received!=''") AS $del){
+                               
+                                 
+                                if($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id!='')){
+
+                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
+                                }
+                                if(empty($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id))){
+                                    $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND ph.po_id = '$del->po_id' AND pi.pr_details_id = '$res'");
+                                    $status_remarks.="PO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty .")</span>";
+                                }
+                            }
+
+                        }
+                  
+                } else {
+                    
+                    $count_rfd = $this->super_model->count_custom_where("rfd","po_id = '$po_id'");
+                    $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+                    if($served==0){
+                        if($cancelled_items_po==0){
+                            if($on_hold==1){
+                                $status .="On-Hold";
+                            }else{
+                                $status .= 'PO Issued';
+                            }
+                        }else if($cancelled_items_po==0 && $fulfilled_by==1){
+                            $status="Delivered by ".$company;
+                        }else if($cancelled_items_po==0 && $for_recom==1){
+                            $status="For Recom";
+                        }else {
+                            $statuss = 'PO Issued';
+                            $status .= 'Cancelled';
+                        }
+
+                        if($on_hold==1){
+                            $onhold_date= $this->super_model->select_column_custom_where("pr_details","onhold_date","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $status_remarks = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($for_recom==1){
+                            $recom_date_from= $this->super_model->select_column_custom_where("pr_details","recom_date_from","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $recom_date_to= $this->super_model->select_column_custom_where("pr_details","recom_date_to","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
+                    } else {
+                        if($cancelled_items_po==0){
+                            $status .= 'Fully Delivered';
+                        }else {
+                            $statuss = 'Fully Delivered';
+                            $status .= 'Cancelled';
+                        }
+                        $status_remarks='';
+                       foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$res' AND date_received!=''") AS $del){
+                     
+                             $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."<br>";
+                        }
+                    }
+
+                }
+            } else {
+                $cancelled_items = $this->super_model->select_column_where('pr_details', 'cancelled', 'pr_details_id', $res);
+                if($cancelled_items==1){
+                    $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $res);
+                    $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $res);
+                    $statuss = "Cancelled";
+                    $status .= "Cancelled";
+                    $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
+                }else if($cancelled_head_po==1){
+                    $cancel_reason = $this->super_model->select_column_where('po_head', 'cancel_reason', 'po_id', $po_id);
+                    $cancel_date = $this->super_model->select_column_where('po_head', 'cancelled_date', 'po_id', $po_id);
+                    $statuss = "Cancelled";
+                    $status .= "Cancelled";
+                    $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
+                } else {
+
+                    $count_po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr_id' AND served = '0' AND pi.pr_details_id = '$res'");
+                     $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0' AND pr.pr_id = '$pr_id' AND served = '1' AND pi.pr_details_id = '$res'");
+                    $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$res'");
+                    $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$res'");
+
+                   
+                    $count_rfq = $this->super_model->count_custom_query("SELECT rfq_details_id FROM rfq_details WHERE pr_details_id = '$res'");
+                   
+                  
+                    $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$res' AND saved='1' AND cancelled='0'");
+                    
+                   $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$res' AND saved='1' AND cancelled='0'");
+                    $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$res' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
+ 
+                    if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
+                      
+                            if($on_hold==1){
+                                $status .="On-Hold";
+                            }else if($fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($for_recom==1){
+                                $status .= "For Recom";
+                            }else{
+                                $status .= 'Pending';
+                            }
+                      
+
+                        if($on_hold==1){
+                             $onhold_date= $this->super_model->select_column_custom_where("pr_details","onhold_date","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            
+                            $status_remarks = 'For RFQ'."<br> -On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($for_recom==1){
+                             $recom_date_from= $this->super_model->select_column_custom_where("pr_details","recom_date_from","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $recom_date_to= $this->super_model->select_column_custom_where("pr_details","recom_date_to","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+                            $status_remarks = 'For RFQ'."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
+                        }else{
+                            $status_remarks = 'For RFQ';
+                        }
+                    }else if(($count_rfq!=0 && $count_aoq==0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq==0 && $count_aoq_awarded==0 && $count_po!=0)){
+                       
+                            if($on_hold==1){
+                                $status .="On-Hold";
+                            }else if($fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($for_recom==1){
+                                $status .= "For Recom";
+                            }else{
+                               $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$uom .")</span>";
+                            }
+                      
+
+                        if($on_hold==1){
+                              $onhold_date= $this->super_model->select_column_custom_where("pr_details","onhold_date","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $status_remarks = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($for_recom==1){
+
+                             $recom_date_from= $this->super_model->select_column_custom_where("pr_details","recom_date_from","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $recom_date_to= $this->super_model->select_column_custom_where("pr_details","recom_date_to","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
+                    } else if($count_rfq!=0 && $count_rfq_completed == 0 && $count_aoq_awarded==0  && $count_po==0){
+                        $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$res' AND saved='1' AND awarded = '0'");
+                      
+                            if($on_hold==1){
+                                $status .="On-Hold";
+                            }else if($fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($for_recom==1){
+                                $status .= "For Recom";
+                            }else{
+                                $status .= 'Pending';
+                            }
+                      
+                        if($on_hold==1){
+                              $onhold_date= $this->super_model->select_column_custom_where("pr_details","onhold_date","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $status_remarks = 'Canvassing Ongoing'."<br> -On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($for_recom==1){
+
+                             $recom_date_from= $this->super_model->select_column_custom_where("pr_details","recom_date_from","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $recom_date_to= $this->super_model->select_column_custom_where("pr_details","recom_date_to","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+                            $status_remarks = 'Canvassing Ongoing'."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
+                        }else{
+                            $status_remarks = 'Canvassing Ongoing';
+                        }
+                    } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq==0  && $count_aoq_awarded==0  && $count_po==0){
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$res' AND saved='1' AND awarded = '0'");
+                        
+                            if($on_hold==1){
+                                $status .="On-Hold";
+                            }else if($fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($for_recom==1){
+                                $status .= "For Recom";
+                            }else{
+                                $status .= 'Pending';
+                            }
+                      
+                        if($on_hold==1){
+                             $onhold_date= $this->super_model->select_column_custom_where("pr_details","onhold_date","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+                            $status_remarks = 'RFQ Completed - No. of RFQ completed: '.$count_rfq_completed."<br> -On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($for_recom==1){
+
+                               $recom_date_from= $this->super_model->select_column_custom_where("pr_details","recom_date_from","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $recom_date_to= $this->super_model->select_column_custom_where("pr_details","recom_date_to","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+
+                            $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
+                        }else{
+                            $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
+                        }
+                    } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$res' AND saved='1' ");
+                         
+                        if($on_hold==1){
+                            $status .="On-Hold";
+                        }else if($fulfilled_by==1){
+                            $status .= "Delivered by ".$company;
+                        }else if($for_recom==1){
+                            $status .= "For Recom";
+                        }else{
+                            $status .= 'Pending';
+                        }
+                    
+                        if($on_hold==1){
+                              $onhold_date= $this->super_model->select_column_custom_where("pr_details","onhold_date","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($for_recom==1){
+                               $recom_date_from= $this->super_model->select_column_custom_where("pr_details","recom_date_from","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $recom_date_to= $this->super_model->select_column_custom_where("pr_details","recom_date_to","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
+                        }else{
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date;
+                        }
+                    } else if($count_rfq!=0 && $count_aoq_awarded!=0  && $count_po==0){
+                        //if($cancelled_items_po==0){
+                        if($on_hold==1){
+                            $status .="On-Hold";
+                        }else if($fulfilled_by==1){
+                            $status .= "Delivered by ".$company;
+                        }else if($for_recom==1){
+                            $status .= "For Recom";
+                        }else{
+                            $status .= 'Pending';
+                        }
+                    
+                        if($on_hold==1){
+                            $onhold_date= $this->super_model->select_column_custom_where("pr_details","onhold_date","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+                            $status_remarks = 'For PO - AOQ Done (awarded)' .$aoq_date."<br> -On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($for_recom==1){
+                            $recom_date_from= $this->super_model->select_column_custom_where("pr_details","recom_date_from","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $recom_date_to= $this->super_model->select_column_custom_where("pr_details","recom_date_to","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+                            $status_remarks = 'For PO - AOQ Done (awarded)'."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
+                        }else{
+                            $status_remarks = 'For PO - AOQ Done (awarded)';
+                        }
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq!=0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
+                        
+                            if($on_hold==1){
+                                $status .="On-Hold";
+                            }else if($fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($for_recom==1){
+                                $status .= "For Recom";
+                            }else{
+                                $status .= "PO Issued  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$uom .")</span>";
+                            }
+                    
+                        if($on_hold==1){
+                              $onhold_date= $this->super_model->select_column_custom_where("pr_details","onhold_date","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $status_remarks = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($for_recom==1){
+                            $recom_date_from= $this->super_model->select_column_custom_where("pr_details","recom_date_from","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $recom_date_to= $this->super_model->select_column_custom_where("pr_details","recom_date_to","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po_served!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po_served!=0)){ 
+                     
+                            if($on_hold==1){
+                                $status .="On-Hold";
+                            }else if($fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($for_recom==1){
+                                $status .= "For Recom";
+                            }else{
+                                $status .= "Partially Delivered  <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty . " ".$uom .")</span>";
+                            }
+                    
+                        if($on_hold==1){
+                               $onhold_date= $this->super_model->select_column_custom_where("pr_details","onhold_date","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $status_remarks = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                        }else if($for_recom==1){
+                              $recom_date_from= $this->super_model->select_column_custom_where("pr_details","recom_date_from","pr_id='$pr_id' AND pr_details_id = '$res'");
+                            $recom_date_to= $this->super_model->select_column_custom_where("pr_details","recom_date_to","pr_id='$pr_id' AND pr_details_id = '$res'");
+
+                            $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
+                        }else{
+                            $status_remarks = '';
+                        }
+                    } 
+
+                }
+            }
+      
+            if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
+                $data['pending_pr'][] = array(
+                    'purpose'=>$this->super_model->select_column_where("pr_head","purpose","pr_id",$pr_id),
+                    'enduse'=>$this->super_model->select_column_where("pr_head","enduse","pr_id",$pr_id),
+                    'site_pr'=>$this->super_model->select_column_where("pr_details","add_remarks","pr_details_id",$res),
+                    'requestor'=>$this->super_model->select_column_where("pr_head","requestor","pr_id",$pr_id),
+                    'qty'=>$this->super_model->select_column_where("pr_details","quantity","pr_details_id",$res),
+                    'uom'=>$this->super_model->select_column_where("pr_details","uom","pr_details_id",$res),
+                    'description'=>$this->super_model->select_column_where("pr_details","item_description","pr_details_id",$res),
+                    'status_remarks'=>$status_remarks,
+                    'status'=>$status,
+                    'ver_date_needed'=>$ver_date_needed,
+                    'pr_no'=>$this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id),
+                );
+            }
+       }
+
+        $this->load->view('reports/pending_pr',$data);
+        $this->load->view('template/footer');
+   }
+
 
    public function item_status($pr_details_id){
          $pr_id= $this->super_model->select_column_where("pr_details","pr_id","pr_details_id",$pr_details_id);
