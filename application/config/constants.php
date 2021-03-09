@@ -85,7 +85,7 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 
-define('LOGO','assets/img/logo/mhec.png');
+define('LOGO','assets/img/logo/logo_cenpri.png');
 define('TIN','TIN No. HERE');
 define('COMPANY_NAME','CENTRAL NEGROS POWER RELIABILITY, INC.');
 define('ADDRESS','Office: 88 Corner Rizal-Mabini Sts., Bacolod City');
