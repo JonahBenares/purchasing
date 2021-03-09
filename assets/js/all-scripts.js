@@ -36,7 +36,7 @@ function updateEnduse(baseurl,id) {
 }
 
 function updateProjAct(baseurl,id) {
-    window.open(baseurl+"index.php/masterfile/update_proj_activity/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
+    window.open(baseurl+"index.php/masterfile/update_proj_activity/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
 function incomingRfq(baseurl, rfqid) {
