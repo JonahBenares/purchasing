@@ -135,6 +135,10 @@
                                         tr.cd td{
                                             background-color: #cacaca;
                                         }
+
+                                        tr.pi td{
+                                            background-color: #ffecd0;
+                                        }
                                     </style>
                                     <tbody>                               
                                         <tr>
@@ -146,11 +150,13 @@
                                         ?>                                     
                                         <tr
                                         <?php if($p['served']=='1' && $p['po_qty'] > $p['qty']){ 
-                                            echo "class=''";
+                                            echo "class='pi'";
                                         } else if($p['served']=='1'){
                                             echo "class='fd'";
                                         }else if($p['cancelled']=='1') {
                                             echo "class='cd'";
+                                        }else if($p['status']=='PO Issued') {
+                                            echo "class='pi'";
                                         } ?>>
                                             <td><?php echo $p['pr_no']."-".COMPANY;?></td>
                                             <td><?php echo $p['purpose'];?></td>

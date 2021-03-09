@@ -33,7 +33,7 @@
                $("#pr_no").html(pr_no);
         });
     </script>
-    <div id="filter_purch_calendar" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+    <!-- <div id="filter_purch_calendar" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header header-color-modal bg-color-1">
@@ -97,7 +97,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
         <!-- <div id="updateVerDate" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -148,9 +148,9 @@
                                         <span class="fa fa-upload"></span> Export to Excel
                                     </a>
                                     <?php } ?> -->
-                                    <a type='button' class="btn btn-custon-three btn-success"  data-toggle="modal" data-target="#filter_purch_calendar"> 
+                                   <!-- <a type='button' class="btn btn-custon-three btn-success"  data-toggle="modal" data-target="#filter_purch_calendar"> 
                                         <span class="fa fa-filter p-l-0"></span> Filter
-                                    </a>
+                                    </a> -->
                                 </div>
                             </div>
                         </div>

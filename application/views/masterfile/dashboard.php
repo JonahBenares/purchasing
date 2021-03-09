@@ -39,7 +39,7 @@
         </div>
     </div>
     <!-- Breadcome End-->                  
-    <div class="welcome-adminpro-area">
+    <!-- <div class="welcome-adminpro-area">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
@@ -92,7 +92,6 @@
                         <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href="<?php echo base_url(); ?>index.php/masterfile/dashboard/<?php echo $filter_date_from; ?>/<?php echo $filter_date_to; ?>" class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
                         <?php } ?>  
                         <div style="overflow-y: scroll;height: 220px;max-height: 220px  ">
-                            <!-- loop here -->
                             <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
@@ -129,7 +128,7 @@
 
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="row">
                 <!-- pr and for te -->
                 <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 ">
