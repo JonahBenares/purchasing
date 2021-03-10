@@ -174,24 +174,14 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
+                                                <th width="50%">Scope Of Works</th>
                                                 <th>Qty</th>
-                                                <th>UOM</th>
-                                                <th>PN No.</th>
-                                                <th>Item Description</th>
-                                                <th>WH Stocks</th>
-                                                <th>Date Needed</th>
-                                                <th>Group</th>
-                                                <th>Vendor</th>
-                                                <th><center><span class="fa fa-bars"></span></center></th>
-                                                <th>Cancelled By / Cancelled Date</th>
+                                                <th>UOM.</th>
+                                                <th>Unit Cost</th>
+                                                <th>Total Cost</th>
                                         </thead>     
                                         <tbody>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
