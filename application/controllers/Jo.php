@@ -132,7 +132,7 @@ class Jo extends CI_Controller {
             $data['grand_total']= $head->grand_total;
             $data['revision_no']=$head->revision_no;
             $data['conforme']= $head->conforme;
-            $data['verified_by']= $head->verified_by;
+            $data['verified_by']= $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->verified_by);
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
@@ -436,7 +436,7 @@ class Jo extends CI_Controller {
             $data['grand_total']= $head->grand_total;
             $data['revision_no']=$head->revision_no;
             $data['conforme']= $head->conforme;
-            $data['verified_by']= $head->verified_by;
+            $data['verified_by']= $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->verified_by);
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
@@ -580,7 +580,7 @@ class Jo extends CI_Controller {
             $data['total_cost']= $head->total_cost;
             $data['grand_total']= $head->grand_total;
             $data['conforme']= $head->conforme;
-            $data['verified_by']= $head->verified_by;
+            $data['verified_by']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->verified_by);
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
