@@ -38,10 +38,9 @@
             </div>
         </div>
     </div>
-    <!-- Breadcome End-->                  
-    <!-- <div class="welcome-adminpro-area">
+    <div class="welcome-adminpro-area">
         <div class="container-fluid">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                     <div class="dashone-adminprowrap shadow-reset mg-b-30 pulse" style="height: 320px;max-height: 320px " >
                         <div class="dash-adminpro-project-title">

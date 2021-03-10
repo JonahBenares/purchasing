@@ -22,19 +22,15 @@
                                                             </div>
                                                         <div class="form-group">
                                                                 <label>Remarks:</label>
-                                                                <input type = "text" name="c_remarks" class="form-control"  value = "<?php echo $pa->c_remarks?>">
-                                                            </div>
-                                                        <div class="form-group">
-                                                               <label>Duration:</label>
-                                                                <input type = "text" name="duration" class="form-control"  value = "<?php echo $pa->duration?>">
-                                                            </div>
+                                                                <textarea type = "text" name="c_remarks" class="form-control" ><?php echo $pa->c_remarks?></textarea>
+                                                            </div>                                                        
                                                         <div class="form-group">
                                                             <div class="row">
-                                                                <div class="col-lg-6">
+                                                                <div class=" col-xs-6 col-md-6 col-lg-6">
                                                                     <label>Target Start Date:</label>
                                                                     <input name="target_start_date" class="form-control" type="text" onfocus="(this.type='date')" id="target_start_date" value = "<?php echo $pa->target_start_date?>">
                                                                 </div>
-                                                                <div class="col-lg-6">
+                                                                <div class=" col-xs-6 col-md-6 col-lg-6">
                                                                     <label>Target Completion:</label>
                                                                     <input name="target_completion" class="form-control" type="text" onfocus="(this.type='date')" id="target_completion" value = "<?php echo $pa->target_completion?>">
                                                                 </div>
@@ -42,11 +38,11 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="row">
-                                                                <div class="col-lg-6">
+                                                                <div class="col-xs-6 col-md-6 col-lg-6">
                                                                     <label>Actual Start:</label>
                                                                     <input name="actual_start" class="form-control" type="text" onfocus="(this.type='date')" id="actual_start" value = "<?php echo $pa->actual_start?>">
                                                                 </div>
-                                                                <div class="col-lg-6">
+                                                                <div class="col-xs-6 col-md-6 col-lg-6">
                                                                     <label>Actual Completion:</label>
                                                                     <input  name="actual_completion" class="form-control" type="text" onfocus="(this.type='date')" id="actual_completion" value = "<?php echo $pa->actual_completion?>">
                                                                 </div>
@@ -54,13 +50,17 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="row">
-                                                                <div class="col-lg-6">
+                                                                <div class=" col-xs-6 col-md-6 col-lg-6">
                                                                     <label>Est. Total(Materials):</label>
                                                                     <input name="est_total_materials" class="form-control" type="text" id="est_total_materials" value = "<?php echo $pa->est_total_materials?>">
                                                                 </div>
+                                                                <div class=" col-xs-6 col-md-6 col-lg-6">
+                                                                    <label>Duration:</label>
+                                                                    <input type = "text" name="duration" class="form-control"  value = "<?php echo $pa->duration?>">
+                                                                </div>
                                                             </div>   
                                                         </div>
-                                                   <div class="form-group">
+                                                        <div class="form-group">
                                                             <label>Status:</label>
                                                             <select type="text" name="status" class="form-control">
                                                                 <option value = "Active" <?php echo (($pa->status == 'Active') ? ' selected' : '');?>>Active</option>
