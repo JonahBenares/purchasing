@@ -132,6 +132,7 @@ class Jo extends CI_Controller {
             $data['grand_total']= $head->grand_total;
             $data['revision_no']=$head->revision_no;
             $data['conforme']= $head->conforme;
+            $data['verified_by']= $head->verified_by;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
@@ -336,6 +337,7 @@ class Jo extends CI_Controller {
             'discount_amount'=>$this->input->post('less_amount'),
             'grand_total'=>$this->input->post('net'),
             'conforme'=>$this->input->post('conforme'),
+            'verified_by'=>$this->input->post('verified_by'),
             'approved_by'=>$this->input->post('approved_by'),
             'recommended_by'=>$this->input->post('recommended_by'),
             'checked_by'=>$this->input->post('checked_by'),
@@ -434,6 +436,7 @@ class Jo extends CI_Controller {
             $data['grand_total']= $head->grand_total;
             $data['revision_no']=$head->revision_no;
             $data['conforme']= $head->conforme;
+            $data['verified_by']= $head->verified_by;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
@@ -476,6 +479,7 @@ class Jo extends CI_Controller {
             $data['total_cost']= $head->total_cost;
             $data['grand_total']= $head->grand_total;
             $data['conforme']= $head->conforme;
+            $data['verified_by']= $head->verified_by;
             $data['cancelled']= $head->cancelled;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['approved_id'] = $head->approved_by;
@@ -576,6 +580,7 @@ class Jo extends CI_Controller {
             $data['total_cost']= $head->total_cost;
             $data['grand_total']= $head->grand_total;
             $data['conforme']= $head->conforme;
+            $data['verified_by']= $head->verified_by;
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
@@ -606,6 +611,7 @@ class Jo extends CI_Controller {
                 "revised"=>1,
                 "saved"=>$johead->saved,
                 "checked_by"=>$this->input->post('checked_by'),
+                "verified_by"=>$this->input->post('verified_by'),
                 "approved_by"=>$this->input->post('approved_by'),
                 "recommended_by"=>$this->input->post('recommended_by'),
                 "prepared_by"=>$johead->prepared_by,
@@ -675,6 +681,7 @@ class Jo extends CI_Controller {
                     "start_of_work"=>$joh->start_of_work,
                     "project_title"=>$joh->project_title,
                     "conforme"=>$joh->conforme,
+                    "verified_by"=>$joh->verified_by,
                     "revised"=>$joh->revised,
                     "saved"=>$joh->saved,
                     "checked_by"=>$joh->checked_by,
@@ -709,6 +716,7 @@ class Jo extends CI_Controller {
                     "start_of_work"=>$joht->start_of_work,
                     "project_title"=>$joht->project_title,
                     "conforme"=>$joht->conforme,
+                    "verified_by"=>$joht->verified_by,
                     "revised"=>$joht->revised,
                     "saved"=>$joht->saved,
                     "checked_by"=>$joht->checked_by,
@@ -814,6 +822,7 @@ class Jo extends CI_Controller {
                 "start_of_work"=>$joh->start_of_work,
                 "project_title"=>$joh->project_title,
                 "conforme"=>$joh->conforme,
+                "verified_by"=>$joh->verified_by,
                 "revised"=>$joh->revised,
                 "saved"=>$joh->saved,
                 "checked_by"=>$joh->checked_by,
@@ -848,6 +857,7 @@ class Jo extends CI_Controller {
                 "start_of_work"=>$joht->start_of_work,
                 "project_title"=>$joht->project_title,
                 "conforme"=>$joht->conforme,
+                "verified_by"=>$joht->verified_by,
                 "revised"=>$joht->revised,
                 "saved"=>$joht->saved,
                 "checked_by"=>$joht->checked_by,

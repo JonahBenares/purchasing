@@ -508,17 +508,33 @@
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
+		    			<td class="f13 p-l-5" colspan="3"></td>
+		    			<td class="f13" colspan="7" align="right"></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13" colspan="6" align="center">Work Completion Verified by:</td>
+		    			<td class="f13" colspan="2"></td>		    			
+		    		</tr>
+		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
 		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo number_format($grand_total,2); ?></span></b></h4></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13 bor-btm" colspan="6"></td>
+		    			<td class="f13" colspan="2"></td>
+		    		</tr>
+		    		<tr>
+		    			<td class="f13 p-l-5" colspan="3">:</td>
 		    			<td class="f13" colspan="7"></td>
-		    			<td class="f13" colspan="3"></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13" colspan="6" align="center"><?php if($revised==0){ ?><input type="text" name='verified_by' style = "width:100%;" value = "<?php echo $verified_by; ?>"><?php } else{ echo $verified_by; } ?></td>
+		    			<td class="f13" colspan="2"></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Conforme:</td>
 		    			<td class="f13 bor-btm" colspan="7" align="center"><?php if($revised==0){ ?><input type="text" name='conforme' style = "width:100%;" value = "<?php echo $conforme; ?>"><?php } else{ echo $conforme; } ?></td>
-		    			<td class="f13" colspan="7"></td>
-		    			<td class="f13" colspan="3"></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13" colspan="6"></td>
+		    			<td class="f13" colspan="2"></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="3"></td>

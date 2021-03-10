@@ -289,17 +289,33 @@
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
+		    			<td class="f13 p-l-5" colspan="3"></td>
+		    			<td class="f13" colspan="7" align="right"></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13" colspan="6" align="center">Work Completion Verified by:</td>
+		    			<td class="f13" colspan="2"></td>		    			
+		    		</tr>
+		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
 		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo $grand_total; ?></span></b></h4></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13 bor-btm" colspan="6"></td>
+		    			<td class="f13" colspan="2"></td>
+		    		</tr>
+		    		<tr>
+		    			<td class="f13 p-l-5" colspan="3">:</td>
 		    			<td class="f13" colspan="7"></td>
-		    			<td class="f13" colspan="3"></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13" colspan="6" align="center"><?php echo $verified_by; ?></td>
+		    			<td class="f13" colspan="2"></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Conforme:</td>
 		    			<td class="f13 bor-btm" colspan="7" align="center"><?php echo $conforme; ?></td>
-		    			<td class="f13" colspan="7"></td>
-		    			<td class="f13" colspan="3"></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13" colspan="6"></td>
+		    			<td class="f13" colspan="2"></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="3"></td>
