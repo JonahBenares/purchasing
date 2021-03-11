@@ -93,11 +93,11 @@
                                     <small>JOB ORDER REQUEST</small> 
                                     <div class="sparkline8-outline-icon">
                                         <a type='button' class="btn btn-custon-three btn-primary"  data-toggle="modal" data-target="#import_pr"> 
-                                            <span class="fa fa-plus p-l-0"></span> Add PR
+                                            <span class="fa fa-plus p-l-0"></span> Add JOR
                                         </a>
                                         <a href="<?php echo base_url(); ?>pr/pending_forrfq" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-clock-o"></span> Pending for RFQ</a>
 
-                                        <a href="<?php echo base_url(); ?>pr/cancelled_pr" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PR</a>
+                                        <a href="<?php echo base_url(); ?>pr/cancelled_pr" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled JOR</a>
                                     </div>
                                 </div>
                             </div>                       
