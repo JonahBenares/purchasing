@@ -35,7 +35,7 @@
 
                         <li class="nav-item">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-                                <i class="fa big-icon fa-th-large"></i> 
+                                <i class="fa big-icon fa-file-text-o"></i> 
                                 <span class="mini-dn">PO Transactions</span> 
                                 <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
                             </a>
@@ -72,9 +72,40 @@
                                 </a>
                             </div>
                         </li>
+
+                        <li class="nav-item">
+                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                <i class="fa big-icon fa-file-text"></i> 
+                                <span class="mini-dn">JO Transactions</span> 
+                                <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
+                            </a>
+                            <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0">
+                                <a  href="<?php echo base_url(); ?>jor/jor_list" role="button" class="nav-link dropdown-toggle" title="Purchase Request">
+                                    <i class="fa big-icon fa-file-o"></i>
+                                    <span class="mini-dn">JO Request</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>rfq/rfq_list"  role="button" class="nav-link dropdown-toggle" title="Request for Quotation">
+                                    <i class="fa big-icon fa-pencil-square-o"></i>
+                                    <span class="mini-dn">Request For Quotation</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>aoq/aoq_list"  role="button" class="nav-link dropdown-toggle" title="Abstract of Quotation">
+                                    <i class="fa big-icon fa-folder"></i>
+                                    <span class="mini-dn">Abstract of Quotation</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>po/po_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
+                                    <i class="fa big-icon fa-shopping-cart"></i>
+                                    <span class="mini-dn">JO Issuance</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                            </div>
+                        </li>
+
                         <li class="nav-item">
                             <a href="<?php echo base_url(); ?>jo/jo_list"  role="button" class="nav-link dropdown-toggle" title="Job Order">
-                                <i class="fa big-icon fa-file-text"></i>
+                                <i class="fa big-icon list-alt"></i>
                                 <span class="mini-dn"> Job Order</span> 
                                 <span class="indicator-right-menu mini-dn"></span>
                             </a>
@@ -388,6 +419,7 @@
                             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
                                 <div class="header-right-info">
                                     <a href='<?php echo base_url(); ?>uploads/format/PurchaseRequestForm.xlsx' class="-right btn default btn-sm default-marg animated headShake infinite">Download PR Format</a>
+                                    <a href='<?php echo base_url(); ?>uploads/format/JORequestForm.xlsx' class="-right btn default btn-sm default-marg animated headShake infinite">Download JOR Format</a>
                                     <!-- <a href="../uploads/Purchase Request.xlsx" class="btn default btn-sm default-marg animated headShake infinite">Download PR Format</a> -->
                                     <ul class="nav navbar-nav mai-top-nav header-right-menu">
                                         <li class="nav-item">
