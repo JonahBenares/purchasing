@@ -1211,6 +1211,7 @@ class Pod extends CI_Controller {
                 'delivered_quantity'=>$dritems->delivered_quantity,
                 'quantity'=>$dritems->quantity,
                 'unit_price'=>$dritems->unit_price,
+                'currency'=>$dritems->currency,
                 'uom'=>$dritems->uom,
                 'amount'=>$dritems->amount,
                 'item_no'=>$dritems->item_no,
@@ -1292,6 +1293,7 @@ class Pod extends CI_Controller {
                 "item_id"=>$poitems->item_id,
                 "delivered_quantity"=>$poitems->delivered_quantity,
                 "unit_price"=>$poitems->unit_price,
+                "currency"=>$poitems->currency,
                 "uom"=>$poitems->uom,
                 "amount"=>$poitems->amount,
                 "item_no"=>$poitems->item_no,
@@ -1363,6 +1365,7 @@ class Pod extends CI_Controller {
                     "delivered_quantity"=>$poitems->delivered_quantity,
                     "quantity"=>$nqty,
                     "unit_price"=>$poitems->unit_price,
+                    "currency"=>$poitems->currency,
                     "uom"=>$poitems->uom,
                     "amount"=>$poitems->amount,
                     "item_no"=>$poitems->item_no,
@@ -1375,6 +1378,7 @@ class Pod extends CI_Controller {
                     'quantity'=>0,
                     "uom"=>$poitems->uom,
                     'unit_price'=>$poitems->unit_price,
+                    'currency'=>$poitems->currency,
                     'amount'=>$poitems->amount,
                     'offer'=>$poitems->offer
                 );
