@@ -361,7 +361,42 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr> -->  
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
-		    		
+		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
+		    		<tr>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13 " colspan="4" align="center">Work Completion Verified by:</td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center"></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13 " colspan="4" align="center"></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13 " colspan="4" align="center"></td>
+		    		</tr>   
+		    		<tr>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center"><br></td>
+		    		</tr>   
+		    		<tr>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center">
+		    				<?php echo $verified_by;?>
+		    			</td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center"></td>
+		    			<td class="f13" colspan="1" align="center"></td></td>
+
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="3" align="center"></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13 " colspan="4" align="center"></td>
+		    		</tr>     	
+		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    	</table>		    
 	    	</div>
     	</form>

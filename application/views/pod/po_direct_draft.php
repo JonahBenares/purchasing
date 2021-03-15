@@ -244,8 +244,9 @@
 		    			<td colspan="" class="all-border" align="center"><b>#</b></td>
 		    			<td colspan="" class="all-border" align="center"><b>Qty</b></td>
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
-		    			<td colspan="13" class="all-border" align="center"><b>Description</b></td>
+		    			<td colspan="12" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
+		    			<td colspan="" class="all-border" align="center"><b>Currency</b></td>		    			
 		    			<td colspan="2" class="all-border" align="center"></td>
 		    		</tr>
 		    		<?php 
@@ -262,10 +263,18 @@
 		    			<!-- <td colspan="" class="bor-right v-align" align="center"><b><?php //echo $it['uom']; ?></b></td> -->
 		    			<td colspan="" class="bor-right v-align" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value='<?php echo $it['uom']; ?>' style = "width:100%;"></b></td>
 
-		    			<td colspan="13" class="bor-right v-align" align="left"><b class="nomarg"><textarea class = "form-control" name='item<?php echo $x; ?>'><?php echo $it['item']; ?></textarea></b></td>
+		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><textarea class = "form-control" name='item<?php echo $x; ?>'><?php echo $it['item']; ?></textarea></b></td>
 
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>'  onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' value='<?php echo $it['price']; ?>'></b></td>
-
+						<td width="10%" class="bor-right v-align" align="center">
+		    				<?php if($saved==0){ ?>
+				    		<select style="width: 100%" name='currency<?php echo $x; ?>'>
+						    	<?php foreach($currency AS $curr){ ?>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$it['currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    	<?php } ?>
+						    </select>
+							<?php }else{ echo $it['currency']; } ?>
+				    	</td>
 		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right;' value='<?php echo $it['total']; ?>' readonly></b></td>
 
 		    		</tr>
@@ -282,50 +291,55 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="left">
+		    			<td colspan="12" class="bor-right" align="left">
 		    				<p class="nomarg"><br></p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>		    			
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"></b></td>		
 		    		</tr>	
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg">Shipping Cost</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='shipping' id='shipping' onchange='additionalCost()' style='width:100%' value='<?php echo $shipping; ?>'></b></td>		
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg">Packing and Handling Fee</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='packing' id='packing' onchange='additionalCost()' value='<?php echo $packing; ?>' style='width:100%' ></b></td>		
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg"><input name="vat_percent" id="vat_percent" value = "<?php echo $vat_percent; ?>" size="5">% VAT</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='vat' id='vat' onchange='additionalCost()' value='<?php echo $vat; ?>' style='width:100%' ></b></td>		
 		    		</tr>
 		    		<tr>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
-		    			<td colspan="13" class="bor-right" align="right">
+		    			<td colspan="12" class="bor-right" align="right">
 		    				<p class="nomarg">Less: Discount</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="2" class="bor-right" align="right"><b class="nomarg"><input type='text' name='discount' id='discount' onchange='additionalCost()' value='<?php echo $discount; ?>' style='width:100%' ></b></td>		
 		    		</tr>
 		    		<input type='hidden' name='count_item' value="<?php echo $x; ?>">
@@ -333,8 +347,9 @@
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
 		    			<td colspan="" class=" bor-right" align="center"></td>
-		    			<td colspan="13" class=" bor-right" align="center"></td>
+		    			<td colspan="12" class=" bor-right" align="center"></td>
 		    			<td colspan="2" class=" bor-right" align="center"><br></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="2" class=" bor-right" align="center"></td>
 		    		</tr>
 
@@ -342,7 +357,7 @@
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
 		    			<td colspan="" class="bor-btm bor-right" align="center"></td>
-		    			<td colspan="13" class="bor-btm bor-right" align="left">
+		    			<td colspan="12" class="bor-btm bor-right" align="left">
 	    				<p class="nomarg">
 	    					<!-- <?php if($saved==0){ ?>
 	    					<button type="button" data-toggle="modal" data-target="#addpurp" class="btn btn-xs btn-primary" onclick="" >Add Purpose/ Enduse/ Requestor</button>
@@ -362,6 +377,7 @@
 	    				<br>
 		    			</td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"><br></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="2" class="bor-btm bor-right" align="center"></td>
 		    		</tr>		   
 		    		<?php
@@ -371,7 +387,7 @@
 		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>   
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
+					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">

@@ -19,6 +19,9 @@ function addVendorItem(baseurl,id) {
 function updateDepartment(baseurl,id) {
     window.open(baseurl+"index.php/masterfile/update_department/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
 }
+function updateCompany(baseurl,id) {
+    window.open(baseurl+"index.php/masterfile/update_company/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
+}
 function updateEmployee(baseurl,id) {
     window.open(baseurl+"index.php/masterfile/update_employee/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
 }
@@ -31,6 +34,11 @@ function updatePurpose(baseurl,id) {
 function updateEnduse(baseurl,id) {
     window.open(baseurl+"index.php/masterfile/update_enduse/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
 }
+
+function updateProjAct(baseurl,id) {
+    window.open(baseurl+"index.php/masterfile/update_proj_activity/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+}
+
 function incomingRfq(baseurl, rfqid) {
     window.open(baseurl+"index.php/rfq/rfq_incoming/"+rfqid, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=45,left=25,width=1300,height=600");
 }

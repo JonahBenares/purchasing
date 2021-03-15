@@ -291,6 +291,18 @@ class super_model extends CI_Model
         }
     }
 
+       public function select_sum_between($table, $column, $where)
+    {
+        $this->db->select('SUM('.$column.') as total');
+        $this->db->from($table);
+        $this->db->where($where);
+        $query = $this->db->get();
+        foreach($query->result() as $result)
+        {
+            return $result->total;
+        }
+    }
+
     
 
     public function select_ave($table, $column, $where_col, $where_value)
@@ -398,6 +410,18 @@ class super_model extends CI_Model
         $this->db->join($table2, $table1.'.'.$group_id .' = '.$table2.'.'.$group_id, 'left');
         $this->db->where($where);
         $this->db->group_by($table1.'.'.$group_id);
+        $query = $this->db->get();
+        $rows=$query->num_rows();
+        return $rows;
+    }
+
+     public function count_join_where_order($table1,$table2, $where,$group_id,$column,$order)
+    {
+        $this->db->from($table1);
+        $this->db->join($table2, $table1.'.'.$group_id .' = '.$table2.'.'.$group_id, 'left');
+        $this->db->where($where);
+        $this->db->group_by($table1.'.'.$group_id);
+        $this->db->order_by($column, $order);
         $query = $this->db->get();
         $rows=$query->num_rows();
         return $rows;

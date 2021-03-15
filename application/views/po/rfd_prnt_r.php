@@ -201,14 +201,14 @@
 		    				<b class="nomarg"></b>
 		    			</td>
 		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: 1% EWT</b></td>
 		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"></b></span>
 		    			</td>
 		    		</tr>
@@ -239,7 +239,7 @@
 		    			<td align="left" colspan="7" ><b class="nomarg">P.O. No: </b></td>
 		    			<td align="right" colspan="10" class="bor-right"><b class="nomarg" style="font-weight: 900">Total Amount Due</b></td>
 		    			<td align="right" colspan="3" style="border-bottom: 2px solid #000">
-		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"></b></span>
 		    			</td>
 		    		</tr>

@@ -25,15 +25,17 @@
                             <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0" style="width: 180px">
                                 <a href="<?php echo base_url(); ?>items/item_list" class="dropdown-item">Items</a>
                                 <a href="<?php echo base_url(); ?>masterfile/department_list" class="dropdown-item">Department</a>
+                                <a href="<?php echo base_url(); ?>masterfile/company_list" class="dropdown-item">Company</a>
                                 <a href="<?php echo base_url(); ?>vendors/vendor_list" class="dropdown-item">Vendors</a>
                                 <a href="<?php echo base_url(); ?>masterfile/employee_list" class="dropdown-item">Employee</a>
                                 <a href="<?php echo base_url(); ?>masterfile/unit_list" class="dropdown-item">Unit</a>
+                                <a href="<?php echo base_url(); ?>masterfile/proj_activity_list" class="dropdown-item">Project/Activity</a>
                             </div>
                         </li>
 
                         <li class="nav-item">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-                                <i class="fa big-icon fa-th-large"></i> 
+                                <i class="fa big-icon fa-file-text-o"></i> 
                                 <span class="mini-dn">PO Transactions</span> 
                                 <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
                             </a>
@@ -70,9 +72,40 @@
                                 </a>
                             </div>
                         </li>
+
+                        <li class="nav-item">
+                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                <i class="fa big-icon fa-file-text"></i> 
+                                <span class="mini-dn">JO Transactions</span> 
+                                <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
+                            </a>
+                            <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0">
+                                <a  href="<?php echo base_url(); ?>jor/jor_list" role="button" class="nav-link dropdown-toggle" title="Purchase Request">
+                                    <i class="fa big-icon fa-file-o"></i>
+                                    <span class="mini-dn">JO Request</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>rfq/rfq_list"  role="button" class="nav-link dropdown-toggle" title="Request for Quotation">
+                                    <i class="fa big-icon fa-pencil-square-o"></i>
+                                    <span class="mini-dn">Request For Quotation</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>aoq/aoq_list"  role="button" class="nav-link dropdown-toggle" title="Abstract of Quotation">
+                                    <i class="fa big-icon fa-folder"></i>
+                                    <span class="mini-dn">Abstract of Quotation</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>po/po_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
+                                    <i class="fa big-icon fa-shopping-cart"></i>
+                                    <span class="mini-dn">JO Issuance</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                            </div>
+                        </li>
+
                         <li class="nav-item">
                             <a href="<?php echo base_url(); ?>jo/jo_list"  role="button" class="nav-link dropdown-toggle" title="Job Order">
-                                <i class="fa big-icon fa-file-text"></i>
+                                <i class="fa big-icon list-alt"></i>
                                 <span class="mini-dn"> Job Order</span> 
                                 <span class="indicator-right-menu mini-dn"></span>
                             </a>
@@ -135,10 +168,13 @@
                                 <span class="mini-dn">Reports</span> 
                                 <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
                             </a>
-                            <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0" style="width: 180px">
+                            <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0" style="width: 250px">
                                 <a class="dropdown-item" data-toggle="modal" data-target="#pr_modal">PR Summary</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#po_modal">PO Summary</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#unserved_modal">Unserved Report</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#weekly_recom">Summary of Weekly Recom</a>
+                                <a class="dropdown-item" href="<?php echo base_url(); ?>reports/pending_pr" >Pending PR</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#purch_calendar">Calendar</a>
                             </div>
                         </li> 
 
@@ -248,6 +284,71 @@
             </div>
         </div>
 
+        <div class="modal fade" id="weekly_recom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Summary of Weekly Recommendation
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </h5>                            
+                    </div>
+                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_sum_weekly_recom_report" target='_blank'>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <small>Date From:</small>
+                                    <input placeholder="Date From" class="form-control" name="date_recom_from" type="text" onfocus="(this.type='date')" id="date">
+                                </div>
+                                <div class="col-lg-6">
+                                    <small>Date To:</small>
+                                    <input placeholder="Date To" class="form-control" name="date_recom_to" type="text" onfocus="(this.type='date')" id="date">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
+                            <!--<a href="<?php echo base_url(); ?>index.php/reports/sum_weekly_recom"  class="btn btn-primary " target="_blank">Proceed</a>-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="purch_calendar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Calendar
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </h5>                            
+                    </div>
+                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_purch_calendar_report" target='_blank'>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                Choose Year:
+                                <select class="form-control" name="year">
+                                    <option value='' selected="selected">-Select Year-</option>
+                                    <?php
+                                    $curr_year = date('Y'); 
+                                    for($x=2021;$x<=$curr_year;$x++){ ?>
+                                        <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
+                            <!--<a href="<?php echo base_url(); ?>index.php/reports/sum_weekly_recom"  class="btn btn-primary " target="_blank">Proceed</a>-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="unserved_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -298,6 +399,8 @@
                 </div>
             </div>
         </div>
+
+
         <div class="content-inner-all"><!-- ara sa footer </div> -->
             <div class="header-top-area">
                 <div class="fixed-header-top">
@@ -308,14 +411,15 @@
                                     <i class="fa fa-bars"></i>
                                 </button>
                                 <div class="admin-logo logo-wrap-pro">
-                                    <a href="#"><img src="img/logo/log.png" alt="" />
-                                    </a>
+                                    <!-- <a href="#"><img src="img/logo/log.png" alt="" />
+                                    </a> -->
                                 </div>
                             </div>
                             
                             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
                                 <div class="header-right-info">
                                     <a href='<?php echo base_url(); ?>uploads/format/PurchaseRequestForm.xlsx' class="-right btn default btn-sm default-marg animated headShake infinite">Download PR Format</a>
+                                    <a href='<?php echo base_url(); ?>uploads/format/JORequestForm.xlsx' class="-right btn default btn-sm default-marg animated headShake infinite">Download JOR Format</a>
                                     <!-- <a href="../uploads/Purchase Request.xlsx" class="btn default btn-sm default-marg animated headShake infinite">Download PR Format</a> -->
                                     <ul class="nav navbar-nav mai-top-nav header-right-menu">
                                         <li class="nav-item">
