@@ -387,7 +387,11 @@
 		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>   
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
+<<<<<<< HEAD
 					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
+=======
+					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php echo number_format($grandtotal,4); ?></span></b></td>
+>>>>>>> 352e521a6fbbdecbbcab0638fc27f1b275aede16
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">

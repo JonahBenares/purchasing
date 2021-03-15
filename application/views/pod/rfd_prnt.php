@@ -256,7 +256,11 @@
 			    			</td>
 			    			<td align="right" colspan="3">
 			    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+<<<<<<< HEAD
 			    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],2); ?></b></span>
+=======
+			    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],4); ?></b></span>
+>>>>>>> 352e521a6fbbdecbbcab0638fc27f1b275aede16
 			    			</td>
 			    		</tr>
 			    	<?php } ?>
@@ -297,7 +301,11 @@
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Subtotal</b></td>
 		    			<td align="right" colspan="3" class=" bor-top">
 		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+<<<<<<< HEAD
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,2); ?></b></span>
+=======
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,4); ?></b></span>
+>>>>>>> 352e521a6fbbdecbbcab0638fc27f1b275aede16
 		    			</td>
 		    		</tr>
 		    		<?php 
@@ -349,7 +357,11 @@
 		    			<td align="right" colspan="10" class="bor-right"><b class="nomarg" style="font-weight: 900">Total Amount Due</b></td>
 		    			<td align="right" colspan="3" style="border-bottom: 2px solid #000">
 		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+<<<<<<< HEAD
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
+=======
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,4); ?></b></span>
+>>>>>>> 352e521a6fbbdecbbcab0638fc27f1b275aede16
 		    			</td>
 		    		</tr>
 		    		<tr>

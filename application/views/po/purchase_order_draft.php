@@ -347,7 +347,7 @@
 		    		?>
 		    		<tr>
 		    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-		    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency; ?></span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
+		    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency; ?></span><span id='grandtotal'><?php echo number_format($grandtotal,4); ?></span></b></td>
 		    		</tr>
 			    	<tr>
 			    	  
