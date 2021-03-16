@@ -36,22 +36,22 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import Excel PR
+                    <h5 class="modal-title" id="exampleModalLabel">Import Excel JOR
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </h5>                            
                 </div>
-                <form method='POST' action='upload_excel_pr' enctype="multipart/form-data" target='_blank'>
+                <form method='POST' action='upload_excel_jor' enctype="multipart/form-data" target='_blank'>
                     <div class="modal-body">
                         <div class="form-group">
                             Browse your computer:
-                            <input type="file" name="excelfile_pr" class="form-control">
+                            <input type="file" name="excelfile_jor" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
-                        <a href="<?php echo base_url(); ?>jor/jor_request"  class="btn btn-primary ">Proceed</a>
+                        <!-- <a href="<?php echo base_url(); ?>jor/jor_request"  class="btn btn-primary ">Proceed</a> -->
                     </div>
                 </form>
             </div>

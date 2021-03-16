@@ -316,7 +316,8 @@
 						    </select>
 							<?php }else{ echo $it['currency']; } ?>
 				    	</td>
-		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><?php if($saved==0){ ?><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right;' readonly><?php }else { echo number_format($it['total'],2); } ?></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><?php if($saved==0){ ?><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right;' readonly><?php }else { echo number_format($it['total'],4); } ?></b></td>
+
 		    		</tr>
 		    		<!-- <input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>"> -->
 		    		<input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $it['pr_details_id']; ?>">
@@ -483,7 +484,7 @@
 		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>   
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php if($saved==1){ echo number_format($grandtotal,2); } ?></span></b></td>
+					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php if($saved==1){ echo number_format($grandtotal,4); } ?></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">
