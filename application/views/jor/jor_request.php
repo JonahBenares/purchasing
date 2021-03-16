@@ -181,14 +181,16 @@
                                                 <th>Total Cost</th>
                                         </thead>     
                                         <tbody>
+                                            <?php $x=1; foreach($jo_items AS $ji){ ?>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><?php echo $x; ?></td>
+                                                <td><textarea rows="10"><?php echo $ji['scope_of_work'];?></textarea></td>
+                                                <td><?php echo $ji['quantity']; ?></td>
+                                                <td><?php echo $ji['uom']; ?></td>
+                                                <td><?php echo $ji['unit_cost']; ?></td>
+                                                <td><?php echo $ji['total_cost']; ?></td>
                                             </tr>
+                                            <?php $x++; } ?>
                                         </tbody>                                   
                                     </table>
                                     <center>
