@@ -47,7 +47,7 @@
                                     <?php
                                     $x=1;
                                     if(!empty($items)){
-                                     foreach($items AS $i){ ?>
+                                     foreach($items AS $i){ echo $i['quantity']; ?>
                                     
                                     <tr>
                                         <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" onblur="check_prdet(<?php echo $x; ?>);" onkeyup='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
@@ -80,7 +80,7 @@
                              <input type='hidden' name='vendor_id' value="<?php echo $vendor_id; ?>"> 
                             <input type='hidden' name='po_id' value="<?php echo $po_id; ?>">   
                             <input type='hidden' name='count_item' value="<?php echo $x; ?>">
-                            <input type='submit' class="btn btn-primary btn-block" value='Save'>
+                            <input type='submit' class="btn btn-primary btn-block" id="save" value='Save'>
                         </div>
                     </div>   
                 </form>
@@ -99,8 +99,11 @@
         }
 
         var pr_qty = parseFloat(document.getElementById("qty"+count).value);
-        if(qty>pr_qty){
+        if(qty>=pr_qty){
             alert("PR quantity is less than your PO quantity!");
+            $("#save").hide();
+        }else{
+            $("#save").show();
         }
     }
 

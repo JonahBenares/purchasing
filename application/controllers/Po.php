@@ -2068,11 +2068,11 @@ class Po extends CI_Controller {
        $this->super_model->update_where("po_head", $data_head, "po_id", $po_id);*/
         ?>
         <script>
-              window.onunload = refreshParent;
+              /*window.onunload = refreshParent;
             function refreshParent() {
                 window.opener.location.reload();
-            }
-            window.close();
+            }*/
+            //window.close();
             
         </script>
         <?php
