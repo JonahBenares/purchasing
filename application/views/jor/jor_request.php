@@ -1,4 +1,7 @@
-
+<?php
+$letters = range('A', 'Z');
+$ci =& get_instance();
+?>
 
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
@@ -134,29 +137,37 @@
                     <div class="sparkline8-list shadow-reset">
                         <div class="sparkline8-hd">
                             <div class="main-sparkline8-hd">
-                                <form method='POST' action='<?php echo base_url(); ?>'>
+                                <form method='POST' action='<?php echo base_url(); ?>jor/save_groupings'>
                                     <table class="table table-bordered">
+                                        <?php 
+                                            foreach($jo_head AS $jh){ 
+                                                if($jh->jo_no!=''){
+                                                    $jor_no = $jh->jo_no;
+                                                }else if($jh->user_jo_no!=''){
+                                                    $jor_no=$jh->user_jo_no;
+                                                }
+                                        ?>
                                         <tr>
                                             <td width="15%"><i>JO Request:</i></td>
-                                            <td width="35%"></td>
+                                            <td width="35%"><?php echo $jh->jo_request; ?></td>
                                             <td width="15%"><i>Department:</i></td>
-                                            <td width="35%"></td>
+                                            <td width="35%"><?php echo $jh->department; ?></td>
                                         </tr>
                                         <tr>
                                             <td><i>Date Prepared:</i></td>
-                                            <td></td>
+                                            <td><?php echo $jh->date_prepared; ?></td>
                                             <td><i>Urgency:</i></td>
-                                            <td><b class="text-red capital"></b></td>
+                                            <td><b class="text-red capital"><?php echo $jh->urgency; ?></b></td>
                                         </tr>
                                         <tr>
                                             <td><i>JO No.:</i></td>
-                                            <td></td>
-                                            <td><i>Processing Code:</i></td>                                            
+                                            <td><?php echo $jor_no; ?></td>
+                                            <!-- <td><i>Processing Code:</i></td>                                            
                                             <td style="padding: 0px!important" class="bor-red">
                                                 <select name = "process" class = "form-control">
                                                     <option value = "">--Select Processing Code--</option>
                                                 </select>
-                                            </td>
+                                            </td> -->
                                             <td></td>
                                         </tr>
                                         <!-- <tr>
@@ -167,8 +178,9 @@
                                         </tr> -->
                                         <tr>
                                             <td><i>Purpose:</i></td>
-                                            <td colspan="3"><b class="capital"></b></td>
+                                            <td colspan="3"><b class="capital"><?php echo $jh->purpose; ?></b></td>
                                         </tr>
+                                        
                                     </table>
                                     <table class="table table-bordered">
                                         <thead>
@@ -179,18 +191,33 @@
                                                 <th>UOM.</th>
                                                 <th>Unit Cost</th>
                                                 <th>Total Cost</th>
+                                                <th>Group</th>
                                         </thead>     
                                         <tbody>
+                                            <?php $x=1; foreach($jo_items AS $ji){ ?>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><?php echo $x; ?></td>
+                                                <td><textarea rows="10"><?php echo $ji['scope_of_work'];?></textarea></td>
+                                                <td><?php echo $ji['quantity']; ?></td>
+                                                <td><?php echo $ji['uom']; ?></td>
+                                                <td><?php echo $ji['unit_cost']; ?></td>
+                                                <td><?php echo $ji['total_cost']; ?></td>
+                                                <td style="padding: 0px!important" class="bor-red">
+                                                    <select class="form-control" name='group<?php echo $x; ?>' required>
+                                                        <option value='' selected="selected">-Select Group-</option>
+                                                        <?php foreach($ci->createColumnsArray('ZZ') AS $let){ ?>
+                                                        <option value='<?php echo $let; ?>' <?php echo ($ji['grouping_id'] == $let) ? ' selected' : ''; ?>><?php echo $let; ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </td>
                                             </tr>
+                                            <input type='hidden' name='jor_items_id<?php echo $x; ?>' value="<?php echo $ji['jor_items_id']; ?>">
+                                            <?php $x++; } ?>
                                         </tbody>                                   
                                     </table>
+                                    <input type='hidden' name='count_item' value="<?php echo $x; ?>">
+                                    <input type='hidden' name='jor_id' value='<?php echo $jor_id; ?>'>
+                                    <?php } ?>
                                     <center>
                                         <input type='submit' name='save_groupings' value='Save Groupings' class="btn btn-primary btn-md p-l-100 p-r-100">
                                     </center>
