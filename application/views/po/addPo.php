@@ -47,7 +47,7 @@
                                     <?php
                                     $x=1;
                                     if(!empty($items)){
-                                     foreach($items AS $i){ echo $i['quantity']; ?>
+                                     foreach($items AS $i){ ?>
                                     
                                     <tr>
                                         <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" onblur="check_prdet(<?php echo $x; ?>);" onkeyup='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
@@ -55,6 +55,7 @@
                                             <option value='' selected>-Choose Item-</option>
                                             <?php foreach($pr_det AS $det){ ?>
                                                 <option value="<?php echo $det['pr_details_id']; ?>"><?php echo $det['item_description']; ?></option>
+                                                <input type='hidden' id='qty<?php echo $x; ?>' value="<?php echo $det['quantity']; ?>"> 
                                             <?php } ?>
                                         </select></td>
                                         <td><?php echo $i['uom']; ?></td>
@@ -64,7 +65,6 @@
                                             <input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right; border:0px' readonly></span>
                                         <td><?php echo $i['pr_no']; ?></td>    
                                     </tr>
-                                    <input type='hidden' id='qty<?php echo $x; ?>' value="<?php echo $i['quantity']; ?>"> 
                                     <input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>"> 
                                     <input type='hidden' name='pr_id' value="<?php echo $pr_id; ?>">
                                     <input type='hidden' name='group_id' value="<?php echo $group_id; ?>"> 
@@ -99,7 +99,7 @@
         }
 
         var pr_qty = parseFloat(document.getElementById("qty"+count).value);
-        if(qty>=pr_qty){
+        if(qty>pr_qty){
             alert("PR quantity is less than your PO quantity!");
             $("#save").hide();
         }else{
