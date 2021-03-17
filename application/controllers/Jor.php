@@ -454,7 +454,6 @@ class Jor extends CI_Controller {
                     $this->super_model->insert_into("jor_notes", $data_notes);
                 }
                 $num1++;
-
             }
         }
         echo "<script>alert('Successfully Uploaded!'); window.location = 'jor_request/$jor_id';</script>";

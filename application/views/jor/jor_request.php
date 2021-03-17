@@ -210,8 +210,8 @@ $ci =& get_instance();
                                                         <?php } ?>
                                                     </select>
                                                 </td>
+                                                <input type='hidden' name='jor_items_id<?php echo $x; ?>' value="<?php echo $ji['jor_items_id']; ?>">
                                             </tr>
-                                            <input type='hidden' name='jor_items_id<?php echo $x; ?>' value="<?php echo $ji['jor_items_id']; ?>">
                                             <?php $x++; } ?>
                                         </tbody>                                   
                                     </table>

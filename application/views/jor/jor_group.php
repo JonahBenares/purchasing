@@ -58,7 +58,7 @@
                                             <td width="17%">
                                                 <?php foreach($items AS $it){ 
                                                     if($gr['group'] == $it['group_id']){
-                                                        echo nl2br($it['scope_of_work']);
+                                                        echo " - ".nl2br($it['scope_of_work'])."<br><br>";
                                                     }
                                                 } ?>
                                             </td>

@@ -1948,7 +1948,8 @@ class Po extends CI_Controller {
         foreach($this->super_model->select_custom_where("pr_details", "pr_id='$pr_id' AND grouping_id='$group_id'") AS $p){
             $data['pr_det'][]=array(
                 'pr_details_id'=>$p->pr_details_id,
-                'item_description'=>$p->item_description
+                'item_description'=>$p->item_description,
+                'quantity'=>$p->quantity,
             );
         }
 
