@@ -127,7 +127,7 @@
                                                     }
                                             ?>                                
                                             <tr>
-                                                <td><?php echo $jh->jo_no;?></td>
+                                                <td><?php echo $jor_no."-".COMPANY;?></td>
                                                 <td><?php echo $jh->date_prepared;?></td>
                                                 <td><?php echo date("F d, Y",strtotime($jh->date_imported));?></td>
                                                 <td><?php echo $jh->department;?></td>
