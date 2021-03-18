@@ -2907,6 +2907,12 @@ class Po extends CI_Controller {
         $this->load->view('po/rfd_calapan_r');
         $this->load->view('template/footer');
     }
+
+    public function quantity_of_pr(){
+       $pr_details_id = $_POST['id'];
+       $quantity = $this->super_model->select_column_where("pr_details", "quantity", "pr_details_id", $pr_details_id);
+       echo $quantity;
+    }
     
 }
 ?>
