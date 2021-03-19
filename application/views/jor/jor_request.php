@@ -197,7 +197,7 @@ $ci =& get_instance();
                                             <?php $x=1; foreach($jo_items AS $ji){ ?>
                                             <tr>
                                                 <td><?php echo $x; ?></td>
-                                                <td><textarea rows="10"><?php echo $ji['scope_of_work'];?></textarea></td>
+                                                <td><textarea class="form-control" rows="10"><?php echo $ji['scope_of_work'];?></textarea></td>
                                                 <td><?php echo $ji['quantity']; ?></td>
                                                 <td><?php echo $ji['uom']; ?></td>
                                                 <td><?php echo $ji['unit_cost']; ?></td>
@@ -218,6 +218,20 @@ $ci =& get_instance();
                                     <input type='hidden' name='count_item' value="<?php echo $x; ?>">
                                     <input type='hidden' name='jor_id' value='<?php echo $jor_id; ?>'>
                                     <?php } ?>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th width="1%">#</th>
+                                                <th>Notes</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td style="padding: 0px"><textarea class="form-control"></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                     <center>
                                         <input type='submit' name='save_groupings' value='Save Groupings' class="btn btn-primary btn-md p-l-100 p-r-100">
                                     </center>
