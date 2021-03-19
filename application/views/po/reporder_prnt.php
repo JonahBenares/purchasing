@@ -306,7 +306,7 @@
 					    			foreach($items AS $it){ 
 					    				$total_amount[] = $it['amount']; ?>
 					    		<tr>
-					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $x; ?></b></td>
+					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['item_no']; ?></b></td>
 					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['quantity']; ?></b></td>
 					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['uom']; ?></b></td>
 					    			<td colspan="12" class="bor-right" align="left"><b><?php echo $it['offer']; ?></b></td>
