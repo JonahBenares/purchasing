@@ -306,7 +306,7 @@
 					    			foreach($items AS $it){ 
 					    				$total_amount[] = $it['amount']; ?>
 					    		<tr>
-					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['item_no']; ?></b></td>
+					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $x; ?></b></td>
 					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['quantity']; ?></b></td>
 					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['uom']; ?></b></td>
 					    			<td colspan="12" class="bor-right" align="left"><b><?php echo $it['offer']; ?></b></td>
@@ -475,10 +475,11 @@
 		    				<p class="f12 nomarg">Note:</p>
 		    					<?php 
 						    	if(!empty($items)){
+						    			$y=1;
 								    	foreach($items AS $it){ 
 								  ?>
-		    					<p class="f12 nomarg">Item No. <?php echo $it['item_no']; ?> is a repeat Order of PO No. <?php echo $it['orig_pono']."-".COMPANY; ?></p>
-		    				 <?php } 
+		    					<p class="f12 nomarg">Item No. <?php echo $y; ?> is a repeat Order of PO No. <?php echo $it['orig_pono']."-".COMPANY; ?></p>
+		    				 <?php $y++; } 
 							} ?>
 			    		</td>
 			    	</tr>
