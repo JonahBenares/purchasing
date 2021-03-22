@@ -90,7 +90,7 @@
                                     <span class="mini-dn">JO Request For Quotation</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>aoq/aoq_list"  role="button" class="nav-link dropdown-toggle" title="JO Abstract of Quotation">
+                                <a href="<?php echo base_url(); ?>joaoq/joaoq_list"  role="button" class="nav-link dropdown-toggle" title="JO Abstract of Quotation">
                                     <i class="fa big-icon fa-folder"></i>
                                     <span class="mini-dn">JO Abstract of Quotation</span> 
                                     <span class="indicator-right-menu mini-dn"></span>

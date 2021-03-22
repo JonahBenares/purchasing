@@ -17,7 +17,7 @@
                                 <ul class="breadcome-menu">
                                     <li><a href="<?php echo base_url(); ?>masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
                                     </li>
-                                    <li><a href="<?php echo base_url(); ?>rfq/rfq_list">JO RFQ List </a> <span class="bread-slash">/</span></li>
+                                    <li><a href="<?php echo base_url(); ?>jorfq/jorfq_list">JO RFQ List </a> <span class="bread-slash">/</span></li>
                                     <li><span class="bread-blod">Cancelled JO RFQ List</span></li>
                                 </ul>
                             </div>

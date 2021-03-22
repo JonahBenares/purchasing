@@ -32,7 +32,7 @@
         </div>
     </div>
     <div class="admin-dashone-data-table-area">
-        <div class="container-fluid">
+        <div class="container-fluid">   
             <div class="row">
                 <div class="col-lg-12">
                     <div class="sparkline8-list shadow-reset">
