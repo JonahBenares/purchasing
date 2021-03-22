@@ -17,11 +17,11 @@
                                 <ul class="breadcome-menu">
                                     <li><a href="<?php echo base_url(); ?>">Home</a> <span class="bread-slash">/</span>
                                     </li>
-                                    <li><a href="<?php echo base_url(); ?>index.php/pr/pr_list">PR List</a> <span class="bread-slash">/</span>
+                                    <li><a href="<?php echo base_url(); ?>jor/jor_list">JOR List</a> <span class="bread-slash">/</span>
                                     </li>
-                                    <li><a href="<?php echo base_url(); ?>index.php/pr/purchase_request">Purchase Request</a> <span class="bread-slash">/</span>
+                                    <li><a href="<?php echo base_url(); ?>jor/jor_request/<?php echo $jor_id; ?>">JO Request</a> <span class="bread-slash">/</span>
                                     </li>
-                                    <li><span class="bread-blod">PR Group</span>
+                                    <li><span class="bread-blod">JOR Group</span>
                                     </li>
                                 </ul>
                             </div>

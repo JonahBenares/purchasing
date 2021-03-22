@@ -21,7 +21,7 @@ $ci =& get_instance();
                                 <ul class="breadcome-menu">
                                     <li><a href="<?php echo base_url(); ?>">Home</a> <span class="bread-slash">/</span>
                                     </li>
-                                    <li><a href="<?php echo base_url(); ?>index.php/pr/pr_list">JOR List</a> <span class="bread-slash">/</span>
+                                    <li><a href="<?php echo base_url(); ?>jor/jor_list">JOR List</a> <span class="bread-slash">/</span>
                                     </li>
                                     <li><span class="bread-blod">JO Request</span>
                                     </li>

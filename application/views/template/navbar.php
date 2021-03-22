@@ -80,19 +80,19 @@
                                 <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
                             </a>
                             <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0">
-                                <a  href="<?php echo base_url(); ?>jor/jor_list" role="button" class="nav-link dropdown-toggle" title="Purchase Request">
+                                <a  href="<?php echo base_url(); ?>jor/jor_list" role="button" class="nav-link dropdown-toggle" title="Job Order Request List">
                                     <i class="fa big-icon fa-file-o"></i>
                                     <span class="mini-dn">JO Request</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>rfq/rfq_list"  role="button" class="nav-link dropdown-toggle" title="Request for Quotation">
+                                <a href="<?php echo base_url(); ?>jorfq/jorfq_list"  role="button" class="nav-link dropdown-toggle" title="JO Request For Quotation">
                                     <i class="fa big-icon fa-pencil-square-o"></i>
-                                    <span class="mini-dn">Request For Quotation</span> 
+                                    <span class="mini-dn">JO Request For Quotation</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>aoq/aoq_list"  role="button" class="nav-link dropdown-toggle" title="Abstract of Quotation">
+                                <a href="<?php echo base_url(); ?>aoq/aoq_list"  role="button" class="nav-link dropdown-toggle" title="JO Abstract of Quotation">
                                     <i class="fa big-icon fa-folder"></i>
-                                    <span class="mini-dn">Abstract of Quotation</span> 
+                                    <span class="mini-dn">JO Abstract of Quotation</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
                                 <a href="<?php echo base_url(); ?>po/po_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
