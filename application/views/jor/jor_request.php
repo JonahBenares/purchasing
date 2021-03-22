@@ -221,15 +221,15 @@ $ci =& get_instance();
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th width="1%">#</th>
                                                 <th>Notes</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php foreach($jo_notes AS $jn){ ?>
                                             <tr>
-                                                <td>1</td>
-                                                <td style="padding: 0px"><textarea class="form-control"></textarea></td>
+                                                <td style="padding: 0px"><textarea class="form-control"><?php echo $jn->notes;?></textarea></td>
                                             </tr>
+                                            <?php } ?>
                                         </tbody>
                                     </table>
                                     <center>
