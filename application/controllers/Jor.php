@@ -83,7 +83,10 @@ class Jor extends CI_Controller {
         $jor_id=$this->uri->segment(3);
         $data['jor_id']=$this->uri->segment(3);
         $data['jo_head']=$this->super_model->select_row_where("jor_head","jor_id",$jor_id);
-        foreach($this->super_model->select_row_where("jor_items","jor_id",$jor_id) AS $ji){
+        $data['jo_notes']=$this->super_model->select_row_where("jor_notes","jor_id",$jor_id);
+            foreach($this->super_model->select_row_where("jor_items","jor_id",$jor_id) AS $ji){
+        //foreach($this->super_model->custom_query("SELECT ji.*, jn.* FROM jor_items ji INNER JOIN jor_notes jn ON ji.jor_id = jn.jor_id WHERE jn.jor_id = '$jor_id'") AS $ji){
+        //$notes = $this->super_model->select_column_where('jor_notes', 'notes', 'jor_id', $ji->jor_id);
             $data['jo_items'][]=array(
                 'jor_items_id'=>$ji->jor_items_id,
                 'jor_id'=>$ji->jor_id,
@@ -93,6 +96,7 @@ class Jor extends CI_Controller {
                 'unit_cost'=>$ji->unit_cost,
                 'total_cost'=>$ji->total_cost,
                 'grouping_id'=>$ji->grouping_id,
+                //'notes'=>$notes,
             );
         }
         $this->load->view('jor/jor_request',$data);
@@ -267,7 +271,12 @@ class Jor extends CI_Controller {
         $timestamp = date("Y-m-d H:i:s");
         $rfq_format = date("Ym");
         $rfqdet=date('Y-m');
-        $rfq = $this->super_model->select_column_where('jor_head','jo_no','jor_id',$jor_id);
+        $jo_no=$this->super_model->select_column_where('jor_head','jo_no','jor_id',$jor_id);
+        if($jo_no!=''){
+            $rfq = $jo_no;
+        }else{
+            $rfq=$this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$jor_id);
+        }
         $rfqjor=explode("-", $rfq);
         $rfqs=$rfqjor[0];
         $rfqss=$rfqs;
