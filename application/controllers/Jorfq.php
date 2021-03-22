@@ -44,9 +44,40 @@ class Jorfq extends CI_Controller {
 	public function jorfq_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('jorfq/jorfq_list');
+        $head_count = $this->super_model->count_custom_query("SELECT rh.* FROM jo_rfq_head rh INNER JOIN jor_head jh ON rh.jor_id = jh.jor_id");
+        foreach($this->super_model->custom_query("SELECT rh.* FROM jo_rfq_head rh INNER JOIN jor_head jh ON rh.jor_id = jh.jor_id") AS $jorfq){
+            $data['head'][]= array(
+                'jo_rfq_id'=>$jorfq->jo_rfq_id,
+                'jo_rfq_no'=>$jorfq->jo_rfq_no,
+                'jor_id'=>$jorfq->jor_id,
+                'jo_no'=>$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jorfq->jor_id),
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $jorfq->vendor_id),
+                'rfq_date'=>$jorfq->rfq_date,
+                'completed'=>$jorfq->completed
+                
+            );
+        }
+
+        foreach($this->super_model->custom_query("SELECT rd.* FROM jo_rfq_details rd INNER JOIN jor_items ji ON ji.jor_items_id = rd.jor_items_id") AS $it){
+            $data['items'][] = array(
+                'jo_rfq_id'=>$it->jo_rfq_id,
+                'scope_of_work'=>$it->scope_of_work,
+            );
+        }
+        $this->load->view('jorfq/jorfq_list',$data);
         $this->load->view('template/footer');
     }  
+
+    public function complete_rfq(){
+         $jo_rfq_id=$this->uri->segment(3);
+          $data = array(
+            'completed'=>1,
+            'completed_date'=>date("Y-m-d H:i:s"),
+          );
+        if($this->super_model->update_where("jo_rfq_head", $data, "jo_rfq_id", $jo_rfq_id)){
+             redirect(base_url().'jorfq/jorfq_list/', 'refresh');
+        }
+    }
 
     public function jorfq_outgoing(){
         $this->load->view('template/header');
