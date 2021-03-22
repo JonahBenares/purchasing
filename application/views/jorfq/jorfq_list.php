@@ -139,7 +139,9 @@
                                             <?php foreach($head AS $h){ ?>
                                             <tr>
                                                 <td>
+                                                    <?php if($h['completed']==1){ ?>
                                                     <input type="checkbox" class="form-control rfq_list" name="rfq[]" value="<?php echo $h['jo_rfq_id']?>">
+                                                    <?php } ?>
                                                 </td>
                                                 <td><?php echo $h['jo_rfq_no'];?></td>
                                                 <td><?php echo $h['jo_no'];?></td>
