@@ -1,7 +1,7 @@
 <script type="text/javascript">
-    $(document).on("click", ".cancelPR", function () {
-         var pr_id = $(this).data('id');
-         $(".modal #pr_id").val(pr_id);
+    $(document).on("click", ".cancelJOR", function () {
+         var jor_id = $(this).data('id');
+         $(".modal #jor_id").val(jor_id);
     });
 </script>
     <div class="breadcome-area mg-b-30 small-dn">
@@ -57,23 +57,23 @@
             </div>
         </div>
     </div> 
-    <div id="cancelPR" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+    <div id="cancelJOR" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header header-color-modal bg-color-1">
-                    <h4 class="modal-title">Cancel PR</h4>
+                    <h4 class="modal-title">Cancel JOR</h4>
                     <div class="modal-close-area modal-close-df">
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>pr/cancel_pr">
+                <form method="POST" action = "<?php echo base_url();?>jor/cancel_jor">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Reason for Cancelling PR:</p>
                             <textarea name="reason" class="form-control"></textarea>
                         </div>
                         <center>       
-                            <input type='hidden' name='pr_id' id = "pr_id">                 
+                            <input type='hidden' name='jor_id' id = "jor_id">                 
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
                         </center>
                     </div>
@@ -138,7 +138,7 @@
                                                         <a href="<?php echo base_url(); ?>jor/jor_request/<?php echo $jh->jor_id?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                         </a>
-                                                        <a class="cancelPR btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPR" data-id=""><span class="fa fa-ban" title="Cancel"></span></a>
+                                                        <a class="cancelJOR btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJOR" data-id="<?php echo $jh->jor_id; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                     </center>
                                                 </td>
                                             </tr>   

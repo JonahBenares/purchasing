@@ -44,7 +44,7 @@ class Jor extends CI_Controller {
     public function jor_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $data['jo_head']=$this->super_model->select_all_order_by("jor_head","date_prepared","ASC");
+        $data['jo_head']=$this->super_model->select_custom_where("jor_head","cancelled='0' ORDER BY date_prepared ASC");
         $this->load->view('jor/jor_list',$data);
         $this->load->view('template/footer');
     }
@@ -468,6 +468,26 @@ class Jor extends CI_Controller {
         echo "<script>alert('Successfully Uploaded!'); window.location = 'jor_request/$jor_id';</script>";
     }
 
+    public function cancel_jor(){
+        $jor_id=$this->input->post('jor_id');
+        $date=date('Y-m-d H:i:s');
+        $data=array(
+            'cancelled'=>1,
+            'cancelled_by'=>$_SESSION['user_id'],
+            'cancelled_reason'=>$this->input->post('reason'),
+            'cancelled_date'=>$date,
+        );
+        
+        if($this->super_model->update_where('jor_head', $data, 'jor_id', $jor_id)){
+            foreach($this->super_model->select_custom_where('jor_items',"jor_id='$jor_id'") AS $jor){
+                $data_det=array(
+                    'cancelled'=>1,
+                );
+                $this->super_model->update_where('jor_items', $data, 'jor_items_id', $jor->jor_items_id);
+            }
+            echo "<script>alert('Successfully Cancelled!'); window.location ='".base_url()."jor/jor_list';</script>";
+        }
+    }
 }
 
 ?>
