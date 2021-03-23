@@ -49,6 +49,20 @@ class Jor extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function jo_pending_forrfq(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar'); 
+        $this->load->view('jor/jo_pending_forrfq');
+        $this->load->view('template/footer');
+    }
+
+    public function cancelled_jor(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar'); 
+        $this->load->view('jor/cancelled_jor');
+        $this->load->view('template/footer');
+    }
+
     public function createColumnsArray($end_column, $first_letters = ''){
         $columns = array();
         $length = strlen($end_column);
