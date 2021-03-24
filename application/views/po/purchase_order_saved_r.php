@@ -268,7 +268,7 @@
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it->offer; ?></b></td>
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it->unit_price; ?></b></td>
-		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo $it->amount; ?></b></td>		
+		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it->amount,2); ?></b></td>		
 		    		</tr>	
 		    		<?php 
 		    		$x++; } ?>
