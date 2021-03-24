@@ -54,8 +54,55 @@ class Joi extends CI_Controller {
         $this->load->view('joi/cancelled_joi');
         $this->load->view('template/footer');
     }
-    
-    
+
+    public function jo_issuance(){
+        $this->load->view('template/header');
+        $this->load->view('joi/jo_issuance');
+        $this->load->view('template/footer');
+    }
+
+    public function jo_issuance_saved(){
+        $this->load->view('template/header');
+        $this->load->view('joi/jo_issuance_saved');
+        $this->load->view('template/footer');
+    }
+
+    public function jo_issuance_rev(){
+        $this->load->view('template/header');
+        $this->load->view('joi/jo_issuance_rev');
+        $this->load->view('template/footer');
+    }
+
+    public function joi_rfd(){
+        $this->load->view('template/header');
+        $this->load->view('joi/joi_rfd');
+        $this->load->view('template/footer');
+    }
+
+    public function joi_dr(){
+        $this->load->view('template/header');
+        $this->load->view('joi/joi_dr');
+        $this->load->view('template/footer');
+    }
+
+    public function joi_ac(){
+        $this->load->view('template/header');
+        $this->load->view('joi/joi_ac');
+        $this->load->view('template/footer');
+    }
+
+    public function joi_coc(){
+        $this->load->view('template/header');
+        $this->load->view('joi/joi_coc');
+        $this->load->view('template/footer');
+    }
+
+
+    public function view_history(){
+        $this->load->view('template/header');
+        $this->load->view('joi/view_history');
+        $this->load->view('template/footer');
+    }
 
 }
 

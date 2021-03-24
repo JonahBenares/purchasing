@@ -191,7 +191,7 @@
                                             <td></td>
                                             <td></td>
                                             <td>
-                                                <a class="btn-link txt-primary"></a>
+                                                <a class="btn-link txt-primary" onclick="viewHistoryjoi('<?php echo base_url(); ?>')">sample</a>
                                             </td>
                                             <td></td>
                                             <td></td>

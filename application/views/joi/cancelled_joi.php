@@ -205,7 +205,7 @@
                                             <td></td>
                                             <td>
                                                 <center>
-                                                    <a href="<?php echo base_url(); ?>joi/job_order_saved/" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance/" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                 </center>
