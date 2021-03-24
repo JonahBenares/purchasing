@@ -104,7 +104,11 @@
 
     <div class="admin-dashone-data-table-area">
         <div class="container-fluid">
+<<<<<<< HEAD
             <form name="myform" action="<?php echo base_url(); ?>index.php/aoq/add_aoq" method="post">
+=======
+            <form name="myform" action="<?php echo base_url(); ?>index.php/joaoq/add_aoq" method="post">
+>>>>>>> 48c3cc4b2eeb200d9d1b2934502f910966c67aba
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="sparkline8-list shadow-reset">

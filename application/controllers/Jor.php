@@ -348,7 +348,11 @@ class Jor extends CI_Controller {
                 $this->super_model->insert_into("jo_rfq_details", $data_details);
             }
         }
+<<<<<<< HEAD
         redirect(base_url().'jor/jor_list/');
+=======
+        redirect(base_url().'jorfq/jorfq_list/');
+>>>>>>> 48c3cc4b2eeb200d9d1b2934502f910966c67aba
     }
 
     public function upload_excel_jor(){
@@ -394,7 +398,8 @@ class Jor extends CI_Controller {
         $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
         $department = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());
         $jo_no = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
-        $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue());
+        $requested_by = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue());
+        $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C12')->getValue());
         $duration = trim($objPHPExcel->getActiveSheet()->getCell('I7')->getValue());
         $completion_date = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('I8')->getValue()));
         $delivery_date = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('I9')->getValue()));
@@ -428,6 +433,7 @@ class Jor extends CI_Controller {
             'jo_no'=>$jor_nos,
             'user_jo_no'=>$jors_nos,
             'purpose'=>$purpose,
+            'requested_by'=>$requested_by,
             'duration'=>$duration,
             'completion_date'=>$completion_date,
             'delivery_date'=>$delivery_date,
