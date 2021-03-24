@@ -311,7 +311,7 @@
 					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['uom']; ?></b></td>
 					    			<td colspan="12" class="bor-right" align="left"><b><?php echo $it['offer']; ?></b></td>
 					    			<td colspan="2" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo number_format($it['price'],4); ?></b></td>
-					    			<td colspan="3" class="bor-right" align="right" style='vertical-align: text-top;'><b><?php echo number_format($it['amount'],4); ?></b></td>
+					    			<td colspan="3" class="bor-right" align="right" style='vertical-align: text-top;'><b><?php echo number_format($it['amount'],2); ?></b></td>
 					    			<!-- <td align="center"><a href='<?php echo base_url(); ?>/po/remove_po_item/' class="btn-danger btn-xs" onclick="return confirm('Are you sure you want to remove item?')"><span class="fa fa-times"></span></a></td>	 -->			
 					    		</tr> 
 					    		<?php 
@@ -463,7 +463,7 @@
 					    		?>
 					    		<tr>
 					    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,4); ?></span></b></td>
+					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
 					    		</tr>
 					    	<?php } ?>
 		    				</table>
@@ -475,10 +475,11 @@
 		    				<p class="f12 nomarg">Note:</p>
 		    					<?php 
 						    	if(!empty($items)){
+						    			$y=1;
 								    	foreach($items AS $it){ 
 								  ?>
-		    					<p class="f12 nomarg">Item No. <?php echo $it['item_no']; ?> is a repeat Order of PO No. <?php echo $it['orig_pono']."-".COMPANY; ?></p>
-		    				 <?php } 
+		    					<p class="f12 nomarg">Item No. <?php echo $y; ?> is a repeat Order of PO No. <?php echo $it['orig_pono']."-".COMPANY; ?></p>
+		    				 <?php $y++; } 
 							} ?>
 			    		</td>
 			    	</tr>

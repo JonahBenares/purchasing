@@ -265,7 +265,7 @@
 
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><textarea class = "form-control" name='item<?php echo $x; ?>'><?php echo $it['item']; ?></textarea></b></td>
 
-		    			<td colspan="2" class="bor-right v-align" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>'  onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' value='<?php echo $it['price']; ?>'></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>'  onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' value='<?php echo number_format($it['price'],4); ?>'></b></td>
 						<td width="10%" class="bor-right v-align" align="center">
 		    				<?php if($saved==0){ ?>
 				    		<select style="width: 100%" name='currency<?php echo $x; ?>'>
@@ -275,7 +275,7 @@
 						    </select>
 							<?php }else{ echo $it['currency']; } ?>
 				    	</td>
-		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right;' value='<?php echo $it['total']; ?>' readonly></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right;' value='<?php echo number_format($it['total'],2); ?>' readonly></b></td>
 
 		    		</tr>
 		    		<!-- <input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>"> -->
@@ -387,7 +387,7 @@
 		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>   
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php echo number_format($grandtotal,4); ?></span></b></td>
+					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">

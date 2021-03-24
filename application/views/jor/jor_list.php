@@ -95,9 +95,9 @@
                                         <a type='button' class="btn btn-custon-three btn-primary"  data-toggle="modal" data-target="#import_pr"> 
                                             <span class="fa fa-plus p-l-0"></span> Add JOR
                                         </a>
-                                        <a href="<?php echo base_url(); ?>pr/pending_forrfq" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-clock-o"></span> Pending for RFQ</a>
+                                        <a href="<?php echo base_url(); ?>jor/jo_pending_forrfq" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-clock-o"></span> Pending for RFQ</a>
 
-                                        <a href="<?php echo base_url(); ?>pr/cancelled_pr" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled JOR</a>
+                                        <a href="<?php echo base_url(); ?>jor/cancelled_jor" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled JOR</a>
                                     </div>
                                 </div>
                             </div>                       
@@ -111,28 +111,38 @@
                                                 <th>Date Upload</th>
                                                 <th>Department</th>
                                                 <th>Urgency Number</th>
-                                                <th>Requestor</th>
+                                                <th>JO Request</th>
                                                
                                                 <th><center><span class="fa fa-bars"></span></center></th>
                                             </tr>
                                         </thead>
-                                        <tbody>                                     
+                                        <tbody>     
+                                            <?php
+                                                if(!empty($jo_head)){ 
+                                                foreach($jo_head AS $jh){ 
+                                                    if($jh->jo_no!=''){
+                                                        $jor_no = $jh->jo_no;
+                                                    }else if($jh->user_jo_no!=''){
+                                                        $jor_no=$jh->user_jo_no;
+                                                    }
+                                            ?>                                
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><center></center></td>
-                                                <td></td>
+                                                <td><?php echo $jor_no."-".COMPANY;?></td>
+                                                <td><?php echo $jh->date_prepared;?></td>
+                                                <td><?php echo date("F d, Y",strtotime($jh->date_imported));?></td>
+                                                <td><?php echo $jh->department;?></td>
+                                                <td><center><?php echo $jh->urgency;?></center></td>
+                                                <td><?php echo $jh->jo_request;?></td>
                                                 <td>
                                                     <center>
-                                                        <a href="<?php echo base_url(); ?>pr/purchase_request/" class="btn btn-custon-three btn-warning btn-xs">
+                                                        <a href="<?php echo base_url(); ?>jor/jor_request/<?php echo $jh->jor_id?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                         </a>
                                                         <a class="cancelPR btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPR" data-id=""><span class="fa fa-ban" title="Cancel"></span></a>
                                                     </center>
                                                 </td>
-                                            </tr>                
+                                            </tr>   
+                                            <?php } } ?>             
                                         </tbody>
                                     </table>
                                 </div>                           

@@ -1948,7 +1948,8 @@ class Po extends CI_Controller {
         foreach($this->super_model->select_custom_where("pr_details", "pr_id='$pr_id' AND grouping_id='$group_id'") AS $p){
             $data['pr_det'][]=array(
                 'pr_details_id'=>$p->pr_details_id,
-                'item_description'=>$p->item_description
+                'item_description'=>$p->item_description,
+                'quantity'=>$p->quantity,
             );
         }
 
@@ -2905,6 +2906,12 @@ class Po extends CI_Controller {
         $this->load->view('template/header');         
         $this->load->view('po/rfd_calapan_r');
         $this->load->view('template/footer');
+    }
+
+    public function quantity_of_pr(){
+       $pr_details_id = $_POST['id'];
+       $quantity = $this->super_model->select_column_where("pr_details", "quantity", "pr_details_id", $pr_details_id);
+       echo $quantity;
     }
     
 }
