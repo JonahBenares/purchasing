@@ -258,7 +258,7 @@
 		    			<td colspan="11" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $offer; ?></b></td>
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,4); ?></b></td>
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it->currency; ?></b></td>
-		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it->amount,4); ?></b></td>		
+		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it->amount,2); ?></b></td>		
 		    		</tr>	
 		    		<?php 
 		    		$x++; } ?>
@@ -332,7 +332,7 @@
 		    		?>    		
 		    		<tr>
 		    			<td colspan="17" class="all-border " align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left"></span><?php echo number_format($grandtotal,4); ?></b></td>
+					    <td colspan="3" class="all-border " align="right"><b class="nomarg"><span class="pull-left"></span><?php echo number_format($grandtotal,2); ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20">
@@ -401,7 +401,7 @@
 						    							<?php } ?>
 						   							</select>
 								    			</td>
-								    			<td colspan="3" class="bor-right v-align" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,4); ?>" style='text-align:right;' readonly></td>		
+								    			<td colspan="3" class="bor-right v-align" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,2); ?>" style='text-align:right;' readonly></td>		
 								    		</tr>	
 								    			<?php 
 									    		$x++; 
@@ -436,7 +436,7 @@
 						   								 </select>
 													<?php }else{ echo $it->currency; } ?>
 				    							</td>
-								    			<td colspan="3" class="bor-right" align="right"><?php echo number_format($it->amount,4); ?></td>		
+								    			<td colspan="3" class="bor-right" align="right"><?php echo number_format($it->amount,2); ?></td>		
 								    		</tr>	
 								    			<?php 
 									    		$x++; 
@@ -561,7 +561,7 @@
 						    		<input type='hidden' id='orig_amount' value='<?php echo $grtotal2; ?>'>
 						    		<tr>
 						    			<td colspan="19" class="all-border yellow-back" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-									    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php echo number_format($grandtotal2,4); ?></span></b></td>
+									    <td colspan="3" class="all-border yellow-back" align="right"><b class="nomarg"><span class="pull-left"></span><span id='grandtotal'><?php echo number_format($grandtotal2,2); ?></span></b></td>
 						    		</tr>
 						    		<tr>
 						    			<td colspan="20">
