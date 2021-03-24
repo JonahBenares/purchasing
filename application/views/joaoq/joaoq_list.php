@@ -81,55 +81,55 @@
                                             <th>JOR #</th>
                                             <th>Supplier</th>
                                             <th>Department</th>
-                                            <th>Enduse</th>
                                             <th>Requestor</th>
                                             <th width="1%">Status</th>
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php foreach($heads AS $h){ ?>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
+                                            <td><?php echo $h['jo_no']."-".COMPANY; ?></td>
+                                            <td><?php echo $h['supplier']; ?></td>
+                                            <td><?php echo $h['department']; ?></td>
+                                            <td><?php echo $h['requestor']; ?></td>
+                                            <?php if($h['refer_mnl']=='1') { ?>
+                                            <td><span class='label label-primary'> Refer To Manila </span></td>
+                                            <?php }else { ?>
                                             <td>
-                                                <span class='label label-warning'> For TE </span>
-                                                <span class='label label-success'>Awarded</span>
-                                                <span class='label label-warning'>Draft</span>
-                                                <span class='label label-primary'> Refer To Manila </span>
+                                                <?php  
+                                                    if($h['saved'] == '1' && $h['awarded'] =='0') { 
+                                                        echo "<span class='label label-warning'> For TE </span>";
+                                                    } else if($h['saved'] == '1' && $h['awarded'] =='1'){
+                                                        echo "<span class='label label-success'>Awarded</span";
+                                                    }else if($h['saved'] == '0' && $h['draft'] =='1'){
+                                                        echo "<span class='label label-warning'>Draft</span";
+                                                    }
+                                                ?>
                                             </td>
+                                            <?php } ?>
                                             <td>
                                                 <center>
                                                     <!-- for three vendors -->
-                                                    <a href="<?php echo base_url(); ?>joaoq/joaoq_prnt/" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
+                                                    <a href="<?php echo base_url(); ?>joaoq/joaoq_prnt/<?php echo $h['jor_aoq_id'];?>" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
                                                         <span class="fa fa-eye"></span>
                                                     </a>
-
-                                                    <!-- for three vendors -->
-                                                    <!-- <a href="<?php echo base_url(); ?>joaoq/joaoq_prnt_four" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
-                                                        <span class="fa fa-eye"></span>
-                                                    </a> -->
-
-                                                    <!-- for three vendors -->
-                                                    <!-- <a href="<?php echo base_url(); ?>joaoq/joaoq_prnt_five/" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
-                                                        <span class="fa fa-eye"></span>
-                                                    </a> -->
-
-                                                    <a href="<?php echo base_url(); ?>joaoq/refer_mnl/" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL">
+                                                    <?php if($h['refer_mnl']=='0' && $h['saved'] == '1' && $h['awarded'] =='0') { ?>
+                                                    <a href="<?php echo base_url(); ?>joaoq/refer_mnl/<?php echo $h['jor_aoq_id'];?>" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL">
                                                         <span class="fa fa-location-arrow"></span>
                                                     </a>
+                                                    <?php } ?>
 
-                                                    <a href="<?php echo base_url(); ?>joaoq/update_served/" class="btn btn-custon-three btn-success btn-xs"  onclick="return confirm('Are you sure?')" title="Served">
+                                                    <a href="<?php echo base_url(); ?>joaoq/update_served/<?php echo $h['jor_aoq_id'];?>" class="btn btn-custon-three btn-success btn-xs"  onclick="return confirm('Are you sure?')" title="Served">
                                                         <span class="fa fa-archive"></span>
                                                     </a>
 
                                                     <a class="cancelAOQ btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelAOQ" data-id=" "><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </center>
                                             </td>
-                                        </tr>                      
+                                        </tr>  
+                                        <?php } ?>                    
                                     </tbody>
                                 </table>
                             </div>                           
