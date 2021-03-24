@@ -162,11 +162,6 @@ $ci =& get_instance();
                                         <tr>
                                             <td><i>JO No.:</i></td>
                                             <td><?php echo $jor_no; ?></td>
-<<<<<<< HEAD
-=======
-                                            <td><i>Requested By:</i></td>
-                                            <td><?php echo $jh->requested_by; ?></td>
->>>>>>> 48c3cc4b2eeb200d9d1b2934502f910966c67aba
                                             <!-- <td><i>Processing Code:</i></td>                                            
                                             <td style="padding: 0px!important" class="bor-red">
                                                 <select name = "process" class = "form-control">

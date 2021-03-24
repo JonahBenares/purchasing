@@ -81,17 +81,13 @@
                                             <th>JOR #</th>
                                             <th>Supplier</th>
                                             <th>Department</th>
-<<<<<<< HEAD
                                             <th>Enduse</th>
-=======
->>>>>>> 48c3cc4b2eeb200d9d1b2934502f910966c67aba
                                             <th>Requestor</th>
                                             <th width="1%">Status</th>
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-<<<<<<< HEAD
                                         <tr>
                                             <td></td>
                                             <td></td>
@@ -127,55 +123,13 @@
                                                     </a>
 
                                                     <a href="<?php echo base_url(); ?>joaoq/update_served/" class="btn btn-custon-three btn-success btn-xs"  onclick="return confirm('Are you sure?')" title="Served">
-=======
-                                        <?php foreach($heads AS $h){ ?>
-                                        <tr>
-                                            <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
-                                            <td><?php echo $h['jo_no']."-".COMPANY; ?></td>
-                                            <td><?php echo $h['supplier']; ?></td>
-                                            <td><?php echo $h['department']; ?></td>
-                                            <td><?php echo $h['requestor']; ?></td>
-                                            <?php if($h['refer_mnl']=='1') { ?>
-                                            <td><span class='label label-primary'> Refer To Manila </span></td>
-                                            <?php }else { ?>
-                                            <td>
-                                                <?php  
-                                                    if($h['saved'] == '1' && $h['awarded'] =='0') { 
-                                                        echo "<span class='label label-warning'> For TE </span>";
-                                                    } else if($h['saved'] == '1' && $h['awarded'] =='1'){
-                                                        echo "<span class='label label-success'>Awarded</span";
-                                                    }else if($h['saved'] == '0' && $h['draft'] =='1'){
-                                                        echo "<span class='label label-warning'>Draft</span";
-                                                    }
-                                                ?>
-                                            </td>
-                                            <?php } ?>
-                                            <td>
-                                                <center>
-                                                    <!-- for three vendors -->
-                                                    <a href="<?php echo base_url(); ?>joaoq/joaoq_prnt/<?php echo $h['jor_aoq_id'];?>" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
-                                                        <span class="fa fa-eye"></span>
-                                                    </a>
-                                                    <?php if($h['refer_mnl']=='0' && $h['saved'] == '1' && $h['awarded'] =='0') { ?>
-                                                    <a href="<?php echo base_url(); ?>joaoq/refer_mnl/<?php echo $h['jor_aoq_id'];?>" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL">
-                                                        <span class="fa fa-location-arrow"></span>
-                                                    </a>
-                                                    <?php } ?>
-
-                                                    <a href="<?php echo base_url(); ?>joaoq/update_served/<?php echo $h['jor_aoq_id'];?>" class="btn btn-custon-three btn-success btn-xs"  onclick="return confirm('Are you sure?')" title="Served">
->>>>>>> 48c3cc4b2eeb200d9d1b2934502f910966c67aba
                                                         <span class="fa fa-archive"></span>
                                                     </a>
 
                                                     <a class="cancelAOQ btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelAOQ" data-id=" "><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </center>
                                             </td>
-<<<<<<< HEAD
                                         </tr>                      
-=======
-                                        </tr>  
-                                        <?php } ?>                    
->>>>>>> 48c3cc4b2eeb200d9d1b2934502f910966c67aba
                                     </tbody>
                                 </table>
                             </div>                           
