@@ -95,7 +95,7 @@
                                     <span class="mini-dn">JO Abstract of Quotation</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>po/po_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
+                                <a href="<?php echo base_url(); ?>joi/joi_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
                                     <i class="fa big-icon fa-shopping-cart"></i>
                                     <span class="mini-dn">JO Issuance</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
