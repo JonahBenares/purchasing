@@ -450,7 +450,7 @@ class Joaoq extends CI_Controller {
                             );
                             //print_r($offers);
                             $this->super_model->insert_into("jor_aoq_offers", $offers);
-                            $this->super_model->delete_custom_where("jor_aoq_offers", "offer='' AND aoq_id = '$aoq_id'");
+                            $this->super_model->delete_custom_where("jor_aoq_offers", "offer='' AND jor_aoq_id = '$aoq_id'");
 
                             $this->add_item_supplier($vendor, $aoq_date, $jor_items_id, $offer, $up);
                         }
@@ -681,7 +681,7 @@ class Joaoq extends CI_Controller {
         /*$noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
         $approved_id=$this->super_model->select_column_where("aoq_head", "approved_by", "aoq_id", $aoq_id);*/
 
-        foreach($this->super_model->select_row_where("aoq_head", "aoq_id", $aoq_id) AS $head){
+        foreach($this->super_model->select_row_where("jor_aoq_head", "jor_aoq_id", $aoq_id) AS $head){
             $noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
             $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
             $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $head->pr_id);
