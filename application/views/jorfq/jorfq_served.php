@@ -53,29 +53,38 @@
                                             <th>Vendor</th>
                                             <th width="10%">RFQ Date</th>
                                             <th width="25%">Scope of Work</th>
-                                            <th width="10%">Notes</th> 
+                                            <!--<th width="10%">Notes</th> -->
                                             <th width="1%"><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php
+                                        if(!empty($head)){
+                                         foreach($head AS $h){ ?>
                                         <tr>                                            
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>                                           
-                                            <td>
-                                                <span style='text-align: left;'> </span>
+                                            <td><?php echo $h['jo_rfq_no']; ?></td>                                  
+                                            <td><?php echo $h['jor_no']."-".COMPANY;?></td>
+                                            <td><?php echo $h['vendor']; ?></td> 
+                                            <td><?php echo $h['rfq_date']; ?></td> 
+                                            <td style='font-size: 12px'>
+                                           <?php foreach($items AS $it){ 
+                                                    if($it['jo_rfq_id']==$it['jo_rfq_id']){
+                                                        echo "- ". $it['item'] . "<br>";
+                                                    } 
+                                                 } ?>
                                             </td>
-                                            <td style='font-size: 12px'></td>
-                                            <td><small></small></td>
+                                            <!--<td><?php echo $jh['notes']; ?></td>  -->                                        
                                             <td>
                                                 <center>
-                                                      <a href="<?php echo base_url(); ?>rfq/rfq_outgoing/" target='_blank' class="btn btn-custon-three btn-warning btn-xs" title="View RFQ Complete">
+                                                      <a href="<?php echo base_url(); ?>jorfq/jorfq_outgoing/" target='_blank' class="btn btn-custon-three btn-warning btn-xs" title="View RFQ Complete">
                                                         <span class="fa fa-eye"></span>
                                                     </a>
+                                                   
                                                 </center>
                                             </td>
                                         </tr>                                  
                                     </tbody>
+                                    <?php } } ?>
                                 </table>
                             </div>                           
                         </div>

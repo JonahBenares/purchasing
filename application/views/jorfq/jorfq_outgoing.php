@@ -246,22 +246,9 @@
 		    				<div style="margin: 10px">
 		    				<b>Scope of Work:</b>
 		    				<br>
-		    				'Supply of labor, consumables, tools, testing tools and technical expertise for the Retrofitting of UG40 Hydraulic powered electric actuator on existing mechanical hydraulic UG40 governor.
-							Scope of works include but not limited to the following:<br>
-							1. Installation of UG40 actuator and 2301E-ST governor controller.<br>
-							2. Integrate communication link on actuator controller 2301E-ST with EasyGen  Controller.<br>
-							3. Provide actual / automode operation on EasyGen relay interface with controller 2301E-ST.<br>
-							4. Interconnect shutdown electric solenoid of UG40 mechanical hydraulic on 2301E-ST controller.<br><br>
-
-							Notes:<br>
-							1. PPEs: Contractor to provide own PPEs and attend to safety briefing before conducting first day of work.<br>
-							2. Manpower: Breakdown of manpower personnel, to note level of expertise<br>
-							3. Tools and Equipment: List of tools and equipment.<br>
-							4. Mobilization: Inform CENPRI of mobilization 2 days prior start of project.<br>
-							5. Duration: Contractor to submit gantt chart before the start of work<br>
-							6. Warranty: Contractor to include in quotation <br>
-							7. Service Report: Submission of service report right after completion of the scope of work.<br>
-							8. Demobilization: Secure housekeeping and gate pass<br>
+		    				<?php foreach($items AS $i){ ?>
+		    				<?php echo $i->scope_of_work; ?><br><br>
+		    				<?php } ?>
 							</div>
 		    			</td>
 		    		</tr>
@@ -270,12 +257,14 @@
 
 		    		<tr>
 		    			<td class="f13 p-l-10" colspan="3">JO Reference No.</td>
-		    			<td class="f13" colspan="16" align="left"> CENJO-EM001-21</td>
+		    			<td class="f13" colspan="16" align="left"> <?php echo $jo_no."-".COMPANY; ?></td>
 		    			<td class="f13" colspan="1"></td>		    			
 		    		</tr>
 		    		<tr>
 		    			<td class="f13 p-l-10" colspan="3">End User: </td>
-		    			<td class="f13" colspan="16" align="left">Genielyne V. Mondejar</td>
+		    			<td class="f13" colspan="16" align="left"><center><?php{ 
+		    			 	echo $_SESSION['fullname']; 
+		    			 } ?></center></td>
 		    			<td class="f13" colspan="1"></td>		    			
 		    		</tr>
 		    		
@@ -283,12 +272,12 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-10" colspan="3">Supplier's Name:</td>
-		    			<td class="f13 bor-btm" colspan="16" align="right"></td>
+		    			<td class="f13 bor-btm" colspan="16" align="right"><?php echo $vendor; ?></td>
 		    			<td class="f13" colspan="1"></td>		    			
 		    		</tr>
 		    		<tr>
 		    			<td class="f13 p-l-10" colspan="3">Contact Number:</td>
-		    			<td class="f13 bor-btm" colspan="16" align="right"></td>
+		    			<td class="f13 bor-btm" colspan="16" align="right"><?php echo $phone; ?></td>
 		    			<td class="f13" colspan="1"></td>		
 		    		</tr>
 		    		<tr>
@@ -310,8 +299,8 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13 p-l-10" colspan="3">Notes:</td>
-		    			<td class="f13 bor-btm" colspan="16" align="right"><h4 style="margin: 0px"><b><span id='gtotal'></span></b></h4></td>
-		    			<td class="f13" colspan="1"></td>		    		 
+		    			<td class="f13 bor-btm" colspan="16"><?php echo $notes; ?></td>
+		    			<td col></td>		    		 
 		    		</tr>
 		    		<tr><td class="f13 bor-btm" colspan="20" align="center"><br></td></tr>    	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
@@ -334,11 +323,13 @@
 		    			<td class="f13" colspan="8" align="center">
 		    				<!-- <?php echo $prepared; ?> -->
 		    			</td>
-		    			<td class="f13" colspan="2" align="center"></td>
+		    			<td class="f13" colspan="2" align="center"><?php echo $approved; ?></td>
 		    			<td class="f13" colspan="8" align="center">
-		    				<select type="text" name="checked_by" class="btn-block">
-		    					<option value=''>-Select-</option>
-		    				</select>
+		    		      <center><?php if($saved==0){ 
+		    			 	echo $_SESSION['fullname']; 
+		    			 } else {
+		    			 	echo $prepared;
+		    			 } ?></center>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>  

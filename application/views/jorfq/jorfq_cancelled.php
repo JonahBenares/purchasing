@@ -45,7 +45,8 @@
                        
                         <div class="sparkline8-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
-                               <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+                              <!--  <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar"> -->
+                                <table class="table table-bordered table-hover" id="rfqtable">
                                      <thead>
                                       <tr>
                                            
@@ -53,24 +54,33 @@
                                             <th width="10%">JOR #</th>
                                             <th>Vendor</th>
                                             <th width="10%">RFQ Date</th>
-                                            <th width="25%">Items</th>
-                                            <th width="10%">Notes</th> 
+                                            <th width="25%">Scope of Work</th>
+                                            <!--<th width="10%">Notes</th>-->
                                             <th width="1%"><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>                                            
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>                                           
-                                            <td>
-                                                <span style='text-align: left;'></span>
+                                  <?php
+                                        if(!empty($head)){
+                                            foreach($head AS $h){ ?>
+                                        <tr>           
+                                            <td><?php echo $h['jo_rfq_no']; ?></td>                                  
+                                            <td><?php echo $h['jor_no']."-".COMPANY;?></td>
+                                            <td><?php echo $h['vendor']; ?></td> 
+                                            <td><?php echo $h['rfq_date']; ?></td> 
+                                            <td style='font-size: 12px'>
+                                           <?php 
+                                                foreach($items AS $it){ 
+                                                    if($h['jo_rfq_id']==$it['jo_rfq_id']){
+                                                        echo "- ". nl2br($it['item']) . "<br>";
+                                                    } 
+                                                } 
+                                            ?>
                                             </td>
-                                            <td style='font-size: 12px'></td>
-                                            <td><small></small></td>
+                                            <!--<td><?php echo $h['notes']; ?></td>    -->                                      
                                             <td>
                                                 <center>
-                                                      <a href="<?php echo base_url(); ?>rfq/rfq_outgoing/" target='_blank' class="btn btn-custon-three btn-warning btn-xs" title="View RFQ Complete">
+                                                      <a href="<?php echo base_url(); ?>jorfq/jorfq_outgoing/<?php echo $h['jo_rfq_id']; ?>" target='_blank' class="btn btn-custon-three btn-warning btn-xs" title="View RFQ Complete">
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                    
@@ -78,6 +88,7 @@
                                             </td>
                                         </tr>                                  
                                     </tbody>
+                                    <?php } } ?>
                                 </table>
 
                             </div>

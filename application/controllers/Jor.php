@@ -49,20 +49,6 @@ class Jor extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function jo_pending_forrfq(){
-        $this->load->view('template/header');
-        $this->load->view('template/navbar'); 
-        $this->load->view('jor/jo_pending_forrfq');
-        $this->load->view('template/footer');
-    }
-
-    public function cancelled_jor(){
-        $this->load->view('template/header');
-        $this->load->view('template/navbar'); 
-        $this->load->view('jor/cancelled_jor');
-        $this->load->view('template/footer');
-    }
-
     public function createColumnsArray($end_column, $first_letters = ''){
         $columns = array();
         $length = strlen($end_column);
@@ -97,25 +83,37 @@ class Jor extends CI_Controller {
         $jor_id=$this->uri->segment(3);
         $data['jor_id']=$this->uri->segment(3);
         $data['jo_head']=$this->super_model->select_row_where("jor_head","jor_id",$jor_id);
+        $data['saved']=$this->super_model->select_column_where('jor_head','saved','jor_id',$jor_id);
         $data['jo_notes']=$this->super_model->select_row_where("jor_notes","jor_id",$jor_id);
-            foreach($this->super_model->select_row_where("jor_items","jor_id",$jor_id) AS $ji){
-        //foreach($this->super_model->custom_query("SELECT ji.*, jn.* FROM jor_items ji INNER JOIN jor_notes jn ON ji.jor_id = jn.jor_id WHERE jn.jor_id = '$jor_id'") AS $ji){
-        //$notes = $this->super_model->select_column_where('jor_notes', 'notes', 'jor_id', $ji->jor_id);
-            $data['jo_items'][]=array(
-                'jor_items_id'=>$ji->jor_items_id,
-                'jor_id'=>$ji->jor_id,
-                'scope_of_work'=>$ji->scope_of_work,
-                'quantity'=>$ji->quantity,
-                'uom'=>$ji->uom,
-                'unit_cost'=>$ji->unit_cost,
-                'total_cost'=>$ji->total_cost,
-                'grouping_id'=>$ji->grouping_id,
-                //'notes'=>$notes,
-            );
+        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
+        $data['cancelled']='';
+            foreach($this->super_model->select_custom_where("jor_items", "jor_id='$jor_id'") AS $ji){
+                $vendor='';
+                foreach($this->super_model->select_custom_where("jo_rfq_head", "jor_id='$jor_id' AND grouping_id = '$ji->grouping_id' AND cancelled = '0' GROUP BY vendor_id") AS $ven){
+                    $vendor.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$ven->vendor_id) . "<br>";
+                }
+                $data['cancelled']=$ji->cancelled;
+                $data['jo_items'][]=array(
+                    'jor_items_id'=>$ji->jor_items_id,
+                    'jor_id'=>$ji->jor_id,
+                    'scope_of_work'=>$ji->scope_of_work,
+                    'quantity'=>$ji->quantity,
+                    'uom'=>$ji->uom,
+                    'unit_cost'=>$ji->unit_cost,
+                    'total_cost'=>$ji->total_cost,
+                    'grouping_id'=>$ji->grouping_id,
+                    'cancelled_by'=>$this->super_model->select_column_where("users",'fullname','user_id',$ji->cancelled_by),
+                    'cancelled_reason'=>$ji->cancelled_reason,
+                    'cancelled_date'=>$ji->cancelled_date,
+                    'cancelled'=>$ji->cancelled,
+                    'vendor'=>$vendor
+                );
         }
         $this->load->view('jor/jor_request',$data);
         $this->load->view('template/footer');
-    }
+    
+}
 
     public function save_groupings(){
         $jor_id = $this->input->post('jor_id');
@@ -501,6 +499,225 @@ class Jor extends CI_Controller {
             }
             echo "<script>alert('Successfully Cancelled!'); window.location ='".base_url()."jor/jor_list';</script>";
         }
+    }
+
+    public function cancelled_jor(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $count = $this->super_model->count_custom_query("SELECT * FROM jor_items ji INNER JOIN jor_head jh ON ji.jor_id = jh.jor_id WHERE ji.cancelled = '1'");
+        if($count!=0){
+            foreach($this->super_model->custom_query("SELECT * FROM jor_head WHERE cancelled = '1'") AS $heads){
+                
+            $items = '';
+                
+                foreach($this->super_model->select_row_where("jor_items", "jor_id", $heads->jor_id) AS $det){
+                    $items .= "-".$det->scope_of_work."<br>"; 
+                }
+
+                $data['jor_head'][] = array(
+                    'jor_id'=>$heads->jor_id,
+                    'jor_no'=>$heads->jo_no,
+                    'user_jor_no'=>$heads->user_jo_no,
+                    'jor_date'=>$heads->date_prepared,
+                    'urgency_num'=>$heads->urgency,
+                    'cancelled_by'=> $this->super_model->select_column_where('users','fullname','user_id',$heads->cancelled_by),
+                    'cancel_date'=> $heads->cancelled_date,
+                    'cancel_reason'=> $heads->cancelled_reason,
+                    'items'=>$items
+                );
+              
+            }
+        }else {
+            $data['jor_head']=array();
+        }
+
+        $this->load->view('jor/cancelled_jor',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function regroup_item(){
+        $jor_items_id=$this->input->post('jor_items_id');
+        $jor_id=$this->input->post('jor');
+        $data=array(
+            'grouping_id'=>$this->input->post('grouping')
+        );
+
+        if($this->super_model->update_where("jor_items", $data, "jor_items_id", $jor_items_id)){
+            redirect(base_url().'jor/jor_request/'.$jor_id);
+        }
+    }
+
+    public function add_vendor_jorfq(){
+        $jorid = $this->input->post('jor_id');
+        $group = $this->input->post('group');
+        $vendor = $this->input->post('vendor');
+        $jor_items_id = $this->input->post('jor_items_id');
+
+
+        $count_exist = $this->super_model->count_custom_where("jo_rfq_head","jor_id = '$jorid' AND vendor_id = '$vendor' AND grouping_id = '$group'");
+        if($count_exist!=0){
+           ?>
+           <script>
+            alert('Vendor already existing in this PR Group.'); 
+            window.location="<?php echo base_url(); ?>jor/jor_request/<?php echo $jorid; ?>";
+            </script>    
+            <?php
+        } else {
+              
+                $jorven = array(
+                    'jor_id'=>$jorid,
+                    'vendor_id'=>$vendor,
+                    'grouping_id'=>$group,
+                    'due_date'=>$this->input->post('due_date'),
+                    'noted_by'=>$this->input->post('noted'),
+                    'approved_by'=>$this->input->post('approved')
+                );
+
+                $this->super_model->insert_into("jor_vendors", $jorven);
+
+
+                $timestamp = date("Y-m-d H:i:s");
+                $rfq_format = date("Ym");
+                $rfqdet=date('Y-m');
+                //$code = $this->super_model->select_column_where('pr_head','processing_code','pr_id',$prid);
+                $rows=$this->super_model->count_custom_where("jo_rfq_head","create_date LIKE '$rfqdet%'");
+                if($rows==0){
+                    $rfq_no= $rfq_format."-1001";
+                } else {
+                    $series = $this->super_model->get_max("rfq_series", "series","year_month LIKE '$rfqdet%'");
+                    $next=$series+1;
+                    $rfq_no = $rfq_format."-".$next;
+                }
+                $rfqdetails=explode("-", $rfq_no);
+                $rfq_prefix1=$rfqdetails[0];
+                $rfq_prefix2=$rfqdetails[1];
+                $rfq_prefix=$rfq_prefix1;
+                $series=$rfq_prefix2;
+                $rfq_data= array(
+                    'year_month'=>$rfq_prefix,
+                    'series'=>$series
+                );
+                $this->super_model->insert_into("jor_rfq_series", $rfq_data);
+
+                $rows_head = $this->super_model->count_rows("rfq_head");
+                if($rows_head==0){
+                    $jo_rfq_id=1;
+                } else {
+                    $max = $this->super_model->get_max("jo_rfq_head", "jo_rfq_id");
+                    $jo_rfq_id = $max+1;
+                }
+                $new_rfq = $rfq_no."-".$group;
+
+                 $data_head = array(
+                    'jo_rfq_id'=>$jo_rfq_id,
+                    'jo_rfq_no'=>$new_rfq,
+                    'vendor_id'=>$vendor,
+                    'jor_id'=>$jorid,
+                    'grouping_id'=>$group,
+                    'rfq_date'=>$timestamp,
+                    //'processing_code'=>$code,
+                    'noted_by'=>$this->input->post('noted'),
+                    'approved_by'=>$this->input->post('approved'),
+                    'prepared_by'=>$_SESSION['user_id'],
+                    'create_date'=>$timestamp,
+                    'saved'=>1,
+                );
+                $this->super_model->insert_into("jo_rfq_head", $data_head);
+
+                foreach($this->super_model->select_custom_where("jor_items", "jor_id='$jorid' AND grouping_id = '$group'") AS $details){
+                    $data_details = array(
+                        'jo_rfq_id'=>$jo_rfq_id,
+                        'jor_items_id'=>$details->jor_items_id,
+                        //'pn_no'=>$details->part_no,
+                        'work_of_scope'=>$details->work_of_scope,
+                        'quantity'=>$details->quantity,
+                        'uom'=>$details->uom,
+
+                    );
+                    $this->super_model->insert_into("jo_rfq_details", $data_details);
+                }
+
+            redirect(base_url().'jorfq/jorfq_list/');      
+        }
+        
+    }
+        public function cancel_item(){
+        $items_id=$this->input->post('items_id');
+        $jor_id=$this->input->post('jor');
+        $date=date('Y-m-d H:i:s');
+        $data=array(
+            'cancelled'=>1,
+            'cancelled_reason'=>$this->input->post('reason'),
+            'cancelled_by'=>$_SESSION['user_id'],
+            'cancelled_date'=>$date
+        );
+
+        if($this->super_model->update_where("jor_items", $data, "jor_items_id", $items_id)){
+            redirect(base_url().'jor/jor_request/'.$jor_id);
+        }
+    }
+
+        public function jo_pending_forrfq(){  
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $jor_id = $this->uri->segment(3);
+        $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
+        foreach($this->super_model->custom_query("SELECT jor_items, jor_id, grouping_id, quantity FROM jor_items WHERE cancelled = '0' GROUP BY jor_id, grouping_id") AS $det){
+            $jor_qty = $this->super_model->select_sum_where("jor_items", "quantity", "cancelled = '0' AND jor_items_id = '$det->jor_items_id' GROUP BY jor_id, grouping_id");
+            $count = $this->super_model->count_custom_query("SELECT jor_id, grouping_id FROM jo_rfq_head WHERE cancelled = '0' AND jor_id = '$det->jor_id' AND grouping_id = '$det->grouping_id' GROUP BY jor_id, grouping_id");
+            $count_po = $this->super_model->count_custom_query("SELECT po_items_id FROM po_items pi LEFT JOIN po_head ph ON pi.po_id = ph.po_id WHERE pi.pr_details_id = '$det->pr_details_id' AND ph.cancelled = '0'");
+            $po_qty = $this->super_model->select_sum_join("quantity","po_items","po_head", "pr_details_id = '$det->pr_details_id' AND cancelled = '0'","po_id");
+            if($count==0 || $count_po==0 || ($jor_qty > $po_qty)){
+                    $norfq[] = array(
+                        'jor_id'=>$det->jor_id,
+                       
+                        'grouping_id'=>$det->grouping_id
+                    );
+            }
+        }
+        if(!empty($norfq)){
+            foreach($norfq AS $key){
+                $it='';
+                $ven='';
+
+                foreach($this->super_model->select_custom_where("jor_items", "jor_id = '$key[jor_id]' AND grouping_id = '$key[grouping_id]' AND cancelled = '0'") AS $items){
+                     $jor_qty = $this->super_model->select_column_custom_where("jor_items", "quantity", "jor_id = '$key[jor_id]' AND grouping_id = '$key[grouping_id]' AND cancelled = '0' AND jor_items_id = '$items->jor_items_id'");
+                   
+                    $count_jorfq = $this->super_model->count_custom_query("SELECT jor_id, grouping_id FROM jo_rfq_head INNER JOIN jo_rfq_details ON jo_rfq_head.jo_rfq_id = jo_items.jo_rfq_id WHERE cancelled = '0' AND jor_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' AND pr_details_id = '$items->pr_details_id'");
+                    $count_po1 = $this->super_model->count_custom_query("SELECT * FROM po_items pi LEFT JOIN po_head ph ON pi.po_id = ph.po_id WHERE pi.pr_details_id = '$items->pr_details_id' AND ph.cancelled = '0'");
+                     $po_qty = $this->super_model->select_sum_join("quantity","po_items","po_head", "pr_details_id = '$items->pr_details_id' AND cancelled = '0'","po_id");
+
+                    if($count_rfq==0  || ($jor_qty > $po_qty)){
+                     $it .= ' - ' . $items->scope_of_work . "<br>";
+                    }
+                   
+
+                foreach($this->super_model->select_custom_where("jor_vendors", "jor_id = '$key[jor_id]' AND grouping_id = '$key[grouping_id]'") AS $vendors){
+                    $ven .= ' - ' . $this->super_model->select_column_where('vendor_head','vendor_name', 'vendor_id', $vendors->vendor_id) . "<br>";
+                    $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+                if($jo_no!=''){
+                    $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+                }else{
+                    $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $head->jor_id);
+                }
+
+                }
+
+                $data['head'][] = array(
+                    'jor_id'=>$key['jor_id'],
+                    'jor_no'=>$jor_no,
+                    'group'=>$key['grouping_id'],
+                    'item'=>$it,
+                    'vendor'=>$ven
+                );
+            }
+        }
+        }else {
+            $data['head']=array();
+        }
+
+        $this->load->view('jor/jo_pending_forrfq',$data);
+        $this->load->view('template/footer');
     }
 }
 
