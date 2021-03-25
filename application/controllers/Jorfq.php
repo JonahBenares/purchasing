@@ -47,12 +47,19 @@ class Jorfq extends CI_Controller {
         $head_count = $this->super_model->count_custom_query("SELECT rh.* FROM jo_rfq_head rh INNER JOIN jor_head jh ON rh.jor_id = jh.jor_id WHERE jh.cancelled='0' AND rh.served='0' AND rh.cancelled = '0'");
         if($head_count!=0){
             foreach($this->super_model->custom_query("SELECT rh.* FROM jo_rfq_head rh INNER JOIN jor_head jh ON rh.jor_id = jh.jor_id WHERE jh.cancelled='0' AND rh.served='0' AND rh.cancelled = '0'") AS $jorfq){
+                $jo=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jorfq->jor_id);
+                if($jo!=''){
+                    $jo_no=$jo;
+                }else{
+                    $jo_no=$this->super_model->select_column_where("jor_head","user_jo_no","jor_id",$jorfq->jor_id);
+                }
                 $data['head'][]= array(
                     'jo_rfq_id'=>$jorfq->jo_rfq_id,
                     'jo_rfq_no'=>$jorfq->jo_rfq_no,
                     'jor_id'=>$jorfq->jor_id,
                     'rfq_date'=>$jorfq->rfq_date,
-                    'jo_no'=>$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jorfq->jor_id),
+                    'jo_no'=>$jo_no,
+                    'notes'=>$jorfq->notes,
                     'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $jorfq->vendor_id),
                     'completed'=>$jorfq->completed
                     
@@ -212,8 +219,15 @@ class Jorfq extends CI_Controller {
             $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id);
             $data['phone']= $this->super_model->select_column_where("vendor_head", "phone_number", "vendor_id", $head->vendor_id);
             $data['jo_rfq_no']= $head->jo_rfq_no;
-            $data['jo_no']= $this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
-            //$data['notes']= $head->notes;
+            $jo=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+            if($jo!=''){
+                $data['jo_no']= $this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+            }else{
+                $data['jo_no']= $this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $head->jor_id);
+            }
+            $data['requested_by']= $this->super_model->select_column_where("jor_head", "requested_by", "jor_id", $head->jor_id);
+            $data['duration']= $this->super_model->select_column_where("jor_head", "duration", "jor_id", $head->jor_id);
+            $data['notes']= $head->notes;
             //$data['code']= $head->processing_code;
             $data['noted']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->noted_by);
             $data['approved']= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->approved_by);
@@ -224,6 +238,7 @@ class Jorfq extends CI_Controller {
             $data['served']= $head->served;
             $data['completed']= $head->completed;
             $data['items'] = $this->super_model->select_row_where_order_by('jo_rfq_details', 'jo_rfq_id', $jo_rfq_id, 'jor_items_id', 'ASC');
+            $data['rfq_notes'] = $this->super_model->select_row_where_order_by('jor_notes', 'jor_id', $head->jor_id, 'jor_notes_id', 'ASC');
         }
 
         
@@ -234,6 +249,17 @@ class Jorfq extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function add_jorfq_notes(){
+        $jo_rfq_id = $this->input->post('jo_rfq_id');
+        $notes = $this->input->post('notes');
+        $data = array(
+            'notes'=>$notes,
+        );
+        if($this->super_model->update_where("jo_rfq_head", $data, "jo_rfq_id", $jo_rfq_id)){
+             redirect(base_url().'jorfq/jorfq_list');
+        }
+
+    }
     
 }
 

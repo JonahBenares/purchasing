@@ -68,7 +68,7 @@
                                             <td><?php echo $h['rfq_date']; ?></td> 
                                             <td style='font-size: 12px'>
                                            <?php foreach($items AS $it){ 
-                                                    if($it['jo_rfq_id']==$it['jo_rfq_id']){
+                                                    if($it['jo_rfq_id']==$h['jo_rfq_id']){
                                                         echo "- ". $it['item'] . "<br>";
                                                     } 
                                                  } ?>
@@ -76,7 +76,7 @@
                                             <!--<td><?php echo $jh['notes']; ?></td>  -->                                        
                                             <td>
                                                 <center>
-                                                      <a href="<?php echo base_url(); ?>jorfq/jorfq_outgoing/" target='_blank' class="btn btn-custon-three btn-warning btn-xs" title="View RFQ Complete">
+                                                      <a href="<?php echo base_url(); ?>jorfq/jorfq_outgoing/<?php echo $h['jo_rfq_id']?>" target='_blank' class="btn btn-custon-three btn-warning btn-xs" title="View RFQ Complete">
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                    

@@ -15,8 +15,8 @@
      });
 
     $(document).on("click", "#addnotes_button", function () {
-         var jorfq_id = $(this).attr("data-id");
-         $("#jorfq_id1").val(jorfq_id);
+         var jo_rfq_id = $(this).attr("data-id");
+         $("#jo_rfq_id1").val(jo_rfq_id);
 
     });
     $(document).on("click", ".cancelRFQ", function () {
@@ -61,12 +61,12 @@
                         </button>
                     </h5>                    
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>rfq/add_notes">
+                <form method='POST' action="<?php echo base_url(); ?>jorfq/add_jorfq_notes">
                     <div class="modal-body">
                         <textarea rows="5" class="form-control" placeholder="..." name = "notes"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="rfq_id" id="rfq_id1">
+                        <input type="hidden" name="jo_rfq_id" id="jo_rfq_id1">
                         <button type="submit" class="btn btn-primary btn-block">Save changes</button>
                     </div>
                 </form>
@@ -131,7 +131,7 @@
                                                 <th>Vendor</th>
                                                 <th width="10%">RFQ Date</th>
                                                 <th width="25%">Scope of Work</th>
-                                                <!-- <th width="10%">Notes</th>  -->
+                                                <th width="10%">Notes</th>
                                                 <th width="15%"><center><span class="fa fa-bars"></span></center></th>
                                             </tr>
                                         </thead>
@@ -151,21 +151,22 @@
                                                     <span style='text-align: left;'> <?php echo date('m.j.y', strtotime($h['rfq_date'])); ?></span>
                                                 </td>
                                                   <td style='font-size: 12px'>
-                                                <?php foreach($items AS $it){ 
-                                                    if($it['jo_rfq_id']==$it['jo_rfq_id']){
+                                                <?php if(!empty($items)){ foreach($items AS $it){ 
+                                                    if($it['jo_rfq_id']==$h['jo_rfq_id']){
                                                         echo "- ". $it['item'] . "<br>";
                                                     } 
-                                                 } ?>
+                                                 }  }?>
                                             </td>
+                                             <td><?php echo $h['notes'];?></td>
                                                 <!-- <td><small></small></td> -->
                                                 <td>
                                                     <center>
                                                         <a href="<?php echo base_url(); ?>jorfq/jorfq_outgoing/<?php echo $h['jo_rfq_id']?>" target='_blank' class="btn btn-custon-three btn-warning btn-xs" title="View RFQ Complete">
                                                             <span class="fa fa-eye"></span>
                                                         </a>
-                                                        <!-- <a class="btn btn-custon-three btn-secondary btn-xs reviseRFQ" title="Add Notes" data-toggle="modal" data-target="#addnotes" id="addnotes_button" data-id="">
+                                                        <a class="btn btn-custon-three btn-secondary btn-xs reviseRFQ" title="Add Notes" data-toggle="modal" data-target="#addnotes" id="addnotes_button"data-id="<?php echo $h['jo_rfq_id']; ?>">
                                                             <span class="fa fa-plus"></span>
-                                                        </a> -->
+                                                        </a>
                                                         <?php if($h['completed']==0){ ?>
                                                         <a href="<?php echo base_url(); ?>jorfq/complete_rfq/<?php echo $h['jo_rfq_id']?>" class="cancelRFQ btn btn-custon-three btn-info btn-xs"  onclick="return confirm('Are you sure?')"><span class="fa fa-check" title="Canvass Complete"></span>
                                                         </a>  

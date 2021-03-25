@@ -27,6 +27,13 @@
         	padding:0px 0px 0px 0px
         	}
         }
+        
+        .served{
+        	background-image: url('<?php echo base_url(); ?>assets/img/served.png')!important;
+        	background-repeat:no-repeat!important;
+        	background-size: contain!important;
+        	background-position: center center!important;
+        }
 
         .cancel{
         	background-image: url('../../assets/img/cancel.png')!important;
@@ -171,7 +178,7 @@
 					<p class="text-white">Instructions: When printing JO - RFQ make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;">  
+	    	<div style="background: #fff;" class = "<?php if($cancelled==1){ echo 'cancel'; } else if($served==1){ echo 'served';} ?>">  
 	    		<table width="100%">
 	    			<tr>
 	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
@@ -247,8 +254,13 @@
 		    				<b>Scope of Work:</b>
 		    				<br>
 		    				<?php foreach($items AS $i){ ?>
-		    				<?php echo $i->scope_of_work; ?><br><br>
+		    				<?php echo " - ".nl2br($i->scope_of_work)."<br>"; ?><br><br>
 		    				<?php } ?>
+		    				<b>Notes:</b>
+		    				<br>
+		    				<?php $x=1; foreach($rfq_notes AS $n){ ?>
+		    				<?php echo $x.". ".$n->notes."<br>"; ?>
+		    				<?php $x++; } ?>
 							</div>
 		    			</td>
 		    		</tr>
@@ -263,7 +275,7 @@
 		    		<tr>
 		    			<td class="f13 p-l-10" colspan="3">End User: </td>
 		    			<td class="f13" colspan="16" align="left"><center><?php{ 
-		    			 	echo $_SESSION['fullname']; 
+		    			 	echo $requested_by; 
 		    			 } ?></center></td>
 		    			<td class="f13" colspan="1"></td>		    			
 		    		</tr>
@@ -282,7 +294,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13 p-l-10" colspan="3">Duration:</td>
-		    			<td class="f13 bor-btm" colspan="16" align="right"></td>
+		    			<td class="f13 bor-btm" colspan="16" align="right"><?php echo $duration; ?></td>
 		    			<td class="f13" colspan="1"></td>		
 		    		</tr>
 		    		<tr>
@@ -308,7 +320,7 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="8" align="center">Prepared by:</td>
 		    			<td class="f13" colspan="2" align="center"></td>
-		    			<td class="f13" colspan="8" align="center">Approved by::</td>
+		    			<td class="f13" colspan="8" align="center">Approved by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   
 		    		<tr>

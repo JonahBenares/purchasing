@@ -664,18 +664,17 @@ class Jor extends CI_Controller {
         $this->load->view('template/navbar');
         $jor_id = $this->uri->segment(3);
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
-        foreach($this->super_model->custom_query("SELECT jor_items, jor_id, grouping_id, quantity FROM jor_items WHERE cancelled = '0' GROUP BY jor_id, grouping_id") AS $det){
+        foreach($this->super_model->custom_query("SELECT jor_items_id, jor_id, grouping_id, quantity FROM jor_items WHERE cancelled = '0' GROUP BY jor_id, grouping_id") AS $det){
             $jor_qty = $this->super_model->select_sum_where("jor_items", "quantity", "cancelled = '0' AND jor_items_id = '$det->jor_items_id' GROUP BY jor_id, grouping_id");
             $count = $this->super_model->count_custom_query("SELECT jor_id, grouping_id FROM jo_rfq_head WHERE cancelled = '0' AND jor_id = '$det->jor_id' AND grouping_id = '$det->grouping_id' GROUP BY jor_id, grouping_id");
-            $count_po = $this->super_model->count_custom_query("SELECT po_items_id FROM po_items pi LEFT JOIN po_head ph ON pi.po_id = ph.po_id WHERE pi.pr_details_id = '$det->pr_details_id' AND ph.cancelled = '0'");
+            /*$count_po = $this->super_model->count_custom_query("SELECT po_items_id FROM po_items pi LEFT JOIN po_head ph ON pi.po_id = ph.po_id WHERE pi.pr_details_id = '$det->pr_details_id' AND ph.cancelled = '0'");
             $po_qty = $this->super_model->select_sum_join("quantity","po_items","po_head", "pr_details_id = '$det->pr_details_id' AND cancelled = '0'","po_id");
-            if($count==0 || $count_po==0 || ($jor_qty > $po_qty)){
+            if($count==0 || $count_po==0 || ($jor_qty > $po_qty)){*/
                     $norfq[] = array(
                         'jor_id'=>$det->jor_id,
-                       
                         'grouping_id'=>$det->grouping_id
                     );
-            }
+            //}
         }
         if(!empty($norfq)){
             foreach($norfq AS $key){
@@ -685,24 +684,22 @@ class Jor extends CI_Controller {
                 foreach($this->super_model->select_custom_where("jor_items", "jor_id = '$key[jor_id]' AND grouping_id = '$key[grouping_id]' AND cancelled = '0'") AS $items){
                      $jor_qty = $this->super_model->select_column_custom_where("jor_items", "quantity", "jor_id = '$key[jor_id]' AND grouping_id = '$key[grouping_id]' AND cancelled = '0' AND jor_items_id = '$items->jor_items_id'");
                    
-                    $count_jorfq = $this->super_model->count_custom_query("SELECT jor_id, grouping_id FROM jo_rfq_head INNER JOIN jo_rfq_details ON jo_rfq_head.jo_rfq_id = jo_items.jo_rfq_id WHERE cancelled = '0' AND jor_id = '$det->pr_id' AND grouping_id = '$det->grouping_id' AND pr_details_id = '$items->pr_details_id'");
-                    $count_po1 = $this->super_model->count_custom_query("SELECT * FROM po_items pi LEFT JOIN po_head ph ON pi.po_id = ph.po_id WHERE pi.pr_details_id = '$items->pr_details_id' AND ph.cancelled = '0'");
-                     $po_qty = $this->super_model->select_sum_join("quantity","po_items","po_head", "pr_details_id = '$items->pr_details_id' AND cancelled = '0'","po_id");
+                    $count_jorfq = $this->super_model->count_custom_query("SELECT jor_id, grouping_id FROM jo_rfq_head INNER JOIN jo_rfq_details ON jo_rfq_head.jo_rfq_id = jo_rfq_details.jo_rfq_id WHERE cancelled = '0' AND jor_id = '$det->jor_id' AND grouping_id = '$det->grouping_id' AND jor_items_id = '$items->jor_items_id'");
 
-                    if($count_rfq==0  || ($jor_qty > $po_qty)){
+                    $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $items->jor_id);
+                    if($jo_no!=''){
+                        $jor_no=$this->super_model->select_column_custom_where("jor_head", "jo_no", "jor_id = '$key[jor_id]' AND cancelled = '0'");
+                    }else{
+                        $jor_no=$this->super_model->select_column_custom_where("jor_head", "user_jo_no", "jor_id = '$key[jor_id]' AND cancelled = '0'");
+                    }
+                    
+                    if($count_jorfq==0){
                      $it .= ' - ' . $items->scope_of_work . "<br>";
                     }
                    
 
                 foreach($this->super_model->select_custom_where("jor_vendors", "jor_id = '$key[jor_id]' AND grouping_id = '$key[grouping_id]'") AS $vendors){
                     $ven .= ' - ' . $this->super_model->select_column_where('vendor_head','vendor_name', 'vendor_id', $vendors->vendor_id) . "<br>";
-                    $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
-                if($jo_no!=''){
-                    $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
-                }else{
-                    $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $head->jor_id);
-                }
-
                 }
 
                 $data['head'][] = array(

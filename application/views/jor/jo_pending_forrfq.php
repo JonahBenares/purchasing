@@ -75,12 +75,12 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><span class="btn btn-block"><?php echo $h['jo_no']."-".COMPANY; ?></span></td>
+                                                <td><span class="btn btn-block"><?php echo $h['jor_no']."-".COMPANY; ?></span></td>
                                                 <td>
                                                     <table>                                                  
                                                         <tr>
-                                                            <td width="15%"><?php echo 'Group ' . $h['group']; ?><a href="" ></a><h3 class="m-b-0"><b></b></h3></td>
-                                                            <td width="30%"><?php echo $h['item']; ?></td>
+                                                            <td width="15%"><a href="" ></a><h3 class="m-b-0"><b><?php echo 'Group ' . $h['group']; ?></b></h3></td>
+                                                            <td width="30%"><?php echo nl2br($h['item']); ?></td>
                                                             <td width="30%"><?php echo $h['vendor']; ?></td>
                                                             <td width="15%"> 
                                                             <center>
@@ -92,7 +92,7 @@
                                                                         <!-- <input type='text' name='pr_id' value='<?php echo $h['pr_id']; ?>'>
                                                                         <input type='text' name='group' value='<?php echo $h['group']; ?>'> -->
                                                                         <!-- <input type='submit' class="btn btn-primary btn-sm" value='RFQ' title="Create RFQ" onclick="return confirm('Are you sure you want to create RFQ?')"> -->
-                                                                        <a class="btn btn-primary btn-sm" id = "RfqSend" data-toggle="modal" data-target="#modalRfq" data-id = "<?php echo $h['pr_id']; ?>" data-group= "<?php echo $h['group']; ?>">RFQ</a>
+                                                                        <a class="btn btn-primary btn-sm" id = "RfqSend" data-toggle="modal" data-target="#modalRfq" data-id = "<?php echo $h['jor_id']; ?>" data-group= "<?php echo $h['group']; ?>">RFQ</a>
                                                                     <?php } ?>
                                                                     <a class="btn btn-info btn-sm" title="Direct Purchase" id="updateDP_button" data-id="" data-trigger="" data-toggle="modal" data-target="#directpurch">DP</a>
                                                                     <a href=""  data-toggle="modal" id="updateRO_button" data-id="" data-trigger="" data-target="#repord" class="btn btn-success btn-sm" title="Repeat Order">RO</a>
@@ -103,6 +103,7 @@
                                                     </table>
                                                 </td>
                                             </tr> 
+                                              <?php } } ?>   
                                         </tbody>             
                                     </table>
                                 <!-- </form> -->
@@ -113,6 +114,11 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        function choose_vendor(baseurl, group, jor_id) {
+            window.open(baseurl+"jor/choose_vendor/"+jor_id+"/"+group, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=800,height=500");
+        }
+    </script>
     <!-- Data table area End-->
     <div class="modal fade" id="modalRfq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
