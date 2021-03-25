@@ -256,7 +256,7 @@
 		    			</td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
-		    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],4); ?></b></span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],2); ?></b></span>
 		    			</td>
 		    		</tr>	
 			    	<?php } ?>
