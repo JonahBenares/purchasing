@@ -9,7 +9,7 @@
                         </button>
                     </h5>                    
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>jo/approve_revision">
+                <form method='POST' action="<?php echo base_url(); ?>joi/approve_revision">
                     <div class="modal-body">
                         <div class="form-group">
                             <p class="m-b-0">Approved by:</p>
@@ -32,15 +32,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header header-color-modal bg-color-1">
-                    <h4 class="modal-title">Cancel JO</h4>
+                    <h4 class="modal-title">Cancel JOI</h4>
                     <div class="modal-close-area modal-close-df">
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>jo/cancel_jo">
+                <form method="POST" action = "<?php echo base_url();?>joi/cancel_joi">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
-                            <p class="m-b-0">Reason for Cancelling JO:</p>
+                            <p class="m-b-0">Reason for Cancelling JOI:</p>
                             <textarea name="reason" class="form-control"></textarea>
                         </div>
                         <center>       
@@ -49,34 +49,6 @@
                         </center>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-     <div class="breadcome-area mg-b-30 small-dn">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcome-list map-mg-t-40-gl shadow-reset">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <div class="breadcome-heading">
-                                    <form role="search" class="">
-                                        <input type="text" placeholder="Search..." class="form-control">
-                                        <a href=""><i class="fa fa-search"></i></a>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <ul class="breadcome-menu">
-                                    <li><a href="<?php echo base_url(); ?>masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
-                                    </li>
-                                    <li><span class="bread-blod">JO List</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -90,7 +62,7 @@
                         </button>
                     </h5>               
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>jo/create_jo">
+                <form method='POST' action="<?php echo base_url(); ?>joi/create_joi">
                     <div class="modal-body">
                         <div class="">
                             <div class="form-group btn-block m-b-5">
@@ -158,6 +130,39 @@
             </div>
         </div>
     </div>
+
+    <div class="breadcome-area mg-b-30 small-dn">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcome-list map-mg-t-40-gl shadow-reset">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="breadcome-heading">
+                                    <form role="search" class="">
+                                        <input type="text" placeholder="Search..." class="form-control">
+                                        <a href=""><i class="fa fa-search"></i></a>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <ul class="breadcome-menu">
+                                    <li><a href="<?php echo base_url(); ?>masterfile/dashboard">Home</a> <span class="bread-slash">/</span>
+                                    </li>
+                                    <li><a href="<?php echo base_url(); ?>joi/joi_list">JOI List</a> <span class="bread-slash">/</span>
+                                    </li>
+                                    <li><span class="bread-blod">CANCELLED JO List</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
     <div class="admin-dashone-data-table-area">
         <div class="container-fluid">        
             <div class="row">
@@ -165,8 +170,8 @@
                     <div class="sparkline8-list shadow-reset">
                         <div class="sparkline8-hd" style="background: #ff6262">
                             <div class="main-sparkline8-hd">
-                                <h1 class="text-white">CANCELLED JO List</h1>
-                                <small class="text-white">JOB ORDER</small>
+                                <h1 class="text-white">CANCELLED JOI List</h1>
+                                <small class="text-white">JOB ORDER ISSUANCE</small>
                                 <div class="sparkline8-outline-icon">
                                     <h2><span class="fa fa-ban"></span></h2>
                                 </div>
@@ -188,31 +193,24 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php 
-                                        if(!empty($head)){
-                                        foreach($head AS $h){ ?>
                                         <tr>
-                                            <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
-                                            <td><?php echo date('F j, Y', strtotime($h['date_needed'])); ?></td>
+                                            <td></td>
+                                            <td></td>
                                             <td>
-                                                <a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>','<?php echo $h['jo_id']; ?>','<?php echo $h['cenjo_no']; ?>','<?php echo $h['jo_no']; ?>')">
-                                                    <?php echo $h['cenjo_no'] . "/".$h['jo_no'] ."-".COMPANY. (($h['revision_no']!=0) ? ".r".$h['revision_no'] : "");?></a>
+                                                <a class="btn-link txt-primary"></a>
                                             </td>
-                                            <td><?php echo $h['project_title']; ?></td>
-                                            <td><?php echo $h['vendor']; ?></td>
-                                            <td><?php echo $h['cancelled_date']; ?></td>
-                                            <td><?php echo $h['cancelled_reason']; ?></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td>
                                                 <center>
-                                                    <a href="<?php echo base_url(); ?>jo/job_order_saved/<?php echo $h['jo_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance/" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                 </center>
                                             </td>
-
-                                        </tr>  
-                                        <?php } 
-                                    } ?>                
+                                        </tr>              
                                     </tbody>
                                 </table>
                             </div>                           
