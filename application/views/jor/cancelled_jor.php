@@ -50,29 +50,39 @@
                                             <tr>
                                                 <th>JOR NO</th>
                                                 <th>Date Received</th>
-                                                <th>Item</th>
+                                                <th>Scope of Work</th>
                                                 <th>Urgency Number</th>
                                                 <th>Cancelled By</th>
                                                 <th>Reason</th>
                                                 <th><center><span class="fa fa-bars"></span></center></th>
                                             </tr>
                                         </thead>
-                                        <tbody>                                      
+                                        <tbody>
+                                            <?php
+                                                if(!empty($jor_head)){ 
+                                                foreach($jor_head AS $jh){ 
+                                                    if($jh['jor_no']!=''){
+                                                        $jor_no = $jh['jor_no'];
+                                                    }else {
+                                                        $jor_no=$jh['user_jor_no'];
+                                                    }
+                                            ?>                                        
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td ><center></center></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><?php echo $jor_no."-".COMPANY;?></td>
+                                                <td><?php echo $jh['jor_date']; ?></td>
+                                                <td><?php echo $jh['items']; ?></td>
+                                                <td ><center><?php echo $jh['urgency_num']; ?></center></td>
+                                                <td><?php echo $jh['cancelled_by'] . "/" .$jh['cancel_date'] ; ?></td>
+                                                <td><?php echo $jh['cancel_reason']; ?></td>
                                                 <td>
                                                     <center>
-                                                        <a href="<?php echo base_url(); ?>jor/jor_request/" class="btn btn-custon-three btn-warning btn-xs"><span class="fa fa-eye"></span>
+                                                        <a href="<?php echo base_url(); ?>jor/jor_request/<?php echo $jh['jor_id']; ?>" class="btn btn-custon-three btn-warning btn-xs"><span class="fa fa-eye"></span>
                                                         </a>
                                                     </center>
                                                 </td>
                                             </tr>                  
                                         </tbody>
+                                    <?php } } ?>
                                     </table>
                                 </div>                           
                             </div>

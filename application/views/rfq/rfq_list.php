@@ -1,30 +1,31 @@
 
-<script type="text/javascript">
-    $( document ).ready(function() {
-        $("#createAOQ").attr("disabled", true);
-        var $checkboxes = $('input[type="checkbox"]');
-        $checkboxes.change(function(){
-            var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
-            if(countCheckedCheckboxes  > 5){
-               this.checked = false;
-               alert('You can only choose up to 5 RFQs.');
-            } 
-             if(countCheckedCheckboxes  >= 1){
-                $('#createAOQ').removeAttr("disabled");
-             }
-        });
-     });
-
-    $(document).on("click", "#addnotes_button", function () {
-         var rfq_id = $(this).attr("data-id");
-         $("#rfq_id1").val(rfq_id);
-
+   <script type="text/javascript">
+ $( document ).ready(function() {
+    $("#createAOQ").attr("disabled", true);
+    var $checkboxes = $('input[type="checkbox"]');
+    $checkboxes.change(function(){
+        var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
+        if(countCheckedCheckboxes  > 5){
+           this.checked = false;
+           alert('You can only choose up to 5 RFQs.');
+        } 
+         if(countCheckedCheckboxes  >= 1){
+            $('#createAOQ').removeAttr("disabled");
+         }
     });
-    $(document).on("click", ".cancelRFQ", function () {
-         var rfq_id = $(this).attr("data-id");
-         $("#rfq_id").val(rfq_id);
+ });
 
-    });
+$(document).on("click", "#addnotes_button", function () {
+     var rfq_id = $(this).attr("data-id");
+     $("#rfq_id1").val(rfq_id);
+
+});
+$(document).on("click", ".cancelRFQ", function () {
+     var rfq_id = $(this).attr("data-id");
+     $("#rfq_id").val(rfq_id);
+
+});
+
 </script>
 
 
