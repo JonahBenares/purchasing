@@ -88,16 +88,149 @@
 			padding: 3px;
 		}
     </style>
-    
+    <div class="modal fade" id="addscope" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add Scope
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</h5>										
+				</div>
+				<form method='POST' action='<?php echo base_url(); ?>jo/create_jo_details'>
+					<div class="modal-body">
+						<div class="form-group">
+							<p style="font-size: 14px" class="nomarg">Scope:</p>
+							<textarea class="form-control" rows="3" name="scope"></textarea>
+						</div>
+						<div class="row">
+							<div class="col-lg-4">
+								<p style="font-size: 14px" class="nomarg">Qty:</p>
+								<input type="text" class="form-control" name="quantity">
+							</div>
+							<div class="col-lg-4">
+								<p style="font-size: 14px" class="nomarg">U/M:</p>
+								<input type="text" class="form-control" name="uom">
+							</div>
+							<div class="col-lg-4">
+								<p style="font-size: 14px" class="nomarg">Unit Cost:</p>
+								<input type="text" class="form-control" name="unit_cost">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="submit" class="btn btn-primary btn-block" value="Add">
+					</div>
+					<input type="hidden" name='jo_id' value="">
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="addterms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add Terms & Conditions
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</h5>										
+				</div>
+				<form method='POST' action='<?php echo base_url(); ?>joi/create_jo_terms_saved'>
+					<div class="modal-body">
+						<div class="form-group">
+							<p style="font-size: 14px" class="nomarg">Terms & Conditions:</p>
+							<textarea class="form-control" name='terms' rows="3"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="submit" class="btn btn-primary btn-block" value="Add">
+					</div>
+					<input type="hidden" name='joi_id' value="<?php echo $joi_id; ?>">
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update AOQ Terms
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>joi/update_terms_saved">
+						<div class="modal-body">
+							<div class="form-group">
+								Payment:
+								<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>">
+								Item Warranty:
+								<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>">
+								Delivery_item:
+								<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>">
+								Freight:
+								<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>">
+							</div>
+						</div>
+						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
+						<input type='hidden' name='aoq_vendors_id' value='<?php echo $aoq_vendors_id; ?>'>
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="UpdateTerms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Terms & Condition
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>joi/update_condition_saved">
+						<div class="modal-body">
+							<div class="form-group">
+								Terms & Conditions:
+								<input type="text" class="form-control" name="condition" autocomplete="off" id = "terms">
+							</div>
+						</div>
+						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
+						<input type='hidden' name='joi_tc_id' id = "tc_id">
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
     <div  class="pad">
     	<form method='POST' action='<?php echo base_url(); ?>'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
 						<a href="<?php echo base_url(); ?>joi/joi_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
-						<a  href='<?php echo base_url(); ?>joi/jo_issuance_rev/' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JOI</b></u></a>
+						<?php if($draft!=1){ 
+						 		if($revised==0){ ?>
+							<a  href='<?php echo base_url(); ?>joi/jo_issuance_rev/' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JOI</b></u></a>
+						<?php } } ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
+						<?php if($draft!=1){ 
+								if($revised==0){ ?>
 						<a  href="<?php echo base_url(); ?>joi/joi_rfd/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
+						<?php } }?>
 						<a  href="<?php echo base_url(); ?>joi/joi_dr/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
 						<a  href="<?php echo base_url(); ?>joi/joi_ac/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
 						<a  href="<?php echo base_url(); ?>joi/joi_coc/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
@@ -107,7 +240,7 @@
 					<p class="text-white">Instructions: When printing JOB ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;" class=""> <!-- <?php  if($cancelled==1){ echo 'cancel'; }?> -->
+	    	<div style="background: #fff;" class="<?php  if($cancelled==1){ echo 'cancel'; }?>">
 	    		<table width="100%">
 	    			<tr>
 	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
@@ -156,14 +289,15 @@
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4></td></tr>
+		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
 		    			<td class="f13" colspan="10" align="left">
-		    				<b>vendor</b><br>
-		    				<span id='contact_person'>contact_person</span><br>
-		    				<span id='address'>address</span><br>
-		    				<span id='phone'>phone</span><br>
-		    				<span id='fax'>fax</span><br>
+		    				<b><?php echo $h['vendor'];?></b><br>
+		    				<span id='contact_person'><?php echo $h['contact'];?></span><br>
+		    				<span id='address'><?php echo $h['address'];?></span><br>
+		    				<span id='phone'><?php echo $h['phone'];?></span><br>
+		    				<span id='fax'><?php echo $h['fax'];?></span><br>
 		    				<br>
 		    			</td>
 		    			<td colspan="7"></td>
@@ -171,25 +305,25 @@
 		    		
 		    		<tr>
 		    			<td class="f13" colspan="4">Date Needed:</td>
-		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['date_needed']; ?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="5"></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo $h['completion_date']; ?></td>
 		    		</tr>
 
 		    		<tr>
 		    			<td class="f13" colspan="4">Date Prepared:</td>
-		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['date_prepared']; ?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
-		    			<td class="f13 bor-btm" colspan="5"><b></b></td>
+		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $h['cenpri_jo_no']; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="4">Start of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['start_of_work']; ?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo $h['joi_no']."-".COMPANY; ?></td>
 		    		</tr>	
 		    		<!-- <tr>
 		    			<td class="f13" colspan="4">Completion of Work:</td>
@@ -205,7 +339,8 @@
 			    		</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		    		
+		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
+		    		<?php } ?>	    		
 		    		<tr>
 		    		
 		    			<td colspan="20">
@@ -217,13 +352,20 @@
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
+		    					<?php
+					    		$gtotal=array();
+					    		if(!empty($items)){
+					    		foreach($items AS $it){ 
+					    			$gtotal[] = $it->amount;
+				    			?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="right"></td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo $it->offer; ?></td>
+		    						<td class="f13" align="center"><?php echo number_format($it->delivered_quantity,2); ?></td>
+		    						<td class="f13" align="center"><?php echo $it->uom; ?></td>
+		    						<td class="f13" align="center"><?php echo $it->unit_price; ?></td>
+		    						<td class="f13" align="right"><?php echo $it->amount; ?></td>
 		    					</tr>
+		    					<?php } }else { $gtotal=array(); } ?>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
@@ -232,29 +374,40 @@
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    					</tr>
+		    					<?php 
+		    						$grtotal =array_sum($gtotal);
+		    						$subtotal=$grtotal+$vat;
+		    						$grandtotal = ($grtotal+$vat)-$discount;
+		    					?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'></td>
-		    						<td align="right"></td>
+		    						<td colspan='2'>Amount:</td>
+		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'><?php echo $vat_percent; ?>% VAT:</td>
+		    						<td align="right"><?php echo number_format($vat,2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Sub Total:</td>
-		    						<td align="right"></td>
+		    						<td align="right"><?php echo number_format($subtotal,2);?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Less Discount:</td>
-		    						<td align="right"></td>
+		    						<td align="right"><?php echo number_format($discount,2);?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Grand Total:</td>
-		    						<td align="right"></td>
+		    						<td align="right"><?php echo number_format($grandtotal,2); ?></td>
 		    					</tr>
 		    				</table>
 		    			</td>
@@ -262,20 +415,55 @@
 		    		<tr>
 		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
 		    				<b>Terms and Conditions:</b><br>
+		    				<?php $x=1; ?>
+		    				<?php if(!empty($payment_terms)){ 
+		    				echo $x."."; ?> Payment term: <?php echo $payment_terms ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+							 <span class = "fa fa-edit"></span>
+							</button><br>
+		    				<?php $x++; } ?>	
+		    				<?php if(!empty($item_warranty)){ 
+		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+							 <span class = "fa fa-edit"></span>
+							</button><br>
+		    				<?php $x++; } ?>
+		    				<?php if(!empty($delivery_time)){ 
+		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+							 <span class = "fa fa-edit"></span>
+							</button><br>
+		    				<?php $x++; } ?>
+		    				<?php if(!empty($freight)){ 
+		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+							 <span class = "fa fa-edit"></span>
+							</button><br>
+		    				<?php $x++; } ?>
+		    				<?php 
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->tc_desc)){
+			    						echo $x.". " . $t->tc_desc;
+			    				?>
+			    				<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->joi_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+			    					<span class = 'fa fa-edit'></span>
+			    				</a>
+			    				<br>
+			    				<?php
+			    					$x++; 
+			    					}
+		    					} 
+		    				?>
 		    			</td>
 		    			<td colspan="9"></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Conforme:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="center"></td>
+		    			<td class="f13 bor-btm" colspan="7" align="center"><?php echo $conforme; ?></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -301,13 +489,13 @@
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $prepared; ?><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13 bor-btm" colspan="4" align="center"><?php echo $checked; ?><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $recommended; ?><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="3" align="center"><br></td>
+		    			<td class="f13  bor-btm" colspan="3" align="center"><?php echo $approved; ?><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   
 		    		<tr>
@@ -348,7 +536,7 @@
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $verified_by; ?><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>

@@ -299,7 +299,8 @@
 			    			</center>
 		    			</td>
 		    		</tr>
-		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4></td></tr>
+		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4><small class="text-red">DRAFT</small></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3" style="vertical-align:top">TO:</td>
@@ -405,6 +406,11 @@
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    					</tr>
+		    					<?php 
+		    						$grtotal =array_sum($gtotal);
+		    						$subtotal=$grtotal+$vat;
+		    						$grandtotal = ($grtotal+$vat)-$discount;
+		    					?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -415,28 +421,28 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td>VAT %:</td>
-		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly"></td>
+		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' value="<?php echo $vat_percent;?>" onblur='changePrice()'></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo number_format($vat,2);?>"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Subtotal:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' value="<?php echo number_format($subtotal,2); ?>" readonly="readonly"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>Less Discount:</td>
 		    						<td><!-- <input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent'> --></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount'  onblur='changePrice()'></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo number_format($discount,2); ?>" onblur='changePrice()'></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>GRAND TOTAL:</td>
 		    						<td></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="" readonly="readonly"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="<?php echo number_format($grandtotal,2); ?>" readonly="readonly"></td>
 		    					</tr>
 		    				
 		    					
@@ -495,14 +501,14 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>		    			
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Conforme:</td>
-		    			<td class="f13 bor-btm" colspan="7"><input type="text" name="conforme" class="btn-block nobord"></td>
+		    			<td class="f13 bor-btm" colspan="7"><input type="text" name="conforme" style="text-align: center" class="btn-block nobord" value="<?php echo $conforme; ?>"></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -544,7 +550,7 @@
 		    				<select type="text" name="checked_by" class="btn-block">
 		    					<option value=''>-Select-</option>
 		    					<?php foreach($employee AS $emp){ ?>
-				    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    				<option value='<?php echo $emp->employee_id; ?>' <?php echo (($checked_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
 				    			<?php } ?>
 		    				</select>
 		    			</td>
@@ -553,7 +559,7 @@
 		    				<select type="text" name="recommended_by" class="btn-block">
 		    					<option value=''>-Select-</option>
 		    					<?php foreach($employee AS $emp){ ?>
-				    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    				<option value='<?php echo $emp->employee_id; ?>' <?php echo (($recommended_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
 				    			<?php } ?>
 		    				</select>
 		    			</td>
@@ -563,7 +569,7 @@
 		    				<select type="text" name="approved_by" class="btn-block">
 		    					<option value=''>-Select-</option>
 		    					<?php foreach($employee AS $emp){ ?>
-				    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    				<option value='<?php echo $emp->employee_id; ?>' <?php echo (($approved_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
 				    			<?php } ?>
 		    				</select>
 		    			</td>
@@ -604,7 +610,7 @@
 		    				<select type="text" name="verified_by" class="btn-block">
 		    					<option value=''>-Select-</option>
 		    					 <?php foreach($employee AS $emp){ ?>
-                                    <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                                    <option value="<?php echo $emp->employee_id; ?>" <?php echo (($verified_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?>><?php echo $emp->employee_name; ?></option>
 								<?php } ?> 
 		    				</select>
 		    			</td>

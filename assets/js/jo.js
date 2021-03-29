@@ -142,3 +142,71 @@ $(document).on("click", ".cancelJO", function () {
   
 });
 
+function chooseSupplierJO(){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'joi/getsupplierJOI';
+    var supplier = document.getElementById("supplier").value;
+    $.ajax({
+        type: 'POST',
+        url: redirect,
+        data: 'supplier='+supplier,
+        success: function(data){
+            $("#jo_no").html(data);
+        }
+    }); 
+    var redirect1 = loc+'joi/getsupplier';
+    $.ajax({
+        type: 'POST',
+        url: redirect1,
+        data: 'supplier='+supplier,
+        dataType: 'json',
+        success: function(response){
+            document.getElementById("address").innerHTML  = response.address;
+            document.getElementById("phone").innerHTML  = response.phone;
+        }
+    });
+}
+
+function chooseJO(){
+  var loc= document.getElementById("baseurl").value;
+  var redirect = loc+'joi/getJOinformation';
+  var jor_id = document.getElementById("jo_no").value;
+  $.ajax({
+      type: 'POST',
+      url: redirect,
+      data: 'jor_id='+jor_id,
+      dataType: 'json',
+      success: function(response){
+        document.getElementById("project_title").value  = response.purpose;
+        document.getElementById("date_prepared").value  = response.date_prepared;
+        document.getElementById("work_completion").value  = response.completion_date;
+        document.getElementById("jor_aoq_id").value  = response.jor_aoq_id;
+      }
+  }); 
+}
+
+function chooseSupplier(){
+  var loc= document.getElementById("baseurl").value;
+  alert(loc);
+  var redirect = loc+'joi/getsupplier';
+  var supplier = document.getElementById("supplier").value;
+  $.ajax({
+    type: 'POST',
+    url: redirect,
+    data: 'supplier='+supplier,
+    dataType: 'json',
+    success: function(response){
+      document.getElementById("address").innerHTML  = response.address;
+      document.getElementById("phone").innerHTML  = response.phone;
+    }
+  }); 
+}
+
+$(document).on("click", "#updateTerm", function () {
+    var tc_id = $(this).attr("data-id");
+    var terms = $(this).attr("data-name");
+    $("#tc_id").val(tc_id);
+    $("#terms").val(terms);
+  
+});
+
