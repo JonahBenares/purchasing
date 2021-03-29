@@ -45,29 +45,27 @@
                                     <div class="datatable-dashv1-list custom-datatable-overright">
                                         <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                             <thead>
-                                                <tr>
-                                                    <th>AOQ Date</th>
-                                                    <th>PR#</th>
-                                                    <th>Supplier</th>
-                                                    <th>Department</th>
-                                                    <th>Enduse</th>
-                                                    <th>Requestor</th>
-                                                    <th>Cancel Date</th>
-                                                    <th>Cancel Reason</th>
-                                                    <th><center><span class="fa fa-bars"></span></center></th>
-                                                </tr>
+                                            <tr>
+                                                <th>AOQ Date</th>
+                                                <th>JOR #</th>
+                                                <th>Supplier</th>
+                                                <th>Department</th>
+                                                <th>Requestor</th>
+                                                <th width="1%">Status</th>
+                                                <th><center><span class="fa fa-bars"></span></center></th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
+                                                 <?php foreach($heads AS $h){ ?>
+                                        <tr>
+                                            <td><?php echo date('F j, Y', strtotime($h['date'])); ?></td>
+                                            <td><?php echo $h['jor_no']."-".COMPANY; ?></td>
+                                            <td><?php echo $h['supplier']; ?></td>
+                                            <td><?php echo $h['department']; ?></td>
+                                            <td><?php echo $h['requestor']; ?></td>
+                                            <?php if($h['refer_mnl']=='1') { ?>
+                                            <td><span class='label label-primary'> Refer To Manila </span></td>
+                                            <?php } ?>
                                                         <center>
                                                             <a href="<?php echo base_url(); ?>joaoq/joaoq_prnt/" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
                                                                 <span class="fa fa-eye"></span>
@@ -85,7 +83,8 @@
                                                             </a>
                                                         </center>
                                                     </td>
-                                                </tr>                        
+                                                </tr>
+                                                 <?php } ?>                        
                                             </tbody>
                                         </table>
                                     </div>                           

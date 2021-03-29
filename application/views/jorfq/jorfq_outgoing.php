@@ -163,16 +163,23 @@
 	</div> -->
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>jo/save_jo'>  
+    	<form method='POST' action='<?php echo base_url(); ?>jorfq/save_jorfq'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
 						<a href="<?php echo base_url(); ?>jorfq/jorfq_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
-						<!-- <a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
-						<a  href="<?php echo base_url(); ?>jo/jo_rfd" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
+						<?php if($completed==0){ ?>
+						<a href="<?php echo base_url(); ?>jorfq/complete_jorfq/<?php echo $jo_rfq_id; ?>"  class="btn btn-info btn-md p-l-50 p-r-50" onclick="return confirm('Are you sure?')"><span class="fa fa-check"></span> Canvass Complete</a>
+						<?php  } ?>
+						<?php if($saved==1){ ?>
+						<!-- <a href="<?php echo base_url(); ?>jorfq/export_jorfq/<?php echo $jo_rfq_id; ?>" class="btn btn-primary btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Export</a> -->
+						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-50 p-r-50"><span class="fa fa-print"></span> Print</a>
+						<!-- <a  href="<?php echo base_url(); ?>jo/jo_rfd" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
 						<a  href="<?php echo base_url(); ?>jo/jo_dr" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
 						<a  href="<?php echo base_url(); ?>jo/jo_ac" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a> -->
-						<input type='submit' class="btn btn-primary btn-md p-l-25 p-r-25" value="Save">  	
+						<?php } else if($saved==0){ ?>
+						<input type='submit' class="btn btn-primary btn-md p-l-25 p-r-25" value="Save"> 
+						<?php } ?> 	
 					</div>
 					<h4 class="text-white">JO - RFQ</b></h4>
 					<p class="text-white">Instructions: When printing JO - RFQ make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
@@ -347,7 +354,7 @@
 		    		</tr>  
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>    
 		    	</table>		    
-	    	</div>
+	    	<input type='hidden' name='jo_rfq_id' value='<?php echo $jo_rfq_id; ?>'>
     	</form>
     </div>
     <script type="text/javascript">

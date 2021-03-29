@@ -265,18 +265,110 @@ class Joaoq extends CI_Controller {
     }
 
     public function joaoq_cancelled(){
-        $this->load->view('template/header');
+        $this->load->view('template/header');        
         $this->load->view('template/navbar');
-        $this->load->view('joaoq/joaoq_cancelled');
+        $count = $this->super_model->count_custom_where("jor_aoq_head","saved='1' AND served='0' AND cancelled = '1'");
+        if($count!=0){
+            foreach($this->super_model->select_custom_where("jor_aoq_head", "saved='1' and served = '0' AND cancelled = '1'") AS $list){
+                $rows = $this->super_model->count_rows_where("jor_aoq_vendors","jor_aoq_id",$list->jor_aoq_id);
+                $supplier='';
+                $not_recom='';
+                $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
+                if($jo_no!=''){
+                    $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
+                }else{
+                    $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $list->jor_id);
+                 }
+                foreach($this->super_model->select_custom_where("jor_aoq_vendors", "jor_aoq_id='$list->jor_aoq_id'") AS $ven){
+                    foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$list->jor_aoq_id' AND recommended='1' GROUP BY vendor_id") AS $offer){
+                        if($offer->vendor_id==$ven->vendor_id){
+                            $supplier.="<span style='background-color:#b5e61d;'>-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "</span><br> ";
+                            $not_recom .= "vendor_id != '$offer->vendor_id' AND ";
+                        }
+                       
+                    }
+                }
+
+                $not_recom .= " jor_aoq_id='$list->jor_aoq_id' ";
+                foreach($this->super_model->select_custom_where("jor_aoq_vendors", $not_recom) AS $offer1){   
+                    $supplier.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer1->vendor_id). "<br> ";
+                }
+                $data['heads'][]=array(
+                    'jor_aoq_id'=>$list->jor_aoq_id,
+                    'date'=>$list->aoq_date,
+                    'jor_no'=>$jor_no,
+                    'supplier'=>$supplier,
+                    'department'=>$list->department,
+                    'enduse'=>$list->enduse,
+                    'requestor'=>$list->requestor,
+                    'saved'=>$list->saved,
+                    'rows'=>$rows,
+                    'awarded'=>$list->awarded,
+                    'refer_mnl'=>$list->refer_mnl,
+                    'cancel_date'=>$list->cancel_date,
+                    'cancelled_by'=>$this->super_model->select_column_where("users",'fullname','user_id',$list->cancelled_by),
+                    'cancelled_reason'=>$list->cancelled_reason,
+                );
+            }
+        } else {
+            $data['heads']=array();
+        }
+        $this->load->view('joaoq/joaoq_cancelled',$data);
         $this->load->view('template/footer');
     } 
 
     public function joaoq_served(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('joaoq/joaoq_served');
+        $data['heads']=array();
+        $count = $this->super_model->count_rows_where("jor_aoq_head","saved",'1');
+        if($count!=0){
+            foreach($this->super_model->select_custom_where("jor_aoq_head", "saved='1' and served = '1'") AS $list){
+                $rows = $this->super_model->count_rows_where("jor_aoq_vendors","jor_aoq_id",$list->jor_aoq_id);
+                $supplier='';
+                $not_recom='';
+                $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
+                if($jo_no!=''){
+                    $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
+                }else{
+                    $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $list->jor_id);
+                 }
+                foreach($this->super_model->select_custom_where("jor_aoq_vendors", "jor_aoq_id='$list->jor_aoq_id'") AS $ven){
+                    foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$list->jor_aoq_id' AND recommended='1' GROUP BY vendor_id") AS $offer){
+                        if($offer->vendor_id==$ven->vendor_id){
+                            $supplier.="<span style='background-color:#b5e61d;'>-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "</span><br> ";
+                            $not_recom .= "vendor_id != '$offer->vendor_id' AND ";
+                        }   
+                    } 
+                }
+                $not_recom=substr($not_recom, 0, -4);
+                  // echo $not_recom;
+                $not_recom .= " AND jor_aoq_id='$list->jor_aoq_id'";
+                foreach($this->super_model->select_custom_where("jor_aoq_vendors", $not_recom) AS $offer1){        
+                    $supplier.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer1->vendor_id). "<br> ";
+                 }
+                // echo $supplier;
+               // $sup = substr($supplier, 0, -2);
+                $data['heads'][]=array(
+                    'jor_aoq_id'=>$list->jor_aoq_id,
+                    'date'=>$list->aoq_date,
+                    'jor_no'=>$jor_no,
+                    'supplier'=>$supplier,
+                    'department'=>$list->department,
+                    'enduse'=>$list->enduse,
+                    'requestor'=>$list->requestor,
+                    'saved'=>$list->saved,
+                    'rows'=>$rows,
+                    'awarded'=>$list->awarded,
+                    'refer_mnl'=>$list->refer_mnl
+                );
+            }
+        }else {
+            $data['heads']=array();
+        }
+        $this->load->view('joaoq/joaoq_served',$data);
         $this->load->view('template/footer');
-    } 
+    }
 
     public function joaoq_prnt(){
         $jor_aoq_id= $this->uri->segment(3);
@@ -670,6 +762,22 @@ class Joaoq extends CI_Controller {
             if($count_vendors<=3){
                  redirect(base_url().'joaoq/joaoq_prnt/'.$aoq_id);
             }
+        }
+    }
+
+    public function cancel_joaoq(){
+        $jor_aoq_id=$this->input->post('jor_aoq_id');
+        $reason=$this->input->post('reason');
+        $create = date('Y-m-d H:i:s');
+        $data = array(
+            'cancelled'=>1,
+            'cancelled_by'=>$_SESSION['user_id'],
+            'cancelled_reason'=>$reason,
+            'cancel_date'=>$create
+        );
+
+        if($this->super_model->update_where("jor_aoq_head", $data, "jor_aoq_id", $jor_aoq_id)){
+            redirect(base_url().'joaoq/joaoq_list', 'refresh');
         }
     }
 

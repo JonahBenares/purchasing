@@ -1,3 +1,9 @@
+   <script type="text/javascript">
+    $(document).on("click", ".cancelAOQ", function () {
+         var jor_aoq_id = $(this).data('id');
+         $(".modal #jor_aoq_id").val(jor_aoq_id);
+    });
+</script>
     <script src="<?php echo base_url(); ?>assets/js/aoq.js"></script> 
     <div id="cancelAOQ" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
@@ -8,14 +14,14 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>aoq/cancel_aoq">
+                <form method="POST" action = "<?php echo base_url();?>joaoq/cancel_joaoq">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Reason for Cancelling AOQ:</p>
                             <textarea name="reason" class="form-control"></textarea>
                         </div>
                         <center>       
-                            <input type = "hidden" id='aoq_id' name='aoq_id' >        
+                            <input type = "hidden" id='jor_aoq_id' name='jor_aoq_id' >        
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
                         </center>
                     </div>
@@ -125,7 +131,7 @@
                                                         <span class="fa fa-archive"></span>
                                                     </a>
 
-                                                    <a class="cancelAOQ btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelAOQ" data-id=" "><span class="fa fa-ban" title="Cancel"></span></a>
+                                                    <a class="cancelAOQ btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelAOQ" data-id="<?php echo $h['jor_aoq_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </center>
                                             </td>
                                         </tr>  

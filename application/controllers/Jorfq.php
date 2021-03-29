@@ -260,6 +260,36 @@ class Jorfq extends CI_Controller {
         }
 
     }
+
+    public function save_jorfq(){
+        $jorfq_id = $this->input->post('jorfq_id');
+        /*$notes = $this->input->post('notes');
+        $due = $this->input->post('due');
+        $noted = $this->input->post('noted');
+        $approved = $this->input->post('approved');*/
+        $data = array(
+            /*'notes'=>$notes,
+            'quotation_date'=>$due,
+            'noted_by'=>$noted,
+            'approved_by'=>$approved,*/
+            'saved'=>1,
+            //'prepared_by'=>$_SESSION['user_id']
+        );
+        if($this->super_model->update_where("jo_rfq_head", $data, "jo_rfq_id", $jo_rfq_id)){
+             redirect(base_url().'jorfq/jorfq_outgoing/'.$jo_rfq_id);
+        }
+
+    }
+
+    public function complete_jorfq(){
+         $jo_rfq_id=$this->uri->segment(3);
+          $data = array(
+            'completed'=>1
+          );
+        if($this->super_model->update_where("jo_rfq_head", $data, "jo_rfq_id", $jo_rfq_id)){
+             redirect(base_url().'jorfq/jo_rfq_list/', 'refresh');
+        }
+    }
     
 }
 
