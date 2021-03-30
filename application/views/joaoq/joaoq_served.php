@@ -65,9 +65,19 @@
                                             <td><?php echo $h['requestor']; ?></td>
                                             <?php if($h['refer_mnl']=='1') { ?>
                                             <td><span class='label label-primary'> Refer To Manila </span></td>
-                                            <?php } ?>
+                                            <?php }else { ?>
+                                            <td>
+                                                <?php  
+                                                    if($h['saved'] == '1' && $h['awarded'] =='0') { 
+                                                        echo "<span class='label label-warning'> For TE </span>";
+                                                    } else if($h['saved'] == '1' && $h['awarded'] =='1'){
+                                                        echo "<span class='label label-success'>Awarded</span";
+                                                    }
+                                                ?>
+                                            </td>
+                                            <td>
                                                         <center>
-                                                            <a href="<?php echo base_url(); ?>joaoq/joaoq_prnt/" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
+                                                            <a href="<?php echo base_url(); ?>joaoq/joaoq_prnt/<?php echo $h['jor_aoq_id'];?>" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
                                                                 <span class="fa fa-eye"></span>
                                                             </a>
 
@@ -79,12 +89,12 @@
                                                                 <span class="fa fa-eye"></span>
                                                             </a> -->
 
-                                                            <a href="<?php echo base_url(); ?>joaoq/refer_mnl/" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL"><span class="fa fa-location-arrow"></span>
-                                                            </a>
+                                                            <!-- <a href="<?php echo base_url(); ?>joaoq/refer_mnl/<?php echo $h['jor_aoq_id'];?>" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL"><span class="fa fa-location-arrow"></span>
+                                                            </a> -->
                                                         </center>
                                                     </td>
                                                 </tr>
-                                                 <?php } ?>                        
+                                                 <?php } } ?>                        
                                             </tbody>
                                         </table>
                                     </div>                           

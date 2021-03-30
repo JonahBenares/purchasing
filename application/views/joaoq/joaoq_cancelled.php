@@ -89,8 +89,9 @@
                                                         <a href="<?php echo base_url(); ?>joaoq/joaoq_prnt_five/" target = "_blank" class="btn btn-custon-three btn-warning btn-xs" >
                                                             <span class="fa fa-eye"></span>
                                                         </a> -->
-
-                                                        <a href="<?php echo base_url(); ?>joaoq/refer_mnl/" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL"><span class="fa fa-location-arrow"></span>
+                                                        <?php if($h['refer_mnl']=='0' && $h['saved'] == '1' && $h['awarded'] =='0') { ?>
+                                                        <a href="<?php echo base_url(); ?>joaoq/refer_mnl/<?php echo $h['jor_aoq_id'];?>" class="btn btn-custon-three btn-primary btn-xs"  onclick="return confirm('Are you sure?')" title="Refer To MNL"><span class="fa fa-location-arrow"></span>
+                                                            <?php } ?>
                                                         </a>
                                                     </center>
                                                 </td>
