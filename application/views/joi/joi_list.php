@@ -1,4 +1,6 @@
     <script src="<?php echo base_url(); ?>assets/js/jo.js"></script> 
+    <link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
+    <script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
     <div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="approveLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -52,7 +54,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="add_jo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="add_jo" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -65,10 +67,17 @@
                 <form method='POST' action="<?php echo base_url(); ?>joi/create_joi">
                     <div class="modal-body">
                         <div class="">
+                            <div class="form-group">
+                                <p class="m-b-0">Date:</p>
+                                <input type="date" name="joi_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control">
+                            </div>
                             <div class="form-group btn-block m-b-5">
                                 TO:
-                                <select name='vendor' id='vendor' onchange="chooseVendor()" class='form-control'>
+                                <select name='vendor' id='supplier' onchange="chooseSupplierJO()" class='form-control selectpicker' data-live-search="true">
                                 <option value=''>-Select Vendor-</option>
+                                <?php foreach($vendor AS $ven){ ?>
+                                <option value='<?php echo $ven->vendor_id; ?>'><?php echo $ven->vendor_name; ?></option>
+                            <?php } ?>
                             </select>
                             </div>
                             <div class="row">
@@ -77,6 +86,20 @@
                             </div>
                             <br>
                             <div class="row">
+                                <div class = "col-md-6">
+                                    <div class="form-group btn-block">
+                                        JO No.:
+                                        <select name="jo_no" id='jo_no' onchange="chooseJO()" style = 'width:100%;' class="form-control select2"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6"> 
+                                    <div class="form-group btn-block">
+                                       <?php echo JO_NAME;?> JO No.:
+                                        <input type="Text" name="cenjo_no" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group btn-block">
                                         Date Needed:
@@ -84,7 +107,7 @@
                                     </div>
                                     <div class="form-group btn-block">
                                         Date Prepared:
-                                        <input type="date" name="date_prepared" id="date_prepared" class="form-control" onchange="getJO()" >
+                                        <input type="date" name="date_prepared" id="date_prepared" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -94,31 +117,18 @@
                                     </div>
                                     <div class="form-group btn-block">
                                        Completion of Work:
-                                        <input type="date" name="work_completion" class="form-control">
+                                        <input type="date" name="work_completion" id="work_completion" class="form-control">
                                     </div>
                                 </div>
                             </div> 
-                            <div class="row">
-                                <div class="col-md-6"> 
-                                    <div class="form-group btn-block">
-                                       <?php echo JO_NAME;?> JO No.:
-                                        <input type="Text" name="cenjo_no" class="form-control">
-                                    </div>
-                                </div>
-                                <div class = "col-md-6">
-                                    <div class="form-group btn-block">
-                                        JO No.:
-                                        <input type="Text" name="jo_no" id="jo_no"  class="form-control" readonly="readonly">
-                                    </div>
-                                </div>
-                            </div>
                             <div class="form-group btn-block">
                                 Project Title/Description:
-                                <textarea name="project_title" class="form-control"></textarea>
+                                <textarea name="project_title" id="project_title" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <input type="hidden" name="jor_aoq_id" id="jor_aoq_id">
                         <input type="submit" class="btn btn-primary btn-block" value="Proceed">                        
                     </div>
                     <input type='hidden' name='baseurl' id='baseurl' value="<?php echo base_url(); ?>">
@@ -221,4 +231,7 @@
             </div>
         </div>
     </div>
+    <script>
+        $('.select2').select2();
+    </script>
     <!-- Data table area End-->

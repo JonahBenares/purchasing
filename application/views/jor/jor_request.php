@@ -2,7 +2,26 @@
 $letters = range('A', 'Z');
 $ci =& get_instance();
 ?>
+<script type="text/javascript">
+    $(document).on("click", ".cancelItem", function () {
+         var items_id = $(this).data('id');
+         var jor = document.getElementById("jor").value;
+         $(".modal #items_id").val(items_id);
+         $(".modal #jor").val(jor);
+    });
 
+    $(document).on("click", ".regroupItem", function () {
+         var jor_items_id = $(this).data('id');
+         $(".modal #jor_items_id").val(jor_items_id);
+    });
+
+     $(document).on("click", ".addVendor", function () {
+         var group = $(this).data('group');
+         var id = $(this).data('id');
+         $(".modal #group").val(group);
+         $(".modal #jor_items_id").val(id);
+    });
+</script>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -42,15 +61,18 @@ $ci =& get_instance();
                         <a class="close" data-dismiss="modal" style="background: green" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>pr/regroup_item">
+                <form method="POST" action = "<?php echo base_url();?>jor/regroup_item">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Regroup:</p>
                             <select class="form-control text-black" name='grouping'>
                                 <option value='' selected="selected">-Select Group-</option>
+                                <?php foreach($ci->createColumnsArray('ZZ') AS $let){ ?>
+                                <option value='<?php echo $let; ?>'><?php echo $let; ?></option>
+                                <?php } ?>
                             </select>
-                            <input type = "hidden" name = "pr_det_id" id = "pr_det_id">
-                             <input type='hidden' name='pr' id = "pr" value='<?php echo $pr_id; ?>'>
+                            <input type = "hidden" name = "jor_items_id" id = "jor_items_id">
+                             <input type='hidden' name='jor' id = "jor" value='<?php echo $jor_id; ?>'>
                         </div>
                         <center>              
                             <input type = "submit" class="btn btn-custon-three btn-success btn-block" value = "Save">
@@ -69,15 +91,15 @@ $ci =& get_instance();
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>pr/cancel_item">
+                <form method="POST" action = "<?php echo base_url();?>jor/cancel_item">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">Reason for Cancelling Item:</p>
                             <textarea name="reason" class="form-control"></textarea>
                         </div>
                         <center>       
-                            <input type='hidden' name='pr' id = "pr" value='<?php echo $pr_id; ?>'>
-                            <input type = "hidden" id='details_id' name='details_id' >                 
+                            <input type='hidden' name='jor' id = "jor" value='<?php echo $jor_id; ?>'>
+                            <input type = "hidden" id='items_id' name='items_id' >                 
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
                         </center>
                     </div>
@@ -95,13 +117,16 @@ $ci =& get_instance();
                         </button>
                     </h5>                    
                 </div>
-                <form method='POST' action='<?php echo base_url(); ?>pr/add_vendor_rfq'>
+                <form method='POST' action='<?php echo base_url(); ?>jor/add_vendor_jorfq'>
                 <div class="modal-body">
                     <div class="form-group">
                         <p class="m-b-0">Vendor:</p>
                         <select class="form-control" name='vendor'>
                             <option value='' selected="selected">-Choose Vendor-</option>
-                        </select>                        
+                            <?php foreach($vendor AS $ven){ ?>
+                                <option value='<?php echo $ven->vendor_id; ?>'><?php echo $ven->vendor_name; ?></option>
+                            <?php } ?>
+                        </select>                     
                     </div>
                     <div class="form-group">
                         <p class="m-b-0">Due Date:</p>
@@ -111,18 +136,25 @@ $ci =& get_instance();
                         <p class="m-b-0">Noted by:</p>
                         <select class="form-control" name='noted'>
                              <option value='' selected="selected">-Choose Employee-</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select> 
                     </div>
                     <div class="form-group">
                         <p class="m-b-0">Approved by:</p>
                         <select class="form-control" name='approved'>
                              <option value='' selected="selected">-Choose Employee-</option>
-                        </select> 
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select>  
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+                    <input type='hidden' name='jor_id' value='<?php echo $jor_id; ?>'>
                     <input type='hidden' name='group' id='group' >
-                    <input type='hidden' name='pr_details_id' id='pr_details_id' >
+                    <input type='hidden' name='jor_items_id' id='jor_items_id' >
                 <input type="submit" class="btn btn-primary btn-block" value="Create RFQ">
                 </div>
             </div>
@@ -182,7 +214,6 @@ $ci =& get_instance();
                                             <td><i>Purpose:</i></td>
                                             <td colspan="3"><b class="capital"><?php echo $jh->purpose; ?></b></td>
                                         </tr>
-                                        
                                     </table>
                                     <table class="table table-bordered">
                                         <thead>
@@ -194,9 +225,44 @@ $ci =& get_instance();
                                                 <th>Unit Cost</th>
                                                 <th>Total Cost</th>
                                                 <th>Group</th>
+                                                <th>Vendor</th>
+                                                <?php if($cancelled==0){ ?>
+                                                <th><center><span class="fa fa-bars"></span></center></th>
+                                                <?php } else { ?>
+                                                <th>Cancelled By / Cancelled Date</th>
+                                                <?php } ?>
+                                            </tr>
                                         </thead>     
                                         <tbody>
-                                            <?php $x=1; foreach($jo_items AS $ji){ ?>
+                                            <?php 
+                                            $x=1; 
+                                            if(!empty($jo_items)){
+                                            foreach($jo_items AS $ji){ ?>
+                                            <?php if($ji['cancelled']==1){ ?>
+                                            <tr class="tr-red">
+                                                <td><?php echo $x; ?></td>
+                                                <td><?php echo $ji['scope_of_work'];?></td>
+                                                <td><?php echo $ji['quantity']; ?></td>
+                                                <td><?php echo $ji['uom']; ?></td>
+                                                <td><?php echo $ji['unit_cost']; ?></td>
+                                                <td><?php echo $ji['total_cost']; ?></td>
+                                                <?php if(empty($jor_no)){ ?>
+                                                <td style="padding: 0px!important" class="bor-red">
+                                                    <select class="form-control text-black"  name='group<?php echo $x; ?>' required>
+                                                        <option value='' selected="selected">-Select Group-</option>
+                                                        <?php foreach($ci->createColumnsArray('ZZ') AS $let){ ?>
+                                                        <option value='<?php echo $let; ?>' <?php echo ($ji['grouping_id'] == $let) ? ' selected' : ''; ?>><?php echo $let; ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </td>
+                                                <td></td>
+                                                <?php }else { ?>
+                                                <td align="center"><?php echo $ji['grouping_id']; ?></td>
+                                                <td><?php echo $ji['vendor']; ?></td>
+                                                <?php } ?>
+                                                <td align="center"><?php echo $ji['cancelled_reason'] . " by ". $ji['cancelled_by']." /".date('m.d.y', strtotime($ji['cancelled_date']));?></td>
+                                            </tr>
+                                            <?php } else { ?>
                                             <tr>
                                                 <td><?php echo $x; ?></td>
                                                 <td><textarea class="form-control" rows="10"><?php echo $ji['scope_of_work'];?></textarea></td>
@@ -204,6 +270,7 @@ $ci =& get_instance();
                                                 <td><?php echo $ji['uom']; ?></td>
                                                 <td><?php echo $ji['unit_cost']; ?></td>
                                                 <td><?php echo $ji['total_cost']; ?></td>
+                                                <?php if($saved==0){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
                                                     <select class="form-control" name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>
@@ -212,14 +279,25 @@ $ci =& get_instance();
                                                         <?php } ?>
                                                     </select>
                                                 </td>
-                                                <input type='hidden' name='jor_items_id<?php echo $x; ?>' value="<?php echo $ji['jor_items_id']; ?>">
+                                                <td></td>
+                                                <?php }else { ?>
+                                                <td align="center"><?php echo $ji['grouping_id']; ?></td>
+                                                <td><?php echo $ji['vendor']; ?></td>
+                                                <?php } ?>
+                                                <td align="center">
+                                                    <a href="" class="regroupItem btn btn-xs btn-success btn-custon-three" data-toggle="modal" data-target="#regroup_g" title="Regroup" data-group="" data-id="<?php echo $ji['jor_items_id']; ?>"><span class="fa fa-object-group"> </span></a>
+                                                    <?php if($ji['grouping_id']!=''){ ?>
+                                                    <a href="" class="addVendor btn btn-xs btn-warning btn-custon-three" data-toggle="modal" data-target="#exampleModal" title="Add Vendor" data-group="<?php echo $ji['grouping_id']; ?>" data-id="<?php echo $ji['jor_items_id']; ?>"><span class="fa fa-shopping-cart"> </span></a>
+                                                    <?php } ?>
+                                                    <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $ji['jor_items_id']; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
+                                                </td>
                                             </tr>
-                                            <?php $x++; } ?>
+                                                <input type='hidden' name='jor_items_id<?php echo $x; ?>' value="<?php echo $ji['jor_items_id']; ?>">
+                                            <?php $x++; } } } } ?>
                                         </tbody>                                   
                                     </table>
                                     <input type='hidden' name='count_item' value="<?php echo $x; ?>">
                                     <input type='hidden' name='jor_id' value='<?php echo $jor_id; ?>'>
-                                    <?php } ?>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
@@ -227,15 +305,24 @@ $ci =& get_instance();
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach($jo_notes AS $jn){ ?>
+                                            <?php 
+                                                foreach($jo_notes AS $jn){ 
+                                                    if($cancelled==0){
+                                            ?>
                                             <tr>
                                                 <td style="padding: 0px"><textarea class="form-control"><?php echo $jn->notes;?></textarea></td>
                                             </tr>
-                                            <?php } ?>
+                                            <?php } else{ ?>
+                                             <tr class="tr-red">
+                                                <td style="padding: 0px;height: 50px"><?php echo $jn->notes;?></td>
+                                            </tr>
+                                            <?php }  } ?>
                                         </tbody>
                                     </table>
                                     <center>
+                                        <?php if($saved==0){ ?>
                                         <input type='submit' name='save_groupings' value='Save Groupings' class="btn btn-primary btn-md p-l-100 p-r-100">
+                                        <?php } ?>
                                     </center>
                                 </form>
                             </div>

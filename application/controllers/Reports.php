@@ -5801,8 +5801,8 @@ class Reports extends CI_Controller {
                 }
             }
         }
+        $data["pending_pr"]=array();
 
-       $data["pending_pr"]=array();
        $result= array_unique($pending);
        foreach($result AS $res){
         $pr_id= $this->super_model->select_column_where("pr_details","pr_id","pr_details_id",$res);

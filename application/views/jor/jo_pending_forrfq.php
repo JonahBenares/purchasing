@@ -1,9 +1,9 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/pr.js"></script>
     <script type="text/javascript">
         $(document).on("click", "#updateDP_button", function () {
-            var pr_ids= $(this).attr("data-id");
+            var jor_ids= $(this).attr("data-id");
             var group_id = $(this).attr("data-trigger");
-            $("#pr_ids").val(pr_ids);
+            $("#jor_ids").val(pr_ids);
             $("#group_id").val(group_id);
         });
 
@@ -70,22 +70,30 @@
                                     <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-resizable="true" data-toolbar="#toolbar" >
                                         <thead>
                                             <th ><span class="btn-block">JOR No.</span></th>
-                                            <th width="10%"></th>                                        
+                                            <th width="10%"></th>   
+                                            <?php if(!empty($head)){ foreach($head as $h){ ?>                                     
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><span class="btn btn-block"></span></td>
+                                                <td><span class="btn btn-block"><?php echo $h['jor_no']."-".COMPANY; ?></span></td>
                                                 <td>
                                                     <table>                                                  
                                                         <tr>
-                                                            <td width="15%"><a href="" ></a><h3 class="m-b-0"><b></b></h3></td>
-                                                            <td width="30%"></td>
-                                                            <td width="30%"></td>
+                                                            <td width="15%"><a href="" ></a><h3 class="m-b-0"><b><?php echo 'Group ' . $h['group']; ?></b></h3></td>
+                                                            <td width="30%"><?php echo nl2br($h['item']); ?></td>
+                                                            <td width="30%"><?php echo $h['vendor']; ?></td>
                                                             <td width="15%"> 
                                                             <center>
                                                                 <div class="btn-group">
-                                                                    <a href="" onclick="" class="btn btn-warning btn-sm " title="Choose Vendor">CV</a>
-                                                                    <a class="btn btn-primary btn-sm" id = "RfqSend" data-toggle="modal" data-target="#modalRfq" data-id = "" data-group= "">RFQ</a>
+                                                                    <div class="btn-group">
+                                                                    <?php if(empty($h['vendor'])){ ?>
+                                                                        <a href="" onclick="choose_vendor('<?php echo base_url(); ?>', '<?php echo $h['group']; ?>','<?php echo $h['jor_id']; ?>')" class="btn btn-warning btn-sm " title="Choose Vendor">CV</a>                                                           
+                                                                    <?php } else { ?>
+                                                                        <!-- <input type='text' name='pr_id' value='<?php echo $h['pr_id']; ?>'>
+                                                                        <input type='text' name='group' value='<?php echo $h['group']; ?>'> -->
+                                                                        <!-- <input type='submit' class="btn btn-primary btn-sm" value='RFQ' title="Create RFQ" onclick="return confirm('Are you sure you want to create RFQ?')"> -->
+                                                                        <a class="btn btn-primary btn-sm" id = "RfqSend" data-toggle="modal" data-target="#modalRfq" data-id = "<?php echo $h['jor_id']; ?>" data-group= "<?php echo $h['group']; ?>">RFQ</a>
+                                                                    <?php } ?>
                                                                     <a class="btn btn-info btn-sm" title="Direct Purchase" id="updateDP_button" data-id="" data-trigger="" data-toggle="modal" data-target="#directpurch">DP</a>
                                                                     <a href=""  data-toggle="modal" id="updateRO_button" data-id="" data-trigger="" data-target="#repord" class="btn btn-success btn-sm" title="Repeat Order">RO</a>
                                                                 </div>
@@ -95,6 +103,7 @@
                                                     </table>
                                                 </td>
                                             </tr> 
+                                              <?php } } ?>   
                                         </tbody>             
                                     </table>
                                 <!-- </form> -->
@@ -105,6 +114,11 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        function choose_vendor(baseurl, group, jor_id) {
+            window.open(baseurl+"jor/choose_vendor/"+jor_id+"/"+group, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=800,height=500");
+        }
+    </script>
     <!-- Data table area End-->
     <div class="modal fade" id="modalRfq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">

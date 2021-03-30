@@ -16,7 +16,7 @@
                                 <ul class="breadcome-menu">
                                     <li><a href="<?php echo base_url(); ?>">Home</a> <span class="bread-slash">/</span>
                                     </li>
-                                    <li><a href="<?php echo base_url(); ?>index.php/aoq/aoq_list">AOQ List </a> <span class="bread-slash">/</span></li>
+                                    <li><a href="<?php echo base_url(); ?>index.php/joaoq/joaoq_list">AOQ List </a> <span class="bread-slash">/</span></li>
                                     <li><span class="bread-blod">Cancelled AOQ List</span>
                                     </li>
                                 </ul>
