@@ -314,7 +314,8 @@ class Reports extends CI_Controller {
                     $cancel_reason = $this->super_model->select_column_where('po_head', 'cancel_reason', 'po_id', $po_id);
                     $cancel_date = $this->super_model->select_column_where('po_head', 'cancelled_date', 'po_id', $po_id);
                     $statuss = "Cancelled";
-                    $status .= "Cancelled";
+                    //$status .= "Cancelled";
+                    $status .= "Pending";
                     $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
                 } else {
 
