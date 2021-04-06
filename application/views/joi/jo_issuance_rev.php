@@ -263,12 +263,14 @@
 	                                    <option value="<?php echo $sup->vendor_id; ?>" <?php echo (($vendor_id == $sup->vendor_id) ? ' selected' : '');?>><?php echo $sup->vendor_name; ?></option>
 	                                <?php } ?>  
 	                            </select> -->
-	                            <b><?php echo $vendor; ?></b><br>
-	                            <span id='contact_person'><?php echo $contact_person; ?></span><br>
-	                            <span id='address'><?php echo $address; ?></span><br>
-			    				<span id='phone'><?php echo $phone; ?></span><br>
-			    				<span id='fax'><?php echo $fax; ?></span><br>
-			    				<input type="hidden" name="vendor" value="<?php echo $vendor_id;?>" style = "width: 100%">
+	                            <?php foreach($head AS $h){ ?>
+	                            <b><?php echo $h['vendor']; ?></b><br>
+	                            <span id='contact_person'><?php echo $h['contact_person']; ?></span><br>
+	                            <span id='address'><?php echo $h['address']; ?></span><br>
+			    				<span id='phone'><?php echo $h['phone']; ?></span><br>
+			    				<span id='fax'><?php echo $h['fax']; ?></span><br>
+			    				<input type="hidden" name="vendor" value="<?php echo $h['vendor_id'];?>" style = "width: 100%">
+			    				<?php } ?>
 			    				<!-- <b><?php echo $vendor; ?></b><br>
 			    				<span id='address'><?php echo $address; ?></span><br>
 			    				<span id='phone'><?php echo $phone; ?></span><br> -->
@@ -310,22 +312,24 @@
 		    			<tr>
 			    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
 			    			<td class="f13" colspan="10" align="left">
-			    				<b><?php echo $vendor; ?></b><br>
-			    				<span id='contact_person'><?php echo $contact_person; ?></span><br>
-			    				<span id='address'><?php echo $address; ?></span><br>
-			    				<span id='phone'><?php echo $phone; ?></span><br>
-			    				<span id='fax'><?php echo $fax; ?></span><br>
-			    				<input type="hidden" name="vendor" value="<?php echo $vendor_id;?>" style = "width: 100%">
+			    				<?php foreach($head AS $h){ ?>
+	                            <b><?php echo $h['vendor']; ?></b><br>
+	                            <span id='contact_person'><?php echo $h['contact_person']; ?></span><br>
+	                            <span id='address'><?php echo $h['address']; ?></span><br>
+			    				<span id='phone'><?php echo $h['phone']; ?></span><br>
+			    				<span id='fax'><?php echo $h['fax']; ?></span><br>
+			    				<input type="hidden" name="vendor" value="<?php echo $h['vendor_id'];?>" style = "width: 100%">
+			    				<?php } ?>
 			    				<br>
 			    			</td>
 			    			<td colspan="7"></td>
 			    		</tr>
 			    		<tr>
 			    			<td class="f13" colspan="4">Date Needed:</td>
-			    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_needed));?></td>
+			    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_needed_temp));?></td>
 			    			<td class="f13" colspan="1"></td>
 			    			<td class="f13" colspan="3">Completion of Work:</td>
-			    			<td class="f13 bor-btm" colspan="5"><?php echo date('F j, Y', strtotime($work_completion));?></td>
+			    			<td class="f13 bor-btm" colspan="5"><?php echo date('F j, Y', strtotime($completion_date_temp));?></td>
 			    		</tr>
 
 			    		<tr>
@@ -333,11 +337,11 @@
 			    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_prepared));?></td>
 			    			<td class="f13" colspan="1"></td>
 			    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
-			    			<td class="f13 bor-btm" colspan="5"><b><?php echo $cenjo_no; ?></b></td>
+			    			<td class="f13 bor-btm" colspan="5"><b><?php echo $cenjo_no_temp; ?></b></td>
 			    		</tr>
 			    		<tr>
 			    			<td class="f13" colspan="4">Start of Work:</td>
-			    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($start_of_work));?></td>
+			    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($start_of_work_temp));?></td>
 			    			<td class="f13" colspan="1"></td>
 			    			<td class="f13" colspan="3">JO. No:</td>
 			    			<td class="f13 bor-btm" colspan="5"><?php echo $joi_no."-".COMPANY; ?></td>
@@ -345,7 +349,7 @@
 			    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	 
 				    	<tr>
 			    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
-				    			<h5 style="margin: 5px"><b><?php echo $project_title;?></b></h5>
+				    			<h5 style="margin: 5px"><b><?php echo $project_title_temp;?></b></h5>
 				    		</td>
 			    		</tr>
 			    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
@@ -366,8 +370,8 @@
 		    					<?php 
 		    						$x=1; 
 		    						if($revised==0){
-		    							if(!empty($details)){
-			    							foreach($details AS $det){ 
+		    							if(!empty($items)){
+			    							foreach($items AS $det){ 
 			    								$gtotal2[] = $det->amount;
 		    					?>
 		    					<tr>
@@ -393,7 +397,7 @@
 		    					</tr>
 		    					<?php 
 		    						$y=1; 
-		    						foreach($terms AS $n){ 
+		    						foreach($tc AS $n){ 
 		    							if($n->notes!=''){
 		    					?>
 		    					<tr>
@@ -411,8 +415,8 @@
 		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
 
 		    					<?php }else { $gtotal2=array(); } }else {
-		    						if(!empty($details)){
-		    						foreach($details_temp AS $det){ 
+		    						if(!empty($items_temp)){
+		    						foreach($items_temp AS $det){ 
 			    						$gtotal2[] = $det->amount;
 		    					?>
 		    					<tr>
@@ -436,7 +440,7 @@
 		    					</tr>
 		    					<?php 
 		    						$y=1; 
-		    						foreach($terms_temp AS $n){ 
+		    						foreach($tc_temp AS $n){ 
 		    							if($n->notes!=''){
 		    					?>
 		    					<tr>
@@ -474,9 +478,10 @@
 		    						<td class="f13" align="center"></td>
 		    					</tr>
 		    					<?php 
-		    						$sum_cost = array_sum($gtotal2);
-		    						$subtotal= $sum_cost + $vat_amount; 
-		    						$grandtotal = ($sum_cost+$vat_amount)-$discount;
+		    						if($revised==0){ 
+			    						$sum_cost = array_sum($gtotal2);
+			    						$subtotal= $sum_cost + $vat_amount; 
+			    						$grandtotal = ($sum_cost+$vat_amount)-$discount;
 		    					?>
 		    					<tr>
 		    						<td></td>
@@ -504,13 +509,44 @@
 		    						
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount;?>" onblur='changePrice()'></td>
 		    					</tr>
+		    					<?php } else { 
+		    						$sum_cost = array_sum($gtotal2);
+		    						$subtotal= $sum_cost + $vat_temp; 
+		    						$grandtotal = ($sum_cost+$vat_temp)-$discount_temp;
+	    						?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>Amount:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo number_format($sum_cost,2);?>" readonly="readonly"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td>VAT %:</td>
+		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent_temp;?>"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_temp;?>"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>Subtotal:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" value="<?php echo $subtotal;?>"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>Less Discount:</td>
+		    						
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount_temp;?>" onblur='changePrice()'></td>
+		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>GRAND TOTAL:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="<?php echo $grandtotal;?>" readonly="readonly"></td>
 		    					</tr>
-		    				
 		    				</table>
 		    			</td>
 		    		</tr>
@@ -565,13 +601,13 @@
 		    				<?php $x++; } ?>
 		    				<?php 
 		    					if($revised==0){
-		    					foreach($terms AS $t){ 
+		    					foreach($tc AS $t){ 
 		    						if(!empty($t->tc_desc)){
 			    						echo $x.". " . $t->tc_desc;
 			    			?>
 			    			<br>
 		    				<?php $x++; } } } else { 
-			    					foreach($terms_temp AS $t){
+			    					foreach($tc_temp AS $t){
 				    					if(!empty($t->tc_desc)){
 					    					echo $x.". " . $t->tc_desc;
 					    				}
