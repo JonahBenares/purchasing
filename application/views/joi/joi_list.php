@@ -11,7 +11,7 @@
                         </button>
                     </h5>                    
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>jo/approve_revision">
+                <form method='POST' action="<?php echo base_url(); ?>joi/approve_revision">
                     <div class="modal-body">
                         <div class="form-group">
                             <p class="m-b-0">Approved by:</p>
@@ -46,7 +46,7 @@
                             <textarea name="reason" class="form-control"></textarea>
                         </div>
                         <center>       
-                            <input type = "hidden" id='jo_id' name='jo_id' >                 
+                            <input type = "hidden" id='joi_id' name='joi_id' >                 
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
                         </center>
                     </div>
@@ -197,31 +197,43 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php if(!empty($head)){ foreach($head AS $h){ ?>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo $h['date_prepared'];?></td>
+                                            <td><?php echo $h['date_needed'];?></td>
                                             <td>
-                                                <a class="btn-link txt-primary" onclick="viewHistoryjoi('<?php echo base_url(); ?>')">sample</a>
+                                                <a class="btn-link txt-primary" onclick="viewHistoryjoi('<?php echo base_url(); ?>','<?php echo $h['joi_id']; ?>','<?php echo $h['cenpri_jo_no']; ?>','<?php echo $h['joi_no']; ?>')"><?php echo $h['cenpri_jo_no'] . "/".$h['joi_no'] ."-".COMPANY. (($h['revision_no']!=0) ? ".r".$h['revision_no'] : "");?></a>
                                             </td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo $h['project_title']; ?></td>
+                                            <td><?php echo $h['vendor']; ?></td>
                                             <td>
                                                 <center>
-                                                    <a class="cancelJO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJO" data-id=""><span class="fa fa-ban" title="Cancel"></span></a>
-                                                  
-                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance/" class="btn btn-custon-three btn-warning btn-xs">
+                                                    <a class="cancelJO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJO" data-id="<?php echo $h['joi_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
+                                                    <?php if($h['saved']==0 && $h['joi_type']==0 && $h['revised']==0){ ?>
+                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                     </a>
-                                                   
-                                                    <!-- <a href="<?php echo base_url(); ?>joi/job_order_saved/" class="btn btn-custon-three btn-warning btn-xs">
+                                                    <?php }else if($h['saved']==0 && $h['joi_type']==0 && $h['draft']==1 && $h['revised']==0){ ?>
+                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance_draft/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
-                                                    </a> -->
-                                                    <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="">
+                                                    </a>
+                                                    <?php }else if($h['saved']==1 && $h['joi_type']==0 && $h['revised']==1){ ?>
+                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance_rev/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php }else if($h['saved']==1 && $h['joi_type']==0 && $h['revised']==0) { ?>
+                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance_saved/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } if($h['revised']==1){ ?>
+                                                    <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $h['joi_id']?>">
                                                         <span class="fa fa-thumbs-up"></span>
                                                     </a>
+                                                    <?php } ?>
                                                 </center>
                                             </td>
-                                        </tr>          
+                                        </tr>
+                                        <?php } }  ?>          
                                     </tbody>
                                 </table>
                             </div>                           

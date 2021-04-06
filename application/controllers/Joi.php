@@ -45,6 +45,22 @@ class Joi extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar'); 
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        foreach($this->super_model->select_all_order_by("joi_head","joi_date","ASC") AS $head){
+            $data['head'][]=array(
+                "joi_id"=>$head->joi_id,
+                "date_prepared"=>$head->date_prepared,
+                "date_needed"=>$head->date_needed,
+                "cenpri_jo_no"=>$head->cenpri_jo_no,
+                "joi_no"=>$head->joi_no,
+                "joi_type"=>$head->joi_type,
+                "project_title"=>$head->project_title,
+                "vendor"=>$this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$head->vendor_id),
+                'revised'=>$head->revised,
+                'draft'=>$head->draft,
+                'saved'=>$head->saved,
+                'revision_no'=>$head->revision_no,
+            );
+        }
         $this->load->view('joi/joi_list',$data);
         $this->load->view('template/footer');
     }
@@ -317,8 +333,9 @@ class Joi extends CI_Controller {
                 'purpose'=>$ppr->purpose,
                 'requestor'=>$ppr->requestor
             );
-        }
 
+            $data['notes'] = $this->super_model->select_row_where("jor_notes", "jor_id", $ppr->jor_id);
+        }
         $data['tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
 
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
@@ -330,6 +347,7 @@ class Joi extends CI_Controller {
         $submit = $this->input->post('submit');
         $joi_id = $this->input->post('joi_id');
         $count_item = $this->input->post('count_item');
+        $count_notes = $this->input->post('count_notes');
         $a=1;
         $rows_dr = $this->super_model->count_rows("joi_dr");
         if($rows_dr==0){
@@ -401,10 +419,19 @@ class Joi extends CI_Controller {
                 $a++;
             }   
         }
+
+        for($y=1; $y<$count_notes;$y++){
+            $data_notes=array(
+                "joi_id"=>$joi_id,
+                "notes"=>$this->input->post('jor_notes'.$y),
+            );
+            $this->super_model->insert_into("joi_tc", $data_notes);
+        }
+
         if($submit=='Save'){
             $head = array(
                 'shipping'=>$this->input->post('shipping'),
-                'discount'=>$this->input->post('discount'),
+                'discount'=>$this->input->post('less_amount'),
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat_amount'),
                 'conforme'=>$this->input->post('conforme'),
@@ -423,7 +450,7 @@ class Joi extends CI_Controller {
         } else if($submit=='Save as Draft'){
              $head = array(
                 'shipping'=>$this->input->post('shipping'),
-                'discount'=>$this->input->post('discount'),
+                'discount'=>$this->input->post('less_amount'),
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat_amount'),
                 'conforme'=>$this->input->post('conforme'),
@@ -437,7 +464,7 @@ class Joi extends CI_Controller {
                 'revised'=>0
             ); 
             if($this->super_model->update_where("joi_head", $head, "joi_id", $joi_id)){
-                redirect(base_url().'joi/jo_issuance_saved/'.$joi_id);
+                redirect(base_url().'joi/jo_issuance_draft/'.$joi_id);
             }
         }      
     }
@@ -603,13 +630,10 @@ class Joi extends CI_Controller {
     public function jo_issuance_draft(){
         $this->load->view('template/header');
         $joi_id = $this->uri->segment(3);
-        $revised = $this->uri->segment(4);
-        $data['revised'] = $revised;
-
         $data['joi_id'] = $joi_id;
         $vendor_id = $this->super_model->select_column_where('joi_head', 'vendor_id', 'joi_id', $joi_id);
-        $data['vendor_id']=$vendor_id;
         foreach($this->super_model->select_row_where('joi_head', 'joi_id', $joi_id) AS $h){
+
             $data['head'][] = array(
                 'joi_date'=>$h->joi_date,
                 'joi_no'=>$h->joi_no,
@@ -639,9 +663,9 @@ class Joi extends CI_Controller {
             $data['joi_no']=$h->joi_no;
             $data['notes']=$h->notes;
             $data['approved_id']=$h->approved_by;
-            $data['recommended_id']=$h->recommended_by;
             $data['checked_id']=$h->checked_by;
-            $data['verified_id']=$h->verified_by;
+            $data['recommended_id']=$h->recommended_by;
+            $data['verified_id']=$h->recommended_by;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
@@ -649,82 +673,8 @@ class Joi extends CI_Controller {
             $data['verified_by']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->verified_by);
         }
 
-        foreach($this->super_model->custom_query("SELECT ao.jor_aoq_id, ah.jor_id, ao.currency FROM jor_aoq_offers ao INNER JOIN jor_aoq_head ah ON ao.jor_aoq_id = ah.jor_aoq_id WHERE ao.vendor_id = '$vendor_id' AND recommended = '1' GROUP BY jor_id") AS $off){
-            $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $off->jor_id);
-            if($jo!=''){
-                $jo_no=$jo;
-            }else{
-                $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $off->jor_id);
-            }
-            $data['pr'][]=array(
-                'jor_id'=>$off->jor_id,
-                'jo_no'=>$jo_no,
-            );
-            //$data['currency'] = $off->currency;
-        }
-
-        if(empty($revised)){
-            foreach($this->super_model->select_row_where("joi_jor", "joi_id" , $joi_id) AS $popr){
-             
-                foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id' AND recommended='1' ORDER BY jor_items_id ASC") AS $off){
-                    $data['currency'] = $off->currency;
-                    $balance = $this->item_checker($off->jor_items_id, $vendor_id);
-                    $total = $off->unit_price*$balance;
-                      
-                    //echo $balance ."<br>";
-                    $data['items'][] =  array(
-                        'jor_aoq_id'=>$off->jor_aoq_id,
-                        'jor_aoq_offer_id'=>$off->jor_aoq_offer_id,
-                        'jor_aoq_items_id'=>$off->jor_aoq_items_id,
-                        'jor_items_id'=>$off->jor_items_id,
-                        'item_name'=>$this->super_model->select_column_where('jor_aoq_items', 'scope_of_work', 'jor_aoq_items_id', $off->jor_aoq_items_id),
-                        'offer'=>$off->offer,
-                        'currency'=>$off->currency,
-                        'price'=>$off->unit_price,
-                        'balance'=>$balance,
-                        'amount'=>$off->amount,
-                        'uom'=>$off->uom,
-                        'total'=>$total
-                    );
-                    
-                    $data['vendor_id'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'vendor_id', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'jor_aoq_vendors_id', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['price_validity'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'price_validity', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['payment_terms']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'payment_terms', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['item_warranty']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'item_warranty', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['freight']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'freight', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['delivery_time']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'delivery_date', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                }
-             } 
-        } else {
-             foreach($this->super_model->select_row_where("jor_items", "joi_id" , $joi_id) AS $off){
-                    $data['currency'] = $off->currency;
-                  $total = $off->unit_price*$off->quantity;
-                    $data['items'][] =  array(
-                        'jor_aoq_id'=>$this->super_model->select_column_where('joi_jor', 'jor_aoq_id', 'joi_id', $joi_id),
-                        'jor_aoq_offer_id'=>$off->jor_aoq_offer_id,
-                        'jor_aoq_items_id'=>$off->jor_aoq_items_id,
-                        'jor_items_id'=>$off->jor_items_id,
-                        'item_name'=>$this->super_model->select_column_where('jor_aoq_items', 'scope_of_work', 'jor_aoq_items_id', $off->jor_aoq_items_id),
-                        'offer'=>$off->offer,
-                        'price'=>$off->unit_price,
-                        'balance'=>$off->quantity,
-                        'amount'=>$off->amount,
-                        'uom'=>$off->uom,
-                        'total'=>$total
-                    );
-                
-
-                    $data['vendor_id'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'vendor_id', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'jor_aoq_vendors_id', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['price_validity'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'price_validity', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['payment_terms']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'payment_terms', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['item_warranty']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'item_warranty', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['freight']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'freight', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-                    $data['delivery_time']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'delivery_date', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
-             }
-        }
-
+        $data['items'] = $this->super_model->select_row_where('joi_items', 'joi_id', $joi_id);
+        $data['currency'] = $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
             $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
             if($jo!=''){
@@ -737,19 +687,473 @@ class Joi extends CI_Controller {
                 'purpose'=>$ppr->purpose,
                 'requestor'=>$ppr->requestor
             );
+            $data['vendor_id'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'vendor_id', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
+            $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'jor_aoq_vendors_id', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
+            $data['price_validity'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'price_validity', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
+            $data['payment_terms']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'payment_terms', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
+            $data['item_warranty']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'item_warranty', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
+            $data['freight']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'freight', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
+            $data['delivery_time']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'delivery_date', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
+            $data['notes'] = $this->super_model->select_row_where("jor_notes", "jor_id", $ppr->jor_id);
         }
-
         $data['tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
-
+        $data['dr'] = $this->super_model->select_row_where("joi_dr", "joi_id", $joi_id);
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('joi/jo_issuance_draft',$data);
         $this->load->view('template/footer');
     }
 
+    public function save_joi_draft(){
+        $submit = $this->input->post('submit');
+        $joi_id = $this->input->post('joi_id');
+        $count_item = $this->input->post('count_item');
+        $count_notes = $this->input->post('count_notes');
+
+        $a=1;
+        for($x=1; $x<$count_item;$x++){
+            $qty=$this->input->post('quantity'.$x);
+            $uom=$this->input->post('uom'.$x);
+            $joi_items_id = $this->input->post('joi_items_id'.$x);        
+            if($qty!=0){
+                $price = str_replace(",", "", $this->input->post('price'.$x));
+                $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                $offer = $this->input->post('offer'.$x);
+                $data=array(
+                 
+                    'delivered_quantity'=>$qty,
+                    'offer'=>$offer,
+                    'uom'=>$uom,
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
+                    'item_no'=>$a
+                );
+                $data_dr=array(
+                    'delivered_quantity'=>$qty,
+                    'uom'=>$uom,
+                    'unit_price'=>$price,
+                    'amount'=>$amount,
+                    'item_no'=>$a
+                );
+
+                    $this->super_model->update_where("joi_items", $data, "joi_items_id", $joi_items_id);
+                    $this->super_model->update_where("joi_dr_items", $data_dr, "joi_items_id", $joi_items_id);
+             $a++;
+            } else {
+                
+                $this->super_model->delete_where("joi_items", "joi_items_id", $joi_items_id);
+                $this->super_model->delete_where("joi_dr_items", "joi_items_id", $joi_items_id);
+            }
+            
+        }
+
+        for($y=1; $y<$count_notes;$y++){
+            $joi_tc_id = $this->input->post('joi_tc_id'.$y);
+            $data_notes=array(
+                "notes"=>$this->input->post('joi_notes'.$y),
+            );
+            $this->super_model->update_where("joi_tc", $data_notes, "joi_tc_id", $joi_tc_id);
+        }
+
+        if($submit=='Save'){
+            $head = array(
+                'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('less_amount'),
+                'packing_fee'=>$this->input->post('packing'),
+                'vat'=>$this->input->post('vat_amount'),
+                'conforme'=>$this->input->post('conforme'),
+                'vat_percent'=>$this->input->post('vat_percent'),
+                'checked_by'=>$this->input->post('checked_by'),
+                'recommended_by'=>$this->input->post('recommended_by'),
+                'approved_by'=>$this->input->post('approved_by'),
+                'verified_by'=>$this->input->post('verified_by'),
+                'saved'=>1,
+                'draft'=>0,
+                'revised'=>0
+            ); 
+             if($this->super_model->update_where("joi_head", $head, "joi_id", $joi_id)){
+                redirect(base_url().'joi/jo_issuance_saved/'.$joi_id);
+             }
+
+        } else if($submit=='Save as Draft'){
+             $head = array(
+                'shipping'=>$this->input->post('shipping'),
+                'discount'=>$this->input->post('less_amount'),
+                'packing_fee'=>$this->input->post('packing'),
+                'vat'=>$this->input->post('vat_amount'),
+                'conforme'=>$this->input->post('conforme'),
+                'vat_percent'=>$this->input->post('vat_percent'),
+                'checked_by'=>$this->input->post('checked_by'),
+                'recommended_by'=>$this->input->post('recommended_by'),
+                'approved_by'=>$this->input->post('approved_by'),
+                'verified_by'=>$this->input->post('verified_by'),
+                'saved'=>0,
+                'draft'=>1,
+                'revised'=>0
+            ); 
+             if($this->super_model->update_where("joi_head", $head, "joi_id", $joi_id)){
+                redirect(base_url().'joi/jo_issuance_draft/'.$joi_id);
+             }
+        }
+    }
+
     public function jo_issuance_rev(){
+        $joi_id = $this->uri->segment(3);
+        $data['joi_id'] = $joi_id;
+        $data['supplier']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('template/header');
-        $this->load->view('joi/jo_issuance_rev');
+        $data['cancelled']='';
+        foreach($this->super_model->select_custom_where("joi_head", "joi_id='$joi_id' AND revised = '0'") AS $head){
+            $data['vendor_id'] = $head->vendor_id;
+            $data['revised'] = $head->revised;
+            $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id);
+            $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
+            $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $head->vendor_id);
+            $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id);
+            $data['fax'] = $this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id', $head->vendor_id);
+            $data['cenjo_no']= $head->cenpri_jo_no;
+            $data['joi_no']= $head->joi_no;
+            $data['project_title']= $head->project_title;
+            $data['date_prepared']= $head->date_prepared;
+            $data['date_needed']= $head->date_needed;
+            $data['start_of_work']= $head->start_of_work;
+            $data['work_completion']= $head->completion_date;
+            $data['discount']= $head->discount;
+            $data['vat_percent']= $head->vat_percent;
+            $data['vat_amount']= $head->vat;
+            $data['conforme']= $head->conforme;
+            $data['verified_by']= $head->verified_by;
+            $data['cancelled']= $head->cancelled;
+            $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
+            $data['approved_id'] = $head->approved_by;
+            $data['recommended_id'] = $head->recommended_by;
+             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
+            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
+            $data['checked_id'] = $head->checked_by;
+            $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
+            $data['verified_id'] = $head->verified_by;
+            $data['verified_by'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->verified_by);
+            foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
+                $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
+                if($jo!=''){
+                    $jo_no=$jo;
+                }else{
+                    $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $ppr->jor_id);
+                }
+                $data['allpr'][]= array(
+                    'jo_no'=>$jo_no,
+                    'purpose'=>$ppr->purpose,
+                    'requestor'=>$ppr->requestor
+                );
+                $data['vendor_id'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'vendor_id', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$head->vendor_id'");
+                $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'jor_aoq_vendors_id', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$head->vendor_id'");
+                $data['price_validity'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'price_validity', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$head->vendor_id'");
+                $data['payment_terms']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'payment_terms', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$head->vendor_id'");
+                $data['item_warranty']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'item_warranty', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$head->vendor_id'");
+                $data['freight']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'freight', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$head->vendor_id'");
+                $data['delivery_time']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'delivery_date', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$head->vendor_id'");
+            }
+        }
+
+        foreach($this->super_model->select_custom_where("joi_head_temp", "joi_id='$joi_id' AND revised = '1'") AS $headtemp){
+            $data['vendor_id'] = $headtemp->vendor_id;
+            $data['revised'] = $headtemp->revised;
+            $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $headtemp->vendor_id);
+            $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $headtemp->vendor_id);
+            $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $headtemp->vendor_id);
+            $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $headtemp->vendor_id);
+            $data['fax'] = $this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id', $headtemp->vendor_id);
+            $data['cenjo_no']= $headtemp->cenpri_jo_no;
+            $data['joi_no']= $headtemp->joi_no;
+            $data['project_title']= $headtemp->project_title;
+            $data['date_prepared']= $headtemp->date_prepared;
+            $data['date_needed']= $headtemp->date_needed;
+            $data['start_of_work']= $headtemp->start_of_work;
+            $data['work_completion']= $headtemp->completion_date;
+            $data['discount']= $headtemp->discount;
+            $data['vat_percent']= $headtemp->vat_percent;
+            $data['vat_amount']= $headtemp->vat;
+            $data['conforme']= $headtemp->conforme;
+            $data['cancelled']= $headtemp->cancelled;
+            $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $headtemp->approved_by);
+            $data['approved_id'] = $headtemp->approved_by;
+            $data['recommended_id'] = $headtemp->recommended_by;
+             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $headtemp->recommended_by);
+            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $headtemp->checked_by);
+            $data['checked_id'] = $headtemp->checked_by;
+            $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $headtemp->user_id);
+            $data['verified_id'] = $headtemp->verified_by;
+            $data['verified_by'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $headtemp->verified_by);
+            foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
+                $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
+                if($jo!=''){
+                    $jo_no=$jo;
+                }else{
+                    $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $ppr->jor_id);
+                }
+                $data['allpr'][]= array(
+                    'jo_no'=>$jo_no,
+                    'purpose'=>$ppr->purpose,
+                    'requestor'=>$ppr->requestor
+                );
+                $data['vendor_id'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'vendor_id', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$headtemp->vendor_id'");
+                $data['aoq_vendors_id'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'jor_aoq_vendors_id', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$headtemp->vendor_id'");
+                $data['price_validity'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'price_validity', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$headtemp->vendor_id'");
+                $data['payment_terms']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'payment_terms', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$headtemp->vendor_id'");
+                $data['item_warranty']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'item_warranty', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$headtemp->vendor_id'");
+                $data['freight']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'freight', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$headtemp->vendor_id'");
+                $data['delivery_time']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'delivery_date', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$headtemp->vendor_id'");
+            }
+        }   
+        $jor_id = $this->super_model->select_column_where("joi_items","jor_id","joi_id",$joi_id);
+        $data['details'] = $this->super_model->select_row_where("joi_items", "joi_id", $joi_id);
+        $data['details_temp'] = $this->super_model->select_row_where("joi_items_temp", "joi_id", $joi_id);
+        $data['terms'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
+        $data['terms_temp'] = $this->super_model->select_row_where("joi_tc_temp", "joi_id", $joi_id);
+        $this->load->view('joi/jo_issuance_rev',$data);
         $this->load->view('template/footer');
+    }
+
+    public function save_change_order(){
+        $joi_id = $this->input->post('joi_id');
+        $timestamp = date('Y-m-d');
+        foreach($this->super_model->select_row_where("joi_head","joi_id",$joi_id) AS $johead){
+            $data_details = array(
+                "joi_id"=>$johead->joi_id,
+                'joi_date'=>$timestamp,
+                "vendor_id"=>$this->input->post('vendor'),
+                "joi_no"=>$this->input->post('joi_no'),
+                "date_needed"=>$this->input->post('date_needed'),
+                "completion_date"=>$this->input->post('work_completion'),
+                "date_prepared"=>$this->input->post('date_prepared'),
+                "cenpri_jo_no"=>$this->input->post('cenjo_no'),
+                "start_of_work"=>$this->input->post('start_of_work'),
+                "project_title"=>$this->input->post('project_title'),
+                "conforme"=>$this->input->post('conforme'),
+                "revised"=>1,
+                "saved"=>$johead->saved,
+                "checked_by"=>$this->input->post('checked_by'),
+                "verified_by"=>$this->input->post('verified_by'),
+                "approved_by"=>$this->input->post('approved_by'),
+                "recommended_by"=>$this->input->post('recommended_by'),
+                "user_id"=>$johead->user_id,
+                "vat_percent"=>$this->input->post('vat_percent'),
+                "vat"=>$this->input->post('vat_amount'),
+                "discount"=>$this->input->post('less_amount'),
+                "cancelled"=>$johead->cancelled,
+                "cancelled_by"=>$johead->cancelled_by,
+                "cancel_reason"=>$johead->cancel_reason,
+                "cancelled_date"=>$johead->cancelled_date,
+            );
+            $this->super_model->insert_into("joi_head_temp", $data_details);
+        }
+
+        $x=1;
+        foreach($this->super_model->select_row_where("joi_items","joi_id",$joi_id) AS $jodets){
+            if($this->input->post('quantity'.$x)!=0){
+                $price = str_replace(",", "", $this->input->post('price'.$x));
+                $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                $data_details = array(
+                    "joi_items_id"=>$jodets->joi_items_id,
+                    "jor_id"=>$jodets->jor_id,
+                    "joi_id"=>$jodets->joi_id,
+                    "jor_aoq_offer_id"=>$jodets->jor_aoq_offer_id,
+                    "jor_aoq_items_id"=>$jodets->jor_aoq_items_id,
+                    "jor_items_id"=>$jodets->jor_items_id,
+                    "item_no"=>$jodets->item_no,
+                    "delivered_quantity"=>$this->input->post('quantity'.$x),
+                    "quantity"=>$jodets->delivered_quantity,
+                    "unit_price"=>$price,
+                    "uom"=>$this->input->post('uom'.$x),
+                    "amount"=>$amount,
+                    "offer"=>$this->input->post('scope_of_work'.$x),
+                );
+                $this->super_model->insert_into("joi_items_temp", $data_details);
+            }
+                
+            $x++;
+        }
+
+        $y=1;
+        foreach($this->super_model->select_row_where("joi_tc","joi_id",$joi_id) AS $jotc){
+            $data_tci = array(
+                "joi_tc_id"=>$jotc->joi_tc_id,
+                "joi_id"=>$joi_id,
+                "tc_desc"=>$jotc->tc_desc,
+            );
+            $this->super_model->insert_into("joi_tc_temp", $data_tci);
+            $y++;
+        }
+
+        $count_notes=$this->input->post('count_notes');
+        for($z=1; $z<$count_notes;$z++){
+            $joi_tc_id = $this->input->post('joi_tc_id'.$z);
+            $data_notes=array(
+                "notes"=>$this->input->post('joi_notes'.$z),
+            );
+            $this->super_model->update_where("joi_tc_temp", $data_notes, "joi_tc_id", $joi_tc_id);
+        }
+
+        $data_head = array(
+            'revised'=>1
+        );
+
+        if($this->super_model->update_where("joi_head", $data_head, "joi_id", $joi_id)){
+            redirect(base_url().'joi/jo_issuance_rev/'.$joi_id, 'refresh');
+        }
+    }
+
+    public function approve_revision(){
+        $joi_id = $this->input->post('joi_id');
+        $max_revision = $this->super_model->get_max_where("joi_head", "revision_no","joi_id = '$joi_id'");
+        $revision_no = $max_revision+1;
+        $revised_date = date("Y-m-d");
+        foreach($this->super_model->select_row_where("joi_head","joi_id",$joi_id) AS $joh){
+            $data_joh=array(
+                "joi_id"=>$joh->joi_id,
+                "vendor_id"=>$joh->vendor_id,
+                "joi_no"=>$joh->joi_no,
+                "date_needed"=>$joh->date_needed,
+                "completion_date"=>$joh->completion_date,
+                "date_prepared"=>$joh->date_prepared,
+                "cenpri_jo_no"=>$joh->cenpri_jo_no,
+                "start_of_work"=>$joh->start_of_work,
+                "project_title"=>$joh->project_title,
+                "conforme"=>$joh->conforme,
+                "verified_by"=>$joh->verified_by,
+                "revised"=>$joh->revised,
+                "saved"=>$joh->saved,
+                "checked_by"=>$joh->checked_by,
+                "approved_by"=>$joh->approved_by,
+                "recommended_by"=>$joh->recommended_by,
+                "user_id"=>$joh->user_id,
+                "discount"=>$joh->discount,
+                "vat_percent"=>$joh->vat_percent,
+                "vat"=>$joh->vat,
+                "revision_no"=>$joh->revision_no,
+                "date_revised"=>$joh->date_revised,
+            );
+            $this->super_model->insert_into("joi_head_revised", $data_joh);
+        }
+
+        $data_head =array(
+            'revision_no'=>$revision_no
+        );
+        $this->super_model->update_where("joi_head", $data_head, "joi_id", $joi_id);
+
+        foreach($this->super_model->select_row_where("joi_head_temp","joi_id",$joi_id) AS $joht){
+            $data_joht=array(
+                "vendor_id"=>$joht->vendor_id,
+                "joi_no"=>$joht->joi_no,
+                "date_needed"=>$joht->date_needed,
+                "completion_date"=>$joht->completion_date,
+                "date_prepared"=>$joht->date_prepared,
+                "cenpri_jo_no"=>$joht->cenpri_jo_no,
+                "start_of_work"=>$joht->start_of_work,
+                "project_title"=>$joht->project_title,
+                "conforme"=>$joht->conforme,
+                "verified_by"=>$joht->verified_by,
+                "revised"=>$joht->revised,
+                "saved"=>$joht->saved,
+                "checked_by"=>$joht->checked_by,
+                "approved_by"=>$joht->approved_by,
+                "user_id"=>$joht->user_id,
+                "recommended_by"=>$joht->recommended_by,
+                "discount"=>$joht->discount,
+                "vat_percent"=>$joht->vat_percent,
+                "vat"=>$joht->vat,
+                "revision_no"=>$revision_no,
+                "date_revised"=>$revised_date,
+            );
+            $this->super_model->update_where("joi_head", $data_joht, "joi_id", $joht->joi_id);
+        }
+        $this->super_model->delete_where("joi_head_temp", "joi_id", $joi_id);
+
+
+        foreach($this->super_model->select_row_where("joi_items","joi_id",$joi_id) AS $jodets){
+            $data_details = array(
+                "joi_items_id"=>$jodets->joi_items_id,
+                "joi_id"=>$jodets->joi_id,
+                "quantity"=>$jodets->quantity,
+                "unit_price"=>$jodets->unit_price,
+                "uom"=>$jodets->uom,
+                "amount"=>$jodets->amount,
+                "offer"=>$jodets->offer,
+                "revision_no"=>$jodets->revision_no,
+            );
+            $this->super_model->insert_into("joi_items_revised", $data_details);
+        }
+
+        $datadet =array(
+            'revision_no'=>$revision_no
+        );
+        $this->super_model->update_where("joi_items", $datadet, "joi_id", $joi_id);
+
+        foreach($this->super_model->select_row_where("joi_items_temp","joi_id",$joi_id) AS $jodetst){
+            $data_detailst = array(
+                "joi_id"=>$jodetst->joi_id,
+                "quantity"=>$jodetst->quantity,
+                "unit_price"=>$jodetst->unit_price,
+                "uom"=>$jodetst->uom,
+                "amount"=>$jodetst->amount,
+                "offer"=>$jodetst->offer,
+                "revision_no"=>$revision_no,
+            );
+            $this->super_model->update_where("joi_items", $data_detailst, "joi_items_id", $jodetst->joi_items_id);
+        }
+        $this->super_model->delete_where("joi_items_temp", "joi_id", $joi_id);
+
+        foreach($this->super_model->select_row_where("joi_tc","joi_id",$joi_id) AS $jotc){
+            $data_tci = array(
+                "joi_tc_id"=>$jotc->joi_tc_id,
+                "joi_id"=>$jotc->joi_id,
+                "tc_desc"=>$jotc->tc_desc,
+                "revision_no"=>$jotc->revision_no,
+            );
+            $this->super_model->insert_into("joi_tc_revised", $data_tci);
+        }
+
+        foreach($this->super_model->select_row_where("joi_tc_temp","joi_id",$joi_id) AS $jotct){
+            $data_tcit = array(
+                "joi_id"=>$jotct->joi_id,
+                "tc_desc"=>$jotct->tc_desc,
+                "revision_no"=>$revision_no,
+            );
+            $this->super_model->update_where("joi_tc", $data_tcit, "joi_tc_id", $jotct->joi_tc_id);
+        }
+        $this->super_model->delete_where("joi_tc_temp", "joi_id", $joi_id);
+
+        $data_revs =array(
+            'approve_rev_by'=>$this->input->post('approve_rev'),
+            'approve_rev_date'=>$this->input->post('approve_date'),
+            'revised'=>0,
+            'date_revised'=>date("Y-m-d"),
+            'revision_no'=>$revision_no
+        );
+
+        if($this->super_model->update_where("joi_head", $data_revs, "joi_id", $joi_id)){
+            redirect(base_url().'joi/joi_list/', 'refresh');
+        }
+    }
+
+    public function add_tc_temp(){
+        $joi_id = $this->input->post('joi_id');
+
+        $rows_head = $this->super_model->count_rows("joi_tc");
+        if($rows_head==0){
+            $joi_tc_id=1;
+        } else {
+            $max = $this->super_model->get_max("joi_tc", "joi_tc_id");
+            $joi_tc_id = $max+1;
+        }
+        $data = array(
+            'joi_tc_id'=>$joi_tc_id,
+            'joi_id'=>$this->input->post('joi_id'),
+            'tc_desc'=>$this->input->post('terms'),
+        );
+        if($this->super_model->insert_into("joi_tc", $data)){
+            redirect(base_url().'joi/jo_issuance_rev/'.$joi_id, 'refresh');
+        }
     }
 
     public function joi_rfd(){

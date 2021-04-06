@@ -224,16 +224,16 @@
 						<a href="<?php echo base_url(); ?>joi/joi_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
 						<?php if($draft!=1){ 
 						 		if($revised==0){ ?>
-							<a  href='<?php echo base_url(); ?>joi/jo_issuance_rev/' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JOI</b></u></a>
+							<a  href='<?php echo base_url(); ?>joi/jo_issuance_rev/<?php echo $joi_id; ?>' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JOI</b></u></a>
 						<?php } } ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
 						<?php if($draft!=1){ 
 								if($revised==0){ ?>
-						<a  href="<?php echo base_url(); ?>joi/joi_rfd/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
+						<a  href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
 						<?php } }?>
-						<a  href="<?php echo base_url(); ?>joi/joi_dr/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
-						<a  href="<?php echo base_url(); ?>joi/joi_ac/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
-						<a  href="<?php echo base_url(); ?>joi/joi_coc/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
+						<a  href="<?php echo base_url(); ?>joi/joi_dr/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
+						<a  href="<?php echo base_url(); ?>joi/joi_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
+						<a  href="<?php echo base_url(); ?>joi/joi_coc/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
 						
 					</div>
 					<h4 class="text-white"><b>JOB ORDER ISSUANCE</b></h4>
@@ -323,7 +323,7 @@
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['start_of_work']; ?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><?php echo $h['joi_no']."-".COMPANY; ?></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo $h['joi_no']."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></td>
 		    		</tr>	
 		    		<!-- <tr>
 		    			<td class="f13" colspan="4">Completion of Work:</td>
@@ -335,7 +335,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
 		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
-			    			<h5 style="margin: 5px"><b></b></h5>
+			    			<h5 style="margin: 5px"><b><?php echo $h['project_title'];?></b></h5>
 			    		</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
@@ -359,7 +359,7 @@
 					    			$gtotal[] = $it->amount;
 				    			?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo $it->offer; ?></td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo " - ".nl2br($it->offer)."<br><br>"; ?></td>
 		    						<td class="f13" align="center"><?php echo number_format($it->delivered_quantity,2); ?></td>
 		    						<td class="f13" align="center"><?php echo $it->uom; ?></td>
 		    						<td class="f13" align="center"><?php echo $it->unit_price; ?></td>
@@ -367,6 +367,32 @@
 		    					</tr>
 		    					<?php } }else { $gtotal=array(); } ?>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
+		    					<tr>
+		    						<td class="f13" style="padding-left: 5px" align="left">
+		    							<b>Notes:</b>		    						
+		    						</td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    					</tr>
+		    					<?php 
+		    						$y=1; 
+		    						foreach($tc AS $n){ 
+		    							if($n->notes!=''){
+		    					?>
+		    					<tr>
+		    						<td class="f13" style="padding-left: 5px" align="left">
+		    							<?php echo " - ".nl2br($n->notes)."<br><br>"; ?>
+		    						</td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    					</tr>
+		    					<?php $y++; } } ?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>

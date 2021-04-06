@@ -133,8 +133,8 @@ function viewHistory(baseurl,id,cenjo_no,jo_no) {
     window.open(baseurl+"jo/view_history/"+id+"/"+cenjo_no+"/"+jo_no, "_blank","toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
 }
 
-function viewHistoryjoi(baseurl) {
-    window.open(baseurl+"joi/view_history", "_blank","toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
+function viewHistoryjoi(baseurl,id,cenjo_no,jo_no) {
+    window.open(baseurl+"joi/view_history/"+id+"/"+cenjo_no+"/"+jo_no, "_blank","toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
 }
 $(document).on("click", ".cancelJO", function () {
      var jo_id = $(this).data('id');
@@ -210,3 +210,8 @@ $(document).on("click", "#updateTerm", function () {
   
 });
 
+
+$(document).on("click", "#jo", function () {
+    var joi_id1 = $(this).attr("data-id");
+    $("#joi_id1").val(joi_id1);
+});

@@ -259,7 +259,7 @@
 		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,2); ?>" style='text-align:right;' readonly></b></td>		
 		    		</tr>	
 		    	<!-- 	<input type='hidden' name='aoq_id<?php echo $x; ?>' value="<?php echo $it->aoq_id; ?>"> -->
-		    		<input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $it->po_items_id; ?>">
+		    		<input type='text' name='po_items_id<?php echo $x; ?>' value="<?php echo $it->po_items_id; ?>">
 		    		
 		    		<?php 
 		    		$x++; } ?>

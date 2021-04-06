@@ -399,6 +399,30 @@
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<tr>
+		    						<td class="f13" style="padding-left: 5px" align="left">
+		    							<b>Notes:</b>		    						
+		    						</td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    					</tr>
+		    					<?php $y=1; foreach($notes AS $n){ ?>
+		    					<tr>
+		    						<td class="f13" style="padding-left: 5px" align="left">
+		    							<?php echo " - ".nl2br($n->notes); ?><br><br>
+		    						</td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    					</tr>
+		    					<input type='hidden' name='jor_notes<?php echo $y; ?>' value="<?php echo $n->notes; ?>">
+		    					<?php $y++; } ?>
+		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
+		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>

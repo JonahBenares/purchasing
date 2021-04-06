@@ -219,14 +219,7 @@
 		</div>
     
     <div  class="pad">
-    	<?php 
-    	if($revised=='r'){
-    		$url=base_url().'joi/save_joi_revised';
-    	} else {
-    		$url=base_url().'joi/save_joi';
-    	}
-    	?>
-    	<form method='POST' action='<?php echo $url; ?>'>  
+    	<form method='POST' action='<?php echo base_url(); ?>joi/save_joi_draft'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
@@ -332,7 +325,7 @@
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['start_of_work']; ?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="6"><?php echo $h['joi_no']."-".COMPANY; ?></td>
+		    			<td class="f13 bor-btm" colspan="6"><?php echo $h['joi_no']."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></td>
 		    		</tr>		    			    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
@@ -365,40 +358,57 @@
 		    						if(!empty($items)){
 		    							$x=1;
 			    						foreach($items AS $it){ 
-			    							if($it['balance']!=0){ 
-			    								$gtotal[] = $it['total'];
+			    								$gtotal[] = $it->amount;
 		    					?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
-		    							<b class="nomarg"><?php echo nl2br($it['offer']); ?></b>
+		    							<b class="nomarg"><textarea name='offer<?php echo $x; ?>' rows="5" style="width: 300px"><?php echo $it->offer; ?></textarea></b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
-		    								<input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' <?php echo (($revised!='r') ? "max=".$it['balance'] : ""); ?> style='width:50px; color:red;text-align: center' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)">
+		    								<input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:50px; color:red;text-align: center' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)">
 		    							</b>
 		    						</td>
-		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $it['uom']; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top"><b><input type='text' style='color:red; width:50px;text-align: center' name='uom<?php echo $x; ?>' value="<?php echo $it->uom; ?>"></b></td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
-		    								<input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it['price']; ?>' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px;text-align: center'>
+		    								<input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it->unit_price; ?>' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px;text-align: center'>
 		    							</b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b class="nomarg">
-		    								<input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $it['total']; ?>" style='text-align:right;' readonly>
+		    								<input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo $it->amount; ?>" style='text-align:right;' readonly>
 		    							</b>
 		    						</td>
 		    					</tr>
-		    					<input type='hidden' name='currency<?php echo $x; ?>' value="<?php echo $it['currency']; ?>">
-					    		<input type='hidden' name='jor_aoq_id<?php echo $x; ?>' value="<?php echo $it['jor_aoq_id']; ?>">
-					    		<input type='hidden' name='jor_aoq_offer_id<?php echo $x; ?>' value="<?php echo $it['jor_aoq_offer_id']; ?>">
-					    		<input type='hidden' name='jor_aoq_items_id<?php echo $x; ?>' value="<?php echo $it['jor_aoq_items_id']; ?>">
-					    		<input type='hidden' name='jor_items_id<?php echo $x; ?>' value="<?php echo $it['jor_items_id']; ?>">
-					    		<textarea hidden  name='offer<?php echo $x; ?>'><?php echo $it['offer']; ?></textarea>
-					    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
-		    					<?php } $x++; } }else{ $gtotal=array(); } ?>
+		    					<input type='hidden' name='joi_items_id<?php echo $x; ?>' value="<?php echo $it->joi_items_id; ?>">
+		    					<?php $x++; } }else{ $gtotal=array(); } ?>
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    					<tr><td colspan="5" class="p-5"></td></tr>
+		    					<tr>
+		    						<td class="f13" style="padding-left: 5px" align="left">
+		    							<b>Notes:</b>		    						
+		    						</td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    					</tr>
+		    					<?php $y=1; foreach($tc AS $n){ ?>
+		    					<tr>
+		    						<td class="f13" style="padding-left: 5px" align="left">
+		    							<textarea name = "joi_notes<?php echo $y; ?>" class = "form-control"><?php echo $n->notes; ?></textarea>
+		    						</td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    					</tr>
+		    					<input type='hidden' name='joi_tc_id<?php echo $y; ?>' value="<?php echo $n->joi_tc_id; ?>">
+		    					<?php $y++; } ?>
+		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
@@ -610,7 +620,7 @@
 		    				<select type="text" name="verified_by" class="btn-block">
 		    					<option value=''>-Select-</option>
 		    					 <?php foreach($employee AS $emp){ ?>
-                                    <option value="<?php echo $emp->employee_id; ?>" <?php echo (($verified_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?>><?php echo $emp->employee_name; ?></option>
+                                    <option value="<?php echo $emp->employee_id; ?>" <?php echo (($verified_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
 								<?php } ?> 
 		    				</select>
 		    			</td>
