@@ -395,7 +395,11 @@
 		    						<td></td>
 		    						<td></td>
 		    					</tr>
-		    					<?php $y=1; foreach($tc AS $n){ ?>
+		    					<?php 
+		    						$y=1; 
+		    						foreach($tc AS $n){ 
+		    							if($n->notes!=''){
+		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
 		    							<textarea name = "joi_notes<?php echo $y; ?>" class = "form-control"><?php echo $n->notes; ?></textarea>
@@ -407,7 +411,7 @@
 		    						<td></td>
 		    					</tr>
 		    					<input type='hidden' name='joi_tc_id<?php echo $y; ?>' value="<?php echo $n->joi_tc_id; ?>">
-		    					<?php $y++; } ?>
+		    					<?php $y++; } } ?>
 		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
