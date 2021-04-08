@@ -882,6 +882,7 @@ class Joi extends CI_Controller {
         $data['discount_temp'] = $this->super_model->select_column_where('joi_head_temp', 'discount', 'joi_id', $joi_id);
         $data['packing_temp'] = $this->super_model->select_column_where('joi_head_temp', 'packing_fee', 'joi_id', $joi_id);
         $data['vat_temp'] = $this->super_model->select_column_where('joi_head_temp', 'vat', 'joi_id', $joi_id);
+        $data['conforme_temp'] = $this->super_model->select_column_where('joi_head_temp', 'conforme', 'joi_id', $joi_id);
         $data['vat_percent_temp'] = $this->super_model->select_column_where('joi_head_temp', 'vat_percent', 'joi_id', $joi_id);
 
         /*$datarfd = array(
@@ -1285,14 +1286,14 @@ class Joi extends CI_Controller {
                 "notes"=>$potc->notes,
                 "revision_no"=>$potc->revision_no,
             );
-            $this->super_model->insert_into("joi_tc_revised", $data_potc);
+            if($this->super_model->insert_into("joi_tc_revised", $data_potc)){
+                $data_tcn =array(
+                    'revision_no'=>$revision_no
+                );
+
+                $this->super_model->update_where("joi_tc", $data_tcn, "joi_id", $joi_id);
+            }
         }
-
-        $data_tcn =array(
-            'revision_no'=>$revision_no
-        );
-
-        $this->super_model->update_where("joi_tc", $data_tcn, "joi_id", $joi_id);
 
         foreach($this->super_model->select_row_where("joi_tc_temp","joi_id",$joi_id) AS $potcr){
             $data_rev = array(
@@ -1300,7 +1301,6 @@ class Joi extends CI_Controller {
                 "joi_id"=>$popr->joi_id,
                 "tc_desc"=>$potcr->tc_desc,
                 "notes"=>$potcr->notes,
-                "revision_no"=>$potcr->revision_no,
             );
             $this->super_model->update_where("joi_tc", $data_rev, "joi_tc_id", $potcr->joi_tc_id);
         }
