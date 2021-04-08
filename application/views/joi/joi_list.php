@@ -1,6 +1,14 @@
     <script src="<?php echo base_url(); ?>assets/js/jo.js"></script> 
     <link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
     <script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
+       <script type="text/javascript">
+$(document).on("click", ".cancelJOI", function () {
+     var joi_id = $(this).attr("data-id");
+     $("#joi_id").val(joi_id);
+
+});
+
+</script>
     <div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="approveLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -30,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div id="cancelJO" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+    <div id="cancelJOI" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header header-color-modal bg-color-1">
@@ -208,7 +216,7 @@
                                             <td><?php echo $h['vendor']; ?></td>
                                             <td>
                                                 <center>
-                                                    <a class="cancelJO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJO" data-id="<?php echo $h['joi_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
+                                                    <a class="cancelJOI btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJOI" data-id="<?php echo $h['joi_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                     <?php if($h['saved']==0 && $h['joi_type']==0 && $h['revised']==0){ ?>
                                                     <a href="<?php echo base_url(); ?>joi/jo_issuance/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
