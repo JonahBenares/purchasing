@@ -447,6 +447,29 @@ class Joi extends CI_Controller {
             $this->super_model->insert_into("joi_tc", $data_notes);
         }
 
+        $date_format = date("Y");
+        $rows_ar = $this->super_model->count_rows("joi_ar");
+        if($rows_ar==0){
+            $ar_no= "AR ".$date_format."-01";
+        } else {
+            $max = $this->super_model->get_max("joi_ar", "series");
+            $nexts = $max+1;
+            $nxts = str_pad($nexts, 2, "0", STR_PAD_LEFT);
+            $ar_no = "AR ".$date_format."-".$nxts;
+        }
+
+        $ar_det=explode("-", $ar_no);
+        $ar_prefix=$ar_det[0];
+        $series = $ar_det[1];
+        $ar = array(
+            'joi_id'=>$joi_id,
+            'year'=>$ar_prefix,
+            'series'=>$series,
+            'ar_date'=>$this->super_model->select_column_where('joi_head', 'date_prepared', 'joi_id', $joi_id),
+        );
+
+        $this->super_model->insert_into("joi_ar", $ar);
+
         if($submit=='Save'){
             $head = array(
                 'shipping'=>$this->input->post('shipping'),
@@ -1434,7 +1457,6 @@ class Joi extends CI_Controller {
         }
     }
 
-<<<<<<< HEAD
     public function cancel_joi(){
         $joi_id=$this->input->post('joi_id');
         $reason=$this->input->post('reason');
@@ -1542,7 +1564,8 @@ class Joi extends CI_Controller {
 
         $this->load->view('template/header');        
         $this->load->view('joi/joi_rfd',$data);
-=======
+    }
+
     public function view_history(){
         $this->load->view('template/header');
         $joi_id=$this->uri->segment(3);
@@ -1638,12 +1661,6 @@ class Joi extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function joi_rfd(){
-        $this->load->view('template/header');
-        $this->load->view('joi/joi_rfd');
->>>>>>> 1958928ed120a3cccaa391f71deb6d10ebd700a3
-        $this->load->view('template/footer');
-    }
 
     public function save_joi_rfd(){
         $joi_id= $this->input->post('joi_id');
@@ -1778,36 +1795,36 @@ class Joi extends CI_Controller {
         }
     }
 
-    /* public function joi_ac(){  
+    public function joi_ac(){  
         $joi_id = $this->uri->segment(3);
         $data['joi_id'] = $joi_id;
         $this->load->view('template/header');
-        $data['saved'] = $this->super_model->select_column_where("jo_ar", "saved", "jo_id", $jo_id);
-        $data['cancelled'] = $this->super_model->select_column_where("jo_head", "cancelled", "jo_id", $jo_id);
-        $data['delivered_to'] = $this->super_model->select_column_where("jo_ar", "delivered_to", "jo_id", $jo_id);
-        $data['address'] = $this->super_model->select_column_where("jo_ar", "address", "jo_id", $jo_id);
-        $data['requested_by'] = $this->super_model->select_column_where("jo_ar", "requested_by", "jo_id", $jo_id);
-        $data['gatepass_no'] = $this->super_model->select_column_where("jo_ar", "gatepass_no", "jo_id", $jo_id);
-        $year = $this->super_model->select_column_where("jo_ar", "year", "jo_id", $jo_id);
-        $series = $this->super_model->select_column_where("jo_ar", "series", "jo_id", $jo_id);
+        $data['saved'] = $this->super_model->select_column_where("joi_ar", "saved", "joi_id", $joi_id);
+        $data['cancelled'] = $this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
+        $data['delivered_to'] = $this->super_model->select_column_where("joi_ar", "delivered_to", "joi_id", $joi_id);
+        $data['address'] = $this->super_model->select_column_where("joi_ar", "address", "joi_id", $joi_id);
+        $data['requested_by'] = $this->super_model->select_column_where("joi_ar", "requested_by", "joi_id", $joi_id);
+        $data['gatepass_no'] = $this->super_model->select_column_where("joi_ar", "gatepass_no", "joi_id", $joi_id);
+        $year = $this->super_model->select_column_where("joi_ar", "year", "joi_id", $joi_id);
+        $series = $this->super_model->select_column_where("joi_ar", "series", "joi_id", $joi_id);
         $data['ar_no']= $year."-".$series;
-        $data['jo_head']=$this->super_model->select_row_where('jo_head', 'jo_id', $jo_id);
-        foreach($this->super_model->select_row_where("jo_details","jo_id",$jo_id) AS $jd){
-            $vendor_id = $this->super_model->select_column_where("jo_head","vendor_id","jo_id",$jo_id);
+        $data['jo_head']=$this->super_model->select_row_where('joi_head', 'joi_id', $joi_id);
+        foreach($this->super_model->select_row_where("joi_items","joi_id",$joi_id) AS $jd){
+            $vendor_id = $this->super_model->select_column_where("joi_head","vendor_id","joi_id",$joi_id);
             $vendor = $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$vendor_id);
             $data['jo_det'][]=array(
                 'supplier'=>$vendor,
-                'scope_of_work'=>$jd->scope_of_work,
+                'scope_of_work'=>$jd->offer,
                 'quantity'=>$jd->quantity,
                 'uom'=>$jd->uom,
             );
         }
-        $this->load->view('jo/jo_ac',$data);
+        $this->load->view('joi/joi_ac',$data);
         $this->load->view('template/footer');
     }
 
     public function save_ar(){
-        $jo_id = $this->input->post('jo_id');
+        $joi_id = $this->input->post('joi_id');
         $data = array(
             'delivered_to'=>$this->input->post('delivered_to'),
             'address'=>$this->input->post('address'),
@@ -1815,14 +1832,49 @@ class Joi extends CI_Controller {
             'gatepass_no'=>$this->input->post('gatepass'),
             'saved'=>1
         );
-        if($this->super_model->update_where("jo_ar", $data, "jo_id", $jo_id)){
-            redirect(base_url().'jo/jo_ac/'.$jo_id);
+        if($this->super_model->update_where("joi_ar", $data, "joi_id", $joi_id)){
+            echo "<script>window.location ='".base_url()."joi/joi_ac/$joi_id';</script>";
         }
-    }*/
+    }
 
     public function joi_coc(){
+        $joi_id = $this->uri->segment(3);
+        $data['joi_id'] = $joi_id;
         $this->load->view('template/header');
-        $this->load->view('joi/joi_coc');
+        foreach($this->super_model->select_row_where("joi_head", "joi_id", $joi_id) AS $head){
+            $subtotal = ($head->total_cost + $head->vat);
+            $data['vendor'] = $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id);
+            $data['address'] = $this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $head->vendor_id);
+            $data['contact_person'] = $this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $head->vendor_id);
+            $data['phone'] = $this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id', $head->vendor_id);
+            $data['fax'] = $this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id', $head->vendor_id);
+            $data['cenjo_no']= $head->cenpri_jo_no;
+            $data['jo_no']= $head->joi_no;
+            $data['project_title']= $head->project_title;
+            $data['date_prepared']= $head->date_prepared;
+            $data['date_needed']= $head->date_needed;
+            $data['start_of_work']= $head->start_of_work;
+            $data['completion_date']= $head->completion_date;
+            // /$data['discount_percent']= $head->discount_percent;
+            $data['discount_amount']= $head->discount;
+            $data['vat_percent']= $head->vat_percent;
+            $data['subtotal']= $subtotal;
+            $data['vat_amount']= $head->vat;
+            $data['total_cost']= $head->total_cost;
+            $data['grand_total']= $head->grand_total;
+            $data['conforme']= $head->conforme;
+            $data['verified_by']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->verified_by);
+            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
+            $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
+            $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
+            $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
+            $data['cancelled']=$head->cancelled;
+        }   
+
+        $data['dr'] = $this->super_model->select_row_where("joi_dr", "joi_id", $joi_id);
+        $data['details'] = $this->super_model->select_row_where("joi_items", "joi_id", $joi_id);
+        $data['terms'] = $this->super_model->select_row_where("joi_terms", "joi_terms_id", $joi_id);
+        $this->load->view('joi/joi_coc',$data);
         $this->load->view('template/footer');
     }
 }

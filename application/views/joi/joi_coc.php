@@ -97,10 +97,12 @@
 						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
 						<a  href='<?php echo base_url(); ?>joi/joi_issuance_rev/' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JO</b></u></a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
-						<a  href="<?php echo base_url(); ?>joi/joi_rfd/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
-						<a  href="<?php echo base_url(); ?>joi/joi_dr/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
-						<a  href="<?php echo base_url(); ?>joi/joi_ac/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
-						<a  href="<?php echo base_url(); ?>joi/joib_coc/" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
+						<a  href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
+						<?php foreach($dr AS $d){ ?>
+						<a  href="<?php echo base_url(); ?>joi/joi_dr/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
+						<?php } ?>
+						<a  href="<?php echo base_url(); ?>joi/joi_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
+						<a  href="<?php echo base_url(); ?>joi/joi_coc/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
 						
 					</div>
 					<h4 class="text-white"><b>CERTIFICATE OF COMPLETION</b></h4>
@@ -159,11 +161,11 @@
 		    		<tr>
 		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
 		    			<td class="f13" colspan="10" align="left">
-		    				<b>vendor</b><br>
-		    				<span id='contact_person'>contact_person</span><br>
-		    				<span id='address'>address</span><br>
-		    				<span id='phone'>phone</span><br>
-		    				<span id='fax'>fax</span><br>
+		    				<b><?php echo $vendor; ?></b><br>
+		    				<span id='contact_person'><?php echo $contact_person; ?></span><br>
+		    				<span id='address'><?php echo $address; ?></span><br>
+		    				<span id='phone'><?php echo $phone; ?></span><br>
+		    				<span id='fax'><?php echo $fax; ?></span><br>
 		    				<br>
 		    			</td>
 		    			<td colspan="7"></td>
@@ -171,25 +173,25 @@
 		    		
 		    		<tr>
 		    			<td class="f13" colspan="4">Date Needed:</td>
-		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_needed));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="5"></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo date("F d, Y",strtotime($completion_date));?></td>
 		    		</tr>
 
 		    		<tr>
 		    			<td class="f13" colspan="4">Date Prepared:</td>
-		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_prepared));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
-		    			<td class="f13 bor-btm" colspan="5"><b></b></td>
+		    			<td class="f13 bor-btm" colspan="5"><b></b><?php echo $cenjo_no; ?></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="4">Start of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($start_of_work));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><?php echo COMPANY; ?></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no."-".COMPANY; ?></td>
 		    		</tr>	
 		    		<!-- <tr>
 		    			<td class="f13" colspan="4">Completion of Work:</td>
@@ -201,7 +203,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
 		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
-			    			<h5 style="margin: 5px"><b></b></h5>
+			    			<h5 style="margin: 5px"><b><?php echo $project_title; ?></b></h5>
 			    		</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
@@ -217,44 +219,58 @@
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
+		    					<?php 
+		    						$gtotal=array();
+		    						if(!empty($details)){
+		    						foreach($details AS $det){ 
+		    							$gtotal[] = $det->amount;
+		    					?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="right"></td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->offer); ?></td>
+		    						<td class="f13" align="center"><?php echo $det->quantity; ?></td>
+		    						<td class="f13" align="center"><?php echo $det->uom; ?></td>
+		    						<td class="f13" align="center"><?php echo number_format($det->unit_price,2); ?></td>
+		    						<td class="f13" align="right"><?php echo number_format($det->amount,2); ?></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
-		    					<tr>
+		    				<?php } } else{ $gtotal=array(); } ?>
+<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    					</tr>
+		    					<?php if($vat_amount!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'></td>
-		    						<td align="right"></td>
+		    						<td colspan='2'><?php echo number_format($vat_percent) . "% VAT:"; ?></td>
+		    						<td align="right"><?php echo number_format($vat_amount,2); ?></td>
 		    					</tr>
+		    					<?php } ?>
+		    					<?php 
+		    						$grtotal =array_sum($gtotal);
+		    						$subtotal=$grtotal+$vat_amount;
+		    						$grandtotal = ($grtotal+$vat_amount)-$discount_amount;
+		    					?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Sub Total:</td>
-		    						<td align="right"></td>
+		    						<td align="right"><?php echo number_format($subtotal,2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Less Discount:</td>
-		    						<td align="right"></td>
+		    						<td align="right"><?php echo number_format($discount_amount,2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Grand Total:</td>
-		    						<td align="right"></td>
+		    						<td align="right"><?php echo number_format($grandtotal,2); ?></td>
 		    					</tr>
 		    				</table>
 		    			</td>
@@ -262,20 +278,23 @@
 		    		<tr>
 		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
 		    				<b>Terms and Conditions:</b><br>
+		    				<?php foreach($terms AS $trm){ 
+		    					echo nl2br($trm->terms)."<br>";
+		    				} ?>
 		    			</td>
 		    			<td colspan="9"></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Conforme:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="center"></td>
+		    			<td class="f13 bor-btm" colspan="7" align="center"><?php echo $conforme; ?></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -313,19 +332,19 @@
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
-		    					
+		    				<?php echo $prepared; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
-		    					
+		    				<?php echo $checked; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
-		    					
+		    				<?php echo $recommended; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="3" align="center">
-		    					
+		    				<?php echo $approved;?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr> 
@@ -362,7 +381,7 @@
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
-		    				
+		    				<?php echo $verified_by;?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"></td>
@@ -372,7 +391,7 @@
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center"></td>
-		    		</tr>     	
+		    		</tr>      	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
 		    		
