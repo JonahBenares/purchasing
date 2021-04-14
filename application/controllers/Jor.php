@@ -94,6 +94,12 @@ class Jor extends CI_Controller {
                     $vendor.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$ven->vendor_id) . "<br>";
                 }
                 $data['cancelled']=$ji->cancelled;
+                if($ji->total_cost==0){
+                    $total=$ji->quantity*$ji->unit_cost;
+                }else{
+                    $total=$ji->total_cost;
+                }
+
                 $data['jo_items'][]=array(
                     'jor_items_id'=>$ji->jor_items_id,
                     'jor_id'=>$ji->jor_id,
@@ -101,7 +107,7 @@ class Jor extends CI_Controller {
                     'quantity'=>$ji->quantity,
                     'uom'=>$ji->uom,
                     'unit_cost'=>$ji->unit_cost,
-                    'total_cost'=>$ji->total_cost,
+                    'total_cost'=>$total,
                     'grouping_id'=>$ji->grouping_id,
                     'cancelled_by'=>$this->super_model->select_column_where("users",'fullname','user_id',$ji->cancelled_by),
                     'cancelled_reason'=>$ji->cancelled_reason,
@@ -411,6 +417,7 @@ class Jor extends CI_Controller {
             $jor_no = 'JOR '.$year."-".$next;
         }
 
+        $check_exist = $this->super_model->count_rows_where("jor_head", "user_jo_no", $jo_no);
         if($jo_no!=''){
             $jor_nos='';
             $jors_nos=$jo_no;
@@ -418,68 +425,71 @@ class Jor extends CI_Controller {
             $jor_nos=$jor_no;
             $jors_nos='';
         }
-
-        $data_jor = array(
-            'jor_id'=>$jor_id,
-            'jo_request'=>$jo_request,
-            'date_prepared'=>$date_prepared,
-            'department'=>$department,
-            'jo_no'=>$jor_nos,
-            'user_jo_no'=>$jors_nos,
-            'purpose'=>$purpose,
-            'requested_by'=>$requested_by,
-            'duration'=>$duration,
-            'completion_date'=>$completion_date,
-            'delivery_date'=>$delivery_date,
-            'urgency'=>$urgency_no,
-            'date_imported'=>date("Y-m-d H:i:s"),
-            'imported_by'=>$_SESSION['user_id'],
-        );
-        if($this->super_model->insert_into("jor_head", $data_jor)){
-            $strings = str_replace(' ', '-', $jor_no);
-            $jor = explode('-',$strings);
-            $years=$jor[1];
-            $series=$jor[2];
-            $data_series = array(
-                'year'=>$years,
-                'series'=>$series,
+        if($check_exist==0){
+            $data_jor = array(
+                'jor_id'=>$jor_id,
+                'jo_request'=>$jo_request,
+                'date_prepared'=>$date_prepared,
+                'department'=>$department,
+                'jo_no'=>$jor_nos,
+                'user_jo_no'=>$jors_nos,
+                'purpose'=>$purpose,
+                'requested_by'=>$requested_by,
+                'duration'=>$duration,
+                'completion_date'=>$completion_date,
+                'delivery_date'=>$delivery_date,
+                'urgency'=>$urgency_no,
+                'date_imported'=>date("Y-m-d H:i:s"),
+                'imported_by'=>$_SESSION['user_id'],
             );
-            $this->super_model->insert_into("jor_series", $data_series);
+            if($this->super_model->insert_into("jor_head", $data_jor)){
+                $strings = str_replace(' ', '-', $jor_no);
+                $jor = explode('-',$strings);
+                $years=$jor[1];
+                $series=$jor[2];
+                $data_series = array(
+                    'year'=>$years,
+                    'series'=>$series,
+                );
+                $this->super_model->insert_into("jor_series", $data_series);
 
-            $highestRow = $objPHPExcel->getActiveSheet()->getHighestRow(); 
-            for($x=14;$x<=$highestRow;$x++){
-                $item_no = trim($objPHPExcel->getActiveSheet()->getCell('A'.$x)->getValue());
-                $scope_work = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
-                $qty = trim($objPHPExcel->getActiveSheet()->getCell('G'.$x)->getValue());
-                $uom = trim($objPHPExcel->getActiveSheet()->getCell('H'.$x)->getValue());
-                $unit_cost = trim($objPHPExcel->getActiveSheet()->getCell('I'.$x)->getValue());
-                $total_cost = trim($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue());
-                $scope=str_replace("~", "\n ", $scope_work);
-                if($item_no!='' && $item_no!='Notes:'){
-                    $data_ji = array(
-                        'jor_id'=>$jor_id,
-                        'scope_of_work'=>$scope,
-                        'quantity'=>$qty,
-                        'uom'=>$uom,
-                        'unit_cost'=>$unit_cost,
-                        'total_cost'=>$total_cost,
-                    );
-                    $this->super_model->insert_into("jor_items", $data_ji);
-                }
+                $highestRow = $objPHPExcel->getActiveSheet()->getHighestRow(); 
+                for($x=14;$x<=$highestRow;$x++){
+                    $item_no = trim($objPHPExcel->getActiveSheet()->getCell('A'.$x)->getValue());
+                    $scope_work = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
+                    $qty = trim($objPHPExcel->getActiveSheet()->getCell('G'.$x)->getValue());
+                    $uom = trim($objPHPExcel->getActiveSheet()->getCell('H'.$x)->getValue());
+                    $unit_cost = trim($objPHPExcel->getActiveSheet()->getCell('I'.$x)->getValue());
+                    $total_cost = trim($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue());
+                    $scope=str_replace("~", "\n ", $scope_work);
+                    if($item_no!='' && $item_no!='Notes:'){
+                        $data_ji = array(
+                            'jor_id'=>$jor_id,
+                            'scope_of_work'=>$scope,
+                            'quantity'=>$qty,
+                            'uom'=>$uom,
+                            'unit_cost'=>$unit_cost,
+                            'total_cost'=>$total_cost,
+                        );
+                        $this->super_model->insert_into("jor_items", $data_ji);
+                    }
 
-                $num1=$x+3;
-                $notes = trim($objPHPExcel->getActiveSheet()->getCell('B'.$num1)->getValue());
-                if($notes!=''){
-                    $data_notes = array(
-                        'jor_id'=>$jor_id,
-                        'notes'=>$notes,
-                    );
-                    $this->super_model->insert_into("jor_notes", $data_notes);
+                    $num1=$x+3;
+                    $notes = trim($objPHPExcel->getActiveSheet()->getCell('B'.$num1)->getValue());
+                    if($notes!=''){
+                        $data_notes = array(
+                            'jor_id'=>$jor_id,
+                            'notes'=>$notes,
+                        );
+                        $this->super_model->insert_into("jor_notes", $data_notes);
+                    }
+                    $num1++;
                 }
-                $num1++;
             }
-        }
-        echo "<script>alert('Successfully Uploaded!'); window.location = 'jor_request/$jor_id';</script>";
+            echo "<script>alert('Successfully Uploaded!'); window.location = 'jor_request/$jor_id';</script>";
+        }  else{
+            echo "<script>alert('$jo_no already exist! Please try again.'); window.location = 'jor_list';</script>";
+        } 
     }
 
     public function cancel_jor(){

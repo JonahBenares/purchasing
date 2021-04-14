@@ -385,7 +385,7 @@
 				    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_1" rows="5"></textarea>
 				    					</td>
 				    					<td width="6%" class="bor-btm bor-right f10" align="center">
-				    							<select style="width: 100%;height: 100px"name='curren .cy_<?php echo $x; ?>_<?php echo $v; ?>_1'>
+				    							<select style="width: 100%;height: 100px"name='currency_<?php echo $x; ?>_<?php echo $v; ?>_1'>
 						    					<?php foreach($currency AS $curr){ ?>
 						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
@@ -544,7 +544,7 @@
 		    					<?php if($ven['vendor_id'] == $of['vendor_id'] && $it->jor_aoq_items_id == $of['item_id']){ ?>				
 			    					<tr>
 				    					<td width="25%" class="bor-btm bor-right">
-				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100px"><?php echo nl2br($of['offer']); ?></textarea>
+				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100px"><?php echo $of['offer']; ?></textarea>
 				    					</td>
 				    					<td width="6%" class="bor-btm bor-right f10 " align="center">
 				    						<select name='currency_<?php echo $a; ?>' style="width: 100%;height: 100px">
@@ -599,7 +599,7 @@
 		    					<?php if($ven['vendor_id'] == $of['vendor_id'] && $it->jor_aoq_items_id == $of['item_id']){ ?>				
 			    					<tr>
 				    					<td width="25%" class="bor-btm bor-right">
-				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100px" ><?php echo nl2br($of['offer']); ?></textarea>
+				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100px" ><?php echo $of['offer']; ?></textarea>
 				    					</td>
 				    					<td width="6%" class="bor-btm bor-right f10 " align="center">
 				    						<select name='currency_<?php echo $a; ?>' style="width: 100%;height: 100px">
