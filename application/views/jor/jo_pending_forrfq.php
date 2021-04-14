@@ -73,7 +73,6 @@
                                             <th width="10%"></th>   
                                             <?php if(!empty($head)){ foreach($head as $h){ ?>                                     
                                         </thead>
-                                        <tbody>
                                             <tr>
                                                 <td><span class="btn btn-block"><?php echo $h['jor_no']."-".COMPANY; ?></span></td>
                                                 <td>
@@ -103,8 +102,7 @@
                                                     </table>
                                                 </td>
                                             </tr> 
-                                              <?php } } ?>   
-                                        </tbody>             
+                                              <?php } } ?>                
                                     </table>
                                 <!-- </form> -->
                             </div>
