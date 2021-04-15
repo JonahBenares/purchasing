@@ -171,12 +171,12 @@ class Jor extends CI_Controller {
         $this->super_model->insert_into("jor_rfq_series", $rfq_data);
 
         foreach($this->super_model->select_custom_where("jor_vendors", "jor_id='$jorid' AND grouping_id = '$group'") AS $vendors){
-            $rows_head = $this->super_model->count_rows("jor_rfq_head");
+            $rows_head = $this->super_model->count_rows("jo_rfq_head");
             if($rows_head==0){
-                $rfq_id=1;
+                $jo_rfq_id=1;
             } else {
                 $max = $this->super_model->get_max("jo_rfq_head", "jo_rfq_id");
-                $rfq_id = $max+1;
+                $jo_rfq_id = $max+1;
             }
             $new_rfq = $rfq_no."-".$vendors->grouping_id;
             $data_head = array(
@@ -200,7 +200,7 @@ class Jor extends CI_Controller {
                     'jo_rfq_id'=>$jo_rfq_id,
                     'jor_items_id'=>$details->jor_items_id,
                     //'pn_no'=>$details->part_no,
-                    'work_of_scope'=>$details->work_of_scope,
+                    'scope_of_work'=>$details->scope_of_work,
                     'quantity'=>$details->quantity,
                     'uom'=>$details->uom,
 
