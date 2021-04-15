@@ -793,8 +793,14 @@ class Joaoq extends CI_Controller {
             $noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
             $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
             $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $head->pr_id);
+            $jo=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+            if($jo!=''){
+                $jo_no=$jo;
+            }else{
+                $jo_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $head->jor_id);
+            }
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "ABSTRACT OF QUOTATION");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B2', "JO No.: $head->department");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B2', "JO No.: $jo_no"."-".COMPANY);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B3', "Project Title: $head->purpose");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B4', "Requested By: $head->requestor");
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "Department: $head->department");
