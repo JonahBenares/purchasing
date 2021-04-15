@@ -15,9 +15,9 @@
         });
 
         $(document).on("click", "#RfqSend", function () {
-            var pr_id= $(this).attr("data-id");
+            var jor_id= $(this).attr("data-id");
             var group = $(this).attr("data-group");
-            $("#pr_id").val(pr_id);
+            $("#jor_id").val(jor_id);
             $("#group").val(group);
         });
     </script>
