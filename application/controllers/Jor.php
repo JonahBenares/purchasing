@@ -541,20 +541,30 @@ class Jor extends CI_Controller {
                         $this->super_model->insert_into("jor_items", $data_ji);
                     }
 
-                    $num1=$x+3;
-                    $notes = trim($objPHPExcel->getActiveSheet()->getCell('B'.$num1)->getValue());
-                    if($notes!=''){
+                    /*$num1=$x+3;
+                    $num2=$num1+2;*/
+                    $notes = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
+                    if(($item_no=='' || $item_no=='Notes:') && $notes!=''){
                         $data_notes = array(
                             'jor_id'=>$jor_id,
                             'notes'=>$notes,
                         );
                         $this->super_model->insert_into("jor_notes", $data_notes);
                     }
-                    $num1++;
+                    /*if($item_no!='Notes:' && $notes!=''){
+                        $data_notes = array(
+                            'jor_id'=>$jor_id,
+                            'notes'=>$notes,
+                        );
+                        $this->super_model->insert_into("jor_notes", $data_notes);
+                    }*/
+                    
+                    //$num1++;
+                    //$num2++;
                 }
             }
             echo "<script>alert('Successfully Uploaded!'); window.location = 'jor_request/$jor_id';</script>";
-        }  else{
+        } else{
             echo "<script>alert('$jo_no already exist! Please try again.'); window.location = 'jor_list';</script>";
         } 
     }
