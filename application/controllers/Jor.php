@@ -144,6 +144,73 @@ class Jor extends CI_Controller {
         //redirect(base_url().'jor/jor_request/'.$jor_id);
     }
 
+    public function create_rfq_group(){
+        $jorid=$this->input->post('jor_id');
+        $group=$this->input->post('group');
+        $timestamp = date("Y-m-d H:i:s");
+        $rfq_format = date("Ym");
+        $rfqdet=date('Y-m');
+        //$code = $this->super_model->select_column_where('jor_head','processing_code','jor_id',$jorid);
+        $rows=$this->super_model->count_custom_where("jo_rfq_head","create_date LIKE '$rfqdet%'");
+        if($rows==0){
+            $rfq_no= $rfq_format."-1001";
+        } else {
+            $series = $this->super_model->get_max("jor_rfq_series", "series","year_month LIKE '$rfqdet%'");
+            $next=$series+1;
+            $rfq_no = $rfq_format."-".$next;
+        }
+        $rfqdetails=explode("-", $rfq_no);
+        $rfq_prefix1=$rfqdetails[0];
+        $rfq_prefix2=$rfqdetails[1];
+        $rfq_prefix=$rfq_prefix1;
+        $series=$rfq_prefix2;
+        $rfq_data= array(
+            'year_month'=>$rfq_prefix,
+            'series'=>$series
+        );
+        $this->super_model->insert_into("jor_rfq_series", $rfq_data);
+
+        foreach($this->super_model->select_custom_where("jor_vendors", "jor_id='$jorid' AND grouping_id = '$group'") AS $vendors){
+            $rows_head = $this->super_model->count_rows("jo_rfq_head");
+            if($rows_head==0){
+                $jo_rfq_id=1;
+            } else {
+                $max = $this->super_model->get_max("jo_rfq_head", "jo_rfq_id");
+                $jo_rfq_id = $max+1;
+            }
+            $new_rfq = $rfq_no."-".$vendors->grouping_id;
+            $data_head = array(
+                'jo_rfq_id'=>$jo_rfq_id,
+                'jo_rfq_no'=>$new_rfq,
+                'vendor_id'=>$vendors->vendor_id,
+                'jor_id'=>$jorid,
+                'grouping_id'=>$vendors->grouping_id,
+                'noted_by'=>$vendors->noted_by,
+                'approved_by'=>$vendors->approved_by,
+                'quotation_date'=>$vendors->due_date,
+                'rfq_date'=>$timestamp,
+                //'processing_code'=>$code,
+                'prepared_by'=>$_SESSION['user_id'],
+                'create_date'=>$timestamp,
+                'saved'=>1
+            );
+            $this->super_model->insert_into("jo_rfq_head", $data_head);
+            foreach($this->super_model->select_custom_where("jor_items", "jor_id='$jorid' AND grouping_id = '$vendors->grouping_id'") AS $details){
+                $data_details = array(
+                    'jo_rfq_id'=>$jo_rfq_id,
+                    'jor_items_id'=>$details->jor_items_id,
+                    //'pn_no'=>$details->part_no,
+                    'scope_of_work'=>$details->scope_of_work,
+                    'quantity'=>$details->quantity,
+                    'uom'=>$details->uom,
+
+                );
+                $this->super_model->insert_into("jo_rfq_details", $data_details);
+            }
+        }
+        redirect(base_url().'jorfq/jorfq_list/');
+    }
+
     public function jor_group(){  
         $jor_id = $this->uri->segment(3);
         $data['jor_id']=$jor_id;

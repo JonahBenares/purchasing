@@ -15,9 +15,9 @@
         });
 
         $(document).on("click", "#RfqSend", function () {
-            var pr_id= $(this).attr("data-id");
+            var jor_id= $(this).attr("data-id");
             var group = $(this).attr("data-group");
-            $("#pr_id").val(pr_id);
+            $("#jor_id").val(jor_id);
             $("#group").val(group);
         });
     </script>
@@ -129,11 +129,11 @@
                     </h5>
                     
                 </div>
-                <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq_group">
+                <form method="POST" action="<?php echo base_url(); ?>jor/create_rfq_group">
                     <div class="modal-body">
                         Are you sure you want to create RFQ?
                     </div> 
-                    <input type='hidden' name='pr_id' id="pr_id">
+                    <input type='hidden' name='jor_id' id="jor_id">
                     <input type='hidden' name='group' id="group">
                     <div class="modal-footer">
                         <center>
@@ -157,7 +157,7 @@
                     </h5>
                     
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>pr/redirect_pod">
+                <form method="POST" action = "<?php echo base_url();?>jor/redirect_pod">
                     <div class="modal-body">
                         Date:
                         <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control" >
@@ -190,7 +190,7 @@
                         </button>
                     </h5>                    
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>pr/create_reorderpo">
+                <form method="POST" action = "<?php echo base_url();?>jor/create_reorderpo">
                     <div class="modal-body">
                         Date:
                         <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control">

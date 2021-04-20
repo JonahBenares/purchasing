@@ -340,17 +340,18 @@
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="8" align="center">
-		    				<!-- <?php echo $prepared; ?> -->
-		    			</td>
-		    			<td class="f13" colspan="2" align="center"><?php echo $approved; ?></td>
+		    				<?php echo $prepared; ?></td>
+		    			<td class="f13" colspan="2" align="center"></td>
+		    			<!-- <td class="f13" colspan="2" align="center"><?php echo $approved; ?></td>
 		    			<td class="f13" colspan="8" align="center">
 		    		      <center><?php if($saved==0){ 
 		    			 	echo $_SESSION['fullname']; 
 		    			 } else {
 		    			 	echo $prepared;
 		    			 } ?></center>
-		    			</td>
-		    			<td class="f13" colspan="1" align="center"></td>
+		    			</td> -->
+		    			<td class="f13" colspan="8" align="center"><?php echo $approved; ?></td>
+
 		    		</tr>  
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>    
 		    	</table>		    
