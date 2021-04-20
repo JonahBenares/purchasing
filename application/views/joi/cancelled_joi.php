@@ -206,7 +206,7 @@
                                             <td><?php echo $h['cancel_reason']; ?></td>
                                             <td>
                                                 <center>
-                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance/<?php echo $h['joi_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance_saved/<?php echo $h['joi_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                 </center>

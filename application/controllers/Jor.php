@@ -708,7 +708,7 @@ class Jor extends CI_Controller {
                         'jo_rfq_id'=>$jo_rfq_id,
                         'jor_items_id'=>$details->jor_items_id,
                         //'pn_no'=>$details->part_no,
-                        'work_of_scope'=>$details->work_of_scope,
+                        'scope_of_work'=>$details->scope_of_work,
                         'quantity'=>$details->quantity,
                         'uom'=>$details->uom,
 
