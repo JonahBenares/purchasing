@@ -312,7 +312,8 @@ class Joi extends CI_Controller {
                 }
              } 
         } else {
-             foreach($this->super_model->select_row_where("jor_items", "joi_id" , $joi_id) AS $off){
+            
+             foreach($this->super_model->select_row_where("joi_items", "joi_id" , $joi_id) AS $off){
                     $data['currency'] = $off->currency;
                   $total = $off->unit_price*$off->quantity;
                     $data['items'][] =  array(
@@ -603,6 +604,7 @@ class Joi extends CI_Controller {
         $this->load->view('template/header');
         $joi_id = $this->uri->segment(3);
         $data['joi_id'] = $joi_id;
+        $data['cancelled']='';
         $vendor_id = $this->super_model->select_column_where('joi_head', 'vendor_id', 'joi_id', $joi_id);
         foreach($this->super_model->select_row_where('joi_head', 'joi_id', $joi_id) AS $h){
 
@@ -639,6 +641,7 @@ class Joi extends CI_Controller {
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
             $data['verified_by']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->verified_by);
+            $data['cancelled']=$h->cancelled;
         }
 
         $data['items'] = $this->super_model->select_row_where('joi_items', 'joi_id', $joi_id);

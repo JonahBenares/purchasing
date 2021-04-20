@@ -155,40 +155,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Update AOQ Terms
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-							</button>
-						</h5>
-						
-					</div>
-					<form method="POST" action="<?php echo base_url(); ?>joi/update_terms">
-						<div class="modal-body">
-							<div class="form-group">
-								Payment:
-								<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>">
-								Item Warranty:
-								<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>">
-								Delivery_item:
-								<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>">
-								Freight:
-								<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>">
-							</div>
-						</div>
-						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
-						<input type='hidden' name='aoq_vendors_id' value='<?php echo $aoq_vendors_id; ?>'>
-						<div class="modal-footer">
-							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
-						</div>
-
-					</form>
-				</div>
-			</div>
-		</div>
+	
 		<div class="modal fade" id="UpdateTerms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -395,8 +362,9 @@
 					    		<input type='hidden' name='jor_items_id<?php echo $x; ?>' value="<?php echo $it['jor_items_id']; ?>">
 					    		<textarea hidden  name='offer<?php echo $x; ?>'><?php echo $it['offer']; ?></textarea>
 					    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
-		    					<?php } $x++; } }else{ $gtotal=array(); } ?>
+		    					<?php } $x++; } ?> 
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
+		    					<?php }else{ $gtotal=array(); } ?>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
@@ -648,6 +616,40 @@
 	    	<input type="hidden" name='joi_id' value="<?php echo $joi_id; ?>">
     	</form>
     </div>
+    <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update AOQ Terms
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>joi/update_terms">
+						<div class="modal-body">
+							<div class="form-group">
+								Payment:
+								<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>">
+								Item Warranty:
+								<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>">
+								Delivery_item:
+								<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>">
+								Freight:
+								<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>">
+							</div>
+						</div>
+						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
+						<input type='hidden' name='aoq_vendors_id' value='<?php echo $aoq_vendors_id; ?>'>
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
     <script type="text/javascript">
     	function printPage() {
 		  window.print();
