@@ -249,8 +249,8 @@ $ci =& get_instance();
                                                 <td><?php echo $ji['scope_of_work'];?></td>
                                                 <td><?php echo $ji['quantity']; ?></td>
                                                 <td><?php echo $ji['uom']; ?></td>
-                                                <td><?php echo $ji['unit_cost']; ?></td>
-                                                <td><?php echo $ji['total_cost']; ?></td>
+                                                <td><?php echo number_format($ji['unit_cost'],2); ?></td>
+                                                <td><?php echo number_format($ji['total_cost'],2); ?></td>
                                                 <?php if(empty($jor_no)){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
                                                     <select class="form-control text-black"  name='group<?php echo $x; ?>' required>
