@@ -151,6 +151,7 @@ class Joaoq extends CI_Controller {
             $subject="REFERED TO MANILA";
             $message='';
             $message.="REFERED TO MANILA: <br><br>";
+            $cancelled='';
             foreach($this->super_model->select_custom_where("jor_aoq_head", "jor_aoq_id = '$aoq_id' AND saved='1' AND refer_mnl = '1'") AS $list){
                 $jo=$this->super_model->select_column_where("jor_head","jo_no","jor_id",$list->jor_id);
                 if($jo!=''){
@@ -158,6 +159,7 @@ class Joaoq extends CI_Controller {
                 }else{
                     $jo_no = $this->super_model->select_column_where("jor_head","user_jo_no","jor_id",$list->jor_id);                    
                 }
+                $cancelled = $list->cancelled;
                 $message.="<div style='border:2px solid; font-size:12px'>";
                 $message.="<table style='width:100%; border-collapse:collapse; font-size:12'>";
                 $message.="<td style='width:10%;'>JOR No.: </td><td style='width:40%;'>".$jo_no."</td>";
@@ -199,8 +201,11 @@ class Joaoq extends CI_Controller {
             $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
             $headers .= 'From: <jonah.narazo@gmail.com>' . "\r\n";
             var_dump(mail($to,$subject,$message,$headers));
-
-            redirect(base_url().'joaoq/joaoq_list', 'refresh');
+            if($cancelled==0){
+                redirect(base_url().'joaoq/joaoq_list', 'refresh');
+            }else{
+                redirect(base_url().'joaoq/joaoq_cancelled', 'refresh');
+            }
         }
     }
 
