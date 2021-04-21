@@ -343,7 +343,7 @@ class Aoq extends CI_Controller {
             'refer_mnl'=>1
         );
         if($this->super_model->update_where("aoq_head", $data, "aoq_id", $aoq_id)){
-            $to='stephineseverino.cenpri@gmail.com';
+            $to='jcosico.cenpri@gmail.com';
             $subject="REFERED TO MANILA";
             $message='';
             $message.="REFERED TO MANILA: <br><br>";

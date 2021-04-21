@@ -340,7 +340,9 @@
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
-		    								<input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' <?php echo (($revised!='r') ? "max=".$it['balance'] : ""); ?> style='width:50px; color:red;text-align: center' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)">
+		    								<input type="text" name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $it['balance']; ?>)" value='<?php echo $it['balance']; ?>' style='width:50px; color:red;text-align: center' onblur='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"/>
+                       
+		    								<!-- <input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' <?php echo (($revised!='r') ? "max=".$it['balance'] : ""); ?> style='width:50px; color:red;text-align: center' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"> -->
 		    							</b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $it['uom']; ?></td>
