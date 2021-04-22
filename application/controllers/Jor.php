@@ -350,8 +350,8 @@ class Jor extends CI_Controller {
         $data['group'] = $group;
         $data['category']=$category;
         $data['vendor'] = $this->super_model->custom_query("SELECT vendor_id, vendor_name, product_services FROM vendor_head WHERE product_services LIKE '%$category%' ORDER BY vendor_name ASC");
-        $data['noted_by']=$this->super_model->select_column_custom_where("jo_rfq_head",'noted_by',"jor_id = '$jor_id' AND grouping_id='$group'");
-        $data['approved_by']=$this->super_model->select_column_custom_where("jo_rfq_head",'approved_by',"jor_id = '$jor_id' AND grouping_id='$group'");
+        $data['noted_by']=$this->super_model->select_column_custom_where("jor_vendors",'noted_by',"jor_id = '$jor_id' AND grouping_id='$group'");
+        $data['approved_by']=$this->super_model->select_column_custom_where("jor_vendors",'approved_by',"jor_id = '$jor_id' AND grouping_id='$group'");
         $this->load->view('template/header');
         $this->load->view('jor/choose_vendor', $data);
         $this->load->view('template/footer');

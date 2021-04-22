@@ -1,4 +1,7 @@
-  	 <script src="<?php echo base_url(); ?>assets/js/jo.js"></script> 
+<?php 
+   	$CI =& get_instance();  
+?>
+  	<script src="<?php echo base_url(); ?>assets/js/jo.js"></script> 
   	<head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -359,14 +362,16 @@
 		    							$x=1;
 			    						foreach($items AS $it){ 
 			    								$gtotal[] = $it->amount;
+			    								$balance=$CI->item_checker($it->jor_items_id, $h['vendor_id']);
 		    					?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
 		    							<b class="nomarg"><textarea name='offer<?php echo $x; ?>' rows="5" style="width: 300px"><?php echo $it->offer; ?></textarea></b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
-		    							<b>
-		    								<input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:50px; color:red;text-align: center' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)">
+		    							<b>	
+		    								<input type="text" name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $it->delivered_quantity; ?>)" value='<?php echo $it->delivered_quantity; ?>' style='width:50px; color:red;text-align: center' onblur='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"/>
+		    								<!-- <input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:50px; color:red;text-align: center' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"> -->
 		    							</b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top"><b><input type='text' style='color:red; width:50px;text-align: center' name='uom<?php echo $x; ?>' value="<?php echo $it->uom; ?>"></b></td>

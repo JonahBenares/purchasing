@@ -215,3 +215,14 @@ $(document).on("click", "#jo", function () {
     var joi_id1 = $(this).attr("data-id");
     $("#joi_id1").val(joi_id1);
 });
+
+function minmax(value, min, max) {
+  if(parseFloat(value) < min || isNaN(parseFloat(value))){ 
+    return 0;
+  } else if(parseFloat(value) > max) {
+    alert("JOI Quantity is more than JOR Quantity!");
+    return max; 
+  }else{
+    return value;
+  }
+}

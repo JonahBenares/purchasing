@@ -377,7 +377,10 @@
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><textarea name = "scope_of_work<?php echo $x; ?>" class = "form-control" rows="7"><?php echo $det->offer; ?></textarea></td>
 
-		    						<td class="f13" align="center"><input type="text" name="quantity<?php echo $x; ?>" id='quantity<?php echo $x; ?>' style = "width:50%;text-align: center" value = "<?php echo $det->delivered_quantity; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'></td>
+		    						<td class="f13" align="center">
+		    							<input type="text" name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $det->delivered_quantity; ?>)" value='<?php echo $det->delivered_quantity; ?>' style='width:50px; color:red;text-align: center' onblur='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"/>
+		    							<!-- <input type="text" name="quantity<?php echo $x; ?>" id='quantity<?php echo $x; ?>' style = "width:50%;text-align: center" value = "<?php echo $det->delivered_quantity; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'> -->
+		    						</td>
 		    						<td class="f13" align="center"><input type="text" name="uom<?php echo $x; ?>" style = "width:100%;text-align: center" value = "<?php echo $det->uom; ?>"></td>
 		    						<td class="f13" align="center"><input type="text" name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' style = "width:100%;text-align: center" value = "<?php echo $det->unit_price; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'></td>
 		    						<td class="f13" align="right"><input type="text" name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo number_format($det->amount); ?>"></td>
