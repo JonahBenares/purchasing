@@ -44,8 +44,9 @@ class Joi extends CI_Controller {
     public function joi_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar'); 
-        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");      
         foreach($this->super_model->select_custom_where("joi_head", "cancelled='0' ORDER BY joi_date DESC") AS $head){
+            $joi_dr_id = $this->super_model->select_column_custom_where("joi_dr", "joi_dr_id", "joi_id = '$head->joi_id' AND received='0'");
             $data['head'][]=array(
                 "joi_id"=>$head->joi_id,
                 "date_prepared"=>$head->date_prepared,
@@ -58,7 +59,9 @@ class Joi extends CI_Controller {
                 'revised'=>$head->revised,
                 'draft'=>$head->draft,
                 'saved'=>$head->saved,
+                'served'=>$head->served,
                 'revision_no'=>$head->revision_no,
+                'joi_dr_id'=>$joi_dr_id
             );
         }
         $this->load->view('joi/joi_list',$data);
@@ -1478,7 +1481,8 @@ class Joi extends CI_Controller {
     }
 
         public function joi_rfd(){   
-        $joi_id = $this->uri->segment(3);   
+        $joi_id = $this->uri->segment(3);
+        $data['joi_id'] = $joi_id;   
         $data['revised']=$this->super_model->select_column_where('joi_head', 'revised', 'joi_id', $joi_id);
         $data['revision_no']=$this->super_model->select_column_where('joi_head', 'revision_no', 'joi_id', $joi_id);
         $data['saved']= $this->super_model->select_column_where("joi_rfd", "saved", "joi_rfd_id", $joi_id);
@@ -1494,7 +1498,6 @@ class Joi extends CI_Controller {
         $data['vat_percent']= $this->super_model->select_column_where("joi_head", "vat_percent", "joi_id", $joi_id);
         $data['total_cost']= $this->super_model->select_column_where("joi_head", "total_cost", "joi_id", $joi_id);
         $data['grand_total']= $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
-        $data['joi_id']= $joi_id;
         $data['vendor_id']= $vendor_id;
         $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
         $data['tin']= $this->super_model->select_column_where("vendor_head", "tin", "vendor_id", $vendor_id);
@@ -1504,7 +1507,7 @@ class Joi extends CI_Controller {
         $data['cancelled']=$this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
         foreach($this->super_model->select_row_where('joi_items', 'joi_items_id', $joi_id) AS $items){
             $total = $items->unit_price*$items->delivered_quantity;
-            if(!empty($items->offer)){
+           if(!empty($items->offer)){
                 $offer = $items->offer;
             } else {
                 $offer = $this->super_model->select_column_where("joi_items", "offer", "joi_items_id", $items->joi_items_id);
@@ -1728,6 +1731,8 @@ class Joi extends CI_Controller {
         $user_id= $this->super_model->select_column_where("joi_head", "user_id", "joi_id", $joi_id);
         $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
         $data['cancelled']=$this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
+        $data['delivered_to'] = $this->super_model->select_column_where("joi_dr", "delivered_to", "joi_id", $joi_id);
+        $data['address'] = $this->super_model->select_column_where("joi_dr", "address", "joi_id", $joi_id);
         $data['requested_by'] = $this->super_model->select_column_where("joi_dr", "requested_by", "joi_id", $joi_id);
         foreach($this->super_model->select_row_where('joi_jor', 'joi_jor_id', $joi_id) AS $jor){
              $itemno='';
@@ -1796,6 +1801,17 @@ class Joi extends CI_Controller {
         if($this->super_model->update_where("joi_dr", $data, "joi_dr_id", $joi_id)){
             echo "<script>window.location ='".base_url()."joi/joi_dr/$joi_id/$joi_dr_id';</script>";
         }
+    }
+
+    public function deliver_po(){
+        $joi_id = $this->uri->segment(3);
+        $joi_dr_id = $this->uri->segment(4);
+        $data['joi_id']=$joi_id;
+        $data['joi_dr_id']=$joi_dr_id;
+        $data['items'] = $this->super_model->select_custom_where("joi_dr_items","joi_id='$joi_id' AND joi_dr_id = '$joi_dr_id'");
+        $this->load->view('template/header');        
+        $this->load->view('joi/deliver_jo',$data);
+        $this->load->view('template/footer');
     }
 
     public function joi_ac(){  

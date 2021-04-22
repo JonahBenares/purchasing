@@ -230,7 +230,7 @@
 						<?php if($draft!=1){ 
 								if($revised==0){ ?>
 						<a  href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
-						<?php } }?>
+						<?php } } ?>
 						<?php foreach($dr AS $d){ ?>
 						<a  href="<?php echo base_url(); ?>joi/joi_dr/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
 						<?php } ?>

@@ -39,7 +39,65 @@ class Jor extends CI_Controller {
             }
         }
 
-	}    
+	}
+
+    public function redirect_jod(){
+        $rows_head = $this->super_model->count_rows("joi_head");
+        if($rows_head==0){
+            $joi_id=1;
+        } else {
+            $max = $this->super_model->get_max("joi_head", "joi_id");
+            $joi_id = $max+1;
+        }
+
+        $rows_series = $this->super_model->count_rows("joi_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("joi_series", "series");
+            $series = $max+1;
+        }
+
+        $jor_id = $this->input->post('jor_ids');
+        $group_id = $this->input->post('group_id');
+         $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $items->jor_id);
+                    if($jo_no!=''){
+                        $jor_no=$this->super_model->select_column_custom_where("jor_head", "jo_no", "jor_id = '$key[jor_id]' AND cancelled = '0'");
+                    }else{
+                        $jor_no=$this->super_model->select_column_custom_where("jor_head", "user_jo_no", "jor_id = '$key[jor_id]' AND cancelled = '0'");
+                    }
+        $joi_no = "P".$jor_no."-".$series;
+       // $po_no = "POD-".$series;
+        $data= array(
+            'joi_id'=>$joi_id,
+            'joi_date'=>$this->input->post('joi_date'),
+            'joi_no'=>$joi_no,
+            'vendor_id'=>$this->input->post('vendor'),
+            'joi_type'=>1,
+            'user_id'=>$_SESSION['user_id'],
+            'prepared_date'=>date("Y-m-d H:i:s"),
+        );  
+
+        $data_series = array(
+            'series'=>$series
+        );
+        $this->super_model->insert_into("joi_series", $data_series);
+
+      
+        if($this->super_model->insert_into("joi_head", $data)){
+            foreach($this->super_model->select_row_where("jor_head","jor_id",$jor_id) AS $joi_jor){
+                $data_jor = array(
+                    'joi_id'=>$joi_id,
+                    'jor_id'=>$jor_id,
+                    'enduse'=>$joi_jor->enduse,
+                    'purpose'=>$joi_jor->purpose,
+                    'requestor'=>$joi_jor->requestor,
+                );
+                $this->super_model->insert_into("joi_jor", $data_jor);
+            }
+            redirect(base_url().'jod/jo_direct/'.$joi_id.'/'.$jor_id.'/'.$group_id);
+        }
+    }    
 
     public function jor_list(){
         $this->load->view('template/header');
