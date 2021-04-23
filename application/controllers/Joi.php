@@ -1128,8 +1128,21 @@ class Joi extends CI_Controller {
             $data['cancelled']= $h->cancelled;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['approved_id'] = $h->approved_by;
+
+            $approved_id_temp = $this->super_model->select_column_where('joi_head_temp', 'approved_by', 'joi_id', $h->joi_id);
+            $data['approved_temp'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $approved_id_temp);
+
+            $recommended_id_temp = $this->super_model->select_column_where('joi_head_temp', 'recommended_by', 'joi_id', $h->joi_id);
+            $data['recommended_temp'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $recommended_id_temp);
+
+            $checked_id_temp = $this->super_model->select_column_where('joi_head_temp', 'checked_by', 'joi_id', $h->joi_id);
+            $data['checked_temp'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $checked_id_temp);
+
+            $verified_id_temp = $this->super_model->select_column_where('joi_head_temp', 'verified_by', 'joi_id', $h->joi_id);
+            $data['verified_by_temp'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $verified_id_temp);
+
             $data['recommended_id'] = $h->recommended_by;
-             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
+            $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
             $data['checked_id'] = $h->checked_by;
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);

@@ -193,8 +193,8 @@ $(document).on("click", "#approve_rev", function () {
                                     <button type="button" class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#add_jo">
                                         <span class="fa fa-plus p-l-0"></span> Add JO
                                     </button>
-                                    <a href="<?php echo base_url(); ?>joi/served_jo" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Delivered PO</a> 
-                                    <a href="<?php echo base_url(); ?>joi/incom_jodel" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-adjust"></span> Incomplete PO Delivery</a> 
+                                    <a href="<?php echo base_url(); ?>joi/served_jo" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Delivered JOI</a> 
+                                    <a href="<?php echo base_url(); ?>joi/incom_jodel" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-adjust"></span> Incomplete JOI Delivery</a> 
                                     <a href="<?php echo base_url(); ?>joi/cancelled_joi" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled JOI</a>
                                 </div>                                
                             </div>

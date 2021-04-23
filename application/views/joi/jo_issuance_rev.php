@@ -680,7 +680,7 @@
                                     <option value="<?php echo $emp->employee_id; ?>" <?php echo (($checked_id == $emp->employee_id) ? ' selected' : '');?>><?php echo $emp->employee_name; ?></option>
 								<?php } ?> 
 		    				</select>
-		    				<?php }else { echo $checked; }?>
+		    				<?php }else { echo $checked_temp; }?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
@@ -691,7 +691,7 @@
                                     <option value="<?php echo $emp->employee_id; ?>" <?php echo (($recommended_id == $emp->employee_id) ? ' selected' : '');?>><?php echo $emp->employee_name; ?></option>
 								<?php } ?> 
 		    				</select>
-		    				<?php }else { echo $recommended; } ?>
+		    				<?php }else { echo $recommended_temp; } ?>
 		    			</td>
 
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -703,7 +703,7 @@
                                     <option value="<?php echo $emp->employee_id; ?>" <?php echo (($approved_id == $emp->employee_id) ? ' selected' : '');?>><?php echo $emp->employee_name; ?></option>
 								<?php } ?> 
 		    				</select>
-		    				<?php }else { echo $approved; } ?>
+		    				<?php }else { echo $approved_temp; } ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr> 
@@ -748,7 +748,7 @@
                                     <option value="<?php echo $emp->employee_id; ?>"  <?php echo (($verified_id == $emp->employee_id) ? ' selected' : '');?>><?php echo $emp->employee_name; ?></option>
 								<?php } ?> 
 		    				</select>
-		    				<?php }else { echo $verified_by; } ?>
+		    				<?php }else { echo $verified_by_temp; } ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"></td>
