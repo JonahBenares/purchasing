@@ -224,7 +224,8 @@ $(document).on("click", "#approve_rev", function () {
                                             </td>
                                             <td><?php echo $h['project_title']; ?></td>
                                             <td><?php echo $h['vendor']; ?></td>
-                                            <td><?php 
+                                            <td>
+                                            <?php 
 
                                             if($h['revised']==1) {
                                                 echo '<span class="label label-warning">Request for Revision</span>';
@@ -247,41 +248,15 @@ $(document).on("click", "#approve_rev", function () {
                                                 } else if($h['joi_type']==2){
                                                     echo "Repeat Order";
                                                 }
-                                            ?></td>
-                                            <td>
-                                                <?php 
-                                                    if($h['revised']==1) {
-                                                        echo '<span class="label label-warning">Request for Revision</span>';
-                                                    } else {
-                                                        if($h['served']==0 && $h['saved']==1) {
-                                                            echo '<span class="label label-warning">JO Issued</span>';
-                                                        } else if($h['served']==1) {
-                                                          echo '<span class="label label-success">Delivered</span>'; 
-                                                        } 
-
-                                                        if($h['draft']==1) {
-                                                          echo '<span class="label label-info">Draft</span>'; 
-                                                        }
-                                                    } 
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                    if($h['joi_type']==0){
-                                                        echo "Job Order Request";
-                                                    } else if($h['joi_type']==1){
-                                                        echo "Direct Purchase";
-                                                    } else if($h['joi_type']==2){
-                                                        echo "Repeat Order";
-                                                    }
-                                                ?>
+                                            ?>
                                             </td>
                                             <td>
                                                 <center>
+                                                    <?php if($h['saved']==1){ ?> 
                                                     <a href="" class="btn btn-custon-three btn-success btn-xs deliverjoi" title='Deliver JOI' onclick="deliver_jo('<?php echo base_url(); ?>','<?php echo $h['joi_id']?>','<?php echo $h['joi_dr_id']?>')">
                                                         <span class="fa fa-truck"></span>
                                                     </a>
-                                                    <a class="cancelJOI btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJOI" data-id="<?php echo $h['joi_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
+                                                    <?php } ?>
                                                     <?php if($h['saved']==0 && $h['joi_type']==0 && $h['revised']==0){ ?>
                                                     <a href="<?php echo base_url(); ?>joi/jo_issuance/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>

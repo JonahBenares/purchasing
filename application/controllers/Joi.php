@@ -45,7 +45,7 @@ class Joi extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar'); 
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");      
-        foreach($this->super_model->select_custom_where("joi_head", "cancelled='0' ORDER BY joi_date DESC") AS $head){
+        foreach($this->super_model->select_custom_where("joi_head", "served='0' AND cancelled='0' ORDER BY joi_date DESC") AS $head){
             $joi_dr_id = $this->super_model->select_column_custom_where("joi_dr", "joi_dr_id", "joi_id = '$head->joi_id' AND received='0'");
             $data['head'][]=array(
                 "joi_id"=>$head->joi_id,
