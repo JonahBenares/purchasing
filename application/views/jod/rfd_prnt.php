@@ -12,13 +12,7 @@
 	    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
 	    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/mixins.css">
 	</head>
-	<script type="text/javascript">
-		$(document).on("click", "#addnotes_button", function () {
-		     var rfd_id = $(this).attr("data-id");
-		     $("#rfd_id").val(rfd_id);
 
-		});
-	</script>
   	<style type="text/css">
         html, body{
             background: #2d2c2c!important;
@@ -105,22 +99,29 @@
     </style>
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>joi/save_joi_rfd'>  
+    	<form method='POST' action='<?php echo base_url(); ?>jod/save_rfd'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-						<?php if($rows_rfd==0){ ?>
-							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
-							<?php } else { ?>	
+						<?php if($rows_dr!=0){ ?>
 							<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
-							<?php } ?>
+						<?php } else { ?>
+							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	
+						<?php } ?>
 					</div>
-					<p class="text-white">Instructions: When printing REQUEST FOR DISBURSEMENT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
+					<p class="text-white">Instructions: When printing DELIVERY RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;" class=""> <!-- <?php  if($cancelled==1){ echo 'cancel'; }?> add class cancel -->
-		    	<table class="table-borsdered" width="100%" style="border:1px solid #000">
+	    	<div style="background: #fff;" class="<?php if($cancelled==1){ echo 'cancel'; } ?>"> <!-- add class cancel -->
+	    		<table width="100%">
+	    			<tr>
+	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
+	    				<td width="50%"><center>Procurement System Generated</center></td>
+	    				<td width="25%"></td>
+	    			</tr>
+	    		</table>
+		    	<table class="table-borddered" width="100%" style="border:1px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
@@ -142,7 +143,7 @@
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
-		    		</tr>		    		
+		    		</tr>
 		    		<tr>
 		    			<td colspan="20">
 		    				<center>
@@ -158,85 +159,78 @@
 		    		<tr>
 		    			<td colspan="3"><b class="nomarg">Company:</b></td>
 		    			<td colspan="9" class="bor-btm">
-		    				<?php if($rows_rfd==0){ ?>
-		    				<input type="text" style="width:100%" name="company" autocomplete="off">
-		    				<?php } else { 
-		    					echo $company;
-		    				} ?></td>
-		    			<td colspan="3" align="right"><b class="nomarg">APV No.:</b></td>
+		    			<?php if($rows_dr==0){ ?>
+		    				<input type="text" style="width:100%" name="company" autocomplete="off"></td>
+		    			<?php } else {
+		    				echo $company;
+		    			} ?>
+		    			<td colspan="3" align="right"><b class="nomarg">APV/RFD No.:</b></td>
 		    			<td colspan="5" class="bor-btm">
-		    				<?php if($rows_rfd==0){ ?>
-		    				<input type="text" style="width:100%" name="apv_no" autocomplete="off">
-		    				<?php } else { 
+		    				<?php if($rows_dr==0){ ?>
+		    					<input type="text" style="width:100%" name="apv_no" autocomplete="off">
+		    				<?php } else {
 		    					echo $apv_no;
-		    				} ?></td>
+		    				} ?>
 		    			</td>
 		    		</tr>
 		    		<tr>
+
 		    			<td colspan="3"><b class="nomarg">Pay To:</b></td>
-		    			<td colspan="9" class="bor-btm"><b class="nomarg"><?php echo $vendor; ?></b></td>
+		    			<td colspan="9" class="bor-btm"><b class="nomarg"><?php echo (!empty($tin)) ? $vendor." / ".$tin : $vendor; ?></b></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Date:</b></td>
 		    			<td colspan="5" class="bor-btm">
-		    				<?php if($rows_rfd==0){ ?>
+		    				<?php if($rows_dr==0){ ?>
 		    				<input type="date" style="width:100%" name="rfd_date" >
-		    				<?php } else { 
-		    					echo date('F j, Y', strtotime($rfd_date));
+		    				<?php } else {
+		    					echo $rfd_date;
 		    				} ?></td>
-		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3"><b class="nomarg">Check Name:</b></td>
 		    			<td colspan="9" class="bor-btm">
-	    					<?php if($rows_rfd==0){ ?>
-		    					<input type="text" style="width:100%" name="check_name" value="" autocomplete="off">
-		    				<?php } else { 
+		    			<?php if($rows_dr==0){ ?>
+		    				<input type="text" style="width:100%" name="check_name" value="" autocomplete="off">
+		    			<?php } else {
 		    					echo $check_name;
-		    				} ?></td>
-	    				</td>
+		    			} ?></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Due Date:</b></td>
 		    			<td colspan="5" class="bor-btm">
-		    				<?php if($rows_rfd==0){ ?>
-		    				<input type="date" style="width:100%" name="due_date" >
-		    				<?php } else { 
-		    					echo date('F j, Y', strtotime($due_date));
+		    				<?php if($rows_dr==0){ ?>
+		    					<input type="date" style="width:100%" name="due_date" >
+		    				<?php } else {
+		    					echo $due_date;
 		    				} ?></td>
-		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td></td>
 		    			<td class="bor-btm" align="center">
-		    				<?php if($rows_rfd==0){ ?>
-		    					<input type="radio"  name="cash" value='1'>
+		    				<?php if($rows_dr==0){ ?>
+		    				<input type="radio"  name="cash" value='1'>
 		    				<?php } else {
-		    					if($cash_check == '1'){ ?>
-		    						<span class='fa fa-check'></span>
-		    					<?php }
+		    					echo (($cash == 1) ? "<span class='fa fa-check'></span>" : "");
 		    				} ?></td>
-		    			</td>
 		    			<td><b class="nomarg">Cash</b></td>
 		    			<td class="bor-btm" align="center">
-		    				<?php if($rows_rfd==0){ ?>
+		    					<?php if($rows_dr==0){ ?>
 		    					<input type="radio" name="cash" value='2'>
-		    				<?php } else {
-		    					if($cash_check == '2'){ ?>
-		    						<span class='fa fa-check'></span>
-		    					<?php }
-		    				} ?></td>
+		    					<?php } else {
+		    					echo (($cash == 2) ? "<span class='fa fa-check'></span>" : "");
+		    					} ?></td>
 		    			<td><b class="nomarg">Check</b></td>
 		    			<td></td>
 		    			<td colspan="2"><b class="nomarg">Bank / no.</b></td>
 		    			<td colspan="4" class="bor-btm">
-		    				<?php if($rows_rfd==0){ ?>
+		    				<?php if($rows_dr==0){ ?>
 		    					<input type="text" style="width:100%" name="bank_no" autocomplete="off">
-		    				<?php } else { 
+		    				<?php } else {
 		    					echo $bank_no;
 		    				} ?></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Check Due:</b></td>
 		    			<td colspan="5" class="bor-btm">
-		    				<?php if($rows_rfd==0){ ?>
-		    					<input type="date" style="width:100%" name="check_due" >
-		    				<?php } else { 
-		    					echo date('F j, Y', strtotime($check_due));
+		    				<?php if($rows_dr==0){ ?>
+		    				<input type="date" style="width:100%" name="check_due" >
+		    				<?php } else {
+		    					echo $check_due;
 		    				} ?></td>
 		    		</tr>
 		    		<tr>
@@ -254,68 +248,56 @@
 		    			<td align="left" colspan="17" class="bor-right"><b class="nomarg">Payment for:</b></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
-		    				<?php
-					    		$subtotal=array();
-					    		if(!empty($items)){
-					    		foreach($items AS $i){ 
-					    			$subtotal[] = $i['total'];
-				    		?>
-		    		<tr>
-		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></td>
-		    			<td align="right" colspan="1"><?php echo $i['quantity']; ?></td>
-		    			<td align="right" colspan="2"><?php echo $i['uom']; ?></td>
-		    			<td align="right" colspan="2" class="bor-right"><?php echo number_format($i['price'],2); ?></td>
+		    		<?php foreach($items AS $it){ 
+		    			$subtotal[] = $it['total']; ?>
+			    		<tr>
+			    			<td align="left" colspan="17" class="bor-right">
+			    				<b class="nomarg"><?php echo number_format($it['quantity'],2) ." ".$it['uom'] ." " . $it['offer'] . ", " . "  @ ". number_format($it['price'],4) ." per ".  $it['uom']; ?></b>
+			    			</td>
+			    			<td align="right" colspan="3">
+			    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+			    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],2); ?></b></span>
+			    			</td>
+			    		</tr>
+			    	<?php } ?>
+			    	<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Shipping Cost</b></td>
 		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><?php echo number_format($i['total'],2); ?></span>
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($shipping,2); ?></b></span>
 		    			</td>
 		    		</tr>
-		    		<?php } } else { $subtotal=array(); } ?>
 		    		<tr>
-		    			<td align="left" colspan="7" ><?php echo $cenpri_jo_no."/".$joi_no."-".COMPANY; ?></td>
-		    			<td align="right" colspan="10" class="bor-right"></td>
-		    			<td align="right" colspan="3"></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Packing and Handling Fee</b></td>
+		    			<td align="right" colspan="3" >
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($packing,2); ?></b></span>
+		    			</td>
 		    		</tr>
+		    		<?php if($vat_percent!=0){ ?>
 		    		<tr>
-		    			<td align="left" colspan="7" ></td>
-		    			<td align="right" colspan="10" class="bor-right"><br><br><br></td>
-		    			<td align="right" colspan="3"></td>
-		    			</tr>
-		    			<?php if($vatt!=0){ ?>
-		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent."% VAT"; ?></b></td>
-		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><?php echo number_format($vatt,2); ?></span>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent; ?>% VAT</b></td>
+		    			<td align="right" colspan="3" >
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($vatt,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
-		    		<?php 
-
-		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt) - $discount;
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: Discount</b></td>
+		    			<td align="right" colspan="3" >
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($discount,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<?php
+		    				$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt) - $discount;
 		    		?>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">SubTotal:</b></td>
-		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><?php echo number_format(array_sum($subtotal),2); ?></span>
-		    			</td>
-		    		</tr>
-		    		
-		    		</tr>
-		    			<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less Discount"; ?></b></td>
-		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><?php echo number_format($discount,2); ?></span>
-		    			</td>
-		    		</tr>
-		    		</tr>
-		    			<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Net: "; ?></b></td>
-		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><?php echo number_format($stotal,2); ?></span>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Subtotal</b></td>
+		    			<td align="right" colspan="3" class=" bor-top">
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<?php 
@@ -328,23 +310,63 @@
 		    			$gtotal = $stotal-$less;
 		    		} ?>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% EWT</b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: <?php echo number_format($ewt); ?>% EWT</b></td>
 		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><?php echo number_format($less,2); ?></span>
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($less,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance Amount Due</b></td>
-		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg">₱</span>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo (($vat==1) ? 'Vatable' : 'Non-Vatable'); ?></b></td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<!-- <?php foreach($jor AS $p){ ?>
+		    		<tr>
+		    			<td align="left" colspan="17" class="bor-right">
+		    				<b class="nomarg">Purpose: <?php echo $p['purpose']; ?></b>
+		    			</td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<tr>
+		    			<td align="left" colspan="17" class="bor-right">
+		    				<b class="nomarg">End Use:  <?php echo $p['enduse']; ?></b>
+		    			</td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<tr>
+		    			<td align="left" colspan="17" class="bor-right">
+		    				<b class="nomarg">Requestor:  <?php echo $p['requestor'] .(($p['jor_id']!=0) ? "; Item# ". $p['item_no'] : "") ?></b>
+		    			</td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		<tr>
+		    			<td align="center" colspan="17" class="bor-right"><br></td>
+		    			<td align="center" colspan="3"><br></td>
+		    		</tr>
+		    		<?php } ?>	-->	    		
+		    		<tr>
+		    			<td align="left" colspan="7" ><b class="nomarg">J.O. No: <?php echo $joi_no."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : "");?></b></td>
+		    			<td align="right" colspan="10" class="bor-right"><b class="nomarg" style="font-weight: 900">Total Amount Due</b></td>
+		    			<td align="right" colspan="3" style="border-bottom: 2px solid #000">
+		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"></b></td>
+		    			<td align="left" colspan="7" ><b class="nomarg">DR No: <?php echo $dr_no."-".COMPANY; ?></b></td>
+		    			<td align="right" colspan="10" class="bor-right"></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
+		    		<tr>
+		    			<td align="left" colspan="7" ><b class="nomarg">Notes: </b>
+		    				<?php if($rows_dr==0){ ?>
+		    				<textarea class="form-control bor-btm"  name = "notes"></textarea>
+		    				<?php }else { echo $notes; }?>
+		    			</td>
+		    			<td align="right" colspan="10" class="bor-right"></td>
+		    			<td align="right" colspan="3"></td>
+		    		</tr>
+		    		
 		    		<tr>
 		    			<td align="center" colspan="17" class="bor-right bor-btm"><br></td>
 		    			<td align="center" colspan="3" class="bor-btm"><br></td>
@@ -360,25 +382,28 @@
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
-		    		<tr>
 		    			<td colspan="3"><b class="nomarg"><?php echo $_SESSION['fullname']; ?></b></td>
 		    			<td colspan="3">
 		    			<b>
-			    				<?php if($rows_rfd==0){ ?>
-					    			<select name='checked' class="select-des emphasis" required style="width:90%">
-					    			<option value=''>-Select Employee-</option>
-					    			<?php foreach($employee AS $emp){ ?>
-					    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-					    			<?php } ?>
-				    				</select>
-				    			<?php } else {
-				    				echo $checked;
-				    			} ?>
-					    	</b>
+		    				<?php if($rows_dr==0){ ?>
+		    			<select name='checked' class="select-des emphasis" required style="width:90%">
+		    				
+			    			<option value='' selected>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+			    		</select>
+			    		<?php 	
+			    			} else { 
+			    				echo $checked; 
+			    			} ?>
+		    			
+		    			</b>
 		    			</td>
-		    			<td colspan="3">
+
+		    				<td colspan="3">
 		    			<b>
-		    				<?php if($rows_rfd==0){ ?>
+		    				<?php if($rows_dr==0){ ?>
 		    			<select name='noted' class="select-des emphasis"  style="width:90%">
 		    				
 			    			<option value='' selected>-Select Employee-</option>
@@ -393,37 +418,42 @@
 		    			
 		    			</b>
 		    			</td>
+
+
 		    			<td colspan="3">
-			    			<b>
-			    				<?php if($rows_rfd==0){ ?>
-				    			<select name='endorsed' class="select-des emphasis" required style="width:90%">
-					    			<option value=''>-Select Employee-</option>
-					    			<?php foreach($employee AS $emp){ ?>
-					    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-					    			<?php } ?>
-				    			</select>
-				    			<?php } else {
-				    				echo $endorsed;
-				    			} ?>
-			    			</b>
+		    			<b>
+		    			<?php if($rows_dr==0){ ?>
+		    			<select name='endorsed' class="select-des emphasis" required style="width:90%">
+			    			<option value=''>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+		    			</select>
+		    			<?php 	
+			    			} else { 
+			    				echo $endorsed; 
+			    			} ?>
+		    			</b>
 		    			</td>
 		    			<td colspan="3">
-			    			<b>
-			    				<?php if($rows_rfd==0){ ?>
-					    			<select name='approved' class="select-des emphasis" required style="width:90%">
-					    			<option value=''>-Select Employee-</option>
-					    			<?php foreach($employee AS $emp){ ?>
-					    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-					    			<?php } ?>
-				    			</select>
-				    			<?php } else {
-				    				echo $approved;
-				    			} ?>
-			    			</b>
+		    			<b>
+		    				<?php if($rows_dr==0){ ?>
+		    			<select name='approved' class="select-des emphasis" required style="width:90%">
+			    			<option value=''>-Select Employee-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+		    			</select>
+		    				<?php 	
+			    			} else { 
+			    				echo $approved; 
+			    			} ?>
+		    			</b>
 		    			</td>
+
 		    			<td colspan="5">
 		    			<b>
-		    				<?php if($rows_rfd==0){ ?>
+		    				<?php if($rows_dr==0){ ?>
 		    			<select name='received' class="select-des emphasis"  style="width:90%">
 		    				
 			    			<option value='' selected>-Select Employee-</option>
@@ -442,6 +472,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
+	    	<input type='hidden' name='joi_type' value='<?php echo $joi_type; ?>'>
 	    	<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
 	    	<input type='hidden' name='pay_to' value='<?php echo $vendor_id; ?>'>
 	    	<input type='hidden' name='total_amount' value='<?php echo $gtotal; ?>'>

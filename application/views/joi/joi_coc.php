@@ -227,14 +227,14 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->offer); ?></td>
-		    						<td class="f13" align="center"><?php echo $det->quantity; ?></td>
+		    						<td class="f13" align="center"><?php echo $det->delivered_quantity; ?></td>
 		    						<td class="f13" align="center"><?php echo $det->uom; ?></td>
 		    						<td class="f13" align="center"><?php echo number_format($det->unit_price,2); ?></td>
 		    						<td class="f13" align="right"><?php echo number_format($det->amount,2); ?></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    				<?php } } else{ $gtotal=array(); } ?>
-<tr>
+								<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>

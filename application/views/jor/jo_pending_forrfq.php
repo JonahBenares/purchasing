@@ -3,14 +3,14 @@
         $(document).on("click", "#updateDP_button", function () {
             var jor_ids= $(this).attr("data-id");
             var group_id = $(this).attr("data-trigger");
-            $("#jor_ids").val(pr_ids);
+            $("#jor_ids").val(jor_ids);
             $("#group_id").val(group_id);
         });
 
         $(document).on("click", "#updateRO_button", function () {
-            var pr_idro= $(this).attr("data-id");
+            var jor_idro= $(this).attr("data-id");
             var group_idro = $(this).attr("data-trigger");
-            $("#pr_idro").val(pr_idro);
+            $("#pr_idro").val(joy_idro);
             $("#group_idro").val(group_idro);
         });
 
@@ -93,8 +93,8 @@
                                                                         <!-- <input type='submit' class="btn btn-primary btn-sm" value='RFQ' title="Create RFQ" onclick="return confirm('Are you sure you want to create RFQ?')"> -->
                                                                         <a class="btn btn-primary btn-sm" id = "RfqSend" data-toggle="modal" data-target="#modalRfq" data-id = "<?php echo $h['jor_id']; ?>" data-group= "<?php echo $h['group']; ?>">RFQ</a>
                                                                     <?php } ?>
-                                                                    <a class="btn btn-info btn-sm" title="Direct Purchase" id="updateDP_button" data-id="" data-trigger="" data-toggle="modal" data-target="#directpurch">DP</a>
-                                                                    <a href=""  data-toggle="modal" id="updateRO_button" data-id="" data-trigger="" data-target="#repord" class="btn btn-success btn-sm" title="Repeat Order">RO</a>
+                                                                    <a class="btn btn-info btn-sm" title="Direct Purchase" id="updateDP_button" data-id="<?php echo $h['jor_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-toggle="modal" data-target="#directpurch">DP</a>
+                                                                    <!-- <a href=""  data-toggle="modal" id="updateRO_button" data-id="<?php echo $h['jor_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-target="#repord" class="btn btn-success btn-sm" title="Repeat Order">RO</a> -->
                                                                 </div>
                                                             </center>
                                                             </td>
@@ -157,7 +157,7 @@
                     </h5>
                     
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>jor/redirect_pod">
+                <form method="POST" action = "<?php echo base_url();?>jor/redirect_jod">
                     <div class="modal-body">
                         Date:
                         <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control" >
@@ -170,7 +170,7 @@
                             <?php } ?>
                         </select>
                     </div> 
-                    <input type="hidden" name="pr_ids" id="pr_ids">
+                    <input type="hidden" name="jor_ids" id="jor_ids">
                     <input type="hidden" name="group_id" id="group_id">
                     <div class="modal-footer">
                         <input type="submit" name="submit" class="btn btn-primary btn-block" value="Save">
