@@ -242,7 +242,8 @@ $ci =& get_instance();
                                             <?php 
                                             $x=1; 
                                             if(!empty($jo_items)){
-                                            foreach($jo_items AS $ji){ ?>
+                                            foreach($jo_items AS $ji){ 
+                                            ?>
                                             <?php if($ji['cancelled']==1){ ?>
                                             <tr class="tr-red">
                                                 <td><?php echo $x; ?></td>
@@ -251,7 +252,7 @@ $ci =& get_instance();
                                                 <td><?php echo $ji['uom']; ?></td>
                                                 <td><?php echo number_format($ji['unit_cost'],2); ?></td>
                                                 <td><?php echo number_format($ji['total_cost'],2); ?></td>
-                                                <?php if(empty($jor_no)){ ?>
+                                                <?php if($ji['vendor_id']==0){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
                                                     <select class="form-control text-black"  name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>
@@ -275,7 +276,7 @@ $ci =& get_instance();
                                                 <td><?php echo $ji['uom']; ?></td>
                                                 <td><?php echo number_format($ji['unit_cost'],2); ?></td>
                                                 <td><?php echo number_format($ji['total_cost'],2); ?></td>
-                                                <?php if($saved==0){ ?>
+                                                <?php if($ji['vendor_id']==0){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
                                                     <select class="form-control" name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>

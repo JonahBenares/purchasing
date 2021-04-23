@@ -49,7 +49,7 @@
                         </button>
                     </h5>                    
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>po/approve_revision">
+                <form method='POST' action="<?php echo base_url(); ?>joi/approve_revision">
                     <div class="modal-body">
                         <div class="form-group">
                             <p class="m-b-0">Approved by:</p>
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="po_id" id="po_id" >
+                        <input type="hidden" name="joi_id" id="joi_id" >
                         <input type='submit' value='Approve' class="btn btn-custon-three btn-primary btn-block">
                     </div>
                 </form>

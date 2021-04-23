@@ -90,8 +90,10 @@ class Jor extends CI_Controller {
         $data['cancelled']='';
             foreach($this->super_model->select_custom_where("jor_items", "jor_id='$jor_id'") AS $ji){
                 $vendor='';
+                $vendor_id='';
                 foreach($this->super_model->select_custom_where("jo_rfq_head", "jor_id='$jor_id' AND grouping_id = '$ji->grouping_id' AND cancelled = '0' GROUP BY vendor_id") AS $ven){
                     $vendor.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$ven->vendor_id) . "<br>";
+                    $vendor_id.=$this->super_model->select_column_where('vendor_head','vendor_id','vendor_id',$ven->vendor_id);
                 }
                 $data['cancelled']=$ji->cancelled;
                 if($ji->total_cost==0){
@@ -103,6 +105,8 @@ class Jor extends CI_Controller {
                 $data['jo_items'][]=array(
                     'jor_items_id'=>$ji->jor_items_id,
                     'jor_id'=>$ji->jor_id,
+                    'jor_id'=>$ji->jor_id,
+                    'vendor_id'=>$vendor_id,
                     'scope_of_work'=>$ji->scope_of_work,
                     'quantity'=>$ji->quantity,
                     'uom'=>$ji->uom,

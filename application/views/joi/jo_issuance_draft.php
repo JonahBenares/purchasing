@@ -370,7 +370,7 @@
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>	
-		    								<input type="text" name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $it->delivered_quantity; ?>)" value='<?php echo $it->delivered_quantity; ?>' style='width:50px; color:red;text-align: center' onblur='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"/>
+		    								<input type="text" name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $it->delivered_quantity; ?>)" value='<?php echo $it->delivered_quantity; ?>' style='width:50px; color:red;text-align: center' onchange='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"/>
 		    								<!-- <input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:50px; color:red;text-align: center' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"> -->
 		    							</b>
 		    						</td>

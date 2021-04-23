@@ -45,7 +45,8 @@ class Joi extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar'); 
         $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
-        foreach($this->super_model->select_custom_where("joi_head", "cancelled='0' ORDER BY joi_date DESC") AS $head){
+        foreach($this->super_model->select_custom_where("joi_head", "served = '0' AND cancelled='0' ORDER BY joi_date DESC") AS $head){
+            $dr_id = $this->super_model->select_column_custom_where("joi_dr", "joi_dr_id", "joi_id = '$head->joi_id' AND received='0'");
             $data['head'][]=array(
                 "joi_id"=>$head->joi_id,
                 "date_prepared"=>$head->date_prepared,
@@ -58,10 +59,256 @@ class Joi extends CI_Controller {
                 'revised'=>$head->revised,
                 'draft'=>$head->draft,
                 'saved'=>$head->saved,
+                'served'=>$head->served,
                 'revision_no'=>$head->revision_no,
+                'dr_id'=>$dr_id,
             );
         }
         $this->load->view('joi/joi_list',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function deliver_jo(){
+        $joi_id = $this->uri->segment(3);
+        $joi_dr_id = $this->uri->segment(4);
+        $data['joi_id']=$joi_id;
+        $data['joi_dr_id']=$joi_dr_id;
+        $data['items'] = $this->super_model->select_custom_where("joi_dr_items","joi_id='$joi_id' AND joi_dr_id = '$joi_dr_id'");
+        $this->load->view('template/header');        
+        $this->load->view('joi/deliver_jo',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function save_delivery(){
+        $count = $this->input->post('count');
+        $joi_id = $this->input->post('joi_id');
+        $joi_dr_id = $this->input->post('joi_dr_id');
+
+        $data_dr = array(
+            'received'=>1,
+            'date_received'=>$this->input->post('date_delivered'),
+        );
+
+         $this->super_model->update_where("joi_dr", $data_dr, "joi_dr_id", $joi_dr_id);
+
+        $data_head = array(
+            'served'=>1,
+            'served_by'=>$_SESSION['user_id']
+        );
+
+        $this->super_model->update_where("joi_head", $data_head, "joi_id", $joi_id);
+        for($x=1;$x<$count;$x++){
+            $joi_items_id = $this->input->post('joi_items_id'.$x);
+            $curr_rec_balance = $this->super_model->select_column_where('joi_items', 'quantity', 'joi_items_id', $joi_items_id);
+            $new_qty = $curr_rec_balance + $this->input->post('received_qty'.$x);
+
+             $data_poitems=array(
+                'quantity'=>$new_qty
+            );
+
+            $data=array(
+                'quantity'=>$this->input->post('received_qty'.$x)
+            );
+
+            $this->super_model->update_where("joi_items", $data_poitems, "joi_items_id", $joi_items_id);
+            $this->super_model->update_custom_where("joi_dr_items", $data, "joi_items_id='$joi_items_id' AND joi_dr_id='$joi_dr_id'");
+
+            $curr_balance = $this->super_model->select_column_where('jor_aoq_offers', 'balance', 'jor_aoq_offer_id', $this->input->post('jor_aoq_offer_id'.$x));
+            $new_balance = $curr_balance-$this->input->post('received_qty'.$x);
+
+            $data_aoq = array(
+                'balance'=>$new_balance
+            );
+            $this->super_model->update_where("jor_aoq_offers", $data_aoq, "jor_aoq_offer_id", $this->input->post('jor_aoq_offer_id'.$x));
+        }  
+        ?>
+        <script>
+              window.onunload = refreshParent;
+            function refreshParent() {
+                window.opener.location.reload();
+            }
+            window.close();
+            
+        </script>
+        <?php
+    }
+
+    public function incom_jodel(){
+        $data=array();
+        foreach($this->super_model->custom_query("SELECT jh.* FROM joi_head jh INNER JOIN joi_items ji ON jh.joi_id = ji.joi_id WHERE saved='1' AND cancelled = '0' AND served = '1' AND ji.delivered_quantity > ji.quantity GROUP BY joi_id ORDER BY jh.joi_id DESC") AS $head){
+             $rfd=$this->super_model->count_rows_where("joi_rfd","joi_id",$head->joi_id);
+             $jo='';
+            foreach($this->super_model->select_row_where("joi_jor", "joi_id", $head->joi_id) AS $prd){
+                $jo_no=$this->super_model->select_column_where('jor_head','jo_no','jor_id', $prd->jor_id);
+                if($jo_no!=''){
+                    $jo .= $jo_no."<br>";
+                }else{
+                    $jo .= $this->super_model->select_column_where('jor_head','user_jo_no','jor_id', $prd->jor_id)."<br>";
+                }
+            }
+            $joi_dr_id = $this->super_model->select_column_custom_where("joi_dr", "joi_dr_id", "joi_id = '$head->joi_id' AND received='0'");
+            $unreceived_dr = $this->super_model->count_custom_where("joi_dr","joi_id = '$head->joi_id' AND received ='0'");
+            $data['header'][]=array(
+                'joi_id'=>$head->joi_id,
+                'joi_date'=>$head->joi_date,
+                'joi_no'=>$head->joi_no,
+                'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
+                'supplier_id'=>$head->vendor_id,
+                'saved'=>$head->saved,
+                'joi_type'=>$head->joi_type,
+                'jo'=>$jo,
+                'rfd'=>$rfd,
+                'joi_type'=>$head->joi_type,
+                'revised'=>$head->revised,
+                'revision_no'=>$head->revision_no,
+                'served'=>$head->served,
+                'unreceived_dr'=>$unreceived_dr,
+                'joi_dr_id'=>$joi_dr_id
+            );
+        }        
+        $this->load->view('template/header');        
+        $this->load->view('template/navbar');        
+        $this->load->view('joi/incom_jodel',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function create_dr(){
+        $joi_id = $this->uri->segment(3);
+        $rows_dr = $this->super_model->count_rows("joi_dr");
+        if($rows_dr==0){
+            $joi_dr_no=1000;
+            $joi_dr_id = 1;
+        } else {
+            $max = $this->super_model->get_max("joi_dr", "joi_dr_no");
+            $maxid = $this->super_model->get_max("joi_dr", "joi_dr_id");
+            $joi_dr_no = $max+1;
+            $joi_dr_id = $maxid+1;
+        }
+
+         $dr = array(
+            'joi_dr_id'=>$joi_dr_id,
+            'joi_id'=>$joi_id,
+            'joi_dr_no'=>$joi_dr_no,
+            'joi_dr_date'=>$this->super_model->select_column_where('joi_head', 'joi_date', 'joi_id', $joi_id),
+        );
+        $this->super_model->insert_into("joi_dr", $dr);
+
+        foreach($this->super_model->custom_query("SELECT * FROM joi_items WHERE delivered_quantity > quantity AND joi_id = '$joi_id'") AS $items){
+            $new_qty = $items->delivered_quantity-$items->quantity;
+            $data = array(
+                'joi_items_id'=>$items->joi_items_id,
+                'joi_dr_id'=>$joi_dr_id,
+                'jor_id'=>$items->jor_id,
+                'joi_id'=>$items->joi_id,
+                'joi_aoq_offer_id'=>$items->jor_aoq_offer_id,
+                'joi_aoq_items_id'=>$items->jor_aoq_items_id,
+                'jor_items_id'=>$items->jor_items_id,
+                'offer'=>$items->offer,
+                'item_id'=>$items->item_id,
+                'delivered_quantity'=>$new_qty,
+                'unit_price'=>$items->unit_price,
+                'uom'=>$items->uom,
+                'amount'=>$items->amount,
+                'item_no'=>$items->item_no
+            );
+            $this->super_model->insert_into("joi_dr_items", $data);
+        }
+
+          redirect(base_url().'joi/delivery_receipt/'.$joi_id.'/'.$joi_dr_id, 'refresh');
+    }
+
+    public function delivery_receipt(){
+        $joi_id = $this->uri->segment(3); 
+        $joi_dr_id = $this->uri->segment(4); 
+        $data['head']= $this->super_model->select_row_where('joi_head', 'joi_id', $joi_id);
+        $data['revision_no']= $this->super_model->select_column_where("joi_dr", "revision_no", "joi_id", $joi_id);
+        $user_id= $this->super_model->select_column_where("joi_head", "user_id", "joi_id", $joi_id);
+        $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
+        $data['cancelled']=$this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
+        foreach($this->super_model->select_row_where('joi_jor', 'joi_id', $joi_id) AS $pr){
+             $itemno='';
+            foreach($this->super_model->select_custom_where("joi_dr_items", "jor_id= '$pr->jor_id' AND joi_id='$joi_id' AND joi_dr_id = '$joi_dr_id'") AS $it){
+                $itemno .= $it->item_no . ", ";
+            }
+            $item_no = substr($itemno, 0, -2);
+            $jo=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $pr->jor_id);
+            if($jo!=''){
+                $jo_no=$jo;
+            }else{
+                $jo_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $pr->jor_id);
+            }
+            $data['pr'][]=array(
+                'jo_no'=>$jo_no,
+                'enduse'=>$pr->enduse,
+                'purpose'=>$pr->purpose,
+                'requestor'=>$pr->requestor,
+                'item_no'=>$item_no
+            );
+        }
+
+        if(empty($joi_dr_id)){
+            $data['dr_no']= $this->super_model->select_column_where("joi_dr", "joi_dr_no", "joi_id", $joi_id);
+            foreach($this->super_model->select_custom_where("joi_dr_items", "joi_id='$joi_id' AND joi_dr_id = '$joi_dr_id'") AS $items){
+               $vendor_id= $this->super_model->select_column_where("joi_head", "vendor_id", "joi_id", $joi_id);
+                $data['items'][]= array(
+                    'item_no'=>$items->item_no,
+                    'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
+                    'item'=>$this->super_model->select_column_where("jor_aoq_items", "scope_of_work", "jor_aoq_items_id", $items->joi_aoq_items_id),
+                    'offer'=>$items->offer,
+                    'delivered_quantity'=>$items->delivered_quantity,
+                    'received_quantity'=>$items->quantity,
+                    'uom'=>$items->uom,
+                );
+            }
+        } else {
+            $data['dr_no']= $this->super_model->select_column_custom_where("joi_dr", "joi_dr_no", "joi_id='$joi_id' AND joi_dr_id = '$joi_dr_id'");
+            foreach($this->super_model->select_custom_where('joi_dr_items', "joi_id= '$joi_id' AND joi_dr_id = '$joi_dr_id'") AS $items){
+               $vendor_id= $this->super_model->select_column_where("joi_head", "vendor_id", "joi_id", $joi_id);
+                $data['items'][]= array(
+                    'item_no'=>$items->item_no,
+                    'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
+                    'item'=>$this->super_model->select_column_where("jor_aoq_items", "scope_of_work", "jor_aoq_items_id", $items->joi_aoq_items_id),
+                    'offer'=>$items->offer,
+                    'delivered_quantity'=>$items->delivered_quantity,
+                    'received_quantity'=>$items->quantity,
+                    'uom'=>$items->uom,
+                );
+            }
+        }
+        $this->load->view('template/header');        
+        $this->load->view('joi/delivery_receipt',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function served_jo(){
+        $data['vendor']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        $this->load->view('template/header');        
+        $this->load->view('template/navbar'); 
+        foreach($this->super_model->select_custom_where("joi_head", "saved='1' AND served='1' ORDER BY joi_id DESC") AS $head){
+             $rfd=$this->super_model->count_rows_where("joi_dr","joi_id",$head->joi_id);
+             $jo='';
+            foreach($this->super_model->select_row_where("joi_jor", "joi_id", $head->joi_id) AS $prd){
+                $jo_no=$this->super_model->select_column_where('jor_head','jo_no','jor_id', $prd->jor_id);
+                if($jo_no!=''){
+                    $jo .= $jo_no."<br>";
+                }else{
+                    $jo .= $this->super_model->select_column_where('jor_head','user_jo_no','jor_id', $prd->jor_id)."<br>";
+                }
+               
+            }
+            $data['header'][]=array(
+                'joi_id'=>$head->joi_id,
+                'joi_date'=>$head->joi_date,
+                'joi_no'=>$head->joi_no,
+                'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
+                'supplier_id'=>$head->vendor_id,
+                'saved'=>$head->saved,
+                'jo'=>$jo,
+                'rfd'=>$rfd,
+                'joi_type'=>$head->joi_type
+            );
+        }  
+        $this->load->view('joi/served_jo',$data);
         $this->load->view('template/footer');
     }
 
@@ -1503,7 +1750,7 @@ class Joi extends CI_Controller {
         $data['vat']= $this->super_model->select_column_where("vendor_head", "vat", "vendor_id", $vendor_id);
         $data['dr_no']= $this->super_model->select_column_where("joi_dr", "joi_dr_no", "joi_id", $joi_id);
         $data['cancelled']=$this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
-        foreach($this->super_model->select_row_where('joi_items', 'joi_items_id', $joi_id) AS $items){
+        foreach($this->super_model->select_row_where('joi_items', 'joi_id', $joi_id) AS $items){
             $total = $items->unit_price*$items->delivered_quantity;
             if(!empty($items->offer)){
                 $offer = $items->offer;

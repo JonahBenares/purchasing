@@ -8,6 +8,12 @@ $(document).on("click", ".cancelJOI", function () {
 
 });
 
+$(document).on("click", "#approve_rev", function () {
+     var joi_id = $(this).attr("data-id");
+     $("#jo_id1").val(joi_id);
+
+});
+
 </script>
     <div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="approveLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -31,7 +37,7 @@ $(document).on("click", ".cancelJOI", function () {
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="jo_id" id="jo_id" >
+                        <input type="hidden" name="joi_id" id="jo_id1" >
                         <input type='submit' value='Approve' class="btn btn-custon-three btn-primary btn-block">
                     </div>
                 </form>
@@ -187,6 +193,8 @@ $(document).on("click", ".cancelJOI", function () {
                                     <button type="button" class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#add_jo">
                                         <span class="fa fa-plus p-l-0"></span> Add JO
                                     </button>
+                                    <a href="<?php echo base_url(); ?>joi/served_jo" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Delivered PO</a> 
+                                    <a href="<?php echo base_url(); ?>joi/incom_jodel" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-adjust"></span> Incomplete PO Delivery</a> 
                                     <a href="<?php echo base_url(); ?>joi/cancelled_joi" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled JOI</a>
                                 </div>                                
                             </div>
@@ -201,6 +209,8 @@ $(document).on("click", ".cancelJOI", function () {
                                             <th>CENJO #/JO #</th>
                                             <th>Project Title</th>
                                             <th>Supplier</th>
+                                            <th>Status</th>
+                                            <th>Mode of Purchase</th>
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
@@ -215,9 +225,40 @@ $(document).on("click", ".cancelJOI", function () {
                                             <td><?php echo $h['project_title']; ?></td>
                                             <td><?php echo $h['vendor']; ?></td>
                                             <td>
+                                                <?php 
+                                                    if($h['revised']==1) {
+                                                        echo '<span class="label label-warning">Request for Revision</span>';
+                                                    } else {
+                                                        if($h['served']==0 && $h['saved']==1) {
+                                                            echo '<span class="label label-warning">JO Issued</span>';
+                                                        } else if($h['served']==1) {
+                                                          echo '<span class="label label-success">Delivered</span>'; 
+                                                        } 
+
+                                                        if($h['draft']==1) {
+                                                          echo '<span class="label label-info">Draft</span>'; 
+                                                        }
+                                                    } 
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                    if($h['joi_type']==0){
+                                                        echo "Job Order Request";
+                                                    } else if($h['joi_type']==1){
+                                                        echo "Direct Purchase";
+                                                    } else if($h['joi_type']==2){
+                                                        echo "Repeat Order";
+                                                    }
+                                                ?>
+                                            </td>
+                                            <td>
                                                 <center>
-                                                    <a class="cancelJOI btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJOI" data-id="<?php echo $h['joi_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
-                                                    <?php if($h['saved']==0 && $h['joi_type']==0 && $h['revised']==0){ ?>
+                                                    <?php if($h['saved']==1){ ?>                                                 
+                                                    <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver JO' onclick="deliver_jo('<?php echo base_url(); ?>','<?php echo $h['joi_id']?>','<?php echo $h['dr_id']?>')">
+                                                        <span class="fa fa-truck"></span>
+                                                    </a>
+                                                    <?php } if($h['saved']==0 && $h['joi_type']==0 && $h['revised']==0){ ?>
                                                     <a href="<?php echo base_url(); ?>joi/jo_issuance/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                     </a>
@@ -234,10 +275,11 @@ $(document).on("click", ".cancelJOI", function () {
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                     <?php } if($h['revised']==1){ ?>
-                                                    <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="<?php echo $h['joi_id']?>">
+                                                    <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" id="approve_rev" data-target="#approve" data-id="<?php echo $h['joi_id']?>">
                                                         <span class="fa fa-thumbs-up"></span>
                                                     </a>
                                                     <?php } ?>
+                                                    <a class="cancelJOI btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJOI" data-id="<?php echo $h['joi_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </center>
                                             </td>
                                         </tr>
