@@ -231,9 +231,14 @@
 								if($revised==0){ ?>
 						<a  href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
 						<?php } } ?>
-						<?php foreach($dr AS $d){ ?>
-						<a  href="<?php echo base_url(); ?>joi/joi_dr/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
-						<?php } ?>
+						
+						<a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
+						<ul class="dropdown-menu dropdown-alerts animated fadeInDown" style="width:200px;top:30px;border:1px solid #e66614;left:650px;">
+							<?php foreach($dr AS $d){ ?>
+								<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/delivery_receipt/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "DR# ".$d->joi_dr_no; ?></a></li>
+							<?php } ?>
+						</ul>
+						<!-- <a  href="<?php echo base_url(); ?>joi/joi_dr/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a> -->
 						<a  href="<?php echo base_url(); ?>joi/joi_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
 						<a  href="<?php echo base_url(); ?>joi/joi_coc/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
 						

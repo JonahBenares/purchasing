@@ -17,7 +17,7 @@
                                 <ul class="breadcome-menu">
                                     <li><a href="<?php echo base_url(); ?>">Home</a> <span class="bread-slash">/</span>
                                     </li>
-                                    <li><a href="<?php echo base_url(); ?>/po/po_list">PO list</a> <span class="bread-slash">/</span>
+                                    <li><a href="<?php echo base_url(); ?>/joi/joi_list">JOI list</a> <span class="bread-slash">/</span>
                                     </li>
                                     <li><span class="bread-blod">Incomplete JOI Delivery List</span>
                                     </li>
