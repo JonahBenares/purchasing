@@ -726,6 +726,8 @@ class Jod extends CI_Controller {
 
     public function create_jod_terms(){
         $joi_id = $this->input->post('joi_id');
+        $jor_id = $this->input->post('jor_id');
+        $group_id = $this->input->post('group_id');
         $draft = $this->super_model->select_column_where("joi_head", "draft", "joi_id", $joi_id);
         $data = array(
             'joi_id'=>$this->input->post('joi_id'),
@@ -735,9 +737,9 @@ class Jod extends CI_Controller {
 
         if($this->super_model->insert_into("joi_tc", $data)){
             if($draft==0){
-                redirect(base_url().'jod/jo_direct/'.$joi_id, 'refresh');
+                redirect(base_url().'jod/jo_direct/'.$joi_id."/".$jor_id."/".$group_id, 'refresh');
             } else {
-                redirect(base_url().'jod/jo_direct_draft/'.$joi_id, 'refresh');
+                redirect(base_url().'jod/jo_direct_draft/'.$joi_id."/".$jor_id."/".$group_id, 'refresh');
             }
         }
     }

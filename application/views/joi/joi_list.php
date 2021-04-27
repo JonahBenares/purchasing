@@ -231,7 +231,7 @@ $(document).on("click", "#approve_rev", function () {
                                                 echo '<span class="label label-warning">Request for Revision</span>';
                                             } else {
                                                 if($h['served']==0 && $h['saved']==1) {
-                                                    echo '<span class="label label-warning">PO Issued</span>';
+                                                    echo '<span class="label label-warning">JO Issued</span>';
                                                 } else if($h['served']==1) {
                                                   echo '<span class="label label-success">Delivered</span>'; 
                                                 } 
@@ -242,7 +242,7 @@ $(document).on("click", "#approve_rev", function () {
                                             } ?></td>
                                             <td><?php
                                                 if($h['joi_type']==0){
-                                                    echo "Purchase Request";
+                                                    echo "Job Order Request";
                                                 } else if($h['joi_type']==1){
                                                     echo "Direct Purchase";
                                                 } else if($h['joi_type']==2){
@@ -267,6 +267,10 @@ $(document).on("click", "#approve_rev", function () {
                                                     </a>
                                                     <?php }else if($h['saved']==0 && $h['draft']==0  && $h['joi_type']==1){ ?>
                                                     <a href="<?php echo base_url(); ?>jod/jo_direct/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } else if($h['saved']==1 && $h['joi_type']==1){ ?>
+                                                    <a href="<?php echo base_url(); ?>jod/jo_direct_saved/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                     <?php }else if($h['saved']==0 && $h['draft']==1  && $h['joi_type']==1){ ?>

@@ -150,6 +150,8 @@
 						<input type="submit" class="btn btn-primary btn-block" value="Add">
 					</div>
 					<input type="hidden" name='joi_id' value="<?php echo $joi_id; ?>">
+					<input type="hidden" name='jor_id' value="<?php echo $jor_id; ?>">
+					<input type="hidden" name='group_id' value="<?php echo $group_id; ?>">
 				</form>
 			</div>
 		</div>
