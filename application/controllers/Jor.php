@@ -42,7 +42,67 @@ class Jor extends CI_Controller {
 	}
 
     public function redirect_jod(){
-        $rows_head = $this->super_model->count_rows("joi_head");
+                $rows_head = $this->super_model->count_rows("joi_head");
+        if($rows_head==0){
+            $joi_id=1;
+        } else {
+            $max = $this->super_model->get_max("joi_head", "joi_id");
+            $joi_id = $max+1;
+        }
+
+        $rows_series = $this->super_model->count_rows("joi_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("joi_series", "series");
+            $series = $max+1;
+        }
+
+            $jo= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jo_no'));
+            if($jo!=''){
+                $jo_no=$jo;
+            }else{
+                $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id',$this->input->post('jo_no'));
+            }
+            $group_id = $this->input->post('group_id');
+            $joi_no = "P".$jo_no."-".$series;
+            $jor_id = $this->input->post('jor_ids');
+            $data_details = array(
+                'joi_id'=>$joi_id,
+                'jor_id'=>$jor_id,
+                'purpose'=>$this->super_model->select_column_where('jor_head', 'purpose', 'jor_id', $jor_id),
+                'requestor'=>$this->super_model->select_column_where('jor_head', 'requested_by', 'jor_id', $jor_id),
+            );
+            $this->super_model->insert_into("joi_jor", $data_details);
+            
+            $data= array(
+                'joi_id'=>$joi_id,
+                'joi_date'=>$this->input->post('joi_date'),
+                'joi_no'=>$joi_no,
+                'vendor_id'=>$this->input->post('vendor'),
+                'notes'=>$this->input->post('notes'),
+                'cenpri_jo_no'=>$this->input->post('cenjo_no'),
+                'date_needed'=>$this->input->post('date_needed'),
+                'date_prepared'=>$this->input->post('date_prepared'),
+                'start_of_work'=>$this->input->post('work_start'),
+                'completion_date'=>$this->input->post('work_completion'),
+                'project_title'=>$this->input->post('project_title'),
+                'joi_type'=>1,
+                'user_id'=>$_SESSION['user_id'],
+                'prepared_date'=>date("Y-m-d H:i:s"),
+            );  
+
+            $data_series = array(
+                'series'=>$series
+            );
+            $this->super_model->insert_into("joi_series", $data_series);
+
+          
+            if($this->super_model->insert_into("joi_head", $data)){
+                 redirect(base_url().'jod/jo_direct/'.$joi_id.'/'.$jor_id.'/'.$group_id);
+            }
+        }
+        /*$rows_head = $this->super_model->count_rows("joi_head");
         if($rows_head==0){
             $joi_id=1;
         } else {
@@ -97,7 +157,7 @@ class Jor extends CI_Controller {
             }
             redirect(base_url().'jod/jo_direct/'.$joi_id.'/'.$jor_id.'/'.$group_id);
         }
-    }    
+    }   */ 
 
     public function jor_list(){
         $this->load->view('template/header');
@@ -851,10 +911,16 @@ class Jor extends CI_Controller {
                     $ven .= ' - ' . $this->super_model->select_column_where('vendor_head','vendor_name', 'vendor_id', $vendors->vendor_id) . "<br>";
                 }
 
+                $date_prepared=$this->super_model->select_column_where("jor_head", "date_prepared", "jor_id", $items->jor_id);
+                $completion_date=$this->super_model->select_column_where("jor_head", "completion_date", "jor_id", $items->jor_id);
+
                 $data['head'][] = array(
                     'jor_id'=>$key['jor_id'],
                     'jor_no'=>$jor_no,
                     'group'=>$key['grouping_id'],
+                    'item'=>$it,
+                    'date_prepared'=>$date_prepared,
+                    'completion_date'=>$completion_date,
                     'item'=>$it,
                     'vendor'=>$ven
                 );

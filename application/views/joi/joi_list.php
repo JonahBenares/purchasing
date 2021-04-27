@@ -269,6 +269,10 @@ $(document).on("click", "#approve_rev", function () {
                                                     <a href="<?php echo base_url(); ?>jod/jo_direct/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
+                                                    <?php }else if($h['saved']==0 && $h['draft']==1  && $h['joi_type']==1){ ?>
+                                                    <a href="<?php echo base_url(); ?>jod/jo_direct_draft/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
                                                     <?php }else if($h['saved']==1 && $h['joi_type']==0 && $h['revised']==1){ ?>
                                                     <a href="<?php echo base_url(); ?>joi/jo_issuance_rev/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
