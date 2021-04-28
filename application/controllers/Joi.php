@@ -299,13 +299,15 @@ class Joi extends CI_Controller {
             $data['header'][]=array(
                 'joi_id'=>$head->joi_id,
                 'joi_date'=>$head->joi_date,
+                "cenpri_jo_no"=>$head->cenpri_jo_no,
                 'joi_no'=>$head->joi_no,
                 'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
                 'supplier_id'=>$head->vendor_id,
                 'saved'=>$head->saved,
                 'jo'=>$jo,
                 'rfd'=>$rfd,
-                'joi_type'=>$head->joi_type
+                'joi_type'=>$head->joi_type,
+                'revision_no'=>$head->revision_no
             );
         }  
         $this->load->view('joi/served_jo',$data);

@@ -63,7 +63,7 @@
                                         ?>
                                         <tr>
                                             <td><?php echo date('F j, Y', strtotime($head['joi_date'])); ?></td>
-                                            <td><?php echo $head['joi_no']."-".COMPANY;?></td>
+                                            <td><?php echo $head['cenpri_jo_no'] . "/".$head['joi_no'] ."-".COMPANY. (($head['revision_no']!=0) ? ".r".$head['revision_no'] : "");?></td>
                                             <!-- <td><a class="btn-link txt-primary" onclick="viewHistory()"></a></td> -->
                                             <td><?php echo $head['supplier']; ?></td>
                                             <td><?php echo $head['jo']."-".COMPANY; ?></td>
