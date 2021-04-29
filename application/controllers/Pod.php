@@ -706,6 +706,7 @@ class Pod extends CI_Controller {
         $data = array(
             'po_id'=>$this->input->post('po_id'),
             'tc_desc'=>$this->input->post('tc_desc'),
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         );
 
 
@@ -721,6 +722,7 @@ class Pod extends CI_Controller {
         $data = array(
             'po_id'=>$this->input->post('po_id'),
             'tc_desc'=>$this->input->post('tc_desc'),
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         );
 
         
@@ -736,6 +738,7 @@ class Pod extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id);
@@ -749,6 +752,7 @@ class Pod extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'pod/po_direct_draft/'.$po_id.'/'.$pr_id.'/'.$group_id);

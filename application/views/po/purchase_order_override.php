@@ -408,9 +408,15 @@
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<br>Terms & Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is 		    				
+                            <?php 
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->vat_in_ex)){
+			    						echo $t->vat_in_ex;
+			    			?>
+			    				<?php } } ?><br>
 		    				4. Payment term: <?php echo $terms; ?><br>
 		    				5. Delivery Term: Exstock of Supplier.
 		    			</td>
