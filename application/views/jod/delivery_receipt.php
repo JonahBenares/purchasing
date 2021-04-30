@@ -98,7 +98,7 @@
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+						<a href="<?php echo base_url(); ?>joi/joi_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
 						<!-- <input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	 -->
 					</div>
@@ -164,7 +164,7 @@
 		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($h->joi_date)); ?></b></td></tr>
 		    		<?php } ?>
 		    		<tr>
-		    			<td colspan="20" ><b class="nomarg">PO No: <?php echo $h->joi_no ."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
+		    			<td colspan="20" ><b class="nomarg">JO No: <?php echo $h->joi_no ."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
 		    		</tr>
 		    		<?php foreach($pr AS $p){ ?>
 		    		<tr>
@@ -177,7 +177,7 @@
 		    			<td colspan="20" class="all-border"><b class="nomarg">Requestor: <?php echo $p['requestor']; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20"><b class="nomarg">PR No: <?php echo $p['jo_no']."-".COMPANY; ?></b></td>
+		    			<td colspan="20"><b class="nomarg">JOR No: <?php echo $p['jo_no']."-".COMPANY; ?></b></td>
 		    		</tr>
 		    		<?php } ?>
 		    		<!-- Loop -->

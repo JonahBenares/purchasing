@@ -1657,7 +1657,7 @@ class Jod extends CI_Controller {
             'revision_no'=>$revision_no
         );
         if($this->super_model->update_where("joi_head", $data, "joi_id", $joi_id)){
-            redirect(base_url().'jod/jod_list/', 'refresh');
+            redirect(base_url().'joi/joi_list/', 'refresh');
         }
     }
 
@@ -1694,7 +1694,7 @@ class Jod extends CI_Controller {
         );
 
         if($this->super_model->update_where("joi_head", $data, "joi_id", $joi_id)){
-            redirect(base_url().'jod/jod_list', 'refresh');
+            redirect(base_url().'joi/joi_list', 'refresh');
         }
     }
 
@@ -2038,6 +2038,7 @@ class Jod extends CI_Controller {
         $this->load->view('template/header');
         $data['saved'] = $this->super_model->select_column_where("joi_ar", "saved", "joi_id", $joi_id);
         $data['cancelled'] = $this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
+        $data['revision_no'] = $this->super_model->select_column_where("joi_head", "revision_no", "joi_id", $joi_id);
         $data['delivered_to'] = $this->super_model->select_column_where("joi_ar", "delivered_to", "joi_id", $joi_id);
         $data['address'] = $this->super_model->select_column_where("joi_ar", "address", "joi_id", $joi_id);
         $data['requested_by'] = $this->super_model->select_column_where("joi_ar", "requested_by", "joi_id", $joi_id);
@@ -2092,6 +2093,7 @@ class Jod extends CI_Controller {
             $data['date_needed']= $head->date_needed;
             $data['start_of_work']= $head->start_of_work;
             $data['completion_date']= $head->completion_date;
+            $data['revision_no']= $head->revision_no;
             // /$data['discount_percent']= $head->discount_percent;
             $data['discount_amount']= $head->discount;
             $data['vat_percent']= $head->vat_percent;
