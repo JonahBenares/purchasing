@@ -599,6 +599,7 @@ class Jor extends CI_Controller {
                             'uom'=>$uom,
                             'unit_cost'=>$unit_cost,
                             'total_cost'=>$total_cost,
+                            'item_no'=>$item_no,
                         );
                         $this->super_model->insert_into("jor_items", $data_ji);
                     }
