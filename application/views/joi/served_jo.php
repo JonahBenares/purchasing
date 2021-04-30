@@ -63,7 +63,7 @@
                                         ?>
                                         <tr>
                                             <td><?php echo date('F j, Y', strtotime($head['joi_date'])); ?></td>
-                                            <td><?php echo $head['joi_no']."-".COMPANY;?></td>
+                                            <td><?php echo $head['cenpri_jo_no'] . "/".$head['joi_no'] ."-".COMPANY. (($head['revision_no']!=0) ? ".r".$head['revision_no'] : "");?></td>
                                             <!-- <td><a class="btn-link txt-primary" onclick="viewHistory()"></a></td> -->
                                             <td><?php echo $head['supplier']; ?></td>
                                             <td><?php echo $head['jo']."-".COMPANY; ?></td>
@@ -90,7 +90,7 @@
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                      <?php }else if($head['saved']==1 && $head['joi_type']==1) { ?>
-                                                    <a href="<?php echo base_url(); ?>jod/jo_direct/<?php echo $head['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                    <a href="<?php echo base_url(); ?>jod/jo_direct_saved/<?php echo $head['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
                                                         <span class="fa fa-eye"></span>
                                                     </a>
                                                       <?php }else if($head['saved']==1 && $head['joi_type']==2) { ?>

@@ -320,10 +320,12 @@ class Po extends CI_Controller {
     public function purchase_order(){
         $po_id = $this->uri->segment(3);
         $revised = $this->uri->segment(4);
+        $po_tc_id = $this->uri->segment(5);
         $data['revised'] = $revised;
 
         $data['po_id'] = $po_id;
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
+        $vat_in_ex = $this->super_model->select_column_where('po_tc', 'vat_in_ex', 'po_tc_id', $po_tc_id);
         $data['vendor_id']=$vendor_id;
         foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
             $data['head'][] = array(
@@ -386,7 +388,7 @@ class Po extends CI_Controller {
         } else {
              foreach($this->super_model->select_row_where("po_items", "po_id" , $po_id) AS $off){
                     $data['currency'] = $off->currency;
-                  $total = $off->unit_price*$off->quantity;
+                    $total = $off->unit_price*$off->quantity;
                     $data['items'][] =  array(
                         'aoq_id'=>$this->super_model->select_column_where('po_pr', 'aoq_id', 'po_id', $po_id),
                         'aoq_offer_id'=>$off->aoq_offer_id,
@@ -449,6 +451,7 @@ class Po extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'po/purchase_order/'.$po_id);
@@ -917,6 +920,7 @@ class Po extends CI_Controller {
         $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
         $data = array(
             'po_id'=>$this->input->post('po_id'),
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
             'tc_desc'=>$this->input->post('tc_desc'),
         );
 
@@ -1024,6 +1028,7 @@ class Po extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'po/purchase_order_draft/'.$po_id);
@@ -1108,6 +1113,7 @@ class Po extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'po/purchase_order_saved/'.$po_id);
@@ -1538,6 +1544,7 @@ class Po extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'po/reporder_prnt/'.$po_id);
@@ -1677,6 +1684,7 @@ class Po extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'po/reporder_prnt_draft/'.$po_id);

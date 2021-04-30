@@ -471,9 +471,17 @@
 							</button>
 							<?php } ?>
 		    				<br>Terms & Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>	
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is 		    				
+                            <?php 
+		    					foreach($tc AS $t){ 
+		    						if(!empty($t->vat_in_ex)){
+			    						echo $t->vat_in_ex;
+			    			?>
+			    			<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+			    			<span class = 'fa fa-edit'></span></a>
+			    				<?php } } ?><br>
 		    				<?php 
 		    					$no=4;
 			    				foreach($tc AS $t){ 

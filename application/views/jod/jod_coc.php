@@ -88,166 +88,34 @@
 			padding: 3px;
 		}
     </style>
-    <div class="modal fade" id="addscope" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Add Scope
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</h5>										
-				</div>
-				<form method='POST' action='<?php echo base_url(); ?>jod/create_jod_details'>
-					<div class="modal-body">
-						<div class="form-group">
-							<p style="font-size: 14px" class="nomarg">Scope:</p>
-							<textarea class="form-control" rows="3" name="scope"></textarea>
-						</div>
-						<div class="row">
-							<div class="col-lg-4">
-								<p style="font-size: 14px" class="nomarg">Qty:</p>
-								<input type="text" class="form-control" name="quantity">
-							</div>
-							<div class="col-lg-4">
-								<p style="font-size: 14px" class="nomarg">U/M:</p>
-								<input type="text" class="form-control" name="uom">
-							</div>
-							<div class="col-lg-4">
-								<p style="font-size: 14px" class="nomarg">Unit Cost:</p>
-								<input type="text" class="form-control" name="unit_cost">
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<input type="submit" class="btn btn-primary btn-block" value="Add">
-					</div>
-					<input type="hidden" name='jo_id' value="">
-				</form>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="addterms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Add Terms & Conditions
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</h5>										
-				</div>
-				<form method='POST' action='<?php echo base_url(); ?>jod/create_jod_terms_saved'>
-					<div class="modal-body">
-						<div class="form-group">
-							<p style="font-size: 14px" class="nomarg">Terms & Conditions:</p>
-							<textarea class="form-control" name='terms' rows="3"></textarea>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<input type="submit" class="btn btn-primary btn-block" value="Add">
-					</div>
-					<input type="hidden" name='joi_id' value="<?php echo $joi_id; ?>">
-				</form>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Update AOQ Terms
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-							</button>
-						</h5>
-						
-					</div>
-					<form method="POST" action="<?php echo base_url(); ?>jod/update_terms_saved">
-						<div class="modal-body">
-							<div class="form-group">
-								Payment:
-								<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>">
-								Item Warranty:
-								<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>">
-								Delivery_item:
-								<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>">
-								Freight:
-								<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>">
-							</div>
-						</div>
-						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
-						<!-- <input type='hidden' name='aoq_vendors_id' value='<?php echo $aoq_vendors_id; ?>'> -->
-						<div class="modal-footer">
-							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
-						</div>
-
-					</form>
-				</div>
-			</div>
-		</div>
-		<div class="modal fade" id="UpdateTerms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Update Terms & Condition
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-							</button>
-						</h5>
-						
-					</div>
-					<form method="POST" action="<?php echo base_url(); ?>jod/update_condition_saved">
-						<div class="modal-body">
-							<div class="form-group">
-								Terms & Conditions:
-								<input type="text" class="form-control" name="condition" autocomplete="off" id = "terms">
-							</div>
-						</div>
-						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
-						<input type='hidden' name='joi_tc_id' id = "tc_id">
-						<div class="modal-footer">
-							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
-						</div>
-
-					</form>
-				</div>
-			</div>
-		</div>
+    
     <div  class="pad">
     	<form method='POST' action='<?php echo base_url(); ?>'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="<?php echo base_url(); ?>joi/joi_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
-						<?php if($draft!=1){ 
-						 		if($revised==0){ ?>
-							<a  href='<?php echo base_url(); ?>jod/jo_direct_rev/<?php echo $joi_id; ?>' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JOI</b></u></a>
-						<?php } } ?>
+						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
+						<a  href='<?php echo base_url(); ?>jod/jo_direct_rev/<?php echo $joi_id; ?>' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JO</b></u></a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
-						<?php if($draft!=1){ 
-								if($revised==0){ ?>
 						<a  href="<?php echo base_url(); ?>jod/jod_rfd/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
-						<?php } } ?>
-						
+						<!-- <?php foreach($dr AS $d){ ?>
+						<a  href="<?php echo base_url(); ?>jod/jod_dr/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
+						<?php } ?> -->
 						<a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
 						<ul class="dropdown-menu dropdown-alerts animated fadeInDown" style="width:200px;top:30px;border:1px solid #e66614;left:650px;">
 							<?php foreach($dr AS $d){ ?>
 								<li style="text-align: left!important"><a href="<?php echo base_url(); ?>jod/delivery_receipt/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "DR# ".$d->joi_dr_no; ?></a></li>
 							<?php } ?>
 						</ul>
-						<!-- <a  href="<?php echo base_url(); ?>joi/joi_dr/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a> -->
 						<a  href="<?php echo base_url(); ?>jod/jod_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
 						<a  href="<?php echo base_url(); ?>jod/jod_coc/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
 						
 					</div>
-					<h4 class="text-white"><b>JOB ORDER ISSUANCE</b></h4>
+					<h4 class="text-white"><b>CERTIFICATE OF COMPLETION</b></h4>
 					<p class="text-white">Instructions: When printing JOB ORDER make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4, <u>Margin</u> : Default, <u>Scale</u>: 100</p>
 				</center>
 			</div>
-	    	<div style="background: #fff;" class="<?php  if($cancelled==1){ echo 'cancel'; }?>">
+	    	<div style="background: #fff;" class=""> <!-- <?php  if($cancelled==1){ echo 'cancel'; }?> -->
 	    		<table width="100%">
 	    			<tr>
 	    				<td width="25%"><?php echo date("m/d/Y") ?></td>
@@ -295,16 +163,15 @@
 			    			</center>
 		    			</td>
 		    		</tr>
-		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4><small>D I R E C T</small></td></tr>
-		    		<?php foreach($head AS $h){ ?>
+		    		<tr><td colspan="20" align="center"><h4><b>CERTIFICATE OF COMPLETION</b></h4></td></tr>
 		    		<tr>
 		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
 		    			<td class="f13" colspan="10" align="left">
-		    				<b><?php echo $h['vendor'];?></b><br>
-		    				<span id='contact_person'><?php echo $h['contact'];?></span><br>
-		    				<span id='address'><?php echo $h['address'];?></span><br>
-		    				<span id='phone'><?php echo $h['phone'];?></span><br>
-		    				<span id='fax'><?php echo $h['fax'];?></span><br>
+		    				<b><?php echo $vendor; ?></b><br>
+		    				<span id='contact_person'><?php echo $contact_person; ?></span><br>
+		    				<span id='address'><?php echo $address; ?></span><br>
+		    				<span id='phone'><?php echo $phone; ?></span><br>
+		    				<span id='fax'><?php echo $fax; ?></span><br>
 		    				<br>
 		    			</td>
 		    			<td colspan="7"></td>
@@ -312,25 +179,25 @@
 		    		
 		    		<tr>
 		    			<td class="f13" colspan="4">Date Needed:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['date_needed']; ?></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_needed));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="5"><?php echo $h['completion_date']; ?></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo date("F d, Y",strtotime($completion_date));?></td>
 		    		</tr>
 
 		    		<tr>
 		    			<td class="f13" colspan="4">Date Prepared:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['date_prepared']; ?></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_prepared));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
-		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $h['cenpri_jo_no']; ?></b></td>
+		    			<td class="f13 bor-btm" colspan="5"><b></b><?php echo $cenjo_no; ?></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="4">Start of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['start_of_work']; ?></td>
+		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($start_of_work));?></td>
 		    			<td class="f13" colspan="1"></td>
 		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><?php echo $h['joi_no']."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></td>
+		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no."-".COMPANY; ?></td>
 		    		</tr>	
 		    		<!-- <tr>
 		    			<td class="f13" colspan="4">Completion of Work:</td>
@@ -342,12 +209,11 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
 		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
-			    			<h5 style="margin: 5px"><b><?php echo $h['project_title'];?></b></h5>
+			    			<h5 style="margin: 5px"><b><?php echo $project_title; ?></b></h5>
 			    		</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
-		    		<?php } ?>	    		
+		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		    		
 		    		<tr>
 		    		
 		    			<td colspan="20">
@@ -359,82 +225,52 @@
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
-		    					<?php
-					    		$gtotal=array();
-					    		if(!empty($items)){
-					    		foreach($items AS $it){ 
-					    			$gtotal[] = $it->amount;
-				    			?>
-		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo " - ".nl2br($it->offer)."<br><br>"; ?></td>
-		    						<td class="f13" align="center"><?php echo number_format($it->delivered_quantity,2); ?></td>
-		    						<td class="f13" align="center"><?php echo $it->uom; ?></td>
-		    						<td class="f13" align="center"><?php echo $it->unit_price; ?></td>
-		    						<td class="f13" align="right"><?php echo $it->amount; ?></td>
-		    					</tr>
-		    					<?php } }else { $gtotal=array(); } ?>
-		    					<tr><td colspan="5" class="p-5"></td></tr>
-		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<b>Notes:</b>		    						
-		    						</td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    					</tr>
 		    					<?php 
-		    						$y=1; 
-		    						foreach($tc AS $n){ 
-		    							if($n->notes!=''){
+		    						$gtotal=array();
+		    						if(!empty($details)){
+		    						foreach($details AS $det){ 
+		    							$gtotal[] = $det->amount;
 		    					?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<?php echo " - ".nl2br($n->notes)."<br><br>"; ?>
-		    						</td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->offer); ?></td>
+		    						<td class="f13" align="center"><?php echo $det->delivered_quantity; ?></td>
+		    						<td class="f13" align="center"><?php echo $det->uom; ?></td>
+		    						<td class="f13" align="center"><?php echo number_format($det->unit_price,2); ?></td>
+		    						<td class="f13" align="right"><?php echo number_format($det->amount,2); ?></td>
 		    					</tr>
-		    					<?php $y++; } } ?>
-		    					<tr>
+		    					<tr><td colspan="5" class="p-5"></td></tr>
+		    				<?php } } else{ $gtotal=array(); } ?>
+								<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    					</tr>
+		    					<?php if($vat_amount!=0){ ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'><?php echo number_format($vat_percent) . "% VAT:"; ?></td>
+		    						<td align="right"><?php echo number_format($vat_amount,2); ?></td>
+		    					</tr>
+		    					<?php } ?>
 		    					<?php 
 		    						$grtotal =array_sum($gtotal);
-		    						$subtotal=$grtotal+$vat;
-		    						$grandtotal = ($grtotal+$vat)-$discount;
+		    						$subtotal=$grtotal+$vat_amount;
+		    						$grandtotal = ($grtotal+$vat_amount)-$discount_amount;
 		    					?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Amount:</td>
-		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td colspan='2'><?php echo $vat_percent; ?>% VAT:</td>
-		    						<td align="right"><?php echo number_format($vat,2); ?></td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
 		    						<td colspan='2'>Sub Total:</td>
-		    						<td align="right"><?php echo number_format($subtotal,2);?></td>
+		    						<td align="right"><?php echo number_format($subtotal,2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Less Discount:</td>
-		    						<td align="right"><?php echo number_format($discount,2);?></td>
+		    						<td align="right"><?php echo number_format($discount_amount,2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
@@ -448,41 +284,9 @@
 		    		<tr>
 		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
 		    				<b>Terms and Conditions:</b><br>
-		    				<?php $x=1; ?>
-		    				<?php if(!empty($payment_terms)){ 
-		    				echo $x."."; ?> Payment term: <?php echo $payment_terms ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
-							 <span class = "fa fa-edit"></span>
-							</button><br>
-		    				<?php $x++; } ?>	
-		    				<?php if(!empty($item_warranty)){ 
-		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
-							 <span class = "fa fa-edit"></span>
-							</button><br>
-		    				<?php $x++; } ?>
-		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
-							 <span class = "fa fa-edit"></span>
-							</button><br>
-		    				<?php $x++; } ?>
-		    				<?php if(!empty($freight)){ 
-		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
-							 <span class = "fa fa-edit"></span>
-							</button><br>
-		    				<?php $x++; } ?>
-		    				<?php 
-		    					foreach($tc AS $t){ 
-		    						if(!empty($t->tc_desc)){
-			    						echo $x.". " . $t->tc_desc;
-			    				?>
-			    				<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->joi_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
-			    					<span class = 'fa fa-edit'></span>
-			    				</a>
-			    				<br>
-			    				<?php
-			    					$x++; 
-			    					}
-		    					} 
-		    				?>
+		    				<?php foreach($terms AS $trm){ 
+		    					echo nl2br($trm->terms)."<br>";
+		    				} ?>
 		    			</td>
 		    			<td colspan="9"></td>
 		    		</tr>	
@@ -522,27 +326,31 @@
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $prepared; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 bor-btm" colspan="4" align="center"><?php echo $checked; ?><br></td>
+		    			<td class="f13 bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $recommended; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="3" align="center"><?php echo $approved; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="3" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
+		    				<?php echo $prepared; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
+		    				<?php echo $checked; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
+		    				<?php echo $recommended; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="3" align="center">
+		    				<?php echo $approved;?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr> 
@@ -555,7 +363,6 @@
 		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   -->
-		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -569,7 +376,7 @@
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $verified_by; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -580,6 +387,7 @@
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
+		    				<?php echo $verified_by;?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"></td>
@@ -589,8 +397,10 @@
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center"></td>
-		    		</tr>     	
+		    		</tr>      	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
+		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
+		    		
 		    	</table>		    
 	    	</div>
     	</form>
