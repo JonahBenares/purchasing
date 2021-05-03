@@ -225,6 +225,9 @@ class Jod extends CI_Controller {
         $user_id= $this->super_model->select_column_where("joi_head", "user_id", "joi_id", $joi_id);
         $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
         $data['cancelled']=$this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
+        $data['delivered_to'] = $this->super_model->select_column_where("joi_dr", "delivered_to", "joi_id", $joi_id);
+        $data['address'] = $this->super_model->select_column_where("joi_dr", "address", "joi_id", $joi_id);
+        $data['requested_by'] = $this->super_model->select_column_where("joi_dr", "requested_by", "joi_id", $joi_id);
         foreach($this->super_model->select_row_where('joi_jor', 'joi_id', $joi_id) AS $pr){
              $itemno='';
             foreach($this->super_model->select_custom_where("joi_dr_items", "jor_id= '$pr->jor_id' AND joi_id='$joi_id' AND joi_dr_id = '$joi_dr_id'") AS $it){
@@ -272,6 +275,7 @@ class Jod extends CI_Controller {
                     'delivered_quantity'=>$items->delivered_quantity,
                     'received_quantity'=>$items->quantity,
                     'uom'=>$items->uom,
+                    'delivered_to'=>$items->delivered_to,
                 );
             }
         }
