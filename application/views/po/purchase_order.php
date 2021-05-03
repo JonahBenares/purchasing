@@ -217,7 +217,9 @@
 		    		</tr>
 		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
-		    		<?php foreach($head AS $h){ ?>
+		    		<?php 
+		    			foreach($head AS $h){ 
+		    		?>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
 		    			<td colspan="12"><h6 class="nomarg"><b><?php echo date('F j, Y', strtotime($h['po_date'])); ?></b></h6></td>
@@ -393,15 +395,12 @@
 		    				<br>Terms & Conditions:<br>
 		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
-                            3. Price is 		    				
-                            <?php 
-		    					foreach($tc AS $t){ 
-		    						if(!empty($t->vat_in_ex)){
-			    						echo $t->vat_in_ex;
-			    			?>
-			    			<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
-			    			<span class = 'fa fa-edit'></span></a>
-			    				<?php } } ?><br>
+                            3. Price is 
+                            	<select type="text" name="vat_in_ex">
+                                    <option value = "inclusive of VAT">inclusive of VAT</option>
+                                    <option value = "exclusive of VAT">exclusive of VAT</option>
+                                </select>		    				
+                            <br>
 			    			<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
 		    				echo $x."."; ?> Payment term: <?php echo $payment_terms ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
@@ -525,13 +524,6 @@
 					</div>
 					<form method="POST" action="<?php echo base_url(); ?>po/add_tc">
 						<div class="modal-body">	
-						<div class="form-group">
-                                Price is:
-                                <select type="text" name="vat_in_ex" class="form-control">
-                                    <option value = "inclusive of VAT">inclusive of VAT</option>
-                                    <option value = "exclusive of VAT">exclusive of VAT</option>
-                                </select>
-                            </div>
 							<div class="form-group">
 								Terms & Conditions:
 								<input type="text" class="form-control" name="tc_desc" autocomplete="off">
@@ -594,15 +586,6 @@
 					</div>
 					<form method="POST" action="<?php echo base_url(); ?>po/update_condition">
 						<div class="modal-body">
-							<?php foreach($tc AS $t){ ?>
-						    <div class="form-group">
-                                Price is:
-                                <select type="text" name="vat_in_ex" class="form-control">
-                                    <option value = "inclusive of VAT" <?php echo (($t->vat_in_ex == 'inclusive of VAT') ? ' selected' : '');?>>inclusive of VAT</option>
-                                    <option value = "exclusive of VAT" <?php echo (($t->vat_in_ex == 'exclusive of VAT') ? ' selected' : '');?>>exclusive of VAT</option>
-                                </select>
-                            </div>
-                            <?php } ?>
 								<div class="form-group">
 								Terms & Conditions:
 								<input type="text" class="form-control" name="condition" autocomplete="off" id = "terms">

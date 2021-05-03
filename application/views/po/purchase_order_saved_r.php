@@ -403,13 +403,7 @@
 		    			<td colspan="20" style="padding: 10px!important">
 		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
-                            3. Price is 		    				
-                            <?php 
-		    					foreach($tc AS $t){ 
-		    						if(!empty($t->vat_in_ex)){
-			    						echo $t->vat_in_ex;
-			    			?>
-			    				<?php } } ?><br>
+                            3. Price is <?php echo $vat_in_ex; ?><br>
 		    				<?php if(!empty($payment_terms)){ ?>
 		    				4. Payment term: <?php echo $payment_terms; ?><br>
 		    				<?php } ?>	

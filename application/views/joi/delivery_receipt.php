@@ -158,27 +158,36 @@
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
-		    			<td colspan="20" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no."-".COMPANY; ?></b></td>
-		    		</tr>
-		    		
-		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($h->joi_date)); ?></b></td></tr>
-		    		<?php } ?>
-		    		<tr>
-		    			<td colspan="20" ><b class="nomarg">PO No: <?php echo $h->joi_no ."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
-		    		</tr>
-		    		<?php foreach($pr AS $p){ ?>
-		    		<tr>
-		    			<td colspan="20" class="all-border"><b class="nomarg">Purpose: <?php echo $p['purpose']; ?></b></td>
+		    			<td colspan="3" class="all-border "><b class="nomarg">DR No. </b></td>
+		    			<td colspan="17" class="all-border "><h4 style="margin:0px"><b><?php echo $dr_no."-".COMPANY; ?></b></h4> </td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20" class="all-border"><b class="nomarg">End Use: <?php echo $p['enduse']; ?></b></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="20" class="all-border"><b class="nomarg">Requestor: <?php echo $p['requestor']; ?></b></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="20"><b class="nomarg">PR No: <?php echo $p['jo_no']."-".COMPANY; ?></b></td>
-		    		</tr>
+			    			<td colspan="3" class="all-border "><b class="nomarg">Date : </b></td>
+			    			<td colspan="17" class="all-border "><b class="nomarg"><?php echo date("F d, Y",strtotime($h->joi_date))?></b></td>
+			    		</tr>
+			    		<tr>
+			    			<td colspan="3" class="all-border"><b class="nomarg">Delivered to: </b></td>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $delivered_to; ?></b></td>
+			    		</tr>
+			    		<tr>
+			    			<td colspan="3" class="all-border"><b class="nomarg">Address: </b></td>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $address; ?></b></td>
+			    		</tr>
+			    		<tr>
+			    			<td colspan="3" class="all-border"><b class="nomarg">JO No.: </b></td>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $h->joi_no ."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
+			    		</tr>
+			    		<tr>
+			    			<td colspan="3" class="all-border"><b class="nomarg">Requested by: </b></td>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $requested_by; ?></b></td>
+			    		</tr>
+			    		<tr>
+			    			<td colspan="3" class="all-border"><b class="nomarg">Project Title: </b></td>
+			    			<td colspan="17" class="all-border"><h4 style="margin:0px"><b><?php echo $h->project_title; ?></b></h4></td>
+			    		</tr>
+			    		<tr>
+			    			<td colspan="20" align="center"><br></td>
+			    		</tr>
 		    		<?php } ?>
 		    		<!-- Loop -->
 

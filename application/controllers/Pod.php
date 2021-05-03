@@ -279,6 +279,7 @@ class Pod extends CI_Controller {
             $data['vat_percent']=$h->vat_percent;
             $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
@@ -432,6 +433,7 @@ class Pod extends CI_Controller {
             $data['vat_percent']=$h->vat_percent;
             $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
@@ -585,6 +587,7 @@ class Pod extends CI_Controller {
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -602,6 +605,7 @@ class Pod extends CI_Controller {
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'checked_by'=>$this->input->post('checked'),
                 'approved_by'=>$this->input->post('approved'),
                 'checked_by'=>$this->input->post('checked'),
@@ -671,6 +675,7 @@ class Pod extends CI_Controller {
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>1,
                 'draft'=>0,
                 'revised'=>0
@@ -689,6 +694,7 @@ class Pod extends CI_Controller {
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>0,
                 'draft'=>1,
                 'revised'=>0
@@ -706,7 +712,6 @@ class Pod extends CI_Controller {
         $data = array(
             'po_id'=>$this->input->post('po_id'),
             'tc_desc'=>$this->input->post('tc_desc'),
-            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         );
 
 
@@ -722,7 +727,6 @@ class Pod extends CI_Controller {
         $data = array(
             'po_id'=>$this->input->post('po_id'),
             'tc_desc'=>$this->input->post('tc_desc'),
-            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         );
 
         
@@ -738,7 +742,6 @@ class Pod extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
-            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id);
@@ -752,7 +755,6 @@ class Pod extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
-            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'pod/po_direct_draft/'.$po_id.'/'.$pr_id.'/'.$group_id);
@@ -1030,6 +1032,7 @@ class Pod extends CI_Controller {
             $data['revision_no']=$h->revision_no;
             $data['po_no']=$h->po_no;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
