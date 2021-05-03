@@ -451,7 +451,6 @@ class Po extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
-            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'po/purchase_order/'.$po_id);
@@ -610,6 +609,7 @@ class Po extends CI_Controller {
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>1,
                 'revised'=>0
             ); 
@@ -627,6 +627,7 @@ class Po extends CI_Controller {
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>0,
                 'draft'=>1,
                 'revised'=>0
@@ -696,6 +697,7 @@ class Po extends CI_Controller {
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>1,
                 'draft'=>0,
                 'revised'=>0
@@ -714,6 +716,7 @@ class Po extends CI_Controller {
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>0,
                 'draft'=>1,
                 'revised'=>0
@@ -749,6 +752,7 @@ class Po extends CI_Controller {
                 "po_type"=>$head->po_type,
                 "user_id"=>$head->user_id,
                 "approved_by"=>$head->approved_by,
+                "vat_in_ex"=>$head->vat_in_ex,
                 "saved"=>$head->saved,
                 "done_po"=>$head->done_po,
                 "date_revised"=>$head->date_revised,
@@ -920,7 +924,6 @@ class Po extends CI_Controller {
         $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
         $data = array(
             'po_id'=>$this->input->post('po_id'),
-            'vat_in_ex'=>$this->input->post('vat_in_ex'),
             'tc_desc'=>$this->input->post('tc_desc'),
         );
 
@@ -974,6 +977,7 @@ class Po extends CI_Controller {
             $data['revision_no']=$h->revision_no;
             $data['po_no']=$h->po_no;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved_by']=$h->approved_by;
             $data['checked_by']=$h->checked_by;
@@ -1028,7 +1032,6 @@ class Po extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
-            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'po/purchase_order_draft/'.$po_id);
@@ -1063,6 +1066,7 @@ class Po extends CI_Controller {
             $data['revision_no']=$h->revision_no;
             $data['po_no']=$h->po_no;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
@@ -1113,7 +1117,6 @@ class Po extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
-            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'po/purchase_order_saved/'.$po_id);
@@ -1544,7 +1547,6 @@ class Po extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
-            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'po/reporder_prnt/'.$po_id);
@@ -1684,7 +1686,6 @@ class Po extends CI_Controller {
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
-            'vat_in_ex'=>$this->input->post('vat_in_ex'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             redirect(base_url().'po/reporder_prnt_draft/'.$po_id);
@@ -2196,6 +2197,7 @@ class Po extends CI_Controller {
             $data['revision_no']=$h->revision_no;
             $data['po_no']=$h->po_no;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
@@ -2447,6 +2449,7 @@ class Po extends CI_Controller {
                 "vat_percent"=>$head->vat_percent,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
+                "vat_in_ex"=>$head->vat_in_ex,
                 "saved"=>$head->saved,
                 "done_po"=>$head->done_po,
                 "date_revised"=>$this->input->post('approve_date'),

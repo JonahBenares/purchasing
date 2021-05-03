@@ -164,7 +164,7 @@
 		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($h->joi_date)); ?></b></td></tr>
 		    		<?php } ?>
 		    		<tr>
-		    			<td colspan="20" ><b class="nomarg">PO No: <?php echo $h->joi_no ."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
+		    			<td colspan="20" ><b class="nomarg">JO No: <?php echo $h->joi_no ."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
 		    		</tr>
 		    		<?php foreach($pr AS $p){ ?>
 		    		<tr>
@@ -177,7 +177,7 @@
 		    			<td colspan="20" class="all-border"><b class="nomarg">Requestor: <?php echo $p['requestor']; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20"><b class="nomarg">PR No: <?php echo $p['jo_no']."-".COMPANY; ?></b></td>
+		    			<td colspan="20"><b class="nomarg">JOR No: <?php echo $p['jo_no']."-".COMPANY; ?></b></td>
 		    		</tr>
 		    		<?php } ?>
 		    		<!-- Loop -->
