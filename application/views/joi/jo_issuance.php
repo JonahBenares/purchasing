@@ -336,7 +336,7 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
-		    							<b class="nomarg"><?php echo nl2br($it['offer']); ?></b>
+		    							<b class="nomarg"><?php echo " - ".nl2br($it['offer'])."<br><br>"; ?></b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>

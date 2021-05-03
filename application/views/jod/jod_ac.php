@@ -99,7 +99,7 @@
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+						<a href="<?php echo base_url(); ?>joi/joi_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
 						<?php if($saved==0){ ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
 						<?php } else { ?>
@@ -179,7 +179,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3" class="all-border"><b class="nomarg">JO No.: </b></td>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jh->joi_no."-".COMPANY; ?></b></td>
+		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jh->joi_no."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3" class="all-border"><b class="nomarg">Gate Pass No.: </b></td>

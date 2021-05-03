@@ -236,7 +236,7 @@ $(document).on("click", "#approve_rev", function () {
                                                   echo '<span class="label label-success">Delivered</span>'; 
                                                 } 
 
-                                                 if($h['draft']==1) {
+                                                 if($h['saved']==0 && $h['draft']==1) {
                                                   echo '<span class="label label-info">Draft</span>'; 
                                                 }
                                             } ?></td>
