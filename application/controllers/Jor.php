@@ -599,7 +599,7 @@ class Jor extends CI_Controller {
 
         $rows_jor = $this->super_model->count_rows_where("jor_series", "year", $year);
         if($rows_jor==0){
-            $jor_no='JOR '.$year."-01";
+            $jor_no='JOR '.$year."-1";
         } else {
             $max = $this->super_model->get_max_where("jor_series", "series","year='$year'");
             $next= $max+1;
