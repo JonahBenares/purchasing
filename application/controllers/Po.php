@@ -322,10 +322,8 @@ class Po extends CI_Controller {
         $revised = $this->uri->segment(4);
         $po_tc_id = $this->uri->segment(5);
         $data['revised'] = $revised;
-
         $data['po_id'] = $po_id;
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
-        $vat_in_ex = $this->super_model->select_column_where('po_tc', 'vat_in_ex', 'po_tc_id', $po_tc_id);
         $data['vendor_id']=$vendor_id;
         foreach($this->super_model->select_row_where('po_head', 'po_id', $po_id) AS $h){
             $data['head'][] = array(
