@@ -78,7 +78,7 @@
                                 <small class="p-l-25">&nbsp;JOB ORDER</small> 
                                 <div class="sparkline8-outline-icon">
                                     <?php if(!empty($filt)){ ?>
-                                        <a href="<?php echo base_url(); ?>reports/export_joi/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $jo_no; ?>/<?php echo $date_joi; ?>/<?php echo $joi_no; ?>/<?php echo $project_title; ?>/<?php echo $requestor; ?>/<?php echo $scope_of_work; ?>/<?php echo $supplier; ?>" class="btn btn-custon-three btn-info"> 
+                                        <a href="<?php echo base_url(); ?>reports/export_joi/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $jor_no1; ?>/<?php echo $date_joi; ?>/<?php echo $joi_no; ?>/<?php echo $project_title; ?>/<?php echo $requestor; ?>/<?php echo $scope_of_work; ?>/<?php echo $supplier; ?>" class="btn btn-custon-three btn-info"> 
                                             <span class="fa fa-upload"></span> Export to Excel
                                         </a>
                                     <?php } else { ?>
@@ -152,7 +152,7 @@
                                             <td><?php echo $p['project_title'];?></td>
                                             <td><?php echo $p['joi_date'];?></td>
                                             <td><?php echo $p['joi_no']."-".COMPANY;?></td>
-                                            <td><?php echo $p['requestor']."-".COMPANY;?></td>
+                                            <td><?php echo $p['requestor'];?></td>
                                             <td><?php echo $p['joi_qty'];?></td>
                                             <td><?php echo $p['qty'];?></td>
                                             <td><?php echo $p['uom'];?></td>

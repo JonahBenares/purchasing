@@ -7,52 +7,44 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>reports/search_unserved/<?php echo $year;?>/<?php echo $month;?>">
+                <form method="POST" action = "<?php echo base_url();?>reports/search_jo_unserved/<?php echo $year;?>/<?php echo $month;?>">
                     <div class="modal-body-lowpad">                        
                         <div class="form-group">
-                            <p class="m-b-0">PR No:</p>
-                            <select name="pr_no" class="form-control">
-                                <option value = "">--Select PR Number--</option>
-                                <?php foreach($pr_no1 AS $pr){ ?>
-                                <option value = "<?php echo $pr->pr_id;?>"><?php echo $pr->pr_no."-".COMPANY; ?></option>
+                            <p class="m-b-0">JOR No:</p>
+                            <select name="jor_no" class="form-control">
+                                <option value = "">--Select JOR Number--</option>
+                                <?php 
+                                    foreach($jor_no AS $pr){ 
+                                         $jo=$pr->jo_no;
+                                        if($jo!=''){
+                                            $jo_no=$jo;
+                                        }else{
+                                            $jo_no=$pr->user_jo_no;
+                                        }
+                                ?>
+                                <option value = "<?php echo $pr->jor_id;?>"><?php echo $jo_no."-".COMPANY;; ?></option>
                                 <?php } ?>
                             </select>
                         </div>   
                         <div class="form-group">
-                            <p class="m-b-0">Date of PO:</p>
-                            <input type="date" name="date_po" class="form-control">
+                            <p class="m-b-0">Date of JO:</p>
+                            <input type="date" name="date_joi" class="form-control">
                         </div>    
                         <div class="form-group">
-                            <p class="m-b-0">PO No:</p>
-                            <input type="text" name="po_no" class="form-control">
+                            <p class="m-b-0">JO No:</p>
+                            <input type="text" name="joi_no" class="form-control">
                         </div> 
                         <div class="form-group">
-                            <p class="m-b-0">Purpose:</p>
-                            <input type="text" name="purpose" class="form-control">
-                        </div>   
-                        <div class="form-group">
-                            <p class="m-b-0">Enduse:</p>
-                            <input type="text" name="enduse" class="form-control">
-                        </div>   
+                            <p class="m-b-0">Project Title:</p>
+                            <input type="text" name="project_title" class="form-control">
+                        </div>    
                         <div class="form-group">
                             <p class="m-b-0">Requestor:</p>
                             <input name="requestor" class="form-control">
-                            <!-- <select name="requestor" class="form-control">
-                                <option value = "">--Select Requestor--</option>
-                                <?php foreach($employees AS $emp){ ?>
-                                <option value = "<?php echo $emp->employee_id;?>"><?php echo $emp->employee_name; ?></option>
-                                <?php } ?>
-                            </select> -->
                         </div>   
                         <div class="form-group">
-                            <p class="m-b-0">Description:</p>
-                            <input name="description" class="form-control">
-                            <!-- <select name="description" class="form-control">
-                                <option value = "">--Select Item--</option>
-                                <?php foreach($items AS $i){ ?>
-                                <option value = "<?php echo $i->item_id;?>"><?php echo $i->item_name." - ".$i->item_specs; ?></option>
-                                <?php } ?>
-                            </select> -->
+                            <p class="m-b-0">Scope of Work:</p>
+                            <input name="scope_of_work" class="form-control">
                         </div>      
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
@@ -67,7 +59,6 @@
                         <input type="hidden" name="year" value = "<?php echo $year; ?>">                
                         <center>                           
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Proceed">
-                            <!-- <a href="<?php echo base_url(); ?>index.php/pr/purchase_request">Proceed</a> -->
                         </center>
                     </div>
                 </form>
@@ -82,16 +73,16 @@
                         <div class="sparkline8-hd p-b-0" >
                             <div class="main-sparkline8-hd">
                                 <h1><button onclick="return quitBox('quit');" class=" btn btn-xs btn-success"><span class="fa fa-arrow-left"></span></button>
-                                    Undelivered PO Report <b style="color:blue"><?php echo $date; ?></b>
+                                    Undelivered JO Report <b style="color:blue"><?php echo $date; ?></b>
                                 </h1>
-                                <small class="p-l-25">&nbsp;UNDELIVERED PO REPORT</small> 
+                                <small class="p-l-25">&nbsp;UNDELIVERED JO REPORT</small> 
                                 <div class="sparkline8-outline-icon">
                                     <?php if(!empty($filt)){ ?>
-                                        <a href="<?php echo base_url(); ?>reports/export_unserved/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $pr_no; ?>/<?php echo $date_po; ?>/<?php echo $po_no; ?>/<?php echo $purpose; ?>/<?php echo $enduse; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $supplier; ?>" class="btn btn-custon-three btn-info"> 
+                                        <a href="<?php echo base_url(); ?>reports/export_jo_unserved/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $jor_no1; ?>/<?php echo $date_joi; ?>/<?php echo $joi_no; ?>/<?php echo $project_title; ?>/<?php echo $requestor; ?>/<?php echo $scope_of_work; ?>/<?php echo $supplier; ?>" class="btn btn-custon-three btn-info"> 
                                             <span class="fa fa-upload"></span> Export to Excel
                                         </a>
                                     <?php } else { ?>
-                                        <a href="<?php echo base_url(); ?>reports/export_unserved/<?php echo $year; ?>/<?php echo $month; ?>" class="btn btn-custon-three btn-info"> 
+                                        <a href="<?php echo base_url(); ?>reports/export_jo_unserved/<?php echo $year; ?>/<?php echo $month; ?>" class="btn btn-custon-three btn-info"> 
                                             <span class="fa fa-upload"></span> Export to Excel
                                         </a>
                                     <?php } ?>
@@ -102,7 +93,7 @@
                             </div>
                         </div>   
                         <?php if(!empty($filt)){ ?>     
-                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href='<?php echo base_url(); ?>index.php/reports/unserved_report/<?php echo $year; ?>/<?php echo $month; ?>' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
+                        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href='<?php echo base_url(); ?>index.php/reports/jo_unserved_report/<?php echo $year; ?>/<?php echo $month; ?>' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>                    
                         <?php } ?>      
                         <div class="sparkline8-graph" >
                             <div class="datatable-dashv1-list custom-datatable-overright" style="overflow-x: scroll;">
@@ -127,15 +118,10 @@
                                     </thead>
                                     <tbody>                               
                                         <tr>
-                                            <?php 
-                                                if(!empty($po)){
-                                                    //if(!empty($unserved)){
-                                                    //foreach($unserved AS $u){
-                                                        foreach($po AS $p){ 
-                                                            //if($p['pr_details_id']==$u['pr_details_id']){
-                                                            /*foreach($po_items AS $items){*/
-                                                            //$total = $u['unserved_qty']*$p['unit_price'];
-                                            ?>                                     
+                                        <?php 
+                                            if(!empty($po)){
+                                                foreach($po AS $p){ 
+                                        ?>                                     
                                         <tr>
                                             <td><?php echo $p['jo_no']."-".COMPANY;?></td>
                                             <td><?php echo $p['project_title'];?></td>
@@ -152,7 +138,7 @@
                                             <td><?php echo number_format($p['total'],2);?></td>
                                             <td><?php echo $p['notes'];?></td>
                                         </tr> 
-                                        <?php } } //} //} //}  ?>
+                                        <?php } } ?>
                                         </tr>                    
                                     </tbody>
                                 </table>
