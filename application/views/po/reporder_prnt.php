@@ -494,8 +494,17 @@
 							<br>Terms & Conditions:<br>
 		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
-                            3. Price is <?php echo $vat_in_ex; ?> 	
-                            <br>
+                            3. Price is
+                           <?php 
+                            if($revised==0){ ?>
+                                <select type="text" name="vat_in_ex">
+                                    <option value = "inclusive of VAT" <?php echo (($vat_in_ex == 'inclusive of VAT') ? ' selected' : '');?>>inclusive of VAT</option>
+                                    <option value = "exclusive of VAT" <?php echo (($vat_in_ex == 'exclusive of VAT') ? ' selected' : '');?>>exclusive of VAT</option>
+                                </select>	
+                            <?php } else { ?>
+                               <?php echo $vat_in_ex; ?>
+                            <?php } ?>
+	                        <br>
 		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
 		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
