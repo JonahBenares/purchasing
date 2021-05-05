@@ -7271,7 +7271,7 @@ class Reports extends CI_Controller {
                             $status .= "Delivered by ".$company;*/
                         }else{
                             $status .= 'JO Issued - Partial<br><br>';
-                            $status_remarks = 'Partially Delivered';
+                            //$status_remarks = 'Partially Delivered';
                         }
 
                         if($pr->on_hold==1){
@@ -7279,7 +7279,7 @@ class Reports extends CI_Controller {
                             /*}else if($pr->for_recom==1){
                             $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));*/
                         }else{
-                            $status_remarks='';
+                            $status_remarks='Partially Delivered';
                         }
                     } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
                         $date_delivered=  $this->super_model->select_column_where('joi_head', 'date_served', 'joi_id', $joi_id);
