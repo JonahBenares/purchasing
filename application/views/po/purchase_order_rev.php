@@ -571,10 +571,7 @@
                                     <option value = "exclusive of VAT" <?php echo (($vat_in_ex == 'exclusive of VAT') ? ' selected' : '');?>>exclusive of VAT</option>
                                 </select>	
                             <?php } else { ?>
-                                <select type="text" name="vat_in_ex">
-                                    <option value = "inclusive of VAT" <?php echo (($vat_in_ex_temp == 'inclusive of VAT') ? ' selected' : '');?>>inclusive of VAT</option>
-                                    <option value = "exclusive of VAT" <?php echo (($vat_in_ex_temp == 'exclusive of VAT') ? ' selected' : '');?>>exclusive of VAT</option>
-                                </select>
+                               <?php echo $vat_in_ex_temp; ?>
                             <?php } ?>
 	                        <br>
 		    				<?php if($po_type!=1){ $x=4; ?>
