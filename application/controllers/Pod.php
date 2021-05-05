@@ -1067,6 +1067,7 @@ class Pod extends CI_Controller {
         $data['discount_temp'] = $this->super_model->select_column_where('po_head_temp', 'discount', 'po_id', $po_id);
         $data['packing_temp'] = $this->super_model->select_column_where('po_head_temp', 'packing_fee', 'po_id', $po_id);
         $data['vat_temp'] = $this->super_model->select_column_where('po_head_temp', 'vat', 'po_id', $po_id);
+        $data['vat_in_ex_temp'] = $this->super_model->select_column_where('po_head_temp', 'vat_in_ex', 'po_id', $po_id);
         $data['vat_percent_temp'] = $this->super_model->select_column_where('po_head_temp', 'vat_percent', 'po_id', $po_id);
 
         $datarfd = array(
@@ -1094,6 +1095,7 @@ class Pod extends CI_Controller {
             'packing_fee'=>$this->input->post('packing'),
             'vat'=>$this->input->post('vat'),
             'vat_percent'=>$this->input->post('vat_percent'),
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
             'discount'=>$this->input->post('discount')
         );
         $this->super_model->insert_into("po_head_temp", $data_head);
@@ -1250,6 +1252,7 @@ class Pod extends CI_Controller {
                 "packing_fee"=>$head->packing_fee,
                 "vat"=>$head->vat,
                 "vat_percent"=>$head->vat_percent,
+                "vat_in_ex"=>$head->vat_in_ex,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
                 "saved"=>$head->saved,
@@ -1266,6 +1269,7 @@ class Pod extends CI_Controller {
                         "packing_fee"=>$headt->packing_fee,
                         "vat"=>$headt->vat,
                         "vat_percent"=>$headt->vat_percent,
+                        "vat_in_ex"=>$headt->vat_in_ex,
                         "discount"=>$headt->discount,
                        
                     );

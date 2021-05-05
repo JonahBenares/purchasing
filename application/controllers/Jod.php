@@ -275,7 +275,6 @@ class Jod extends CI_Controller {
                     'delivered_quantity'=>$items->delivered_quantity,
                     'received_quantity'=>$items->quantity,
                     'uom'=>$items->uom,
-                    'delivered_to'=>$items->delivered_to,
                 );
             }
         }
