@@ -220,8 +220,11 @@ class Joi extends CI_Controller {
     public function delivery_receipt(){
         $joi_id = $this->uri->segment(3); 
         $joi_dr_id = $this->uri->segment(4); 
+        $data['joi_id']=$joi_id;
+        $data['joi_dr_id']=$joi_dr_id;
         $data['head']= $this->super_model->select_row_where('joi_head', 'joi_id', $joi_id);
         $data['revision_no']= $this->super_model->select_column_where("joi_dr", "revision_no", "joi_id", $joi_id);
+        $data['saved'] = $this->super_model->select_column_where("joi_dr", "saved", "joi_id", $joi_id);
         $user_id= $this->super_model->select_column_where("joi_head", "user_id", "joi_id", $joi_id);
         $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
         $data['cancelled']=$this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
@@ -281,6 +284,20 @@ class Joi extends CI_Controller {
         $this->load->view('template/header');        
         $this->load->view('joi/delivery_receipt',$data);
         $this->load->view('template/footer');
+    }
+
+    public function save_dr(){
+        $joi_id = $this->input->post('joi_id');
+        $joi_dr_id = $this->input->post('joi_dr_id');
+        $data = array(
+            'delivered_to'=>$this->input->post('delivered_to'),
+            'address'=>$this->input->post('address'),
+            'requested_by'=>$this->input->post('requested_by'),
+            'saved'=>1
+        );
+        if($this->super_model->update_where("joi_dr", $data, "joi_dr_id", $joi_dr_id)){
+            echo "<script>window.location ='".base_url()."joi/delivery_receipt/$joi_id/$joi_dr_id';</script>";
+        }
     }
 
     public function served_jo(){
@@ -1982,7 +1999,7 @@ class Joi extends CI_Controller {
         }
     }
 
-    public function joi_dr(){
+    /*public function joi_dr(){
         $joi_id = $this->uri->segment(3); 
         $joi_dr_id = $this->uri->segment(4); 
         $data['joi_id']=$joi_id;
@@ -2050,21 +2067,7 @@ class Joi extends CI_Controller {
         $this->load->view('template/header');        
         $this->load->view('joi/joi_dr',$data);
         $this->load->view('template/footer');
-    }
-
-    public function save_dr(){
-        $joi_id = $this->input->post('joi_id');
-        $joi_dr_id = $this->input->post('joi_dr_id');
-        $data = array(
-            'delivered_to'=>$this->input->post('delivered_to'),
-            'address'=>$this->input->post('address'),
-            'requested_by'=>$this->input->post('requested_by'),
-            'saved'=>1
-        );
-        if($this->super_model->update_where("joi_dr", $data, "joi_dr_id", $joi_id)){
-            echo "<script>window.location ='".base_url()."joi/joi_dr/$joi_id/$joi_dr_id';</script>";
-        }
-    }
+    }*/
 
     public function deliver_po(){
         $joi_id = $this->uri->segment(3);

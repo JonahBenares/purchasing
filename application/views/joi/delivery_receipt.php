@@ -94,13 +94,16 @@
     </style>
     
     <div  class="pad">
-    	<form method='POST' action=''>  
+    	<form method='POST' action='<?php echo base_url(); ?>joi/save_dr'> 
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+						<?php if($saved==0){ ?>
+						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
+						<?php } else { ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
-						<!-- <input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">	 -->
+						<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing DELIVERY RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
@@ -160,18 +163,26 @@
 		    		<tr>
 		    			<td colspan="3" class="all-border "><b class="nomarg">DR No. </b></td>
 		    			<td colspan="17" class="all-border "><h4 style="margin:0px"><b><?php echo $dr_no."-".COMPANY; ?></b></h4> </td>
-		    		</tr>
-		    		<tr>
+		    		</tr>    		
+			    		<tr>
 			    			<td colspan="3" class="all-border "><b class="nomarg">Date : </b></td>
-			    			<td colspan="17" class="all-border "><b class="nomarg"><?php echo date("F d, Y",strtotime($h->joi_date))?></b></td>
+			    			<td colspan="17" class="all-border "><b class="nomarg"><?php echo date('F j, Y', strtotime($h->joi_date)); ?></b></td>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">Delivered to: </b></td>
+			    			<?php if($saved==0){ ?>
+			    			<td colspan="17" class="all-border"><textarea class="form-control" name = "delivered_to"></textarea></td>
+			    			<?php } else { ?>
 			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $delivered_to; ?></b></td>
+			    			<?php } ?>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">Address: </b></td>
+			    			<?php if($saved==0){ ?>
+			    			<td colspan="17" class="all-border"><textarea class="form-control" name = "address"></textarea></b>
+			    				<?php } else { ?>
 			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $address; ?></b></td>
+			    			<?php } ?>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">JO No.: </b></td>
@@ -179,7 +190,11 @@
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">Requested by: </b></td>
+			    			<?php if($saved==0){ ?>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><textarea name = "requested_by"></textarea></b></td>
+			    			<?php } else { ?>
 			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $requested_by; ?></b></td>
+			    			<?php } ?>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">Project Title: </b></td>
@@ -188,7 +203,7 @@
 			    		<tr>
 			    			<td colspan="20" align="center"><br></td>
 			    		</tr>
-		    		<?php } ?>
+			    		<?php } ?>
 		    		<!-- Loop -->
 
 		    		<tr>
@@ -259,7 +274,8 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
-	    	<input type='hidden' name='rfq_id' value='>'>
+	    	<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
+	    	<input type='hidden' name='joi_dr_id' value='<?php echo $joi_dr_id; ?>'>
     	</form>
     </div>
     <script type="text/javascript">

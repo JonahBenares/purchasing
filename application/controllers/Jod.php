@@ -219,9 +219,12 @@ class Jod extends CI_Controller {
 
     public function delivery_receipt(){
         $joi_id = $this->uri->segment(3); 
-        $joi_dr_id = $this->uri->segment(4); 
+        $joi_dr_id = $this->uri->segment(4);
+        $data['joi_id']=$joi_id;
+        $data['joi_dr_id']=$joi_dr_id; 
         $data['head']= $this->super_model->select_row_where('joi_head', 'joi_id', $joi_id);
         $data['revision_no']= $this->super_model->select_column_where("joi_dr", "revision_no", "joi_id", $joi_id);
+        $data['saved'] = $this->super_model->select_column_where("joi_dr", "saved", "joi_id", $joi_id);
         $user_id= $this->super_model->select_column_where("joi_head", "user_id", "joi_id", $joi_id);
         $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
         $data['cancelled']=$this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
@@ -275,13 +278,26 @@ class Jod extends CI_Controller {
                     'delivered_quantity'=>$items->delivered_quantity,
                     'received_quantity'=>$items->quantity,
                     'uom'=>$items->uom,
-                    'delivered_to'=>$items->delivered_to,
                 );
             }
         }
         $this->load->view('template/header');        
         $this->load->view('jod/delivery_receipt',$data);
         $this->load->view('template/footer');
+    }
+
+        public function save_dr(){
+        $joi_id = $this->input->post('joi_id');
+        $joi_dr_id = $this->input->post('joi_dr_id');
+        $data = array(
+            'delivered_to'=>$this->input->post('delivered_to'),
+            'address'=>$this->input->post('address'),
+            'requested_by'=>$this->input->post('requested_by'),
+            'saved'=>1
+        );
+        if($this->super_model->update_where("joi_dr", $data, "joi_dr_id", $joi_dr_id)){
+            echo "<script>window.location ='".base_url()."jod/delivery_receipt/$joi_id/$joi_dr_id';</script>";
+        }
     }
 
     public function served_jo(){
@@ -1941,7 +1957,7 @@ class Jod extends CI_Controller {
         }
     }
 
-    public function jod_dr(){
+    /*public function jod_dr(){
         $joi_id = $this->uri->segment(3); 
         $joi_dr_id = $this->uri->segment(4); 
         $data['joi_id']=$joi_id;
@@ -2007,23 +2023,9 @@ class Jod extends CI_Controller {
             }
         }
         $this->load->view('template/header');        
-        $this->load->view('jod/joi_dr',$data);
+        $this->load->view('jod/jod_dr',$data);
         $this->load->view('template/footer');
-    }
-
-    public function save_dr(){
-        $joi_id = $this->input->post('joi_id');
-        $joi_dr_id = $this->input->post('joi_dr_id');
-        $data = array(
-            'delivered_to'=>$this->input->post('delivered_to'),
-            'address'=>$this->input->post('address'),
-            'requested_by'=>$this->input->post('requested_by'),
-            'saved'=>1
-        );
-        if($this->super_model->update_where("joi_dr", $data, "joi_dr_id", $joi_id)){
-            echo "<script>window.location ='".base_url()."jod/jod_dr/$joi_id/$joi_dr_id';</script>";
-        }
-    }
+    }*/
 
     /*public function deliver_jod(){
         $joi_id = $this->uri->segment(3);
