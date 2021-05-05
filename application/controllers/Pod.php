@@ -191,6 +191,7 @@ class Pod extends CI_Controller {
             $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
             $data['revised']=$h->revised;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['revision_no']=$h->revision_no;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
