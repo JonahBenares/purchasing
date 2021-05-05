@@ -7271,7 +7271,7 @@ class Reports extends CI_Controller {
                             $status .= "Delivered by ".$company;*/
                         }else{
                             $status .= 'JO Issued - Partial<br><br>';
-                            $status .= 'Partially Delivered';
+                            $status_remarks = 'Partially Delivered';
                         }
 
                         if($pr->on_hold==1){
@@ -7774,7 +7774,7 @@ class Reports extends CI_Controller {
                             $status .= "Delivered by ".$company;*/
                         }else{
                             $status .= 'JO Issued - Partial<br><br>';
-                            $status .= 'Partially Delivered';
+                            $status_remarks = 'Partially Delivered';
                         }
 
                         if($pr->on_hold==1){
@@ -8337,8 +8337,8 @@ class Reports extends CI_Controller {
                                 /*}else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;*/
                             }else{
-                                $status .= 'JO Issued - Partial<br>\n';
-                                $status .= 'Partially Delivered';
+                                $status .= "JO Issued - Partial \n";
+                                $status_remarks = 'Partially Delivered';
                             }
 
                             if($pr->on_hold==1){
@@ -8766,7 +8766,7 @@ class Reports extends CI_Controller {
                                 $status .= "Delivered by ".$company;*/
                             }else{
                                 $status .= "JO Issued - Partial \n \n";
-                                $status .= 'Partially Delivered';
+                                $status_remarks = 'Partially Delivered';
                             }
 
                             if($pr->on_hold==1){
