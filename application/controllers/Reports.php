@@ -50,10 +50,16 @@ class Reports extends CI_Controller {
         redirect(base_url().'reports/joi_report/'.$year.'/'.$month);
     }
 
+    public function generate_jounserved_report(){
+        $year = $this->input->post('year');
+        $month = $this->input->post('month');
+        redirect(base_url().'reports/jo_unserved_report/'.$year.'/'.$month);
+    }
+
     public function generate_unserved_report(){
         $year = $this->input->post('year');
         $month = $this->input->post('month');
-        redirect(base_url().'reports/unserved_report/'.$year.'/'.$month);
+        redirect(base_url().'reports/jo_unserved_report/'.$year.'/'.$month);
     }
     public function generate_sum_weekly_recom_report(){
         $date_recom_from = $this->input->post('date_recom_from');
@@ -9249,9 +9255,9 @@ class Reports extends CI_Controller {
                 }
                 $jo=$this->super_model->select_column_where("jor_head","jo_no","jor_id",$pr->jor_id);
                 if($jo!=''){
-                    $jo_no=$jo;
+                    $jo_no=$jo."-".COMPANY;
                 }else{
-                     $jo_no=$this->super_model->select_column_where("jor_head","user_jo_no","jor_id",$pr->jor_id);
+                     $jo_no=$this->super_model->select_column_where("jor_head","user_jo_no","jor_id",$pr->jor_id)."-".COMPANY;
                 }
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $pr->date_prepared);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $jo_no);
@@ -9284,11 +9290,13 @@ class Reports extends CI_Controller {
             foreach($this->super_model->custom_query("SELECT ji.*, jh.* FROM jor_head jh INNER JOIN jor_items ji ON jh.jor_id = ji.jor_id ORDER BY jh.jo_no ASC") AS $pr){
                 $qty='';
                 $unit_price='';
+                $joi_id='';
                 $joi_no='';
                 $vendor='';
                 $joi_date='';
                 foreach($this->super_model->select_row_where("joi_items","jor_items_id",$pr->jor_items_id) AS $po){
-                    $joi_no=$this->super_model->select_column_where("joi_head","joi_no","joi_id",$po->joi_id);
+                    $joi_id.=$this->super_model->select_column_where("joi_head","joi_id","joi_id",$po->joi_id);
+                    $joi_no.=$this->super_model->select_column_where("joi_head","joi_no","joi_id",$po->joi_id);
                     $vendor_id=$this->super_model->select_column_where("joi_head","vendor_id","joi_id",$po->joi_id);
                     $vendor.=$this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$vendor_id);
                     $joi_date.=$this->super_model->select_column_where("joi_head","joi_date","joi_id",$po->joi_id);
@@ -9311,14 +9319,14 @@ class Reports extends CI_Controller {
                 }
                 $jo=$this->super_model->select_column_where("jor_head","jo_no","jor_id",$pr->jor_id);
                 if($jo!=''){
-                    $jo_no=$jo;
+                    $jo_no=$jo."-".COMPANY;
                 }else{
-                     $jo_no=$this->super_model->select_column_where("jor_head","user_jo_no","jor_id",$pr->jor_id);
+                     $jo_no=$this->super_model->select_column_where("jor_head","user_jo_no","jor_id",$pr->jor_id)."-".COMPANY;
                 }
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $pr->date_prepared);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $jo_no);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $pr->scope_of_work);
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, (empty($po->joi_id)) ? $pr->quantity : $qty);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, (empty($joi_id)) ? $pr->quantity : $qty);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, $pr->uom);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, ($pr->cancelled==0) ? $joi_no : "Cancelled");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, $vendor);
@@ -9362,7 +9370,7 @@ class Reports extends CI_Controller {
         $objPHPExcel->getActiveSheet()->getStyle('A3:E3')->getFont()->setBold(true)->setName('Arial Narrow')->setSize(22);
         $objPHPExcel->getActiveSheet()->getStyle('A4:M4')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('A4:M4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        /*$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
                 unlink($exportfilename);
         $objWriter->save($exportfilename);
@@ -9371,7 +9379,1129 @@ class Reports extends CI_Controller {
         ob_end_clean();
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="JOR SUMMARY Report.xlsx"');
-        readfile($exportfilename);*/
+        readfile($exportfilename);
+    }
+
+    public function joi_report(){
+        $year1=$this->uri->segment(3);
+        $month1=$this->uri->segment(4);
+        if(!empty($year1)){
+            $data['year'] = $year1;
+            $year = $year1;
+        } else {
+            $data['year']= "null";
+            $year= "null";
+        }
+
+        if(!empty($month1)){
+            $data['month'] = $month1;
+            $month = $month1;
+        } else {
+            $data['month']= "null";
+            $month= "null";
+        }
+
+        if($month!='null'){
+             $date = $year."-".$month;
+             $data['date']=date('F Y', strtotime($date));
+        } else {
+             $date = $year;
+             $data['date']=$date;
+        }
+
+        $joi_date = date('Y-m', strtotime($date));
+        $data['jor_no']=$this->super_model->select_custom_where('jor_head',"cancelled='0'");
+        $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
+        $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
+        $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
+        foreach($this->super_model->select_custom_where("joi_head","joi_date LIKE '%$date%' GROUP BY joi_id") AS $p){
+            $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+            $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+
+            foreach($this->super_model->select_row_where('joi_jor','joi_id',$p->joi_id) AS $pr){
+                $jo = $this->super_model->select_column_where('jor_head','jo_no','jor_id',$pr->jor_id);
+                if($jo!=''){
+                    $jo_no=$jo;
+                }else{
+                    $jo_no=$this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$pr->jor_id);
+                }
+                foreach($this->super_model->select_row_where('joi_items','joi_id',$p->joi_id) AS $i){
+                    if($i->item_id!=0){
+                        foreach($this->super_model->select_row_where('item','item_id',$i->item_id) AS $it){
+                            $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                            $item=$it->item_name." - ".$it->item_specs;
+                        }
+                    }else {
+                        $item=$i->offer;
+                    }
+
+                    if($p->cancelled ==1){
+                        $status = "<span style='color:red'>Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
+                    } else {
+                        if($p->served==0){
+                            $status = 'JO Issued';
+                        } else if($p->served==1 && $i->delivered_quantity>$i->quantity){ 
+                            $status = 'JO Issued';
+                        }else {
+                             $dr_no = $this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_id', $p->joi_id);
+                               $status='';
+                           foreach($this->super_model->select_custom_where("joi_dr_items", "jor_items_id= '$i->jor_items_id' AND joi_items_id = '$i->joi_items_id' ORDER BY joi_dr_id DESC LIMIT 1") AS $del){
+                                $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id) ."-".COMPANY."<br>";
+                            }
+                        }
+                    }
+                    $data['po'][]=array(
+                        'joi_id'=>$i->joi_id,
+                        'jo_no'=>$jo_no,
+                        'project_title'=>$p->project_title,
+                        'qty'=>$i->quantity,
+                        'joi_qty'=>$i->delivered_quantity,
+                        'uom'=>$i->uom,
+                        'item'=>$item,
+                        'currency'=>$i->currency,
+                        'unit_price'=>$i->unit_price,
+                        'notes'=>$pr->notes,
+                        'requestor'=>$pr->requestor,
+                        'joi_id'=>$p->joi_id,
+                        'joi_date'=>$p->joi_date,
+                        'joi_no'=>$p->joi_no,
+                        'saved'=>$p->saved,
+                        'cancelled'=>$p->cancelled,
+                        'status'=>$status,
+                        'supplier'=>$supplier,
+                        'terms'=>$terms,
+                        'served'=>$p->served,
+                        'cancelled'=>$p->cancelled,
+                    );
+                }
+            }
+        }
+        $this->load->view('template/header');        
+        $this->load->view('reports/joi_report',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function search_joi(){
+        if(!empty($this->input->post('year'))){
+            $data['year'] = $this->input->post('year');
+            $year = $this->input->post('year');
+        } else {
+            $data['year']= "null";
+            $year= "null";
+        }
+
+        if(!empty($this->input->post('month'))){
+            $data['month'] = $this->input->post('month');
+            $month = $this->input->post('month');
+        } else {
+            $data['month']= "null";
+            $month= "null";
+        }
+
+        if(!empty($this->input->post('jor_no'))){
+            $data['jor_no1'] = $this->input->post('jor_no');
+        } else {
+            $data['jor_no1']= "null";
+        }
+
+        if(!empty($this->input->post('date_joi'))){
+            $data['date_joi'] = $this->input->post('date_joi');
+        } else {
+            $data['date_joi']= "null";
+        }
+
+        if(!empty($this->input->post('joi_no'))){
+            $data['joi_no'] = $this->input->post('joi_no');
+        } else {
+            $data['joi_no'] = "null";
+        }
+
+        if(!empty($this->input->post('project_title'))){
+            $data['project_title'] = $this->input->post('project_title');
+        } else {
+            $data['project_title'] = "null";
+        }
+
+        if(!empty($this->input->post('requestor'))){
+            $data['requestor'] = $this->input->post('requestor');
+        } else {
+            $data['requestor'] = "null";
+        } 
+
+        if(!empty($this->input->post('scope_of_work'))){
+            $data['scope_of_work'] = $this->input->post('scope_of_work');
+        } else {
+            $data['scope_of_work'] = "null";
+        } 
+
+        if(!empty($this->input->post('supplier'))){
+            $data['supplier'] = $this->input->post('supplier');
+        } else {
+            $data['supplier'] = "null";
+        }
+
+        $sql="";
+        $filter = " ";
+
+        if(!empty($this->input->post('jor_no'))){
+            $jor_no = $this->input->post('jor_no');
+            $sql.=" jj.jor_id = '$jor_no' AND";
+            $jo = $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $jor_no);
+            if($jo!=''){
+                $jo_no = $jo;
+            }else{
+                $jo_no = $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$jor_no);
+            }
+            $filter .= "JO No. - ".$jo_no.", ";
+        }
+
+        if(!empty($this->input->post('date_joi'))){
+            $date_joi = $this->input->post('date_joi');
+            $sql.=" jh.joi_date LIKE '%$date_joi%' AND";
+            $filter .= "JOI Date. - ".$date_joi.", ";
+        }
+
+        if(!empty($this->input->post('joi_no'))){
+            $joi_no = $this->input->post('joi_no');
+            $sql.=" jh.joi_no LIKE '%$joi_no%' AND";
+            $filter .= "JO No. - ".$joi_no.", ";
+        }
+
+        if(!empty($this->input->post('project_title'))){
+            $project_title = $this->input->post('project_title');
+            $sql.=" jj.purpose LIKE '%$project_title%' AND";
+            $filter .= "Project Title - ".$project_title.", ";
+        }
+
+        if(!empty($this->input->post('requestor'))){
+            $requestor = $this->input->post('requestor');
+            $sql.=" jj.requestor = '$requestor' AND";
+            $filter .= "Requestor - ".$requestor.", ";
+        }
+
+        if(!empty($this->input->post('scope_of_work'))){
+            $scope_of_work = $this->input->post('scope_of_work');
+            foreach($this->super_model->select_custom_where('jor_aoq_items', "scope_of_work LIKE '%$scope_of_work%'") AS $t){
+                $it = $t->jor_items_id;
+                $sql.=" ji.jor_items_id = '$it' OR";
+            }
+        }
+
+        if(!empty($this->input->post('supplier'))){
+            $supplier = $this->input->post('supplier');
+            $sql.=" jh.vendor_id = '$supplier' AND";
+            $filter .= "Supplier - ".$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $supplier).", ";
+        }
+
+        $query=substr($sql, 0, -3);
+        $data['filt']=substr($filter, 0, -2);
+        $year=$this->uri->segment(3);
+        $month=$this->uri->segment(4);
+        $data['year']=$year;
+        $data['month']=$month;
+        if($month!='null'){
+             $date = $year."-".$month;
+             $data['date']=date('F Y', strtotime($date));
+        } else {
+             $date = $year;
+             $data['date']=$date;
+        }
+        $joi_date = date('Y-m', strtotime($date));
+        $data['jor_no']=$this->super_model->select_custom_where('jor_head',"cancelled='0'");
+        $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
+        $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
+        $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
+        foreach($this->super_model->custom_query("SELECT * FROM joi_head jh INNER JOIN joi_items ji ON jh.joi_id = ji.joi_id INNER JOIN joi_jor jj ON ji.joi_id = jj.joi_id WHERE ".$query) AS $p){
+            $jo = $this->super_model->select_column_where('jor_head','jo_no','jor_id',$p->jor_id);
+            if($jo!=''){
+                $jo_no = $jo;
+            }else{
+                $jo_no = $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$p->jor_id);
+            }
+            $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+            $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+            if($p->item_id!=0){
+                foreach($this->super_model->select_row_where('item','item_id',$p->item_id) AS $it){
+                    $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                    $item=$it->item_name." - ".$it->item_specs;
+                }
+            }else {
+                //foreach($this->super_model->select_row_where('aoq_items','pr_details_id',$p->pr_details_id) AS $it){
+                    //$uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                    $item=$p->offer;
+               // }
+            }
+
+       
+            $requestor = $p->requestor;
+            if($p->cancelled ==1){
+                $status = "<span style='color:red'>Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
+            } else {
+                
+                if($p->served==0){
+                    $status = 'JO Issued';
+                } else {
+                    $dr_no = $this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_id', $p->joi_id);
+                    // $status = date('m.d.Y', strtotime($p->date_served))." - Delivered DR# ". $joi_dr_no;
+                    $status='';
+                   foreach($this->super_model->select_custom_where("joi_dr_items", "jor_items_id='$p->jor_items_id' AND joi_items_id='$p->joi_items_id'") AS $del){
+                         $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id) ."-".COMPANY."<br>";
+                    }
+                }
+            }
+            $data['po'][]=array(
+                'joi_id'=>$p->joi_id,
+                'jo_no'=>$jo_no,
+                'project_title'=>$p->project_title,
+                'requested_by'=>$requestor,
+                'joi_qty'=>$p->delivered_quantity,
+                'qty'=>$p->quantity,
+                'uom'=>$p->uom,
+                'item'=>$item,
+                'unit_price'=>$p->unit_price,
+                'requestor'=>$p->requestor,
+                'currency'=>$p->currency,
+                'notes'=>$p->notes,
+                'joi_id'=>$p->joi_id,
+                'joi_date'=>$p->joi_date,
+                'joi_no'=>$p->joi_no,
+                'saved'=>$p->saved,
+                'cancelled'=>$p->cancelled,
+                'status'=>$status,
+                'supplier'=>$supplier,
+                'terms'=>$terms,
+                'served'=>$p->served,
+                'cancelled'=>$p->cancelled,
+            );
+        }
+        $this->load->view('template/header');        
+        $this->load->view('reports/joi_report',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function export_joi(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="JOI Summary.xlsx";
+        $year=$this->uri->segment(3);
+        $month=$this->uri->segment(4);
+        $jor_no=$this->uri->segment(5);
+        $date_joi=$this->uri->segment(6);
+        $joi_no=str_replace("%20", " ", $this->uri->segment(7));
+        $project_title=str_replace("%20", " ", $this->uri->segment(8));
+        $requestor=str_replace("%20", " ", $this->uri->segment(9));
+        $scope_of_work=str_replace("%20", " ", $this->uri->segment(10));
+        $supplier=$this->uri->segment(11);
+
+        $sql="";
+        $filter = "";
+
+        if($jor_no!='null'){
+            $sql.=" jj.jor_id = '$jor_no' AND";
+            $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $jor_no);
+            if($jo!=''){
+                $jo_no=$jo;
+            }else{
+                $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $jor_no);
+            }
+            $filter .= $jo_no;
+        }
+
+        if($date_joi!='null'){
+            $sql.=" jh.joi_date LIKE '%$date_joi%' AND";
+            $filter .= $date_joi;
+        }
+
+        if($joi_no!='null'){
+            $sql.=" jh.joi_no LIKE '%$joi_no%' AND";
+            $filter .= $joi_no;
+        }
+
+        if($project_title!='null'){
+            $sql.=" jj.purpose LIKE '%$project_title%' AND";
+            $filter .= $project_title;
+        }
+
+        if($requestor!='null'){
+            $sql.=" jj.requestor = '$requestor' AND";
+            $filter .= $requestor;
+        }
+
+        if($scope_of_work!='null'){
+            foreach($this->super_model->select_custom_where('item', "item_name LIKE '%$scope_of_work%'") AS $t){
+                $it = $t->item_id;
+                $sql.=" ji.item_id = '$it' OR";
+            }
+            $filter .= $scope_of_work;
+        }
+
+        if($scope_of_work!='null'){
+            foreach($this->super_model->select_custom_where('jor_aoq_items', "scope_of_work LIKE '%$scope_of_work%'") AS $t){
+                $it = $t->jor_items_id;
+                $sql.=" ji.jor_items_id = '$it' OR";
+            }
+        }
+
+        if($supplier!='null'){
+            $sql.=" jh.vendor_id = '$supplier' AND";
+            $filter .= $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $supplier);
+        }
+
+        $query=substr($sql, 0, -3);
+        $filt=substr($filter, 0, -2);
+        if($month!='null'){
+             $date = $year."-".$month;
+        } else {
+             $date = $year;
+        }
+
+        $po_date = date('Y-m', strtotime($date));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "JOI Summary $date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', "JOB ORDER");
+        $styleArray1 = array(
+            'borders' => array(
+                'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A4', "JOR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B4', "Project Title");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Date of JO");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D4', "JO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "Requested By");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F4', "JO Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G4', "Received Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I4', "Scope of Work");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "Status");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "Supplier");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Payment Terms");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Unit Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "Total Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O4', "Remarks");
+        foreach(range('A','O') as $columnID){
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('A4:O4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:E1")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setSize(15);
+        $objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:O4')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:O4')->applyFromArray($styleArray1);
+        if($filt!=''){
+            $num = 5;
+            foreach($this->super_model->custom_query("SELECT * FROM joi_head jh INNER JOIN joi_items ji ON jh.joi_id = ji.joi_id INNER JOIN joi_jor  jj ON ji.joi_id = jj.joi_id  WHERE ".$query) AS $p){
+                $total=$p->quantity*$p->unit_price;
+                $jo=$this->super_model->select_column_where('jor_head','jo_no','jor_id',$p->jor_id);
+                if($jo!=''){
+                    $jo_no=$jo."-".COMPANY;
+                }else{
+                    $jo_no = $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$p->jor_id)."-".COMPANY;
+                }
+                $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                if($p->item_id!=0){
+                    foreach($this->super_model->select_row_where('item','item_id',$p->item_id) AS $it){
+                        $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                        $item=$it->item_name." - ".$it->item_specs;
+                    }
+                }else {
+                    $item=$p->offer;
+                }
+
+           
+                $requestor = $p->requestor;
+                if($p->cancelled ==1){
+                    $status = "Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason;
+                } else {
+                    if($p->served==0){
+                        $status = 'JO Issued';
+                    } else if($p->served==1 && $p->delivered_quantity>$p->quantity){ 
+                        $status = 'JO Issued';
+                    }else {
+                        $dr_no = $this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_id', $p->joi_id);
+                        $status='';
+                        foreach($this->super_model->select_custom_where("joi_dr_items", "jor_items_id= '$p->jor_items_id' AND joi_items_id = '$p->joi_items_id' ORDER BY joi_dr_id DESC LIMIT 1") AS $del){
+                             $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id) ."-".COMPANY."\n";
+                        }
+                    }
+                }
+                $styleArray = array(
+                    'borders' => array(
+                        'allborders' => array(
+                          'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+                );
+                if($p->served=='1' && $p->delivered_quantity > $p->quantity){ 
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                }else if($p->served=='1'){
+                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('b9ffb9');
+                } else if($p->cancelled=='1') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle("K".$num)->getFont()->getColor()->setRGB('ff0000');
+                }else if($status=='JO Issued') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                }
+
+                $joi_no = $p->joi_no."-".COMPANY;
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->purpose");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->joi_date");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$joi_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$requestor");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$p->delivered_quantity");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->quantity");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->uom");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$item");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$supplier");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$terms");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$p->currency $p->unit_price");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$total");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$p->notes");
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setWrapText(true);
+                $num++;
+            }
+        }else {
+            $num = 5;
+            foreach($this->super_model->select_custom_where("joi_head","joi_date LIKE '%$date%' GROUP BY joi_id") AS $p){
+                $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                foreach($this->super_model->select_row_where('joi_jor','joi_id',$p->joi_id) AS $pr){
+                    $jo = $this->super_model->select_column_where('jor_head','jo_no','jor_id',$pr->jor_id);
+                    if($jo!=''){
+                        $jo_no=$jo."-".COMPANY;
+                    }else{
+                        $jo_no=$this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$pr->jor_id)."-".COMPANY;
+                    }
+                    foreach($this->super_model->select_row_where('joi_items','joi_id',$p->joi_id) AS $i){
+                        $total=$i->quantity*$i->unit_price;
+                        if($i->item_id!=0){
+                            foreach($this->super_model->select_row_where('item','item_id',$i->item_id) AS $it){
+                                $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
+                                $item=$it->item_name." - ".$it->item_specs;
+                            }
+                        }else {
+                            $item=$i->offer;
+                        }
+
+                        if($p->cancelled ==1){
+                            $status = "Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason;
+                        } else {
+                            if($p->served==0){
+                                $status = 'JO Issued';
+                            } else if($p->served==1 && $i->delivered_quantity>$i->quantity){ 
+                                $status = 'JO Issued';
+                            }else {
+                                 $dr_no = $this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_id', $p->joi_id);
+                                   $status='';
+                               foreach($this->super_model->select_custom_where("joi_dr_items", "jor_items_id= '$i->jor_items_id' AND joi_items_id = '$i->joi_items_id' ORDER BY joi_dr_id DESC LIMIT 1") AS $del){
+                                    $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id) ."-".COMPANY."\n";
+                                }
+                            }
+                        }
+                        $styleArray = array(
+                            'borders' => array(
+                                'allborders' => array(
+                                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                                )
+                            )
+                        );
+                        if($p->served=='1' && $i->delivered_quantity > $i->quantity){ 
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                        }else if($p->served=='1'){
+                           $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('b9ffb9');
+                        } else if($p->cancelled=='1') {
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                            $objPHPExcel->getActiveSheet()->getStyle("K".$num)->getFont()->getColor()->setRGB('ff0000');
+                        }else if($status=='JO Issued') {
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                        }
+                        $joi_no = $p->joi_no."-".COMPANY;
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->joi_date");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$joi_no");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$requestor");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$i->delivered_quantity");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$i->quantity");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$i->uom");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$item");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$status");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$supplier");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$terms");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$i->currency $i->unit_price");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$total");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$pr->notes");
+                        $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                        $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                        $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setWrapText(true);
+                        $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                        $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                        $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
+                        $num++;
+                    }
+                }
+            }
+        }
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+                unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="JOI Summary.xlsx"');
+        readfile($exportfilename);
+    }
+
+    public function jo_unserved_report(){
+        $year1=$this->uri->segment(3);
+        $month1=$this->uri->segment(4);
+        if(!empty($year1)){
+            $data['year'] = $year1;
+            $year = $year1;
+        } else {
+            $data['year']= "null";
+            $year= "null";
+        }
+
+        if(!empty($month1)){
+            $data['month'] = $month1;
+            $month = $month1;
+        } else {
+            $data['month']= "null";
+            $month= "null";
+        }
+       
+        if($month!='null'){
+             $date = $year."-".$month;
+             $data['date']=date('F Y', strtotime($date));
+        } else {
+             $date = $year;
+             $data['date']=$date;
+        }
+        $joi_date = date('Y-m', strtotime($date));
+        $data['jor_no']=$this->super_model->select_custom_where('jor_head',"cancelled='0'");
+        $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
+        $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
+        $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
+        foreach($this->super_model->select_custom_where("joi_head","joi_date LIKE '%$date%' GROUP BY joi_id") AS $p){
+            $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+            $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+            foreach($this->super_model->select_row_where('joi_jor','joi_id',$p->joi_id) AS $pr){
+                $jo = $this->super_model->select_column_where('jor_head','jo_no','jor_id',$pr->jor_id);
+                if($jo!=''){
+                    $jo_no = $jo;
+                }else{
+                    $jo_no = $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$pr->jor_id);
+                }
+                foreach($this->super_model->select_row_where('joi_items','joi_id',$p->joi_id) AS $i){
+                    $unserved_qty = $i->delivered_quantity - $i->quantity;
+                    $requestor = $pr->requestor;
+                    if($p->cancelled ==1){
+                        $status = "<span style='color:red'>Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
+                    } else {
+                        if($p->served==0){
+                            $status = 'JO Issued';
+                        } else if($p->served==1 && $i->delivered_quantity>$i->quantity){ 
+                            $status = 'JO Issued';
+                        }else {
+                            $dr_no = $this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_id', $p->joi_id);
+                            $status='';
+                            foreach($this->super_model->select_custom_where("joi_dr_items", "jor_items_id= '$i->jor_items_id' AND joi_items_id = '$i->joi_items_id' ORDER BY joi_dr_id DESC LIMIT 1") AS $del){
+                                $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id) ."<br>";
+                            }
+                        }
+                    }
+                    $total = $unserved_qty * $i->unit_price;
+                    if($p->served==1 && $i->delivered_quantity>$i->quantity){ 
+                        $data['po'][]=array(
+                            'joi_id'=>$i->joi_id,
+                            'jo_no'=>$jo_no,
+                            'project_title'=>$pr->purpose,
+                            'requested_by'=>$requestor,
+                            'qty'=>$i->quantity,
+                            'joi_qty'=>$i->delivered_quantity,
+                            'uom'=>$i->uom,
+                            'unserved_qty'=>$unserved_qty,
+                            'item'=>$i->offer,
+                            'currency'=>$i->currency,
+                            'unit_price'=>$i->unit_price,
+                            'notes'=>$pr->notes,
+                            'joi_id'=>$p->joi_id,
+                            'joi_date'=>$p->joi_date,
+                            'joi_no'=>$p->joi_no,
+                            'saved'=>$p->saved,
+                            'cancelled'=>$p->cancelled,
+                            'status'=>$status,
+                            'supplier'=>$supplier,
+                            'terms'=>$terms,
+                            'served'=>$p->served,
+                            'cancelled'=>$p->cancelled,
+                            'total'=>$total,
+                        );
+                    }
+                }
+            }
+        }
+        $this->load->view('template/header');        
+        $this->load->view('reports/jo_unserved_report',$data);
+        $this->load->view('template/footer');
+    } 
+
+    public function search_jo_unserved(){
+        if(!empty($this->input->post('year'))){
+            $data['year'] = $this->input->post('year');
+            $year = $this->input->post('year');
+        } else {
+            $data['year']= "null";
+            $year= "null";
+        }
+
+        if(!empty($this->input->post('month'))){
+            $data['month'] = $this->input->post('month');
+            $month = $this->input->post('month');
+        } else {
+            $data['month']= "null";
+            $month= "null";
+        }
+
+        if(!empty($this->input->post('jor_no'))){
+            $data['jor_no1'] = $this->input->post('jor_no');
+        } else {
+            $data['jor_no1']= "null";
+        }
+
+        if(!empty($this->input->post('date_joi'))){
+            $data['date_joi'] = $this->input->post('date_joi');
+        } else {
+            $data['date_joi']= "null";
+        }
+
+        if(!empty($this->input->post('joi_no'))){
+            $data['joi_no'] = $this->input->post('joi_no');
+        } else {
+            $data['joi_no'] = "null";
+        }
+
+        if(!empty($this->input->post('project_title'))){
+            $data['project_title'] = $this->input->post('project_title');
+        } else {
+            $data['project_title'] = "null";
+        }
+
+        if(!empty($this->input->post('requestor'))){
+            $data['requestor'] = $this->input->post('requestor');
+        } else {
+            $data['requestor'] = "null";
+        } 
+
+        if(!empty($this->input->post('scope_of_work'))){
+            $data['scope_of_work'] = $this->input->post('scope_of_work');
+        } else {
+            $data['scope_of_work'] = "null";
+        } 
+
+        if(!empty($this->input->post('supplier'))){
+            $data['supplier'] = $this->input->post('supplier');
+        } else {
+            $data['supplier'] = "null";
+        }
+
+        $sql="";
+        $filter = " ";
+
+        if(!empty($this->input->post('jor_no'))){
+            $jor_no = $this->input->post('jor_no');
+            $sql.=" jj.jor_id = '$jor_no' AND";
+            $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $jor_no);
+            if($jo!=''){
+                $jo_no=$jo;
+            }else{
+                $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $jor_no);
+            }
+            $filter .= "JOR No. - ".$jo_no.", ";
+        }
+
+        if(!empty($this->input->post('date_joi'))){
+            $date_joi = $this->input->post('date_joi');
+            $sql.=" jh.joi_date LIKE '%$date_joi%' AND";
+            $filter .= "JO Date. - ".$date_joi.", ";
+        }
+
+        if(!empty($this->input->post('joi_no'))){
+            $joi_no = $this->input->post('joi_no');
+            $sql.=" jh.joi_no LIKE '%$joi_no%' AND";
+            $filter .= "JO No. - ".$joi_no.", ";
+        }
+
+        if(!empty($this->input->post('project_title'))){
+            $project_title = $this->input->post('project_title');
+            $sql.=" jj.purpose LIKE '%$project_title%' AND";
+            $filter .= "Project Title - ".$project_title.", ";
+        }
+
+        if(!empty($this->input->post('requestor'))){
+            $requestor = $this->input->post('requestor');
+            $sql.=" jj.requestor = '$requestor' AND";
+            $filter .= "Requestor - ".$requestor.", ";
+        }
+
+        if(!empty($this->input->post('scope_of_work'))){
+            $scope_of_work = $this->input->post('scope_of_work');
+            $sql.=" ji.offer LIKE '%$scope_of_work%' AND";
+            $filter .= "Scope of Work - ".$scope_of_work.", ";
+        }
+
+        if(!empty($this->input->post('supplier'))){
+            $supplier = $this->input->post('supplier');
+            $sql.=" jh.vendor_id = '$supplier' AND";
+            $filter .= "Supplier - ".$this->super_model->select_column_where('vendor_head', 'vendor_name', 
+                        'vendor_id', $supplier).", ";
+        }
+
+        $query=substr($sql, 0, -3);
+        $data['filt']=substr($filter, 0, -2);
+        if($month!='null'){
+             $date = $year."-".$month;
+             $data['date']=date('F Y', strtotime($date));
+        } else {
+             $date = $year;
+             $data['date']=$date;
+        }
+        $joi_date = date('Y-m', strtotime($date));
+        $data['jor_no']=$this->super_model->select_custom_where('jor_head',"cancelled='0'");
+        $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
+        $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
+        $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
+        foreach($this->super_model->custom_query("SELECT * FROM joi_head jh INNER JOIN joi_items ji ON jh.joi_id = ji.joi_id INNER JOIN joi_jor jj ON ji.joi_id = jj.joi_id WHERE ".$query) AS $p){
+            $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+            $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+            $jo = $this->super_model->select_column_where('jor_head','jo_no','jor_id',$p->jor_id);
+            if($jo!=''){
+                $jo_no=$jo;
+            }else{
+                $jo_no=$this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$p->jor_id);
+            }
+            $unserved_qty = $p->delivered_quantity - $p->quantity;
+            $requestor = $p->requestor;
+            if($p->cancelled ==1){
+                $status = "<span style='color:red'>Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
+            } else {
+                if($p->served==0){
+                    $status = 'JO Issued';
+                } else if($p->served==1 && $p->delivered_quantity>$p->quantity){ 
+                    $status = 'JO Issued';
+                }else {
+                    $dr_no = $this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_id', $p->joi_id);
+                    $status='';
+                    foreach($this->super_model->select_custom_where("joi_dr_items", "jor_items_id= '$p->jor_items_id' AND joi_items_id = '$p->joi_items_id' ORDER BY joi_dr_id DESC LIMIT 1") AS $del){
+                        $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id) ."<br>";
+                    }
+                }
+            }
+            $total = $unserved_qty * $p->unit_price;
+            if($p->served==1 && $p->delivered_quantity>$p->quantity){ 
+                $data['po'][]=array(
+                    'joi_id'=>$p->joi_id,
+                    'jo_no'=>$jo_no,
+                    'project_title'=>$p->purpose,
+                    'requested_by'=>$requestor,
+                    'qty'=>$p->quantity,
+                    'joi_qty'=>$p->delivered_quantity,
+                    'uom'=>$p->uom,
+                    'unserved_qty'=>$unserved_qty,
+                    'item'=>$p->offer,
+                    'currency'=>$p->currency,
+                    'unit_price'=>$p->unit_price,
+                    'notes'=>$p->notes,
+                    'joi_id'=>$p->joi_id,
+                    'joi_date'=>$p->joi_date,
+                    'joi_no'=>$p->joi_no,
+                    'saved'=>$p->saved,
+                    'cancelled'=>$p->cancelled,
+                    'status'=>$status,
+                    'supplier'=>$supplier,
+                    'terms'=>$terms,
+                    'served'=>$p->served,
+                    'cancelled'=>$p->cancelled,
+                    'total'=>$total,
+                );
+            }
+        }
+        $this->load->view('template/header');        
+        $this->load->view('reports/jo_unserved_report',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function export_jo_unserved(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="JO Unserved Report.xlsx";
+        $year=$this->uri->segment(3);
+        $month=$this->uri->segment(4);
+        $jor_no=$this->uri->segment(5);
+        $date_joi=$this->uri->segment(6);
+        $joi_no=str_replace("%20", " ", $this->uri->segment(7));
+        $project_title=str_replace("%20", " ", $this->uri->segment(8));
+        $requestor=str_replace("%20", " ", $this->uri->segment(9));
+        $scope_of_work=str_replace("%20", " ", $this->uri->segment(10));
+        $supplier=str_replace("%20", " ", $this->uri->segment(11));
+
+        $sql="";
+        $filter = "";
+
+        if($jor_no!='null'){
+            $sql.=" jj.jor_id = '$jor_no' AND";
+            $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $jor_no);
+            if($jo!=''){
+                $jo_no=$jo;
+            }else{
+                $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $jor_no);
+            }
+            $filter .= $jo_no;
+        }
+
+        if($date_joi!='null'){
+            $sql.=" jh.joi_date LIKE '%$date_joi%' AND";
+            $filter .= $date_joi;
+        }
+
+        if($joi_no!='null'){
+            $sql.=" jh.joi_no LIKE '%$joi_no%' AND";
+            $filter .= $joi_no;
+        }
+
+        if($project_title!='null'){
+            $sql.=" jj.purpose LIKE '%$project_title%' AND";
+            $filter .= $project_title;
+        }
+
+        if($requestor!='null'){
+            $sql.=" jj.requestor LIKE '%$requestor%' AND";
+            $filter .= $requestor;
+        }
+
+        if($scope_of_work!='null'){
+            $sql.=" ji.offer LIKE '%$scope_of_work%' AND";
+            $filter .= $scope_of_work;
+        }
+
+        if($supplier!='null'){
+            $sql.=" jh.vendor_id = '$supplier' AND";
+            $filter .= $this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $supplier);
+        }
+
+        $query=substr($sql, 0, -3);
+        $filt=substr($filter, 0, -2);
+        if($month!='null'){
+             $date = $year."-".$month;
+        } else {
+             $date = $year;
+        }
+        $po_date = date('Y-m', strtotime($date));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "Undelivered JO Report $date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', "UNDELIVERED JO Report");
+        $styleArray1 = array(
+            'borders' => array(
+                'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A4', "JOR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B4', "Project Title");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Date of JO");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D4', "JO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E4', "Requested By");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F4', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G4', "UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "Scope of Work");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I4', "Status");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "Supplier");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "Payment Terms");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Unit Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Total Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "Remarks");
+        foreach(range('A','N') as $columnID){
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:E1")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setSize(15);
+        $objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->applyFromArray($styleArray1);
+        if($filt!=''){
+            $num = 5;
+            foreach($this->super_model->custom_query("SELECT * FROM joi_head jh INNER JOIN joi_items ji ON jh.joi_id = ji.joi_id INNER JOIN joi_jor jj ON ji.joi_id = jj.joi_id  WHERE ".$query) AS $p){
+                $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                $jo = $this->super_model->select_column_where('jor_head','jo_no','jor_id',$p->jor_id);
+                if($jo!=''){
+                    $jo_no=$jo." - ".COMPANY;
+                }else{
+                    $jo_no= $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$p->jor_id)." - ".COMPANY;
+                }
+                $unserved_qty = $p->delivered_quantity - $p->quantity;
+                $requestor = $p->requestor;
+                if($p->cancelled ==1){
+                    $status = "Cancelled / ".date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason;
+                } else {
+                    if($p->served==0){
+                        $status = 'JO Issued';
+                    } else if($p->served==1 && $p->delivered_quantity>$p->quantity){ 
+                        $status = 'JO Issued';
+                    }else {
+                        $dr_no = $this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_id', $p->joi_id);
+                        $status='';
+                        foreach($this->super_model->select_custom_where("joi_dr_items", "jor_items_id= '$p->jor_items_id' AND joi_items_id = '$p->joi_items_id' ORDER BY joi_dr_id DESC LIMIT 1") AS $del){
+                            $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id) ."\n";
+                        }
+                    }
+                }
+                $total = $unserved_qty * $p->unit_price;
+                $styleArray = array(
+                    'borders' => array(
+                        'allborders' => array(
+                          'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+                );
+                if($p->served==1 && $p->delivered_quantity>$p->quantity){ 
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->purpose");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->joi_date");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->joi_no-".COMPANY);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$requestor");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$unserved_qty");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->uom");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->offer");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$status");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$supplier");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$terms");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$p->unit_price");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$total");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$p->notes");
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('C'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                    $num++;   
+                }
+            }
+                
+        }else {
+            $num = 5;
+            foreach($this->super_model->select_custom_where("joi_head","joi_date LIKE '%$date%' GROUP BY joi_id") AS $p){
+                $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
+                foreach($this->super_model->select_row_where('joi_jor','joi_id',$p->joi_id) AS $pr){
+                    $jo = $this->super_model->select_column_where('jor_head','jo_no','jor_id',$pr->jor_id);
+                    if($jo!=''){
+                        $jo_no=$jo;
+                    }else{
+                        $jo_no = $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$pr->jor_id);
+                    }
+                    foreach($this->super_model->select_row_where('joi_items','joi_id',$p->joi_id) AS $i){
+                        $unserved_qty = $i->delivered_quantity - $i->quantity;
+                        $requestor = $pr->requestor;
+                        if($p->cancelled ==1){
+                            $status = "Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
+                        } else {
+                            if($p->served==0){
+                                $status = 'JO Issued';
+                            } else if($p->served==1 && $i->delivered_quantity>$i->quantity){ 
+                                $status = 'JO Issued';
+                            }else {
+                                $dr_no = $this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_id', $p->joi_id);
+                                $status='';
+                                foreach($this->super_model->select_custom_where("joi_dr_items", "jor_items_id= '$i->jor_items_id' AND joi_items_id = '$i->joi_items_id' ORDER BY joi_dr_id DESC LIMIT 1") AS $del){
+                                    $status.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id) ."\n";
+                                }
+                            }
+                        }
+                        $total = $unserved_qty * $i->unit_price;
+                        $styleArray = array(
+                            'borders' => array(
+                                'allborders' => array(
+                                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                                )
+                            )
+                        );
+                        if($p->served==1 && $i->delivered_quantity>$i->quantity){ 
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->joi_date");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->joi_no-".COMPANY);
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$requestor");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$unserved_qty");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$i->uom");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$i->offer");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$status");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$supplier");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$terms");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$i->unit_price");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$total");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$pr->notes");
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                            $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                            $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                            $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setWrapText(true);
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                            $num++;
+                        }
+                    }
+                }
+            }
+        }
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+                unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="JO Unserved Report.xlsx"');
+        readfile($exportfilename);
     }
 }
 ?>
