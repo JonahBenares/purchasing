@@ -95,13 +95,16 @@
     
     <div  class="pad">
 
-    	<form method='POST' action='<?php echo base_url(); ?>jo/save_dr'>  
+    	<form method='POST' action='<?php echo base_url(); ?>joi/save_dr'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
+						<?php if($saved==0){ ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
+						<?php } else { ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
+						<?php } ?>
 					</div>
 					<p class="text-white">Instructions: When printing DELIVERY RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
@@ -148,38 +151,51 @@
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20" align="center"><h5><b class="">DELIVERY RECEIPT</b></h5></td></tr>
-
+		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td colspan="3" class="all-border "><b class="nomarg">DR No. </b></td>
-		    			<td colspan="17" class="all-border "><h4 style="margin:0px"><b><?php echo COMPANY; ?></b></h4> </td>
+		    			<td colspan="17" class="all-border "><h4 style="margin:0px"><b><?php echo $dr_no."-".COMPANY; ?></b></h4> </td>
 		    		</tr>    		
 			    		<tr>
 			    			<td colspan="3" class="all-border "><b class="nomarg">Date : </b></td>
-			    			<td colspan="17" class="all-border "><b class="nomarg"></b></td>
+			    			<td colspan="17" class="all-border "><b class="nomarg"><?php echo date('F j, Y', strtotime($h->joi_date)); ?></b></td>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">Delivered to: </b></td>
+			    			<?php if($saved==0){ ?>
 			    			<td colspan="17" class="all-border"><textarea class="form-control" name = "delivered_to"></textarea></td>
+			    			<?php } else { ?>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $delivered_to; ?></b></td>
+			    			<?php } ?>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">Address: </b></td>
+			    			<?php if($saved==0){ ?>
 			    			<td colspan="17" class="all-border"><textarea class="form-control" name = "address"></textarea></b>
+			    				<?php } else { ?>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $address; ?></b></td>
+			    			<?php } ?>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">JO No.: </b></td>
-			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo COMPANY; ?></b></td>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $h->joi_no ."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">Requested by: </b></td>
-			    			<td colspan="17" class="all-border"><textarea class="form-control" name = "requested_by"></textarea></td>
+			    			<?php if($saved==0){ ?>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><textarea name = "requested_by"></textarea></b></td>
+			    			<?php } else { ?>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $requested_by; ?></b></td>
+			    			<?php } ?>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">Project Title: </b></td>
-			    			<td colspan="17" class="all-border"><h4 style="margin:0px"><b></b></h4></td>
+			    			<td colspan="17" class="all-border"><h4 style="margin:0px"><b><?php echo $h->project_title; ?></b></h4></td>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="20" align="center"><br></td>
 			    		</tr>
+			    		<?php } ?>
 		    		<!-- Loop -->
 		    		<tr>
 		    			<td class="all-border" align="center"><b class="nomarg">#</b></td>
@@ -190,15 +206,17 @@
 		    			<td class="all-border" align="center" colspan="2"><b class="nomarg">UOM</b></td>
 		    			<td class="all-border" align="center" colspan="3"><b class="nomarg">Remarks</b></td>
 		    		</tr>
+		    		<?php foreach($items AS $it){ ?>
 		       		<tr>
-		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="left" colspan="6"></td>
-		    			<td class="all-border" align="left" colspan="6"></td>
-		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center"></td>
-		    			<td class="all-border" align="center" colspan="2"></td>
+		    			<td class="all-border" align="center"><?php echo $it['item_no']; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $it['vendor']; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $it['offer']; ?></td>
+		    			<td class="all-border" align="center"><?php echo number_format($it['delivered_quantity'],2); ?></td>
+		    			<td class="all-border" align="center"><?php echo (($it['received_quantity']==0) ? '' : number_format($it['received_quantity'],2)); ?></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $it['uom']; ?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
+		    		<?php } ?>
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
@@ -221,7 +239,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2"></td>
-		    			<td colspan="4" align="center"></td>
+		    			<td colspan="4" align="center"><?php echo $_SESSION['fullname']; ?></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="4" align="center">Print Name & Signature with Date Received</td>
 		    			<td colspan="2"></td>
@@ -251,6 +269,8 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
+	    	<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
+	    	<input type='hidden' name='joi_dr_id' value='<?php echo $joi_dr_id; ?>'>
     	</form>
     </div>
     <script type="text/javascript">

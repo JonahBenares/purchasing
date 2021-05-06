@@ -522,9 +522,19 @@
 							</button>
 							<?php } ?>
 		    				<br>Terms & Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is
+                           <?php 
+                            if($saved==0){ ?>
+                                <select type="text" name="vat_in_ex">
+                                    <option value = "0" <?php echo (($vat_in_ex == '0') ? 'selected' : '');?>>inclusive of VAT</option>
+                                    <option value = "1" <?php echo (($vat_in_ex == '1') ? 'selected' : '');?>>exclusive of VAT</option>
+                                </select>	
+                            <?php } else { ?>
+                               <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?>
+                            <?php } ?>
+	                        <br>
 		    				<?php 
 		    					$no=4;
 			    				foreach($tc AS $t){ 

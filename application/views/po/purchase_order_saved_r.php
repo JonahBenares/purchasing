@@ -401,10 +401,9 @@
 		    		</td></tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				Terms & Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?><br>
 		    				<?php if(!empty($payment_terms)){ ?>
 		    				4. Payment term: <?php echo $payment_terms; ?><br>
 		    				<?php } ?>	

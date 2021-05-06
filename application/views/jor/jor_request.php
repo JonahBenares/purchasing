@@ -182,34 +182,39 @@ $ci =& get_instance();
                                         <tr>
                                             <td width="15%"><i>JO Request:</i></td>
                                             <td width="35%"><?php echo $jh->jo_request; ?></td>
-                                            <td width="15%"><i>Department:</i></td>
-                                            <td width="35%"><?php echo $jh->department; ?></td>
+                                            <td width="15%"><i>Duration:</i></td>
+                                            <td width="35%"><?php echo $jh->duration; ?></td>
                                         </tr>
                                         <tr>
                                             <td><i>Date Prepared:</i></td>
                                             <td><?php echo $jh->date_prepared; ?></td>
-                                            <td><i>Urgency:</i></td>
-                                            <td><b class="text-red capital"><?php echo $jh->urgency; ?></b></td>
+                                            <td><i>Completion Date:</i></td>
+                                            <td><?php echo $jh->completion_date; ?></td>
                                         </tr>
                                         <tr>
-                                            <td><i>JO No.:</i></td>
-                                            <td><?php echo $jor_no; ?></td>
-                                            <td><i>Requested By:</i></td>
-                                            <td><?php echo $jh->requested_by; ?></td>
+                                            <td><i>Department:</i></td>
+                                            <td><?php echo $jh->department; ?></td>
+                                             <td><i>Delivery Date:</i></td>
+                                            <td><?php echo $jh->delivery_date; ?></td>
                                             <!-- <td><i>Processing Code:</i></td>                                            
                                             <td style="padding: 0px!important" class="bor-red">
                                                 <select name = "process" class = "form-control">
                                                     <option value = "">--Select Processing Code--</option>
                                                 </select>
                                             </td> -->
+                                        </tr>
+                                        <tr>
+                                            <td><i>JO No.:</i></td>
+                                            <td><?php echo $jor_no; ?></td>
+                                             <td><i>Urgency:</i></td>
+                                            <td><b class="text-red capital"><?php echo $jh->urgency; ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i>Requested By:</i></td>
+                                            <td><?php echo $jh->requested_by; ?></td>
+                                            <td></td>
                                             <td></td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td><i>Enduse:</i></td>
-                                            <td colspan="3"><b class="capital"></b></td>
-                                            <td><i>WH Stock:</i></td>
-                                            <td colspan="1"><b class="capital"><?php echo $h->wh_stocks; ?></b></td>
-                                        </tr> -->
                                         <tr>
                                             <td><i>Purpose:</i></td>
                                             <td colspan="3"><b class="capital"><?php echo $jh->purpose; ?></b></td>
@@ -237,16 +242,17 @@ $ci =& get_instance();
                                             <?php 
                                             $x=1; 
                                             if(!empty($jo_items)){
-                                            foreach($jo_items AS $ji){ ?>
+                                            foreach($jo_items AS $ji){ 
+                                            ?>
                                             <?php if($ji['cancelled']==1){ ?>
                                             <tr class="tr-red">
                                                 <td><?php echo $x; ?></td>
                                                 <td><?php echo $ji['scope_of_work'];?></td>
                                                 <td><?php echo $ji['quantity']; ?></td>
                                                 <td><?php echo $ji['uom']; ?></td>
-                                                <td><?php echo $ji['unit_cost']; ?></td>
-                                                <td><?php echo $ji['total_cost']; ?></td>
-                                                <?php if(empty($jor_no)){ ?>
+                                                <td><?php echo number_format($ji['unit_cost'],2); ?></td>
+                                                <td><?php echo number_format($ji['total_cost'],2); ?></td>
+                                                <?php if($ji['vendor_id']==0){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
                                                     <select class="form-control text-black"  name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>
@@ -268,9 +274,9 @@ $ci =& get_instance();
                                                 <td><textarea class="form-control" rows="10"><?php echo $ji['scope_of_work'];?></textarea></td>
                                                 <td><?php echo $ji['quantity']; ?></td>
                                                 <td><?php echo $ji['uom']; ?></td>
-                                                <td><?php echo $ji['unit_cost']; ?></td>
-                                                <td><?php echo $ji['total_cost']; ?></td>
-                                                <?php if($saved==0){ ?>
+                                                <td><?php echo number_format($ji['unit_cost'],2); ?></td>
+                                                <td><?php echo number_format($ji['total_cost'],2); ?></td>
+                                                <?php if($ji['vendor_id']==0){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
                                                     <select class="form-control" name='group<?php echo $x; ?>' required>
                                                         <option value='' selected="selected">-Select Group-</option>

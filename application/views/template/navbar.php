@@ -161,6 +161,22 @@
                                 </a>
                             </div>
                         </li> -->
+                        <li class="nav-item">
+                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                <i class="fa big-icon fa-bar-chart"></i> 
+                                <span class="mini-dn">JO Reports</span> 
+                                <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
+                            </a>
+                            <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0" style="width: 250px">
+                                <a class="dropdown-item" data-toggle="modal" data-target="#jor_modal">JOR Summary</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#joi_modal">JOI Summary</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#jounserved_modal">Unserved Report</a>
+                                <!-- <a class="dropdown-item" data-toggle="modal" data-target="#unserved_modal">Unserved Report</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#weekly_recom">Summary of Weekly Recom</a>
+                                <a class="dropdown-item" href="<?php echo base_url(); ?>reports/pending_pr" >Pending PR</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#purch_calendar">Calendar</a> -->
+                            </div>
+                        </li> 
                        
                         <li class="nav-item">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
@@ -400,7 +416,159 @@
             </div>
         </div>
 
+        <!-- JO MODAL -->
+        <div class="modal fade" id="jor_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Choose Month and Year (<u><b>JOR</b></u> Summary Report)
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </h5>                            
+                    </div>
+                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_jor_summary" target='_blank'>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                Choose Year:
+                                <select class="form-control" name="year" required="required">
+                                    <option value='' selected="selected">-Select Year-</option>
+                                    <?php
+                                    $curr_year = date('Y'); 
+                                    for($x=2017;$x<=$curr_year;$x++){ ?>
+                                        <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Choose Month:
+                                <select class="form-control" name="month">
+                                    <option value='' selected="selected">-Select Month-</option>
+                                    <option value='01'>January</option>
+                                    <option value='02'>February</option>
+                                    <option value='03'>March</option>
+                                    <option value='04'>April</option>
+                                    <option value='05'>May</option>
+                                    <option value='06'>June</option>
+                                    <option value='07'>July</option>
+                                    <option value='08'>August</option>
+                                    <option value='09'>September</option>
+                                    <option value='10'>October</option>
+                                    <option value='11'>November</option>
+                                    <option value='12'>December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
+        <div class="modal fade" id="joi_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Choose Month and Year (<u><b>JOI</b></u> Summary Report)
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </h5>                            
+                    </div>
+                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_joi_summary" target='_blank'>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                Choose Year:
+                                <select class="form-control" name="year">
+                                    <option value='' selected="selected">-Select Year-</option>
+                                    <?php
+                                    $curr_year = date('Y'); 
+                                    for($x=2017;$x<=$curr_year;$x++){ ?>
+                                        <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Choose Month:
+                                <select class="form-control" name="month">
+                                    <option value='' selected="selected">-Select Month-</option>
+                                    <option value='01'>January</option>
+                                    <option value='02'>February</option>
+                                    <option value='03'>March</option>
+                                    <option value='04'>April</option>
+                                    <option value='05'>May</option>
+                                    <option value='06'>June</option>
+                                    <option value='07'>July</option>
+                                    <option value='08'>August</option>
+                                    <option value='09'>September</option>
+                                    <option value='10'>October</option>
+                                    <option value='11'>November</option>
+                                    <option value='12'>December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- JO MODAL -->
+        <!-- JO UNSERVED MODAL -->
+        <div class="modal fade" id="jounserved_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Choose Month and Year (<u><b>UNSERVED</b></u> Report)
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </h5>                            
+                    </div>
+                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_unserved_report" target='_blank'>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                Choose Year:
+                                <select class="form-control" name="year">
+                                    <option value='' selected="selected">-Select Year-</option>
+                                    <?php
+                                    $curr_year = date('Y'); 
+                                    for($x=2019;$x<=$curr_year;$x++){ ?>
+                                        <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Choose Month:
+                                <select class="form-control" name="month">
+                                    <option value='' selected="selected">-Select Month-</option>
+                                    <option value='01'>January</option>
+                                    <option value='02'>February</option>
+                                    <option value='03'>March</option>
+                                    <option value='04'>April</option>
+                                    <option value='05'>May</option>
+                                    <option value='06'>June</option>
+                                    <option value='07'>July</option>
+                                    <option value='08'>August</option>
+                                    <option value='09'>September</option>
+                                    <option value='10'>October</option>
+                                    <option value='11'>November</option>
+                                    <option value='12'>December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
+                            <!-- <a href="<?php echo base_url(); ?>index.php/reports/po_report"  class="btn btn-primary " target="_blank">Proceed</a> -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- JO UNSERVED MODAL -->
         <div class="content-inner-all"><!-- ara sa footer </div> -->
             <div class="header-top-area">
                 <div class="fixed-header-top">

@@ -133,8 +133,8 @@ function viewHistory(baseurl,id,cenjo_no,jo_no) {
     window.open(baseurl+"jo/view_history/"+id+"/"+cenjo_no+"/"+jo_no, "_blank","toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
 }
 
-function viewHistoryjoi(baseurl) {
-    window.open(baseurl+"joi/view_history", "_blank","toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
+function viewHistoryjoi(baseurl,id,cenjo_no,jo_no) {
+    window.open(baseurl+"joi/view_history/"+id+"/"+cenjo_no+"/"+jo_no, "_blank","toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=450,width=500,height=500");
 }
 $(document).on("click", ".cancelJO", function () {
      var jo_id = $(this).data('id');
@@ -167,9 +167,52 @@ function chooseSupplierJO(){
     });
 }
 
+function chooseSupplierJOD(){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'jod/getsupplierJOD';
+    var supplier = document.getElementById("supplier").value;
+    $.ajax({
+        type: 'POST',
+        url: redirect,
+        data: 'supplier='+supplier,
+        success: function(data){
+            $("#jo_no").html(data);
+        }
+    }); 
+    var redirect1 = loc+'jod/getsupplier';
+    $.ajax({
+        type: 'POST',
+        url: redirect1,
+        data: 'supplier='+supplier,
+        dataType: 'json',
+        success: function(response){
+            document.getElementById("address").innerHTML  = response.address;
+            document.getElementById("phone").innerHTML  = response.phone;
+        }
+    });
+}
+
 function chooseJO(){
   var loc= document.getElementById("baseurl").value;
   var redirect = loc+'joi/getJOinformation';
+  var jor_id = document.getElementById("jo_no").value;
+  $.ajax({
+      type: 'POST',
+      url: redirect,
+      data: 'jor_id='+jor_id,
+      dataType: 'json',
+      success: function(response){
+        document.getElementById("project_title").value  = response.purpose;
+        document.getElementById("date_prepared").value  = response.date_prepared;
+        document.getElementById("work_completion").value  = response.completion_date;
+        document.getElementById("jor_aoq_id").value  = response.jor_aoq_id;
+      }
+  }); 
+}
+
+function chooseJOD(){
+  var loc= document.getElementById("baseurl").value;
+  var redirect = loc+'jod/getJODinformation';
   var jor_id = document.getElementById("jo_no").value;
   $.ajax({
       type: 'POST',
@@ -202,6 +245,23 @@ function chooseSupplier(){
   }); 
 }
 
+function chooseSupplierJOD(){
+  var loc= document.getElementById("baseurl").value;
+  alert(loc);
+  var redirect = loc+'jod/getsupplier';
+  var supplier = document.getElementById("supplier").value;
+  $.ajax({
+    type: 'POST',
+    url: redirect,
+    data: 'supplier='+supplier,
+    dataType: 'json',
+    success: function(response){
+      document.getElementById("address").innerHTML  = response.address;
+      document.getElementById("phone").innerHTML  = response.phone;
+    }
+  }); 
+}
+
 $(document).on("click", "#updateTerm", function () {
     var tc_id = $(this).attr("data-id");
     var terms = $(this).attr("data-name");
@@ -210,3 +270,23 @@ $(document).on("click", "#updateTerm", function () {
   
 });
 
+
+$(document).on("click", "#jo", function () {
+    var joi_id1 = $(this).attr("data-id");
+    $("#joi_id1").val(joi_id1);
+});
+
+function minmax(value, min, max) {
+  if(parseFloat(value) < min || isNaN(parseFloat(value))){ 
+    return 0;
+  } else if(parseFloat(value) > max) {
+    alert("JOI Quantity is more than JOR Quantity!");
+    return max; 
+  }else{
+    return value;
+  }
+}
+
+function deliver_jo(baseurl,joi_id, joi_dr_id) {
+    window.open(baseurl+"joi/deliver_jo/"+joi_id+"/"+joi_dr_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=45,left=25,width=1300,height=600");
+}

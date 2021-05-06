@@ -340,7 +340,9 @@
 
 		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4><?php echo ($draft==1) ? '<small class="text-red">DRAFT</small>' : ''; ?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
-		    		<?php foreach($head AS $h){ ?>
+		    		<?php 
+		    			foreach($head AS $h){ 
+		    		?>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
 		    			<td colspan="12"><h6 class="nomarg"><b><?php echo date('F j, Y', strtotime($h['po_date'])); ?></b></h6></td>
@@ -545,9 +547,10 @@
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				Terms & Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?> 	
+                            <br>
 		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
 		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">

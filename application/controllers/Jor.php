@@ -39,7 +39,125 @@ class Jor extends CI_Controller {
             }
         }
 
-	}    
+	}
+
+    public function redirect_jod(){
+                $rows_head = $this->super_model->count_rows("joi_head");
+        if($rows_head==0){
+            $joi_id=1;
+        } else {
+            $max = $this->super_model->get_max("joi_head", "joi_id");
+            $joi_id = $max+1;
+        }
+
+        $rows_series = $this->super_model->count_rows("joi_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("joi_series", "series");
+            $series = $max+1;
+        }
+
+            $jo= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jo_no'));
+            if($jo!=''){
+                $jo_no=$jo;
+            }else{
+                $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id',$this->input->post('jo_no'));
+            }
+            $group_id = $this->input->post('group_id');
+            $joi_no = "P".$jo_no."-".$series;
+            $jor_id = $this->input->post('jor_ids');
+            $data_details = array(
+                'joi_id'=>$joi_id,
+                'jor_id'=>$jor_id,
+                'purpose'=>$this->super_model->select_column_where('jor_head', 'purpose', 'jor_id', $jor_id),
+                'requestor'=>$this->super_model->select_column_where('jor_head', 'requested_by', 'jor_id', $jor_id),
+            );
+            $this->super_model->insert_into("joi_jor", $data_details);
+            
+            $data= array(
+                'joi_id'=>$joi_id,
+                'joi_date'=>$this->input->post('joi_date'),
+                'joi_no'=>$joi_no,
+                'vendor_id'=>$this->input->post('vendor'),
+                'notes'=>$this->input->post('notes'),
+                'cenpri_jo_no'=>$this->input->post('cenjo_no'),
+                'date_needed'=>$this->input->post('date_needed'),
+                'date_prepared'=>$this->input->post('date_prepared'),
+                'start_of_work'=>$this->input->post('work_start'),
+                'completion_date'=>$this->input->post('work_completion'),
+                'project_title'=>$this->input->post('project_title'),
+                'joi_type'=>1,
+                'user_id'=>$_SESSION['user_id'],
+                'prepared_date'=>date("Y-m-d H:i:s"),
+            );  
+
+            $data_series = array(
+                'series'=>$series
+            );
+            $this->super_model->insert_into("joi_series", $data_series);
+
+          
+            if($this->super_model->insert_into("joi_head", $data)){
+                 redirect(base_url().'jod/jo_direct/'.$joi_id.'/'.$jor_id.'/'.$group_id);
+            }
+        }
+        /*$rows_head = $this->super_model->count_rows("joi_head");
+        if($rows_head==0){
+            $joi_id=1;
+        } else {
+            $max = $this->super_model->get_max("joi_head", "joi_id");
+            $joi_id = $max+1;
+        }
+
+        $rows_series = $this->super_model->count_rows("joi_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("joi_series", "series");
+            $series = $max+1;
+        }
+
+        $jor_id = $this->input->post('jor_ids');
+        $group_id = $this->input->post('group_id');
+         $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $items->jor_id);
+                    if($jo_no!=''){
+                        $jor_no=$this->super_model->select_column_custom_where("jor_head", "jo_no", "jor_id = '$key[jor_id]' AND cancelled = '0'");
+                    }else{
+                        $jor_no=$this->super_model->select_column_custom_where("jor_head", "user_jo_no", "jor_id = '$key[jor_id]' AND cancelled = '0'");
+                    }
+        $joi_no = "P".$jor_no."-".$series;
+       // $po_no = "POD-".$series;
+        $data= array(
+            'joi_id'=>$joi_id,
+            'joi_date'=>$this->input->post('joi_date'),
+            'joi_no'=>$joi_no,
+            'vendor_id'=>$this->input->post('vendor'),
+            'joi_type'=>1,
+            'user_id'=>$_SESSION['user_id'],
+            'prepared_date'=>date("Y-m-d H:i:s"),
+        );  
+
+        $data_series = array(
+            'series'=>$series
+        );
+        $this->super_model->insert_into("joi_series", $data_series);
+
+      
+        if($this->super_model->insert_into("joi_head", $data)){
+            foreach($this->super_model->select_row_where("jor_head","jor_id",$jor_id) AS $joi_jor){
+                $data_jor = array(
+                    'joi_id'=>$joi_id,
+                    'jor_id'=>$jor_id,
+                    'enduse'=>$joi_jor->enduse,
+                    'purpose'=>$joi_jor->purpose,
+                    'requestor'=>$joi_jor->requestor,
+                );
+                $this->super_model->insert_into("joi_jor", $data_jor);
+            }
+            redirect(base_url().'jod/jo_direct/'.$joi_id.'/'.$jor_id.'/'.$group_id);
+        }
+    }   */ 
 
     public function jor_list(){
         $this->load->view('template/header');
@@ -90,18 +208,28 @@ class Jor extends CI_Controller {
         $data['cancelled']='';
             foreach($this->super_model->select_custom_where("jor_items", "jor_id='$jor_id'") AS $ji){
                 $vendor='';
+                $vendor_id='';
                 foreach($this->super_model->select_custom_where("jo_rfq_head", "jor_id='$jor_id' AND grouping_id = '$ji->grouping_id' AND cancelled = '0' GROUP BY vendor_id") AS $ven){
                     $vendor.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$ven->vendor_id) . "<br>";
+                    $vendor_id.=$this->super_model->select_column_where('vendor_head','vendor_id','vendor_id',$ven->vendor_id);
                 }
                 $data['cancelled']=$ji->cancelled;
+                if($ji->total_cost==0){
+                    $total=$ji->quantity*$ji->unit_cost;
+                }else{
+                    $total=$ji->total_cost;
+                }
+
                 $data['jo_items'][]=array(
                     'jor_items_id'=>$ji->jor_items_id,
                     'jor_id'=>$ji->jor_id,
+                    'jor_id'=>$ji->jor_id,
+                    'vendor_id'=>$vendor_id,
                     'scope_of_work'=>$ji->scope_of_work,
                     'quantity'=>$ji->quantity,
                     'uom'=>$ji->uom,
                     'unit_cost'=>$ji->unit_cost,
-                    'total_cost'=>$ji->total_cost,
+                    'total_cost'=>$total,
                     'grouping_id'=>$ji->grouping_id,
                     'cancelled_by'=>$this->super_model->select_column_where("users",'fullname','user_id',$ji->cancelled_by),
                     'cancelled_reason'=>$ji->cancelled_reason,
@@ -136,6 +264,73 @@ class Jor extends CI_Controller {
         $this->super_model->update_where("jor_head", $data_head, "jor_id", $jor_id);
         echo "<script>alert('Successfully Saved!'); window.location = 'jor_group/$jor_id';</script>";
         //redirect(base_url().'jor/jor_request/'.$jor_id);
+    }
+
+    public function create_rfq_group(){
+        $jorid=$this->input->post('jor_id');
+        $group=$this->input->post('group');
+        $timestamp = date("Y-m-d H:i:s");
+        $rfq_format = date("Ym");
+        $rfqdet=date('Y-m');
+        //$code = $this->super_model->select_column_where('jor_head','processing_code','jor_id',$jorid);
+        $rows=$this->super_model->count_custom_where("jo_rfq_head","create_date LIKE '$rfqdet%'");
+        if($rows==0){
+            $rfq_no= $rfq_format."-1001";
+        } else {
+            $series = $this->super_model->get_max("jor_rfq_series", "series","year_month LIKE '$rfqdet%'");
+            $next=$series+1;
+            $rfq_no = $rfq_format."-".$next;
+        }
+        $rfqdetails=explode("-", $rfq_no);
+        $rfq_prefix1=$rfqdetails[0];
+        $rfq_prefix2=$rfqdetails[1];
+        $rfq_prefix=$rfq_prefix1;
+        $series=$rfq_prefix2;
+        $rfq_data= array(
+            'year_month'=>$rfq_prefix,
+            'series'=>$series
+        );
+        $this->super_model->insert_into("jor_rfq_series", $rfq_data);
+
+        foreach($this->super_model->select_custom_where("jor_vendors", "jor_id='$jorid' AND grouping_id = '$group'") AS $vendors){
+            $rows_head = $this->super_model->count_rows("jo_rfq_head");
+            if($rows_head==0){
+                $jo_rfq_id=1;
+            } else {
+                $max = $this->super_model->get_max("jo_rfq_head", "jo_rfq_id");
+                $jo_rfq_id = $max+1;
+            }
+            $new_rfq = $rfq_no."-".$vendors->grouping_id;
+            $data_head = array(
+                'jo_rfq_id'=>$jo_rfq_id,
+                'jo_rfq_no'=>$new_rfq,
+                'vendor_id'=>$vendors->vendor_id,
+                'jor_id'=>$jorid,
+                'grouping_id'=>$vendors->grouping_id,
+                'noted_by'=>$vendors->noted_by,
+                'approved_by'=>$vendors->approved_by,
+                'quotation_date'=>$vendors->due_date,
+                'rfq_date'=>$timestamp,
+                //'processing_code'=>$code,
+                'prepared_by'=>$_SESSION['user_id'],
+                'create_date'=>$timestamp,
+                'saved'=>1
+            );
+            $this->super_model->insert_into("jo_rfq_head", $data_head);
+            foreach($this->super_model->select_custom_where("jor_items", "jor_id='$jorid' AND grouping_id = '$vendors->grouping_id'") AS $details){
+                $data_details = array(
+                    'jo_rfq_id'=>$jo_rfq_id,
+                    'jor_items_id'=>$details->jor_items_id,
+                    //'pn_no'=>$details->part_no,
+                    'scope_of_work'=>$details->scope_of_work,
+                    'quantity'=>$details->quantity,
+                    'uom'=>$details->uom,
+
+                );
+                $this->super_model->insert_into("jo_rfq_details", $data_details);
+            }
+        }
+        redirect(base_url().'jorfq/jorfq_list/');
     }
 
     public function jor_group(){  
@@ -219,8 +414,8 @@ class Jor extends CI_Controller {
         $data['group'] = $group;
         $data['category']=$category;
         $data['vendor'] = $this->super_model->custom_query("SELECT vendor_id, vendor_name, product_services FROM vendor_head WHERE product_services LIKE '%$category%' ORDER BY vendor_name ASC");
-        $data['noted_by']=$this->super_model->select_column_custom_where("jo_rfq_head",'noted_by',"jor_id = '$jor_id' AND grouping_id='$group'");
-        $data['approved_by']=$this->super_model->select_column_custom_where("jo_rfq_head",'approved_by',"jor_id = '$jor_id' AND grouping_id='$group'");
+        $data['noted_by']=$this->super_model->select_column_custom_where("jor_vendors",'noted_by',"jor_id = '$jor_id' AND grouping_id='$group'");
+        $data['approved_by']=$this->super_model->select_column_custom_where("jor_vendors",'approved_by',"jor_id = '$jor_id' AND grouping_id='$group'");
         $this->load->view('template/header');
         $this->load->view('jor/choose_vendor', $data);
         $this->load->view('template/footer');
@@ -404,13 +599,14 @@ class Jor extends CI_Controller {
 
         $rows_jor = $this->super_model->count_rows_where("jor_series", "year", $year);
         if($rows_jor==0){
-            $jor_no='JOR '.$year."-01";
+            $jor_no='JOR '.$year."-1";
         } else {
             $max = $this->super_model->get_max_where("jor_series", "series","year='$year'");
             $next= $max+1;
             $jor_no = 'JOR '.$year."-".$next;
         }
 
+        $check_exist = $this->super_model->count_custom_where("jor_head", "user_jo_no='$jo_no' AND user_jo_no!=''");
         if($jo_no!=''){
             $jor_nos='';
             $jors_nos=$jo_no;
@@ -418,68 +614,82 @@ class Jor extends CI_Controller {
             $jor_nos=$jor_no;
             $jors_nos='';
         }
-
-        $data_jor = array(
-            'jor_id'=>$jor_id,
-            'jo_request'=>$jo_request,
-            'date_prepared'=>$date_prepared,
-            'department'=>$department,
-            'jo_no'=>$jor_nos,
-            'user_jo_no'=>$jors_nos,
-            'purpose'=>$purpose,
-            'requested_by'=>$requested_by,
-            'duration'=>$duration,
-            'completion_date'=>$completion_date,
-            'delivery_date'=>$delivery_date,
-            'urgency'=>$urgency_no,
-            'date_imported'=>date("Y-m-d H:i:s"),
-            'imported_by'=>$_SESSION['user_id'],
-        );
-        if($this->super_model->insert_into("jor_head", $data_jor)){
-            $strings = str_replace(' ', '-', $jor_no);
-            $jor = explode('-',$strings);
-            $years=$jor[1];
-            $series=$jor[2];
-            $data_series = array(
-                'year'=>$years,
-                'series'=>$series,
+        if($check_exist==0){
+            $data_jor = array(
+                'jor_id'=>$jor_id,
+                'jo_request'=>$jo_request,
+                'date_prepared'=>$date_prepared,
+                'department'=>$department,
+                'jo_no'=>$jor_nos,
+                'user_jo_no'=>$jors_nos,
+                'purpose'=>$purpose,
+                'requested_by'=>$requested_by,
+                'duration'=>$duration,
+                'completion_date'=>$completion_date,
+                'delivery_date'=>$delivery_date,
+                'urgency'=>$urgency_no,
+                'date_imported'=>date("Y-m-d H:i:s"),
+                'imported_by'=>$_SESSION['user_id'],
             );
-            $this->super_model->insert_into("jor_series", $data_series);
+            if($this->super_model->insert_into("jor_head", $data_jor)){
+                $strings = str_replace(' ', '-', $jor_no);
+                $jor = explode('-',$strings);
+                $years=$jor[1];
+                $series=$jor[2];
+                $data_series = array(
+                    'year'=>$years,
+                    'series'=>$series,
+                );
+                $this->super_model->insert_into("jor_series", $data_series);
 
-            $highestRow = $objPHPExcel->getActiveSheet()->getHighestRow(); 
-            for($x=14;$x<=$highestRow;$x++){
-                $item_no = trim($objPHPExcel->getActiveSheet()->getCell('A'.$x)->getValue());
-                $scope_work = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
-                $qty = trim($objPHPExcel->getActiveSheet()->getCell('G'.$x)->getValue());
-                $uom = trim($objPHPExcel->getActiveSheet()->getCell('H'.$x)->getValue());
-                $unit_cost = trim($objPHPExcel->getActiveSheet()->getCell('I'.$x)->getValue());
-                $total_cost = trim($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue());
-                $scope=str_replace("~", "\n ", $scope_work);
-                if($item_no!='' && $item_no!='Notes:'){
-                    $data_ji = array(
-                        'jor_id'=>$jor_id,
-                        'scope_of_work'=>$scope,
-                        'quantity'=>$qty,
-                        'uom'=>$uom,
-                        'unit_cost'=>$unit_cost,
-                        'total_cost'=>$total_cost,
-                    );
-                    $this->super_model->insert_into("jor_items", $data_ji);
-                }
+                $highestRow = $objPHPExcel->getActiveSheet()->getHighestRow(); 
+                for($x=14;$x<=$highestRow;$x++){
+                    $item_no = trim($objPHPExcel->getActiveSheet()->getCell('A'.$x)->getValue());
+                    $scope_work = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
+                    $qty = trim($objPHPExcel->getActiveSheet()->getCell('G'.$x)->getValue());
+                    $uom = trim($objPHPExcel->getActiveSheet()->getCell('H'.$x)->getValue());
+                    $unit_cost = trim($objPHPExcel->getActiveSheet()->getCell('I'.$x)->getValue());
+                    $total_cost = trim($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue());
+                    $scope=str_replace("~", "\n ", $scope_work);
+                    if($item_no!='' && $item_no!='Notes:'){
+                        $data_ji = array(
+                            'jor_id'=>$jor_id,
+                            'scope_of_work'=>$scope,
+                            'quantity'=>$qty,
+                            'uom'=>$uom,
+                            'unit_cost'=>$unit_cost,
+                            'total_cost'=>$total_cost,
+                            'item_no'=>$item_no,
+                        );
+                        $this->super_model->insert_into("jor_items", $data_ji);
+                    }
 
-                $num1=$x+3;
-                $notes = trim($objPHPExcel->getActiveSheet()->getCell('B'.$num1)->getValue());
-                if($notes!=''){
-                    $data_notes = array(
-                        'jor_id'=>$jor_id,
-                        'notes'=>$notes,
-                    );
-                    $this->super_model->insert_into("jor_notes", $data_notes);
+                    /*$num1=$x+3;
+                    $num2=$num1+2;*/
+                    $notes = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
+                    if(($item_no=='' || $item_no=='Notes:') && $notes!=''){
+                        $data_notes = array(
+                            'jor_id'=>$jor_id,
+                            'notes'=>$notes,
+                        );
+                        $this->super_model->insert_into("jor_notes", $data_notes);
+                    }
+                    /*if($item_no!='Notes:' && $notes!=''){
+                        $data_notes = array(
+                            'jor_id'=>$jor_id,
+                            'notes'=>$notes,
+                        );
+                        $this->super_model->insert_into("jor_notes", $data_notes);
+                    }*/
+                    
+                    //$num1++;
+                    //$num2++;
                 }
-                $num1++;
             }
-        }
-        echo "<script>alert('Successfully Uploaded!'); window.location = 'jor_request/$jor_id';</script>";
+            echo "<script>alert('Successfully Uploaded!'); window.location = 'jor_request/$jor_id';</script>";
+        } else{
+            echo "<script>alert('$jo_no already exist! Please try again.'); window.location = 'jor_list';</script>";
+        } 
     }
 
     public function cancel_jor(){
@@ -631,7 +841,7 @@ class Jor extends CI_Controller {
                         'jo_rfq_id'=>$jo_rfq_id,
                         'jor_items_id'=>$details->jor_items_id,
                         //'pn_no'=>$details->part_no,
-                        'work_of_scope'=>$details->work_of_scope,
+                        'scope_of_work'=>$details->scope_of_work,
                         'quantity'=>$details->quantity,
                         'uom'=>$details->uom,
 
@@ -702,10 +912,16 @@ class Jor extends CI_Controller {
                     $ven .= ' - ' . $this->super_model->select_column_where('vendor_head','vendor_name', 'vendor_id', $vendors->vendor_id) . "<br>";
                 }
 
+                $date_prepared=$this->super_model->select_column_where("jor_head", "date_prepared", "jor_id", $items->jor_id);
+                $completion_date=$this->super_model->select_column_where("jor_head", "completion_date", "jor_id", $items->jor_id);
+
                 $data['head'][] = array(
                     'jor_id'=>$key['jor_id'],
                     'jor_no'=>$jor_no,
                     'group'=>$key['grouping_id'],
+                    'item'=>$it,
+                    'date_prepared'=>$date_prepared,
+                    'completion_date'=>$completion_date,
                     'item'=>$it,
                     'vendor'=>$ven
                 );

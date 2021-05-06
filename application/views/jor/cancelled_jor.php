@@ -80,9 +80,9 @@
                                                         </a>
                                                     </center>
                                                 </td>
-                                            </tr>                  
+                                            </tr>
+                                            <?php } } ?>                  
                                         </tbody>
-                                    <?php } } ?>
                                     </table>
                                 </div>                           
                             </div>

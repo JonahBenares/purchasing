@@ -155,40 +155,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Update AOQ Terms
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-							</button>
-						</h5>
-						
-					</div>
-					<form method="POST" action="<?php echo base_url(); ?>joi/update_terms">
-						<div class="modal-body">
-							<div class="form-group">
-								Payment:
-								<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>">
-								Item Warranty:
-								<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>">
-								Delivery_item:
-								<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>">
-								Freight:
-								<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>">
-							</div>
-						</div>
-						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
-						<input type='hidden' name='aoq_vendors_id' value='<?php echo $aoq_vendors_id; ?>'>
-						<div class="modal-footer">
-							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
-						</div>
-
-					</form>
-				</div>
-			</div>
-		</div>
+	
 		<div class="modal fade" id="UpdateTerms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -369,11 +336,13 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
-		    							<b class="nomarg"><?php echo nl2br($it['offer']); ?></b>
+		    							<b class="nomarg"><?php echo " - ".nl2br($it['offer'])."<br><br>"; ?></b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
-		    								<input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' <?php echo (($revised!='r') ? "max=".$it['balance'] : ""); ?> style='width:50px; color:red;text-align: center' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)">
+		    								<input type="text" name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $it['balance']; ?>)" value='<?php echo $it['balance']; ?>' style='width:50px; color:red;text-align: center' onchange='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"/>
+                       
+		    								<!-- <input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' <?php echo (($revised!='r') ? "max=".$it['balance'] : ""); ?> style='width:50px; color:red;text-align: center' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"> -->
 		    							</b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $it['uom']; ?></td>
@@ -395,9 +364,34 @@
 					    		<input type='hidden' name='jor_items_id<?php echo $x; ?>' value="<?php echo $it['jor_items_id']; ?>">
 					    		<textarea hidden  name='offer<?php echo $x; ?>'><?php echo $it['offer']; ?></textarea>
 					    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
-		    					<?php } $x++; } }else{ $gtotal=array(); } ?>
+		    					<?php } $x++; } ?> 
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
+		    					<?php }else{ $gtotal=array(); } ?>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
+		    					<tr>
+		    						<td class="f13" style="padding-left: 5px" align="left">
+		    							<b>Notes:</b>		    						
+		    						</td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    					</tr>
+		    					<?php $y=1; foreach($notes AS $n){ ?>
+		    					<tr>
+		    						<td class="f13" style="padding-left: 5px" align="left">
+		    							<?php echo " - ".nl2br($n->notes); ?><br><br>
+		    						</td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    					</tr>
+		    					<input type='hidden' name='jor_notes<?php echo $y; ?>' value="<?php echo $n->notes; ?>">
+		    					<?php $y++; } ?>
+		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
@@ -409,7 +403,7 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Amount:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo number_format(array_sum($gtotal),2); ?>" readonly="readonly"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo array_sum($gtotal); ?>" readonly="readonly"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
@@ -624,6 +618,40 @@
 	    	<input type="hidden" name='joi_id' value="<?php echo $joi_id; ?>">
     	</form>
     </div>
+    <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update AOQ Terms
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>joi/update_terms">
+						<div class="modal-body">
+							<div class="form-group">
+								Payment:
+								<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>">
+								Item Warranty:
+								<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>">
+								Delivery_item:
+								<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>">
+								Freight:
+								<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>">
+							</div>
+						</div>
+						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
+						<input type='hidden' name='aoq_vendors_id' value='<?php echo $aoq_vendors_id; ?>'>
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
     <script type="text/javascript">
     	function printPage() {
 		  window.print();

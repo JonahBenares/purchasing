@@ -1,23 +1,28 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/pr.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jo.js"></script>
     <script type="text/javascript">
         $(document).on("click", "#updateDP_button", function () {
             var jor_ids= $(this).attr("data-id");
             var group_id = $(this).attr("data-trigger");
-            $("#jor_ids").val(pr_ids);
+            var date_prepared = $(this).attr("data-dateprepared");
+            var completion_date = $(this).attr("data-complete");
+            $("#jor_ids").val(jor_ids);
             $("#group_id").val(group_id);
+            $("#date_prepared").val(date_prepared);
+            $("#completion_date").val(completion_date);
         });
 
         $(document).on("click", "#updateRO_button", function () {
-            var pr_idro= $(this).attr("data-id");
+            var jor_idro= $(this).attr("data-id");
             var group_idro = $(this).attr("data-trigger");
-            $("#pr_idro").val(pr_idro);
+            $("#pr_idro").val(joy_idro);
             $("#group_idro").val(group_idro);
         });
 
         $(document).on("click", "#RfqSend", function () {
-            var pr_id= $(this).attr("data-id");
+            var jor_id= $(this).attr("data-id");
             var group = $(this).attr("data-group");
-            $("#pr_id").val(pr_id);
+            $("#jor_id").val(jor_id);
             $("#group").val(group);
         });
     </script>
@@ -73,7 +78,6 @@
                                             <th width="10%"></th>   
                                             <?php if(!empty($head)){ foreach($head as $h){ ?>                                     
                                         </thead>
-                                        <tbody>
                                             <tr>
                                                 <td><span class="btn btn-block"><?php echo $h['jor_no']."-".COMPANY; ?></span></td>
                                                 <td>
@@ -94,8 +98,8 @@
                                                                         <!-- <input type='submit' class="btn btn-primary btn-sm" value='RFQ' title="Create RFQ" onclick="return confirm('Are you sure you want to create RFQ?')"> -->
                                                                         <a class="btn btn-primary btn-sm" id = "RfqSend" data-toggle="modal" data-target="#modalRfq" data-id = "<?php echo $h['jor_id']; ?>" data-group= "<?php echo $h['group']; ?>">RFQ</a>
                                                                     <?php } ?>
-                                                                    <a class="btn btn-info btn-sm" title="Direct Purchase" id="updateDP_button" data-id="" data-trigger="" data-toggle="modal" data-target="#directpurch">DP</a>
-                                                                    <a href=""  data-toggle="modal" id="updateRO_button" data-id="" data-trigger="" data-target="#repord" class="btn btn-success btn-sm" title="Repeat Order">RO</a>
+                                                                    <a class="btn btn-info btn-sm" title="Direct Purchase" id="updateDP_button" data-id="<?php echo $h['jor_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-dateprepared="<?php echo $h["date_prepared"]; ?>" data-complete="<?php echo $h["completion_date"]; ?>" data-toggle="modal" data-target="#directpurch">DP</a>
+                                                                    <!-- <a href=""  data-toggle="modal" id="updateRO_button" data-id="<?php echo $h['jor_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-target="#repord" class="btn btn-success btn-sm" title="Repeat Order">RO</a> -->
                                                                 </div>
                                                             </center>
                                                             </td>
@@ -103,8 +107,7 @@
                                                     </table>
                                                 </td>
                                             </tr> 
-                                              <?php } } ?>   
-                                        </tbody>             
+                                              <?php } } ?>                
                                     </table>
                                 <!-- </form> -->
                             </div>
@@ -131,11 +134,11 @@
                     </h5>
                     
                 </div>
-                <form method="POST" action="<?php echo base_url(); ?>pr/create_rfq_group">
+                <form method="POST" action="<?php echo base_url(); ?>jor/create_rfq_group">
                     <div class="modal-body">
                         Are you sure you want to create RFQ?
                     </div> 
-                    <input type='hidden' name='pr_id' id="pr_id">
+                    <input type='hidden' name='jor_id' id="jor_id">
                     <input type='hidden' name='group' id="group">
                     <div class="modal-footer">
                         <center>
@@ -159,20 +162,74 @@
                     </h5>
                     
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>pr/redirect_pod">
+                <form method="POST" action = "<?php echo base_url();?>jor/redirect_jod">
                     <div class="modal-body">
-                        Date:
-                        <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control" >
-                        <br>
-                        Vendor:
-                        <select class="form-control selectpicker" name = "vendor" data-show-subtext="true" data-live-search="true">
-                            <option value = ''>--Select Supplier--</option>
-                            <?php foreach($supplier AS $sup){ ?>
-                            <option value = "<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
+                        <div class="">
+                                <div class="row">
+                                <div class="col-md-6"> 
+                                    <div class="form-group btn-block">
+                                        <p class="m-b-0">Date:</p>
+                                <input type="date" name="joi_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control">
+                                    </div>
+                                </div>
+                                                                <div class="col-md-6"> 
+                                    <div class="form-group btn-block">
+                                       <?php echo JO_NAME;?> JO No.:
+                                        <input type="Text" name="cenjo_no" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group btn-block m-b-5">
+                                TO:
+                                <select name='vendor' id='supplier' onchange="chooseSupplierJO()" class='form-control selectpicker' data-live-search="true">
+                                <option value=''>-Select Vendor-</option>
+                                <?php foreach($supplier AS $ven){ ?>
+                                <option value='<?php echo $ven->vendor_id; ?>'><?php echo $ven->vendor_name; ?></option>
                             <?php } ?>
-                        </select>
-                    </div> 
-                    <input type="hidden" name="pr_ids" id="pr_ids">
+                            </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p  id='address'>Address</p></div>
+                                 <div class="col-md-6"><p id='phone'>Contact Number</p></div>
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div class="col-md-6"> 
+                                    <div class="form-group btn-block">
+                                        Date Prepared:
+                                        <input type="date" name="date_prepared" id="date_prepared" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6"> 
+                                    <div class="form-group btn-block">
+                                        Date Needed:
+                                        <input type="date" name="date_needed" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group btn-block">
+                                       Start of Work:
+                                        <input type="date" name="work_start" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group btn-block">
+                                       Completion of Work:
+                                        <input type="date" name="work_completion" id="completion_date" class="form-control">
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="form-group btn-block">
+                                Project Title/Description:
+                                <textarea name="project_title" id="project_title" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="jor_ids" id="jor_ids">
+                    <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                     <input type="hidden" name="group_id" id="group_id">
                     <div class="modal-footer">
                         <input type="submit" name="submit" class="btn btn-primary btn-block" value="Save">
@@ -192,7 +249,7 @@
                         </button>
                     </h5>                    
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>pr/create_reorderpo">
+                <form method="POST" action = "<?php echo base_url();?>jor/create_reorderpo">
                     <div class="modal-body">
                         Date:
                         <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control">

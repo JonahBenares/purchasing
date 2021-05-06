@@ -1,6 +1,20 @@
     <script src="<?php echo base_url(); ?>assets/js/jo.js"></script> 
     <link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
     <script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
+       <script type="text/javascript">
+$(document).on("click", ".cancelJOI", function () {
+     var joi_id = $(this).attr("data-id");
+     $("#joi_id").val(joi_id);
+
+});
+
+$(document).on("click", "#approve_rev", function () {
+     var joi_id = $(this).attr("data-id");
+     $("#jo_id1").val(joi_id);
+
+});
+
+</script>
     <div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="approveLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -11,7 +25,7 @@
                         </button>
                     </h5>                    
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>jo/approve_revision">
+                <form method='POST' action="<?php echo base_url(); ?>joi/approve_revision">
                     <div class="modal-body">
                         <div class="form-group">
                             <p class="m-b-0">Approved by:</p>
@@ -23,14 +37,14 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="jo_id" id="jo_id" >
+                        <input type="hidden" name="joi_id" id="jo_id1" >
                         <input type='submit' value='Approve' class="btn btn-custon-three btn-primary btn-block">
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div id="cancelJO" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+    <div id="cancelJOI" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header header-color-modal bg-color-1">
@@ -46,7 +60,7 @@
                             <textarea name="reason" class="form-control"></textarea>
                         </div>
                         <center>       
-                            <input type = "hidden" id='jo_id' name='jo_id' >                 
+                            <input type = "hidden" id='joi_id' name='joi_id' >                 
                             <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
                         </center>
                     </div>
@@ -179,6 +193,8 @@
                                     <button type="button" class="btn btn-custon-three btn-primary" data-toggle="modal" data-target="#add_jo">
                                         <span class="fa fa-plus p-l-0"></span> Add JO
                                     </button>
+                                    <a href="<?php echo base_url(); ?>joi/served_jo" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Delivered JOI</a> 
+                                    <a href="<?php echo base_url(); ?>joi/incom_jodel" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-adjust"></span> Incomplete JOI Delivery</a> 
                                     <a href="<?php echo base_url(); ?>joi/cancelled_joi" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled JOI</a>
                                 </div>                                
                             </div>
@@ -193,35 +209,92 @@
                                             <th>CENJO #/JO #</th>
                                             <th>Project Title</th>
                                             <th>Supplier</th>
+                                            <th>Status</th>
+                                            <th>Mode of Purchase</th>
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php if(!empty($head)){ foreach($head AS $h){ ?>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo $h['date_prepared'];?></td>
+                                            <td><?php echo $h['date_needed'];?></td>
                                             <td>
-                                                <a class="btn-link txt-primary" onclick="viewHistoryjoi('<?php echo base_url(); ?>')">sample</a>
+                                                <a class="btn-link txt-primary" onclick="viewHistoryjoi('<?php echo base_url(); ?>','<?php echo $h['joi_id']; ?>','<?php echo $h['cenpri_jo_no']; ?>','<?php echo $h['joi_no']; ?>')"><?php echo $h['cenpri_jo_no'] . "/".$h['joi_no'] ."-".COMPANY. (($h['revision_no']!=0) ? ".r".$h['revision_no'] : "");?></a>
                                             </td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo $h['project_title']; ?></td>
+                                            <td><?php echo $h['vendor']; ?></td>
+                                            <td>
+                                            <?php 
+
+                                            if($h['revised']==1) {
+                                                echo '<span class="label label-warning">Request for Revision</span>';
+                                            } else {
+                                                if($h['served']==0 && $h['saved']==1) {
+                                                    echo '<span class="label label-warning">JO Issued</span>';
+                                                } else if($h['served']==1) {
+                                                  echo '<span class="label label-success">Delivered</span>'; 
+                                                } 
+
+                                                 if($h['saved']==0 && $h['draft']==1) {
+                                                  echo '<span class="label label-info">Draft</span>'; 
+                                                }
+                                            } ?></td>
+                                            <td><?php
+                                                if($h['joi_type']==0){
+                                                    echo "Job Order Request";
+                                                } else if($h['joi_type']==1){
+                                                    echo "Direct Purchase";
+                                                } else if($h['joi_type']==2){
+                                                    echo "Repeat Order";
+                                                }
+                                            ?>
+                                            </td>
                                             <td>
                                                 <center>
-                                                    <a class="cancelJO btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJO" data-id=""><span class="fa fa-ban" title="Cancel"></span></a>
-                                                  
-                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance/" class="btn btn-custon-three btn-warning btn-xs">
+                                                    <?php if($h['saved']==1){ ?> 
+                                                    <a href="" class="btn btn-custon-three btn-success btn-xs deliverjoi" title='Deliver JOI' onclick="deliver_jo('<?php echo base_url(); ?>','<?php echo $h['joi_id']?>','<?php echo $h['joi_dr_id']?>')">
+                                                        <span class="fa fa-truck"></span>
+                                                    </a>
+                                                    <?php } ?>
+                                                    <?php if($h['saved']==0 && $h['joi_type']==0 && $h['revised']==0){ ?>
+                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                     </a>
-                                                   
-                                                    <!-- <a href="<?php echo base_url(); ?>joi/job_order_saved/" class="btn btn-custon-three btn-warning btn-xs">
+                                                    <?php }else if($h['saved']==0 && $h['joi_type']==0 && $h['draft']==1 && $h['revised']==0){ ?>
+                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance_draft/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
-                                                    </a> -->
-                                                    <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" data-target="#approve" data-id="">
+                                                    </a>
+                                                    <?php }else if($h['saved']==0 && $h['draft']==0  && $h['joi_type']==1){ ?>
+                                                    <a href="<?php echo base_url(); ?>jod/jo_direct/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } else if($h['saved']==1 && $h['joi_type']==1 ){ ?>
+                                                    <a href="<?php echo base_url(); ?>jod/jo_direct_saved/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php }else if($h['saved']==0 && $h['draft']==1  && $h['joi_type']==1){ ?>
+                                                    <a href="<?php echo base_url(); ?>jod/jo_direct_draft/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs" title='View'>
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php }else if($h['saved']==1 && $h['joi_type']==0 && $h['revised']==1){ ?>
+                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance_rev/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php }else if($h['saved']==1 && $h['joi_type']==0 && $h['revised']==0) { ?>
+                                                    <a href="<?php echo base_url(); ?>joi/jo_issuance_saved/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <?php } if($h['revised']==1){ ?>
+                                                    <a class="btn btn-custon-three btn-info btn-xs approverev" title='Aprrove Revision' data-toggle="modal" id="approve_rev" data-target="#approve" data-id="<?php echo $h['joi_id']?>">
                                                         <span class="fa fa-thumbs-up"></span>
                                                     </a>
+                                                    <?php } ?>
+                                                    <a class="cancelJOI btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJOI" data-id="<?php echo $h['joi_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </center>
                                             </td>
-                                        </tr>          
+                                        </tr>
+                                        <?php } }  ?>          
                                     </tbody>
                                 </table>
                             </div>                           

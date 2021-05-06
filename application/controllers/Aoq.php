@@ -343,13 +343,15 @@ class Aoq extends CI_Controller {
             'refer_mnl'=>1
         );
         if($this->super_model->update_where("aoq_head", $data, "aoq_id", $aoq_id)){
-            $to='stephineseverino.cenpri@gmail.com';
+            //$to='jcosico.cenpri@gmail.com';
+             $to='stephineseverino.cenpri@gmail.com';
             $subject="REFERED TO MANILA";
             $message='';
             $message.="REFERED TO MANILA: <br><br>";
+            $cancelled='';
             foreach($this->super_model->select_custom_where("aoq_head", "aoq_id = '$aoq_id' AND saved='1' AND refer_mnl = '1'") AS $list){
                 $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$list->pr_id);
-                $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$list->pr_id);
+                $cancelled = $list->cancelled;
                 $message.="<div style='border:2px solid; font-size:12px'>";
                 $message.="<table style='width:100%; border-collapse:collapse; font-size:12'>";
                 $message.="<td style='width:10%;'>PR No.: </td><td style='width:40%;'>".$pr_no."</td>";
@@ -392,7 +394,11 @@ class Aoq extends CI_Controller {
             $headers .= 'From: <jonah.narazo@gmail.com>' . "\r\n";
             var_dump(mail($to,$subject,$message,$headers));
 
-            redirect(base_url().'aoq/aoq_list', 'refresh');
+            if($cancelled==0){
+                redirect(base_url().'aoq/aoq_list', 'refresh');
+            }else{
+                redirect(base_url().'aoq/cancelled_aoq', 'refresh');
+            }
         }
     }
 
