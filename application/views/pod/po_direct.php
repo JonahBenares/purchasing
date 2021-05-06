@@ -528,11 +528,11 @@
                            <?php 
                             if($saved==0){ ?>
                                 <select type="text" name="vat_in_ex">
-                                    <option value = "inclusive of VAT" <?php echo (($vat_in_ex == 'inclusive of VAT') ? ' selected' : '');?>>inclusive of VAT</option>
-                                    <option value = "exclusive of VAT" <?php echo (($vat_in_ex == 'exclusive of VAT') ? ' selected' : '');?>>exclusive of VAT</option>
+                                    <option value = "0" <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : '');?>>inclusive of VAT</option>
+                                    <option value = "1" <?php echo (($vat_in_ex == '1') ? 'exclusive of VAT' : '');?>>exclusive of VAT</option>
                                 </select>	
                             <?php } else { ?>
-                               <?php echo $vat_in_ex; ?>
+                               <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?>
                             <?php } ?>
 	                        <br>
 		    				<?php 
