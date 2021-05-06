@@ -7271,7 +7271,7 @@ class Reports extends CI_Controller {
                             $status .= "Delivered by ".$company;*/
                         }else{
                             $status .= 'JO Issued - Partial<br><br>';
-                            $status .= 'Partially Delivered';
+                            //$status_remarks = 'Partially Delivered';
                         }
 
                         if($pr->on_hold==1){
@@ -7279,7 +7279,16 @@ class Reports extends CI_Controller {
                             /*}else if($pr->for_recom==1){
                             $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));*/
                         }else{
-                            $status_remarks='';
+                            //$status_remarks='Partially Delivered';
+                            foreach($this->super_model->custom_query("SELECT pdr.* FROM joi_dr_items pdr INNER JOIN joi_dr po ON pdr.joi_dr_id = po.joi_dr_id WHERE jor_items_id = '$pr->jor_items_id' AND date_received!=''") AS $del){
+                                if($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id!='')){
+                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id)."-".COMPANY." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
+                                }
+                                if(empty($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id))){
+                                    $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND ph.joi_id = '$del->joi_id' AND pi.jor_items_id = '$pr->jor_items_id'");
+                                    $status_remarks.="JO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty .")</span>";
+                                }
+                            }
                         }
                     } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
                         $date_delivered=  $this->super_model->select_column_where('joi_head', 'date_served', 'joi_id', $joi_id);
@@ -7774,7 +7783,7 @@ class Reports extends CI_Controller {
                             $status .= "Delivered by ".$company;*/
                         }else{
                             $status .= 'JO Issued - Partial<br><br>';
-                            $status .= 'Partially Delivered';
+                            $status_remarks = 'Partially Delivered';
                         }
 
                         if($pr->on_hold==1){
@@ -8337,8 +8346,8 @@ class Reports extends CI_Controller {
                                 /*}else if($pr->fulfilled_by==1){
                                 $status .= "Delivered by ".$company;*/
                             }else{
-                                $status .= 'JO Issued - Partial<br>\n';
-                                $status .= 'Partially Delivered';
+                                $status .= "JO Issued - Partial \n";
+                                $status_remarks = 'Partially Delivered';
                             }
 
                             if($pr->on_hold==1){
@@ -8766,7 +8775,7 @@ class Reports extends CI_Controller {
                                 $status .= "Delivered by ".$company;*/
                             }else{
                                 $status .= "JO Issued - Partial \n \n";
-                                $status .= 'Partially Delivered';
+                                $status_remarks = 'Partially Delivered';
                             }
 
                             if($pr->on_hold==1){
