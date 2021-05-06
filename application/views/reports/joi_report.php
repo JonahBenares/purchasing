@@ -1,3 +1,9 @@
+    <style type="text/css">
+        tr td.td{
+            white-space: nowrap!important;
+            padding-right: 5px!important;
+        }    
+    </style>
     <div id="filter_pr" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
