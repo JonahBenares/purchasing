@@ -397,8 +397,8 @@
 		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
                             3. Price is 
                             	<select type="text" name="vat_in_ex">
-                                    <option value = "inclusive of VAT">inclusive of VAT</option>
-                                    <option value = "exclusive of VAT">exclusive of VAT</option>
+                                    <option value = "0">inclusive of VAT</option>
+                                    <option value = "1">exclusive of VAT</option>
                                 </select>		    				
                             <br>
 			    			<?php $x=4; ?>
