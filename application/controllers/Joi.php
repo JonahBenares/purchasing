@@ -1483,7 +1483,7 @@ class Joi extends CI_Controller {
                 'joi_id'=>$dritems->joi_id,
                 'joi_aoq_offer_id'=>$dritems->joi_aoq_offer_id,
                 'joi_aoq_items_id'=>$dritems->joi_aoq_items_id,
-                'joi_items_id'=>$dritems->joi_items_id,
+                'jor_items_id'=>$dritems->jor_items_id,
                 'offer'=>$dritems->offer,
                 'item_id'=>$dritems->item_id,
                 'delivered_quantity'=>$dritems->delivered_quantity,
