@@ -152,6 +152,7 @@ class Joi extends CI_Controller {
                 'joi_id'=>$head->joi_id,
                 'joi_date'=>$head->joi_date,
                 'joi_no'=>$head->joi_no,
+                "cenpri_jo_no"=>$head->cenpri_jo_no,
                 'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
                 'supplier_id'=>$head->vendor_id,
                 'saved'=>$head->saved,
