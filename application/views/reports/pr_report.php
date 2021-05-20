@@ -411,6 +411,16 @@
                         <td></td>
                         <td>Delivered by another company</td>
                     </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #cacaca "></td>
+                        <td></td>
+                        <td>Cancelled</td>
+                    </tr>
                 </table>
             </div>
         </div>
