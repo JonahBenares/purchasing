@@ -503,7 +503,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label>Unit Price:</label>
-                                    <input type="number" name="unit_price" class="form-control" id="unit_price" placeholder="Unit Price">
+                                    <input type="text" name="unit_price" class="form-control" id="unit_price" placeholder="Unit Price">
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Quantity Delivered:</label>
