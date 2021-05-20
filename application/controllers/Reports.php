@@ -7225,6 +7225,15 @@ class Reports extends CI_Controller {
             $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
             $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
             $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);*/
+            $count_po = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+             $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '1' AND pi.jor_items_id = '$pr->jor_items_id'");
+            $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+            $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+            $count_rfq = $this->super_model->count_custom_query("SELECT jo_rfq_details_id FROM jo_rfq_details WHERE jor_items_id = '$pr->jor_items_id'");
+            $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
+            $count_aoq = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
+            $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE ao.jor_items_id= '$pr->jor_items_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
+            $draft = $this->super_model->select_column_where('joi_head', 'draft', 'joi_id', $joi_id);
             $unserved_qty=0;
             $unserved_uom='';  
             $statuss='';
@@ -7264,7 +7273,26 @@ class Reports extends CI_Controller {
                         }else{
                             $status_remarks='';
                         }
-                    }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
+                    }else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0) || ($count_po_unserved == 0 && $count_po_served !=0 && $count_aoq_awarded==0)){
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
+                        if($pr->on_hold==1){
+                            $status .="On-Hold";
+                            /*}else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                            $status .= "For Recom";*/
+                        }else{
+                            $status .= 'Pending';
+                        }
+
+                        if($pr->on_hold==1){
+                            $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                            /*}else if($pr->for_recom==1){
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to))*/;
+                        }else{
+                            $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date;
+                        }
+                    } else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0 && $count_aoq_awarded!=0){
                         if($pr->on_hold==1){
                             $status .="On-Hold";
                             /*}else if($pr->fulfilled_by==1){
@@ -7290,7 +7318,7 @@ class Reports extends CI_Controller {
                                 }
                             }
                         }
-                    } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
+                    } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all && $count_aoq_awarded!=0) || ($count_po_unserved == 0 && $count_po_served !=0 && $count_aoq_awarded!=0)) {
                         $date_delivered=  $this->super_model->select_column_where('joi_head', 'date_served', 'joi_id', $joi_id);
                         if($cancelled_head_po!=0){
                             $statuss = 'Partially Delivered';
@@ -7328,7 +7356,7 @@ class Reports extends CI_Controller {
                 } else {
                     $count_rfd = $this->super_model->count_custom_where("joi_rfd","joi_id = '$joi_id'");
                     $served=  $this->super_model->select_column_where('joi_head', 'served', 'joi_id', $joi_id);
-                    if($served==0){
+                    if($served==0 && $count_aoq_awarded!=0){
                         if($cancelled_items_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -7350,6 +7378,25 @@ class Reports extends CI_Controller {
                             $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));*/
                         }else{
                             $status_remarks = '';
+                        }
+                    } else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0)){
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
+                        if($pr->on_hold==1){
+                            $status .="On-Hold";
+                            /*}else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                            $status .= "For Recom";*/
+                        }else{
+                            $status .= 'Pending';
+                        }
+
+                        if($pr->on_hold==1){
+                            $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                            /*}else if($pr->for_recom==1){
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to))*/;
+                        }else{
+                            $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date;
                         }
                     } else {
                         if($cancelled_items_po==0){
@@ -7379,15 +7426,6 @@ class Reports extends CI_Controller {
                     $status .= "Pending";
                     $status_remarks =  "";
                 } else {
-
-                    $count_po = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                     $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '1' AND pi.jor_items_id = '$pr->jor_items_id'");
-                    $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                    $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                    $count_rfq = $this->super_model->count_custom_query("SELECT jo_rfq_details_id FROM jo_rfq_details WHERE jor_items_id = '$pr->jor_items_id'");
-                    $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
-                    $count_aoq = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
-                    $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE ao.jor_items_id= '$pr->jor_items_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
                     if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
                         if($pr->on_hold==1){
                             $status .="On-Hold";
@@ -7460,7 +7498,7 @@ class Reports extends CI_Controller {
                         }else{
                             $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
                         }
-                    } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
+                    } else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0 && $draft!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0)){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
                         if($pr->on_hold==1){
                             $status .="On-Hold";
@@ -7497,7 +7535,7 @@ class Reports extends CI_Controller {
                         }else{
                             $status_remarks = 'For JO - AOQ Done (awarded)';
                         }
-                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq!=0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0)  || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
                         if($pr->on_hold==1){
                             $status .="On-Hold";
                             /*}else if($pr->fulfilled_by==1){
@@ -7737,6 +7775,15 @@ class Reports extends CI_Controller {
             $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
             $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
             $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);*/
+            $count_po = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+             $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '1' AND pi.jor_items_id = '$pr->jor_items_id'");
+            $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+            $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+            $count_rfq = $this->super_model->count_custom_query("SELECT jo_rfq_details_id FROM jo_rfq_details WHERE jor_items_id = '$pr->jor_items_id'");
+            $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
+            $count_aoq = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
+            $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE ao.jor_items_id= '$pr->jor_items_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
+            $draft = $this->super_model->select_column_where('joi_head', 'draft', 'joi_id', $joi_id);
             $unserved_qty=0;
             $unserved_uom='';  
             $statuss='';
@@ -7776,14 +7823,33 @@ class Reports extends CI_Controller {
                         }else{
                             $status_remarks='';
                         }
-                    }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
+                    }else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0) || ($count_po_unserved == 0 && $count_po_served !=0 && $count_aoq_awarded==0)){
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
+                        if($pr->on_hold==1){
+                            $status .="On-Hold";
+                            /*}else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                            $status .= "For Recom";*/
+                        }else{
+                            $status .= 'Pending';
+                        }
+
+                        if($pr->on_hold==1){
+                            $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                            /*}else if($pr->for_recom==1){
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to))*/;
+                        }else{
+                            $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date;
+                        }
+                    } else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0 && $count_aoq_awarded!=0){
                         if($pr->on_hold==1){
                             $status .="On-Hold";
                             /*}else if($pr->fulfilled_by==1){
                             $status .= "Delivered by ".$company;*/
                         }else{
                             $status .= 'JO Issued - Partial<br><br>';
-                            $status_remarks = 'Partially Delivered';
+                            //$status_remarks = 'Partially Delivered';
                         }
 
                         if($pr->on_hold==1){
@@ -7791,9 +7857,18 @@ class Reports extends CI_Controller {
                             /*}else if($pr->for_recom==1){
                             $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));*/
                         }else{
-                            $status_remarks='';
+                            //$status_remarks='Partially Delivered';
+                            foreach($this->super_model->custom_query("SELECT pdr.* FROM joi_dr_items pdr INNER JOIN joi_dr po ON pdr.joi_dr_id = po.joi_dr_id WHERE jor_items_id = '$pr->jor_items_id' AND date_received!=''") AS $del){
+                                if($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id!='')){
+                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id)."-".COMPANY." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
+                                }
+                                if(empty($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id))){
+                                    $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND ph.joi_id = '$del->joi_id' AND pi.jor_items_id = '$pr->jor_items_id'");
+                                    $status_remarks.="JO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_po_issued_qty .")</span>";
+                                }
+                            }
                         }
-                    } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
+                    } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all && $count_aoq_awarded!=0) || ($count_po_unserved == 0 && $count_po_served !=0 && $count_aoq_awarded!=0)) {
                         $date_delivered=  $this->super_model->select_column_where('joi_head', 'date_served', 'joi_id', $joi_id);
                         if($cancelled_head_po!=0){
                             $statuss = 'Partially Delivered';
@@ -7831,7 +7906,7 @@ class Reports extends CI_Controller {
                 } else {
                     $count_rfd = $this->super_model->count_custom_where("joi_rfd","joi_id = '$joi_id'");
                     $served=  $this->super_model->select_column_where('joi_head', 'served', 'joi_id', $joi_id);
-                    if($served==0){
+                    if($served==0 && $count_aoq_awarded!=0){
                         if($cancelled_items_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -7853,6 +7928,25 @@ class Reports extends CI_Controller {
                             $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));*/
                         }else{
                             $status_remarks = '';
+                        }
+                    } else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0)){
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
+                        if($pr->on_hold==1){
+                            $status .="On-Hold";
+                            /*}else if($pr->fulfilled_by==1){
+                                $status .= "Delivered by ".$company;
+                            }else if($pr->for_recom==1){
+                            $status .= "For Recom";*/
+                        }else{
+                            $status .= 'Pending';
+                        }
+
+                        if($pr->on_hold==1){
+                            $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                            /*}else if($pr->for_recom==1){
+                            $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to))*/;
+                        }else{
+                            $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date;
                         }
                     } else {
                         if($cancelled_items_po==0){
@@ -7882,15 +7976,6 @@ class Reports extends CI_Controller {
                     $status .= "Pending";
                     $status_remarks =  "";
                 } else {
-
-                    $count_po = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                     $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '1' AND pi.jor_items_id = '$pr->jor_items_id'");
-                    $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                    $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                    $count_rfq = $this->super_model->count_custom_query("SELECT jo_rfq_details_id FROM jo_rfq_details WHERE jor_items_id = '$pr->jor_items_id'");
-                    $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
-                    $count_aoq = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
-                    $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE ao.jor_items_id= '$pr->jor_items_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
                     if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
                         if($pr->on_hold==1){
                             $status .="On-Hold";
@@ -7963,7 +8048,7 @@ class Reports extends CI_Controller {
                         }else{
                             $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
                         }
-                    } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
+                    } else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0 && $draft!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0)){
                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
                         if($pr->on_hold==1){
                             $status .="On-Hold";
@@ -8000,7 +8085,7 @@ class Reports extends CI_Controller {
                         }else{
                             $status_remarks = 'For JO - AOQ Done (awarded)';
                         }
-                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq!=0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
+                    } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0)  || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
                         if($pr->on_hold==1){
                             $status .="On-Hold";
                             /*}else if($pr->fulfilled_by==1){
@@ -8301,6 +8386,14 @@ class Reports extends CI_Controller {
                 $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
                 $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
                 $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);*/
+                $count_po = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+                $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '1' AND pi.jor_items_id = '$pr->jor_items_id'");
+                $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+                $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+                $count_rfq = $this->super_model->count_custom_query("SELECT jo_rfq_details_id FROM jo_rfq_details WHERE jor_items_id = '$pr->jor_items_id'");
+                $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
+                $count_aoq = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
+                $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE ao.jor_items_id= '$pr->jor_items_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
                 $unserved_qty=0;
                 $unserved_uom='';  
                 $statuss='';
@@ -8340,7 +8433,26 @@ class Reports extends CI_Controller {
                             }else{
                                 $status_remarks='';
                             }
-                        }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
+                        }else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0) || ($count_po_unserved == 0 && $count_po_served !=0 && $count_aoq_awarded==0)){
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                                /*}else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else if($pr->for_recom==1){
+                                $status .= "For Recom";*/
+                            }else{
+                                $status .= 'Pending';
+                            }
+
+                            if($pr->on_hold==1){
+                                $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                                /*}else if($pr->for_recom==1){
+                                $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to))*/;
+                            }else{
+                                $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date;
+                            }
+                        }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0 && $count_aoq_awarded!=0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
                                 /*}else if($pr->fulfilled_by==1){
@@ -8366,7 +8478,7 @@ class Reports extends CI_Controller {
                                     }
                                 }
                             }
-                        } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
+                        } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all && $count_aoq_awarded!=0) || ($count_po_unserved == 0 && $count_po_served !=0 && $count_aoq_awarded!=0)) {
                             $date_delivered=  $this->super_model->select_column_where('joi_head', 'date_served', 'joi_id', $joi_id);
                             if($cancelled_head_po!=0){
                                 $statuss = 'Partially Delivered';
@@ -8404,7 +8516,7 @@ class Reports extends CI_Controller {
                     } else {
                         $count_rfd = $this->super_model->count_custom_where("joi_rfd","joi_id = '$joi_id'");
                         $served=  $this->super_model->select_column_where('joi_head', 'served', 'joi_id', $joi_id);
-                        if($served==0){
+                        if($served==0 && $count_aoq_awarded!=0){
                             if($cancelled_items_po==0){
                                 if($pr->on_hold==1){
                                     $status .="On-Hold";
@@ -8426,6 +8538,25 @@ class Reports extends CI_Controller {
                                 $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));*/
                             }else{
                                 $status_remarks = '';
+                            }
+                        }else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0)){
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                                /*}else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else if($pr->for_recom==1){
+                                $status .= "For Recom";*/
+                            }else{
+                                $status .= 'Pending';
+                            }
+
+                            if($pr->on_hold==1){
+                                $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date."<br> -On Hold Date: ".$pr->onhold_date."<br> -On Hold By: ".$onhold_by;
+                                /*}else if($pr->for_recom==1){
+                                $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to))*/;
+                            }else{
+                                $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date;
                             }
                         } else {
                             if($cancelled_items_po==0){
@@ -8455,15 +8586,6 @@ class Reports extends CI_Controller {
                         $status .= "Pending";
                         $status_remarks =  "";
                     } else {
-
-                        $count_po = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                         $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '1' AND pi.jor_items_id = '$pr->jor_items_id'");
-                        $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                        $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                        $count_rfq = $this->super_model->count_custom_query("SELECT jo_rfq_details_id FROM jo_rfq_details WHERE jor_items_id = '$pr->jor_items_id'");
-                        $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
-                        $count_aoq = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
-                        $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE ao.jor_items_id= '$pr->jor_items_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
                         if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -8536,7 +8658,7 @@ class Reports extends CI_Controller {
                             }else{
                                 $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
                             }
-                        } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
+                        } else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0 && $draft!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0)){
                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -8573,7 +8695,7 @@ class Reports extends CI_Controller {
                             }else{
                                 $status_remarks = 'For JO - AOQ Done (awarded)';
                             }
-                        } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq!=0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
+                        } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
                                 /*}else if($pr->fulfilled_by==1){
@@ -8738,6 +8860,15 @@ class Reports extends CI_Controller {
                 $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
                 $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
                 $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);*/
+                $count_po = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+                $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '1' AND pi.jor_items_id = '$pr->jor_items_id'");
+                $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+                $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
+                $count_rfq = $this->super_model->count_custom_query("SELECT jo_rfq_details_id FROM jo_rfq_details WHERE jor_items_id = '$pr->jor_items_id'");
+                $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
+                $count_aoq = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
+                $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE ao.jor_items_id= '$pr->jor_items_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
+                $draft = $this->super_model->select_column_where('joi_head', 'draft', 'joi_id', $joi_id);
                 $unserved_qty=0;
                 $unserved_uom='';  
                 $statuss='';
@@ -8777,7 +8908,26 @@ class Reports extends CI_Controller {
                             }else{
                                 $status_remarks='';
                             }
-                        }else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0){
+                        }else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0) || ($count_po_unserved == 0 && $count_po_served !=0 && $count_aoq_awarded==0)){
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                                /*}else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else if($pr->for_recom==1){
+                                $status .= "For Recom";*/
+                            }else{
+                                $status .= 'Pending';
+                            }
+
+                            if($pr->on_hold==1){
+                                $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                                /*}else if($pr->for_recom==1){
+                                $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to))*/;
+                            }else{
+                                $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date;
+                            }
+                        } else if($count_po_unserved !=0  && $count_po_served!=0 && $cancelled_head_po==0 && $count_aoq_awarded!=0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
                                 /*}else if($pr->fulfilled_by==1){
@@ -8803,7 +8953,7 @@ class Reports extends CI_Controller {
                                     }
                                 }
                             }
-                        } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all) || ($count_po_unserved == 0 && $count_po_served !=0)) {
+                        } else if(($count_po_unserved == 0 && $count_po_served == $count_po_all && $count_aoq_awarded!=0) || ($count_po_unserved == 0 && $count_po_served !=0 && $count_aoq_awarded!=0)) {
                             $date_delivered=  $this->super_model->select_column_where('joi_head', 'date_served', 'joi_id', $joi_id);
                             if($cancelled_head_po!=0){
                                 $statuss = 'Partially Delivered';
@@ -8841,7 +8991,7 @@ class Reports extends CI_Controller {
                     } else {
                         $count_rfd = $this->super_model->count_custom_where("joi_rfd","joi_id = '$joi_id'");
                         $served=  $this->super_model->select_column_where('joi_head', 'served', 'joi_id', $joi_id);
-                        if($served==0){
+                        if($served==0 && $count_aoq_awarded!=0){
                             if($cancelled_items_po==0){
                                 if($pr->on_hold==1){
                                     $status .="On-Hold";
@@ -8863,6 +9013,25 @@ class Reports extends CI_Controller {
                                 $status_remarks = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to));*/
                             }else{
                                 $status_remarks = '';
+                            }
+                        } else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0)){
+                            $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
+                            if($pr->on_hold==1){
+                                $status .="On-Hold";
+                                /*}else if($pr->fulfilled_by==1){
+                                    $status .= "Delivered by ".$company;
+                                }else if($pr->for_recom==1){
+                                $status .= "For Recom";*/
+                            }else{
+                                $status .= 'Pending';
+                            }
+
+                            if($pr->on_hold==1){
+                                $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date."\n -On Hold Date: ".$pr->onhold_date."\n -On Hold By: ".$onhold_by;
+                                /*}else if($pr->for_recom==1){
+                                $status_remarks = 'AOQ Done - For TE - ' .$aoq_date."<br> -Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($pr->recom_date_from))." To ".date("M j, Y",strtotime($pr->recom_date_to))*/;
+                            }else{
+                                $status_remarks = 'JO AOQ Done - For TE - ' .$aoq_date;
                             }
                         } else {
                             if($cancelled_items_po==0){
@@ -8892,15 +9061,6 @@ class Reports extends CI_Controller {
                         $status .= "Pending";
                         $status_remarks =  "";
                     } else {
-
-                        $count_po = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                         $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$pr->jor_id' AND served = '1' AND pi.jor_items_id = '$pr->jor_items_id'");
-                        $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                        $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
-                        $count_rfq = $this->super_model->count_custom_query("SELECT jo_rfq_details_id FROM jo_rfq_details WHERE jor_items_id = '$pr->jor_items_id'");
-                        $count_rfq_completed = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
-                        $count_aoq = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' AND cancelled='0'");
-                        $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE ao.jor_items_id= '$pr->jor_items_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'");
                         if($count_rfq==0 && $count_aoq_awarded==0  && $count_po==0){
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -8973,7 +9133,7 @@ class Reports extends CI_Controller {
                             }else{
                                 $status_remarks = 'RFQ Completed - No. of RFQ completed: ' .  $count_rfq_completed;
                             }
-                        } else if($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0){
+                        }  else if(($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po==0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded==0  && $count_po!=0 && $draft!=0) || ($count_rfq!=0 && $count_rfq_completed != 0 && $count_aoq!=0  && $count_aoq_awarded!=0  && $count_po!=0 && $draft!=0)){
                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$pr->jor_items_id' AND saved='1' ");
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
@@ -9010,7 +9170,7 @@ class Reports extends CI_Controller {
                             }else{
                                 $status_remarks = 'For JO - AOQ Done (awarded)';
                             }
-                        } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0) || ($count_rfq!=0 && $count_aoq_awarded==0 && $count_po!=0) || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
+                        } else if(($count_rfq!=0 && $count_aoq_awarded!=0 && $count_po!=0)  || ($count_rfq==0 && $count_aoq_awarded==0 && $count_po!=0)){ 
                             if($pr->on_hold==1){
                                 $status .="On-Hold";
                                 /*}else if($pr->fulfilled_by==1){
