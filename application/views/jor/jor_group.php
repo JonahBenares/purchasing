@@ -68,7 +68,7 @@
                                                     foreach($vendor AS $ven){ 
                                                         if($gr['group'] == $ven['group_id']){ 
                                                 ?>
-                                                    <a href = '<?php echo base_url(); ?>jor/delete_vendor/<?php echo $jor_id; ?>/<?php echo $ven['jo_rfq_id'];?>' class='btn btn-xs btn-danger' onclick="confirmationDelete(this);return false;"><span class='fa fa-times'></span></a> - <?php echo $ven['vendor'] . "<br>" ?>
+                                                    <a href = '<?php echo base_url(); ?>jor/delete_vendor/<?php echo $jor_id; ?>/<?php echo $ven['jor_vendor_id'];?>' class='btn btn-xs btn-danger' onclick="confirmationDelete(this);return false;"><span class='fa fa-times'></span></a> - <?php echo $ven['vendor'] . "<br>" ?>
                                                 <?php } } }  ?>
                                             </td>
                                             <td width="20%">

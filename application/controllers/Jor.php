@@ -389,8 +389,8 @@ class Jor extends CI_Controller {
 
     public function delete_vendor(){
         $jor_id=$this->uri->segment(3);
-        $jo_rfq_id=$this->uri->segment(4);
-        if($this->super_model->delete_where('jo_rfq_head', 'jo_rfq_id', $jo_rfq_id)){
+        $jor_vendor_id=$this->uri->segment(4);
+        if($this->super_model->delete_where('jor_vendors', 'jor_vendor_id', $jor_vendor_id)){
             echo "<script>alert('Succesfully Deleted'); 
                 window.location ='".base_url()."jor/jor_group/$jor_id'; </script>";
         }
