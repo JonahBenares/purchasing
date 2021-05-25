@@ -58,11 +58,11 @@ class Jor extends CI_Controller {
             $series = $max+1;
         }
 
-            $jo= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jo_no'));
+            $jo= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jor_ids'));
             if($jo!=''){
                 $jo_no=$jo;
             }else{
-                $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id',$this->input->post('jo_no'));
+                $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id',$this->input->post('jor_ids'));
             }
             $group_id = $this->input->post('group_id');
             $joi_no = "P".$jo_no."-".$series;
