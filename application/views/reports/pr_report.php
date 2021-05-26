@@ -411,6 +411,16 @@
                         <td></td>
                         <td>Delivered by another company</td>
                     </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #cacaca "></td>
+                        <td></td>
+                        <td>Cancelled</td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -493,7 +503,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label>Unit Price:</label>
-                                    <input type="number" name="unit_price" class="form-control" id="unit_price" placeholder="Unit Price">
+                                    <input type="text" name="unit_price" class="form-control" id="unit_price" placeholder="Unit Price">
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Quantity Delivered:</label>

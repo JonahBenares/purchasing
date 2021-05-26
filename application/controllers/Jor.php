@@ -58,11 +58,11 @@ class Jor extends CI_Controller {
             $series = $max+1;
         }
 
-            $jo= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jo_no'));
+            $jo= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jor_ids'));
             if($jo!=''){
                 $jo_no=$jo;
             }else{
-                $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id',$this->input->post('jo_no'));
+                $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id',$this->input->post('jor_ids'));
             }
             $group_id = $this->input->post('group_id');
             $joi_no = "P".$jo_no."-".$series;
@@ -389,8 +389,8 @@ class Jor extends CI_Controller {
 
     public function delete_vendor(){
         $jor_id=$this->uri->segment(3);
-        $jo_rfq_id=$this->uri->segment(4);
-        if($this->super_model->delete_where('jo_rfq_head', 'jo_rfq_id', $jo_rfq_id)){
+        $jor_vendor_id=$this->uri->segment(4);
+        if($this->super_model->delete_where('jor_vendors', 'jor_vendor_id', $jor_vendor_id)){
             echo "<script>alert('Succesfully Deleted'); 
                 window.location ='".base_url()."jor/jor_group/$jor_id'; </script>";
         }

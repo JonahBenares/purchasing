@@ -393,6 +393,16 @@
                             <div style="margin:5px"></div>
                         </td>
                     </tr>
+                    <tr>
+                        <td style="background-color: #cacaca "></td>
+                        <td></td>
+                        <td>Cancelled</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
                     <!-- <tr>
                         <td style="background-color: #eeccff "></td>
                         <td></td>
