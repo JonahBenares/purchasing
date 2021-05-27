@@ -1,3 +1,4 @@
+    <?php $CI =& get_instance(); ?>
     <div id="filter_pr" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -110,6 +111,7 @@
                                             <th>UOM</th>
                                             <th>Item Description</th>
                                             <th>Status</th>
+                                            <th>Status Remarks</th>
                                             <th>Supplier </th>
                                             <th>Payment Term</th>
                                             <th>Unit Price</th>
@@ -137,8 +139,9 @@
                                             foreach($po AS $p){ 
                                                 /*foreach($po_items AS $items){*/
                                                     $total = $p['qty']*$p['unit_price'];
+                                                    $jo_issue=$CI->like($p['status'], "JO Issued");
                                         ?>                                     
-                                        <tr
+                                        <!-- <tr
                                         <?php if($p['served']=='1' && $p['joi_qty'] > $p['qty']){ 
                                             echo "class='pi'";
                                         } else if($p['served']=='1'){
@@ -147,7 +150,20 @@
                                             echo "class='cd'";
                                         }else if($p['status']=='JO Issued') {
                                             echo "class='pi'";
-                                        } ?>>
+                                        } ?>> -->
+                                        <tr
+                                        <?php if($p['status']=='Fully Delivered'){
+                                                echo "class='green'";
+                                            } else if($p['status']=='Partially Delivered') {
+                                                echo "class='yellow'";
+                                            } else if($p['status']=='Cancelled') {
+                                                echo "class='cd'";
+                                            } else if($p['status']=='Partially Delivered / Cancelled') {
+                                                echo "class='cd'";
+                                            }else if($jo_issue=='1') {
+                                                echo "class='peach'";
+                                            }
+                                        ?>>
                                             <td><?php echo $p['jo_no']."-".COMPANY;?></td>
                                             <td><?php echo $p['project_title'];?></td>
                                             <td><?php echo $p['joi_date'];?></td>
@@ -158,6 +174,7 @@
                                             <td><?php echo $p['uom'];?></td>
                                             <td><?php echo $p['item'];?></td>
                                             <td><?php echo $p['status']; ?></td>
+                                            <td><?php echo $p['status_remarks']; ?></td>
                                             <td><?php echo $p['supplier'];?></td>
                                             <td><?php echo $p['terms'];?></td>
                                             <td><?php echo $p['currency'] . " ".$p['unit_price'];?></td>
