@@ -206,9 +206,15 @@ $ci =& get_instance();
                                         </tr>
                                         <tr>
                                             <td><i>Enduse:</i></td>
-                                            <td colspan="3"><b class="capital"><?php echo $h->enduse; ?> </b></td>
-                                           <!--  <td><i>WH Stock:</i></td>
-                                            <td colspan="1"><b class="capital"><?php echo $h->wh_stocks; ?></b></td> -->
+                                            <td><b class="capital"><?php echo $h->enduse; ?> </b></td>
+                                            <td><i>NEW PR #:</i></td>
+                                            <td style="padding: 0px">
+                                                <b class="capital">
+                                                    <select class="form-control">
+                                                        <option></option>
+                                                    </select>
+                                                </b>
+                                            </td>
                                            
                                         </tr>
                                         <tr>

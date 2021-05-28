@@ -100,6 +100,16 @@
                                     <span class="mini-dn">JO Issuance</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
+                                <a href="<?php echo base_url(); ?>jorfd/jorfd_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
+                                    <i class="fa big-icon fa-list-alt"></i>
+                                    <span class="mini-dn">JO Request for Disbursement</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>jodr/jodr_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
+                                    <i class="fa big-icon fa-truck "></i>
+                                    <span class="mini-dn">JO Delivery Receipt</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
                             </div>
                         </li>
 
