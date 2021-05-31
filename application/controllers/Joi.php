@@ -508,6 +508,7 @@ class Joi extends CI_Controller {
         $this->load->view('template/header');
         $joi_id = $this->uri->segment(3);
         $revised = $this->uri->segment(4);
+        $joi_tc_id = $this->uri->segment(5);
         $data['revised'] = $revised;
 
         $data['joi_id'] = $joi_id;
@@ -753,6 +754,7 @@ class Joi extends CI_Controller {
                 'recommended_by'=>$this->input->post('recommended_by'),
                 'approved_by'=>$this->input->post('approved_by'),
                 'verified_by'=>$this->input->post('verified_by'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>1,
                 'revised'=>0
             ); 
@@ -772,6 +774,7 @@ class Joi extends CI_Controller {
                 'recommended_by'=>$this->input->post('recommended_by'),
                 'approved_by'=>$this->input->post('approved_by'),
                 'verified_by'=>$this->input->post('verified_by'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>0,
                 'draft'=>1,
                 'revised'=>0
@@ -906,6 +909,7 @@ class Joi extends CI_Controller {
             $data['revision_no']=$h->revision_no;
             $data['joi_no']=$h->joi_no;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
@@ -978,6 +982,7 @@ class Joi extends CI_Controller {
             $data['revision_no']=$h->revision_no;
             $data['joi_no']=$h->joi_no;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['approved_id']=$h->approved_by;
             $data['checked_id']=$h->checked_by;
             $data['recommended_id']=$h->recommended_by;
@@ -1082,6 +1087,7 @@ class Joi extends CI_Controller {
                 'recommended_by'=>$this->input->post('recommended_by'),
                 'approved_by'=>$this->input->post('approved_by'),
                 'verified_by'=>$this->input->post('verified_by'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>1,
                 'draft'=>0,
                 'revised'=>0
@@ -1102,6 +1108,7 @@ class Joi extends CI_Controller {
                 'recommended_by'=>$this->input->post('recommended_by'),
                 'approved_by'=>$this->input->post('approved_by'),
                 'verified_by'=>$this->input->post('verified_by'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>0,
                 'draft'=>1,
                 'revised'=>0
@@ -1136,6 +1143,7 @@ class Joi extends CI_Controller {
                 'fax'=>$this->super_model->select_column_where('vendor_head', 'fax_number', 'vendor_id',$h->vendor_id),
                 'contact_person'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
             );
+            $data['joi_type']=$h->joi_type;
             $data['cenjo_no']= $h->cenpri_jo_no;
             $data['joi_no']= $h->joi_no;
             $data['project_title']= $h->project_title;
@@ -1149,6 +1157,7 @@ class Joi extends CI_Controller {
             $data['conforme']= $h->conforme;
             $data['verified_by']= $h->verified_by;
             $data['cancelled']= $h->cancelled;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['approved_id'] = $h->approved_by;
 
@@ -1211,6 +1220,7 @@ class Joi extends CI_Controller {
         $data['discount_temp'] = $this->super_model->select_column_where('joi_head_temp', 'discount', 'joi_id', $joi_id);
         $data['packing_temp'] = $this->super_model->select_column_where('joi_head_temp', 'packing_fee', 'joi_id', $joi_id);
         $data['vat_temp'] = $this->super_model->select_column_where('joi_head_temp', 'vat', 'joi_id', $joi_id);
+        $data['vat_in_ex_temp'] = $this->super_model->select_column_where('joi_head_temp', 'vat_in_ex', 'joi_id', $joi_id);
         $data['conforme_temp'] = $this->super_model->select_column_where('joi_head_temp', 'conforme', 'joi_id', $joi_id);
         $data['vat_percent_temp'] = $this->super_model->select_column_where('joi_head_temp', 'vat_percent', 'joi_id', $joi_id);
 
@@ -1365,6 +1375,7 @@ class Joi extends CI_Controller {
                 "user_id"=>$johead->user_id,
                 "vat_percent"=>$this->input->post('vat_percent'),
                 "vat"=>$this->input->post('vat_amount'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 "discount"=>$this->input->post('less_amount'),
                 "cancelled"=>$johead->cancelled,
                 "cancelled_by"=>$johead->cancelled_by,
@@ -1539,6 +1550,7 @@ class Joi extends CI_Controller {
                 "cancelled_date"=>$head->cancelled_date,
                 "vat"=>$head->vat,
                 "vat_percent"=>$head->vat_percent,
+                "vat_in_ex"=>$head->vat_in_ex,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
                 "verified_by"=>$head->verified_by,
@@ -1556,6 +1568,7 @@ class Joi extends CI_Controller {
                         "packing_fee"=>$headt->packing_fee,
                         "vat"=>$headt->vat,
                         "vat_percent"=>$headt->vat_percent,
+                        "vat_in_ex"=>$head->vat_in_ex,
                         "discount"=>$headt->discount,
                         "date_needed"=>$headt->date_needed,
                         "completion_date"=>$headt->completion_date,
@@ -1916,6 +1929,7 @@ class Joi extends CI_Controller {
             $data['revision_no']=$h->revision_no;
             $data['joi_no']=$h->joi_no;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
@@ -2120,6 +2134,24 @@ class Joi extends CI_Controller {
         );
         if($this->super_model->update_where("joi_ar", $data, "joi_id", $joi_id)){
             echo "<script>window.location ='".base_url()."joi/joi_ac/$joi_id';</script>";
+        }
+    }
+
+    public function add_tc(){
+        $joi_id = $this->input->post('joi_id');
+        $draft = $this->super_model->select_column_where("joi_head", "draft", "joi_id", $joi_id);
+        $data = array(
+            'joi_id'=>$this->input->post('joi_id'),
+            'tc_desc'=>$this->input->post('tc_desc'),
+        );
+
+
+        if($this->super_model->insert_into("joi_tc", $data)){
+            if($draft==0){
+                redirect(base_url().'joi/jo_issuance/'.$joi_id, 'refresh');
+            } else {
+                redirect(base_url().'joi/jo_issuance_draft/'.$joi_id, 'refresh');
+            }
         }
     }
 

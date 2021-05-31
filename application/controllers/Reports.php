@@ -581,6 +581,7 @@ class Reports extends CI_Controller {
                 'cancel_remarks'=>$pr->cancel_remarks,
                 'fulfilled_by'=>$pr->fulfilled_by,
                 'for_recom'=>$pr->for_recom,
+                'recom_qty'=>$pr->recom_qty,
                 'recom_by'=>$this->super_model->select_column_where('users','fullname','user_id',$pr->recom_by),
                 'recom_date_from'=>$pr->recom_date_from,
                 'recom_date_to'=>$pr->recom_date_to,
@@ -1503,6 +1504,7 @@ class Reports extends CI_Controller {
                 'recom_date_to'=>$pr->recom_date_to,
                 'cancelled'=>$pr->cancelled,
                 'recom_unit_price'=>$recom_unit_price,
+                'recom_qty'=>$pr->recom_qty,
                 'ver_date_needed'=>$ver_date_needed,
                 'cancelled_items_po'=>$cancelled_items_po,
                 'on_hold'=>$pr->on_hold,
@@ -1521,7 +1523,7 @@ class Reports extends CI_Controller {
     public function export_pr(){
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
-        $exportfilename="JOR Summary.xlsx";
+        $exportfilename="PR Summary.xlsx";
 
         $year=$this->uri->segment(3);
         $month=$this->uri->segment(4);
@@ -4319,6 +4321,7 @@ class Reports extends CI_Controller {
         $terms =$this->input->post('terms');
         $work_duration=$this->input->post('work_duration');
         $recom_unit_price=$this->input->post('recom_unit_price');
+        $recom_qty=$this->input->post('recom_qty');
         
 
         $data=array(
@@ -4329,6 +4332,7 @@ class Reports extends CI_Controller {
             'terms_id'=>$terms,
             'work_duration'=>$work_duration,
             'recom_unit_price'=>$recom_unit_price,
+            'recom_qty'=>$recom_qty,
             'recom_by'=>$_SESSION['user_id']
 
 
@@ -5887,6 +5891,7 @@ class Reports extends CI_Controller {
                         'enduse'=>$p->enduse,
                         'requestor'=>$p->requestor,
                         'quantity'=>$p->quantity,
+                        'recom_qty'=>$p->recom_qty,
                         'uom'=>$p->uom,
                         'item_description'=>$p->item_description,
                         'supplier'=>$supplier,
@@ -6071,6 +6076,7 @@ class Reports extends CI_Controller {
                     'enduse'=>$p->enduse,
                     'requestor'=>$p->requestor,
                     'quantity'=>$p->quantity,
+                    'recom_qty'=>$p->recom_qty,
                     'uom'=>$p->uom,
                     'item_description'=>$p->item_description,
                     'supplier'=>$supplier,
@@ -6179,25 +6185,26 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', "End-use");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "Requested by:");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', "QTY as per PR");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', "UoM");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "Description");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', "Supplier");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', "Site PR/JO No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', "Delivery Lead Time / Work Duration");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', "UNIT PRICE (PESO)");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', "TOTAL PESO");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K5', "15 days PDC");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', "30 days PDC");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M5', "60 days PDC");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N5', "TERMS");
-        foreach(range('A','N') as $columnID){
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', "QTY as per Recom");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "UoM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', "Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', "Supplier");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', "Site PR/JO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', "Delivery Lead Time / Work Duration");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', "UNIT PRICE (PESO)");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K5', "TOTAL PESO");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', "15 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M5', "30 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N5', "60 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O5', "TERMS");
+        foreach(range('A','O') as $columnID){
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }
         $objPHPExcel->getActiveSheet()->getStyle('E2:E3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:O5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('E2:E3')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->applyFromArray($styleArray1);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:O5')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:O5')->applyFromArray($styleArray1);
         if($filt!=''){
             $styleArray = array(
                 'borders' => array(
@@ -6220,45 +6227,46 @@ class Reports extends CI_Controller {
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->requestor");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->quantity");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->uom");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->item_description");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$supplier");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->pr_no");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->work_duration");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->recom_unit_price");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->recom_qty");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->uom");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$p->item_description");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$supplier");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->pr_no");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->work_duration");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$p->recom_unit_price");
                     if($terms!="15 days PDC" || $terms!="30 days PDC" || $terms!="60 days PDC" || $terms==""){
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $total);
-                    }else{
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "0.00");
-                    }
-
-                    if($terms=="15 days PDC"){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $total);
                     }else{
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "0.00");
                     }
 
-                    if($terms=="30 days PDC"){
+                    if($terms=="15 days PDC"){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $total);
                     }else{
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "0.00");
                     }
 
-                    if($terms=="60 days PDC"){
+                    if($terms=="30 days PDC"){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $total);
                     }else{
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "0.00");
                     }
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$terms");
+
+                    if($terms=="60 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "0.00");
+                    }
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$terms");
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                     $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('I'.$num.":M".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                    $objPHPExcel->getActiveSheet()->getStyle('J'.$num.":N".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
                     $num++; 
 
                     $disp_terms[] = array(
@@ -6269,33 +6277,33 @@ class Reports extends CI_Controller {
             $b = $num;
             foreach($disp_terms AS $var=>$key){
                 if($key['terms']!="15 days PDC" || $key['terms']!="30 days PDC" || $key['terms']!="60 days PDC" || $key['terms']==""){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$b, $total_peso);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$b, "0.00");
-                }
-                if($key['terms']=="15 days PDC"){
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso);
                 }else{
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, "0.00");
                 }
-
-                if($key['terms']=="30 days PDC"){
+                if($key['terms']=="15 days PDC"){
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso);
                 }else{
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, "0.00");
                 }
 
-                if($key['terms']=="60 days PDC"){
+                if($key['terms']=="30 days PDC"){
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso);
                 }else{
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, "0.00");
                 }
+
+                if($key['terms']=="60 days PDC"){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$b, $total_peso);
+                }else{
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$b, "0.00");
+                }
             }
-            $objPHPExcel->getActiveSheet()->setCellValue('G'.$a, "Total (in PESO)");
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$a, $total_peso);
-            $objPHPExcel->getActiveSheet()->getStyle('G'.$a.":I".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-            $objPHPExcel->getActiveSheet()->getStyle('I'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-            $objPHPExcel->getActiveSheet()->getStyle('J'.$b.":M".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->setCellValue('H'.$a, "Total (in PESO)");
+            $objPHPExcel->getActiveSheet()->setCellValue('J'.$a, $total_peso);
+            $objPHPExcel->getActiveSheet()->getStyle('H'.$a.":J".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('J'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$b.":N".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 
                 
         }else {
@@ -6341,48 +6349,49 @@ class Reports extends CI_Controller {
                 $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $p->pr_details_id, "po_id", "DESC", "1");
                 $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
                 if($served==0 && $cancelled_items_po==0){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->requestor");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->quantity");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->uom");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->item_description");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$supplier");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->pr_no");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->work_duration");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->recom_unit_price");
-                if($terms!="15 days PDC" || $terms!="30 days PDC" || $terms!="60 days PDC" || $terms==""){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $total);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "0.00");
-                }
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->requestor");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->quantity");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->recom_qty");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->uom");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$p->item_description");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$supplier");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->pr_no");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->work_duration");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$p->recom_unit_price");
+                    if($terms!="15 days PDC" || $terms!="30 days PDC" || $terms!="60 days PDC" || $terms==""){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "0.00");
+                    }
 
-                if($terms=="15 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $total);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "0.00");
-                }
+                    if($terms=="15 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "0.00");
+                    }
 
-                if($terms=="30 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $total);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "0.00");
-                }
-                
-                if($terms=="60 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $total);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "0.00");
-                }
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$terms");
+                    if($terms=="30 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "0.00");
+                    }
+
+                    if($terms=="60 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "0.00");
+                    }
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$terms");
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('I'.$num.":L".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('J'.$num.":M".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
                 $num++;
 
                 $disp_terms[] = array(
@@ -6394,26 +6403,26 @@ class Reports extends CI_Controller {
             $b = $num;
             foreach($disp_terms AS $var=>$key){
                 if($key['terms']!="15 days PDC" || $key['terms']!="30 days PDC" || $key['terms']!="60 days PDC" || $key['terms']==""){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$b, $total_peso);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso);
                 }
                 if($key['terms']=="15 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso15);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso15);
                 }
 
                 if($key['terms']=="30 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso30);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso30);
                 }
 
                 if($key['terms']=="60 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso60);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$b, $total_peso60);
                 }
             }
 
-            $objPHPExcel->getActiveSheet()->setCellValue('G'.$a, "Total (in PESO)");
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$a, $total_peso);
-            $objPHPExcel->getActiveSheet()->getStyle('G'.$a.":I".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-            $objPHPExcel->getActiveSheet()->getStyle('I'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-            $objPHPExcel->getActiveSheet()->getStyle('J'.$b.":M".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->setCellValue('H'.$a, "Total (in PESO)");
+            $objPHPExcel->getActiveSheet()->setCellValue('J'.$a, $total_peso);
+            $objPHPExcel->getActiveSheet()->getStyle('H'.$a.":J".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('J'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$b.":N".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 
     }
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
@@ -6445,6 +6454,7 @@ class Reports extends CI_Controller {
                     'enduse'=>$p->enduse,
                     'requestor'=>$p->requestor,
                     'quantity'=>$p->quantity,
+                    'recom_qty'=>$p->recom_qty,
                     'uom'=>$p->uom,
                     'item_description'=>$p->item_description,
                     'supplier'=>$supplier,
@@ -6607,6 +6617,7 @@ class Reports extends CI_Controller {
                     'enduse'=>$p->enduse,
                     'requestor'=>$p->requestor,
                     'quantity'=>$p->quantity,
+                    'recom_qty'=>$p->recom_qty,
                     'uom'=>$p->uom,
                     'item_description'=>$p->item_description,
                     'supplier'=>$supplier,
@@ -6715,25 +6726,26 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', "End-use");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "Requested by:");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', "QTY as per PR");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', "UoM");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "Description");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', "Supplier");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', "Site PR/JO No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', "Delivery Lead Time / Work Duration");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', "UNIT PRICE (PESO)");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', "TOTAL PESO");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K5', "15 days PDC");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', "30 days PDC");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M5', "60 days PDC");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N5', "TERMS");
-        foreach(range('A','N') as $columnID){
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', "QTY as per Recom");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "UoM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', "Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', "Supplier");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', "Site PR/JO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', "Delivery Lead Time / Work Duration");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', "UNIT PRICE (PESO)");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K5', "TOTAL PESO");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', "15 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M5', "30 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N5', "60 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O5', "TERMS");
+        foreach(range('A','O') as $columnID){
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }
         $objPHPExcel->getActiveSheet()->getStyle('E2:E3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:O5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('E1:E3')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:N5')->applyFromArray($styleArray1);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:O5')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:O5')->applyFromArray($styleArray1);
         if($filt!=''){
             $styleArray = array(
                 'borders' => array(
@@ -6774,45 +6786,46 @@ class Reports extends CI_Controller {
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->requestor");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->quantity");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->uom");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->item_description");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$supplier");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->pr_no");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->work_duration");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->recom_unit_price");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->recom_qty");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->uom");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$p->item_description");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$supplier");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->pr_no");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->work_duration");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$p->recom_unit_price");
                     if($terms!="15 days PDC" || $terms!="30 days PDC" || $terms!="60 days PDC" || $terms==""){
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $total);
-                    }else{
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "0.00");
-                    }
-
-                    if($terms=="15 days PDC"){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $total);
                     }else{
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "0.00");
                     }
 
-                    if($terms=="30 days PDC"){
+                    if($terms=="15 days PDC"){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $total);
                     }else{
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "0.00");
                     }
 
-                    if($terms=="60 days PDC"){
+                    if($terms=="30 days PDC"){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $total);
                     }else{
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "0.00");
                     }
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$terms");
+
+                    if($terms=="60 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "0.00");
+                    }
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$terms");
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                     $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('I'.$num.":L".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                    $objPHPExcel->getActiveSheet()->getStyle('J'.$num.":M".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
                     $num++; 
                     $disp_terms[] = array(
                         'terms'=>$terms,
@@ -6822,25 +6835,25 @@ class Reports extends CI_Controller {
             $b = $num;
             foreach($disp_terms AS $var=>$key){
                 if($key['terms']!="15 days PDC" || $key['terms']!="30 days PDC" || $key['terms']!="60 days PDC" || $key['terms']==""){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$b, $total_peso);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso);
                 }
                 if($key['terms']=="15 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso15);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso15);
                 }
 
                 if($key['terms']=="30 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso30);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso30);
                 }
 
                 if($key['terms']=="60 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso60);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$b, $total_peso60);
                 }
             }
-            $objPHPExcel->getActiveSheet()->setCellValue('G'.$a, "Total (in PESO)");
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$a, $total_peso);
-            $objPHPExcel->getActiveSheet()->getStyle('G'.$a.":I".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-            $objPHPExcel->getActiveSheet()->getStyle('I'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-            $objPHPExcel->getActiveSheet()->getStyle('J'.$b.":M".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->setCellValue('H'.$a, "Total (in PESO)");
+            $objPHPExcel->getActiveSheet()->setCellValue('J'.$a, $total_peso);
+            $objPHPExcel->getActiveSheet()->getStyle('H'.$a.":J".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('J'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$b.":N".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 
         }else {
             $num = 6;
@@ -6882,45 +6895,46 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->requestor");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->quantity");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->uom");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->item_description");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$supplier");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->pr_no");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->work_duration");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->recom_unit_price");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->recom_qty");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->uom");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$p->item_description");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$supplier");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->pr_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->work_duration");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$p->recom_unit_price");
                     if($terms!="15 days PDC" || $terms!="30 days PDC" || $terms!="60 days PDC" || $terms==""){
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $total);
-                    }else{
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "0.00");
-                    }
-
-                    if($terms=="15 days PDC"){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $total);
                     }else{
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "0.00");
                     }
 
-                    if($terms=="30 days PDC"){
+                    if($terms=="15 days PDC"){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $total);
                     }else{
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "0.00");
                     }
 
-                    if($terms=="60 days PDC"){
+                    if($terms=="30 days PDC"){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $total);
                     }else{
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "0.00");
                     }
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$terms");
+
+                    if($terms=="60 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "0.00");
+                    }
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$terms");
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                     $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('I'.$num.":L".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":N".$num)->applyFromArray($styleArray);
+                    $objPHPExcel->getActiveSheet()->getStyle('J'.$num.":M".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
                     $num++;
                     $disp_terms[] = array(
                         'terms'=>$terms,
@@ -6931,25 +6945,25 @@ class Reports extends CI_Controller {
         $b = $num;
         foreach($disp_terms AS $var=>$key){
             if($key['terms']!="15 days PDC" || $key['terms']!="30 days PDC" || $key['terms']!="60 days PDC" || $key['terms']==""){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$b, $total_peso);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso);
             }
             if($key['terms']=="15 days PDC"){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso15);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso15);
             }
 
             if($key['terms']=="30 days PDC"){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso30);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso30);
             }
 
             if($key['terms']=="60 days PDC"){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso60);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$b, $total_peso60);
             }
         }
-        $objPHPExcel->getActiveSheet()->setCellValue('G'.$a, "Total (in PESO)");
-        $objPHPExcel->getActiveSheet()->setCellValue('I'.$a, $total_peso);
-        $objPHPExcel->getActiveSheet()->getStyle('G'.$a.":I".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('I'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-        $objPHPExcel->getActiveSheet()->getStyle('J'.$b.":M".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $objPHPExcel->getActiveSheet()->setCellValue('H'.$a, "Total (in PESO)");
+        $objPHPExcel->getActiveSheet()->setCellValue('J'.$a, $total_peso);
+        $objPHPExcel->getActiveSheet()->getStyle('H'.$a.":J".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('J'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $objPHPExcel->getActiveSheet()->getStyle('K'.$b.":N".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
     }
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
@@ -7004,13 +7018,23 @@ class Reports extends CI_Controller {
         $count = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' AND proj_act_id='$proj_act_id' ORDER BY ver_date_needed DESC");
         if($count!=0){
             foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' AND proj_act_id='$proj_act_id' ORDER BY ver_date_needed DESC") AS $cp){
+                $actual_price = $this->super_model->select_column_where('po_items','unit_price',"po_items_id",$cp->pr_details_id);
+                $quantity = $this->super_model->select_column_where('pr_details','quantity',"pr_details_id",$cp->pr_details_id);
                 $cal_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $cp->pr_details_id);
                 $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$cp->pr_details_id' AND recommended='1'");
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
                 $total_array[] = $cp->estimated_price;
                 $total_est = array_sum($total_array);
-                $total_arrayp[] = $cal_unit_price;
-                $total_unit = array_sum($total_arrayp);
+                $total_est_price = $quantity * $cp->estimated_price;
+                $total_array_tep[] = $total_est_price;
+                $total_ep = array_sum($total_array_tep);
+                $actual_total_price = $quantity * $actual_price;
+                $total_array_ap[] = $actual_price;
+                $total_actual = array_sum($total_array_ap);
+                $total_array_tap[] = $actual_total_price;
+                $total_actualp = array_sum($total_array_tap);
+                //$total_arrayp[] = $cal_unit_price;
+                //$total_unit = array_sum($total_arrayp);
                 $status= $this->item_status($cp->pr_details_id);
                 if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
                     $data['purch'][]=array(
@@ -7019,13 +7043,20 @@ class Reports extends CI_Controller {
                         'enduse'=>$this->super_model->select_column_where('pr_head','enduse',"pr_id",$cp->pr_id),
                         'requestor'=>$this->super_model->select_column_where('pr_head','requestor',"pr_id",$cp->pr_id),
                         'item_description'=>$this->super_model->select_column_where('pr_details','item_description',"pr_details_id",$cp->pr_details_id),
-                        'quantity'=>$this->super_model->select_column_where('pr_details','quantity',"pr_details_id",$cp->pr_details_id),
+                        'quantity'=>$quantity,
                         'uom'=>$this->super_model->select_column_where('pr_details','uom',"pr_details_id",$cp->pr_details_id),
                         'estimated_price'=>$cp->estimated_price,
                         'unit_price'=>$cal_unit_price,
                         'supplier'=>$supplier,
                         'total_est'=>$total_est,
-                        'total_unit'=>$total_unit,
+                        'total_ep'=>$total_ep,
+                        'total_actual'=>$total_actual,
+                        'total_actualp'=>$total_actualp,
+                        'estimated_total_price'=>$total_est_price,
+                        'actual_total_price'=>$actual_total_price,
+                        //'total_unit'=>$total_unit,
+                        'actual_price'=>$actual_price,
+                        //'ver_date_needed'=>$cp->ver_date_needed,
                     );
                 }
             }
@@ -7096,6 +7127,7 @@ class Reports extends CI_Controller {
                     'pr_calendar_id'=>$cp->pr_calendar_id,
                     'pr_details_id'=>$cp->pr_details_id,
                     'proj_activity'=>$this->super_model->select_column_where('project_activity','proj_activity',"proj_act_id",$cp->proj_act_id),
+                    'status'=>$this->super_model->select_column_where('project_activity','status',"proj_act_id",$cp->proj_act_id),
                     'c_remarks'=>$this->super_model->select_column_where('project_activity','c_remarks',"proj_act_id",$cp->proj_act_id),
                     'pr_no'=>$prno,
                     'duration'=>$this->super_model->select_column_where('project_activity','duration',"proj_act_id",$cp->proj_act_id),

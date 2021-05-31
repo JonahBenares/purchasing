@@ -366,7 +366,7 @@
 					    			$gtotal[] = $it->amount;
 				    			?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo " - ".nl2br($it->offer)."<br><br>"; ?></td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->offer)."<br><br>"; ?></td>
 		    						<td class="f13" align="center"><?php echo number_format($it->delivered_quantity,2); ?></td>
 		    						<td class="f13" align="center"><?php echo $it->uom; ?></td>
 		    						<td class="f13" align="center"><?php echo $it->unit_price; ?></td>
@@ -391,7 +391,7 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<?php echo " - ".nl2br($n->notes)."<br><br>"; ?>
+		    							<?php echo nl2br($n->notes)."<br><br>"; ?>
 		    						</td>
 		    						<td></td>
 		    						<td></td>
@@ -446,11 +446,15 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
-		    				<b>Terms and Conditions:</b><br>
-		    				<?php $x=1; ?>
+		    			<td colspan="20" style="padding: 10px!important">
+		    				Terms & Conditions:<br>
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?> 	
+                            <br>
+		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				echo $x."."; ?> Payment term: <?php echo $payment_terms ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>	
@@ -470,21 +474,21 @@
 							</button><br>
 		    				<?php $x++; } ?>
 		    				<?php 
+		    					//$no=8;
 		    					foreach($tc AS $t){ 
 		    						if(!empty($t->tc_desc)){
 			    						echo $x.". " . $t->tc_desc;
-			    				?>
-			    				<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->joi_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+			    			?>
+			    				<a class='btn btn-primary btn-xs' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->joi_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
 			    					<span class = 'fa fa-edit'></span>
 			    				</a>
 			    				<br>
 			    				<?php
-			    					$x++; 
+			    						$x++; 
 			    					}
 		    					} 
 		    				?>
 		    			</td>
-		    			<td colspan="9"></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>

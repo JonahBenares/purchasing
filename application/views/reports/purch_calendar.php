@@ -184,6 +184,7 @@
                                             <th><span class="nowrap">Target Completion</span></th>
                                             <th><span class="nowrap">Actual Start</span></th>
                                             <th><span class="nowrap">Actual Completion</span></th>
+
                                            <!--  <th>Verified Date Needed</th>
                                             <th>Estimated Price</th> -->
                                             <th><span class="nowrap">Est. Total(Materials)</span></th>
@@ -218,6 +219,7 @@
                                                 </center></td> -->
                                             <td><?php echo $x; ?></td>
                                             <td><?php echo $pc['proj_activity']; ?></td>
+                                            <td><?php echo $pc['status']; ?></td>
                                             <td><?php echo $pc['c_remarks']; ?></td>
                                             <td>
                                                 <a class="btn btn-link" style="color:blue" data-toggle="modal" id="show" data-target="#exampleModal" data-id = '<?php echo $pc['proj_act_id'] ?>' data-year="<?php echo $year; ?>"><?php echo $pc['pr_no']; ?></a></td>

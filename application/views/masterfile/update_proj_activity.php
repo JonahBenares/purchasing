@@ -65,6 +65,9 @@
                                                             <select type="text" name="status" class="form-control">
                                                                 <option value = "Active" <?php echo (($pa->status == 'Active') ? ' selected' : '');?>>Active</option>
                                                                 <option value = "Inactive" <?php echo (($pa->status == 'Inactive') ? ' selected' : '');?>>Inactive</option>
+                                                                <option value = "Cancelled" <?php echo (($pa->status == 'Cancelled') ? ' selected' : '');?>>Cancelled</option>
+                                                                <option value = "On-hold" <?php echo (($pa->status == 'On-hold') ? ' selected' : '');?>>On-hold</option>
+                                                                <option value = "Completed" <?php echo (($pa->status == 'Completed') ? ' selected' : '');?>>Completed</option>
                                                             </select>
                                                         </div>
                                                             <input type = "hidden" name = "proj_act_id" value="<?php echo $id; ?>">
