@@ -5,12 +5,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.dataTables.min.css">
     <style type="text/css">
-        tr td, tr th{
-            white-space: nowrap!important;
+        tr td{
+            vertical-align: text-top!important;
+            /*white-space: nowrap;*/
             /*border: 1px solid #000;*/
         }
-        tr td.nowrap{
-            white-space: normal;
+        .nowrap{
+            white-space: nowrap!important;
         }
         tr.fd td{
             background-color: #b9ffb9;
@@ -174,22 +175,22 @@
                                     <thead>
                                         <tr>
                                             <!-- <th></th> -->
-                                            <th>Item Number</th>
-                                            <th>Project / Activity</th>
-                                            <th>Remarks</th>
-                                            <th>PR No/s.</th>
-                                            <th>Duration (# of Days)</th>
-                                            <th>Target Start date</th>
-                                            <th>Target Completion</th>
-                                            <th>Actual Start</th>
-                                            <th>Actual Completion</th>
+                                            <th><span class="nowrap">#</span></th>
+                                            <th style="width:300px"><span class="nowrap">Project / Activity</span></th>
+                                            <th><span class="nowrap">Remarks</span></th>
+                                            <th><span class="nowrap">PR No/s.</span></th>
+                                            <th><span class="nowrap">Duration (# of Days)</span></th>
+                                            <th><span class="nowrap">Target Start date</span></th>
+                                            <th><span class="nowrap">Target Completion</span></th>
+                                            <th><span class="nowrap">Actual Start</span></th>
+                                            <th><span class="nowrap">Actual Completion</span></th>
                                            <!--  <th>Verified Date Needed</th>
                                             <th>Estimated Price</th> -->
-                                            <th>Est. Total(Materials)</th>
-                                            <th>Total (Weekly Schedule)</th>
+                                            <th><span class="nowrap">Est. Total(Materials)</span></th>
+                                            <th><span class="nowrap">Total (Weekly Schedule)</span></th>
                                             <?php
                                             while (date('Y', $nextMonday) == $year) {
-                                                    echo "<th>" . date('M d', $nextMonday), '-', date('M d', $nextSaturday).", ".$year . "</th>";
+                                                    echo "<th><span class='nowrap'>" . date('M d', $nextMonday), '-', date('M d', $nextSaturday).", ".$year . "</span></th>";
 
                                                     $nextMonday = strtotime('+1 week', $nextMonday);
                                                     $nextSaturday = strtotime('+1 week', $nextSaturday);
@@ -228,7 +229,7 @@
                                             <!-- <td><?php echo date('F j, Y', strtotime($pc['ver_date_needed'])); ?></td>
                                             <td><?php echo number_format($pc['estimated_price'],2); ?></td> -->
                                             <td><?php echo number_format($pc['est_total_materials'],2); ?></td>
-                                            <td>
+                                            <td >
                                             <?php    $total = array();
                                             // 
                                              
