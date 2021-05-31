@@ -1414,7 +1414,7 @@ class Reports extends CI_Controller {
     public function export_pr(){
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
-        $exportfilename="JOR Summary.xlsx";
+        $exportfilename="PR Summary.xlsx";
 
         $year=$this->uri->segment(3);
         $month=$this->uri->segment(4);
