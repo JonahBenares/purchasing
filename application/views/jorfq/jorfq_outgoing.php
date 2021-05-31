@@ -256,19 +256,31 @@
 			    		</td>
 			    	</tr> -->		    		
 		    		<tr>
+		    			<td colspan="10">
+		    				<div style="margin: 10px">
+			    				<b>Scope of Work:</b>
+			    				<br>
+			    				<?php foreach($items AS $i){ ?>
+			    				<?php echo " - ".nl2br($i->scope_of_work)."<br>"; ?><br>
+			    				<?php } ?>
+			    				
+							</div>
+		    			</td>
+		    			<td class="bor-btm" colspan="9">
+		    				<div style="margin: 10px; vertical-align: bottom;"></div>
+		    			</td>
+		    			<td  colspan="1">
+		    			</td>
+		    		</tr>
+		    		<tr>
 		    			<td colspan="20">
 		    				<div style="margin: 10px">
-		    				<b>Scope of Work:</b>
-		    				<br>
-		    				<?php foreach($items AS $i){ ?>
-		    				<?php echo " - ".nl2br($i->scope_of_work)."<br>"; ?><br><br>
-		    				<?php } ?>
-		    				<b>Notes:</b>
-		    				<br>
-		    				<?php $x=1; foreach($rfq_notes AS $n){ ?>
-		    				<?php echo $x.". ".$n->notes."<br>"; ?>
-		    				<?php $x++; } ?>
-							</div>
+			    				<b>Notes:</b>
+			    				<br>
+			    				<?php $x=1; foreach($rfq_notes AS $n){ ?>
+			    				<?php echo $x.". ".$n->notes."<br>"; ?>
+			    				<?php $x++; } ?>
+			    			</div>	
 		    			</td>
 		    		</tr>
 		    		<tr><td class="f13  p-l-5" colspan="20" align="left"><br></td></tr>	
@@ -289,15 +301,64 @@
 		    		
 		    		<tr><td class="f13  p-l-5" colspan="20" align="left"><br></td></tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
-		    		<tr>
+		    		<!-- <tr>
 		    			<td class="f13 p-l-10" colspan="3">Supplier's Name:</td>
-		    			<td class="f13 bor-btm" colspan="16" align="right"><?php echo $vendor; ?></td>
+		    			<td class="f13 bor-btm" colspan="16" align="left"><?php echo $vendor; ?></td>
 		    			<td class="f13" colspan="1"></td>		    			
+		    		</tr> -->
+		    		<tr>
+		    			<td class="f13 p-l-10" colspan="19">
+		    				<table width="100%">
+		    					<tr>
+		    						<td width="11%">Supplier's Name:</td>
+		    						<td class="f13 bor-btm" width="65%" align="left"><?php echo $vendor; ?></td>
+		    					</tr>
+		    				</table>
+		    			</td>
+		    			<td class="f13" colspan="1"></td>			    			
 		    		</tr>
 		    		<tr>
-		    			<td class="f13 p-l-10" colspan="3">Contact Number:</td>
-		    			<td class="f13 bor-btm" colspan="16" align="right"><?php echo $phone; ?></td>
-		    			<td class="f13" colspan="1"></td>		
+		    			<td class="f13  p-l-10" colspan="10">
+		    				<table width="100%">
+		    					<tr>
+		    						<td width="25%">Contact Number:</td>
+		    						<td class="f13 bor-btm" width="65%" align="left"><?php echo $phone; ?></td>
+		    					</tr>
+		    				</table>
+		    			</td>
+		    			<td class="f13 p-l-10" colspan="9">
+		    				<table width="100%">
+		    					<tr>
+		    						<td width="25%">Duration:</td>
+		    						<td class="f13 bor-btm" width="65%" align="left"><?php echo $duration; ?></td>
+		    					</tr>
+		    				</table>
+		    			</td>
+		    			<td class="f13" colspan="1"></td>	
+		    		</tr>
+		    		<tr>
+		    			<td class="f13  p-l-10" colspan="10">
+		    				<table width="100%">
+		    					<tr>
+		    						<td width="25%">Warranty:</td>
+		    						<td class="f13 bor-btm" width="65%" align="left"></td>
+		    					</tr>
+		    				</table>
+		    			</td>
+		    			<td class="f13 p-l-10" colspan="9">
+		    				<table width="100%">
+		    					<tr>
+		    						<td width="25%">Payment Terms:</td>
+		    						<td class="f13 bor-btm" width="65%" align="left"></td>
+		    					</tr>
+		    				</table>
+		    			</td>
+		    			<td class="f13" colspan="1"></td>	
+		    		</tr>
+		    		<!-- <tr>
+		    			<td class="f13" colspan="3">Payment Terms:</td>
+		    			<td class="f13" colspan="5" align="left"><?php echo $phone; ?></td>
+		    			<td class="f13" colspan="1"></td>	
 		    		</tr>
 		    		<tr>
 		    			<td class="f13 p-l-10" colspan="3">Duration:</td>
@@ -313,7 +374,7 @@
 		    			<td class="f13 p-l-10" colspan="3">Payment Terms:</td>
 		    			<td class="f13 bor-btm" colspan="16"></td>
 		    			<td col></td>
-		    		</tr>
+		    		</tr> -->
 
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<tr>
