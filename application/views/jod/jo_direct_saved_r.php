@@ -359,7 +359,7 @@
 					    			$gtotal[] = $it->amount;
 				    			?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo " - ".nl2br($it->offer)."<br><br>"; ?></td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->offer)."<br><br>"; ?></td>
 		    						<td class="f13" align="center"><?php echo number_format($it->delivered_quantity,2); ?></td>
 		    						<td class="f13" align="center"><?php echo $it->uom; ?></td>
 		    						<td class="f13" align="center"><?php echo $it->unit_price; ?></td>
@@ -384,7 +384,7 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<?php echo " - ".nl2br($n->notes)."<br><br>"; ?>
+		    							<?php echo nl2br($n->notes)."<br><br>"; ?>
 		    						</td>
 		    						<td></td>
 		    						<td></td>

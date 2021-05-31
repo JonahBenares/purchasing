@@ -64,6 +64,7 @@
              var po_offer_id = $(this).data('offerid');
              var status = $(this).data('status');
              var recom_unit_price = $(this).data('price');
+             var recom_qty = $(this).data('recomqty');
               var pr_id = $(this).data('prid');
                $(".modal #pr_id").val(pr_id);
               $(".modal #status").val(status);
@@ -73,6 +74,7 @@
              $(".modal #remarks").val(remarks);
              $(".modal #po_offer_id").val(po_offer_id);
              $(".modal #recom_unit_price").val(recom_unit_price);
+             $(".modal #recom_qty").val(recom_qty);
         });
     </script>
      <script type="text/javascript">
@@ -565,11 +567,15 @@
                                 <?php } ?>
                             </select>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
+                                <label>Quantity:</label>
+                                    <input placeholder="Quantity" name="recom_qty" class="form-control" type="text" id="recom_qty">
+                                </div>
+                            <div class="col-lg-3">
                                 <label>Unit Price:</label>
                                     <input placeholder="Unit Price" name="recom_unit_price" class="form-control" type="text" id="recom_unit_price">
                                 </div>
-                            </div>   
+                              </div>   
                         </div>
                     </div>
                     <div class="modal-footer">

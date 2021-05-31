@@ -423,7 +423,7 @@
 			    						$gtotal2[] = $det->amount;
 		    					?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo " - ".nl2br($det->offer)."<br><br>"; ?></td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->offer)."<br><br>"; ?></td>
 		    						<td class="f13" align="center"><?php echo $det->delivered_quantity; ?></td>
 		    						<td class="f13" align="center"><?php echo $det->uom; ?></td>
 		    						<td class="f13" align="center"><?php echo $det->unit_price; ?></td>
@@ -448,7 +448,7 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<?php echo " - ".$n->notes."<br><br>"; ?>
+		    							<?php echo $n->notes."<br><br>"; ?>
 		    						</td>
 		    						<td></td>
 		    						<td></td>

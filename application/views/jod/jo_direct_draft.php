@@ -407,7 +407,7 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<?php echo " - ".nl2br($n->notes); ?><br><br>
+		    							<?php echo nl2br($n->notes); ?><br><br>
 		    						</td>
 		    						<td></td>
 		    						<td></td>
