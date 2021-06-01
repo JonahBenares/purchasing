@@ -7033,8 +7033,8 @@ class Reports extends CI_Controller {
                 $total_actual = array_sum($total_array_ap);
                 $total_array_tap[] = $actual_total_price;
                 $total_actualp = array_sum($total_array_tap);
-                //$total_arrayp[] = $cal_unit_price;
-                //$total_unit = array_sum($total_arrayp);
+                $total_arrayp[] = $cal_unit_price;
+                $total_unit = array_sum($total_arrayp);
                 $status= $this->item_status($cp->pr_details_id);
                 if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
                     $data['purch'][]=array(
@@ -7054,9 +7054,9 @@ class Reports extends CI_Controller {
                         'total_actualp'=>$total_actualp,
                         'estimated_total_price'=>$total_est_price,
                         'actual_total_price'=>$actual_total_price,
-                        //'total_unit'=>$total_unit,
+                        'total_unit'=>$total_unit,
                         'actual_price'=>$actual_price,
-                        //'ver_date_needed'=>$cp->ver_date_needed,
+                        'ver_date_needed'=>$cp->ver_date_needed,
                     );
                 }
             }
