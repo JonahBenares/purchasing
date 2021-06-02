@@ -359,7 +359,7 @@
 					    			$gtotal[] = $it->amount;
 				    			?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo " - ".nl2br($it->offer)."<br><br>"; ?></td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->offer)."<br><br>"; ?></td>
 		    						<td class="f13" align="center"><?php echo number_format($it->delivered_quantity,2); ?></td>
 		    						<td class="f13" align="center"><?php echo $it->uom; ?></td>
 		    						<td class="f13" align="center"><?php echo $it->unit_price; ?></td>
@@ -384,7 +384,7 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<?php echo " - ".nl2br($n->notes)."<br><br>"; ?>
+		    							<?php echo nl2br($n->notes)."<br><br>"; ?>
 		    						</td>
 		    						<td></td>
 		    						<td></td>
@@ -439,45 +439,37 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
-		    				<b>Terms and Conditions:</b><br>
-		    				<?php $x=1; ?>
-		    				<?php if(!empty($payment_terms)){ 
-		    				echo $x."."; ?> Payment term: <?php echo $payment_terms ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
-							 <span class = "fa fa-edit"></span>
-							</button><br>
-		    				<?php $x++; } ?>	
-		    				<?php if(!empty($item_warranty)){ 
-		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
-							 <span class = "fa fa-edit"></span>
-							</button><br>
-		    				<?php $x++; } ?>
-		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
-							 <span class = "fa fa-edit"></span>
-							</button><br>
-		    				<?php $x++; } ?>
-		    				<?php if(!empty($freight)){ 
-		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
-							 <span class = "fa fa-edit"></span>
-							</button><br>
-		    				<?php $x++; } ?>
+		    			<td colspan="20" style="padding: 10px!important">
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?><br>
+		    				<?php if(!empty($payment_terms)){ ?>
+		    				4. Payment term: <?php echo $payment_terms; ?><br>
+		    				<?php } ?>	
+		    				<?php if(!empty($item_warranty)){ ?>
+		    				5. Item Warranty: <?php echo $item_warranty; ?><br>
+		    				<?php } ?>
+		    				<?php if(!empty($delivery_time)){ ?>
+		    				6. Delivery Time: <?php echo $delivery_time; ?><br>
+		    				<?php } ?>
+		    				<?php if(!empty($freight)){ ?>
+		    				7. In-land Freight: <?php echo $freight; ?><br>
+		    				<?php } ?>
 		    				<?php 
+		    					//$no=8;
+		    					if(!empty($payment_terms) || !empty($item_warranty) || !empty($delivery_time) || !empty($freight)){
+		    						$no=8;
+		    					}else {
+		    						$no=4;
+		    					}
 		    					foreach($tc AS $t){ 
 		    						if(!empty($t->tc_desc)){
-			    						echo $x.". " . $t->tc_desc;
-			    				?>
-			    				<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->joi_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
-			    					<span class = 'fa fa-edit'></span>
-			    				</a>
-			    				<br>
-			    				<?php
-			    					$x++; 
+			    						echo $no.". " . $t->tc_desc."<br>";
+			    						$no++; 
 			    					}
 		    					} 
 		    				?>
 		    			</td>
-		    			<td colspan="9"></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>

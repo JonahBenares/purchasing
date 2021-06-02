@@ -336,7 +336,7 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
-		    							<b class="nomarg"><?php echo " - ".nl2br($it['offer'])."<br><br>"; ?></b>
+		    							<b class="nomarg"><?php echo nl2br($it['offer'])."<br><br>"; ?></b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
@@ -381,7 +381,7 @@
 		    					<?php $y=1; foreach($notes AS $n){ ?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<?php echo " - ".nl2br($n->notes); ?><br><br>
+		    							<?php echo nl2br($n->notes); ?><br><br>
 		    						</td>
 		    						<td></td>
 		    						<td></td>
@@ -439,16 +439,21 @@
 		    		</tr>
 		    		<tr><td class="f13  p-l-5" colspan="20" align="left"><br></td></tr>	
 		    		<tr>
-		    			<td class="f13  p-l-5" colspan="20" align="left">
-			    			<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#addterms">
-							  <span class="fa fa-plus"></span> Terms & Conditions:
-							</button>		    			
-			    		</td>
-			    	</tr>	
-		    		<tr>
-		    			<td class="f13 p-l-5" colspan="11" align="left">
-		    				<b>Terms & Conditions:</b><br>
-		    				<?php $x=1; ?>
+		    			<td colspan="20" style="padding: 10px!important">
+		    				<button type="button" class="btn btn-primary btn-xs prnt" data-toggle="modal" data-target="#exampleModal">
+							 Add Terms & Conditions
+							</button>
+							<?php $x=3; ?>
+		    				<br>Terms & Conditions:<br>
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is 
+                            	<select type="text" name="vat_in_ex">
+                                    <option value = "0">inclusive of VAT</option>
+                                    <option value = "1">exclusive of VAT</option>
+                                </select>		    				
+                            <br>
+			    			<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
 		    				echo $x."."; ?> Payment term: <?php echo $payment_terms ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
@@ -470,6 +475,8 @@
 							</button><br>
 		    				<?php $x++; } ?>
 		    				<?php 
+		    					//$no=8;
+		    			
 		    					foreach($tc AS $t){ 
 		    						if(!empty($t->tc_desc)){
 			    						echo $x.". " . $t->tc_desc;
@@ -482,9 +489,8 @@
 			    					$x++; 
 			    					}
 		    					} 
-		    				?>
+		    				?>		    					
 		    			</td>
-		    			<td colspan="9"></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
@@ -618,6 +624,33 @@
 	    	<input type="hidden" name='joi_id' value="<?php echo $joi_id; ?>">
     	</form>
     </div>
+        	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Terms & Conditions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>joi/add_tc">
+						<div class="modal-body">	
+							<div class="form-group">
+								Terms & Conditions:
+								<input type="text" class="form-control" name="tc_desc" autocomplete="off">
+							</div>
+						</div>
+						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
     <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">

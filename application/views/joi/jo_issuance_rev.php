@@ -423,7 +423,7 @@
 			    						$gtotal2[] = $det->amount;
 		    					?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo " - ".nl2br($det->offer)."<br><br>"; ?></td>
+		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->offer)."<br><br>"; ?></td>
 		    						<td class="f13" align="center"><?php echo $det->delivered_quantity; ?></td>
 		    						<td class="f13" align="center"><?php echo $det->uom; ?></td>
 		    						<td class="f13" align="center"><?php echo $det->unit_price; ?></td>
@@ -448,7 +448,7 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<?php echo " - ".$n->notes."<br><br>"; ?>
+		    							<?php echo $n->notes."<br><br>"; ?>
 		    						</td>
 		    						<td></td>
 		    						<td></td>
@@ -577,48 +577,64 @@
 		    				</table>
 		    			</td>
 		    		</tr> -->
-		    		<?php if($revised==0){ ?>	
 		    		<tr>
-		    			<td class="f13  p-l-5" colspan="20" align="left">
-			    			<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#addterms">
-							  <span class="fa fa-plus"></span> Terms & Conditions:
-							</button>		    			
-			    		</td>
-			    	</tr>
-			    	<?php } ?>
-		    		<tr>
-		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
-		    				<b>Terms and Conditions:</b><br>
-		    				<?php $x=1; ?>
+		    			<td colspan="20" style="padding: 10px!important">
+		    				<?php if($revised==0){ ?>
+		    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#addterms">
+							 Add Terms & Conditions
+							</button>
+							<?php } ?>
+		    				<br>Terms & Conditions:<br>
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is
+                           <?php 
+                            if($revised==0){ ?>
+                                <select type="text" name="vat_in_ex">
+                                    <option value = "0" <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : '');?>>inclusive of VAT</option>
+                                    <option value = "1" <?php echo (($vat_in_ex == '1') ? 'exclusive of VAT' : '');?>>exclusive of VAT</option>
+                                </select>	
+                            <?php } else { ?>
+                               <<?php echo (($vat_in_ex_temp == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?>
+                            <?php } ?>
+	                        <br>
+		    				<?php if($joi_type!=1){ $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				echo $x."."; ?> Payment term: <?php echo $payment_terms ?> <br>
+		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
 		    				<?php $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?> <br>
+		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <br>
+		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?> <br>
-		    				<?php $x++; } ?>
+		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?><br>
+		    				<?php $x++; } } ?>
 		    				<?php 
+		    				
+		    					$y = 1;
+		    					$x = 4;
 		    					if($revised==0){
-		    					foreach($tc AS $t){ 
-		    						if(!empty($t->tc_desc)){
-			    						echo $x.". " . $t->tc_desc;
+		    						foreach($tc AS $t){ 
+		    							if(!empty($t->tc_desc)){
 			    			?>
-			    			<br>
-		    				<?php $x++; } } } else { 
-			    					foreach($tc_temp AS $t){
-				    					if(!empty($t->tc_desc)){
-					    					echo $x.". " . $t->tc_desc;
-					    				}
-					    			}
-				    			}
-			    			?>
+			    				<?php echo $x.". "; ?><input type = "text" style='color:red;width: 90%' name = "terms<?php echo $y; ?>" value = "<?php echo $t->tc_desc; ?>"><br>
+			    			<?php
+				    					}
+				    					$x++;
+				    					$y++;
+			    					} 
+		    					}else { 
+		    						foreach($tc AS $t){ 
+			    						if(!empty($t->tc_desc)){
+				    						echo $x.". " . $t->tc_desc."<br>";
+				    						$x++; 
+				    					}
+			    					} 
+			    				}
+		    				?>
 		    			</td>
-		    			<td colspan="9"></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
