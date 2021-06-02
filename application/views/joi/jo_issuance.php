@@ -336,7 +336,7 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
-		    							<b class="nomarg"><?php echo " - ".nl2br($it['offer'])."<br><br>"; ?></b>
+		    							<b class="nomarg"><?php echo nl2br($it['offer'])."<br><br>"; ?></b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
@@ -381,7 +381,7 @@
 		    					<?php $y=1; foreach($notes AS $n){ ?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<?php echo " - ".nl2br($n->notes); ?><br><br>
+		    							<?php echo nl2br($n->notes); ?><br><br>
 		    						</td>
 		    						<td></td>
 		    						<td></td>

@@ -176,6 +176,7 @@
                                             <!-- <th></th> -->
                                             <th>Item Number</th>
                                             <th>Project / Activity</th>
+                                            <th>Status</th>
                                             <th>Remarks</th>
                                             <th>PR No/s.</th>
                                             <th>Duration (# of Days)</th>
@@ -217,6 +218,7 @@
                                                 </center></td> -->
                                             <td><?php echo $x; ?></td>
                                             <td><?php echo $pc['proj_activity']; ?></td>
+                                            <td><?php echo $pc['status']; ?></td>
                                             <td><?php echo $pc['c_remarks']; ?></td>
                                             <td>
                                                 <a class="btn btn-link" style="color:blue" data-toggle="modal" id="show" data-target="#exampleModal" data-id = '<?php echo $pc['proj_act_id'] ?>' data-year="<?php echo $year; ?>"><?php echo $pc['pr_no']; ?></a></td>

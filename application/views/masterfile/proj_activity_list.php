@@ -100,6 +100,9 @@
                                                                 <option value = "">--Select Status--</option>
                                                                 <option value = "Active">Active</option>
                                                                 <option value = "Inactive">Inactive</option>
+                                                                <option value = "Cancelled">Cancelled</option>
+                                                                <option value = "On-hold">On hold</option>
+                                                                <option value = "Completed">Completed</option>
                                                             </select>
                                                         </div>
                                                         <center>
