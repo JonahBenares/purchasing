@@ -796,7 +796,7 @@ class Jor extends CI_Controller {
                 if($rows==0){
                     $rfq_no= $rfq_format."-1001";
                 } else {
-                    $series = $this->super_model->get_max("rfq_series", "series","year_month LIKE '$rfqdet%'");
+                    $series = $this->super_model->get_max("jor_rfq_series", "series","year_month LIKE '$rfqdet%'");
                     $next=$series+1;
                     $rfq_no = $rfq_format."-".$next;
                 }
@@ -811,7 +811,7 @@ class Jor extends CI_Controller {
                 );
                 $this->super_model->insert_into("jor_rfq_series", $rfq_data);
 
-                $rows_head = $this->super_model->count_rows("rfq_head");
+                $rows_head = $this->super_model->count_rows("jo_rfq_head");
                 if($rows_head==0){
                     $jo_rfq_id=1;
                 } else {
