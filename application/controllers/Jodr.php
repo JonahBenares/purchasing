@@ -42,12 +42,179 @@ class Jodr extends CI_Controller {
 	}    
 
     public function jodr_list(){
+    	$count = $this->super_model->count_rows("joi_dr");
+        if($count!=0){
+            foreach($this->super_model->select_all("joi_dr", "joi_dr_date", "DESC") AS $d){
+                foreach($this->super_model->select_custom_where("joi_dr_items", "joi_dr_id = '$d->joi_dr_id' GROUP BY joi_dr_id") AS $da){
+                    $data['head'][]=array(
+                        'joi_id'=>$d->joi_id,
+                        'joi_rfd_id'=>$d->joi_rfd_id,
+                        'joi_dr_id'=>$d->joi_dr_id,
+                        'joi_dr_no'=>$d->joi_dr_no,
+                        'joi_dr_type'=>$d->joi_dr_type,
+                        'joi_dr_date'=>$d->joi_dr_date,
+                    );
+                }
+            }
+        }else{
+            $data['head']=array();
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar'); 
         $this->load->view('jodr/jodr_list');
         $this->load->view('template/footer');
     }
     
-}
+    public function add_dr(){
+        $dr_count = $this->super_model->count_rows("joi_dr");
+        if($dr_count==0){
+            $joi_dr_id=1;
+            $joi_dr_no = 1000;
+        } else {
+            $maxid=$this->super_model->get_max("joi_dr", "joi_dr_id");
+            $maxno=$this->super_model->get_max("joi_dr", "joi_dr_no");
+            $joi_dr_id=$maxid+1;
+            $joi_dr_no = $maxno + 1;
+        }
 
+        $data= array(
+            'joi_dr_id'=>$joi_dr_id,
+            'joi_dr_no'=>$joi_dr_no,
+            'joi_dr_type'=>2,
+            'joi_dr_date'=>$this->input->post('joi_dr_date'),
+        );
+        if($this->super_model->insert_into("joi_dr", $data)){
+            redirect(base_url().'jodr/jodr_prnt/'.$joi_dr_id, 'refresh');
+        }
+    }
+
+    public function dr_prnt(){   
+        $data['details'] = array();
+        $this->load->view('template/header');
+        $dr_id=$this->uri->segment(3);
+        $data['dr_id']=$dr_id;
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
+        $data['saved']=$this->super_model->select_column_where('po_dr','saved','dr_id',$dr_id);
+        foreach($this->super_model->select_row_where("po_dr", "dr_id", $dr_id) AS $head){
+            $data['dr_no']=$head->dr_no;
+            $data['date']=$head->dr_date;
+        }
+
+        foreach($this->super_model->select_row_where("po_dr_details", "dr_id", $dr_id) AS $det){
+            $data['details'][] = array(
+                'dr_details_id'=>$det->dr_details_id,
+                'notes'=>$det->notes,
+                'purpose'=>$det->purpose,
+                'requestor'=>$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $det->requestor),
+                'enduse'=>$det->enduse,
+            ); 
+        }
+
+        foreach($this->super_model->select_row_where("po_dr_items", "dr_id", $dr_id) AS $items){
+            $unit_id = $this->super_model->select_column_where('item', 'unit_id', 'item_id', $items->item_id);
+            $data['items'][] = array(
+                'id'=>$items->dr_items_id,
+                'item'=>$this->super_model->select_column_where('item', 'item_name', 'item_id', $items->item_id),
+                'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $items->vendor_id),
+                'specs'=>$this->super_model->select_column_where('item', 'item_specs', 'item_id', $items->item_id),
+                'quantity'=>$items->quantity,
+                'remarks'=>$items->remarks,
+                'unit'=>$this->super_model->select_column_where('unit', 'unit_name', 'unit_id', $unit_id),
+            );
+        }
+
+        $this->load->view('dr/dr_prnt', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function add_dr_purpose(){
+        $dr_id = $this->input->post('dr_id');
+        $data= array(
+            'dr_id'=>$dr_id,
+            'purpose'=>$this->input->post('purpose'),
+            'requestor'=>$this->input->post('requested_by'),
+            'enduse'=>$this->input->post('enduse'),
+            'notes'=>$this->input->post('notes')
+        );
+
+        if($this->super_model->insert_into("po_dr_details", $data)){
+            redirect(base_url().'dr/dr_prnt/'.$dr_id, 'refresh');
+        }
+
+    }
+
+    public function delete_purpose(){
+        $id=$this->uri->segment(3);
+        $dr_id=$this->uri->segment(4);
+        if($this->super_model->delete_where("po_dr_details", "dr_details_id", $id)){
+            redirect(base_url().'dr/dr_prnt/'.$dr_id, 'refresh');
+
+        }
+    }
+
+    public function additemdr(){   
+        $dr_id=$this->uri->segment(3);
+        $data['supplier']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
+        $data['dr_id']=$dr_id;
+        $this->load->view('template/header');
+        $this->load->view('dr/additemdr',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function add_dr_item(){
+        $dr_id=$this->input->post('dr_id');
+        $data = array(
+            'dr_id'=>$this->input->post('dr_id'),
+            'item_id'=>$this->input->post('items'),
+            'vendor_id'=>$this->input->post('supplier'),
+            'quantity'=>$this->input->post('delivered'),
+            'remarks'=>$this->input->post('remarks'),
+        );
+
+         if($this->super_model->insert_into("po_dr_items", $data)){
+            ?>
+
+             <script>
+                  window.onunload = refreshParent;
+                function refreshParent() {
+                    window.opener.location.reload();
+                }
+                window.close();
+                
+            </script>
+            <?php
+        }
+    }
+
+    public function delete_dritem(){
+        $id=$this->uri->segment(3);
+        $dr_id=$this->uri->segment(4);
+        if($this->super_model->delete_where("po_dr_items", "dr_items_id", $id)){
+            redirect(base_url().'dr/dr_prnt/'.$dr_id, 'refresh');
+
+        }
+    }
+
+    public function save_dr(){
+         $dr_id=$this->input->post('dr_id');
+         $data = array(
+            'saved'=>1
+         );
+
+         if($this->super_model->update_where("po_dr", $data, "dr_id", $dr_id)){
+              redirect(base_url().'dr/dr_prnt/'.$dr_id, 'refresh');
+         }
+    }
+
+    public function getSupplierItems(){
+        $supplier = $this->input->post('supplier');
+
+        echo '<option value="">-Select Supplier Items-</option>';
+        foreach($this->super_model->select_row_where('vendor_details', 'vendor_id', $supplier) AS $row){
+            $item_name = $this->super_model->select_column_where('item','item_name','item_id', $row->item_id);
+            $item_specs = $this->super_model->select_column_where('item','item_specs','item_id', $row->item_id);
+            echo '<option value="'. $row->item_id .'">'. $item_name .', '.$item_specs.'</option>';
+        }
+    }
+}
 ?>

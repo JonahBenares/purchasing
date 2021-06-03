@@ -380,10 +380,11 @@ class Jod extends CI_Controller {
         $jor_aoq_id=$joexp[1];
         $project_title= $this->super_model->select_column_where('jor_head', 'purpose', 'jor_id', $jorid);
         $date_prepared= $this->super_model->select_column_where('jor_head', 'date_prepared', 'jor_id', $jorid);
-        $completion_date= $this->super_model->select_column_where('jor_head', 'completion_date', 'jor_id', $jorid);
+        $user_jo_no= $this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $jorid);
+        //$completion_date= $this->super_model->select_column_where('jor_head', 'completion_date', 'jor_id', $jorid);
 
         
-        $return = array('purpose' => $project_title, 'date_prepared' => $date_prepared, 'completion_date' => $completion_date, 'jor_aoq_id'=>$jor_aoq_id);
+        $return = array('purpose' => $project_title, 'date_prepared' => $date_prepared, 'user_jo_no' => $user_jo_no, 'jor_aoq_id'=>$jor_aoq_id);
         echo json_encode($return);
     
     }
@@ -790,7 +791,7 @@ class Jod extends CI_Controller {
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
         ); 
-        if($this->super_model->update_where("joi_tc", $update, "joi_tc_id",$tc_id)){
+        if($this->super_model->update_where("joi_tc", $update, "joi_tc_id",$joi_tc_id)){
             redirect(base_url().'jod/jo_direct/'.$joi_id);
         }
     }
@@ -836,6 +837,32 @@ class Jod extends CI_Controller {
         ); 
         if($this->super_model->update_where("joi_tc", $update, "joi_tc_id",$tc_id)){
             redirect(base_url().'jod/jo_direct_saved/'.$joi_id);
+        }
+    }
+
+    public function update_terms_draft(){
+        $joi_id = $this->input->post('joi_id');
+        $aoq_vendors_id = $this->input->post('aoq_vendors_id');
+        $update = array(
+            'payment_terms'=>$this->input->post('payments'),
+            'delivery_date'=>$this->input->post('del_itm'),
+            'item_warranty'=>$this->input->post('item_war'),
+            'freight'=>$this->input->post('freigh'),
+        ); 
+        if($this->super_model->update_where("aoq_vendors", $update, "aoq_vendors_id",$aoq_vendors_id)){
+            
+            redirect(base_url().'jod/jo_direct_draft/'.$joi_id);
+        }
+    }
+
+    public function update_condition_draft(){
+        $joi_id = $this->input->post('joi_id');
+        $tc_id = $this->input->post('tc_id');
+        $update = array(
+            'tc_desc'=>$this->input->post('condition'),
+        ); 
+        if($this->super_model->update_where("joi_tc", $update, "joi_tc_id",$tc_id)){
+            redirect(base_url().'jod/jo_direct_draft/'.$joi_id);
         }
     }
 
