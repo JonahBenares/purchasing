@@ -80,18 +80,34 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php if(!empty($head)){ foreach($head AS $h){ ?>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo (!empty($h['joi_dr_date']) ? date('F j, Y', strtotime($h['joi_dr_date'])) : ''); ?></td>
+                                            <td><?php echo $h['joi_dr_no']."-".COMPANY; ?></td>
+                                            <td><?php
+                                                if($h['joi_dr_type']==0){
+                                                    echo "Purchase Order";
+                                                } else if($h['joi_dr_type']==1){
+                                                    echo "Direct Purchase";
+                                                } 
+                                                ?>
+                                            </td>
                                             <td>
                                                 <center>
-                                                    <a href="<?php echo base_url(); ?>joi/delivery_receipt/ ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
-                                                        <span class="fa fa-eye"></span>
-                                                    </a>
+                                                    <?php
+                                                     if($h['joi_dr_type']==0){ ?>
+                                                        <a href="<?php echo base_url(); ?>joi/delivery_receipt/<?php echo $h['joi_id']; ?>/<?php echo $h['joi_dr_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                            <span class="fa fa-eye"></span>
+                                                        </a>
+                                                    <?php } else if($h['joi_dr_type']==1){ ?>
+                                                        <a href="<?php echo base_url(); ?>jod/delivery_receipt/<?php echo $h['joi_id']; ?>/<?php echo $h['joi_dr_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                            <span class="fa fa-eye"></span>
+                                                        </a>
+                                                    <?php } ?>
                                                 </center>
                                             </td>
-                                        </tr>                 
+                                        </tr>  
+                                        <?php } } ?>                      
                                     </tbody>
                                 </table>
 

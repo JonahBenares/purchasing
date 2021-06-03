@@ -38,7 +38,7 @@
                         <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                     </div>
                 </div>
-                <form method="POST" action = "<?php echo base_url();?>rfdis/create_rfd">
+                <form method="POST" action = "<?php echo base_url();?>jorfd/create_rfd">
                     <div class="modal-body-lowpad">
                         <div class="form-group">
                             <p class="m-b-0">RFD Date:</p>
@@ -130,22 +130,31 @@
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
                                     </thead>
-                                    <tbody>                          
+                                    <tbody>    
+                                    <?php 
+                                    if(!empty($head)){
+                                    foreach($head AS $h){ ?>                                   
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?php echo date('F j, Y', strtotime($h->rfd_date)); ?></td>
+                                            <td><?php echo $h->company; ?></td>
+                                            <td><?php echo $ci->get_name("vendor_name", "vendor_head", "vendor_id = '$h->pay_to'"); ?></td>
+                                            <td><?php echo $h->apv_no; ?></td>
+                                            <td><?php echo number_format($h->total_amount,2); ?></td>
+                                            <td><?php if($h->rfd_type ==0){
+                                                echo "Purchase Order";
+                                            } else {
+                                                echo "Direct Purchase";
+                                            } ?></td>
                                             <td>
                                                 <center>
-                                                        <a href="<?php echo base_url(); ?>joi/joi_rfd/" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                        <a href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $h->joi_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                 <span class="fa fa-eye"></span>
                                                  </a>
                                                 </center>
                                             </td>
-                                        </tr>        
+                                        </tr>         
+                                    <?php } 
+                                }?>          
                                     </tbody>
                                 </table>
 

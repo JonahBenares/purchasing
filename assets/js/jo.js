@@ -204,7 +204,7 @@ function chooseJO(){
       success: function(response){
         document.getElementById("project_title").value  = response.purpose;
         document.getElementById("date_prepared").value  = response.date_prepared;
-        document.getElementById("work_completion").value  = response.completion_date;
+        document.getElementById("user_jo_no").value  = response.user_jo_no;
         document.getElementById("jor_aoq_id").value  = response.jor_aoq_id;
       }
   }); 
@@ -222,7 +222,7 @@ function chooseJOD(){
       success: function(response){
         document.getElementById("project_title").value  = response.purpose;
         document.getElementById("date_prepared").value  = response.date_prepared;
-        document.getElementById("work_completion").value  = response.completion_date;
+        document.getElementById("user_jo_no").value  = response.user_jo_no;
         document.getElementById("jor_aoq_id").value  = response.jor_aoq_id;
       }
   }); 
