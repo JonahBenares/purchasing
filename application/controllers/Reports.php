@@ -624,9 +624,9 @@ class Reports extends CI_Controller {
 
             $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ao ON ah.aoq_id = ao.aoq_id WHERE ao.pr_details_id= '$pr_details_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'"); // check if item is already in the AOQ process but already awarded
 
-            $count_po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '0' AND pi.pr_details_id = '$pr_details_id'"); //checks if item has already PO but not yet served or delivered
+            $count_po = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '0' and draft = '0' AND pi.pr_details_id = '$pr_details_id'"); //checks if item has already PO but not yet served or delivered
 
-            $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '1' AND pi.pr_details_id = '$pr_details_id'"); //checks if item has already PO but already served or delivered
+            $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '1'  and draft = '0' AND pi.pr_details_id = '$pr_details_id'"); //checks if item has already PO but already served or delivered
          
             $pr_qty = $this->super_model->select_column_where("pr_details", "quantity","pr_details_id",$pr_details_id); // gets the PR qty of the item
 
