@@ -177,7 +177,7 @@
 							</div>
 						</div>
 						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
-						<input type='hidden' name='joi_tc_id' id = "tc_id">
+						<input type='hidden' name='tc_id' id = "tc_id">
 						<div class="modal-footer">
 							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 						</div>

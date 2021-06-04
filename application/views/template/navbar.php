@@ -95,17 +95,17 @@
                                     <span class="mini-dn">JO Abstract of Quotation</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>joi/joi_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
+                                <a href="<?php echo base_url(); ?>joi/joi_list"  role="button" class="nav-link dropdown-toggle" title="JO Issuance">
                                     <i class="fa big-icon fa-shopping-cart"></i>
                                     <span class="mini-dn">JO Issuance</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>jorfd/jorfd_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
+                                <a href="<?php echo base_url(); ?>jorfd/jorfd_list"  role="button" class="nav-link dropdown-toggle" title="JO Request for Disbursement">
                                     <i class="fa big-icon fa-list-alt"></i>
                                     <span class="mini-dn">JO Request for Disbursement</span> 
                                     <span class="indicator-right-menu mini-dn"></span>
                                 </a>
-                                <a href="<?php echo base_url(); ?>jodr/jodr_list"  role="button" class="nav-link dropdown-toggle" title="Purchase Order">
+                                <a href="<?php echo base_url(); ?>jodr/jodr_list"  role="button" class="nav-link dropdown-toggle" title="JO Delivery Receipt">
                                     <i class="fa big-icon fa-truck "></i>
                                     <span class="mini-dn">JO Delivery Receipt</span> 
                                     <span class="indicator-right-menu mini-dn"></span>

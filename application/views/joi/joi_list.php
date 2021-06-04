@@ -109,7 +109,7 @@ $(document).on("click", "#approve_rev", function () {
                                 <div class="col-md-6"> 
                                     <div class="form-group btn-block">
                                        <?php echo JO_NAME;?> JO No.:
-                                        <input type="Text" name="cenjo_no" class="form-control">
+                                        <input type="Text" name="cenjo_no" id="user_jo_no" class="form-control">
                                     </div>
                                 </div>
                             </div>
