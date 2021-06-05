@@ -86,7 +86,7 @@ class Jor extends CI_Controller {
                 'date_prepared'=>$this->input->post('date_prepared'),
                 'start_of_work'=>$this->input->post('work_start'),
                 'completion_date'=>$this->input->post('work_completion'),
-                'project_title'=>$this->input->post('project_title'),
+                'project_title'=>$this->input->post('purpose'),
                 'joi_type'=>1,
                 'user_id'=>$_SESSION['user_id'],
                 'prepared_date'=>date("Y-m-d H:i:s"),
@@ -913,7 +913,9 @@ class Jor extends CI_Controller {
                 }
 
                 $date_prepared=$this->super_model->select_column_where("jor_head", "date_prepared", "jor_id", $items->jor_id);
-                $completion_date=$this->super_model->select_column_where("jor_head", "completion_date", "jor_id", $items->jor_id);
+                //$completion_date=$this->super_model->select_column_where("jor_head", "completion_date", "jor_id", $items->jor_id);
+                $user_jo_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $items->jor_id);
+                $purpose=$this->super_model->select_column_where("jor_head", "purpose", "jor_id", $items->jor_id);
 
                 $data['head'][] = array(
                     'jor_id'=>$key['jor_id'],
@@ -921,7 +923,9 @@ class Jor extends CI_Controller {
                     'group'=>$key['grouping_id'],
                     'item'=>$it,
                     'date_prepared'=>$date_prepared,
-                    'completion_date'=>$completion_date,
+                    //'completion_date'=>$completion_date,
+                    'user_jo_no'=>$user_jo_no,
+                    'purpose'=>$purpose,
                     'item'=>$it,
                     'vendor'=>$ven
                 );

@@ -261,7 +261,7 @@
 			    				<b>Scope of Work:</b>
 			    				<br>
 			    				<?php foreach($items AS $i){ ?>
-			    				<?php echo " - ".nl2br($i->scope_of_work)."<br>"; ?><br>
+			    				<?php echo nl2br($i->scope_of_work)."<br>"; ?><br>
 			    				<?php } ?>
 			    				
 							</div>
