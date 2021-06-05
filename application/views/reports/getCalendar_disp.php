@@ -1,5 +1,6 @@
+<?php $CI =& get_instance(); ?>
 <div style="overflow-x: scroll">
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="table">
         <tr>
             <td>Date Needed</td>
             <td>PR No.</td>
@@ -10,6 +11,8 @@
             <td>Qty</td>
             <td>Uom</td>
             <td>Supplier</td>
+            <td>Status Remarks</td>
+            <td>Status</td>
             <td>Unit Price</td>
             <td>Estimated Price</td>
             <td>Estimated Total Price</td>
@@ -18,9 +21,21 @@
         </tr>
          <?php 
                 if(!empty($purch)){ foreach($purch AS $pc){ 
-
+                    $jo_issue=$CI->like($pc['status'], "PO Issued");
              ?>
-            <tr>
+            <tr
+                <?php if($pc['status']=='Fully Delivered'){
+                        echo "class='green'";
+                    } else if($pc['status']=='Partially Delivered') {
+                        echo "class='yellow'";
+                    } else if($pc['status']=='Cancelled') {
+                        echo "class='cd'";
+                    } else if($pc['status']=='Partially Delivered / Cancelled') {
+                        echo "class='cd'";
+                    }else if($jo_issue=='1') {
+                        echo "class='peach'";
+                    }
+                ?>>
                 <td><?php echo date('F j, Y', strtotime($pc['ver_date_needed'])); ?></td>
                 <td><?php echo $pc['pr_no']; ?></td>
                 <td><?php echo $pc['purpose']; ?></td>
@@ -30,6 +45,8 @@
                 <td><?php echo $pc['quantity']; ?></td>
                 <td><?php echo $pc['uom']; ?></td>
                 <td><?php echo $pc['supplier']; ?></td>
+                <td><?php echo $pc['status_remarks']; ?></td>
+                <td><?php echo $pc['status']; ?></td>
                 <td align="right"><?php echo number_format($pc['unit_price'],2); ?></td>
                 <td align="right"><?php echo number_format($pc['estimated_price'],2); ?></td>
                 <td align="right"><?php echo number_format($pc['estimated_total_price'],2); ?></td>

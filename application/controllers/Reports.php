@@ -3681,6 +3681,9 @@ class Reports extends CI_Controller {
                 $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
                 $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$p->pr_details_id' AND recommended='1'");
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
+                $stat = $this->pr_item_status($p->pr_details_id);
+                $status = $stat['status'];
+                $status_remarks = $stat['remarks'];
                 if($served==0 && $cancelled_items_po==0){
                     $data['weekly_recom'][]=array(
                         'enduse'=>$p->enduse,
@@ -3690,6 +3693,8 @@ class Reports extends CI_Controller {
                         'uom'=>$p->uom,
                         'item_description'=>$p->item_description,
                         'supplier'=>$supplier,
+                        'status'=>$status,
+                        'status_remarks'=>$status_remarks,
                         'pr_no'=>$p->pr_no,
                         'terms'=>$this->super_model->select_column_where('terms','terms',"terms_id",$p->terms_id),
                         'recom_unit_price'=>$p->recom_unit_price,
@@ -4830,7 +4835,10 @@ class Reports extends CI_Controller {
                 $total_actualp = array_sum($total_array_tap);
                 $total_arrayp[] = $cal_unit_price;
                 $total_unit = array_sum($total_arrayp);
-                $status= $this->item_status($cp->pr_details_id);
+                //$status= $this->item_status($cp->pr_details_id);
+                $stat = $this->pr_item_status($cp->pr_details_id);
+                $status = $stat['status'];
+                $status_remarks = $stat['remarks'];
                 if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
                     $data['purch'][]=array(
                         'pr_no'=>$this->super_model->select_column_where('pr_head','pr_no',"pr_id",$cp->pr_id),
@@ -4851,6 +4859,8 @@ class Reports extends CI_Controller {
                         'actual_total_price'=>$actual_total_price,
                         'total_unit'=>$total_unit,
                         'actual_price'=>$actual_price,
+                        'status'=>$status,
+                        'status_remarks'=>$status_remarks,
                         'ver_date_needed'=>$cp->ver_date_needed,
                     );
                 }
@@ -4883,8 +4893,11 @@ class Reports extends CI_Controller {
                 $pr_no =array();
             foreach($this->super_model->select_row_where('pr_calendar',"proj_act_id",$cp->proj_act_id) AS $allpr){
             //    $pr_no .=$this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY."<br>";
-                   $status= $this->item_status($allpr->pr_details_id);
+                   //$status= $this->item_status($allpr->pr_details_id);
                    //echo $allpr->pr_details_id . "-". $status . "<br>";
+                    $stat = $this->pr_item_status($allpr->pr_details_id);
+                    $status = $stat['status'];
+                    $status_remarks = $stat['remarks'];
                    if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
                     //echo $this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY."<br>";
                         $pr_no[] = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$allpr->pr_id) . "-".COMPANY;
@@ -4912,7 +4925,6 @@ class Reports extends CI_Controller {
                 $prno .= $p."<br>";
             }
 
-         
             if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
 
                 $data['purch_calendar'][] =  array(
@@ -4942,6 +4954,8 @@ class Reports extends CI_Controller {
                     'supplier'=>$supplier,
                     'total_est'=>$total_est,
                     'total_unit'=>$total_unit,
+                    'status'=>$status,
+                    'status_remarks'=>$status_remarks,
                     'est_total_materials'=>0,
 
                 );

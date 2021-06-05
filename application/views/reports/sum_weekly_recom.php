@@ -114,6 +114,8 @@
                                             <th>UOM</th>
                                             <th>Description</th>
                                             <th>Supplier</th>
+                                            <th>Status Remarks</th>
+                                            <th>Status</th>
                                             <th>Site PR/JO No.</th>
                                             <th>Delivery Lead Time/ Work Duration</th>
                                             <th>Unit Price (Peso)</th>
@@ -135,6 +137,8 @@
                                             <td><?php echo $p['uom']; ?></td>
                                             <td><?php echo $p['item_description']; ?></td>
                                             <td><?php echo $p['supplier']; ?></td>
+                                            <td><?php echo $p['status_remarks']; ?></td>
+                                            <td><?php echo $p['status']; ?></td>
                                             <td><?php echo $p['pr_no']."-".COMPANY; ?></td>
                                             <td><?php echo $p['work_duration']; ?></td>
                                             <td><?php echo number_format($p['recom_unit_price'],2); ?></td>
