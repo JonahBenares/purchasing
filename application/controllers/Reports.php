@@ -1260,8 +1260,10 @@ class Reports extends CI_Controller {
                 'fulfilled_by'=>$pr->fulfilled_by,
                 'for_recom'=>$this->super_model->select_column_where('users','fullname','user_id',$pr->for_recom),
                 'recom_by'=>$pr->recom_by,
+                'recom_qty'=>$pr->recom_qty,
                 'recom_date_from'=>$pr->recom_date_from,
                 'recom_date_to'=>$pr->recom_date_to,
+
                 'cancelled'=>$pr->cancelled,
                 'recom_unit_price'=>$recom_unit_price,
                 'ver_date_needed'=>$ver_date_needed,
