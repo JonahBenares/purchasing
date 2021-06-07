@@ -221,7 +221,9 @@
                                             <td><?php echo $pc['status']; ?></td>
                                             <td><?php echo $pc['c_remarks']; ?></td>
                                             <td>
-                                                <a class="btn btn-link" style="color:blue" data-toggle="modal" id="show" data-target="#exampleModal" data-id = '<?php echo $pc['proj_act_id'] ?>' data-year="<?php echo $year; ?>"><?php echo $pc['pr_no']; ?></a></td>
+                                                <!-- <a class="btn btn-link" style="color:blue" data-toggle="modal" id="show" data-target="#exampleModal" data-id = '<?php echo $pc['proj_act_id'] ?>' data-year="<?php echo $year; ?>"><?php echo $pc['pr_no']; ?></a> -->
+                                                 <a href="<?php echo base_url(); ?>index.php/reports/getCalendar_disp/<?php echo $pc['proj_act_id']; ?>/<?php echo $year; ?>" class="btn btn-link" style="color:blue" target="_blank"><?php echo $pc['pr_no']; ?></a>
+                                            </td>
                                             <td><?php echo $pc['duration']; ?></td>
                                             <td><?php echo ($pc['target_start_date']=="") ? '' : date('F j, Y', strtotime($pc['target_start_date'])); ?></td>
                                             <td><?php echo ($pc['target_completion']=="") ? '' : date('F j, Y', strtotime($pc['target_completion'])); ?></td>
