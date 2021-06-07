@@ -3659,6 +3659,90 @@ class Reports extends CI_Controller {
         readfile($exportfilename);
     }
 
+    public function add_remarks_weekly(){
+        $po_offer_id =$this->input->post('po_offer_id');
+        $pr_id =$this->input->post('pr_id');
+        $pr_details_id =$this->input->post('pr_details_id');
+        $status =$this->input->post('status');
+        $recom_date_from =$this->input->post('recom_date_from');
+        $recom_date_to =$this->input->post('recom_date_to');
+        $remarks=$this->input->post('remarks');
+        $cancel_remarks=$this->input->post('cancel_remarks');
+        $cancel=$this->input->post('cancel');
+        $remark_date = date('Y-m-d H:i:s');
+
+        /*if($cancel!=0){
+            $data=array(
+                'add_remarks'=>$remarks,
+                'remark_date'=>$remark_date,
+                'cancelled'=>$cancel,
+                'cancelled_date'=>date('Y-m-d'),
+                'cancelled_by'=>$_SESSION['user_id'],
+                'remark_by'=>$_SESSION['user_id']
+            );
+        }else {*/
+        $data=array(
+            'add_remarks'=>$remarks,
+            'remark_date'=>$remark_date,
+            'remark_by'=>$_SESSION['user_id']
+        );
+        $this->super_model->update_where("pr_details", $data, "pr_id", $pr_id);
+        $data=array(
+            'cancel_remarks'=>$cancel_remarks,
+        );
+        $this->super_model->update_where("pr_details", $data, "pr_details_id", $pr_details_id);
+        //}
+        if($status == 'Partially Delivered'){
+         
+                if($cancel!=0){
+                    $po_id = $this->super_model->select_column_where("po_items",'po_id','pr_details_id',$pr_details_id);
+                    $aoq_offer = $this->super_model->select_column_where("po_items",'aoq_offer_id','pr_details_id',$pr_details_id);
+                    $data_po=array(
+                        'cancel'=>$cancel,
+                        'cancelled_by'=>$_SESSION['user_id'],
+                        'cancelled_date'=>date('Y-m-d'),
+                    );
+                    $this->super_model->update_custom_where("po_items", $data_po, "pr_id = '$pr_id' AND pr_details_id = '$pr_details_id'");
+                }
+                redirect(base_url().'reports/sum_weekly_recom/'.$recom_date_from.'/'.$recom_date_to);
+            
+        } else {
+            echo "<script>alert('You can only use this cancel button for partially delivered items.');
+            window.location = '".base_url()."reports/sum_weekly_recom/".$recom_date_from."/".$recom_date_to."';</script>";
+        }
+    }
+
+    public function insert_changestatus_weekly(){
+        $count_onhold = count($this->input->post('onhold'));
+        $count_proceed = count($this->input->post('proceed'));
+        $date_recom_from = $this->input->post('date_recom_from');
+        $date_recom_to = $this->input->post('date_recom_to');
+        for($x=0;$x<$count_onhold;$x++){
+            $onhold = $this->input->post('onhold['.$x.']');
+            //$onhold_date=date('Y-m-d',strtotime($this->super_model->select_column_where("pr_details","onhold_date","pr_details_id",$onhold)));
+            $data=array(
+                'on_hold'=>1,
+                'onhold_date'=>date('Y-m-d h:i:s'),
+                'onhold_by'=>$_SESSION['user_id'],
+            );
+            if($this->super_model->update_where("pr_details", $data, "pr_details_id",$onhold)){
+                echo "<script>alert('Successfully Changed Status!');</script>"; 
+                echo "<script>window.location = '".base_url()."reports/sum_weekly_recom/".$date_recom_from."/".$date_recom_to."';</script>";
+            }
+        }
+
+        for($y=0;$y<$count_proceed;$y++){
+            $proceed = $this->input->post('proceed['.$y.']');
+            $data_proceed=array(
+                'on_hold'=>0,
+            );
+            if($this->super_model->update_where("pr_details", $data_proceed, "pr_details_id",$proceed)){
+                echo "<script>alert('Successfully Changed Status!');</script>"; 
+                echo "<script>window.location = '".base_url()."reports/sum_weekly_recom/".$date_recom_from."/".$date_recom_to."';</script>";
+            }
+        }
+    }
+
     public function sum_weekly_recom(){
         $date_from=$this->uri->segment(3);
         $date_to=$this->uri->segment(4);  
@@ -3699,7 +3783,15 @@ class Reports extends CI_Controller {
                         'terms'=>$this->super_model->select_column_where('terms','terms',"terms_id",$p->terms_id),
                         'recom_unit_price'=>$p->recom_unit_price,
                         'work_duration'=>$p->work_duration,
-                        'total'=>$total
+                        'recom_date'=>$p->recom_date,
+                        'recom_date_from'=>$p->recom_date_from,
+                        'recom_date_to'=>$p->recom_date_to,
+                        'on_hold'=>$p->on_hold,
+                        'pr_details_id'=>$p->pr_details_id,
+                        'total'=>$total,
+                        'po_offer_id'=>$po_offer_id,
+                        'remarks'=>$p->add_remarks,
+                        'pr_id'=>$p->pr_id,
                     );
                 }
             }
@@ -3871,6 +3963,9 @@ class Reports extends CI_Controller {
                 $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$p->pr_details_id' AND recommended='1'");
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
                 $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
+                $stat = $this->pr_item_status($p->pr_details_id);
+                $status = $stat['status'];
+                $status_remarks = $stat['remarks'];
                 if($served==0 && $cancelled_items_po==0){
                 $data['weekly_recom'][]=array(
                     'enduse'=>$p->enduse,
@@ -3880,11 +3975,21 @@ class Reports extends CI_Controller {
                     'uom'=>$p->uom,
                     'item_description'=>$p->item_description,
                     'supplier'=>$supplier,
+                    'status_remarks'=>$status_remarks,
+                    'status'=>$status,
                     'pr_no'=>$p->pr_no,
                     'terms'=>$this->super_model->select_column_where('terms','terms',"terms_id",$p->terms_id),
                     'recom_unit_price'=>$p->recom_unit_price,
                     'work_duration'=>$p->work_duration,
-                    'total'=>$total
+                    'recom_date'=>$p->recom_date,
+                    'recom_date_from'=>$p->recom_date_from,
+                    'recom_date_to'=>$p->recom_date_to,
+                    'on_hold'=>$p->on_hold,
+                    'pr_details_id'=>$p->pr_details_id,
+                    'total'=>$total,
+                    'po_offer_id'=>$po_offer_id,
+                    'remarks'=>$p->add_remarks,
+                    'pr_id'=>$p->pr_id,
                 );
             }
         }
@@ -3982,29 +4087,32 @@ class Reports extends CI_Controller {
                 )
             )
         );
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', "End-use");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "Requested by:");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', "QTY as per PR");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', "QTY as per Recom");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "UoM");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', "Description");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', "Supplier");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', "Site PR/JO No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', "Delivery Lead Time / Work Duration");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', "UNIT PRICE (PESO)");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K5', "TOTAL PESO");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', "15 days PDC");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M5', "30 days PDC");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N5', "60 days PDC");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O5', "TERMS");
-        foreach(range('A','O') as $columnID){
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', "Recom Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "Recom Date From");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', "Recom Date To");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', "End-use");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "Requested by:");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', "QTY as per PR");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', "QTY as per Recom");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', "UoM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', "Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', "Supplier");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K5', "Site PR/JO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', "Delivery Lead Time / Work Duration");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M5', "UNIT PRICE (PESO)");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N5', "TOTAL PESO");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O5', "15 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P5', "30 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q5', "60 days PDC");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R5', "TERMS");
+        foreach(range('A','R') as $columnID){
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }
         $objPHPExcel->getActiveSheet()->getStyle('E2:E3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:O5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:R5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('E2:E3')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:O5')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:O5')->applyFromArray($styleArray1);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:R5')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:R5')->applyFromArray($styleArray1);
         if($filt!=''){
             $styleArray = array(
                 'borders' => array(
@@ -4022,51 +4130,49 @@ class Reports extends CI_Controller {
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
                 $total_array[] = $p->quantity * $p->recom_unit_price;
                 $total_peso = array_sum($total_array);
-
-                 
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->requestor");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->quantity");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->recom_qty");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->uom");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$p->item_description");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$supplier");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->pr_no");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->work_duration");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$p->recom_unit_price");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->recom_date");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->recom_date_from");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->recom_date_to");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->enduse");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->requestor");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$p->quantity");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->recom_qty");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->uom");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->item_description");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$supplier");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$p->pr_no");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$p->work_duration");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$p->recom_unit_price");
                     if($terms!="15 days PDC" || $terms!="30 days PDC" || $terms!="60 days PDC" || $terms==""){
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $total);
-                    }else{
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "0.00");
-                    }
-
-                    if($terms=="15 days PDC"){
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $total);
-                    }else{
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "0.00");
-                    }
-
-                    if($terms=="30 days PDC"){
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $total);
-                    }else{
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "0.00");
-                    }
-
-                    if($terms=="60 days PDC"){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $total);
                     }else{
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "0.00");
                     }
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$terms");
+
+                    if($terms=="15 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "0.00");
+                    }
+
+                    if($terms=="30 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "0.00");
+                    }
+
+                    if($terms=="60 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "0.00");
+                    }
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$terms");
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('J'.$num.":N".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num.":Q".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num.":Q".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->applyFromArray($styleArray);
                     $num++; 
 
                     $disp_terms[] = array(
@@ -4077,33 +4183,33 @@ class Reports extends CI_Controller {
             $b = $num;
             foreach($disp_terms AS $var=>$key){
                 if($key['terms']!="15 days PDC" || $key['terms']!="30 days PDC" || $key['terms']!="60 days PDC" || $key['terms']==""){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, "0.00");
-                }
-                if($key['terms']=="15 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, "0.00");
-                }
-
-                if($key['terms']=="30 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso);
-                }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, "0.00");
-                }
-
-                if($key['terms']=="60 days PDC"){
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$b, $total_peso);
                 }else{
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$b, "0.00");
                 }
+                if($key['terms']=="15 days PDC"){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$b, $total_peso);
+                }else{
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$b, "0.00");
+                }
+
+                if($key['terms']=="30 days PDC"){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$b, $total_peso);
+                }else{
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$b, "0.00");
+                }
+
+                if($key['terms']=="60 days PDC"){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$b, $total_peso);
+                }else{
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$b, "0.00");
+                }
             }
-            $objPHPExcel->getActiveSheet()->setCellValue('H'.$a, "Total (in PESO)");
-            $objPHPExcel->getActiveSheet()->setCellValue('J'.$a, $total_peso);
-            $objPHPExcel->getActiveSheet()->getStyle('H'.$a.":J".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-            $objPHPExcel->getActiveSheet()->getStyle('J'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-            $objPHPExcel->getActiveSheet()->getStyle('K'.$b.":N".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$a, "Total (in PESO)");
+            $objPHPExcel->getActiveSheet()->setCellValue('M'.$a, $total_peso);
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$a.":M".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('M'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('N'.$b.":Q".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 
                 
         }else {
@@ -4149,49 +4255,49 @@ class Reports extends CI_Controller {
                 $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $p->pr_details_id, "po_id", "DESC", "1");
                 $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
                 if($served==0 && $cancelled_items_po==0){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->enduse");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->requestor");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->quantity");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->recom_qty");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->uom");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$p->item_description");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$supplier");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->pr_no");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->work_duration");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$p->recom_unit_price");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$p->recom_date");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->recom_date_from");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->recom_date_to");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$p->enduse");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$p->requestor");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$p->quantity");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->recom_qty");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->uom");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->item_description");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$supplier");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$p->pr_no");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$p->work_duration");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$p->recom_unit_price");
                     if($terms!="15 days PDC" || $terms!="30 days PDC" || $terms!="60 days PDC" || $terms==""){
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $total);
-                    }else{
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "0.00");
-                    }
-
-                    if($terms=="15 days PDC"){
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $total);
-                    }else{
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "0.00");
-                    }
-
-                    if($terms=="30 days PDC"){
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $total);
-                    }else{
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "0.00");
-                    }
-
-                    if($terms=="60 days PDC"){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $total);
                     }else{
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "0.00");
                     }
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$terms");
+
+                    if($terms=="15 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "0.00");
+                    }
+
+                    if($terms=="30 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "0.00");
+                    }
+
+                    if($terms=="60 days PDC"){
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, $total);
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "0.00");
+                    }
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$terms");
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('J'.$num.":M".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setWrapText(true);
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num.":Q".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$num.":Q".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":R".$num)->applyFromArray($styleArray);
                 $num++;
 
                 $disp_terms[] = array(
@@ -4203,26 +4309,26 @@ class Reports extends CI_Controller {
             $b = $num;
             foreach($disp_terms AS $var=>$key){
                 if($key['terms']!="15 days PDC" || $key['terms']!="30 days PDC" || $key['terms']!="60 days PDC" || $key['terms']==""){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$b, $total_peso);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$b, $total_peso);
                 }
                 if($key['terms']=="15 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$b, $total_peso15);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$b, $total_peso15);
                 }
 
                 if($key['terms']=="30 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$b, $total_peso30);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$b, $total_peso30);
                 }
 
                 if($key['terms']=="60 days PDC"){
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$b, $total_peso60);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$b, $total_peso60);
                 }
             }
 
-            $objPHPExcel->getActiveSheet()->setCellValue('H'.$a, "Total (in PESO)");
-            $objPHPExcel->getActiveSheet()->setCellValue('J'.$a, $total_peso);
-            $objPHPExcel->getActiveSheet()->getStyle('H'.$a.":J".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-            $objPHPExcel->getActiveSheet()->getStyle('J'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-            $objPHPExcel->getActiveSheet()->getStyle('K'.$b.":N".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$a, "Total (in PESO)");
+            $objPHPExcel->getActiveSheet()->setCellValue('M'.$a, $total_peso);
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$a.":M".$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('M'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('N'.$b.":Q".$b)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 
     }
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
@@ -4810,11 +4916,14 @@ class Reports extends CI_Controller {
 
 
     public function getCalendar_disp(){
-        $pr_id=$this->input->post('pr_id');
-        $proj_act_id=$this->input->post('id');
-        $year=$this->input->post('year');
+        $this->load->view('template/header');
+        //$pr_id=$this->input->post('pr_id');
+        $proj_act_id=$this->uri->segment(3);
+        $year=$this->uri->segment(4);
         $data['year']=$year;
         $data['proj_act_id']=$proj_act_id;
+        $data['pr_list']=$this->super_model->select_custom_where('pr_head',"cancelled='0'");
+        $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
         $count = $this->super_model->count_custom_where("pr_calendar","ver_date_needed LIKE '$year%' AND proj_act_id='$proj_act_id' ORDER BY ver_date_needed DESC");
         if($count!=0){
             foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' AND proj_act_id='$proj_act_id' ORDER BY ver_date_needed DESC") AS $cp){
@@ -4869,7 +4978,441 @@ class Reports extends CI_Controller {
             $data['purch']=array();
         }
         $this->load->view('reports/getCalendar_disp',$data);
+        $this->load->view('template/footer');
     }
+
+    public function search_item_calendar(){
+        $this->load->view('template/header');
+        $year = $this->input->post('year');
+        $proj_act_id = $this->input->post('proj_act_id');
+        $data['year']=$year;
+        $data['proj_act_id']=$proj_act_id;
+
+        if(!empty($this->input->post('ver_date_needed'))){
+            $data['ver_date_needed'] = $this->input->post('ver_date_needed');
+        } else {
+            $data['ver_date_needed']= "null";
+        }
+
+        if(!empty($this->input->post('purpose'))){
+            $data['purpose'] = $this->input->post('purpose');
+        } else {
+            $data['purpose']= "null";
+        }
+
+        if(!empty($this->input->post('enduse'))){
+            $data['enduse'] = $this->input->post('enduse');
+        } else {
+            $data['enduse'] = "null";
+        }
+
+        if(!empty($this->input->post('pr_no'))){
+            $data['pr_no'] = $this->input->post('pr_no');
+        } else {
+            $data['pr_no'] = "null";
+        }
+
+        if(!empty($this->input->post('supplier'))){
+            $data['supplier'] = $this->input->post('supplier');
+        } else {
+            $data['supplier'] = "null";
+        }
+
+        if(!empty($this->input->post('requestor'))){
+            $data['requestor'] = $this->input->post('requestor');
+        } else {
+            $data['requestor'] = "null";
+        } 
+
+        if(!empty($this->input->post('description'))){
+            $data['description'] = $this->input->post('description');
+        } else {
+            $data['description'] = "null";
+        } 
+
+        $sql="";
+        $filter = " ";
+
+        if(!empty($this->input->post('ver_date_needed'))){
+            $ver_date_needed = $this->input->post('ver_date_needed');
+            $sql.=" pc.ver_date_needed LIKE '%$ver_date_needed%' AND";
+            $filter .= "Date Needed - ".$ver_date_needed.", ";
+        }
+
+        if(!empty($this->input->post('purpose'))){
+            $purpose = $this->input->post('purpose');
+            $sql.=" ph.purpose LIKE '%$purpose%' AND";
+            $filter .= "Purpose - ".$purpose.", ";
+        }
+
+        if(!empty($this->input->post('enduse'))){
+            $enduse = $this->input->post('enduse');
+            $sql.=" ph.enduse LIKE '%$enduse%' AND";
+            $filter .= "Enduse - ".$enduse.", ";
+        }
+
+        if(!empty($this->input->post('pr_no'))){
+            $pr_no = $this->input->post('pr_no');
+            $sql.=" ph.pr_id = '$pr_no' AND";
+            $filter .= "PR NO. - ".$this->super_model->select_column_where('pr_head', 'pr_no', 
+                        'pr_id', $pr_no).", ";
+        }
+
+        $supply='';
+        $groupby='';
+        if(!empty($this->input->post('supplier'))){
+            $supplier = $this->input->post('supplier');
+            $sql.=" ao.vendor_id = '$supplier' AND";
+            $filter .= "Supplier - ".$this->super_model->select_column_where('vendor_head', 'vendor_name', 
+                        'vendor_id', $supplier).", ";
+            $supply='LEFT JOIN aoq_offers ao ON ao.pr_details_id=pd.pr_details_id';
+            $groupby='GROUP BY ao.pr_details_id';
+        }
+
+        if(!empty($this->input->post('requestor'))){
+            $requestor = $this->input->post('requestor');
+            $sql.=" ph.requestor LIKE '%$requestor%' AND";
+            $filter .= "Requestor - ".$requestor.", ";
+        }
+
+        if(!empty($this->input->post('description'))){
+            $description = $this->input->post('description');
+            $sql.=" pd.item_description LIKE '%$description%' AND";
+            $filter .= "Item Description - ".$description.", ";
+        }
+
+
+        $query=substr($sql, 0, -3);
+        $data['filt']=substr($filter, 0, -2);
+        $data['pr_list']=$this->super_model->select_custom_where('pr_head',"cancelled='0'");
+        $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
+        $count = $this->super_model->count_custom_query("SELECT * FROM pr_calendar pc LEFT JOIN pr_details pd ON pc.pr_details_id = pd.pr_details_id LEFT JOIN pr_head ph ON pd.pr_id = ph.pr_id $supply WHERE pc.ver_date_needed LIKE '$year%' AND pc.proj_act_id='$proj_act_id' AND $query ORDER BY ver_date_needed DESC");
+        if($count!=0){
+            foreach($this->super_model->custom_query("SELECT * FROM pr_calendar pc LEFT JOIN pr_details pd ON pc.pr_details_id = pd.pr_details_id LEFT JOIN pr_head ph ON pd.pr_id = ph.pr_id $supply WHERE pc.ver_date_needed LIKE '$year%' AND pc.proj_act_id='$proj_act_id' AND $query $groupby ORDER BY ver_date_needed DESC") AS $cp){
+                $actual_price = $this->super_model->select_column_where('po_items','unit_price',"po_items_id",$cp->pr_details_id);
+                $quantity = $this->super_model->select_column_where('pr_details','quantity',"pr_details_id",$cp->pr_details_id);
+                $cal_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $cp->pr_details_id);
+                $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$cp->pr_details_id' AND recommended='1'");
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
+                $total_array[] = $cp->estimated_price;
+                $total_est = array_sum($total_array);
+                $total_est_price = $quantity * $cp->estimated_price;
+                $total_array_tep[] = $total_est_price;
+                $total_ep = array_sum($total_array_tep);
+                $actual_total_price = $quantity * $actual_price;
+                $total_array_ap[] = $actual_price;
+                $total_actual = array_sum($total_array_ap);
+                $total_array_tap[] = $actual_total_price;
+                $total_actualp = array_sum($total_array_tap);
+                $total_arrayp[] = $cal_unit_price;
+                $total_unit = array_sum($total_arrayp);
+                //$status= $this->item_status($cp->pr_details_id);
+                $stat = $this->pr_item_status($cp->pr_details_id);
+                $status = $stat['status'];
+                $status_remarks = $stat['remarks'];
+                if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
+                    $data['purch'][]=array(
+                        'pr_no'=>$this->super_model->select_column_where('pr_head','pr_no',"pr_id",$cp->pr_id),
+                        'purpose'=>$this->super_model->select_column_where('pr_head','purpose',"pr_id",$cp->pr_id),
+                        'enduse'=>$this->super_model->select_column_where('pr_head','enduse',"pr_id",$cp->pr_id),
+                        'requestor'=>$this->super_model->select_column_where('pr_head','requestor',"pr_id",$cp->pr_id),
+                        'item_description'=>$this->super_model->select_column_where('pr_details','item_description',"pr_details_id",$cp->pr_details_id),
+                        'quantity'=>$quantity,
+                        'uom'=>$this->super_model->select_column_where('pr_details','uom',"pr_details_id",$cp->pr_details_id),
+                        'estimated_price'=>$cp->estimated_price,
+                        'unit_price'=>$cal_unit_price,
+                        'supplier'=>$supplier,
+                        'total_est'=>$total_est,
+                        'total_ep'=>$total_ep,
+                        'total_actual'=>$total_actual,
+                        'total_actualp'=>$total_actualp,
+                        'estimated_total_price'=>$total_est_price,
+                        'actual_total_price'=>$actual_total_price,
+                        'total_unit'=>$total_unit,
+                        'actual_price'=>$actual_price,
+                        'status'=>$status,
+                        'status_remarks'=>$status_remarks,
+                        'ver_date_needed'=>$cp->ver_date_needed,
+                    );
+                }
+            }
+        }else{
+            $data['purch']=array();
+        }
+        $this->load->view('reports/getCalendar_disp',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function export_calendar_item(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Schedule of Activities.xlsx";
+        $proj_act_id=$this->uri->segment(3);
+        $year=$this->uri->segment(4);
+        $ver_date_needed=$this->uri->segment(5);
+        $purpose=str_replace("%20", " ", $this->uri->segment(6));
+        $enduse=str_replace("%20", " ", $this->uri->segment(7));
+        $pr_no=$this->uri->segment(8);
+        $supplier=$this->uri->segment(9);
+        $requestor=str_replace("%20", " ", $this->uri->segment(10));
+        $description=str_replace("%20", " ", $this->uri->segment(11));
+
+
+        $sql="";
+        $filter = " ";
+
+
+        if($ver_date_needed!='null'){
+            $sql.=" pc.ver_date_needed LIKE '%$ver_date_needed%' AND";
+            $filter .= $ver_date_needed;
+        }
+
+        if($purpose!='null'){
+            $sql.=" ph.purpose LIKE '%$purpose%' AND";
+            $filter .= $purpose;
+        }
+
+        if($enduse!='null'){
+            $sql.=" ph.enduse LIKE '%$enduse%' AND";
+            $filter .= $enduse;
+        }
+
+        if($pr_no){
+            $sql.=" ph.pr_id = '$pr_no' AND";
+            $filter .= $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id', $pr_no);
+        }
+
+        $supply='';
+        $groupby='';
+        if($supplier!='null'){
+            $sql.=" ao.vendor_id = '$supplier' AND";
+            $filter .= $this->super_model->select_column_where('vendor_head', 'vendor_name', 
+                        'vendor_id', $supplier);
+            $supply='LEFT JOIN aoq_offers ao ON ao.pr_details_id=pd.pr_details_id';
+            $groupby='GROUP BY ao.pr_details_id';
+        }
+
+        if($requestor!='null'){
+            $sql.=" ph.requestor LIKE '%$requestor%' AND";
+            $filter .= $requestor;
+        }
+
+        if($description!='null'){
+            $sql.=" pd.item_description LIKE '%$description%' AND";
+            $filter .= $description;
+        }
+
+        $query=substr($sql, 0, -3);
+        $filt=substr($filter, 0, -2);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F2', "SCHEDULE OF ACTIVITIES");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "$year");
+        $styleArray1 = array(
+            'borders' => array(
+                'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', "Date Needed");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', "PR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', "Purpose");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', "Enduse");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', "Requestor");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', "UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', "Supplier");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', "Status Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K5', "Status");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', "Unit Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M5', "Estimated Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N5', "Estimated Total Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O5', "Actual Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P5', "Total Actual Price");
+        foreach(range('A','P') as $columnID){
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('F2:F3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:P5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('F1:F3')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:P5')->getFont()->setBold(true);
+        $num=6;
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        if($filt!=''){
+            $x = 1;
+             foreach($this->super_model->custom_query("SELECT * FROM pr_calendar pc LEFT JOIN pr_details pd ON pc.pr_details_id = pd.pr_details_id LEFT JOIN pr_head ph ON pd.pr_id = ph.pr_id $supply WHERE pc.ver_date_needed LIKE '$year%' AND pc.proj_act_id='$proj_act_id' AND $query $groupby ORDER BY ver_date_needed DESC") AS $cp){
+                $actual_price = $this->super_model->select_column_where('po_items','unit_price',"po_items_id",$cp->pr_details_id);
+                $quantity = $this->super_model->select_column_where('pr_details','quantity',"pr_details_id",$cp->pr_details_id);
+                $cal_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $cp->pr_details_id);
+                $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$cp->pr_details_id' AND recommended='1'");
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
+                $total_array[] = $cp->estimated_price;
+                $total_est = array_sum($total_array);
+                $total_est_price = $quantity * $cp->estimated_price;
+                $total_array_tep[] = $total_est_price;
+                $total_ep = array_sum($total_array_tep);
+                $actual_total_price = $quantity * $actual_price;
+                $total_array_ap[] = $actual_price;
+                $total_actual = array_sum($total_array_ap);
+                $total_array_tap[] = $actual_total_price;
+                $total_actualp = array_sum($total_array_tap);
+                $total_arrayp[] = $cal_unit_price;
+                $total_unit = array_sum($total_arrayp);
+                //$status= $this->item_status($cp->pr_details_id);
+                $pr_no=$this->super_model->select_column_where('pr_head','pr_no',"pr_id",$cp->pr_id)."-".COMPANY;
+                $purpose=$this->super_model->select_column_where('pr_head','purpose',"pr_id",$cp->pr_id);
+                $enduse=$this->super_model->select_column_where('pr_head','enduse',"pr_id",$cp->pr_id);
+                $requestor=$this->super_model->select_column_where('pr_head','requestor',"pr_id",$cp->pr_id);
+                $item_description=$this->super_model->select_column_where('pr_details','item_description',"pr_details_id",$cp->pr_details_id);
+                $uom=$this->super_model->select_column_where('pr_details','uom',"pr_details_id",$cp->pr_details_id);
+                $stat = $this->pr_item_status_export($cp->pr_details_id);
+                $status = $stat['status'];
+                $status_remarks = $stat['remarks'];
+                $po_issue=$this->like($status, "PO Issued");
+                if($status=='Fully Delivered'){
+                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
+                } else if($status=='Partially Delivered') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
+                } else if($status=='Cancelled') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle("K".$num)->getFont()->getColor()->setRGB('ff0000');
+                }else if($status=='Partially Delivered / Cancelled') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle("K".$num)->getFont()->getColor()->setRGB('ff0000');
+                }else if($po_issue=='1') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                }
+                if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $cp->ver_date_needed);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $pr_no);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $purpose);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, $enduse);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, $requestor);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $item_description);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, $quantity);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $uom);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, $supplier);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $status_remarks);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $status);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $cal_unit_price);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $cp->estimated_price);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $total_est_price);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, $actual_price);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $actual_total_price);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->applyFromArray($styleArray);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":B".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('L'.$num.":P".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $num++;
+                    $x++;
+                }
+            }
+            $num1=$num;
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num1, "Total: ");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num1, $total_unit);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num1, $total_est);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num1, $total_ep);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num1, $total_actual);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num1, $total_actualp);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num1.":P".$num1)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->getStyle('L'.$num1.":P".$num1)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+
+        }else {
+            $x = 1;
+            foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' AND proj_act_id='$proj_act_id' ORDER BY ver_date_needed DESC") AS $cp){
+                $actual_price = $this->super_model->select_column_where('po_items','unit_price',"po_items_id",$cp->pr_details_id);
+                $quantity = $this->super_model->select_column_where('pr_details','quantity',"pr_details_id",$cp->pr_details_id);
+                $cal_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $cp->pr_details_id);
+                $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$cp->pr_details_id' AND recommended='1'");
+                $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
+                $total_array[] = $cp->estimated_price;
+                $total_est = array_sum($total_array);
+                $total_est_price = $quantity * $cp->estimated_price;
+                $total_array_tep[] = $total_est_price;
+                $total_ep = array_sum($total_array_tep);
+                $actual_total_price = $quantity * $actual_price;
+                $total_array_ap[] = $actual_price;
+                $total_actual = array_sum($total_array_ap);
+                $total_array_tap[] = $actual_total_price;
+                $total_actualp = array_sum($total_array_tap);
+                $total_arrayp[] = $cal_unit_price;
+                $total_unit = array_sum($total_arrayp);
+                //$status= $this->item_status($cp->pr_details_id);
+                $pr_no=$this->super_model->select_column_where('pr_head','pr_no',"pr_id",$cp->pr_id)."-".COMPANY;
+                $purpose=$this->super_model->select_column_where('pr_head','purpose',"pr_id",$cp->pr_id);
+                $enduse=$this->super_model->select_column_where('pr_head','enduse',"pr_id",$cp->pr_id);
+                $requestor=$this->super_model->select_column_where('pr_head','requestor',"pr_id",$cp->pr_id);
+                $item_description=$this->super_model->select_column_where('pr_details','item_description',"pr_details_id",$cp->pr_details_id);
+                $uom=$this->super_model->select_column_where('pr_details','uom',"pr_details_id",$cp->pr_details_id);
+                $stat = $this->pr_item_status_export($cp->pr_details_id);
+                $status = $stat['status'];
+                $status_remarks = $stat['remarks'];
+                $po_issue=$this->like($status, "PO Issued");
+                if($status=='Fully Delivered'){
+                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
+                } else if($status=='Partially Delivered') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
+                } else if($status=='Cancelled') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle("K".$num)->getFont()->getColor()->setRGB('ff0000');
+                }else if($status=='Partially Delivered / Cancelled') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle("K".$num)->getFont()->getColor()->setRGB('ff0000');
+                }else if($po_issue=='1') {
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                }
+                if($status != 'Cancelled' && $status != 'On-Hold' && $status != 'Fully Delivered'){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $cp->ver_date_needed);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $pr_no);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $purpose);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, $enduse);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, $requestor);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $item_description);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, $quantity);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $uom);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, $supplier);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $status_remarks);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $status);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $cal_unit_price);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $cp->estimated_price);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $total_est_price);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, $actual_price);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $actual_total_price);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->applyFromArray($styleArray);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":B".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('L'.$num.":P".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $num++;
+                    $x++;
+                }
+            }
+            $num1=$num;
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num1, "Total: ");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num1, $total_unit);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num1, $total_est);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num1, $total_ep);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num1, $total_actual);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num1, $total_actualp);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num1.":P".$num1)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->getStyle('L'.$num1.":P".$num1)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        }
+        $objPHPExcel->getActiveSheet()->getStyle("A5:P5")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+                unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Schedule of Activities.xlsx"');
+        readfile($exportfilename);
+    }
+
 
     public function purch_calendar(){  
         $year=$this->uri->segment(3);
