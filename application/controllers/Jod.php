@@ -1554,7 +1554,7 @@ class Jod extends CI_Controller {
                         "packing_fee"=>$headt->packing_fee,
                         "vat"=>$headt->vat,
                         "vat_percent"=>$headt->vat_percent,
-                        "vat_in_ex"=>$head->vat_in_ex,
+                        "vat_in_ex"=>$headt->vat_in_ex,
                         "discount"=>$headt->discount,
                         "date_needed"=>$headt->date_needed,
                         "completion_date"=>$headt->completion_date,
