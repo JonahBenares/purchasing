@@ -159,20 +159,26 @@
                                                 $x=1;
                                                 foreach($weekly_recom AS $p){ 
                                                     $po_issue=$CI->like($p['status'], "PO Issued");
+                                                    $delivered_by=$CI->like($p['status'], "Delivered by");
                                             ?>
                                             <tr
                                             <?php if($p['status']=='Fully Delivered'){
-                                                    echo "class='green'";
-                                                } else if($p['status']=='Partially Delivered') {
-                                                    echo "class='yellow'";
-                                                } else if($p['status']=='Cancelled') {
-                                                    echo "class='cd'";
-                                                } else if($p['status']=='Partially Delivered / Cancelled') {
-                                                    echo "class='cd'";
-                                                }else if($po_issue=='1') {
-                                                    echo "class='peach'";
-                                                }
-                                            ?>>
+                                                echo "class='green'";
+                                            } else if($p['status']=='Partially Delivered') {
+                                                echo "class='yellow'";
+                                            } else if($p['status']=='Cancelled') {
+                                                echo "class='cd'";
+                                            } else if($p['status']=='Partially Delivered / Cancelled') {
+                                                echo "class='cd'";
+                                            }else if($p['status']=='For Recom') {
+                                                echo "class='orange'";
+                                            } else if($p['status']=='On-Hold') {
+                                                echo "class='blue'";
+                                            }else if($po_issue=='1') {
+                                                echo "class='peach'";
+                                            }else if($delivered_by=='1') {
+                                                echo "class='purple'";
+                                            } ?>>
                                                 <?php if($p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['on_hold']==0){ ?>
                                                 <td><input type="checkbox" name="onhold[]" id="onhold<?php echo $x; ?>" value="<?php echo $p['pr_details_id'];?>" class="form-control" style="width: 50%" <?php echo ((strpos($p['on_hold'], "1") !== false) ? ' checked' : '');?> onclick="hidecheck(<?php echo $x; ?>);"></td>
                                                 <td></td>
