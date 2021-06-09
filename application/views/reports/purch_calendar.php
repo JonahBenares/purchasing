@@ -177,6 +177,7 @@
                                             <!-- <th></th> -->
                                             <th><span class="nowrap">#</span></th>
                                             <th style="width:300px"><span class="nowrap">Project / Activity</span></th>
+                                            <th><span class="nowrap">Status</span></th>
                                             <th><span class="nowrap">Remarks</span></th>
                                             <th><span class="nowrap">PR No/s.</span></th>
                                             <th><span class="nowrap">Duration (# of Days)</span></th>
@@ -184,7 +185,6 @@
                                             <th><span class="nowrap">Target Completion</span></th>
                                             <th><span class="nowrap">Actual Start</span></th>
                                             <th><span class="nowrap">Actual Completion</span></th>
-
                                            <!--  <th>Verified Date Needed</th>
                                             <th>Estimated Price</th> -->
                                             <th><span class="nowrap">Est. Total(Materials)</span></th>
