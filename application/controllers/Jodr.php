@@ -61,7 +61,7 @@ class Jodr extends CI_Controller {
         }
         $this->load->view('template/header');
         $this->load->view('template/navbar'); 
-        $this->load->view('jodr/jodr_list');
+        $this->load->view('jodr/jodr_list',$data);
         $this->load->view('template/footer');
     }
     
