@@ -618,6 +618,36 @@
 				</div>
 			</div>
 		</div>
+				<div class="modal fade" id="UpdateTerms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Terms & Condition
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>pod/update_condition">
+						<div class="modal-body">
+							<div class="form-group">
+								Terms & Conditions:
+								<input type="text" class="form-control" name="condition" autocomplete="off" id = "terms">
+							</div>
+						</div>
+						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+						<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+						<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
+						<input type='hidden' name='po_tc_id' id = "po_tc_id">
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
     </div>
     <script type="text/javascript">
     	function printPage() {

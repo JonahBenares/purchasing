@@ -336,12 +336,13 @@ class Jor extends CI_Controller {
     public function jor_group(){  
         $jor_id = $this->uri->segment(3);
         $data['jor_id']=$jor_id;
-        $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor_id);
+        $data['jo_no']=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor_id);
+        /*$jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor_id);
         if($jo_no!=''){
             $data['jo_no']=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor_id);
         }else{
             $data['jo_no']=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $jor_id);
-        }
+        }*/
 
         foreach($this->super_model->custom_query("SELECT DISTINCT grouping_id FROM jor_items WHERE jor_id = '$jor_id'") AS $groups){
             $data['group'][] = array(
@@ -478,12 +479,12 @@ class Jor extends CI_Controller {
         $timestamp = date("Y-m-d H:i:s");
         $rfq_format = date("Ym");
         $rfqdet=date('Y-m');
-        $jo_no=$this->super_model->select_column_where('jor_head','jo_no','jor_id',$jor_id);
-        if($jo_no!=''){
+        $rfq=$this->super_model->select_column_where('jor_head','jo_no','jor_id',$jor_id);
+        /*if($jo_no!=''){
             $rfq = $jo_no;
         }else{
             $rfq=$this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$jor_id);
-        }
+        }*/
         $rfqjor=explode("-", $rfq);
         $rfqs=$rfqjor[0];
         $rfqss=$rfqs;
@@ -586,7 +587,7 @@ class Jor extends CI_Controller {
         $jo_request = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue());
         $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
         $department = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());
-        $jo_no = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
+        $user_jo_no = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
         $requested_by = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue());
         $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C12')->getValue());
         $duration = trim($objPHPExcel->getActiveSheet()->getCell('I7')->getValue());
@@ -606,12 +607,12 @@ class Jor extends CI_Controller {
             $jor_no = 'JOR '.$year."-".$next;
         }
 
-        $check_exist = $this->super_model->count_custom_where("jor_head", "user_jo_no='$jo_no' AND user_jo_no!=''");
-        if($jo_no!=''){
+        $check_exist = $this->super_model->count_custom_where("jor_head", "user_jo_no='$user_jo_no' AND user_jo_no!=''");
+        if($user_jo_no!=''){
             $jor_nos='';
-            $jors_nos=$jo_no;
+            $jors_nos=$user_jo_no;
         }else{
-            $jor_nos=$jor_no;
+            $jor_nos=$user_jo_no;
             $jors_nos='';
         }
         if($check_exist==0){
@@ -620,8 +621,8 @@ class Jor extends CI_Controller {
                 'jo_request'=>$jo_request,
                 'date_prepared'=>$date_prepared,
                 'department'=>$department,
-                'jo_no'=>$jor_nos,
-                'user_jo_no'=>$jors_nos,
+                'jo_no'=>$jor_no,
+                'user_jo_no'=>$user_jo_no,
                 'purpose'=>$purpose,
                 'requested_by'=>$requested_by,
                 'duration'=>$duration,
@@ -896,13 +897,13 @@ class Jor extends CI_Controller {
                    
                     $count_jorfq = $this->super_model->count_custom_query("SELECT jor_id, grouping_id FROM jo_rfq_head INNER JOIN jo_rfq_details ON jo_rfq_head.jo_rfq_id = jo_rfq_details.jo_rfq_id WHERE cancelled = '0' AND jor_id = '$det->jor_id' AND grouping_id = '$det->grouping_id' AND jor_items_id = '$items->jor_items_id'");
 
-                    $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $items->jor_id);
+                    /*$jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $items->jor_id);
                     if($jo_no!=''){
                         $jor_no=$this->super_model->select_column_custom_where("jor_head", "jo_no", "jor_id = '$key[jor_id]' AND cancelled = '0'");
                     }else{
                         $jor_no=$this->super_model->select_column_custom_where("jor_head", "user_jo_no", "jor_id = '$key[jor_id]' AND cancelled = '0'");
-                    }
-                    
+                    }*/
+                    $jor_no=$this->super_model->select_column_custom_where("jor_head", "jo_no", "jor_id = '$key[jor_id]' AND cancelled = '0'");
                     if($count_jorfq==0){
                      $it .= ' - ' . $items->scope_of_work . "<br>";
                     }

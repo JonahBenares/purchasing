@@ -173,11 +173,11 @@ $ci =& get_instance();
                                     <table class="table table-bordered">
                                         <?php 
                                             foreach($jo_head AS $jh){ 
-                                                if($jh->jo_no!=''){
+                                                /*if($jh->jo_no!=''){
                                                     $jor_no = $jh->jo_no;
                                                 }else if($jh->user_jo_no!=''){
                                                     $jor_no=$jh->user_jo_no;
-                                                }
+                                                }*/
                                         ?>
                                         <tr>
                                             <td width="15%"><i>JO Request:</i></td>
@@ -205,15 +205,15 @@ $ci =& get_instance();
                                         </tr>
                                         <tr>
                                             <td><i>JO No.:</i></td>
-                                            <td><?php echo $jor_no; ?></td>
-                                             <td><i>Urgency:</i></td>
-                                            <td><b class="text-red capital"><?php echo $jh->urgency; ?></b></td>
+                                            <td><?php echo $jh->jo_no; ?></td>
+                                            <td><i>CENPRI JO No.:</i></td>
+                                            <td><?php echo $jh->user_jo_no; ?></td>
                                         </tr>
                                         <tr>
                                             <td><i>Requested By:</i></td>
                                             <td><?php echo $jh->requested_by; ?></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><i>Urgency:</i></td>
+                                            <td><b class="text-red capital"><?php echo $jh->urgency; ?></b></td>
                                         </tr>
                                         <tr>
                                             <td><i>Purpose:</i></td>

@@ -118,16 +118,16 @@
                                         </thead>
                                         <tbody>     
                                             <?php
-                                                if(!empty($jo_head)){ 
+                                                //if(!empty($jo_head)){ 
                                                 foreach($jo_head AS $jh){ 
-                                                    if($jh->jo_no!=''){
+                                                    /*if($jh->jo_no=''){
                                                         $jor_no = $jh->jo_no;
                                                     }else if($jh->user_jo_no!=''){
-                                                        $jor_no=$jh->user_jo_no;
-                                                    }
+                                                        $cenpri_no=$jh->user_jo_no;
+                                                    }*/
                                             ?>                                
                                             <tr>
-                                                <td><?php echo $jor_no."-".COMPANY;?></td>
+                                                <td><?php echo $jh->jo_no."-".COMPANY ." / ".$jh->user_jo_no;?></td>
                                                 <td><?php echo $jh->date_prepared;?></td>
                                                 <td><?php echo date("F d, Y",strtotime($jh->date_imported));?></td>
                                                 <td><?php echo $jh->department;?></td>
@@ -142,7 +142,7 @@
                                                     </center>
                                                 </td>
                                             </tr>   
-                                            <?php } } ?>             
+                                            <?php } ?>             
                                         </tbody>
                                     </table>
                                 </div>                           
