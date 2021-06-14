@@ -47,12 +47,12 @@ class Jorfq extends CI_Controller {
         $head_count = $this->super_model->count_custom_query("SELECT rh.* FROM jo_rfq_head rh INNER JOIN jor_head jh ON rh.jor_id = jh.jor_id WHERE jh.cancelled='0' AND rh.served='0' AND rh.cancelled = '0'");
         if($head_count!=0){
             foreach($this->super_model->custom_query("SELECT rh.* FROM jo_rfq_head rh INNER JOIN jor_head jh ON rh.jor_id = jh.jor_id WHERE jh.cancelled='0' AND rh.served='0' AND rh.cancelled = '0'") AS $jorfq){
-                $jo=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jorfq->jor_id);
-                if($jo!=''){
+                $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jorfq->jor_id);
+                /*if($jo!=''){
                     $jo_no=$jo;
                 }else{
                     $jo_no=$this->super_model->select_column_where("jor_head","user_jo_no","jor_id",$jorfq->jor_id);
-                }
+                }*/
                 $data['head'][]= array(
                     'jo_rfq_id'=>$jorfq->jo_rfq_id,
                     'jo_rfq_no'=>$jorfq->jo_rfq_no,
@@ -167,12 +167,12 @@ class Jorfq extends CI_Controller {
         //foreach($this->super_model->select_all_order_by("rfq_head", "rfq_date", "DESC") AS $head){
 
         foreach($this->super_model->select_custom_where("jo_rfq_head", "served='1' ORDER BY rfq_date DESC") AS $head){
-         $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
-                if($jo_no!=''){
+         $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+                /*if($jo_no!=''){
                     $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
                 }else{
                     $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $head->jor_id);
-                }
+                }*/
             $data['head'][]= array(
                 'jo_rfq_id'=>$head->jo_rfq_id,
                 'jo_rfq_no'=>$head->jo_rfq_no,
@@ -207,24 +207,25 @@ class Jorfq extends CI_Controller {
         $jo_rfq_id=$this->uri->segment(3);
         $data['jo_rfq_id']=$jo_rfq_id;
         foreach($this->super_model->select_row_where('jo_rfq_head', 'jo_rfq_id', $jo_rfq_id) AS $head){
-            $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
-            if($jo_no!=''){
+            $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+            /*if($jo_no!=''){
                 $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
             }else{
                 $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $head->jor_id);
-            }
+            }*/
             $data['rfq_date']= $head->rfq_date;
             //$data['scope_of_work']= $this->super_model->select_column_where("jor_items", "scope_of_work", "jor_items_id", $head->jor_items_id);
             //$data['notes']= $this->super_model->select_column_where("jor_notes", "notes", "jor_notes_id", $head->jor_notes_id);
             $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $head->vendor_id);
             $data['phone']= $this->super_model->select_column_where("vendor_head", "phone_number", "vendor_id", $head->vendor_id);
             $data['jo_rfq_no']= $head->jo_rfq_no;
-            $jo=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+            $data['jo_no']= $this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+            /*$jo=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
             if($jo!=''){
                 $data['jo_no']= $this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
             }else{
                 $data['jo_no']= $this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $head->jor_id);
-            }
+            }*/
             $data['requested_by']= $this->super_model->select_column_where("jor_head", "requested_by", "jor_id", $head->jor_id);
             $data['duration']= $this->super_model->select_column_where("jor_head", "duration", "jor_id", $head->jor_id);
             $data['notes']= $head->notes;

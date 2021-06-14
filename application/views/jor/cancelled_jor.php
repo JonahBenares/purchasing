@@ -58,7 +58,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
+                                            <!--<?php
                                                 if(!empty($jor_head)){ 
                                                 foreach($jor_head AS $jh){ 
                                                     if($jh['jor_no']!=''){
@@ -66,7 +66,7 @@
                                                     }else {
                                                         $jor_no=$jh['user_jor_no'];
                                                     }
-                                            ?>                                        
+                                            ?>-->                                        
                                             <tr>
                                                 <td><?php echo $jor_no."-".COMPANY;?></td>
                                                 <td><?php echo $jh['jor_date']; ?></td>
