@@ -77,9 +77,9 @@
                                     <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-resizable="true" data-toolbar="#toolbar" >
                                         <thead>
                                             <th ><span class="btn-block">JOR No.</span></th>
-                                            <th width="10%"></th>   
-                                            <?php if(!empty($head)){ foreach($head as $h){ ?>                                     
+                                            <th width="10%"></th>                                       
                                         </thead>
+                                        	<?php if(!empty($head)){ foreach($head as $h){ ?> 
                                             <tr>
                                                 <td><span class="btn btn-block"><?php echo $h['jor_no']."-".COMPANY; ?></span></td>
                                                 <td>
@@ -109,7 +109,7 @@
                                                     </table>
                                                 </td>
                                             </tr> 
-                                              <?php } } ?>                
+                                            <?php } } ?>                
                                     </table>
                                 <!-- </form> -->
                             </div>

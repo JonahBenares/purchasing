@@ -245,9 +245,9 @@
 		    			<td colspan="" class="all-border" align="center"><b>#</b></td>
 		    			<td colspan="" class="all-border" align="center"><b>Qty</b></td>
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
-		    			<td colspan="13" class="all-border" align="center"><b>Description</b></td>
+		    			<td colspan="12" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
-		    			<td colspan="2" class="all-border" align="center"><b>Currency</b></td>
+		    			<td colspan="1" class="all-border" align="center"><b>Currency</b></td>
 		    			<td colspan="2" class="all-border" align="center"></td>
 		    		</tr>
 		    		<?php 
@@ -277,7 +277,7 @@
 						    </select>
 							<?php }else{ echo $it['currency']; } ?>
 				    	</td>	
-		    			<td colspan="" class="bor-right v-align"></td>
+		    			<!--<td colspan="" class="bor-right v-align"></td>-->
 		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it['total'],2); ?></b></td>
 
 		    		</tr>
@@ -590,6 +590,36 @@
 	    	<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
 	    	<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
     	</form>
+
+    	<div class="modal fade" id="EditIns" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Other Instructions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>pod/update_notes">
+						<div class="modal-body">
+							<div class="form-group">
+								Other Instructions:
+								<textarea class="form-control" rows="5" name = "notes" id="notes"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+							<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+							<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
+							<input type='hidden' name='tc_id' id = "tc1_id">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
     	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">

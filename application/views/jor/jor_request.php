@@ -205,7 +205,7 @@ $ci =& get_instance();
                                         </tr>
                                         <tr>
                                             <td><i>JO No.:</i></td>
-                                            <td><?php echo $jh->jo_no; ?></td>
+                                            <td><?php echo $jh->jo_no."-".COMPANY; ?></td>
                                             <td><i>CENPRI JO No.:</i></td>
                                             <td><?php echo $jh->user_jo_no; ?></td>
                                         </tr>
