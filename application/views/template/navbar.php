@@ -538,7 +538,7 @@
                             </button>
                         </h5>                            
                     </div>
-                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_unserved_report" target='_blank'>
+                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_jounserved_report" target='_blank'>
                         <div class="modal-body">
                             <div class="form-group">
                                 Choose Year:

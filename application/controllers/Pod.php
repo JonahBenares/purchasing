@@ -343,13 +343,13 @@ class Pod extends CI_Controller {
 
     public function update_notes(){
         $po_id = $this->input->post('po_id');
-        $tc_id = $this->input->post('tc_id');
+        $po_tc_id = $this->input->post('po_tc_id');
         $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
         $saved = $this->super_model->select_column_where("po_head", "saved", "po_id", $po_id);
         $update = array(
             'notes'=>$this->input->post('notes'),
         ); 
-        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$po_tc_id)){
             if($saved==0 && $draft==0){
                 redirect(base_url().'pod/po_direct/'.$po_id, 'refresh');
             } else if($saved!=0){
@@ -740,11 +740,11 @@ class Pod extends CI_Controller {
         $po_id = $this->input->post('po_id');
         $pr_id = $this->input->post('pr_id');
         $group_id = $this->input->post('group_id');
-        $tc_id = $this->input->post('tc_id');
+        $po_tc_id = $this->input->post('po_tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
         ); 
-        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$po_tc_id)){
             redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id);
         }
     }
