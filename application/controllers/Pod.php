@@ -343,13 +343,13 @@ class Pod extends CI_Controller {
 
     public function update_notes(){
         $po_id = $this->input->post('po_id');
-        $po_tc_id = $this->input->post('po_tc_id');
+        $tc_id = $this->input->post('tc_id');
         $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
         $saved = $this->super_model->select_column_where("po_head", "saved", "po_id", $po_id);
         $update = array(
             'notes'=>$this->input->post('notes'),
         ); 
-        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$po_tc_id)){
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             if($saved==0 && $draft==0){
                 redirect(base_url().'pod/po_direct/'.$po_id, 'refresh');
             } else if($saved!=0){
@@ -445,8 +445,9 @@ class Pod extends CI_Controller {
          $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
         $data['currency'] = $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);*/
 
-        $draft=$this->super_model->select_column_where('po_head', 'draft', 'po_id', $po_id);
-        if($draft==0){
+        //$draft=$this->super_model->select_column_where('po_head', 'draft', 'po_id', $po_id);
+        $saved=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
+        if($saved==0){
             foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$pr_id' AND grouping_id = '$group_id'") AS $items){
                 //$total = $items->quantity*$items->unit_price;
                 $data['items'][]= array(
@@ -459,7 +460,7 @@ class Pod extends CI_Controller {
             }
         }else {
             foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
-                $currency = $this->input->post('currency'.$x);
+                //$currency = $this->input->post('currency'.$x);
                 $total = $items->delivered_quantity*$items->unit_price;
                 $data['items'][]= array(
                     'pr_details_id'=>$items->pr_details_id,
