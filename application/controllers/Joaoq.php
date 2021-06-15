@@ -100,12 +100,12 @@ class Joaoq extends CI_Controller {
 
                 // echo $supplier;
                // $sup = substr($supplier, 0, -2);
-                $jo=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
-                if($jo!=''){
+                $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
+                /*if($jo!=''){
                     $jo_no=$jo;
                 }else{
                     $jo_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $list->jor_id);
-                }
+                }*/
                 $data['heads'][]=array(
                     'jor_aoq_id'=>$list->jor_aoq_id,
                     'date'=>$list->aoq_date,
@@ -279,12 +279,12 @@ class Joaoq extends CI_Controller {
                 $rows = $this->super_model->count_rows_where("jor_aoq_vendors","jor_aoq_id",$list->jor_aoq_id);
                 $supplier='';
                 $not_recom='';
-                $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
-                if($jo_no!=''){
+                $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
+                /*if($jo_no!=''){
                     $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
                 }else{
                     $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $list->jor_id);
-                 }
+                 }*/
                 foreach($this->super_model->select_custom_where("jor_aoq_vendors", "jor_aoq_id='$list->jor_aoq_id'") AS $ven){
                     foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$list->jor_aoq_id' AND recommended='1' GROUP BY vendor_id") AS $offer){
                         if($offer->vendor_id==$ven->vendor_id){
@@ -333,12 +333,12 @@ class Joaoq extends CI_Controller {
                 $rows = $this->super_model->count_rows_where("jor_aoq_vendors","jor_aoq_id",$list->jor_aoq_id);
                 $supplier='';
                 $not_recom='';
-                $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
-                if($jo_no!=''){
+                $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
+                /*if($jo_no!=''){
                     $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $list->jor_id);
                 }else{
                     $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $list->jor_id);
-                 }
+                 }*/
                 foreach($this->super_model->select_custom_where("jor_aoq_vendors", "jor_aoq_id='$list->jor_aoq_id'") AS $ven){
                     foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$list->jor_aoq_id' AND recommended='1' GROUP BY vendor_id") AS $offer){
                         if($offer->vendor_id==$ven->vendor_id){
@@ -400,12 +400,12 @@ class Joaoq extends CI_Controller {
         $data['reviewed']=$reviewed_by;
 
         foreach($this->super_model->select_row_where("jor_aoq_head", "jor_aoq_id", $jor_aoq_id) AS $head){
-            $jo=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
-            if($jo!=''){
+            $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+            /*if($jo!=''){
                 $jo_no=$jo;
             }else{
                 $jo_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $head->jor_id);
-            }
+            }*/
             $data['head'][] =  array(
                 'aoq_date'=>$head->aoq_date,
                 'jo_no'=>$jo_no,
@@ -977,7 +977,7 @@ class Joaoq extends CI_Controller {
             $freight=$rfq->freight;
             $objPHPExcel->getActiveSheet()->setCellValue('b'.$a, "a. Price Validity");
             $objPHPExcel->getActiveSheet()->setCellValue('b'.$b, "b. Payment Terms");
-            $objPHPExcel->getActiveSheet()->setCellValue('b'.$c, "c. Date of Delivery");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$c, "c. Work Duration");
             $objPHPExcel->getActiveSheet()->setCellValue('b'.$d, "d. Items Warranty");
             $objPHPExcel->getActiveSheet()->setCellValue('b'.$e, "e. In-land Freight");
 

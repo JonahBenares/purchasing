@@ -139,12 +139,12 @@ class Joi extends CI_Controller {
              $rfd=$this->super_model->count_rows_where("joi_rfd","joi_id",$head->joi_id);
              $jo='';
             foreach($this->super_model->select_row_where("joi_jor", "joi_id", $head->joi_id) AS $prd){
-                $jo_no=$this->super_model->select_column_where('jor_head','jo_no','jor_id', $prd->jor_id);
-                if($jo_no!=''){
+                $jo .=$this->super_model->select_column_where('jor_head','jo_no','jor_id', $prd->jor_id)."<br>";
+                /*if($jo_no!=''){
                     $jo .= $jo_no."<br>";
                 }else{
                     $jo .= $this->super_model->select_column_where('jor_head','user_jo_no','jor_id', $prd->jor_id)."<br>";
-                }
+                }*/
             }
             $joi_dr_id = $this->super_model->select_column_custom_where("joi_dr", "joi_dr_id", "joi_id = '$head->joi_id' AND received='0'");
             $unreceived_dr = $this->super_model->count_custom_where("joi_dr","joi_id = '$head->joi_id' AND received ='0'");
@@ -238,12 +238,12 @@ class Joi extends CI_Controller {
                 $itemno .= $it->item_no . ", ";
             }
             $item_no = substr($itemno, 0, -2);
-            $jo=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $pr->jor_id);
-            if($jo!=''){
+            $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $pr->jor_id);
+            /*if($jo!=''){
                 $jo_no=$jo;
             }else{
                 $jo_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $pr->jor_id);
-            }
+            }*/
             $data['pr'][]=array(
                 'jo_no'=>$jo_no,
                 'enduse'=>$pr->enduse,
@@ -309,12 +309,12 @@ class Joi extends CI_Controller {
              $rfd=$this->super_model->count_rows_where("joi_dr","joi_id",$head->joi_id);
              $jo='';
             foreach($this->super_model->select_row_where("joi_jor", "joi_id", $head->joi_id) AS $prd){
-                $jo_no=$this->super_model->select_column_where('jor_head','jo_no','jor_id', $prd->jor_id);
-                if($jo_no!=''){
+                $jo .=$this->super_model->select_column_where('jor_head','jo_no','jor_id', $prd->jor_id)."<br>";
+                /*if($jo_no!=''){
                     $jo .= $jo_no."<br>";
                 }else{
                     $jo .= $this->super_model->select_column_where('jor_head','user_jo_no','jor_id', $prd->jor_id)."<br>";
-                }
+                }*/
                
             }
             $data['header'][]=array(
@@ -365,12 +365,12 @@ class Joi extends CI_Controller {
         $supplier = $this->input->post('supplier');
         echo '<option value="">-Select JO No-</option>';
         foreach($this->super_model->custom_query("SELECT ah.jor_id, ah.jor_aoq_id, ah.aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE vendor_id = '$supplier' AND recommended = '1' and cancelled='0' GROUP BY ah.jor_aoq_id") AS $row){
-            $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $row->jor_id);
-            if($jo!=''){
+            $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $row->jor_id);
+            /*if($jo!=''){
                 $jo_no=$jo;
             }else{
                 $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $row->jor_id);
-            }
+            }*/
             echo '<option value="'. $row->jor_id."_".$row->jor_aoq_id .'">'. $jo_no .' ('.$row->aoq_date." - ".$row->jor_aoq_id.')</option>';
         }
     }
@@ -418,12 +418,12 @@ class Joi extends CI_Controller {
         }
 
         if(empty($this->input->post('dp'))){
-            $jo= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jo_no'));
-            if($jo!=''){
+            $jo_no= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jo_no'));
+            /*if($jo!=''){
                 $jo_no=$jo;
             }else{
                 $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id',$this->input->post('jo_no'));
-            }
+            }*/
             //$po_no = "P".$pr_no."-".$series;
             $joi_no = "P".$jo_no."-".$series;
             $jor_id = $this->input->post('jo_no');
@@ -537,12 +537,12 @@ class Joi extends CI_Controller {
         }
 
         foreach($this->super_model->custom_query("SELECT ao.jor_aoq_id, ah.jor_id, ao.currency FROM jor_aoq_offers ao INNER JOIN jor_aoq_head ah ON ao.jor_aoq_id = ah.jor_aoq_id WHERE ao.vendor_id = '$vendor_id' AND recommended = '1' GROUP BY jor_id") AS $off){
-            $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $off->jor_id);
-            if($jo!=''){
+            $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $off->jor_id);
+            /*if($jo!=''){
                 $jo_no=$jo;
             }else{
                 $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $off->jor_id);
-            }
+            }*/
             $data['pr'][]=array(
                 'jor_id'=>$off->jor_id,
                 'jo_no'=>$jo_no,
@@ -614,12 +614,12 @@ class Joi extends CI_Controller {
         }
 
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
-            $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
-            if($jo!=''){
+            $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
+            /*if($jo!=''){
                 $jo_no=$jo;
             }else{
                 $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $ppr->jor_id);
-            }
+            }*/
             $data['allpr'][]= array(
                 'jo_no'=>$jo_no,
                 'purpose'=>$ppr->purpose,
@@ -948,12 +948,12 @@ class Joi extends CI_Controller {
         $data['items'] = $this->super_model->select_row_where('joi_items', 'joi_id', $joi_id);
         $data['currency'] = $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
-            $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
-            if($jo!=''){
+            $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
+            /*if($jo!=''){
                 $jo_no=$jo;
             }else{
                 $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $ppr->jor_id);
-            }
+            }*/
             $data['allpr'][]= array(
                 'jo_no'=>$jo_no,
                 'purpose'=>$ppr->purpose,
@@ -1024,12 +1024,12 @@ class Joi extends CI_Controller {
         $data['items'] = $this->super_model->select_row_where('joi_items', 'joi_id', $joi_id);
         $data['currency'] = $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
-            $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
-            if($jo!=''){
+            $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
+            /*if($jo!=''){
                 $jo_no=$jo;
             }else{
                 $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $ppr->jor_id);
-            }
+            }*/
             $data['allpr'][]= array(
                 'jo_no'=>$jo_no,
                 'purpose'=>$ppr->purpose,
@@ -1215,12 +1215,12 @@ class Joi extends CI_Controller {
         $data['currency_temp']= $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
       
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
-            $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
-            if($jo!=''){
+            $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
+            /*if($jo!=''){
                 $jo_no=$jo;
             }else{
                 $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $ppr->jor_id);
-            }
+            }*/
             $data['allpr'][]= array(
                 'jo_no'=>$jo_no,
                 'purpose'=>$ppr->purpose,
@@ -1542,12 +1542,12 @@ class Joi extends CI_Controller {
         $this->super_model->update_where("joi_dr", $data_drs, "joi_id", $joi_id);
 
         $jor_id = $this->super_model->select_column_where("joi_items","jor_id","joi_id",$joi_id);
-        $jo = $this->super_model->select_column_where("jor_head","jo_no","jor_id",$jor_id);
-        if($jo!=''){
+        $jo_no = $this->super_model->select_column_where("jor_head","jo_no","jor_id",$jor_id);
+        /*if($jo!=''){
             $jo_no=$jo;
         }else{
             $jo_no=$this->super_model->select_column_where("jor_head","user_jo_no","jor_id",$jor_id);
-        }
+        }*/
         $joi_no = "P".$jo_no."-".$series;
         foreach($this->super_model->select_row_where("joi_head","joi_id",$joi_id) AS $head){
             $data_head = array(
@@ -1850,12 +1850,12 @@ class Joi extends CI_Controller {
             foreach($this->super_model->select_custom_where('joi_items', "jor_id='$jor->jor_id' AND joi_id = '$joi_id'") AS $it){
                 $itemno .= $it->item_no . ", ";
             }
-                $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor->jor_id);
-                if($jo_no!=''){
+                $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor->jor_id);
+                /*if($jo_no!=''){
                     $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor->jor_id);
                 }else{
                     $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $jor->jor_id);
-                }
+                }*/
 
             $item_no = substr($itemno, 0, -2);
             $data['jor_joi'][]=array(
@@ -1965,12 +1965,12 @@ class Joi extends CI_Controller {
         }
         $data['items'] = $this->super_model->select_custom_where('joi_items_revised', "joi_id = '$joi_id' AND revision_no = '$revise_no'");
         foreach($this->super_model->select_custom_where("joi_jor_revised", "joi_id = '$joi_id' AND revision_no = '$revise_no'") AS $ppr){
-            $jo=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
-            if($jo!=''){
+            $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
+            /*if($jo!=''){
                 $jo_no=$jo;
             }else{
                 $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $ppr->jor_id);
-            }
+            }*/
             $data['allpr'][]= array(
                 'jo_no'=>$jo_no,
                 'purpose'=>$ppr->purpose,
