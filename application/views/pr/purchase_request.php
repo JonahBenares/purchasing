@@ -290,10 +290,11 @@ $ci =& get_instance();
                                                         <?php } ?>
                                                     </select>
                                                 </td>
-                                                <td></td>
-                                                <?php } ?>
+                                                <td><?php echo $det['vendor']; ?></td>
+                                                <?php }else { ?>
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
                                                 <td><?php echo $det['vendor']; ?></td>
+                                                <?php } ?>
                                                 <td align="center">
                                                     <a href="" class="regroupItem btn btn-xs btn-success btn-custon-three" data-toggle="modal" data-target="#regroup_g" title="Regroup" data-group="" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-object-group"> </span></a>
                                                     <?php if($det['grouping_id']!=''){ ?>
