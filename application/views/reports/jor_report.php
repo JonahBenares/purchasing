@@ -288,7 +288,7 @@
                                                 <!-- <td><?php echo $p['wh_stocks']; ?></td> -->
                                                <!--  <td><?php echo $p['item_no']; ?></td> -->
                                                 <td><?php echo $p['qty']; ?></td>
-                                                <td ><span style='font-size:11px'><?php echo $p['revised_qty']; ?></span></td>
+                                                <td ><span style='font-size:11px'><?php echo $p['revised_qty']."<br>".$p['current_qty']; ?></span></td>
                                                 <td><?php echo $p['uom']; ?></td>
                                                 <td><?php echo $p['grouping_id']; ?></td>
                                                 <td><?php echo nl2br($p['scope_of_work']) . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td> 
