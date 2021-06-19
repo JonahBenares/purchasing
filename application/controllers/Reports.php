@@ -533,6 +533,7 @@ class Reports extends CI_Controller {
 */
             /********************** END STATUS ********************/
             $revised='';
+            $current_qty='';
             $revision_no = $this->super_model->select_column_where("po_head","revision_no","po_id",$po_id);
             if($revision_no!=0){
                 foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM po_items_revised WHERE po_id = '$po_id' AND pr_details_id = '$pr->pr_details_id' GROUP BY revision_no") AS $rev){
@@ -540,6 +541,9 @@ class Reports extends CI_Controller {
                          $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."<br>";
                     } else {
                          $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                         $qty = $this->super_model->select_column_custom_where("po_items","delivered_quantity","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                         $uom = $this->super_model->select_column_custom_where("po_items","uom","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                         $current_qty = "Current Qty: ".$qty." ".$uom;
                     }
                 }
             }
@@ -565,6 +569,7 @@ class Reports extends CI_Controller {
                 'wh_stocks'=>$pr->wh_stocks,
                 'qty'=>$pr->quantity,
                 'revised_qty'=>$revised,
+                'current_qty'=>$current_qty,
                 'uom'=>$pr->uom,
                 'status'=>$status,
                 'status_remarks'=>$status_remarks,
@@ -613,8 +618,8 @@ class Reports extends CI_Controller {
             $statuss='';
             $status='';
             $status_remarks='';
-            
             $item_cancelled = $this->super_model->select_column_where("pr_details", "cancelled","pr_details_id",$pr_details_id); // check if item is cancelled
+            $po_cancelled = $this->super_model->select_column_where("po_head", "cancelled","po_id",$po_id); // check if po is cancelled
             $item_on_hold = $this->super_model->select_column_where("pr_details", "on_hold","pr_details_id",$pr_details_id); // check if item is on hold
             $item_for_recom = $this->super_model->select_column_where("pr_details", "for_recom","pr_details_id",$pr_details_id); // check if item is for recom
             $item_fulfilled_by_mnl = $this->super_model->select_column_where("pr_details", "fulfilled_by","pr_details_id",$pr_details_id); // check if item is fulfilled by MNL
@@ -632,7 +637,9 @@ class Reports extends CI_Controller {
             $count_po_draft = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '0' and draft = '1' AND pi.pr_details_id = '$pr_details_id'"); //checks if item has already PO but not yet served or delivered
 
             $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '1'  and draft = '0' AND pi.pr_details_id = '$pr_details_id'"); //checks if item has already PO but already served or delivered
-         
+
+            //$count_po_not_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '0'  and draft = '0' AND pi.pr_details_id = '$pr_details_id'");
+
             $pr_qty = $this->super_model->select_column_where("pr_details", "quantity","pr_details_id",$pr_details_id); // gets the PR qty of the item
 
             $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id'"); // gets the total received qty of the item
@@ -650,9 +657,15 @@ class Reports extends CI_Controller {
            
 
            //echo $pr_qty ." < " . $sum_received_qty;
+
+            if($item_cancelled == 1 || $po_cancelled==1){
+                $status= "Cancelled";
+                $status_remarks =  "";
+            } 
+
             if($pr_qty > $sum_received_qty || $sum_received_qty == 0){
             
-                if($item_cancelled == 1){
+                if($item_cancelled == 1 || $po_cancelled==1){
                      $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr_details_id);
                     $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr_details_id);
                    
@@ -755,9 +768,8 @@ class Reports extends CI_Controller {
 
 
                           
-                        } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0 || 
-                            $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 || 
-                            $count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0){
+                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0) || 
+                            ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0)) {
                             $uom = $this->super_model->select_column_where("pr_details", "uom","pr_details_id",$pr_details_id);
                             //echo $pr_qty ."<=". $sum_delivered_qty;
                             if($pr_qty < $sum_delivered_qty){
@@ -797,9 +809,9 @@ class Reports extends CI_Controller {
                     }
               //  }
 
-            } else if($pr_qty <= $sum_received_qty) {
+            } else if($pr_qty <= $sum_received_qty && $po_cancelled==0) {
 
-                  $status_remarks='';
+                $status_remarks='';
                 foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr_details_id' AND date_received!=''") AS $del){
           
                      $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."<br>";
@@ -823,6 +835,7 @@ class Reports extends CI_Controller {
             $status_remarks='';
             
             $item_cancelled = $this->super_model->select_column_where("pr_details", "cancelled","pr_details_id",$pr_details_id); // check if item is cancelled
+            $po_cancelled = $this->super_model->select_column_where("po_head", "cancelled","po_id",$po_id); // check if po is cancelled
             $item_on_hold = $this->super_model->select_column_where("pr_details", "on_hold","pr_details_id",$pr_details_id); // check if item is on hold
             $item_for_recom = $this->super_model->select_column_where("pr_details", "for_recom","pr_details_id",$pr_details_id); // check if item is for recom
             $item_fulfilled_by_mnl = $this->super_model->select_column_where("pr_details", "fulfilled_by","pr_details_id",$pr_details_id); // check if item is fulfilled by MNL
@@ -854,11 +867,14 @@ class Reports extends CI_Controller {
                 $sum_received_qty = $sum_received_qty;
             }
            
-
-           //echo $pr_qty ." < " . $sum_received_qty;
+            if($item_cancelled == 1 || $po_cancelled==1){
+                $status= "Cancelled";
+                $status_remarks =  "";
+            } 
+            //echo $pr_qty ." < " . $sum_received_qty;
             if($pr_qty > $sum_received_qty || $sum_received_qty == 0){
             
-                if($item_cancelled == 1){
+                if($item_cancelled == 1 || $po_cancelled==1){
                      $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr_details_id);
                     $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr_details_id);
                    
@@ -962,9 +978,8 @@ class Reports extends CI_Controller {
 
 
                           
-                        } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0 || 
-                            $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 || 
-                            $count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0){
+                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0) || 
+                            ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0)) {
                             $uom = $this->super_model->select_column_where("pr_details", "uom","pr_details_id",$pr_details_id);
                             //echo $pr_qty ."<=". $sum_delivered_qty;
                             if($pr_qty < $sum_delivered_qty){
@@ -1004,7 +1019,7 @@ class Reports extends CI_Controller {
                     }
               //  }
 
-            } else if($pr_qty <= $sum_received_qty) {
+            } else if($pr_qty <= $sum_received_qty && $po_cancelled==0) {
 
                   $status_remarks='';
                 foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr_details_id' AND date_received!=''") AS $del){
@@ -1214,6 +1229,7 @@ class Reports extends CI_Controller {
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
             $revised='';
+            $current_qty='';
             $revision_no = $this->super_model->select_column_where("po_head","revision_no","po_id",$po_id);
             if($revision_no!=0){
                 foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM po_items_revised WHERE po_id = '$po_id' AND pr_details_id = '$pr->pr_details_id' GROUP BY revision_no") AS $rev){
@@ -1221,6 +1237,9 @@ class Reports extends CI_Controller {
                          $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."<br>";
                     } else {
                          $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                         $qty = $this->super_model->select_column_custom_where("po_items","delivered_quantity","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                         $uom = $this->super_model->select_column_custom_where("po_items","uom","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                         $current_qty = "Current Qty: ".$qty." ".$uom;
                     }
                 }
             }
@@ -1450,6 +1469,7 @@ class Reports extends CI_Controller {
                 $stat = $this->pr_item_status_export($pr->pr_details_id,$controller_name,$po_id);
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
+                $current_qty='';
                 $revised='';
                 $revision_no = $this->super_model->select_column_where("po_head","revision_no","po_id",$po_id);
                 if($revision_no!=0){
@@ -1458,6 +1478,9 @@ class Reports extends CI_Controller {
                              $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."\n";
                         } else {
                              $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."\n";
+                             $qty = $this->super_model->select_column_custom_where("po_items","delivered_quantity","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                             $uom = $this->super_model->select_column_custom_where("po_items","uom","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                             $current_qty = "Current Qty: ".$qty." ".$uom;
                         }
                     }
                 }
@@ -1520,6 +1543,8 @@ class Reports extends CI_Controller {
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "✓");
                     }
                 }
+
+                $revise_qty = $revised."\n".$current_qty;
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->date_prepared");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->purchase_request");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->purpose");
@@ -1529,7 +1554,7 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->wh_stocks");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$pr->item_no");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$pr->quantity");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$revised");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$revise_qty");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->uom");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$pr->grouping_id");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$pr->item_description $unserved");
@@ -1602,6 +1627,7 @@ class Reports extends CI_Controller {
                 $stat = $this->pr_item_status_export($pr->pr_details_id,$controller_name,$po_id);
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
+                $current_qty='';
                 $revised='';
                 $revision_no = $this->super_model->select_column_where("po_head","revision_no","po_id",$po_id);
                 if($revision_no!=0){
@@ -1610,6 +1636,9 @@ class Reports extends CI_Controller {
                              $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."\n";
                         } else {
                              $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."\n";
+                             $qty = $this->super_model->select_column_custom_where("po_items","delivered_quantity","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                             $uom = $this->super_model->select_column_custom_where("po_items","uom","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                             $current_qty = "Current Qty: ".$qty." ".$uom;
                         }
                     }
                 }
@@ -1672,6 +1701,7 @@ class Reports extends CI_Controller {
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "✓");
                     }
                 }
+                $revise_qty = $revised."\n".$current_qty;
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->date_prepared");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->purchase_request");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->purpose");
@@ -1681,7 +1711,7 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->wh_stocks");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$pr->item_no");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$pr->quantity");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$revised");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$revise_qty");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->uom");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$pr->grouping_id");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$pr->item_description $unserved");
@@ -3392,7 +3422,7 @@ class Reports extends CI_Controller {
                         $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$i->pr_details_id'");
                         $unserved_qty=0;
                         $unserved_uom='';  
-                        $stat = $this->pr_item_status($i->pr_details_id,$controller_name,$i->po_id);
+                        $stat = $this->pr_item_status_export($i->pr_details_id,$controller_name,$i->po_id);
                         $status = $stat['status'];
                         $status_remarks = $stat['remarks'];
                         $po_issue=$this->like($status, "PO Issued");
@@ -4326,7 +4356,7 @@ class Reports extends CI_Controller {
                 }
                 $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $p->pr_details_id, "po_id", "DESC", "1");
                 $served=  $this->super_model->select_column_where('po_head', 'served', 'po_id', $po_id);
-                $stat = $this->pr_item_status($p->pr_details_id,$controller_name,$po_id);
+                $stat = $this->pr_item_status_export($p->pr_details_id,$controller_name,$po_id);
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
                 $po_issue=$this->like($status, "PO Issued");
@@ -7340,13 +7370,14 @@ class Reports extends CI_Controller {
         return $status;
    }
 
-   public function jor_item_status($jor_items_id){
+   public function jor_item_status($jor_items_id,$controller_name,$joi_id){
             //$jor_items_id='2626';
             $statuss='';
             $status='';
             $status_remarks='';
             
             $item_cancelled = $this->super_model->select_column_where("jor_items", "cancelled","jor_items_id",$jor_items_id); // check if item is cancelled
+            $po_cancelled = $this->super_model->select_column_where("joi_head", "cancelled","joi_id",$joi_id); // check if po is cancelled
             $item_on_hold = $this->super_model->select_column_where("jor_items", "on_hold","jor_items_id",$jor_items_id); // check if item is on hold
             $item_for_recom = $this->super_model->select_column_where("jor_items", "for_recom","jor_items_id",$jor_items_id); // check if item is for recom
             $item_fulfilled_by_mnl = $this->super_model->select_column_where("jor_items", "fulfilled_by","jor_items_id",$jor_items_id); // check if item is fulfilled by MNL
@@ -7358,25 +7389,33 @@ class Reports extends CI_Controller {
             $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE ao.jor_items_id= '$jor_items_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'"); // check if item is already in the AOQ process but already awarded
 
             $count_po = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0'  AND served = '0' AND pi.jor_items_id = '$jor_items_id'"); //checks if item has already PO but not yet served or delivered
+            $count_po_served_draft = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0'  AND served = '1'  and draft = '1' AND pi.jor_items_id = '$jor_items_id'"); //checks if item has already PO but already served or delivered
 
+            $count_po_draft = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0'  AND served = '0' and draft = '1' AND pi.jor_items_id = '$jor_items_id'"); //checks if item has already PO but not yet served or delivered
             $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0'  AND served = '1' AND pi.jor_items_id = '$jor_items_id'"); //checks if item has already PO but already served or delivered
          
             $pr_qty = $this->super_model->select_column_where("jor_items", "quantity","jor_items_id",$jor_items_id); // gets the PR qty of the item
 
             $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$jor_items_id'"); // gets the total received qty of the item
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$jor_items_id'"); // gets the total delivered qty of the item
-
+            $po_qty = $this->super_model->select_column_where("joi_items","delivered_quantity","jor_items_id",$jor_items_id);
+            $po_rec_qty = $this->super_model->select_column_where("joi_items","quantity","jor_items_id",$jor_items_id);
+            $draft = $this->super_model->select_column_where("joi_head","draft","joi_id",$joi_id);
             if(empty($sum_received_qty)){
                 $sum_received_qty = 0;
             } else {
                 $sum_received_qty = $sum_received_qty;
             }
-           
 
+            if($item_cancelled == 1 || $po_cancelled==1){
+                $status= "Cancelled";
+                $status_remarks =  "";
+            } 
+           
            //echo $pr_qty ." < " . $sum_received_qty;
             if($pr_qty > $sum_received_qty || $sum_received_qty == 0){
             
-                if($item_cancelled == 1){
+                if($item_cancelled == 1 || $po_cancelled==1){
                      $cancel_reason = $this->super_model->select_column_where('jor_items', 'cancelled_reason', 'jor_items_id', $jor_items_id);
                     $cancel_date = $this->super_model->select_column_where('jor_items', 'cancelled_date', 'jor_items_id', $jor_items_id);
                    
@@ -7445,7 +7484,7 @@ class Reports extends CI_Controller {
                             }
 
                             
-                        } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0){
+                        }  else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_draft != 0 && $count_po_served_draft ==0 && $draft!=0)){
                              if($item_on_hold == 1){
                                 $status = 'On-Hold';
                                 $onhold_by_id = $this->super_model->select_column_where("jor_items", "onhold_by","jor_items_id",$jor_items_id); // get onhold date
@@ -7480,8 +7519,8 @@ class Reports extends CI_Controller {
 
 
                           
-                        } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0 || 
-                            $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0){
+                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0) || 
+                            ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0)) {
                             $uom = $this->super_model->select_column_where("jor_items", "uom","jor_items_id",$jor_items_id);
                             //echo $pr_qty ."<=". $sum_delivered_qty;
                             if($pr_qty < $sum_delivered_qty){
@@ -7491,8 +7530,7 @@ class Reports extends CI_Controller {
                                  $status = "JO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_delivered_qty . " ".$uom .")</span><br>" . $statuss;
                             }
                            
-                        } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 || 
-                            $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0){
+                        }  else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0 && $draft==0){
                             $status_remarks='';
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM joi_dr_items pdr INNER JOIN joi_dr po ON pdr.joi_dr_id = po.joi_dr_id WHERE jor_items_id = '$jor_items_id' AND date_received!=''") AS $del){
                       
@@ -7500,12 +7538,20 @@ class Reports extends CI_Controller {
                             }
                             //echo $sum_delivered_qty ."<". $sum_received_qty;
                              if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
-                                $status = 'Partially Delivered';
+                                if($controller_name=='joi_report'){
+                                    if($po_qty != $po_rec_qty){
+                                        $status = 'Partially Delivered';
+                                    }else{
+                                        $status = 'Fully Delivered';
+                                    }
+                                }else{
+                                    $status = 'Partially Delivered';
+                                }
 
                              } else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
                                  $status = 'JO Issued - Partial <br> Partially Delivered';
 
-                             } else if($sum_delivered_qty == $sum_received_qty){
+                             } else if($sum_delivered_qty == $sum_received_qty || $po_qty == $po_rec_qty){
                                 $status = 'Fully Delivered';
                              }
                         }
@@ -7515,7 +7561,7 @@ class Reports extends CI_Controller {
                     }
               //  }
 
-            } else if($pr_qty <= $sum_received_qty) {
+            } else if($pr_qty <= $sum_received_qty && $po_cancelled==0) {
 
                   $status_remarks='';
                 foreach($this->super_model->custom_query("SELECT pdr.* FROM joi_dr_items pdr INNER JOIN joi_dr po ON pdr.joi_dr_id = po.joi_dr_id WHERE jor_items_id = '$jor_items_id' AND date_received!=''") AS $del){
@@ -7534,13 +7580,14 @@ class Reports extends CI_Controller {
             return $data;
     }
 
-    public function jor_item_status_export($jor_items_id){
+    public function jor_item_status_export($jor_items_id,$controller_name,$joi_id){
             //$jor_items_id='2626';
             $statuss='';
             $status='';
             $status_remarks='';
             
             $item_cancelled = $this->super_model->select_column_where("jor_items", "cancelled","jor_items_id",$jor_items_id); // check if item is cancelled
+            $po_cancelled = $this->super_model->select_column_where("joi_head", "cancelled","joi_id",$joi_id); // check if po is cancelled
             $item_on_hold = $this->super_model->select_column_where("jor_items", "on_hold","jor_items_id",$jor_items_id); // check if item is on hold
             $item_for_recom = $this->super_model->select_column_where("jor_items", "for_recom","jor_items_id",$jor_items_id); // check if item is for recom
             $item_fulfilled_by_mnl = $this->super_model->select_column_where("jor_items", "fulfilled_by","jor_items_id",$jor_items_id); // check if item is fulfilled by MNL
@@ -7552,22 +7599,29 @@ class Reports extends CI_Controller {
             $count_aoq_awarded = $this->super_model->count_custom_query("SELECT ah.jor_aoq_id FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE ao.jor_items_id= '$jor_items_id' AND saved='1' AND ao.recommended = '1' AND cancelled='0'"); // check if item is already in the AOQ process but already awarded
 
             $count_po = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0'  AND served = '0' AND pi.jor_items_id = '$jor_items_id'"); //checks if item has already PO but not yet served or delivered
+            $count_po_served_draft = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0'  AND served = '1'  and draft = '1' AND pi.jor_items_id = '$jor_items_id'"); //checks if item has already PO but already served or delivered
 
+            $count_po_draft = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0'  AND served = '0' and draft = '1' AND pi.jor_items_id = '$jor_items_id'"); //checks if item has already PO but not yet served or delivered
             $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0'  AND served = '1' AND pi.jor_items_id = '$jor_items_id'"); //checks if item has already PO but already served or delivered
          
             $pr_qty = $this->super_model->select_column_where("jor_items", "quantity","jor_items_id",$jor_items_id); // gets the PR qty of the item
 
             $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$jor_items_id'"); // gets the total received qty of the item
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$jor_items_id'"); // gets the total delivered qty of the item
-
+            $po_qty = $this->super_model->select_column_where("joi_items","delivered_quantity","jor_items_id",$jor_items_id);
+            $po_rec_qty = $this->super_model->select_column_where("joi_items","quantity","jor_items_id",$jor_items_id);
+            $draft = $this->super_model->select_column_where("joi_head","draft","joi_id",$joi_id);
             if(empty($sum_received_qty)){
                 $sum_received_qty = 0;
             } else {
                 $sum_received_qty = $sum_received_qty;
             }
            
-
-           //echo $pr_qty ." < " . $sum_received_qty;
+            if($item_cancelled == 1 || $po_cancelled==1){
+                $status= "Cancelled";
+                $status_remarks =  "";
+            } 
+            //echo $pr_qty ." < " . $sum_received_qty;
             if($pr_qty > $sum_received_qty || $sum_received_qty == 0){
             
                 if($item_cancelled == 1){
@@ -7639,8 +7693,8 @@ class Reports extends CI_Controller {
                             }
 
                             
-                        } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0){
-                             if($item_on_hold == 1){
+                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_draft != 0 && $count_po_served_draft ==0 && $draft!=0)){
+                            if($item_on_hold == 1){
                                 $status = 'On-Hold';
                                 $onhold_by_id = $this->super_model->select_column_where("jor_items", "onhold_by","jor_items_id",$jor_items_id); // get onhold date
                                 $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by_id);
@@ -7674,8 +7728,8 @@ class Reports extends CI_Controller {
 
 
                           
-                        } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0 || 
-                            $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0){
+                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0) || 
+                            ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0)) {
                             $uom = $this->super_model->select_column_where("jor_items", "uom","jor_items_id",$jor_items_id);
                             //echo $pr_qty ."<=". $sum_delivered_qty;
                             if($pr_qty < $sum_delivered_qty){
@@ -7685,8 +7739,7 @@ class Reports extends CI_Controller {
                                  $status = "JO Issued (". $sum_delivered_qty . " ".$uom .")\n" . $statuss;
                             }
                            
-                        } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 || 
-                            $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0){
+                        }  else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0 && $draft==0){
                             $status_remarks='';
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM joi_dr_items pdr INNER JOIN joi_dr po ON pdr.joi_dr_id = po.joi_dr_id WHERE jor_items_id = '$jor_items_id' AND date_received!=''") AS $del){
                       
@@ -7694,12 +7747,20 @@ class Reports extends CI_Controller {
                             }
                             //echo $sum_delivered_qty ."<". $sum_received_qty;
                              if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
-                                $status = 'Partially Delivered';
+                                if($controller_name=='joi_report'){
+                                    if($po_qty != $po_rec_qty){
+                                        $status = 'Partially Delivered';
+                                    }else{
+                                        $status = 'Fully Delivered';
+                                    }
+                                }else{
+                                    $status = 'Partially Delivered';
+                                }
 
                              } else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
                                  $status = "JO Issued - Partial \n Partially Delivered";
 
-                             } else if($sum_delivered_qty == $sum_received_qty){
+                             } else if($sum_delivered_qty == $sum_received_qty  || $po_qty == $po_rec_qty){
                                 $status = 'Fully Delivered';
                              }
                         }
@@ -7709,7 +7770,7 @@ class Reports extends CI_Controller {
                     }
               //  }
 
-            } else if($pr_qty <= $sum_received_qty) {
+            } else if($pr_qty <= $sum_received_qty && $po_cancelled==0) {
 
                   $status_remarks='';
                 foreach($this->super_model->custom_query("SELECT pdr.* FROM joi_dr_items pdr INNER JOIN joi_dr po ON pdr.joi_dr_id = po.joi_dr_id WHERE jor_items_id = '$jor_items_id' AND date_received!=''") AS $del){
@@ -7729,6 +7790,7 @@ class Reports extends CI_Controller {
     }
 
    public function jor_report(){
+        $controller_name=$this->uri->segment(2);
         $year1=$this->uri->segment(3);
         $month1=$this->uri->segment(4);
         if(!empty($year1)){
@@ -7784,7 +7846,7 @@ class Reports extends CI_Controller {
             $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
             $unserved_qty=0;
             $unserved_uom='';  
-            $stat = $this->jor_item_status($pr->jor_items_id);
+            $stat = $this->jor_item_status($pr->jor_items_id,$controller_name,$joi_id);
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
             $revised='';
@@ -7795,6 +7857,9 @@ class Reports extends CI_Controller {
                          $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."<br>";
                     } else {
                          $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                         $qty = $this->super_model->select_column_custom_where("joi_items","delivered_quantity","joi_id='$joi_id' AND jor_items_id='$pr->jor_items_id'");
+                         $uom = $this->super_model->select_column_custom_where("joi_items","uom","joi_id='$joi_id' AND jor_items_id='$pr->jor_items_id'");
+                         $current_qty = "Current Qty: ".$qty." ".$uom;
                     }
                 }
             }
@@ -7821,6 +7886,7 @@ class Reports extends CI_Controller {
                 //'item_no'=>$pr->item_no,
                 'qty'=>$pr->quantity,
                 'revised_qty'=>$revised,
+                'current_qty'=>$current_qty,
                 'uom'=>$pr->uom,
                 'status'=>$status,
                 'status_remarks'=>$status_remarks,
@@ -7961,7 +8027,7 @@ class Reports extends CI_Controller {
              $date = $year;
              $data['date']=$date;
         }
-
+        $controller_name='jor_report';
         $data['company']=$this->super_model->select_all_order_by("company","company_name","ASC");
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         $data['terms']=$this->super_model->select_all_order_by("terms","terms","ASC");
@@ -7992,7 +8058,7 @@ class Reports extends CI_Controller {
             $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
             $unserved_qty=0;
             $unserved_uom='';  
-            $stat = $this->jor_item_status($pr->jor_items_id);
+            $stat = $this->jor_item_status($pr->jor_items_id,$controller_name,$joi_id);
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
             $revised='';
@@ -8003,6 +8069,9 @@ class Reports extends CI_Controller {
                          $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."<br>";
                     } else {
                          $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                         $qty = $this->super_model->select_column_custom_where("joi_items","delivered_quantity","joi_id='$joi_id' AND jor_items_id='$pr->jor_items_id'");
+                         $uom = $this->super_model->select_column_custom_where("joi_items","uom","joi_id='$joi_id' AND jor_items_id='$pr->jor_items_id'");
+                         $current_qty = "Current Qty: ".$qty." ".$uom;
                     }
                 }
             }
@@ -8029,6 +8098,7 @@ class Reports extends CI_Controller {
                 //'item_no'=>$pr->item_no,
                 'qty'=>$pr->quantity,
                 'revised_qty'=>$revised,
+                'current_qty'=>$current_qty,
                 'uom'=>$pr->uom,
                 'status'=>$status,
                 'status_remarks'=>$status_remarks,
@@ -8146,7 +8216,6 @@ class Reports extends CI_Controller {
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
         $exportfilename="JOR Summary.xlsx";
-
         $year=$this->uri->segment(3);
         $month=$this->uri->segment(4);
         if($month!='null'){
@@ -8154,6 +8223,7 @@ class Reports extends CI_Controller {
         } else {
              $date = $year;
         }
+        $controller_name='jor_report';
         $date_received=$this->uri->segment(5);
         $project_title=str_replace("%20", " ", $this->uri->segment(6));
         $jor_no=str_replace("%20", " ",$this->uri->segment(7));
@@ -8261,7 +8331,7 @@ class Reports extends CI_Controller {
                 $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
                 $unserved_qty=0;
                 $unserved_uom='';  
-                $stat = $this->jor_item_status_export($pr->jor_items_id);
+                $stat = $this->jor_item_status_export($pr->jor_items_id,$controller_name,$joi_id);
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
                 $revised='';
@@ -8272,6 +8342,9 @@ class Reports extends CI_Controller {
                              $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."\n";
                         } else {
                              $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."\n";
+                             $qty = $this->super_model->select_column_custom_where("joi_items","delivered_quantity","joi_id='$joi_id' AND jor_items_id='$pr->jor_items_id'");
+                             $uom = $this->super_model->select_column_custom_where("joi_items","uom","joi_id='$joi_id' AND jor_items_id='$pr->jor_items_id'");
+                             $current_qty = "Current Qty: ".$qty." ".$uom;
                         }
                     }
                 }
@@ -8329,6 +8402,7 @@ class Reports extends CI_Controller {
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "✓");
                     }
                 }
+                $revise_qty = $revised."\n".$current_qty;
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->date_prepared");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->delivery_date");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->completion_date");
@@ -8337,7 +8411,7 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$jor_no");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->requested_by");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$pr->quantity");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$revised");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$revise_qty");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$pr->uom");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->grouping_id");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$pr->scope_of_work $unserved");
@@ -8394,7 +8468,7 @@ class Reports extends CI_Controller {
                 $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$pr->jor_items_id'");
                 $unserved_qty=0;
                 $unserved_uom='';  
-                $stat = $this->jor_item_status_export($pr->jor_items_id);
+                $stat = $this->jor_item_status_export($pr->jor_items_id,$controller_name,$joi_id);
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
                 $revised='';
@@ -8405,6 +8479,9 @@ class Reports extends CI_Controller {
                              $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."\n";
                         } else {
                              $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."\n";
+                             $qty = $this->super_model->select_column_custom_where("joi_items","delivered_quantity","joi_id='$joi_id' AND jor_items_id='$pr->jor_items_id'");
+                             $uom = $this->super_model->select_column_custom_where("joi_items","uom","joi_id='$joi_id' AND jor_items_id='$pr->jor_items_id'");
+                             $current_qty = "Current Qty: ".$qty." ".$uom;
                         }
                     }
                 }
@@ -8463,6 +8540,7 @@ class Reports extends CI_Controller {
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "✓");
                     }
                 }
+                $revise_qty = $revised."\n".$current_qty;
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->date_prepared");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->delivery_date");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->completion_date");
@@ -8471,7 +8549,7 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$jor_no");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$pr->requested_by");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$pr->quantity");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$revised");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$revise_qty");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$pr->uom");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->grouping_id");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$pr->scope_of_work $unserved");
@@ -8756,6 +8834,7 @@ class Reports extends CI_Controller {
     }
 
     public function joi_report(){
+        $controller_name='joi_report';
         $year1=$this->uri->segment(3);
         $month1=$this->uri->segment(4);
         if(!empty($year1)){
@@ -8841,7 +8920,7 @@ class Reports extends CI_Controller {
                     $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$i->jor_items_id'");
                     $unserved_qty=0;
                     $unserved_uom='';  
-                    $stat = $this->jor_item_status($i->jor_items_id);
+                    $stat = $this->jor_item_status($i->jor_items_id,$controller_name,$i->joi_id);
                     $status = $stat['status'];
                     $status_remarks = $stat['remarks'];
                     $data['po'][]=array(
@@ -9001,6 +9080,7 @@ class Reports extends CI_Controller {
              $date = $year;
              $data['date']=$date;
         }
+        $controller_name='joi_report';
         $joi_date = date('Y-m', strtotime($date));
         $data['jor_no']=$this->super_model->select_custom_where('jor_head',"cancelled='0'");
         $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
@@ -9062,7 +9142,7 @@ class Reports extends CI_Controller {
             $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$p->jor_items_id'");
             $unserved_qty=0;
             $unserved_uom='';  
-            $stat = $this->jor_item_status($p->jor_items_id);
+            $stat = $this->jor_item_status($p->jor_items_id,$controller_name,$p->joi_id);
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
             $data['po'][]=array(
@@ -9100,6 +9180,7 @@ class Reports extends CI_Controller {
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
         $exportfilename="JOI Summary.xlsx";
+        $controller_name='joi_report';
         $year=$this->uri->segment(3);
         $month=$this->uri->segment(4);
         $jor_no=$this->uri->segment(5);
@@ -9263,7 +9344,7 @@ class Reports extends CI_Controller {
                 $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$p->jor_items_id'");
                 $unserved_qty=0;
                 $unserved_uom='';  
-                $stat = $this->jor_item_status_export($p->jor_items_id);
+                $stat = $this->jor_item_status_export($p->jor_items_id,$controller_name,$p->joi_id);
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
                 $styleArray = array(
@@ -9386,7 +9467,7 @@ class Reports extends CI_Controller {
                         $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$i->jor_items_id'");
                         $unserved_qty=0;
                         $unserved_uom='';  
-                        $stat = $this->jor_item_status_export($i->jor_items_id);
+                        $stat = $this->jor_item_status_export($i->jor_items_id,$controller_name,$i->joi_id);
                         $status = $stat['status'];
                         $status_remarks = $stat['remarks'];
                         $styleArray = array(
@@ -9468,6 +9549,7 @@ class Reports extends CI_Controller {
     }
 
     public function jo_unserved_report(){
+        $controller_name='joi_report';
         $year1=$this->uri->segment(3);
         $month1=$this->uri->segment(4);
         if(!empty($year1)){
@@ -9544,7 +9626,7 @@ class Reports extends CI_Controller {
                     $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$i->jor_items_id'");
                     $unserved_qty=0;
                     $unserved_uom='';  
-                    $stat = $this->jor_item_status($i->jor_items_id);
+                    $stat = $this->jor_item_status($i->jor_items_id,$controller_name,$i->joi_id);
                     $status = $stat['status'];
                     $status_remarks = $stat['remarks'];
                     $total = $unserved_qty * $i->unit_price;
@@ -9704,6 +9786,7 @@ class Reports extends CI_Controller {
              $date = $year;
              $data['date']=$date;
         }
+        $controller_name='joi_report';
         $joi_date = date('Y-m', strtotime($date));
         $data['jor_no']=$this->super_model->select_custom_where('jor_head',"cancelled='0'");
         $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
@@ -9753,7 +9836,7 @@ class Reports extends CI_Controller {
             $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$p->jor_items_id'");
             $unserved_qty=0;
             $unserved_uom='';  
-            $stat = $this->jor_item_status($p->jor_items_id);
+            $stat = $this->jor_item_status($p->jor_items_id,$controller_name,$p->joi_id);
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
             $total = $unserved_qty * $p->unit_price;
@@ -9795,6 +9878,7 @@ class Reports extends CI_Controller {
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
         $exportfilename="JO Unserved Report.xlsx";
+        $controller_name='joi_report';
         $year=$this->uri->segment(3);
         $month=$this->uri->segment(4);
         $jor_no=$this->uri->segment(5);
@@ -9936,7 +10020,7 @@ class Reports extends CI_Controller {
                 $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$p->jor_items_id'");
                 $unserved_qty=0;
                 $unserved_uom='';  
-                $stat = $this->jor_item_status($p->jor_items_id);
+                $stat = $this->jor_item_status($p->jor_items_id,$controller_name,$p->joi_id);
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
 
@@ -10042,7 +10126,7 @@ class Reports extends CI_Controller {
                         $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$i->jor_items_id'");
                         $unserved_qty=0;
                         $unserved_uom='';  
-                        $stat = $this->jor_item_status($i->jor_items_id);
+                        $stat = $this->jor_item_status($i->jor_items_id,$controller_name,$i->joi_id);
                         $status = $stat['status'];
                         $status_remarks = $stat['remarks'];
                         $jo_issue=$this->like($status, "JO Issued");
