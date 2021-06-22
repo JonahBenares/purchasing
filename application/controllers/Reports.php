@@ -5561,7 +5561,7 @@ class Reports extends CI_Controller {
 
     
         foreach($this->super_model->select_custom_where("pr_calendar","ver_date_needed LIKE '$year%' GROUP BY proj_act_id ORDER BY ver_date_needed DESC") AS $cp){
-            $po_id = $this->super_model->select_column_where('po_head', 'po_id', 'pr_details_id', $cp->pr_details_id);
+            $po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $cp->pr_details_id);
             $cal_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $cp->pr_details_id);
             $aoq_vendor = $this->super_model->select_column_custom_where('aoq_offers','vendor_id', "pr_details_id='$cp->pr_details_id' AND recommended='1'");
             $supplier = $this->super_model->select_column_where('vendor_head','vendor_name', "vendor_id",$aoq_vendor);
