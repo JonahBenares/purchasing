@@ -977,7 +977,7 @@ class Joaoq extends CI_Controller {
             $freight=$rfq->freight;
             $objPHPExcel->getActiveSheet()->setCellValue('b'.$a, "a. Price Validity");
             $objPHPExcel->getActiveSheet()->setCellValue('b'.$b, "b. Payment Terms");
-            $objPHPExcel->getActiveSheet()->setCellValue('b'.$c, "c. Work Duration");
+            $objPHPExcel->getActiveSheet()->setCellValue('b'.$c, "c. Date of Delivery");
             $objPHPExcel->getActiveSheet()->setCellValue('b'.$d, "d. Items Warranty");
             $objPHPExcel->getActiveSheet()->setCellValue('b'.$e, "e. In-land Freight");
 
