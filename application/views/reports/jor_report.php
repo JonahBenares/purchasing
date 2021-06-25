@@ -15,11 +15,15 @@
              var joi_offer_id = $(this).data('offerid');
              var status = $(this).data('status');
               var jor_id = $(this).data('prid');
+              var remarks = $(this).data('remarks');
+              var cancel_remarks = $(this).data('cancel');
                $(".modal #jor_id").val(jor_id);
               $(".modal #status").val(status);
              $(".modal #jor_items_id").val(jor_items_id);
              $(".modal #year").val(year);
              $(".modal #month").val(month);
+             $(".modal #remarks").val(remarks);
+             $(".modal #cancel_remarks").val(cancel_remarks);
              //$(".modal #remarks").val(remarks);
              $(".modal #joi_offer_id").val(joi_offer_id);
         });
@@ -301,7 +305,7 @@
                                                 <td></td>
                                                 <td align="center">  
                                                     <center>
-                                                        <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['jor_items_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['joi_offer_id']; ?>" data-month="<?php echo $month; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['jor_id']; ?>">
+                                                        <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['jor_items_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['joi_offer_id']; ?>" data-month="<?php echo $month; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['jor_id']; ?>" data-remarks="<?php echo $p['remarks']?>" data-cancel="<?php echo $p['cancel_remarks']?>">
                                                             <span class="fa fa-plus"></span>
                                                         </button>  
                                                     </center>

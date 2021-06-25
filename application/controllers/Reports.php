@@ -7850,6 +7850,7 @@ class Reports extends CI_Controller {
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
             $revised='';
+            $current_qty='';
             $revision_no = $this->super_model->select_column_where("joi_head","revision_no","joi_id",$joi_id);
             if($revision_no!=0){
                 foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM joi_items_revised WHERE joi_id = '$joi_id' AND jor_items_id = '$pr->jor_items_id' GROUP BY revision_no") AS $rev){
@@ -8062,6 +8063,7 @@ class Reports extends CI_Controller {
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
             $revised='';
+            $current_qty='';
             $revision_no = $this->super_model->select_column_where("joi_head","revision_no","joi_id",$joi_id);
             if($revision_no!=0){
                 foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM joi_items_revised WHERE joi_id = '$joi_id' AND jor_items_id = '$pr->jor_items_id' GROUP BY revision_no") AS $rev){
@@ -8335,6 +8337,7 @@ class Reports extends CI_Controller {
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
                 $revised='';
+                $current_qty='';
                 $revision_no = $this->super_model->select_column_where("joi_head","revision_no","joi_id",$joi_id);
                 if($revision_no!=0){
                     foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM joi_items_revised WHERE joi_id = '$joi_id' AND jor_items_id = '$pr->jor_items_id' GROUP BY revision_no") AS $rev){
@@ -8472,6 +8475,7 @@ class Reports extends CI_Controller {
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
                 $revised='';
+                $current_qty='';
                 $revision_no = $this->super_model->select_column_where("joi_head","revision_no","joi_id",$joi_id);
                 if($revision_no!=0){
                     foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM joi_items_revised WHERE joi_id = '$joi_id' AND jor_items_id = '$pr->jor_items_id' GROUP BY revision_no") AS $rev){

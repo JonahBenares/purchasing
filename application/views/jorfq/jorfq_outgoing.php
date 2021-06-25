@@ -291,13 +291,13 @@
 		    			<td class="f13" colspan="16" align="left"> <?php echo $jo_no."-".COMPANY; ?></td>
 		    			<td class="f13" colspan="1"></td>		    			
 		    		</tr>
-		    		<tr>
+		    		<!-- <tr>
 		    			<td class="f13 p-l-10" colspan="3">End User: </td>
 		    			<td class="f13" colspan="16" align="left"><center><?php{ 
 		    			 	echo $requested_by; 
 		    			 } ?></center></td>
 		    			<td class="f13" colspan="1"></td>		    			
-		    		</tr>
+		    		</tr> -->
 		    		
 		    		<tr><td class="f13  p-l-5" colspan="20" align="left"><br></td></tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
