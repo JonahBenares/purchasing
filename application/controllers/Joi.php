@@ -231,7 +231,10 @@ class Joi extends CI_Controller {
         $data['cancelled']=$this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
         $data['delivered_to'] = $this->super_model->select_column_where("joi_dr", "delivered_to", "joi_dr_id", $joi_dr_id);
         $data['address'] = $this->super_model->select_column_where("joi_dr", "address", "joi_dr_id", $joi_dr_id);
-        $data['requested_by'] = $this->super_model->select_column_where("joi_dr", "requested_by", "joi_dr_id", $joi_dr_id);
+        $jor_id= $this->super_model->select_column_where("joi_items", "jor_id", "joi_id", $joi_id);
+        $data['requested_by'] = $this->super_model->select_column_where("jor_head", "requested_by", "jor_id", $jor_id);
+        $data['jor_no'] = $this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor_id);
+        //$data['requested_by'] = $this->super_model->select_column_where("joi_dr", "requested_by", "joi_dr_id", $joi_dr_id);
         foreach($this->super_model->select_row_where('joi_jor', 'joi_id', $joi_id) AS $pr){
              $itemno='';
             foreach($this->super_model->select_custom_where("joi_dr_items", "jor_id= '$pr->jor_id' AND joi_id='$joi_id' AND joi_dr_id = '$joi_dr_id'") AS $it){
@@ -1880,7 +1883,6 @@ class Joi extends CI_Controller {
             $data['cash_check']=$r->cash_check;
             $data['bank_no']=$r->bank_no;
             $data['notes']=$r->notes;
-            
             $data['checked']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->checked_by);
             $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
             $data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->noted_by);

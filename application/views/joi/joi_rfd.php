@@ -105,7 +105,12 @@
     </style>
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>joi/save_joi_rfd'>  
+    	<?php if($rows_rfd ==0){
+    		$url = base_url().'joi/save_joi_rfd';
+    	} else if($rows_rfd!=0 && $saved==0){
+    		$url = base_url().'joi/update_rfd';
+    	} ?>
+    	<form method='POST' action='<?php echo $url; ?>'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
@@ -340,6 +345,15 @@
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="left" colspan="7" ><b class="nomarg">Notes: </b>
+		    				<?php if($rows_rfd==0){ ?>
+		    				<textarea class="form-control bor-btm"  name = "notes"></textarea>
+		    				<?php }else { echo $notes; }?>
+		    			</td>
+		    			<td align="right" colspan="10" class="bor-right"></td>
+		    			<td align="right" colspan="3"></td>
 		    		</tr>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"></b></td>
