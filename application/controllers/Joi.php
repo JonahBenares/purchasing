@@ -972,6 +972,7 @@ class Joi extends CI_Controller {
         }
         $data['tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
         $data['dr'] = $this->super_model->select_row_where("joi_dr", "joi_id", $joi_id);
+        $data['rfd'] = $this->super_model->select_row_where("joi_rfd", "joi_id", $joi_id);
         $this->load->view('joi/jo_issuance_saved',$data);
         $this->load->view('template/footer');
     }
@@ -1804,12 +1805,12 @@ class Joi extends CI_Controller {
         }
     }
 
-        public function joi_rfd(){   
+    public function joi_rfd(){   
         $joi_id = $this->uri->segment(3);
         $data['joi_id'] = $joi_id;   
         $data['revised']=$this->super_model->select_column_where('joi_head', 'revised', 'joi_id', $joi_id);
         $data['revision_no']=$this->super_model->select_column_where('joi_head', 'revision_no', 'joi_id', $joi_id);
-        $data['saved']= $this->super_model->select_column_where("joi_rfd", "saved", "joi_rfd_id", $joi_id);
+        $data['saved']= $this->super_model->select_column_where("joi_rfd", "saved", "joi_id", $joi_id);
         $data['rows_rfd'] = $this->super_model->select_count("joi_rfd","joi_id",$joi_id);
         $vendor_id= $this->super_model->select_column_where("joi_head", "vendor_id", "joi_id", $joi_id);
         $data['joi_no']= $this->super_model->select_column_where("joi_head", "joi_no", "joi_id", $joi_id);
@@ -1819,6 +1820,7 @@ class Joi extends CI_Controller {
         $data['discount']= $this->super_model->select_column_where("joi_head", "discount", "joi_id", $joi_id);
         $data['packing']= $this->super_model->select_column_where("joi_head", "packing_fee", "joi_id", $joi_id);
         $data['vatt']= $this->super_model->select_column_where("joi_head", "vat", "joi_id", $joi_id);
+        $data['payment_amount']= $this->super_model->select_column_where("joi_rfd", "payment_amount", "joi_id", $joi_id);
         $data['vat_percent']= $this->super_model->select_column_where("joi_head", "vat_percent", "joi_id", $joi_id);
         $data['total_cost']= $this->super_model->select_column_where("joi_head", "total_cost", "joi_id", $joi_id);
         $data['grand_total']= $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
@@ -1893,6 +1895,101 @@ class Joi extends CI_Controller {
 
         $this->load->view('template/header');        
         $this->load->view('joi/joi_rfd',$data);
+    }
+
+    public function joi_rfd_saved(){   
+        $joi_id = $this->uri->segment(3);
+        $joi_rfd_id = $this->uri->segment(4);
+        $data['joi_id'] = $joi_id;   
+        $data['revised']=$this->super_model->select_column_where('joi_head', 'revised', 'joi_id', $joi_id);
+        $data['revision_no']=$this->super_model->select_column_where('joi_head', 'revision_no', 'joi_id', $joi_id);
+        $data['saved']= $this->super_model->select_column_where("joi_rfd", "saved", "joi_id", $joi_id);
+        $data['rows_rfd'] = $this->super_model->select_count("joi_rfd","joi_id",$joi_id);
+        $vendor_id= $this->super_model->select_column_where("joi_head", "vendor_id", "joi_id", $joi_id);
+        $data['joi_no']= $this->super_model->select_column_where("joi_head", "joi_no", "joi_id", $joi_id);
+        $data['cenpri_jo_no']= $this->super_model->select_column_where("joi_head", "cenpri_jo_no", "joi_id", $joi_id);
+        $data['joi_type']= $this->super_model->select_column_where("joi_head", "joi_type", "joi_id", $joi_id);
+        $data['shipping']= $this->super_model->select_column_where("joi_head", "shipping", "joi_id", $joi_id);
+        $data['discount']= $this->super_model->select_column_where("joi_head", "discount", "joi_id", $joi_id);
+        $data['packing']= $this->super_model->select_column_where("joi_head", "packing_fee", "joi_id", $joi_id);
+        $data['vatt']= $this->super_model->select_column_where("joi_head", "vat", "joi_id", $joi_id);
+        $data['payment_amount']= $this->super_model->select_column_where("joi_rfd", "payment_amount", "joi_id", $joi_id);
+        $data['vat_percent']= $this->super_model->select_column_where("joi_head", "vat_percent", "joi_id", $joi_id);
+        $data['total_cost']= $this->super_model->select_column_where("joi_head", "total_cost", "joi_id", $joi_id);
+        $data['grand_total']= $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
+        $data['vendor_id']= $vendor_id;
+        $data['vendor']= $this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id);
+        $data['tin']= $this->super_model->select_column_where("vendor_head", "tin", "vendor_id", $vendor_id);
+        $data['ewt']= $this->super_model->select_column_where("vendor_head", "ewt", "vendor_id", $vendor_id);
+        $data['vat']= $this->super_model->select_column_where("vendor_head", "vat", "vendor_id", $vendor_id);
+        $data['dr_no']= $this->super_model->select_column_where("joi_dr", "joi_dr_no", "joi_id", $joi_id);
+        $data['cancelled']=$this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
+        foreach($this->super_model->select_row_where('joi_items', 'joi_id', $joi_id) AS $items){
+            $total = $items->unit_price*$items->delivered_quantity;
+           if(!empty($items->offer)){
+                $offer = $items->offer;
+            } else {
+                $offer = $this->super_model->select_column_where("joi_items", "offer", "joi_items_id", $items->joi_items_id);
+            }
+            $data['items'][]= array(
+                'item_no'=>$items->item_no,
+                'offer'=>$offer,
+                'quantity'=>$items->delivered_quantity,
+                'price'=>$items->unit_price,
+                'total'=>$total,
+                'uom'=>$items->uom,
+            );
+
+            $data['currency'] = $items->currency;
+        }
+
+          foreach($this->super_model->select_row_where('joi_jor', 'joi_jor_id', $joi_id) AS $jor){
+             $itemno='';
+            foreach($this->super_model->select_custom_where('joi_items', "jor_id='$jor->jor_id' AND joi_id = '$joi_id'") AS $it){
+                $itemno .= $it->item_no . ", ";
+            }
+                $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor->jor_id);
+                /*if($jo_no!=''){
+                    $jor_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor->jor_id);
+                }else{
+                    $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $jor->jor_id);
+                }*/
+
+            $item_no = substr($itemno, 0, -2);
+            $data['jor_joi'][]=array(
+                'joi_jor_id'=>$jor->joi_jor_id,
+                'jor_no'=>$jor_no,
+                'enduse'=>$jor->enduse,
+                'purpose'=>$jor->purpose,
+                'requestor'=>$jor->requestor,
+                'item_no'=>$item_no
+            );
+        }
+
+        foreach($this->super_model->select_custom_where('joi_rfd', "joi_id='$joi_id' AND joi_rfd_id = '$joi_rfd_id'") AS $r){
+            
+            $data['company']=$r->company;
+            $data['payment_desc']=$r->payment_desc;
+            $data['payment_amount']=$r->payment_amount;
+            $data['pay_to']=$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $r->pay_to);
+            $data['check_name']=$r->check_name;
+            $data['apv_no']=$r->apv_no;
+            $data['rfd_date']=$r->rfd_date;
+            $data['due_date']=$r->due_date;
+            $data['check_due']=$r->check_due;
+            $data['cash_check']=$r->cash_check;
+            $data['bank_no']=$r->bank_no;
+            $data['notes']=$r->notes;
+            $data['checked']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->checked_by);
+            $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
+            $data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->noted_by);
+            $data['received']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->received_by);
+            $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->approved_by);
+        }
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
+
+        $this->load->view('template/header');        
+        $this->load->view('joi/joi_rfd_saved',$data);
     }
 
     public function view_history(){
@@ -1994,6 +2091,7 @@ class Joi extends CI_Controller {
 
     public function save_joi_rfd(){
         $joi_id= $this->input->post('joi_id');
+        $joi_rfd_id= $this->input->post('joi_rfd_id');
 
       /*  $dr_data = array(
             'dr_date'=>$this->input->post('rfd_date')
@@ -2007,6 +2105,8 @@ class Joi extends CI_Controller {
             'check_due'=>$this->input->post('check_due'),
             'company'=>$this->input->post('company'),
             'pay_to'=>$this->input->post('pay_to'),
+            'payment_amount'=>$this->input->post('payment_amount'),
+            'payment_desc'=>$this->input->post('payment_desc'),
             'check_name'=>$this->input->post('check_name'),
             'cash_check'=>$this->input->post('cash'),
             'bank_no'=>$this->input->post('bank_no'),
@@ -2023,7 +2123,7 @@ class Joi extends CI_Controller {
         );
 
          if($this->super_model->insert_into("joi_rfd", $data)){
-            redirect(base_url().'joi/joi_rfd/'.$joi_id, 'refresh');
+            redirect(base_url().'joi/joi_rfd_saved/'.$joi_id.'/'.$joi_dr_id, 'refresh');
         }
     }
 
@@ -2039,7 +2139,7 @@ class Joi extends CI_Controller {
         );
 
          if($this->super_model->update_where("joi_rfd", $data, "joi_id", $joi_id)){
-            redirect(base_url().'joi/joi_rfd/'.$joi_id, 'refresh');
+            redirect(base_url().'joi/joi_rfd/joi_rfd_id'.$joi_id, 'refresh');
         }
     }
 
