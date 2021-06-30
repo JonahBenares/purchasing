@@ -87,6 +87,37 @@
 		.p-5{
 			padding: 3px;
 		}
+		.open>.dropdown-menu1 {
+		    display: block;
+		}
+		.open>.dropdown-menu1 {
+		    display: block;
+		}
+		.dropdown-menu1 {
+		    position: absolute;
+		    top: 100%;
+		    left: 0;
+		    z-index: 1000;
+		    display: none;
+		    float: left;
+		    min-width: 160px;
+		    padding: 5px 0;
+		    margin: 2px 0 0;
+		    font-size: 14px;
+		    text-align: left;
+		    list-style: none;
+		    background-color: #fff;
+		    -webkit-background-clip: padding-box;
+		    background-clip: padding-box;
+		    border: 1px solid #ccc;
+		    border: 1px solid rgba(0,0,0,.15);
+		    border-radius: 4px;
+		    -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+		    box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+		}
+		.dropdown1, .dropup {
+		    position: relative;
+		}
     </style>
     <div class="modal fade" id="addscope" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -221,7 +252,7 @@
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="<?php echo base_url(); ?>joi/joi_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
+						<a href="<?php echo base_url(); ?>joi/joi_list" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span></a>
 						<?php if($draft!=1){ 
 						 		if($revised==0){ ?>
 							<a  href='<?php echo base_url(); ?>joi/jo_issuance_rev/<?php echo $joi_id; ?>' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JOI</b></u></a>
@@ -229,18 +260,45 @@
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
 						<?php if($draft!=1){ 
 								if($revised==0){ ?>
-						<a  href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
+						<!-- <a  href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a> -->
+
+							<!-- <a class="btn btn-warning btn-md" data-toggle="dropdown1"  href="#"><span class="fa fa-print"></span> Print <b>RFD</b></a>
+							<ul class="dropdown-menu1 dropdown-alerts animated fadeInDown dropdown1" style="width:200px;top:30px;border:1px solid #e66614;left:650px;">
+								<?php foreach($dr AS $d){ ?>
+									<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/delivery_receipt/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" target='_blank' class="btn btn-link">RFD</a></li>
+								<?php } ?>
+							</ul> -->
+							<a href="#" type="button" class="btn btn-warning" data-toggle="collapse" data-target="#demo1"><span class="fa fa-print"></span> Print <b>RFD</b></a>
+						  	<div id="demo1" class="collapse" style="z-index: 99999;background: #fff;position: block;width: 150px;top: 30px;border: 1px solid #e66614;left: 250px;position: absolute;text-align: left;">
+						  		<span style="margin-left:10px"><small>Choose RFD:</small></span>
+							   	<ul style="margin:0px;">
+							    	<?php foreach($dr AS $d){ ?>
+										<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "RFD# ".$d->joi_dr_no; ?></a></li>
+									<?php } ?>
+							    </ul>
+						  	</div>
+							<a href="#" type="button" class="btn btn-warning" data-toggle="collapse" data-target="#demo"><span class="fa fa-print"></span> Print <b>DR</b></a>
+						  	<div id="demo" class="collapse" style="z-index: 99999;background: #fff;position: block;width: 150px;top: 30px;border: 1px solid #e66614;left: 400px;position: absolute;text-align: left;">
+						  		<span style="margin-left:10px"><small>Choose DR:</small></span>
+						    	<ul style="margin:0px;">
+						    	<?php foreach($dr AS $d){ ?>
+									<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/delivery_receipt/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "DR# ".$d->joi_dr_no; ?></a></li>
+								<?php } ?>
+						    	</ul>
+						  	</div>
+							  	
 						<?php } } ?>
 						
-						<a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
-						<ul class="dropdown-menu dropdown-alerts animated fadeInDown" style="width:200px;top:30px;border:1px solid #e66614;left:650px;">
+						<!-- <a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
+						<ul class="dropdown-menu dropdown-alerts animated fadeInDown" style="width:200px;top:30px;border:1px solid #e66614;left:450px;">
 							<?php foreach($dr AS $d){ ?>
 								<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/delivery_receipt/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "DR# ".$d->joi_dr_no; ?></a></li>
 							<?php } ?>
-						</ul>
+						</ul> -->
 						<!-- <a  href="<?php echo base_url(); ?>joi/joi_dr/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a> -->
 						<a  href="<?php echo base_url(); ?>joi/joi_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
 						<a  href="<?php echo base_url(); ?>joi/joi_coc/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
+						<a  href="<?php echo base_url(); ?>joi/joi_rfd/" target="_blank" class="btn btn-primary btn-md p-l-25 p-r-25"><span class="fa fa-plus"></span> <b>RFD</b></a>
 						
 					</div>
 					<h4 class="text-white"><b>JOB ORDER ISSUANCE</b></h4>

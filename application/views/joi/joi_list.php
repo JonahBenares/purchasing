@@ -291,6 +291,8 @@ $(document).on("click", "#approve_rev", function () {
                                                     </a>
                                                     <?php } ?>
                                                     <a class="cancelJOI btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJOI" data-id="<?php echo $h['joi_id']?>"><span class="fa fa-ban" title="Cancel"></span></a>
+
+                                                    <a  href="<?php echo base_url(); ?>joi/joi_rfd/" target="_blank" class="btn btn-custon-three btn-info btn-xs " title="Add RFD "><span class="fa fa-plus"></span></a>
                                                 </center>
                                             </td>
                                         </tr>

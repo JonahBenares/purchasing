@@ -347,12 +347,6 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><input type="" name="" value="50% Down Payment" style="text-align: right;"></b></td>
-		    			<td align="right" colspan="3">
-		    				<span class="nomarg" id=''><b style="font-weight: 900"><input type="" name=""></b></span>
-		    			</td>
-		    		</tr>
-		    		<tr>
 		    			<td align="left" colspan="7" ><b class="nomarg">Notes: </b>
 		    				<?php if($rows_rfd==0){ ?>
 		    				<textarea class="form-control bor-btm"  name = "notes"></textarea>
