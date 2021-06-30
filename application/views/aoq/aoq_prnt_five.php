@@ -743,7 +743,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="center">c.</td>
-		    			<td colspan="4" class="f10" align="center">Date of Delivery</td>
+		    			<td colspan="4" class="f10" align="center">Delivery Time</td>
 		    			<?php
 		    			if($saved==0 && $open==0 && $draft==0){
 		    			$q=1; 

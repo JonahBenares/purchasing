@@ -727,7 +727,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="" align="right">c.</td>
-		    			<td colspan="4" class="f10" align="left">Delivery Time</td>
+		    			<td colspan="4" class="f10" align="left">Work Duration</td>
 		    			<?php
 		    				if($saved==0 && $open==0 && $draft==0){
 		    			$q=1; 
