@@ -67,6 +67,16 @@ function changePrice(){
    //document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
 }
 
+function changePrice_rfd(){
+    var gtotal = document.getElementById("total_amount").value;
+    var sum_amount = document.getElementById("sum_amount").value;
+    var payment_amount = document.getElementById("payment_amount").value;
+    var balnet =  parseFloat(gtotal) - parseFloat(payment_amount) - parseFloat(sum_amount);
+    document.getElementById("balaft").innerHTML  = balnet.toFixed(2);
+}
+
+
+
 function changePrice_JO(count){
   //alert(count);
    var price = document.getElementById("price"+count).value;

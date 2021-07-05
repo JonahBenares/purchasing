@@ -1890,6 +1890,7 @@ class Jod extends CI_Controller {
             } else {
                 $offer = $this->super_model->select_column_where("joi_items", "offer", "joi_items_id", $items->joi_items_id);
             }
+            $payment_amount = $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $items->joi_id);
             $data['items'][]= array(
                 'item_no'=>$items->item_no,
                 'offer'=>$offer,
@@ -1897,6 +1898,7 @@ class Jod extends CI_Controller {
                 'price'=>$items->unit_price,
                 'total'=>$total,
                 'uom'=>$items->uom,
+                'payment_amount'=>$payment_amount,
             );
 
             $data['currency'] = $items->currency;

@@ -1,3 +1,4 @@
+  	<script src="<?php echo base_url(); ?>assets/js/jo.js"></script> 
   	<head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -283,10 +284,10 @@
 		    		$percent=$ewt/100;
 		    		if($vat==1){
 		    			$less= ($stotal/1.12)*$percent;
-		    			$gtotal = $stotal-$less-$payment_amount;
+		    			$gtotal = $stotal-$less;
 		    		} else {
 		    			$less= $stotal*$percent;
-		    			$gtotal = $stotal-$less-$payment_amount;
+		    			$gtotal = $stotal-$less;
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% EWT</b></td>
@@ -305,7 +306,14 @@
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><input type="text" name="payment_desc" value="" style="text-align: right;"></b></td>
 		    			<td align="right" colspan="3">
-		    				<span class="nomarg" id=''><b style="font-weight: 900"><input type="text" name="payment_amount"></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><input type="text" onchange='changePrice_rfd();' name="payment_amount" id="payment_amount"></b></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance After Payment</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg" id='balaft'></span></b>
 		    			</td>
 		    		</tr>
 		    		<tr>
@@ -396,7 +404,8 @@
 	    	</div>
 	    	<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
 	    	<input type='hidden' name='pay_to' value='<?php echo $vendor_id; ?>'>
-	    	<input type='hidden' name='total_amount' value='<?php echo $gtotal; ?>'>
+	    	<input type='hidden' name='total_amount' id = "total_amount" value='<?php echo $gtotal; ?>'>
+	    	<input type='hidden' name='payment_amount' id = "payment_amount" value='<?php echo $payment_amount; ?>'>
     	</form>
     </div>
     <script type="text/javascript">

@@ -257,9 +257,11 @@
 		    		</tr>
 		    				<?php
 					    		$subtotal=array();
+					    		$baltotal=array();
 					    		if(!empty($items)){
 					    		foreach($items AS $i){ 
 					    			$subtotal[] = $i['total'];
+					    			$baltotal[] = $i['payment_amount'];
 				    		?>
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></td>
@@ -271,7 +273,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($i['total'],2); ?></span>
 		    			</td>
 		    		</tr>
-		    		<?php } } else { $subtotal=array(); } ?>
+		    		<?php } } else { $subtotal=array(); $baltotal=array(); } ?>
 		    		<tr>
 		    			<td align="left" colspan="7" ><?php echo $cenpri_jo_no."/".$joi_no."-".COMPANY; ?></td>
 		    			<td align="right" colspan="10" class="bor-right"></td>
@@ -323,10 +325,12 @@
 		    		$percent=$ewt/100;
 		    		if($vat==1){
 		    			$less= ($stotal/1.12)*$percent;
-		    			$gtotal = $stotal-$less-$payment_amount;
+		    			$gtotal = $stotal-$less;
+		    			$btotal = $stotal-$less-array_sum($baltotal);
 		    		} else {
 		    			$less= $stotal*$percent;
-		    			$gtotal = $stotal-$less-$payment_amount;
+		    			$gtotal = $stotal-$less;
+		    			$btotal = $stotal-$less-array_sum($baltotal);
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% EWT</b></td>
@@ -346,6 +350,13 @@
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $payment_desc; ?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($payment_amount,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance After Payment</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($btotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
