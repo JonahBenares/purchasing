@@ -1820,7 +1820,7 @@ class Joi extends CI_Controller {
         $data['discount']= $this->super_model->select_column_where("joi_head", "discount", "joi_id", $joi_id);
         $data['packing']= $this->super_model->select_column_where("joi_head", "packing_fee", "joi_id", $joi_id);
         $data['vatt']= $this->super_model->select_column_where("joi_head", "vat", "joi_id", $joi_id);
-        $data['payment_amount']= $this->super_model->select_column_where("joi_rfd", "payment_amount", "joi_id", $joi_id);
+        $data['payment_amount']= $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $joi_id);
         $data['vat_percent']= $this->super_model->select_column_where("joi_head", "vat_percent", "joi_id", $joi_id);
         $data['total_cost']= $this->super_model->select_column_where("joi_head", "total_cost", "joi_id", $joi_id);
         $data['grand_total']= $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
@@ -1913,7 +1913,7 @@ class Joi extends CI_Controller {
         $data['discount']= $this->super_model->select_column_where("joi_head", "discount", "joi_id", $joi_id);
         $data['packing']= $this->super_model->select_column_where("joi_head", "packing_fee", "joi_id", $joi_id);
         $data['vatt']= $this->super_model->select_column_where("joi_head", "vat", "joi_id", $joi_id);
-        $data['payment_amount']= $this->super_model->select_column_where("joi_rfd", "payment_amount", "joi_id", $joi_id);
+        $data['payment_amount']= $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $joi_id);
         $data['vat_percent']= $this->super_model->select_column_where("joi_head", "vat_percent", "joi_id", $joi_id);
         $data['total_cost']= $this->super_model->select_column_where("joi_head", "total_cost", "joi_id", $joi_id);
         $data['grand_total']= $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
@@ -2091,7 +2091,14 @@ class Joi extends CI_Controller {
 
     public function save_joi_rfd(){
         $joi_id= $this->input->post('joi_id');
-        $joi_rfd_id= $this->input->post('joi_rfd_id');
+        //$joi_rfd_id= $this->input->post('joi_rfd_id');
+        $rows_rfd = $this->super_model->count_rows("joi_rfd");
+        if($rows_rfd==0){
+            $joi_rfd_id = 1;
+        } else {
+            $maxid = $this->super_model->get_max("joi_rfd", "joi_rfd_id");
+            $joi_rfd_id = $maxid+1;
+        }
 
       /*  $dr_data = array(
             'dr_date'=>$this->input->post('rfd_date')
@@ -2123,7 +2130,7 @@ class Joi extends CI_Controller {
         );
 
          if($this->super_model->insert_into("joi_rfd", $data)){
-            redirect(base_url().'joi/joi_rfd_saved/'.$joi_id.'/'.$joi_dr_id, 'refresh');
+            redirect(base_url().'joi/joi_rfd_saved/'.$joi_id.'/'.$joi_rfd_id, 'refresh');
         }
     }
 
