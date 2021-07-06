@@ -257,9 +257,11 @@
 		    		</tr>
 		    				<?php
 					    		$subtotal=array();
+					    		$baltotal=array();
 					    		if(!empty($items)){
 					    		foreach($items AS $i){ 
 					    			$subtotal[] = $i['total'];
+					    			$baltotal[] = $i['payment_amount'];
 				    		?>
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></td>
@@ -271,7 +273,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($i['total'],2); ?></span>
 		    			</td>
 		    		</tr>
-		    		<?php } } else { $subtotal=array(); } ?>
+		    		<?php } } else { $subtotal=array(); $baltotal=array(); } ?>
 		    		<tr>
 		    			<td align="left" colspan="7" ><?php echo $cenpri_jo_no."/".$joi_no."-".COMPANY; ?></td>
 		    			<td align="right" colspan="10" class="bor-right"></td>
