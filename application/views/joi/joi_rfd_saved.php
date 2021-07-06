@@ -323,11 +323,11 @@
 		    		$percent=$ewt/100;
 		    		if($vat==1){
 		    			$less= ($stotal/1.12)*$percent;
-		    			$gtotal = $stotal-$less-$payment_amount;
+		    			$gtotal = $stotal-$less;
 		    			$btotal = $stotal-$less-$payment_amount;
 		    		} else {
 		    			$less= $stotal*$percent;
-		    			$gtotal = $stotal-$less-$payment_amount;
+		    			$gtotal = $stotal-$less;
 		    			$btotal = $stotal-$less-$payment_amount;
 		    		} ?>
 		    		<tr>
