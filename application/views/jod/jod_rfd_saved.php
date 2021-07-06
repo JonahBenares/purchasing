@@ -257,11 +257,9 @@
 		    		</tr>
 		    				<?php
 					    		$subtotal=array();
-					    		$baltotal=array();
 					    		if(!empty($items)){
 					    		foreach($items AS $i){ 
 					    			$subtotal[] = $i['total'];
-					    			$baltotal[] = $i['payment_amount'];
 				    		?>
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></td>
@@ -273,7 +271,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($i['total'],2); ?></span>
 		    			</td>
 		    		</tr>
-		    		<?php } } else { $subtotal=array(); $baltotal=array(); } ?>
+		    		<?php } } else { $subtotal=array(); } ?>
 		    		<tr>
 		    			<td align="left" colspan="7" ><?php echo $cenpri_jo_no."/".$joi_no."-".COMPANY; ?></td>
 		    			<td align="right" colspan="10" class="bor-right"></td>
@@ -323,14 +321,15 @@
 		    		</tr>
 		    		<?php 
 		    		$percent=$ewt/100;
+		    		$baltotal[] = $i['payment_amount'];
 		    		if($vat==1){
 		    			$less= ($stotal/1.12)*$percent;
 		    			$gtotal = $stotal-$less;
-		    			$btotal = $stotal-$less-array_sum($baltotal);
+		    			$btotal = $gtotal-array_sum($baltotal);
 		    		} else {
 		    			$less= $stotal*$percent;
 		    			$gtotal = $stotal-$less;
-		    			$btotal = $stotal-$less-array_sum($baltotal);
+		    			$btotal = $gtotal-array_sum($baltotal);
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% EWT</b></td>
