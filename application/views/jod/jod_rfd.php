@@ -304,9 +304,9 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><input type="text" name="payment_desc" value="" style="text-align: right;"></b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><input type="text" name="payment_desc" value="" style="text-align: right;" placeholder="Payment Description"></b></td>
 		    			<td align="right" colspan="3">
-		    				<span class="nomarg" id=''><b style="font-weight: 900"><input type="text" onchange='changePrice_rfd();' name="payment_amount" id="payment_amount"></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><input type="text" onchange='changePrice_rfd();' name="payment_amount" id="payment_amount" placeholder="Payment Amount"></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
