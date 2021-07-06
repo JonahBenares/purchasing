@@ -318,9 +318,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td align="left" colspan="7" ><b class="nomarg">Notes: </b>
-		    				<?php if($rows_rfd==0){ ?>
 		    				<textarea class="form-control bor-btm"  name = "notes"></textarea>
-		    				<?php }else { echo $notes; }?>
 		    			</td>
 		    			<td align="right" colspan="10" class="bor-right"></td>
 		    			<td align="right" colspan="3"></td>
