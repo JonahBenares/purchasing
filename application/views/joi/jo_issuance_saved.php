@@ -272,9 +272,9 @@
 						  	<div id="demo1" class="collapse" style="z-index: 99999;background: #fff;position: block;width: 150px;top: 30px;border: 1px solid #e66614;left: 250px;position: absolute;text-align: left;">
 						  		<span style="margin-left:10px"><small>Choose RFD:</small></span>
 							   	<ul style="margin:0px;">
-							    	<?php foreach($rfd AS $r){ ?>
-										<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/joi_rfd_saved/<?php echo $r->joi_id; ?>/<?php echo $r->joi_rfd_id; ?>" target='_blank' class="btn btn-link"><?php echo "APV# ".$r->apv_no; ?></a></li>
-									<?php } ?>
+							    	<?php $x=1; foreach($rfd AS $r){ ?>
+										<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/joi_rfd_saved/<?php echo $r->joi_id; ?>/<?php echo $r->joi_rfd_id; ?>" target='_blank' class="btn btn-link"><?php echo "RFD# ".$x; ?></a></li>
+									<?php $x++; } ?>
 							    </ul>
 						  	</div>
 							<a href="#" type="button" class="btn btn-warning" data-toggle="collapse" data-target="#demo"><span class="fa fa-print"></span> Print <b>DR</b></a>
