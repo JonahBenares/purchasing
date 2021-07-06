@@ -284,10 +284,10 @@
 		    		$percent=$ewt/100;
 		    		if($vat==1){
 		    			$less= ($stotal/1.12)*$percent;
-		    			$gtotal = $stotal-$less;
+		    			$gtotal = $stotal-$less-$payment_amount;
 		    		} else {
 		    			$less= $stotal*$percent;
-		    			$gtotal = $stotal-$less;
+		    			$gtotal = $stotal-$less-$payment_amount;
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% EWT</b></td>
