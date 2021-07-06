@@ -71,7 +71,11 @@ function changePrice_rfd(){
     var gtotal = document.getElementById("total_amount").value;
     var sum_amount = document.getElementById("sum_amount").value;
     var payment_amount = document.getElementById("payment_amount").value;
-    var balnet =  parseFloat(gtotal) - parseFloat(payment_amount) - parseFloat(sum_amount);
+    if(sum_amount!=''){
+      var balnet =  parseFloat(gtotal) - parseFloat(payment_amount) - parseFloat(sum_amount);
+    }else{
+      var balnet =  parseFloat(gtotal) - parseFloat(payment_amount);
+    }
     document.getElementById("balaft").innerHTML  = balnet.toFixed(2);
 }
 
