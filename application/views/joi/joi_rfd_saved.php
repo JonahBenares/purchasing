@@ -324,11 +324,11 @@
 		    		if($vat==1){
 		    			$less= ($stotal/1.12)*$percent;
 		    			$gtotal = $stotal-$less;
-		    			$btotal = $stotal-$less-$payment_amount;
+		    			$btotal = $stotal-$less-array_sum($baltotal);
 		    		} else {
 		    			$less= $stotal*$percent;
 		    			$gtotal = $stotal-$less;
-		    			$btotal = $stotal-$less-$payment_amount;
+		    			$btotal = $stotal-$less-array_sum($baltotal);
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% EWT</b></td>
@@ -354,7 +354,7 @@
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance After Payment</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($btotal,2); ?></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($baltotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
