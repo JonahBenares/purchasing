@@ -1832,6 +1832,12 @@ class Jod extends CI_Controller {
         }
 
         foreach($this->super_model->select_row_where('joi_rfd', 'joi_id', $joi_id) AS $r){
+
+            $data['payment'][]=array(
+                'payment_desc'=>$r->payment_desc,
+                'payment_amount'=>$r->payment_amount,
+
+            );
             
             $data['company']=$r->company;
             $data['pay_to']=$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $r->pay_to);
@@ -1927,8 +1933,14 @@ class Jod extends CI_Controller {
             );
         }
 
+        $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id'");
         foreach($this->super_model->select_custom_where('joi_rfd', "joi_id='$joi_id' AND joi_rfd_id = '$joi_rfd_id'") AS $r){
             
+
+/*            $data['payment'][]=array(
+                'pdesc'=>$r->payment_desc,
+                'pamount'=>$r->payment_amount,
+            );*/
             $data['company']=$r->company;
             $data['payment_desc']=$r->payment_desc;
             $data['payment_amount']=$r->payment_amount;

@@ -345,9 +345,21 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php 
+		    		foreach($payment AS $p){  ?>
+		    		<?php if($payment_desc != $p->payment_desc){ ?>
+		    		<tr>
+			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $p->payment_desc; ?></b></td>
+			    		<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($p->payment_amount,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<?php } } ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $payment_desc; ?></b></td>
 		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($payment_amount,2); ?></b></span>
 		    			</td>
 		    		</tr>

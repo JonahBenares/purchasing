@@ -282,13 +282,12 @@
 		    		</tr>
 		    		<?php 
 		    		$percent=$ewt/100;
-		    		//$baltotal[] = $i['payment_amount'];
 		    		if($vat==1){
 		    			$less= ($stotal/1.12)*$percent;
-		    			$gtotal = $stotal-$less-$payment_amount;
+		    			$gtotal = $stotal-$less;
 		    		} else {
 		    			$less= $stotal*$percent;
-		    			$gtotal = $stotal-$less-$payment_amount;
+		    			$gtotal = $stotal-$less;
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% EWT</b></td>
@@ -304,6 +303,17 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php 
+		    		foreach($payment AS $p){  ?>
+		    			<?php if($rows_rfd!=0){ ?>
+		    		<tr>
+			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $p['payment_desc']; ?></b></td>
+			    		<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($p['payment_amount'],2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<?php } }?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><input type="text" name="payment_desc" value="" style="text-align: right;" placeholder="Payment Description"></b></td>
 		    			<td align="right" colspan="3">
