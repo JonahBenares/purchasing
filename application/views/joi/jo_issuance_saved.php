@@ -272,9 +272,9 @@
 						  	<div id="demo1" class="collapse" style="z-index: 99999;background: #fff;position: block;width: 150px;top: 30px;border: 1px solid #e66614;left: 250px;position: absolute;text-align: left;">
 						  		<span style="margin-left:10px"><small>Choose RFD:</small></span>
 							   	<ul style="margin:0px;">
-							    	<?php foreach($dr AS $d){ ?>
-										<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "RFD# ".$d->joi_dr_no; ?></a></li>
-									<?php } ?>
+							    	<?php $x=1; foreach($rfd AS $r){ ?>
+										<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/joi_rfd_saved/<?php echo $r->joi_id; ?>/<?php echo $r->joi_rfd_id; ?>" target='_blank' class="btn btn-link"><?php echo "RFD# ".$x; ?></a></li>
+									<?php $x++; } ?>
 							    </ul>
 						  	</div>
 							<a href="#" type="button" class="btn btn-warning" data-toggle="collapse" data-target="#demo"><span class="fa fa-print"></span> Print <b>DR</b></a>
@@ -298,7 +298,7 @@
 						<!-- <a  href="<?php echo base_url(); ?>joi/joi_dr/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a> -->
 						<a  href="<?php echo base_url(); ?>joi/joi_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
 						<a  href="<?php echo base_url(); ?>joi/joi_coc/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
-						<a  href="<?php echo base_url(); ?>joi/joi_rfd/" target="_blank" class="btn btn-primary btn-md p-l-25 p-r-25"><span class="fa fa-plus"></span> <b>RFD</b></a>
+						<a  href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $joi_id; ?>" target="_blank" class="btn btn-primary btn-md p-l-25 p-r-25"><span class="fa fa-plus"></span> <b>RFD</b></a>
 						
 					</div>
 					<h4 class="text-white"><b>JOB ORDER ISSUANCE</b></h4>
