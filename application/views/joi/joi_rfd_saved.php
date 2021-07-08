@@ -345,6 +345,7 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php if($payment_desc != '' AND $payment_amount != ''){ ?>
 		    		<?php 
 		    		foreach($payment AS $p){  ?>
 		    		<?php if($payment_desc != $p->payment_desc){ ?>
@@ -369,6 +370,7 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($btotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    	 <?php }?>
 		    		<tr>
 		    			<td align="left" colspan="7" ><b class="nomarg">Notes: </b>
 		    				<?php if($rows_rfd==0){ ?>
