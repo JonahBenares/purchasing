@@ -1831,7 +1831,7 @@ class Jod extends CI_Controller {
             );
         }
 
-        $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id'");
+        $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id' AND payment_amount !='0.00'");
         foreach($this->super_model->select_row_where('joi_rfd', 'joi_id', $joi_id) AS $r){
 
             
