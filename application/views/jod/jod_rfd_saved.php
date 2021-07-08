@@ -365,6 +365,7 @@
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
+		    		<?php if($payment_desc != ''){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance After Payment</b></td>
 		    			<td align="right" colspan="3">
