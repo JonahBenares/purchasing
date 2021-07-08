@@ -1873,13 +1873,8 @@ class Joi extends CI_Controller {
             );
         }
 
+        $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id'");
         foreach($this->super_model->select_row_where('joi_rfd', 'joi_id', $joi_id) AS $r){
-
-            $data['payment'][]=array(
-                'payment_desc'=>$r->payment_desc,
-                'payment_amount'=>$r->payment_amount,
-
-            );
             
             $data['payment_desc']=$r->payment_desc;
             $data['payment_amount']=$r->payment_amount;
