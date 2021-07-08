@@ -345,7 +345,6 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
-		    		<?php if($payment_desc != '' AND $payment_amount != ''){ ?>
 		    		<?php 
 		    		foreach($payment AS $p){  ?>
 		    		<?php if($payment_desc != $p->payment_desc){ ?>
@@ -357,6 +356,7 @@
 		    			</td>
 		    		</tr>
 		    		<?php } } ?>
+		    		<?php if($payment_amount != '0.00'){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $payment_desc; ?></b></td>
 		    			<td align="right" colspan="3">
@@ -364,6 +364,7 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($payment_amount,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php } ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance After Payment</b></td>
 		    			<td align="right" colspan="3">
