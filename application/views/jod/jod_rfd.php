@@ -414,7 +414,7 @@
 	    	<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
 	    	<input type='hidden' name='pay_to' value='<?php echo $vendor_id; ?>'>
 	    	<input type='hidden' name='total_amount' id = "total_amount" value='<?php echo $gtotal; ?>'>
-	    	<input type='hidden' name='sum_amount' id = "sum_amount" value='<?php echo $payment_amount; ?>'>
+	    	<input type='hidden' name='sum_amount' id = "sum_amount" value='<?php echo $sum_amount; ?>'>
     	</form>
     </div>
     <script type="text/javascript">
