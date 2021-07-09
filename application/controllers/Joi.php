@@ -1838,6 +1838,8 @@ class Joi extends CI_Controller {
             } else {
                 $offer = $this->super_model->select_column_where("joi_items", "offer", "joi_items_id", $items->joi_items_id);
             }
+            $payment_amount = $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $items->joi_id);
+            $payment_desc = $this->super_model->select_sum("joi_rfd", "payment_desc", "joi_id", $items->joi_id);
             $data['items'][]= array(
                 'item_no'=>$items->item_no,
                 'offer'=>$offer,
@@ -1845,6 +1847,8 @@ class Joi extends CI_Controller {
                 'price'=>$items->unit_price,
                 'total'=>$total,
                 'uom'=>$items->uom,
+                'payment_amount'=>$payment_amount,
+                'payment_desc'=>$payment_desc,
             );
 
             $data['currency'] = $items->currency;
@@ -1876,6 +1880,7 @@ class Joi extends CI_Controller {
         $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id' AND payment_amount !='0.00'");
         foreach($this->super_model->select_row_where('joi_rfd', 'joi_id', $joi_id) AS $r){
             
+            $data['joi_rfd_id']=$r->joi_rfd_id;
             $data['payment_desc']=$r->payment_desc;
             $data['payment_amount']=$r->payment_amount;
             $data['company']=$r->company;
@@ -1935,6 +1940,7 @@ class Joi extends CI_Controller {
                 $offer = $this->super_model->select_column_where("joi_items", "offer", "joi_items_id", $items->joi_items_id);
             }
             $payment_amount = $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $items->joi_id);
+            $payment_desc = $this->super_model->select_sum("joi_rfd", "payment_desc", "joi_id", $items->joi_id);
             $data['items'][]= array(
                 'item_no'=>$items->item_no,
                 'offer'=>$offer,
@@ -1943,6 +1949,7 @@ class Joi extends CI_Controller {
                 'total'=>$total,
                 'uom'=>$items->uom,
                 'payment_amount'=>$payment_amount,
+                'payment_desc'=>$payment_desc,
             );
 
             $data['currency'] = $items->currency;
