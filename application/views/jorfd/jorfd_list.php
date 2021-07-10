@@ -121,6 +121,7 @@
                                 <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                     <thead>
                                         <tr>
+                                            <th>RFD No.</th>
                                             <th>Date</th>
                                             <th>Company</th>
                                             <th>Pay to</th>
@@ -132,29 +133,30 @@
                                     </thead>
                                     <tbody>    
                                     <?php 
-                                    if(!empty($head)){
-                                    foreach($head AS $h){ ?>                                   
+                                        if(!empty($head)){
+                                            foreach($head AS $h){ 
+                                    ?>                                   
                                         <tr>
-                                            <td><?php echo date('F j, Y', strtotime($h->rfd_date)); ?></td>
-                                            <td><?php echo $h->company; ?></td>
-                                            <td><?php echo $ci->get_name("vendor_name", "vendor_head", "vendor_id = '$h->pay_to'"); ?></td>
-                                            <td><?php echo $h->apv_no; ?></td>
-                                            <td><?php echo number_format($h->total_amount,2); ?></td>
-                                            <td><?php if($h->rfd_type ==0){
+                                            <td><?php echo "RFD - ".$h['joi_no']."-".COMPANY. (($h['revision_no']!=0) ? ".r".$h['revision_no'] : "")." - "; ?></td>
+                                            <td><?php echo date('F j, Y', strtotime($h['rfd_date'])); ?></td>
+                                            <td><?php echo $h['company']; ?></td>
+                                            <td><?php echo $h['vendor']; ?></td>
+                                            <td><?php echo $h['apv_no']; ?></td>
+                                            <td><?php echo number_format($h['total_amount'],2); ?></td>
+                                            <td><?php if($h['rfd_type'] ==0){
                                                 echo "Purchase Order";
                                             } else {
                                                 echo "Direct Purchase";
                                             } ?></td>
                                             <td>
                                                 <center>
-                                                        <a href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $h->joi_id; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                        <a href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $h['joi_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                 <span class="fa fa-eye"></span>
                                                  </a>
                                                 </center>
                                             </td>
                                         </tr>         
-                                    <?php } 
-                                }?>          
+                                    <?php } } ?>          
                                     </tbody>
                                 </table>
 

@@ -269,11 +269,14 @@
 								<?php } ?>
 							</ul> -->
 							<a href="#" type="button" class="btn btn-warning" data-toggle="collapse" data-target="#demo1"><span class="fa fa-print"></span> Print <b>RFD</b></a>
-						  	<div id="demo1" class="collapse" style="z-index: 99999;background: #fff;position: block;width: 150px;top: 30px;border: 1px solid #e66614;left: 250px;position: absolute;text-align: left;">
+						  	<div id="demo1" class="collapse" style="z-index: 99999;background: #fff;position: block;width: 266px;top: 30px;border: 1px solid #e66614;left: 250px;position: absolute;text-align: left;">
 						  		<span style="margin-left:10px"><small>Choose RFD:</small></span>
 							   	<ul style="margin:0px;">
-							    	<?php $x=1; foreach($rfd AS $r){ ?>
-										<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/joi_rfd_saved/<?php echo $r->joi_id; ?>/<?php echo $r->joi_rfd_id; ?>" target='_blank' class="btn btn-link"><?php echo "RFD# ".$x; ?></a></li>
+							    	<?php 
+							    		$x=1; foreach($rfd AS $r){ 
+							    		$jo_no = $joi_no."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : "");
+							    	?>
+										<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/joi_rfd_saved/<?php echo $r->joi_id; ?>/<?php echo $r->joi_rfd_id; ?>" target='_blank' class="btn btn-link"><?php echo "RFD - ".$jo_no." - ".$x; ?></a></li>
 									<?php $x++; } ?>
 							    </ul>
 						  	</div>

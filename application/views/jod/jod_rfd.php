@@ -305,7 +305,7 @@
 		    		</tr>
 		    		<?php 
 		    		foreach($payment AS $p){  ?>
-		    			<?php if($rows_rfd!=0 AND $payment_amount !=0){ ?>
+		    			<?php if($rows_rfd!=0 && $p->payment_amount !=0){ ?>
 		    		<tr>
 			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $p->payment_desc; ?></b></td>
 			    		<td align="right" colspan="3">
