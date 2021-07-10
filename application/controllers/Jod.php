@@ -1875,7 +1875,7 @@ class Jod extends CI_Controller {
         $data['discount']= $this->super_model->select_column_where("joi_head", "discount", "joi_id", $joi_id);
         $data['packing']= $this->super_model->select_column_where("joi_head", "packing_fee", "joi_id", $joi_id);
         $data['vatt']= $this->super_model->select_column_where("joi_head", "vat", "joi_id", $joi_id);
-        $data['payment_amount']= $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $joi_id);
+        $data['sum_amount']= $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $joi_id);
         $data['vat_percent']= $this->super_model->select_column_where("joi_head", "vat_percent", "joi_id", $joi_id);
         $data['total_cost']= $this->super_model->select_column_where("joi_head", "total_cost", "joi_id", $joi_id);
         $data['grand_total']= $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
