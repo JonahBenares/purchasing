@@ -1908,6 +1908,7 @@ class Joi extends CI_Controller {
     public function joi_rfd_saved(){   
         $joi_id = $this->uri->segment(3);
         $joi_rfd_id = $this->uri->segment(4);
+        $rfd_date = $this->uri->segment(5);
         $data['joi_id'] = $joi_id;   
         $data['revised']=$this->super_model->select_column_where('joi_head', 'revised', 'joi_id', $joi_id);
         $data['revision_no']=$this->super_model->select_column_where('joi_head', 'revision_no', 'joi_id', $joi_id);
@@ -1939,8 +1940,8 @@ class Joi extends CI_Controller {
             } else {
                 $offer = $this->super_model->select_column_where("joi_items", "offer", "joi_items_id", $items->joi_items_id);
             }
-            $payment_amount = $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $items->joi_id);
-            $payment_desc = $this->super_model->select_sum("joi_rfd", "payment_desc", "joi_id", $items->joi_id);
+            $payment_amount = $this->super_model->select_column_where("joi_rfd", "payment_amount", "joi_id", $items->joi_id);
+            $payment_desc = $this->super_model->select_column_where("joi_rfd", "payment_desc", "joi_id", $items->joi_id);
             $data['items'][]= array(
                 'item_no'=>$items->item_no,
                 'offer'=>$offer,
@@ -1977,7 +1978,7 @@ class Joi extends CI_Controller {
                 'item_no'=>$item_no
             );
         }
-        $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id' AND payment_amount !='0.00'");
+        $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id' AND payment_amount !='0.00' AND rfd_date <= '$rfd_date'");
         foreach($this->super_model->select_custom_where('joi_rfd', "joi_id='$joi_id' AND joi_rfd_id = '$joi_rfd_id'") AS $r){
             
             /*$data['payment'][]=array(
@@ -2117,6 +2118,7 @@ class Joi extends CI_Controller {
             $maxid = $this->super_model->get_max("joi_rfd", "joi_rfd_id");
             $joi_rfd_id = $maxid+1;
         }
+        $rfd_date=$this->input->post('rfd_date');
 
       /*  $dr_data = array(
             'dr_date'=>$this->input->post('rfd_date')
@@ -2148,7 +2150,7 @@ class Joi extends CI_Controller {
         );
 
          if($this->super_model->insert_into("joi_rfd", $data)){
-            redirect(base_url().'joi/joi_rfd_saved/'.$joi_id.'/'.$joi_rfd_id, 'refresh');
+            redirect(base_url().'joi/joi_rfd_saved/'.$joi_id.'/'.$joi_rfd_id.'/'.$rfd_date, 'refresh');
         }
     }
 
