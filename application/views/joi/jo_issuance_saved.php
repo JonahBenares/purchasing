@@ -276,7 +276,7 @@
 							    		$x=1; foreach($rfd AS $r){ 
 							    		$jo_no = $joi_no."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : "");
 							    	?>
-										<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/joi_rfd_saved/<?php echo $r->joi_id; ?>/<?php echo $r->joi_rfd_id; ?>" target='_blank' class="btn btn-link"><?php echo "RFD - ".$jo_no." - ".$x; ?></a></li>
+										<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/joi_rfd_saved/<?php echo $r->joi_id; ?>/<?php echo $r->joi_rfd_id; ?>/<?php echo $r->rfd_date; ?>" target='_blank' class="btn btn-link"><?php echo "RFD - ".$jo_no." - ".$x; ?></a></li>
 									<?php $x++; } ?>
 							    </ul>
 						  	</div>
