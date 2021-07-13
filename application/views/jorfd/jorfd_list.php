@@ -126,7 +126,7 @@
                                             <th>Company</th>
                                             <th>Pay to</th>
                                             <th>APV NO</th>
-                                            <th>Amount</th>
+                                            <th>Amount Paid</th>
                                             <th>Type</th>
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
@@ -137,12 +137,13 @@
                                             foreach($head AS $h){ 
                                     ?>                                   
                                         <tr>
-                                            <td><?php echo "RFD - ".$h['joi_no']."-".COMPANY. (($h['revision_no']!=0) ? ".r".$h['revision_no'] : "")." - "; ?></td>
+                                            <!-- <td><?php echo "RFD - ".$h['joi_no']."-".COMPANY. (($h['revision_no']!=0) ? ".r".$h['revision_no'] : "")." - "; ?></td> -->
+                                            <td><?php echo $h['joi_no']; ?></td>
                                             <td><?php echo date('F j, Y', strtotime($h['rfd_date'])); ?></td>
                                             <td><?php echo $h['company']; ?></td>
                                             <td><?php echo $h['vendor']; ?></td>
                                             <td><?php echo $h['apv_no']; ?></td>
-                                            <td><?php echo number_format($h['total_amount'],2); ?></td>
+                                            <td><?php echo number_format($h['payment_amount'],2); ?></td>
                                             <td><?php if($h['rfd_type'] ==0){
                                                 echo "Purchase Order";
                                             } else {
@@ -150,7 +151,7 @@
                                             } ?></td>
                                             <td>
                                                 <center>
-                                                        <a href="<?php echo base_url(); ?>joi/joi_rfd/<?php echo $h['joi_id']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
+                                                        <a href="<?php echo base_url(); ?>joi/joi_rfd_saved/<?php echo $h['joi_id']; ?>/<?php echo $h['joi_rfd_id']; ?>/<?php echo $h['rfd_date']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
                                                 <span class="fa fa-eye"></span>
                                                  </a>
                                                 </center>

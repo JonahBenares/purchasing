@@ -8,6 +8,7 @@ class Jod extends CI_Controller {
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('session');
 		$this->load->model('super_model');
+        date_default_timezone_set("Asia/Manila");
 	/**
 	 * Index Page for this controller.
 	 *
@@ -1862,7 +1863,7 @@ class Jod extends CI_Controller {
      public function jod_rfd_saved(){   
         $joi_id = $this->uri->segment(3);
         $joi_rfd_id = $this->uri->segment(4);
-        $rfd_date = $this->uri->segment(5);
+        $rfd_date = str_replace('%20', ' ', $this->uri->segment(5));
         $data['joi_id'] = $joi_id;   
         $data['revised']=$this->super_model->select_column_where('joi_head', 'revised', 'joi_id', $joi_id);
         $data['revision_no']=$this->super_model->select_column_where('joi_head', 'revision_no', 'joi_id', $joi_id);
@@ -2074,7 +2075,7 @@ class Jod extends CI_Controller {
             $maxid = $this->super_model->get_max("joi_rfd", "joi_rfd_id");
             $joi_rfd_id = $maxid+1;
         }
-        $rfd_date=$this->input->post('rfd_date');
+        $rfd_date=$this->input->post('rfd_date')." ".date("H:i:s");;
       /*  $dr_data = array(
             'dr_date'=>$this->input->post('rfd_date')
         );
@@ -2082,7 +2083,7 @@ class Jod extends CI_Controller {
         $data = array(
             'joi_id'=>$joi_id,
             'apv_no'=>$this->input->post('apv_no'),
-            'rfd_date'=>$this->input->post('rfd_date'),
+            'rfd_date'=>$rfd_date,
             'due_date'=>$this->input->post('due_date'),
             'check_due'=>$this->input->post('check_due'),
             'company'=>$this->input->post('company'),
