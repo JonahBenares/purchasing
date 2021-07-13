@@ -326,7 +326,7 @@
 		    		foreach($payment AS $pay){
 		    			$baltotal[] = $pay->payment_amount;
 		    			$payments.=$pay->payment_amount; 
-		    			$payments_desc.=$pay->payment_amount; 
+		    			$payments_desc.=$pay->payment_desc; 
 		    		}
 		    		$percent=$ewt/100;
 		    		if($vat==1){
@@ -354,7 +354,7 @@
 		    		</tr>
 		    		<?php 
 		    		foreach($payment AS $p){  ?>
-		    		<?php if($payment_desc != $p->payment_desc && $p->payment_amount!='0.00'){ ?>
+		    		<?php if($payments_desc != $p->payment_desc && $p->payment_amount!='0.00'){ ?>
 		    		<tr>
 			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $p->payment_desc; ?></b></td>
 			    		<td align="right" colspan="3">
@@ -363,7 +363,7 @@
 		    			</td>
 		    		</tr>
 		    		<?php } } ?>
-		    		<?php if($payment_amount != '0.00' && $payment_desc!=''){ ?>
+		    		<?php if($payments != '0.00' && $payments_desc!='' || $payments != '0.00' && $payments_desc==''){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $payment_desc; ?></b></td>
 		    			<td align="right" colspan="3">
