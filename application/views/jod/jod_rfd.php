@@ -116,7 +116,7 @@
 	    		<center>
 			    	<div class="btn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
+						<input type='submit' id="submit" class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
 					</div>
 					<p class="text-white">Instructions: When printing REQUEST FOR DISBURSEMENT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
@@ -317,7 +317,7 @@
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><input type="text" name="payment_desc" value="" style="text-align: right;" placeholder="Payment Description"></b></td>
 		    			<td align="right" colspan="3">
-		    				<span class="nomarg" id=''><b style="font-weight: 900"><input type="text" onchange='changePrice_rfd();' name="payment_amount" id="payment_amount" placeholder="Payment Amount"></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><input type="text" onblur="check_rfd()" onchange='changePrice_rfd();' name="payment_amount" id="payment_amount" placeholder="Payment Amount"></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
@@ -411,6 +411,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
+	    	<input type='hidden' name='rows_rfd' id = "rows_rfd" value='<?php echo $rows_rfd; ?>'>
 	    	<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
 	    	<input type='hidden' name='pay_to' value='<?php echo $vendor_id; ?>'>
 	    	<input type='hidden' name='total_amount' id = "total_amount" value='<?php echo $gtotal; ?>'>

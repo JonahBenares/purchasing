@@ -79,6 +79,17 @@ function changePrice_rfd(){
     document.getElementById("balaft").innerHTML  = balnet.toFixed(2);
 }
 
+function check_rfd(){
+    var payment_amount = document.getElementById("payment_amount").value;
+    var rows_rfd = document.getElementById("rows_rfd").value;
+    if(payment_amount==0 && rows_rfd !=0){
+      alert('Sorry Payment Amount cannot be zero!');
+      $("#submit").attr('disabled','disabled');
+    }else{
+      $('#submit').removeAttr('disabled');
+    }
+}
+
 
 
 function changePrice_JO(count){
