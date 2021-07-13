@@ -350,7 +350,7 @@
 		    		</tr>
 		    		<?php 
 		    		foreach($payment AS $p){  ?>
-		    		<?php if($payment_desc != $p->payment_desc && $payment_amount!='0.00'){ ?>
+		    		<?php if($payment_desc != $p->payment_desc && $p->payment_amount!='0.00'){ ?>
 		    		<tr>
 			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $p->payment_desc; ?></b></td>
 			    		<td align="right" colspan="3">

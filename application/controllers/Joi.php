@@ -973,7 +973,7 @@ class Joi extends CI_Controller {
         }
         $data['tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
         $data['dr'] = $this->super_model->select_row_where("joi_dr", "joi_id", $joi_id);
-        $data['rfd'] = $this->super_model->select_row_where("joi_rfd", "joi_id", $joi_id);
+        $data['rfd'] = $this->super_model->select_custom_where("joi_rfd", "joi_id='$joi_id' AND payment_amount!='0.00'");
         $this->load->view('joi/jo_issuance_saved',$data);
         $this->load->view('template/footer');
     }
@@ -1979,7 +1979,7 @@ class Joi extends CI_Controller {
                 'item_no'=>$item_no
             );
         }
-        $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id' AND payment_amount !='0.00' AND rfd_date <= '$rfd_date'");
+        $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id' AND rfd_date <= '$rfd_date'");
         foreach($this->super_model->select_custom_where('joi_rfd', "joi_id='$joi_id' AND joi_rfd_id = '$joi_rfd_id'") AS $r){
             
             /*$data['payment'][]=array(
