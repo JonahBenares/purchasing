@@ -372,7 +372,7 @@
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
-		    		<?php if($payments!= '0.00' && $payments_desc!=''){ ?>
+		    		<?php if($payments!= '0.00' && $payments_desc!='' || $payments != '0.00' && $payments_desc==''){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance After Payment</b></td>
 		    			<td align="right" colspan="3">
