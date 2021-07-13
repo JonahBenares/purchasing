@@ -938,7 +938,7 @@ class Jod extends CI_Controller {
         }
         $data['tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
         $data['dr'] = $this->super_model->select_row_where("joi_dr", "joi_id", $joi_id);
-        $data['rfd'] = $this->super_model->select_row_where("joi_rfd", "joi_id", $joi_id);
+        $data['rfd'] = $this->super_model->select_custom_where("joi_rfd", "joi_id='$joi_id' AND payment_amount!='0.00'");
         $this->load->view('jod/jo_direct_saved',$data);
         $this->load->view('template/footer');
     }

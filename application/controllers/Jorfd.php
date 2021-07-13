@@ -34,11 +34,11 @@ class Jorfd extends CI_Controller {
     public function jorfd_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        foreach($this->super_model->custom_query("SELECT * FROM joi_rfd GROUP BY joi_id ORDER BY rfd_date DESC") AS $rfd){
+        foreach($this->super_model->custom_query("SELECT * FROM joi_rfd WHERE payment_amount!='0.00' GROUP BY joi_id ORDER BY rfd_date DESC") AS $rfd){
             //$revision_no = $this->super_model->select_column_where("joi_head","revision_no","joi_id",$rfd->joi_id);
             //$joi_no = $this->super_model->select_column_where("joi_head","joi_no","joi_id",$rfd->joi_id);
             $x=1;
-            foreach($this->super_model->select_row_where("joi_rfd",'joi_id',$rfd->joi_id) AS $r){
+            foreach($this->super_model->select_custom_where("joi_rfd","joi_id='$rfd->joi_id' AND payment_amount!='0.00'") AS $r){
                 //$count = $this->super_model->count_rows_where("joi_rfd","joi_id",$r->joi_id);
                 $vendor = $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$r->pay_to);
                 $ewt= $this->super_model->select_column_where("vendor_head", "ewt", "vendor_id", $r->pay_to);
