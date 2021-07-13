@@ -321,8 +321,12 @@
 		    		</tr>
 		    		<?php 
 		    		$baltotal=array();
+		    		$payments ='';
+		    		$payments_desc ='';
 		    		foreach($payment AS $pay){
 		    			$baltotal[] = $pay->payment_amount;
+		    			$payments.=$pay->payment_amount; 
+		    			$payments_desc.=$pay->payment_amount; 
 		    		}
 		    		$percent=$ewt/100;
 		    		if($vat==1){
@@ -342,14 +346,13 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payment_amount!=0) ? 'Balance Amount Due' : 'Total Amount Due';?></b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payments!=0) ? 'Balance Amount Due' : 'Total Amount Due';?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
-		    		<?php 
-		    		foreach($payment AS $p){  ?>
+		    		<?php foreach($payment AS $p){ ?>
 		    		<?php if($payment_desc != $p->payment_desc && $p->payment_amount!='0.00'){ ?>
 		    		<tr>
 			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $p->payment_desc; ?></b></td>
@@ -368,6 +371,7 @@
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
+		    		<?php if($payments != '0.00' && $payments_desc!=''){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance After Payment</b></td>
 		    			<td align="right" colspan="3">
@@ -375,6 +379,7 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($btotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php }  ?>
 		    		<tr>
 		    			<td align="left" colspan="7" ><b class="nomarg">Notes: </b>
 		    				<?php if($rows_rfd==0){ ?>
