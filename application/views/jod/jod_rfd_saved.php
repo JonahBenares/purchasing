@@ -181,7 +181,7 @@
 		    				<?php if($rows_rfd==0){ ?>
 		    				<input type="date" style="width:100%" name="rfd_date" >
 		    				<?php } else { 
-		    					echo date('F j, Y', strtotime($rfd_date));
+		    					echo ($rfd_date!='') ? date('F j, Y', strtotime($rfd_date)) : '';
 		    				} ?></td>
 		    			</td>
 		    		</tr>
@@ -199,7 +199,7 @@
 		    				<?php if($rows_rfd==0){ ?>
 		    				<input type="date" style="width:100%" name="due_date" >
 		    				<?php } else { 
-		    					echo date('F j, Y', strtotime($due_date));
+		    					echo ($due_date!='') ? date('F j, Y', strtotime($due_date)) : '';
 		    				} ?></td>
 		    			</td>
 		    		</tr>
@@ -237,7 +237,7 @@
 		    				<?php if($rows_rfd==0){ ?>
 		    					<input type="date" style="width:100%" name="check_due" >
 		    				<?php } else { 
-		    					echo date('F j, Y', strtotime($check_due));
+		    					echo ($check_due!='') ? date('F j, Y', strtotime($check_due)) : '';
 		    				} ?></td>
 		    		</tr>
 		    		<tr>
@@ -346,7 +346,7 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payments!='0.0000' && $payment_amount!='0.0000') ? 'Balance Amount Due' : 'Total Amount Due';?></b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payments!='0.0000' && $payment_amount!='0.000') ? 'Balance Amount Due' : 'Total Amount Due';?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
@@ -363,7 +363,7 @@
 		    			</td>
 		    		</tr>
 		    		<?php } } ?>
-		    		<?php if($payment_amount!='0.0000' && $payments!='0.0000' && $payments_desc!='' && $payment_desc!='' || $payment_amount!='0.0000' && $payments!='0.0000' && $payments_desc=='' && $payment_desc==''){ ?>
+		    		<?php if($payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc!='' || $payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc==''){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $payment_desc; ?></b></td>
 		    			<td align="right" colspan="3">
@@ -372,7 +372,7 @@
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
-		    		<?php if($payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc!='' && $payment_desc!='' || $payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc=='' && $payment_desc!=''){ ?>
+		    		<?php if($payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc!='' || $payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc==''){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance After Payment</b></td>
 		    			<td align="right" colspan="3">
