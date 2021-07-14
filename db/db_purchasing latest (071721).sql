@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2021 at 08:44 AM
+-- Generation Time: Jul 14, 2021 at 09:00 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -1789,7 +1789,8 @@ CREATE TABLE IF NOT EXISTS `project_activity` (
   `actual_start` varchar(20) NOT NULL,
   `actual_completion` varchar(20) NOT NULL,
   `est_total_materials` decimal(12,4) NOT NULL,
-  `status` varchar(100) NOT NULL
+  `status` varchar(100) NOT NULL,
+  `total_weekly_schedule` decimal(10,2) NOT NULL DEFAULT '0.00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
