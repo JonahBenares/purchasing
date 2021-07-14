@@ -144,11 +144,17 @@
                                             <td><?php echo $h['vendor']; ?></td>
                                             <td><?php echo $h['apv_no']; ?></td>
                                             <td><?php echo ($h['payment_amount']!='0.0000') ? number_format($h['payment_amount'],2) : number_format($h['total'],2); ?></td>
-                                            <td><?php if($h['rfd_type'] ==0){
-                                                echo "Purchase Order";
-                                            } else {
-                                                echo "Direct Purchase";
-                                            } ?></td>
+                                            <td>
+                                                <?php 
+                                                    if($h['joi_type']==0){
+                                                        echo "Job Order Request";
+                                                    } else if($h['joi_type']==1){
+                                                        echo "Direct Purchase";
+                                                    } else if($h['joi_type']==2){
+                                                        echo "Repeat Order";
+                                                    } 
+                                                ?>
+                                            </td>
                                             <td>
                                                 <center>
                                                         <a href="<?php echo base_url(); ?>joi/joi_rfd_saved/<?php echo $h['joi_id']; ?>/<?php echo $h['joi_rfd_id']; ?>/<?php echo $h['rfd_date']; ?>" class="btn btn-custon-three btn-warning btn-xs" target='_blank'>
