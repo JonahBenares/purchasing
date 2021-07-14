@@ -53,6 +53,7 @@ class Jorfd extends CI_Controller {
                 $discount= $this->super_model->select_column_where("joi_head", "discount", "joi_id", $r->joi_id);
                 $packing= $this->super_model->select_column_where("joi_head", "packing_fee", "joi_id", $r->joi_id);
                 $vatt= $this->super_model->select_column_where("joi_head", "vat", "joi_id", $r->joi_id);
+                $joi_type= $this->super_model->select_column_where("joi_head", "joi_type", "joi_id", $r->joi_id);
                 $stotal = ($total + $shipping+$packing+$vatt) - $discount;
                 $percent=$ewt/100;
                 if($vat==1){
@@ -76,6 +77,7 @@ class Jorfd extends CI_Controller {
                     "joi_no"=>$jo_no,
                     "revision_no"=>$revision_no,
                     "total"=>$gtotal,
+                    "joi_type"=>$joi_type,
                     //"count"=>$count,
                 );
                 $x++;
