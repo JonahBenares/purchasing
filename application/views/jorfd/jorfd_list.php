@@ -143,7 +143,7 @@
                                             <td><?php echo $h['company']; ?></td>
                                             <td><?php echo $h['vendor']; ?></td>
                                             <td><?php echo $h['apv_no']; ?></td>
-                                            <td><?php echo number_format($h['payment_amount'],2); ?></td>
+                                            <td><?php echo ($h['payment_amount']!='0.0000') ? number_format($h['payment_amount'],2) : number_format($h['total'],2); ?></td>
                                             <td><?php if($h['rfd_type'] ==0){
                                                 echo "Purchase Order";
                                             } else {

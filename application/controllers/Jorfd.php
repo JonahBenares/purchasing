@@ -34,17 +34,35 @@ class Jorfd extends CI_Controller {
     public function jorfd_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        foreach($this->super_model->custom_query("SELECT * FROM joi_rfd WHERE payment_amount!='0.00' GROUP BY joi_id ORDER BY rfd_date DESC") AS $rfd){
+        foreach($this->super_model->custom_query("SELECT * FROM joi_rfd GROUP BY joi_id ORDER BY rfd_date DESC") AS $rfd){
             //$revision_no = $this->super_model->select_column_where("joi_head","revision_no","joi_id",$rfd->joi_id);
             //$joi_no = $this->super_model->select_column_where("joi_head","joi_no","joi_id",$rfd->joi_id);
             $x=1;
-            foreach($this->super_model->select_custom_where("joi_rfd","joi_id='$rfd->joi_id' AND payment_amount!='0.00'") AS $r){
+            foreach($this->super_model->select_custom_where("joi_rfd","joi_id='$rfd->joi_id'") AS $r){
                 //$count = $this->super_model->count_rows_where("joi_rfd","joi_id",$r->joi_id);
                 $vendor = $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$r->pay_to);
+                $vat= $this->super_model->select_column_where("vendor_head", "vat", "vendor_id", $r->pay_to);
                 $ewt= $this->super_model->select_column_where("vendor_head", "ewt", "vendor_id", $r->pay_to);
                 $revision_no = $this->super_model->select_column_where("joi_head","revision_no","joi_id",$r->joi_id);
                 $joi_no = $this->super_model->select_column_where("joi_head","joi_no","joi_id",$r->joi_id);
                 $jo_no = "RFD - ".$joi_no."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : "")."-".$x;
+                $unit_price = $this->super_model->select_column_where("joi_items", "unit_price", "joi_id", $r->joi_id);
+                $delivered_quantity = $this->super_model->select_column_where("joi_items", "delivered_quantity", "joi_id", $r->joi_id);
+                $total = $unit_price*$delivered_quantity;
+                $shipping= $this->super_model->select_column_where("joi_head", "shipping", "joi_id", $r->joi_id);
+                $discount= $this->super_model->select_column_where("joi_head", "discount", "joi_id", $r->joi_id);
+                $packing= $this->super_model->select_column_where("joi_head", "packing_fee", "joi_id", $r->joi_id);
+                $vatt= $this->super_model->select_column_where("joi_head", "vat", "joi_id", $r->joi_id);
+                $stotal = ($total + $shipping+$packing+$vatt) - $discount;
+                $percent=$ewt/100;
+                if($vat==1){
+                    $less= ($stotal/1.12)*$percent;
+                    $gtotal = $stotal-$less;
+                } else {
+                    $less= $stotal*$percent;
+                    $gtotal = $stotal-$less;
+                }
+                //$gtotal = 
                 $data['head'][]=array(
                     "joi_rfd_id"=>$r->joi_rfd_id,
                     "joi_id"=>$r->joi_id,
@@ -57,6 +75,7 @@ class Jorfd extends CI_Controller {
                     "vendor"=>$vendor,
                     "joi_no"=>$jo_no,
                     "revision_no"=>$revision_no,
+                    "total"=>$gtotal,
                     //"count"=>$count,
                 );
                 $x++;
