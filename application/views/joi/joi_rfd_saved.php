@@ -325,7 +325,7 @@
 		    		$payments_desc ='';
 		    		foreach($payment AS $pay){
 		    			$baltotal[] = $pay->payment_amount;
-		    			$payments.=$pay->payment_amount; 
+		    			$payments[]=$pay->payment_amount; 
 		    			$payments_desc.=$pay->payment_desc; 
 		    		}
 		    		$percent=$ewt/100;
@@ -346,14 +346,14 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payments!=0) ? 'Balance Amount Due' : 'Total Amount Due';?></b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payments!='0.0000' && $payment_amount!='0.0000') ? 'Balance Amount Due' : 'Total Amount Due';?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<?php foreach($payment AS $p){ ?>
-		    		<?php if($payment_desc != $p->payment_desc && $p->payment_amount!='0.00'){ ?>
+		    		<?php if($payment_desc != $p->payment_desc && $p->payment_amount!='0.0000' && $payment_amount!='0.0000'){ ?>
 		    		<tr>
 			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $p->payment_desc; ?></b></td>
 			    		<td align="right" colspan="3">
@@ -362,7 +362,7 @@
 		    			</td>
 		    		</tr>
 		    		<?php } }?>
-		    		<?php if($payments != '0.00' && $payments_desc!='' || $payments != '0.00' && $payments_desc==''){ ?>
+		    		<?php if($payment_amount!='0.0000' && $payments!='0.0000' && $payments_desc!='' && $payment_desc!='' || $payment_amount!='0.0000' && $payments!='0.0000' && $payments_desc=='' && $payment_desc==''){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $payment_desc; ?></b></td>
 		    			<td align="right" colspan="3">
@@ -371,7 +371,7 @@
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
-		    		<?php if($payments != '0.00' && $payments_desc!='' || $payments != '0.00' && $payments_desc==''){ ?>
+		    		<?php if($payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc!='' && $payment_desc!='' || $payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc=='' && $payment_desc!=''){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance After Payment</b></td>
 		    			<td align="right" colspan="3">
