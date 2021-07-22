@@ -229,7 +229,19 @@
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
 						<?php if($draft!=1){ 
 								if($revised==0){ ?>
-						<a  href="<?php echo base_url(); ?>jod/jod_rfd/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
+						<!--<a  href="<?php echo base_url(); ?>jod/jod_rfd/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>-->
+						<a href="#" type="button" class="btn btn-warning" data-toggle="collapse" data-target="#demo1"><span class="fa fa-print"></span> Print <b>RFD</b></a>
+						  	<div id="demo1" class="collapse" style="z-index: 99999;background: #fff;position: block;width: 266px;top: 30px;border: 1px solid #e66614;left: 250px;position: absolute;text-align: left;">
+						  		<span style="margin-left:10px"><small>Choose RFD:</small></span>
+							   	<ul style="margin:0px;">
+							    	<?php 
+							    		$x=1; foreach($rfd AS $r){ 
+							    		$jo_no = $joi_no."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : "");
+							    	?>
+										<li style="text-align: left!important"><a href="<?php echo base_url(); ?>jod/jod_rfd_saved/<?php echo $r->joi_id; ?>/<?php echo $r->joi_rfd_id; ?>/<?php echo $r->rfd_date; ?>" target='_blank' class="btn btn-link"><?php echo "RFD - ".$jo_no." - ".$x; ?></a></li>
+									<?php  $x++; } ?>
+							    </ul>
+						  	</div>
 						<?php } } ?>
 						
 						<a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
@@ -241,6 +253,7 @@
 						<!-- <a  href="<?php echo base_url(); ?>joi/joi_dr/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a> -->
 						<a  href="<?php echo base_url(); ?>jod/jod_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
 						<a  href="<?php echo base_url(); ?>jod/jod_coc/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
+						<a  href="<?php echo base_url(); ?>jod/jod_rfd/<?php echo $joi_id; ?>" target="_blank" class="btn btn-primary btn-md p-l-25 p-r-25"><span class="fa fa-plus"></span> <b>RFD</b></a>
 						
 					</div>
 					<h4 class="text-white"><b>JOB ORDER ISSUANCE</b></h4>

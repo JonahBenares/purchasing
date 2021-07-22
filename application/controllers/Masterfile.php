@@ -426,7 +426,8 @@ class Masterfile extends CI_Controller {
         );
         $emp_id = $this->input->post('emp_id');
             if($this->super_model->update_where('employees', $data, 'employee_id', $emp_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+            echo "<script>alert('Successfully Updated!');
+            window.location ='".base_url()."masterfile/employee_list'; </script>";
         }
     }
 

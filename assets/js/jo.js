@@ -67,6 +67,31 @@ function changePrice(){
    //document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
 }
 
+function changePrice_rfd(){
+    var gtotal = document.getElementById("total_amount").value;
+    var sum_amount = document.getElementById("sum_amount").value;
+    var payment_amount = document.getElementById("payment_amount").value;
+    if(sum_amount!=''){
+      var balnet =  parseFloat(gtotal) - parseFloat(payment_amount) - parseFloat(sum_amount);
+    }else{
+      var balnet =  parseFloat(gtotal) - parseFloat(payment_amount);
+    }
+    document.getElementById("balaft").innerHTML  = balnet.toFixed(2);
+}
+
+function check_rfd(){
+    var payment_amount = document.getElementById("payment_amount").value;
+    var rows_rfd = document.getElementById("rows_rfd").value;
+    if(payment_amount==0 && rows_rfd !=0){
+      alert('Sorry Payment Amount cannot be zero!');
+      $("#submit").attr('disabled','disabled');
+    }else{
+      $('#submit').removeAttr('disabled');
+    }
+}
+
+
+
 function changePrice_JO(count){
   //alert(count);
    var price = document.getElementById("price"+count).value;
