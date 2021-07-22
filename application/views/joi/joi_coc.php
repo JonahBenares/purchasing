@@ -107,7 +107,7 @@
 								<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/delivery_receipt/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "DR# ".$d->joi_dr_no; ?></a></li>
 							<?php } ?>
 						</ul>
-						<a  href="<?php echo base_url(); ?>joi/joi_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
+						<a  href="<?php echo base_url(); ?>joi/joi_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AR</b></a>
 						<a  href="<?php echo base_url(); ?>joi/joi_coc/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
 						
 					</div>
