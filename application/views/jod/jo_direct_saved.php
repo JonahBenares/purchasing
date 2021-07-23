@@ -628,4 +628,13 @@
 		    }   
 		    return false;   
 		}
+
+		function check_coc(){
+		    var sum_cost = document.getElementById("sum_cost").value;
+			if(parseFloat(sum_cost)>=10000){
+				alert("Please Print COC!");
+			}
+		}
+
+		window.onload = check_coc();
     </script>
