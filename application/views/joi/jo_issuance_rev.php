@@ -197,7 +197,7 @@
 						<?php } ?>
 						<!-- <a  href="<?php echo base_url(); ?>jo/jo_rfd/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
 						<a  href="<?php echo base_url(); ?>jo/jo_dr/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
-						<a  href="<?php echo base_url(); ?>jo/jo_ac/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a> -->
+						<a  href="<?php echo base_url(); ?>jo/jo_ac/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AR</b></a> -->
 						
 					</div>
 					<h4 class="text-white"><b>OUTGOING</b> RFQ <b>For JOB ORDER</b></h4>
@@ -734,7 +734,7 @@
 		    		</tr>   -->
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
-		    		<tr>
+		    		<tr id = "hide_work">
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center">Work Completion Verified by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -746,7 +746,7 @@
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13  bor-btm" id = "border_work" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -754,11 +754,11 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    		</tr>   
-		    		<tr>
+		    		<tr id = "hide_input">
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
 		    				<?php if($revised==0){ ?>
-		    				<select name="verified_by" class="btn-block">
+		    				<select name="verified_by" id="verified_by" class="btn-block">
 		    					<option value=''>-Select-</option>
 		    					 <?php foreach($employee AS $emp){ ?>
                                     <option value="<?php echo $emp->employee_id; ?>"  <?php echo (($verified_id == $emp->employee_id) ? ' selected' : '');?>><?php echo $emp->employee_name; ?></option>

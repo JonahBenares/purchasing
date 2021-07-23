@@ -107,7 +107,7 @@
 								<li style="text-align: left!important"><a href="<?php echo base_url(); ?>joi/delivery_receipt/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "DR# ".$d->joi_dr_no; ?></a></li>
 							<?php } ?>
 						</ul>
-						<a  href="<?php echo base_url(); ?>joi/joi_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
+						<a  href="<?php echo base_url(); ?>joi/joi_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AR</b></a>
 						<a  href="<?php echo base_url(); ?>joi/joi_coc/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
 						
 					</div>
@@ -363,6 +363,7 @@
 		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   -->
+		    		<?php if($grandtotal<10000){ ?>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -373,7 +374,7 @@
 		    			<td class="f13 " colspan="4" align="center"></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center"></td>
-		    		</tr>   
+		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
@@ -397,7 +398,8 @@
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center"></td>
-		    		</tr>      	
+		    		</tr>
+		    		<?php } ?>       	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
 		    		

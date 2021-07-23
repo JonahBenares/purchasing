@@ -219,7 +219,7 @@ class Jor extends CI_Controller {
                 }else{
                     $total=$ji->total_cost;
                 }
-
+                $data['gen_desc']=$ji->general_desc;
                 $data['jo_items'][]=array(
                     'jor_items_id'=>$ji->jor_items_id,
                     'jor_id'=>$ji->jor_id,
@@ -643,8 +643,10 @@ class Jor extends CI_Controller {
                 );
                 $this->super_model->insert_into("jor_series", $data_series);
 
+                
                 $highestRow = $objPHPExcel->getActiveSheet()->getHighestRow(); 
-                for($x=14;$x<=$highestRow;$x++){
+                $general_desc = trim($objPHPExcel->getActiveSheet()->getCell('A14')->getValue());
+                for($x=15;$x<=$highestRow;$x++){   
                     $item_no = trim($objPHPExcel->getActiveSheet()->getCell('A'.$x)->getValue());
                     $scope_work = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
                     $qty = trim($objPHPExcel->getActiveSheet()->getCell('G'.$x)->getValue());
@@ -661,9 +663,11 @@ class Jor extends CI_Controller {
                             'unit_cost'=>$unit_cost,
                             'total_cost'=>$total_cost,
                             'item_no'=>$item_no,
+                            'general_desc'=>$general_desc,
                         );
                         $this->super_model->insert_into("jor_items", $data_ji);
                     }
+
 
                     /*$num1=$x+3;
                     $num2=$num1+2;*/

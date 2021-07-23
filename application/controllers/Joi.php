@@ -644,6 +644,7 @@ class Joi extends CI_Controller {
         $joi_id = $this->input->post('joi_id');
         $count_item = $this->input->post('count_item');
         $count_notes = $this->input->post('count_notes');
+        $sum_cost = $this->input->post('sum_cost');
         $a=1;
         $rows_dr = $this->super_model->count_rows("joi_dr");
         if($rows_dr==0){
@@ -764,6 +765,11 @@ class Joi extends CI_Controller {
                 'revised'=>0
             ); 
              if($this->super_model->update_where("joi_head", $head, "joi_id", $joi_id)){
+                /*if($sum_cost>=10000){
+                    echo "<script>alert('Please Print COC!'); window.location ='".base_url()."joi/jo_issuance_saved/$joi_id'; </script>";
+                }else{
+                    redirect(base_url().'joi/jo_issuance_saved/'.$joi_id);
+                }*/
                 redirect(base_url().'joi/jo_issuance_saved/'.$joi_id);
              }
 
@@ -785,7 +791,12 @@ class Joi extends CI_Controller {
                 'revised'=>0
             ); 
             if($this->super_model->update_where("joi_head", $head, "joi_id", $joi_id)){
-                redirect(base_url().'joi/jo_issuance_draft/'.$joi_id);
+                if($sum_cost>=10000){
+                    echo "<script>alert('Please Print COC!');
+                    window.location ='".base_url()."joi/jo_issuance_saved/; </script>";
+                }else{
+                    redirect(base_url().'joi/jo_issuance_draft/'.$joi_id);
+                }
             }
         }      
     }
