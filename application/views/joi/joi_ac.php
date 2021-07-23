@@ -239,7 +239,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2"></td>
-		    			<td colspan="4" class="bor-btm"><b><br></b></td>
+		    			<td colspan="4" class="bor-btm" align="center"><?php echo $_SESSION['fullname']; ?></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="4" class="bor-btm"><b><br></b></td>
 		    			<td colspan="2"></td>
@@ -248,7 +248,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2"></td>
-		    			<td colspan="4" align="center"><?php echo $_SESSION['fullname']; ?></td>
+		    			<td colspan="4" align="center"></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="4" align="center">Print Name & Signature with Date Received</td>
 		    			<td colspan="2"></td>
@@ -259,7 +259,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td colspan="2"></td>
-		    			<td colspan="4"><b></b></td>
+		    			<td colspan="5" class="bor-btm" align="center"><?php echo $requested_by; ?></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="4" class="bor-btm"><b></b></td>
 		    			<td colspan="2"></td>
@@ -268,9 +268,9 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2"></td>
-		    			<td colspan="4"><b></b></td>
+		    			<td colspan="5" align="center"><b>	Complete & accepted by end-user:</b></td>
 		    			<td colspan="2"></td>
-		    			<td colspan="4" align="center">Witness</td>
+		    			<td colspan="4" align="center"><b>	Witnessed by: </b></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="4"><b></b></td>
 		    			<td colspan="2"></td>

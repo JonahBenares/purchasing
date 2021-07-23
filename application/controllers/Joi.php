@@ -2264,7 +2264,9 @@ class Joi extends CI_Controller {
         $year = $this->super_model->select_column_where("joi_ar", "year", "joi_id", $joi_id);
         $series = $this->super_model->select_column_where("joi_ar", "series", "joi_id", $joi_id);
         $data['ar_no']= $year."-".$series;
+        $jor_id= $this->super_model->select_column_where("joi_items", "jor_id", "joi_id", $joi_id);
         $data['jo_head']=$this->super_model->select_row_where('joi_head', 'joi_id', $joi_id);
+        $data['requested_by'] = $this->super_model->select_column_where("jor_head", "requested_by", "jor_id", $jor_id);
         foreach($this->super_model->select_row_where("joi_items","joi_id",$joi_id) AS $jd){
             $vendor_id = $this->super_model->select_column_where("joi_head","vendor_id","joi_id",$joi_id);
             $vendor = $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$vendor_id);

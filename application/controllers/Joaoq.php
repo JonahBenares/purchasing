@@ -461,6 +461,7 @@ class Joaoq extends CI_Controller {
               $data['offers'][] = array(
                 'jor_aoq_offer_id'=>$off->jor_aoq_offer_id,
                 'vendor_id'=>$off->vendor_id,
+                'offer_qty'=>$off->offer_qty,
                 'quantity'=>$off->quantity,
                 'jor_items_id'=>$off->jor_items_id,
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
@@ -526,6 +527,7 @@ class Joaoq extends CI_Controller {
                     $vendor = $this->input->post('vendor_'.$x.'_'.$v);
                     $item = $this->input->post('item_'.$x.'_'.$v);
                     $quantity = $this->input->post('quantity_'.$x.'_'.$v);
+                    $offer_qty = $this->input->post('offerqty_'.$x.'_'.$v.'_'.$a);
                     $uom = $this->input->post('uom_'.$x.'_'.$v);
                     $jor_items_id = $this->input->post('jor_items_id_'.$x.'_'.$v);
 
@@ -543,6 +545,7 @@ class Joaoq extends CI_Controller {
                                 'unit_price'=>$up,
                                 'quantity'=>$quantity,
                                 'balance'=>$quantity,
+                                'offer_qty'=>$offer_qty,
                                 'amount'=>$amount,
                                 'uom'=>$uom
                             );
@@ -563,6 +566,7 @@ class Joaoq extends CI_Controller {
                             'unit_price'=>$up,
                             'quantity'=>$quantity,
                             'balance'=>$quantity,
+                            'offer_qty'=>$offer_qty,
                             'amount'=>$amount,
                             'uom'=>$uom
                         );
@@ -638,6 +642,7 @@ class Joaoq extends CI_Controller {
                 'offer'=>$this->input->post('offer_'.$x),
                 'unit_price'=>$price,
                 'quantity'=>$this->input->post('quantity_'.$x),
+                'offer_qty'=>$this->input->post('offerqty_'.$x),
                 'amount'=>$amount
             );
             $this->super_model->update_where("jor_aoq_offers", $data, "jor_aoq_offer_id", $this->input->post('offerid_'.$x));
@@ -721,6 +726,7 @@ class Joaoq extends CI_Controller {
                 'offer'=>$this->input->post('offer_'.$x),
                 'unit_price'=>$price,
                 'quantity'=>$this->input->post('quantity_'.$x),
+                'offer_qty'=>$this->input->post('offerqty_'.$x),
                 'amount'=>$amount
             );
             $this->super_model->update_where("jor_aoq_offers", $data, "jor_aoq_offer_id", $this->input->post('offerid_'.$x));
