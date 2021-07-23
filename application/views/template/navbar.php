@@ -75,6 +75,22 @@
 
                         <li class="nav-item">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                <i class="fa big-icon fa-bar-chart"></i> 
+                                <span class="mini-dn">PO Reports</span> 
+                                <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
+                            </a>
+                            <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0" style="width: 250px">
+                                <a class="dropdown-item" data-toggle="modal" data-target="#pr_modal">PR Summary</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#po_modal">PO Summary</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#unserved_modal">Unserved Report</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#weekly_recom">Summary of Weekly Recom</a>
+                                <a class="dropdown-item" href="<?php echo base_url(); ?>reports/pending_pr" >Pending PR</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#purch_calendar">Calendar</a>
+                            </div>
+                        </li> 
+
+                        <li class="nav-item">
+                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
                                 <i class="fa big-icon fa-file-text"></i> 
                                 <span class="mini-dn">JO Transactions</span> 
                                 <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
@@ -113,13 +129,7 @@
                             </div>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="<?php echo base_url(); ?>jo/jo_list"  role="button" class="nav-link dropdown-toggle" title="Job Order">
-                                <i class="fa big-icon list-alt"></i>
-                                <span class="mini-dn"> Job Order</span> 
-                                <span class="indicator-right-menu mini-dn"></span>
-                            </a>
-                        </li>
+                        
                         
 
                         <!-- <li class="nav-item">
@@ -187,22 +197,16 @@
                                 <a class="dropdown-item" data-toggle="modal" data-target="#purch_calendar">Calendar</a> -->
                             </div>
                         </li> 
-                       
+
                         <li class="nav-item">
-                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-                                <i class="fa big-icon fa-bar-chart"></i> 
-                                <span class="mini-dn">Reports</span> 
-                                <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
+                            <a href="<?php echo base_url(); ?>jo/jo_list"  role="button" class="nav-link dropdown-toggle" title="Job Order">
+                                <i class="fa big-icon list-alt"></i>
+                                <span class="mini-dn"> Job Order</span> 
+                                <span class="indicator-right-menu mini-dn"></span>
                             </a>
-                            <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0" style="width: 250px">
-                                <a class="dropdown-item" data-toggle="modal" data-target="#pr_modal">PR Summary</a>
-                                <a class="dropdown-item" data-toggle="modal" data-target="#po_modal">PO Summary</a>
-                                <a class="dropdown-item" data-toggle="modal" data-target="#unserved_modal">Unserved Report</a>
-                                <a class="dropdown-item" data-toggle="modal" data-target="#weekly_recom">Summary of Weekly Recom</a>
-                                <a class="dropdown-item" href="<?php echo base_url(); ?>reports/pending_pr" >Pending PR</a>
-                                <a class="dropdown-item" data-toggle="modal" data-target="#purch_calendar">Calendar</a>
-                            </div>
-                        </li> 
+                        </li>
+                       
+                       
 
                     </ul>
                 </div>
