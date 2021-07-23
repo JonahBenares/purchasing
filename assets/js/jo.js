@@ -65,6 +65,15 @@ function changePrice(){
   /*document.getElementById("gtotal").innerHTML  = net.toFixed(2);*/
     document.getElementById("gtotal").innerHTML  = net.toFixed(2);
    //document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
+    if(parseFloat(sum_cost)<10000){
+      $("#hide_work").show();
+      $("#hide_input").show();
+      $("#border_work").show();
+    }else{
+      $('#hide_work').hide();
+      $('#hide_input').hide();
+      $('#border_work').hide();
+    }
 }
 
 function changePrice_rfd(){
@@ -89,6 +98,8 @@ function check_rfd(){
       $('#submit').removeAttr('disabled');
     }
 }
+
+
 
 
 

@@ -614,7 +614,7 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   	 -->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
-		    		<tr>
+		    		<tr id = "hide_work">
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center">Work Completion Verified by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -626,7 +626,7 @@
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13  bor-btm" id = "border_work" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -634,7 +634,7 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    		</tr>   
-		    		<tr>
+		    		<tr id = "hide_input">
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
 		    				<select type="text" name="verified_by" class="btn-block">
@@ -674,4 +674,6 @@
 		    }   
 		    return false;   
 		}
+
+		window.onload = changePrice();
     </script>

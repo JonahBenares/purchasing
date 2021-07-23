@@ -607,7 +607,7 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   	 -->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
-		    		<tr>
+		    		<tr id = "hide_work">
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center">Work Completion Verified by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -619,7 +619,7 @@
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13  bor-btm" id = "border_work" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -627,10 +627,10 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    		</tr>   
-		    		<tr>
+		    		<tr id = "hide_input">
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
-		    				<select type="text" name="verified_by" class="btn-block">
+		    				<select type="text" name="verified_by" id="verified_by" class="btn-block">
 		    					<option value=''>-Select-</option>
 		    					 <?php foreach($employee AS $emp){ ?>
                                     <option value="<?php echo $emp->employee_id; ?>" <?php echo (($verified_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
@@ -645,7 +645,7 @@
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center"></td>
-		    		</tr>     	
+		    		</tr>    	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>  
 		    	</table>		    
 	    	</div>

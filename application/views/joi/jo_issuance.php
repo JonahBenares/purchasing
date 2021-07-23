@@ -205,7 +205,7 @@
 							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save Revision">	
 						<?php } else { ?>
 							<input type='submit' class="btn btn-warning btn-md p-l-100 p-r-100" name='submit' value="Save as Draft">	
-							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" name='submit' value="Save">	
+							<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" id="submit" name='submit' value="Save">	
 						<?php } } ?>
 						<!-- <a href="<?php echo base_url(); ?>joi/jo_issuance_saved" class="btn btn-primary btn-md p-l-25 p-r-25">Save</a> -->
 						<!-- <a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
@@ -578,7 +578,7 @@
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   	 -->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
-		    		<tr>
+		    		<tr id = "hide_work">
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center">Work Completion Verified by:</td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -590,23 +590,24 @@
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13  bor-btm" id = "border_work" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
-		    		</tr>   
-		    		<tr>
+		    		</tr>  
+		    		<tr id = "hide_input">
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
-		    				<select type="text" name="verified_by" class="btn-block">
+		    				<select type="text" name="verified_by"  id="verified_by" class="btn-block">
 		    					<option value=''>-Select-</option>
 		    					 <?php foreach($employee AS $emp){ ?>
                                     <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
 								<?php } ?> 
 		    				</select>
+		    				<!--<input type='hidden' name='rows_rfd' value='<?php echo $rows_rfd; ?>'> -->
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"></td>
@@ -699,4 +700,14 @@
 		    }   
 		    return false;   
 		}
+
+
+		/*$(document).ready(function(){
+			$('#submit').click( function(){
+			    var sum_cost = document.getElementById("sum_cost").value;
+				if(parseFloat(sum_cost)>=10000){
+					alert("Please Print COC!");
+				}
+			});
+		});*/
     </script>

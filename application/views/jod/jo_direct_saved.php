@@ -380,10 +380,10 @@
 				    			?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->offer)."<br><br>"; ?></td>
-		    						<td class="f13" align="center"><?php echo number_format($it->delivered_quantity,2); ?></td>
-		    						<td class="f13" align="center"><?php echo $it->uom; ?></td>
-		    						<td class="f13" align="center"><?php echo $it->unit_price; ?></td>
-		    						<td class="f13" align="right"><?php echo $it->amount; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->delivered_quantity,2); ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->uom; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->unit_price; ?></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->amount; ?></td>
 		    					</tr>
 		    					<?php } }else { $gtotal=array(); } ?>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
@@ -572,6 +572,7 @@
 		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   -->
+		    		<?php if($grandtotal<10000){ ?>
 		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
 		    		<tr>
@@ -583,7 +584,7 @@
 		    			<td class="f13 " colspan="4" align="center"></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center"></td>
-		    		</tr>   
+		    		</tr>      
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $verified_by; ?><br></td>
@@ -593,7 +594,8 @@
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
-		    		</tr>   
+		    		</tr>
+		    		<?php } ?>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">

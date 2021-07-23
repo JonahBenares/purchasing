@@ -239,6 +239,9 @@ $ci =& get_instance();
                                             </tr>
                                         </thead>     
                                         <tbody>
+                                             <tr>
+                                                 <td colspan='9' align="center"><b><?php echo $gen_desc;?></b></td>
+                                            </tr>
                                             <?php 
                                             $x=1; 
                                             if(!empty($jo_items)){
@@ -246,6 +249,7 @@ $ci =& get_instance();
                                             ?>
                                             <?php if($ji['cancelled']==1){ ?>
                                             <tr class="tr-red">
+                                                <td style="padding: 0px;height: 50px"><?php echo $ji['general_desc'];?></td>
                                                 <td><?php echo $x; ?></td>
                                                 <td><?php echo $ji['scope_of_work'];?></td>
                                                 <td><?php echo $ji['quantity']; ?></td>
@@ -270,6 +274,7 @@ $ci =& get_instance();
                                             </tr>
                                             <?php } else { ?>
                                             <tr>
+
                                                 <td><?php echo $x; ?></td>
                                                 <td><textarea class="form-control" rows="10"><?php echo $ji['scope_of_work'];?></textarea></td>
                                                 <td><?php echo $ji['quantity']; ?></td>
