@@ -429,31 +429,31 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Amount:</td>
-		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
+		    						<td align="right"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format(array_sum($gtotal),2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'><?php echo $vat_percent; ?>% VAT:</td>
-		    						<td align="right"><?php echo number_format($vat,2); ?></td>
+		    						<td align="right"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format($vat,2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Sub Total:</td>
-		    						<td align="right"><?php echo number_format($subtotal,2);?></td>
+		    						<td align="right"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format($subtotal,2);?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Less Discount:</td>
-		    						<td align="right"><?php echo number_format($discount,2);?></td>
+		    						<td align="right"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format($discount,2);?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Grand Total:</td>
-		    						<td align="right"><?php echo number_format($grandtotal,2); ?></td>
+		    						<td align="right"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format($grandtotal,2); ?></td>
 		    					</tr>
 		    				</table>
 		    			</td>
@@ -506,7 +506,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -628,13 +628,4 @@
 		    }   
 		    return false;   
 		}
-
-		function check_coc(){
-		    var sum_cost = document.getElementById("sum_cost").value;
-			if(parseFloat(sum_cost)>=10000){
-				alert("Please Print COC!");
-			}
-		}
-
-		window.onload = check_coc();
     </script>
