@@ -461,7 +461,6 @@ class Joaoq extends CI_Controller {
               $data['offers'][] = array(
                 'jor_aoq_offer_id'=>$off->jor_aoq_offer_id,
                 'vendor_id'=>$off->vendor_id,
-                'offer_qty'=>$off->offer_qty,
                 'quantity'=>$off->quantity,
                 'jor_items_id'=>$off->jor_items_id,
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
@@ -543,9 +542,8 @@ class Joaoq extends CI_Controller {
                                 'currency'=>$currency,
                                 'offer'=>$offer,
                                 'unit_price'=>$up,
-                                'quantity'=>$quantity,
-                                'balance'=>$quantity,
-                                'offer_qty'=>$offer_qty,
+                                'quantity'=>$offer_qty,
+                                'balance'=>$offer_qty,
                                 'amount'=>$amount,
                                 'uom'=>$uom
                             );
@@ -564,9 +562,8 @@ class Joaoq extends CI_Controller {
                             'currency'=>$currency,
                             'offer'=>$offer,
                             'unit_price'=>$up,
-                            'quantity'=>$quantity,
-                            'balance'=>$quantity,
-                            'offer_qty'=>$offer_qty,
+                            'quantity'=>$offer_qty,
+                            'balance'=>$offer_qty,
                             'amount'=>$amount,
                             'uom'=>$uom
                         );
@@ -641,8 +638,7 @@ class Joaoq extends CI_Controller {
                 'currency'=>$this->input->post('currency_'.$x),
                 'offer'=>$this->input->post('offer_'.$x),
                 'unit_price'=>$price,
-                'quantity'=>$this->input->post('quantity_'.$x),
-                'offer_qty'=>$this->input->post('offerqty_'.$x),
+                'quantity'=>$this->input->post('offerqty_'.$x),
                 'amount'=>$amount
             );
             $this->super_model->update_where("jor_aoq_offers", $data, "jor_aoq_offer_id", $this->input->post('offerid_'.$x));
@@ -725,8 +721,7 @@ class Joaoq extends CI_Controller {
                 'currency'=>$this->input->post('currency_'.$x),
                 'offer'=>$this->input->post('offer_'.$x),
                 'unit_price'=>$price,
-                'quantity'=>$this->input->post('quantity_'.$x),
-                'offer_qty'=>$this->input->post('offerqty_'.$x),
+                'quantity'=>$this->input->post('offerqty_'.$x),
                 'amount'=>$amount
             );
             $this->super_model->update_where("jor_aoq_offers", $data, "jor_aoq_offer_id", $this->input->post('offerid_'.$x));
@@ -855,13 +850,14 @@ class Joaoq extends CI_Controller {
                         )
                     )
                 );
-                foreach(range('E','S') as $columnID){
+                foreach(range('E','V') as $columnID){
                     $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
                 }
                 $header = array(
                     array(
                         'OFFER',
                         'CURRENCY',
+                        'OFFER QTY',
                         'P/U',
                         'AMOUNT',
                         'COMMENTS',
@@ -870,7 +866,7 @@ class Joaoq extends CI_Controller {
 
                 $objPHPExcel->setActiveSheetIndex(0);
                 $objPHPExcel->getActiveSheet()->fromArray($header, null, $col.$two);
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num2.":S".$num2)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num2.":V".$num2)->applyFromArray($styleArray);
 
                 foreach($this->super_model->select_row_where("jor_aoq_offers","jor_aoq_id",$aoq_id) AS $ven){
                     foreach($this->super_model->select_row_where("jor_aoq_offers", "jor_items_id",  $ven->jor_items_id) AS $rf){
@@ -883,7 +879,7 @@ class Joaoq extends CI_Controller {
 
                 $q = $num2;
                 foreach ($this->super_model->select_custom_where("jor_aoq_offers","jor_aoq_id='$aoq_id' AND vendor_id = '$rfq->vendor_id' AND jor_items_id = '$items->jor_items_id'") AS $allrfq) {
-                    $amount = $items->quantity*$allrfq->unit_price;
+                    $amount = $allrfq->quantity*$allrfq->unit_price;
 
                     if(!empty($allprice)){
                         foreach($allprice AS $var=>$key){
@@ -903,6 +899,7 @@ class Joaoq extends CI_Controller {
                         array(
                             $allrfq->offer,
                             $allrfq->currency,
+                            $allrfq->quantity,
                             $allrfq->unit_price,
                             $amount,
                             $allrfq->comments,
@@ -928,36 +925,36 @@ class Joaoq extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->getStyle('F'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('K'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('P'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":H".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":H".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('L'.$q.":M".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('L'.$q.":M".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 
-                    $objPHPExcel->getActiveSheet()->getStyle('Q'.$q.":R".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('Q'.$q.":R".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                    
                   
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$q.":S".$q)->applyFromArray($styleArray);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$q.":V".$q)->applyFromArray($styleArray);
                     $q++;
                 }
 
                 $objPHPExcel->getActiveSheet()->getStyle($col.$one)->getFont()->setBold(true);
-                for($i=0;$i<4; $i++) {
+                for($i=0;$i<5; $i++) {
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.$one, "$supplier\n$contact\n$phone");
-                    $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':S'.$one)->applyFromArray($styleArray);
+                    $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':V'.$one)->applyFromArray($styleArray);
                     $objPHPExcel->getActiveSheet()->getStyle($col.$one)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getRowDimension('7')->setRowHeight(50);
-                    $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':S'.$one)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->getActiveSheet()->mergeCells('E'.$one.':I'.$one);
-                    $objPHPExcel->getActiveSheet()->mergeCells('J'.$one.':N'.$one);
-                    $objPHPExcel->getActiveSheet()->mergeCells('O'.$one.':S'.$one);
+                    $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':V'.$one)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->getActiveSheet()->mergeCells('E'.$one.':J'.$one);
+                    $objPHPExcel->getActiveSheet()->mergeCells('K'.$one.':P'.$one);
+                    $objPHPExcel->getActiveSheet()->mergeCells('Q'.$one.':V'.$one);
                     $col++;
                 }
                 $q++;
                 $num++;
                 $col++;
             }
-            $objPHPExcel->getActiveSheet()->getStyle('A'.$num1.":S".$num1)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num1.":V".$num1)->applyFromArray($styleArray);
             $x++;
             $y++;
             $num1++;
@@ -1106,8 +1103,8 @@ class Joaoq extends CI_Controller {
         $objPHPExcel->getActiveSheet()->getColumnDimension('R')->setWidth(10);
     
 
-        $objPHPExcel->getActiveSheet()->getStyle('A8:S8')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A8:S8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A8:V8')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A8:V8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
                 unlink($exportfilename);

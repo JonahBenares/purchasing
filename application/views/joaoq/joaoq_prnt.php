@@ -188,7 +188,7 @@
 		   //alert(price);
 		    var p = price.replace(",", "");
 		   
-		   var amount = parseFloat(p) * parseFloat(offerqty_);
+		   var amount = parseFloat(p) * parseFloat(offerqty);
 		   document.getElementById("amount_"+count).value  =amount;
 		
 		}
@@ -496,7 +496,7 @@
 				    						<center><?php echo $of['currency']; ?></center>
 				    					</td>
 				    					<td width="10%" class="bor-btm bor-right f10" align="center">
-				    						<?php echo number_format($of['offer_qty'],2); ?>
+				    						<?php echo number_format($of['quantity'],2); ?>
 				    					</td>
 				    					<td width="10%" class="bor-btm bor-right f10 <?php echo (($of['price']==$of['min']) ? 'yellow-back' : ''); ?> " align="center">
 				    						<?php echo number_format($of['price'],4); ?>
@@ -571,7 +571,7 @@
 						    				</select>
 				    					</td>
 				    					<td width="10%" class="bor-btm-red bor-right" align="center">				    						
-				    						<input type='text' class="form-control f10" name='offerqty_<?php echo $a; ?>' id='offerqty_<?php echo $a; ?>' value="<?php echo number_format($of['offer_qty'],2); ?>" style="width: 100%;height: 100px">
+				    						<input type='text' class="form-control f10" name='offerqty_<?php echo $a; ?>' id='offerqty_<?php echo $a; ?>' value="<?php echo number_format($of['quantity'],2); ?>" style="width: 100%;height: 100px">
 				    						
 				    					</td> 
 				    					<td width="10%" class="bor-btm bor-right f10 " align="center">
@@ -630,7 +630,7 @@
 						    				</select>
 				    					</td>
 				    					<td width="10%" class="bor-btm-red bor-right" align="center">				    						
-				    						<input type='text' class="form-control f10" name='offerqty_<?php echo $a; ?>' id='offerqty_<?php echo $a; ?>' value="<?php echo number_format($of['offer_qty'],2); ?>" style="width: 100%;height: 100px">
+				    						<input type='text' class="form-control f10" name='offerqty_<?php echo $a; ?>' id='offerqty_<?php echo $a; ?>' value="<?php echo number_format($of['quantity'],2); ?>" style="width: 100%;height: 100px">
 				    						
 				    					</td> 
 				    					<td width="10%" class="bor-btm bor-right f10 " align="center">
