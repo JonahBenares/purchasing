@@ -2069,6 +2069,7 @@ class Jod extends CI_Controller {
                 'start_of_work'=>$h->start_of_work,
                 'date_needed'=>$h->date_needed,
                 'cenpri_jo_no'=>$h->cenpri_jo_no,
+                'general_desc'=>$h->general_desc,
                 'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $h->vendor_id),
                 'address'=>$this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $h->vendor_id),
                 'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
