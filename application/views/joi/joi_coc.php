@@ -217,13 +217,11 @@
 		    		<tr>
 		    		
 		    			<td colspan="20">
-		    				<table class="table-borsdered" width="100%">
+		    				<table class="table-borddered" width="100%">
 		    					<tr>
-		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
-		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
-		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
-		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
-		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
+		    						<td width="70%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
+		    						<td width="15%"  class="f13" align="center"><b></b></td>
+		    						<td width="15%" class="f13" align="right" style="padding-right: 10px"><b>Total Cost</b></td>
 		    					</tr>
 		    					<?php 
 		    						$gtotal=array();
@@ -233,25 +231,19 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->offer); ?></td>
-		    						<td class="f13" align="center"><?php echo $det->delivered_quantity; ?></td>
-		    						<td class="f13" align="center"><?php echo $det->uom; ?></td>
-		    						<td class="f13" align="center"><?php echo number_format($det->unit_price,2); ?></td>
-		    						<td class="f13" align="right"><?php echo number_format($det->amount,2); ?></td>
+		    						<td class="f13" align="center"></td>
+		    						<td style="padding-right: 10px" class="f13" align="right"><?php echo number_format($det->amount,2); ?></td>
 		    					</tr>
-		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    				<?php } } else{ $gtotal=array(); } ?>
 								<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
+		    						<td class="f13" align="center"><br><br></td>
 		    						<td class="f13" align="center"></td>
 		    					</tr>
 		    					<?php if($vat_amount!=0){ ?>
 		    					<tr>
 		    						<td></td>
-		    						<td></td>
-		    						<td colspan='2'><?php echo number_format($vat_percent) . "% VAT:"; ?></td>
+		    						<td><?php echo number_format($vat_percent) . "% VAT:"; ?></td>
 		    						<td align="right"><?php echo number_format($vat_amount,2); ?></td>
 		    					</tr>
 		    					<?php } ?>
@@ -262,28 +254,25 @@
 		    					?>
 		    					<tr>
 		    						<td></td>
-		    						<td></td>
-		    						<td colspan='2'>Sub Total:</td>
-		    						<td align="right"><?php echo number_format($subtotal,2); ?></td>
+		    						<td>Sub Total:</td>
+		    						<td style="padding-right: 10px" align="right"><?php echo number_format($subtotal,2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
-		    						<td></td>
-		    						<td colspan='2'>Less Discount:</td>
-		    						<td align="right"><?php echo number_format($discount_amount,2); ?></td>
+		    						<td>Less Discount:</td>
+		    						<td style="padding-right: 10px" align="right"><?php echo number_format($discount_amount,2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
-		    						<td></td>
-		    						<td colspan='2'>Grand Total:</td>
-		    						<td align="right"><?php echo number_format($grandtotal,2); ?></td>
+		    						<td>Grand Total:</td>
+		    						<td style="padding-right: 10px" align="right"><?php echo number_format($grandtotal,2); ?></td>
 		    					</tr>
 		    				</table>
 		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
-		    				<b>Terms and Conditions:</b><br>
+		    				<br><b>Terms and Conditions:</b><br>
 		    				<?php foreach($terms AS $trm){ 
 		    					echo nl2br($trm->terms)."<br>";
 		    				} ?>
