@@ -204,17 +204,12 @@
 		    			<td class="all-border" align="center" colspan="3"><b class="nomarg">Remarks</b></td>
 		    		</tr>
 		    		<tr>
-		    			<td class="all-border" align="center"><b class="nomargb"></td>
-		    			<td class="all-border" align="center" colspan="6"><b class="nomarg"></b></td>
-		    			<td class="all-border" align="" colspan="6">
+		    			<td class="all-border" align="" colspan="20">
 		    				<b class="nomarg">
-		    				<?php echo $h->general_desc; ?>
+		    				<!-- <?php echo $h->general_desc; ?> -->
+		    				Machining of Sprocket/Chain Coupling for Unit 4 Lube Oil Priming Pump Replacement and Spare for Unit 4 and 5.
 		    				</b>
 		    			</td>
-		    			<td class="all-border" align="center"><b class="nomarg"></b></td>
-		    			<td class="all-border" align="center"><b class="nomarg"></b></td>
-		    			<td class="all-border" align="center" colspan="2"><b class="nomarg"></b></td>
-		    			<td class="all-border" align="center" colspan="3"><b class="nomarg"></b></td>
 		    		</tr>
 		    		<?php foreach($items AS $it){ ?>
 		       		<tr>
