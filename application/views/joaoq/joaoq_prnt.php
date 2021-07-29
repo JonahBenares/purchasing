@@ -294,11 +294,11 @@
 		    			<td class="f10" colspan="11"><?php echo $h['purpose']; ?></td>		    		
 		    			<td class="f10" colspan="8"></td>
 		    		</tr>
-		    		<tr>
+		    		<!-- <tr>
 		    			<td class="f10" colspan="1" align="right">General Description: &nbsp;</td>
 		    			<td class="f10" colspan="11"><?php echo $h['general_desc']; ?></td>		    		
 		    			<td class="f10" colspan="8"></td>
-		    		</tr>
+		    		</tr> -->
 		    		<tr>
 		    			<td class="f10" colspan="1" align="right">Requested By: &nbsp;</td>
 		    			<td class="f10" colspan="11"><?php echo $h['requested_by']; ?></td>		    		
@@ -361,6 +361,12 @@
 					    			<td class="f9 table-borbold" align="center"><b>DESCRIPTION</td>
 					    			<td class="f9 table-borbold" width="10%" align="center"><b>QTY</td>
 					    			<td class="f9 table-borbold" width="10%" align="center"><b>UOM</td>
+		    					</tr>
+		    					<tr>
+		    						<td class="f9 table-borbold" align="center"><b></td>
+					    			<td class="f10 table-borbold" align=""><b><?php echo $h['general_desc']; ?></td>
+					    			<td class="f9 table-borbold" width="10%" align="center"><b></td>
+					    			<td class="f9 table-borbold" width="10%" align="center"><b></td>
 		    					</tr>
 		    					<tr style="height: 500px">
 		    						<td class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $x; ?></td>
@@ -488,7 +494,15 @@
 					    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
-		    					</tr>		
+		    					</tr>	
+		    					<tr>
+		    						<td class="f10 table-borbold" align="center"><b><br></b></td>
+					    			<td class="f9 table-borbold" align="center"><b></b></td>
+					    			<td class="f9 table-borbold" align="center"><b></b></td>
+					    			<td class="f9 table-borbold" align="center"><b></b></td>
+					    			<td class="f9 table-borbold" align="center"><b></b></td>
+					    			<td class="f9 table-borbold" align="center"><b></b></td>
+		    					</tr>	
 			    				<?php 	
 			    				$a=1;
 			    				foreach($offers AS $of){
