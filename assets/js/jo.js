@@ -242,6 +242,7 @@ function chooseJO(){
         document.getElementById("date_prepared").value  = response.date_prepared;
         document.getElementById("user_jo_no").value  = response.user_jo_no;
         document.getElementById("jor_aoq_id").value  = response.jor_aoq_id;
+        document.getElementById("general_desc").value  = response.general_desc;
       }
   }); 
 }
@@ -260,6 +261,7 @@ function chooseJOD(){
         document.getElementById("date_prepared").value  = response.date_prepared;
         document.getElementById("user_jo_no").value  = response.user_jo_no;
         document.getElementById("jor_aoq_id").value  = response.jor_aoq_id;
+        document.getElementById("general_desc").value  = response.general_desc;
       }
   }); 
 }

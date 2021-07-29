@@ -254,6 +254,10 @@
 		    		<tr>
 		    			<td align="left" colspan="17" class="bor-right"><b class="nomarg">Payment for:</b></td>
 		    			<td align="right" colspan="3"></td>
+					<tr>
+                        <td align="left" colspan="17" class="bor-right"><b><?php echo $general_desc; ?></b></td>
+                        <td align="right" colspan="3"></td>
+                    </tr>
 		    		</tr>
 		    				<?php
 					    		$subtotal=array();

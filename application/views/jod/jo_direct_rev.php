@@ -356,13 +356,13 @@
 			    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>  
 		    		<?php } ?>		
 		    		<tr>
-		    		
 		    			<td colspan="20">
 		    				<table class="table-borsdered" width="100%">
 		    					<tr>
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
+		    						<td width="15%" class="f13" align="center"><b>Currency</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    						<td width="15%" class="f13" align="center"></td>
@@ -375,18 +375,28 @@
 			    								$gtotal2[] = $det->amount;
 		    					?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><textarea name = "scope_of_work<?php echo $x; ?>" class = "form-control" rows="7"><?php echo $det->offer; ?></textarea></td>
+                                   <td class="f13" style="padding-left: 5px" align="left"><input type="text" name="general_desc" class = "form-control" value="<?php echo $general_desc;?>"></input></td>
+                                </tr>
+		    					<tr>
+		    						<td class="f13" style="padding-left: 5px" align="left" ><textarea name = "scope_of_work<?php echo $x; ?>" class = "form-control" rows="7"><?php echo $det->offer; ?></textarea></td>
 
-		    						<td class="f13" align="center">
+		    						<td class="f13" align="center" style="vertical-align:top;">
 		    							<input type="text" name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $det->delivered_quantity; ?>)" value='<?php echo $det->delivered_quantity; ?>' style='width:50px; color:red;text-align: center' onchange='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"/>
 		    							<!-- <input type="text" name="quantity<?php echo $x; ?>" id='quantity<?php echo $x; ?>' style = "width:50%;text-align: center" value = "<?php echo $det->delivered_quantity; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'> -->
 		    						</td>
-		    						<td class="f13" align="center"><input type="text" name="uom<?php echo $x; ?>" style = "width:100%;text-align: center" value = "<?php echo $det->uom; ?>"></td>
-		    						<td class="f13" align="center"><input type="text" name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' style = "width:100%;text-align: center" value = "<?php echo $det->unit_price; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'></td>
-		    						<td class="f13" align="right"><input type="text" name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo number_format($det->amount); ?>"></td>
-		    						<td class="f13" align="right"><a href="<?php echo base_url(); ?>joi/delete_scope/<?php echo $det->joi_items_id?>/<?php echo $det->joi_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name="uom<?php echo $x; ?>" style = "width:100%;text-align: center" value = "<?php echo $det->uom; ?>"></td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+				    				<select name='currency<?php echo $x; ?>'>
+						    			<?php foreach($currency2 AS $curr){ ?>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$det->currency) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    		<?php } ?>
+						    		</select>
+				    				</td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' style = "width:100%;text-align: center" value = "<?php echo $det->unit_price; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo number_format($det->amount); ?>"></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><a href="<?php echo base_url(); ?>joi/delete_scope/<?php echo $det->joi_items_id?>/<?php echo $det->joi_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td>
 		    					</tr>
-		    					<tr><td colspan="5" class="p-5"></td></tr>
+		    					<tr><td colspan="5" class="p-5" style="vertical-align:top;"></td></tr>
 		    					<?php $x++; } ?> 
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
@@ -423,11 +433,15 @@
 			    						$gtotal2[] = $det->amount;
 		    					?>
 		    					<tr>
+                                    <td class="f13 p-l-5" align="left"><b><?php echo $general_desc_temp; ?></b></td>
+                                </tr>
+		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo " - ".nl2br($det->offer)."<br><br>"; ?></td>
-		    						<td class="f13" align="center"><?php echo $det->delivered_quantity; ?></td>
-		    						<td class="f13" align="center"><?php echo $det->uom; ?></td>
-		    						<td class="f13" align="center"><?php echo $det->unit_price; ?></td>
-		    						<td class="f13" align="right"><?php echo number_format($det->amount,2); ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->delivered_quantity; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->uom; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->currency; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->unit_price; ?></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($det->amount,2); ?></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<?php } ?> 
@@ -521,7 +535,7 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Amount:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly"></td>
+		    						<td class="bor-btm" align="right"></span><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>

@@ -40,7 +40,35 @@ class Joi extends CI_Controller {
             }
         }
 
-	}    
+	}   
+
+    public function currency_list(){
+        $currency = array(
+            'AUD',
+            'BDT',
+            'CAD',
+            'EUR',
+            'HKD',
+            'IDR',
+            'INR',
+            'IQD',
+            'JPY',
+            'KPW',
+            'LBP',
+            'MXN',
+            'MMK',
+            'NZD',
+            'OMR',
+            'PHP',
+            'PKR',
+            'QAR',
+            'THB',
+            'USD',
+            'GBP',
+        );
+
+        return $currency;
+    }  
 
     public function joi_list(){
         $this->load->view('template/header');
@@ -388,10 +416,11 @@ class Joi extends CI_Controller {
         $project_title= $this->super_model->select_column_where('jor_head', 'purpose', 'jor_id', $jorid);
         $date_prepared= $this->super_model->select_column_where('jor_head', 'date_prepared', 'jor_id', $jorid);
         $user_jo_no= $this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id', $jorid);
+        $general_desc= $this->super_model->select_column_where('jor_items', 'general_desc', 'jor_id', $jorid);
         //$completion_date= $this->super_model->select_column_where('jor_head', 'completion_date', 'jor_id', $jorid);
 
         
-        $return = array('purpose' => $project_title, 'date_prepared' => $date_prepared, 'user_jo_no' => $user_jo_no, 'jor_aoq_id'=>$jor_aoq_id);
+        $return = array('purpose' => $project_title, 'date_prepared' => $date_prepared, 'user_jo_no' => $user_jo_no, 'general_desc' => $general_desc, 'jor_aoq_id'=>$jor_aoq_id);
         echo json_encode($return);
     
     }
@@ -452,6 +481,7 @@ class Joi extends CI_Controller {
                 'start_of_work'=>$this->input->post('work_start'),
                 'completion_date'=>$this->input->post('work_completion'),
                 'project_title'=>$this->input->post('project_title'),
+                'general_desc'=>$this->input->post('general_desc'),
                 'joi_type'=>0,
                 'user_id'=>$_SESSION['user_id'],
                 'prepared_date'=>date("Y-m-d H:i:s"),
@@ -514,9 +544,11 @@ class Joi extends CI_Controller {
         $joi_id = $this->uri->segment(3);
         $revised = $this->uri->segment(4);
         $joi_tc_id = $this->uri->segment(5);
+        $data['currency'] = $this->currency_list();
         $data['revised'] = $revised;
 
         $data['joi_id'] = $joi_id;
+        $data['currency1']='';
         $vendor_id = $this->super_model->select_column_where('joi_head', 'vendor_id', 'joi_id', $joi_id);
         $data['vendor_id']=$vendor_id;
         foreach($this->super_model->select_row_where('joi_head', 'joi_id', $joi_id) AS $h){
@@ -529,6 +561,7 @@ class Joi extends CI_Controller {
                 'start_of_work'=>$h->start_of_work,
                 'date_needed'=>$h->date_needed,
                 'cenpri_jo_no'=>$h->cenpri_jo_no,
+                'general_desc'=>$h->general_desc,
                 'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $h->vendor_id),
                 'address'=>$this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $h->vendor_id),
                 'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
@@ -558,12 +591,13 @@ class Joi extends CI_Controller {
             foreach($this->super_model->select_row_where("joi_jor", "joi_id" , $joi_id) AS $popr){
              
                 foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id' AND recommended='1' ORDER BY jor_items_id ASC") AS $off){
-                    $data['currency'] = $off->currency;
                     $balance = $this->item_checker($off->jor_items_id, $vendor_id);
                     $total = $off->unit_price*$balance;
+                    $jor_id = $this->super_model->select_column_where("jor_aoq_head",'jor_id',"jor_aoq_id",$off->jor_aoq_id);
                       
                     //echo $balance ."<br>";
                     $data['items'][] =  array(
+                        'jor_id'=>$jor_id,
                         'jor_aoq_id'=>$off->jor_aoq_id,
                         'jor_aoq_offer_id'=>$off->jor_aoq_offer_id,
                         'jor_aoq_items_id'=>$off->jor_aoq_items_id,
@@ -575,6 +609,7 @@ class Joi extends CI_Controller {
                         'balance'=>$balance,
                         'amount'=>$off->amount,
                         'uom'=>$off->uom,
+                        'currency'=>'',
                         'total'=>$total
                     );
                     
@@ -590,7 +625,6 @@ class Joi extends CI_Controller {
         } else {
             
              foreach($this->super_model->select_row_where("joi_items", "joi_id" , $joi_id) AS $off){
-                    $data['currency'] = $off->currency;
                   $total = $off->unit_price*$off->quantity;
                     $data['items'][] =  array(
                         'jor_aoq_id'=>$this->super_model->select_column_where('joi_jor', 'jor_aoq_id', 'joi_id', $joi_id),
@@ -603,6 +637,7 @@ class Joi extends CI_Controller {
                         'balance'=>$off->quantity,
                         'amount'=>$off->amount,
                         'uom'=>$off->uom,
+                        'currency'=>$items->currency,
                         'total'=>$total
                     );
                 
@@ -918,6 +953,7 @@ class Joi extends CI_Controller {
     public function jo_issuance_saved(){
         $this->load->view('template/header');
         $joi_id = $this->uri->segment(3);
+        $jor_id = $this->uri->segment(4);
         $data['joi_id'] = $joi_id;
         $data['cancelled']='';
         $vendor_id = $this->super_model->select_column_where('joi_head', 'vendor_id', 'joi_id', $joi_id);
@@ -932,6 +968,7 @@ class Joi extends CI_Controller {
                 'start_of_work'=>$h->start_of_work,
                 'date_needed'=>$h->date_needed,
                 'cenpri_jo_no'=>$h->cenpri_jo_no,
+                'general_desc'=>$h->general_desc,
                 'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $h->vendor_id),
                 'address'=>$this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $h->vendor_id),
                 'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
@@ -992,8 +1029,11 @@ class Joi extends CI_Controller {
     public function jo_issuance_draft(){
         $this->load->view('template/header');
         $joi_id = $this->uri->segment(3);
+        $jor_id = $this->uri->segment(4);
+        $data['currency2'] = $this->currency_list();
         $data['joi_id'] = $joi_id;
         $vendor_id = $this->super_model->select_column_where('joi_head', 'vendor_id', 'joi_id', $joi_id);
+        $data['currency1']='';
         foreach($this->super_model->select_row_where('joi_head', 'joi_id', $joi_id) AS $h){
 
             $data['head'][] = array(
@@ -1005,6 +1045,7 @@ class Joi extends CI_Controller {
                 'start_of_work'=>$h->start_of_work,
                 'date_needed'=>$h->date_needed,
                 'cenpri_jo_no'=>$h->cenpri_jo_no,
+                'general_desc'=>$h->general_desc,
                 'vendor_id'=>$h->vendor_id,
                 'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $h->vendor_id),
                 'address'=>$this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $h->vendor_id),
@@ -1072,6 +1113,7 @@ class Joi extends CI_Controller {
         $joi_id = $this->input->post('joi_id');
         $count_item = $this->input->post('count_item');
         $count_notes = $this->input->post('count_notes');
+        $data['currency1']='';
 
         $a=1;
         for($x=1; $x<$count_item;$x++){
@@ -1082,6 +1124,7 @@ class Joi extends CI_Controller {
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
                 $offer = $this->input->post('offer'.$x);
+                $currency = $this->input->post('currency'.$x);
                 $data=array(
                  
                     'delivered_quantity'=>$qty,
@@ -1089,6 +1132,7 @@ class Joi extends CI_Controller {
                     'uom'=>$uom,
                     'unit_price'=>$price,
                     'amount'=>$amount,
+                    'currency'=>$currency,
                     'item_no'=>$a
                 );
                 $data_dr=array(
@@ -1096,6 +1140,7 @@ class Joi extends CI_Controller {
                     'uom'=>$uom,
                     'unit_price'=>$price,
                     'amount'=>$amount,
+                    'currency'=>$currency,
                     'item_no'=>$a
                 );
 
@@ -1164,7 +1209,9 @@ class Joi extends CI_Controller {
 
     public function jo_issuance_rev(){
 
-        $joi_id=$this->uri->segment(3); 
+        $joi_id=$this->uri->segment(3);
+        $jor_id=$this->uri->segment(4); 
+        $data['currency1']='';
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         foreach($this->super_model->select_row_where("joi_head", "joi_id",$joi_id) AS $head){
@@ -1194,6 +1241,7 @@ class Joi extends CI_Controller {
             $data['date_needed']= $h->date_needed;
             $data['start_of_work']= $h->start_of_work;
             $data['work_completion']= $h->completion_date;
+            $data['general_desc']= $h->general_desc;
             $data['discount']= $h->discount;
             $data['vat_percent']= $h->vat_percent;
             $data['vat_amount']= $h->vat;
@@ -1226,9 +1274,9 @@ class Joi extends CI_Controller {
         }
 
         $data['items'] = $this->super_model->select_row_where('joi_items', 'joi_id', $joi_id);
+        $data['currency2'] = $this->currency_list();
         $data['currency']= $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
         $data['items_temp'] = $this->super_model->select_row_where('joi_items_temp', 'joi_id', $joi_id);
-        $data['currency_temp']= $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
       
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
             $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
@@ -1256,6 +1304,7 @@ class Joi extends CI_Controller {
         $data['date_needed_temp'] = $this->super_model->select_column_where('joi_head_temp', 'date_needed', 'joi_id', $joi_id);
         $data['start_of_work_temp'] = $this->super_model->select_column_where('joi_head_temp', 'start_of_work', 'joi_id', $joi_id);
         $data['completion_date_temp'] = $this->super_model->select_column_where('joi_head_temp', 'completion_date', 'joi_id', $joi_id);
+        $data['general_desc_temp'] = $this->super_model->select_column_where('joi_head_temp', 'general_desc', 'joi_id', $joi_id);
         $data['cenjo_no_temp'] = $this->super_model->select_column_where('joi_head_temp', 'cenpri_jo_no', 'joi_id', $joi_id);
         $data['project_title_temp'] = $this->super_model->select_column_where('joi_head_temp', 'project_title', 'joi_id', $joi_id);
 
@@ -1398,6 +1447,7 @@ class Joi extends CI_Controller {
     public function save_change_order(){
         $joi_id = $this->input->post('joi_id');
         $timestamp = date('Y-m-d');
+        $data['currency1']='';
         foreach($this->super_model->select_row_where("joi_head","joi_id",$joi_id) AS $johead){
             $data_details = array(
                 "joi_id"=>$johead->joi_id,
@@ -1405,6 +1455,7 @@ class Joi extends CI_Controller {
                 "vendor_id"=>$this->input->post('vendor'),
                 "date_needed"=>$this->input->post('date_needed'),
                 "completion_date"=>$this->input->post('work_completion'),
+                "general_desc"=>$this->input->post('general_desc'),
                 "date_prepared"=>$this->input->post('date_prepared'),
                 "cenpri_jo_no"=>$this->input->post('cenjo_no'),
                 "start_of_work"=>$this->input->post('start_of_work'),
@@ -1433,6 +1484,7 @@ class Joi extends CI_Controller {
             if($this->input->post('quantity'.$x)!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                $currency = $this->input->post('currency'.$x);
                 $data_details = array(
                     "joi_items_id"=>$jodets->joi_items_id,
                     "jor_id"=>$jodets->jor_id,
@@ -1445,6 +1497,7 @@ class Joi extends CI_Controller {
                     "quantity"=>$jodets->delivered_quantity,
                     "unit_price"=>$price,
                     "uom"=>$this->input->post('uom'.$x),
+                    "currency"=>$currency,
                     "amount"=>$amount,
                     "offer"=>$this->input->post('scope_of_work'.$x),
                 );
@@ -1580,6 +1633,7 @@ class Joi extends CI_Controller {
                 "packing_fee"=>$head->packing_fee,
                 "date_needed"=>$head->date_needed,
                 "completion_date"=>$head->completion_date,
+                "general_desc"=>$head->general_desc,
                 "date_prepared"=>$head->date_prepared,
                 "cenpri_jo_no"=>$head->cenpri_jo_no,
                 "start_of_work"=>$head->start_of_work,
@@ -1656,6 +1710,7 @@ class Joi extends CI_Controller {
                 "unit_price"=>$poitems->unit_price,
                 "uom"=>$poitems->uom,
                 "amount"=>$poitems->amount,
+                "currency"=>$poitems->currency,
                 "item_no"=>$poitems->item_no,
                 "revision_no"=>$poitems->revision_no,
             );
@@ -1718,6 +1773,7 @@ class Joi extends CI_Controller {
                 "unit_price"=>$poitems->unit_price,
                 "uom"=>$poitems->uom,
                 "amount"=>$poitems->amount,
+                "currency"=>$poitems->currency,
                 "item_no"=>$poitems->item_no,
                 "revision_no"=>$revision_no
             );
@@ -1729,6 +1785,7 @@ class Joi extends CI_Controller {
                 "uom"=>$poitems->uom,
                 'unit_price'=>$poitems->unit_price,
                 'amount'=>$poitems->amount,
+                "currency"=>$poitems->currency,
                 'offer'=>$poitems->offer
             );
 
@@ -1827,6 +1884,7 @@ class Joi extends CI_Controller {
         $vendor_id= $this->super_model->select_column_where("joi_head", "vendor_id", "joi_id", $joi_id);
         $data['joi_no']= $this->super_model->select_column_where("joi_head", "joi_no", "joi_id", $joi_id);
         $data['cenpri_jo_no']= $this->super_model->select_column_where("joi_head", "cenpri_jo_no", "joi_id", $joi_id);
+        $data['general_desc']= $this->super_model->select_column_where("joi_head", "general_desc", "joi_id", $joi_id);
         $data['joi_type']= $this->super_model->select_column_where("joi_head", "joi_type", "joi_id", $joi_id);
         $data['shipping']= $this->super_model->select_column_where("joi_head", "shipping", "joi_id", $joi_id);
         $data['discount']= $this->super_model->select_column_where("joi_head", "discount", "joi_id", $joi_id);
@@ -1929,6 +1987,7 @@ class Joi extends CI_Controller {
         $vendor_id= $this->super_model->select_column_where("joi_head", "vendor_id", "joi_id", $joi_id);
         $data['joi_no']= $this->super_model->select_column_where("joi_head", "joi_no", "joi_id", $joi_id);
         $data['cenpri_jo_no']= $this->super_model->select_column_where("joi_head", "cenpri_jo_no", "joi_id", $joi_id);
+        $data['general_desc']= $this->super_model->select_column_where("joi_head", "general_desc", "joi_id", $joi_id);
         $data['joi_type']= $this->super_model->select_column_where("joi_head", "joi_type", "joi_id", $joi_id);
         $data['shipping']= $this->super_model->select_column_where("joi_head", "shipping", "joi_id", $joi_id);
         $data['discount']= $this->super_model->select_column_where("joi_head", "discount", "joi_id", $joi_id);
@@ -2094,6 +2153,7 @@ class Joi extends CI_Controller {
             $data['verified_by']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->verified_by);
         }
         $data['items'] = $this->super_model->select_custom_where('joi_items_revised', "joi_id = '$joi_id' AND revision_no = '$revise_no'");
+        $data['currency'] = $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
         foreach($this->super_model->select_custom_where("joi_jor_revised", "joi_id = '$joi_id' AND revision_no = '$revise_no'") AS $ppr){
             $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
             /*if($jo!=''){
@@ -2275,7 +2335,9 @@ class Joi extends CI_Controller {
         $year = $this->super_model->select_column_where("joi_ar", "year", "joi_id", $joi_id);
         $series = $this->super_model->select_column_where("joi_ar", "series", "joi_id", $joi_id);
         $data['ar_no']= $year."-".$series;
+        $jor_id= $this->super_model->select_column_where("joi_items", "jor_id", "joi_id", $joi_id);
         $data['jo_head']=$this->super_model->select_row_where('joi_head', 'joi_id', $joi_id);
+        $data['requested_by'] = $this->super_model->select_column_where("jor_head", "requested_by", "jor_id", $jor_id);
         foreach($this->super_model->select_row_where("joi_items","joi_id",$joi_id) AS $jd){
             $vendor_id = $this->super_model->select_column_where("joi_head","vendor_id","joi_id",$joi_id);
             $vendor = $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$vendor_id);
@@ -2339,6 +2401,7 @@ class Joi extends CI_Controller {
             $data['date_prepared']= $head->date_prepared;
             $data['date_needed']= $head->date_needed;
             $data['start_of_work']= $head->start_of_work;
+            $data['general_desc']= $head->general_desc;
             $data['completion_date']= $head->completion_date;
             // /$data['discount_percent']= $head->discount_percent;
             $data['discount_amount']= $head->discount;

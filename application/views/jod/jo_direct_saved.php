@@ -369,9 +369,13 @@
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
+		    						<td width="15%" class="f13" align="center"><b>Currency</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
+		    					<tr>
+                                    <td class="f13 p-l-5" align="left"><b><?php echo $h['general_desc']; ?></b></td>
+                                </tr>
 		    					<?php
 					    		$gtotal=array();
 					    		if(!empty($items)){
@@ -382,6 +386,7 @@
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->offer)."<br><br>"; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->delivered_quantity,2); ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->uom; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->currency; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->unit_price; ?></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->amount; ?></td>
 		    					</tr>
@@ -628,13 +633,4 @@
 		    }   
 		    return false;   
 		}
-
-		function check_coc(){
-		    var sum_cost = document.getElementById("sum_cost").value;
-			if(parseFloat(sum_cost)>=10000){
-				alert("Please Print COC!");
-			}
-		}
-
-		window.onload = check_coc();
     </script>

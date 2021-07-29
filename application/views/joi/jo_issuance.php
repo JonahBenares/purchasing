@@ -323,9 +323,13 @@
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
+		    						<td width="5%" class="f13" align="center"><b>Currency</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
+		    					<tr>
+                                    <td class="f13 p-l-5" align="left"><b><?php echo $h['general_desc']; ?></b></td>
+                                </tr>
 		    					<?php 
 		    						$gtotal=array();
 		    						if(!empty($items)){
@@ -347,6 +351,13 @@
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $it['uom']; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top">
+				    				<select name='currency<?php echo $x; ?>'>
+						    			<?php foreach($currency AS $curr){ ?>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    		<?php } ?>
+						    		</select>
+				    				</td>
+		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
 		    								<input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it['price']; ?>' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px;text-align: center'>
 		    							</b>
@@ -357,7 +368,7 @@
 		    							</b>
 		    						</td>
 		    					</tr>
-		    					<input type='hidden' name='currency<?php echo $x; ?>' value="<?php echo $it['currency']; ?>">
+		    					<!--<input type='hidden' name='currency<?php echo $x; ?>' value="<?php echo $it['currency']; ?>">-->
 					    		<input type='hidden' name='jor_aoq_id<?php echo $x; ?>' value="<?php echo $it['jor_aoq_id']; ?>">
 					    		<input type='hidden' name='jor_aoq_offer_id<?php echo $x; ?>' value="<?php echo $it['jor_aoq_offer_id']; ?>">
 					    		<input type='hidden' name='jor_aoq_items_id<?php echo $x; ?>' value="<?php echo $it['jor_aoq_items_id']; ?>">

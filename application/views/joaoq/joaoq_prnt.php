@@ -171,22 +171,24 @@
     <script>
     	function calculateAmount(count, vendor, position){
     
-		   var quantity = document.getElementById("quantity_"+count).value;
+		   var offerqty = document.getElementById("offerqty_"+count+"_"+vendor+"_"+position).value;
+		   //var quantity = document.getElementById("quantity_"+count).value;
 		   var price = document.getElementById("price_"+count+"_"+vendor+"_"+position).value;
-		   var amount = parseFloat(price) * parseFloat(quantity);
+		   var amount = parseFloat(price) * parseFloat(offerqty);
 		   document.getElementById("amount_"+count+"_"+vendor+"_"+position).value  =amount;
 		
 		}
 
 		function calculateAmount2(count){
         //alert(count);
-		   var quantity = document.getElementById("quantity_"+count).value;
+		   var offerqty = document.getElementById("offerqty_"+count).value;
+		   /*var quantity = document.getElementById("quantity_"+count).value;*/
 		   var price = document.getElementById("price_"+count).value;
 		   //alert(quantity);
 		   //alert(price);
 		    var p = price.replace(",", "");
 		   
-		   var amount = parseFloat(p) * parseFloat(quantity);
+		   var amount = parseFloat(p) * parseFloat(offerqty);
 		   document.getElementById("amount_"+count).value  =amount;
 		
 		}
@@ -293,6 +295,11 @@
 		    			<td class="f10" colspan="8"></td>
 		    		</tr>
 		    		<tr>
+		    			<td class="f10" colspan="1" align="right">General Description: &nbsp;</td>
+		    			<td class="f10" colspan="11"><?php echo $h['general_desc']; ?></td>		    		
+		    			<td class="f10" colspan="8"></td>
+		    		</tr>
+		    		<tr>
 		    			<td class="f10" colspan="1" align="right">Requested By: &nbsp;</td>
 		    			<td class="f10" colspan="11"><?php echo $h['requested_by']; ?></td>		    		
 		    			<td class="f10" colspan="8"></td>
@@ -376,6 +383,7 @@
 			    					<tr>
 			    						<td class="f9 table-borbold" align="center"><b>OFFER</b></td>
 						    			<td class="f9 table-borbold" align="center"><b>CURR</b></td>
+						    			<td class="f9 table-borbold" align="center"><b>OFFER QTY</b></td>
 						    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 						    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 						    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
@@ -390,6 +398,9 @@
 						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
 						    				</select>
+				    					</td>
+				    					<td  width="10%" class="bor-btm bor-right f10" align="center">
+				    						<input type="text" class="form-control f10" id="offerqty_<?php echo $x; ?>_<?php echo $v; ?>_1" name="offerqty_<?php echo $x; ?>_<?php echo $v; ?>_1" style="width: 100%;height: 100px">
 				    					</td>
 				    					<td width="10%" class="bor-btm bor-right f10" align="center">
 				    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_1" name="price_<?php echo $x; ?>_<?php echo $v; ?>_1" onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'1')" onkeypress="return isNumberKey(this, event)" style="width: 100%;height: 100px">
@@ -412,6 +423,9 @@
 						    					<?php } ?>
 						    				</select>
 				    					</td>
+				    					<td  width="10%" class="bor-btm bor-right f10" align="center">
+				    						<input type="text" class="form-control f10" id="offerqty_<?php echo $x; ?>_<?php echo $v; ?>_2" name="offerqty_<?php echo $x; ?>_<?php echo $v; ?>_2" style="width: 100%;height: 100px">
+				    					</td>
 				    					<td class="bor-btm bor-right f10" align="center">
 				    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_2" name="price_<?php echo $x; ?>_<?php echo $v; ?>_2" onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'2')" onkeypress="return isNumberKey(this, event)" style="width: 100%;height: 100px">
 				    					</td>
@@ -432,6 +446,9 @@
 						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
 						    				</select>
+				    					</td>
+				    					<td  width="10%" class="bor-btm bor-right f10" align="center">
+				    						<input type="text" class="form-control f10" id="offerqty_<?php echo $x; ?>_<?php echo $v; ?>_3" name="offerqty_<?php echo $x; ?>_<?php echo $v; ?>_3" style="width: 100%;height: 100px">
 				    					</td>
 				    					<td class="bor-btm bor-right f10" align="center">
 				    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_3" name="price_<?php echo $x; ?>_<?php echo $v; ?>_3" onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'3')" onkeypress="return isNumberKey(this, event)" style="width: 100%;height: 100px">
@@ -467,6 +484,7 @@
 			    				<tr>
 		    						<td class="f9 table-borbold" align="center"><b>OFFER</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>CURR</b></td>
+					    			<td class="f9 table-borbold" align="center"><b>OFFER QTY</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
@@ -481,6 +499,9 @@
 				    					</td>
 				    						<td width="6%" class="bor-btm bor-right">
 				    						<center><?php echo $of['currency']; ?></center>
+				    					</td>
+				    					<td width="10%" class="bor-btm bor-right f10" align="center">
+				    						<?php echo number_format($of['quantity'],2); ?>
 				    					</td>
 				    					<td width="10%" class="bor-btm bor-right f10 <?php echo (($of['price']==$of['min']) ? 'yellow-back' : ''); ?> " align="center">
 				    						<?php echo number_format($of['price'],4); ?>
@@ -532,6 +553,7 @@
 			    				<tr>
 		    						<td class="f9 table-borbold" align="center"><b>OFFER</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>CURR</b></td>
+					    			<td class="f9 table-borbold" align="center"><b>OFFER QTY</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
@@ -553,6 +575,10 @@
 						    					<?php } ?>
 						    				</select>
 				    					</td>
+				    					<td width="10%" class="bor-btm-red bor-right" align="center">				    						
+				    						<input type='text' class="form-control f10" name='offerqty_<?php echo $a; ?>' id='offerqty_<?php echo $a; ?>' value="<?php echo number_format($of['quantity'],2); ?>" style="width: 100%;height: 100px">
+				    						
+				    					</td> 
 				    					<td width="10%" class="bor-btm bor-right f10 " align="center">
 				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],4); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)" style="width: 100%;height: 100px">
 				    					</td>
@@ -608,6 +634,10 @@
 						    					<?php } ?>
 						    				</select>
 				    					</td>
+				    					<td width="10%" class="bor-btm-red bor-right" align="center">				    						
+				    						<input type='text' class="form-control f10" name='offerqty_<?php echo $a; ?>' id='offerqty_<?php echo $a; ?>' value="<?php echo number_format($of['quantity'],2); ?>" style="width: 100%;height: 100px">
+				    						
+				    					</td> 
 				    					<td width="10%" class="bor-btm bor-right f10 " align="center">
 				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],4); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)" style="width: 100%;height: 100px">
 				    					</td>

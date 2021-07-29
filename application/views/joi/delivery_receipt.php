@@ -182,6 +182,10 @@
 			    			<td colspan="17" class="all-border"><b><?php echo $h->project_title; ?></b></td>
 			    		</tr>
 			    		<tr>
+			    			<td colspan="3" class="all-border"><b class="nomarg">General Description: </b></td>
+			    			<td colspan="17" class="all-border"><b><?php echo $h->general_desc; ?></b></td>
+			    		</tr>
+			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">Requested by: </b></td>
 			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $requested_by; ?></b></td>
 			    		</tr>
