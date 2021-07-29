@@ -392,12 +392,8 @@
 						    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
 			    					</tr>		
 			    					<tr>
-			    						<td class="f10" style="border-bottom:1px solid #000;border-right:1px solid #000" align="center"><b><br></b></td>
-						    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-						    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-						    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-						    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-						    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
+			    						<td class="f10" style="border-bottom:1px solid #000;border-right:1px solid #000" align="center" colspan="6"><b><br></b></td>
+						    			
 			    					</tr>				
 			    					<tr>
 				    					<td width="25%" class="bor-btm bor-right">
@@ -501,13 +497,9 @@
 					    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
 		    					</tr>	
 		    					<tr>
-		    						<td class="f10" style="border-bottom:1px solid #000;border-right:1px solid #000" align="center"><b><br></b></td>
-					    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-					    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-					    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-					    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-					    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-		    					</tr>	
+			    						<td class="f10" style="border-bottom:1px solid #000;border-right:1px solid #000" align="center" colspan="6"><b><br></b></td>
+						    			
+			    					</tr>	
 			    				<?php 	
 			    				$a=1;
 			    				foreach($offers AS $of){
@@ -637,13 +629,8 @@
 					    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
 		    					</tr>		
 		    					<tr>
-		    						<td class="f10" style="border-bottom:1px solid #000;border-right:1px solid #000" align="center"><b><br></b></td>
-					    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-					    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-					    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-					    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-					    			<td class="f9" style="border-bottom:1px solid #000;border-right:1px solid #000"></b></td>
-		    					</tr>	
+		    						<td class="f10" style="border-bottom:1px solid #000;border-right:1px solid #000" align="center" colspan="6"><b><br></b></td>					    			
+		    					</tr>
 			    				<?php 	
 			    					$a=1;
 			    					foreach($offers AS $of){
