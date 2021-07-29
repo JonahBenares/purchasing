@@ -369,9 +369,13 @@
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
+		    						<td width="15%" class="f13" align="center"><b>Currency</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
+		    					<tr>
+                                    <td class="f13 p-l-5" align="left"><b><?php echo $h['general_desc']; ?></b></td>
+                                </tr>
 		    					<?php
 					    		$gtotal=array();
 					    		if(!empty($items)){
@@ -382,6 +386,7 @@
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->offer)."<br><br>"; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->delivered_quantity,2); ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->uom; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->currency; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->unit_price; ?></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->amount; ?></td>
 		    					</tr>
@@ -429,31 +434,31 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Amount:</td>
-		    						<td align="right"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format(array_sum($gtotal),2); ?></td>
+		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'><?php echo $vat_percent; ?>% VAT:</td>
-		    						<td align="right"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format($vat,2); ?></td>
+		    						<td align="right"><?php echo number_format($vat,2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Sub Total:</td>
-		    						<td align="right"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format($subtotal,2);?></td>
+		    						<td align="right"><?php echo number_format($subtotal,2);?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Less Discount:</td>
-		    						<td align="right"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format($discount,2);?></td>
+		    						<td align="right"><?php echo number_format($discount,2);?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Grand Total:</td>
-		    						<td align="right"><span class="pull-left"><?php echo $currency; ?></span><?php echo number_format($grandtotal,2); ?></td>
+		    						<td align="right"><?php echo number_format($grandtotal,2); ?></td>
 		    					</tr>
 		    				</table>
 		    			</td>
@@ -506,7 +511,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>

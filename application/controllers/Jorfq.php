@@ -240,6 +240,7 @@ class Jorfq extends CI_Controller {
             $data['completed']= $head->completed;
             $data['items'] = $this->super_model->select_row_where_order_by('jo_rfq_details', 'jo_rfq_id', $jo_rfq_id, 'jor_items_id', 'ASC');
             $data['rfq_notes'] = $this->super_model->select_row_where_order_by('jor_notes', 'jor_id', $head->jor_id, 'jor_notes_id', 'ASC');
+            $data['general_desc']= $this->super_model->select_column_where("jor_items", "general_desc", "jor_id", $head->jor_id);
         }
 
         

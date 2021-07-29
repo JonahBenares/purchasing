@@ -225,6 +225,9 @@
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
+		    					<tr>
+                                    <td class="f13 p-l-5" align="left"><b><?php echo $general_desc; ?></b></td>
+                                </tr>
 		    					<?php 
 		    						$gtotal=array();
 		    						if(!empty($details)){

@@ -295,6 +295,11 @@
 		    			<td class="f10" colspan="8"></td>
 		    		</tr>
 		    		<tr>
+		    			<td class="f10" colspan="1" align="right">General Description: &nbsp;</td>
+		    			<td class="f10" colspan="11"><?php echo $h['general_desc']; ?></td>		    		
+		    			<td class="f10" colspan="8"></td>
+		    		</tr>
+		    		<tr>
 		    			<td class="f10" colspan="1" align="right">Requested By: &nbsp;</td>
 		    			<td class="f10" colspan="11"><?php echo $h['requested_by']; ?></td>		    		
 		    			<td class="f10" colspan="8"></td>

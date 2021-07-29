@@ -87,6 +87,7 @@ class Jor extends CI_Controller {
                 'start_of_work'=>$this->input->post('work_start'),
                 'completion_date'=>$this->input->post('work_completion'),
                 'project_title'=>$this->input->post('purpose'),
+                'general_desc'=>$this->input->post('general_desc'),
                 'joi_type'=>1,
                 'user_id'=>$_SESSION['user_id'],
                 'prepared_date'=>date("Y-m-d H:i:s"),
@@ -219,7 +220,7 @@ class Jor extends CI_Controller {
                 }else{
                     $total=$ji->total_cost;
                 }
-                $data['gen_desc']=$ji->general_desc;
+                $data['general_desc']=$ji->general_desc;
                 $data['jo_items'][]=array(
                     'jor_items_id'=>$ji->jor_items_id,
                     'jor_id'=>$ji->jor_id,
@@ -899,6 +900,7 @@ class Jor extends CI_Controller {
                 $date_prepared=$this->super_model->select_column_where("jor_head", "date_prepared", "jor_id", $key['jor_id']);
                 //$completion_date=$this->super_model->select_column_where("jor_head", "completion_date", "jor_id", $key[jor_id]);
                 $user_jo_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $key['jor_id']);
+                $general_desc=$this->super_model->select_column_where("jor_items", "general_desc", "jor_id", $key['jor_id']);
                 $purpose=$this->super_model->select_column_where("jor_head", "purpose", "jor_id", $key['jor_id']);
                 foreach($this->super_model->select_custom_where("jor_items", "jor_id = '$key[jor_id]' AND grouping_id = '$key[grouping_id]' AND cancelled = '0'") AS $items){
                      $jor_qty = $this->super_model->select_column_custom_where("jor_items", "quantity", "jor_id = '$key[jor_id]' AND grouping_id = '$key[grouping_id]' AND cancelled = '0' AND jor_items_id = '$items->jor_items_id'");
@@ -931,6 +933,7 @@ class Jor extends CI_Controller {
                     'date_prepared'=>$date_prepared,
                     //'completion_date'=>$completion_date,
                     'user_jo_no'=>$user_jo_no,
+                    'general_desc'=>$general_desc,
                     'purpose'=>$purpose,
                     'item'=>$it,
                     'vendor'=>$ven

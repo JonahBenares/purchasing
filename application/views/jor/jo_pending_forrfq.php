@@ -6,11 +6,13 @@
             var group_id = $(this).attr("data-trigger");
             var date_prepared = $(this).attr("data-dateprepared");
             var user_jo_no = $(this).attr("data-userjo");
+            var general_desc = $(this).attr("data-gendesc");
             var purpose = $(this).attr("data-purpose");
             $("#jor_ids").val(jor_ids);
             $("#group_id").val(group_id);
             $("#date_prepared").val(date_prepared);
             $("#user_jo_no").val(user_jo_no);
+            $("#general_desc").val(general_desc);
             $("#purpose").val(purpose);
         });
 
@@ -100,7 +102,7 @@
                                                                         <!-- <input type='submit' class="btn btn-primary btn-sm" value='RFQ' title="Create RFQ" onclick="return confirm('Are you sure you want to create RFQ?')"> -->
                                                                         <a class="btn btn-primary btn-sm" id = "RfqSend" data-toggle="modal" data-target="#modalRfq" data-id = "<?php echo $h['jor_id']; ?>" data-group= "<?php echo $h['group']; ?>">RFQ</a>
                                                                     <?php } ?>
-                                                                    <a class="btn btn-info btn-sm" title="Direct Purchase" id="updateDP_button" data-id="<?php echo $h['jor_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-dateprepared="<?php echo $h["date_prepared"]; ?>" data-userjo="<?php echo $h["user_jo_no"]; ?>" data-purpose="<?php echo $h['purpose']; ?>" data-toggle="modal" data-target="#directpurch">DP</a>
+                                                                    <a class="btn btn-info btn-sm" title="Direct Purchase" id="updateDP_button" data-id="<?php echo $h['jor_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-dateprepared="<?php echo $h["date_prepared"]; ?>" data-userjo="<?php echo $h["user_jo_no"]; ?>" data-gendesc="<?php echo $h["general_desc"]; ?>" data-purpose="<?php echo $h['purpose']; ?>" data-toggle="modal" data-target="#directpurch">DP</a>
                                                                     <!-- <a href=""  data-toggle="modal" id="updateRO_button" data-id="<?php echo $h['jor_id']; ?>" data-trigger="<?php echo $h['group']; ?>" data-target="#repord" class="btn btn-success btn-sm" title="Repeat Order">RO</a> -->
                                                                 </div>
                                                             </center>
@@ -174,12 +176,16 @@
                                 <input type="date" name="joi_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control">
                                     </div>
                                 </div>
-                                                                <div class="col-md-6"> 
+                                <div class="col-md-6"> 
                                     <div class="form-group btn-block">
                                        <?php echo JO_NAME;?> JO No.:
                                         <input type="Text" name="cenjo_no" id="user_jo_no" class="form-control">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group btn-block">
+                                General Description:
+                                <textarea name="general_desc" id="general_desc" class="form-control"></textarea>
                             </div>
                             <div class="form-group btn-block m-b-5">
                                 TO:
