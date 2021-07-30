@@ -401,6 +401,7 @@ class Joaoq extends CI_Controller {
 
         foreach($this->super_model->select_row_where("jor_aoq_head", "jor_aoq_id", $jor_aoq_id) AS $head){
             $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+            $general_desc=$this->super_model->select_column_where("jor_items", "general_desc", "jor_id", $head->jor_id);
             /*if($jo!=''){
                 $jo_no=$jo;
             }else{
@@ -409,6 +410,7 @@ class Joaoq extends CI_Controller {
             $data['head'][] =  array(
                 'aoq_date'=>$head->aoq_date,
                 'jo_no'=>$jo_no,
+                'general_desc'=>$general_desc,
                 'department'=>$head->department,
                 'purpose'=>$head->purpose,
                 'requested_by'=>$head->requestor,

@@ -325,9 +325,13 @@
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
+		    						<td width="5%" class="f13" align="center"><b>Currency</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
+		    					<tr>
+                                    <td class="f13 p-l-5" align="left"><b><?php echo $h['general_desc']; ?></b></td>
+                                </tr>
 		    					<?php 
 		    						$gtotal=array();
 		    						if(!empty($items)){
@@ -339,7 +343,7 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
-		    							<b class="nomarg"><textarea rows="7" style="width:100%" name='offer<?php echo $x; ?>'><?php echo $it['offer']; ?></textarea></b>
+		    							<b class="nomarg"><textarea rows="7" style="width:100%" name='offer<?php echo $x; ?>'> <?php echo $it['offer']; ?></textarea></b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
@@ -347,6 +351,13 @@
 		    							</b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $it['uom']; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+				    				<select name='currency<?php echo $x; ?>'>
+						    			<?php foreach($currency AS $curr){ ?>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    		<?php } ?>
+						    		</select>
+				    				</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
 		    								<?php if($saved==0) { ?>
@@ -362,7 +373,7 @@
 		    							</b>
 		    						</td>
 		    					</tr>
-		    					<input type='hidden' name='currency<?php echo $x; ?>' value="<?php echo $it['currency']; ?>">
+		    					<!-- <input type='text' name='currency<?php echo $x; ?>' value="<?php echo $it['currency']; ?>"> -->
 					    		<input type='hidden' name='jor_items_id<?php echo $x; ?>' value="<?php echo $it['jor_items_id']; ?>">
 					    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
 		    					<?php  $x++; } ?> 
@@ -406,7 +417,7 @@
 		    						<td colspan='2'>Amount:</td>
 		    						<td class="bor-btm" align="right">
 		    							<?php if($saved==0){ ?>
-		    								<span class="pull-left"><?php echo $currency; ?></span><input type='text' class="nobord" name='sum_cost' id='sum_cost' class='sum_cost' style='text-align:right;' readonly>
+		    								<span class="pull-left"><input type='text' class="nobord" name='sum_cost' id='sum_cost' class='sum_cost' style='text-align:right;' readonly>
 		    							<?php }else { echo number_format($it['total'],2); } ?>
 		    						</td>
 		    					</tr>
@@ -414,28 +425,28 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td>VAT %:</td>
-		    						<td><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'></td>
+		    						<td><span class="pull-left"><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Subtotal:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>Less Discount:</td>
 		    						<td><!-- <input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent'> --></td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="less_amount" id='less_amount'  onblur='changePrice()'></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount'  onblur='changePrice()'></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td>GRAND TOTAL:</td>
 		    						<td></td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="net" id='net' value="" readonly="readonly"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="" readonly="readonly"></td>
 		    					</tr>
 		    				
 		    					
@@ -500,7 +511,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b></span><span id='gtotal'></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>		    			
 		    		</tr>

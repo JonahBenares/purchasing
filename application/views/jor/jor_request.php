@@ -240,7 +240,7 @@ $ci =& get_instance();
                                         </thead>     
                                         <tbody>
                                              <tr>
-                                                 <td colspan='9' align="center"><b><?php echo $gen_desc;?></b></td>
+                                                 <td colspan='9' align="center"><b><?php echo $general_desc;?></b></td>
                                             </tr>
                                             <?php 
                                             $x=1; 

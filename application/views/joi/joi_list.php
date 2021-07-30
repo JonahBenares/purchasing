@@ -85,6 +85,10 @@ $(document).on("click", "#approve_rev", function () {
                                 <p class="m-b-0">Date:</p>
                                 <input type="date" name="joi_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control">
                             </div>
+                            <div class="form-group btn-block">
+                                General Description:
+                                <textarea name="general_desc" id="general_desc" class="form-control"></textarea>
+                            </div>
                             <div class="form-group btn-block m-b-5">
                                 TO:
                                 <select name='vendor' id='supplier' onchange="chooseSupplierJO()" class='form-control selectpicker' data-live-search="true">

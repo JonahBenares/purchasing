@@ -294,6 +294,11 @@
 		    			<td class="f10" colspan="11"><?php echo $h['purpose']; ?></td>		    		
 		    			<td class="f10" colspan="8"></td>
 		    		</tr>
+		    		<!-- <tr>
+		    			<td class="f10" colspan="1" align="right">General Description: &nbsp;</td>
+		    			<td class="f10" colspan="11"><?php echo $h['general_desc']; ?></td>		    		
+		    			<td class="f10" colspan="8"></td>
+		    		</tr> -->
 		    		<tr>
 		    			<td class="f10" colspan="1" align="right">Requested By: &nbsp;</td>
 		    			<td class="f10" colspan="11"><?php echo $h['requested_by']; ?></td>		    		
@@ -357,6 +362,9 @@
 					    			<td class="f9 table-borbold" width="10%" align="center"><b>QTY</td>
 					    			<td class="f9 table-borbold" width="10%" align="center"><b>UOM</td>
 		    					</tr>
+		    					<tr>
+					    			<td class="f10 " align="" colspan="4" style="border-left:1px solid #000; border-right:2px solid #000"><b><?php echo $h['general_desc']; ?></td>
+		    					</tr>
 		    					<tr style="height: 500px">
 		    						<td class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $x; ?></td>
 					    			<td class="f10 table-borreg" style="vertical-align: text-top;" align="left" ><?php echo nl2br($it->scope_of_work); ?></td>
@@ -382,7 +390,11 @@
 						    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 						    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 						    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
-			    					</tr>					
+			    					</tr>		
+			    					<tr>
+			    						<td class="f10" style="border-bottom:1px solid #000;border-right:1px solid #000" align="center" colspan="6"><b><br></b></td>
+						    			
+			    					</tr>				
 			    					<tr>
 				    					<td width="25%" class="bor-btm bor-right">
 				    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_1" rows="5"></textarea>
@@ -483,7 +495,11 @@
 					    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 					    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
-		    					</tr>		
+		    					</tr>	
+		    					<tr>
+			    						<td class="f10" style="border-bottom:1px solid #000;border-right:1px solid #000" align="center" colspan="6"><b><br></b></td>
+						    			
+			    					</tr>	
 			    				<?php 	
 			    				$a=1;
 			    				foreach($offers AS $of){
@@ -606,12 +622,15 @@
 			    			<td colspan="40" style='border:1px solid #000;vertical-align: text-top;' >
 			    				<table class="" width="100%" style='border:0px solid #000;'>
 			    				<tr>
-			    						<td class="f9 table-borbold" align="center"><b>OFFER</b></td>
-						    			<td class="f9 table-borbold" align="center"><b>CURR</b></td>
-						    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
-						    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
-						    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
-			    					</tr>		
+		    						<td class="f9 table-borbold" align="center"><b>OFFER</b></td>
+					    			<td class="f9 table-borbold" align="center"><b>CURR</b></td>
+					    			<td class="f9 table-borbold" align="center"><b>U/P</b></td>
+					    			<td class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
+					    			<td class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
+		    					</tr>		
+		    					<tr>
+		    						<td class="f10" style="border-bottom:1px solid #000;border-right:1px solid #000" align="center" colspan="6"><b><br></b></td>					    			
+		    					</tr>
 			    				<?php 	
 			    					$a=1;
 			    					foreach($offers AS $of){

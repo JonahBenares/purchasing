@@ -260,10 +260,11 @@
 		    				<div style="margin: 10px">
 			    				<b>Scope of Work:</b>
 			    				<br>
+			    				<?php echo $general_desc;?>
+			    				<br>
 			    				<?php foreach($items AS $i){ ?>
 			    				<?php echo nl2br($i->scope_of_work)."<br>"; ?><br>
 			    				<?php } ?>
-			    				
 							</div>
 		    			</td>
 		    			<td class="bor-btm" colspan="9">
