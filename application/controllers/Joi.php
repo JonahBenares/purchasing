@@ -521,16 +521,17 @@ class Joi extends CI_Controller {
         }
     }
 
-    public function item_checker($jor_items_id, $vendor_id){
-        $jor_qty = $this->super_model->select_column_where('jor_items', 'quantity', 'jor_items_id', $jor_items_id);
+    public function item_checker($jor_aoq_id, $jor_items_id, $vendor_id){
+        $offer_qty = $this->super_model->select_column_custom_where('jor_aoq_offers', 'quantity', "jor_aoq_id = '$jor_aoq_id' AND jor_items_id='$jor_items_id' AND vendor_id = '$vendor_id' AND recommended='1'");
+        //$jor_qty = $this->super_model->select_column_where('jor_items', 'quantity', 'jor_items_id', $jor_items_id);
 
         $delivered_qty = $this->super_model->select_sum_join("quantity","joi_head","joi_items", "jor_items_id = '$jor_items_id' AND cancelled = '0' ","joi_id");
 
        // if($delivered_qty!=0){
-            if($delivered_qty==$jor_qty){
+            if($delivered_qty==$offer_qty){
                 $qty = 0;
             } else {
-                $qty = $jor_qty-$delivered_qty;
+                $qty = $offer_qty-$delivered_qty;
             }
       /*  } else {
             $qty = $this->super_model->select_column_join_where("balance", "aoq_head","aoq_offers", "vendor_id = '$vendor_id' AND recommended = '1'","aoq_id");
@@ -591,7 +592,9 @@ class Joi extends CI_Controller {
             foreach($this->super_model->select_row_where("joi_jor", "joi_id" , $joi_id) AS $popr){
              
                 foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id' AND recommended='1' ORDER BY jor_items_id ASC") AS $off){
-                    $balance = $this->item_checker($off->jor_items_id, $vendor_id);
+                    $data['currency'] = $off->currency;
+                    $balance = $this->item_checker($off->jor_aoq_id,$off->jor_items_id, $vendor_id);
+
                     $total = $off->unit_price*$balance;
                     $jor_id = $this->super_model->select_column_where("jor_aoq_head",'jor_id',"jor_aoq_id",$off->jor_aoq_id);
                       
@@ -625,7 +628,8 @@ class Joi extends CI_Controller {
         } else {
             
              foreach($this->super_model->select_row_where("joi_items", "joi_id" , $joi_id) AS $off){
-                  $total = $off->unit_price*$off->quantity;
+                    $data['currency'] = $off->currency;
+                    $total = $off->unit_price*$off->quantity;
                     $data['items'][] =  array(
                         'jor_aoq_id'=>$this->super_model->select_column_where('joi_jor', 'jor_aoq_id', 'joi_id', $joi_id),
                         'jor_aoq_offer_id'=>$off->jor_aoq_offer_id,
@@ -2126,6 +2130,7 @@ class Joi extends CI_Controller {
                 'start_of_work'=>$h->start_of_work,
                 'date_needed'=>$h->date_needed,
                 'cenpri_jo_no'=>$h->cenpri_jo_no,
+                'general_desc'=>$h->general_desc,
                 'vendor'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $h->vendor_id),
                 'address'=>$this->super_model->select_column_where('vendor_head', 'address', 'vendor_id', $h->vendor_id),
                 'phone'=>$this->super_model->select_column_where('vendor_head', 'phone_number', 'vendor_id',$h->vendor_id),
