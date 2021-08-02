@@ -485,6 +485,115 @@ class Joaoq extends CI_Controller {
         $this->load->view('template/footer');
     } 
 
+    public function joaoq_prnt1(){
+        $jor_aoq_id= $this->uri->segment(3);
+        $data['jor_aoq_id']=$jor_aoq_id;
+        $data['currency'] = $this->currency_list();
+        $data['draft']=$this->super_model->select_column_where("jor_aoq_head", "draft", "jor_aoq_id", $jor_aoq_id);
+        $data['saved']=$this->super_model->select_column_where("jor_aoq_head", "saved", "jor_aoq_id", $jor_aoq_id);
+        $data['open']=$this->super_model->select_column_where("jor_aoq_head", "open", "jor_aoq_id", $jor_aoq_id);
+        $data['served']=$this->super_model->select_column_where("jor_aoq_head", "served", "jor_aoq_id", $jor_aoq_id);
+        $data['awarded']=$this->super_model->select_column_where("jor_aoq_head", "awarded", "jor_aoq_id", $jor_aoq_id);
+
+        $reviewed_by=$this->super_model->select_column_where("jor_aoq_head", "reviewed_by", "jor_aoq_id", $jor_aoq_id);
+        $noted_by=$this->super_model->select_column_where("jor_aoq_head", "noted_by", "jor_aoq_id", $jor_aoq_id);
+        $approved_by=$this->super_model->select_column_where("jor_aoq_head", "approved_by", "jor_aoq_id", $jor_aoq_id);
+        $prepared_id=$this->super_model->select_column_where("jor_aoq_head", "prepared_by", "jor_aoq_id", $jor_aoq_id);
+        $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $prepared_id);
+
+        /*$data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $noted_id);
+        $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $approved_id);*/
+        $data['noted']=$noted_by;
+        $data['approved']=$approved_by;
+        $data['prepared']=$prepared_by;
+        $data['reviewed']=$reviewed_by;
+
+        foreach($this->super_model->select_row_where("jor_aoq_head", "jor_aoq_id", $jor_aoq_id) AS $head){
+            $jo_no=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
+            $general_desc=$this->super_model->select_column_where("jor_items", "general_desc", "jor_id", $head->jor_id);
+            /*if($jo!=''){
+                $jo_no=$jo;
+            }else{
+                $jo_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $head->jor_id);
+            }*/
+            $data['head'][] =  array(
+                'aoq_date'=>$head->aoq_date,
+                'jo_no'=>$jo_no,
+                'general_desc'=>$general_desc,
+                'department'=>$head->department,
+                'purpose'=>$head->purpose,
+                'requested_by'=>$head->requestor,
+            );
+        }
+
+        foreach($this->super_model->select_row_where("jor_aoq_vendors","jor_aoq_id",$jor_aoq_id) AS $ven){
+            $data['vendors'][] = array(
+                'id'=>$ven->jor_aoq_vendors_id,
+                'vendor_id'=>$ven->vendor_id,
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $ven->vendor_id),
+                'phone'=>$this->super_model->select_column_where("vendor_head", "phone_number", "vendor_id", $ven->vendor_id),
+                'contact'=>$this->super_model->select_column_where("vendor_head", "contact_person", "vendor_id", $ven->vendor_id),
+                'validity'=>$ven->price_validity,
+                'terms'=>$ven->payment_terms,
+                'delivery_date'=>$ven->delivery_date,
+                'freight'=>$ven->freight,
+                'warranty'=>$ven->item_warranty,
+
+            );
+        }
+
+        $data['items'] = $this->super_model->select_row_where_order_by("jor_aoq_items", "jor_aoq_id",  $jor_aoq_id, "jor_items_id", "ASC");
+
+        foreach($this->super_model->select_row_where("jor_aoq_offers","jor_aoq_id",$jor_aoq_id) AS $off){
+            $allprice[] = array(
+                'item_id'=>$off->jor_aoq_items_id,
+                'price'=>$off->unit_price,
+            );
+
+          }
+         
+          $x=0;
+        foreach($this->super_model->select_row_where("jor_aoq_offers","jor_aoq_id",$jor_aoq_id) AS $off){  
+            if(!empty($allprice)){
+                foreach($allprice AS $var=>$key){
+                    foreach($key AS $v=>$k){
+                       
+                        if($key['item_id']==$off->jor_aoq_items_id){
+                            $minprice[$x][] = $key['price'];
+                        }
+                    }               
+                }
+                $min=min($minprice[$x]);
+            } else {
+                $min=0;
+            }
+
+      
+              $data['offers'][] = array(
+                'jor_aoq_offer_id'=>$off->jor_aoq_offer_id,
+                'vendor_id'=>$off->vendor_id,
+                'quantity'=>$off->quantity,
+                'jor_items_id'=>$off->jor_items_id,
+                'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
+                'item_id'=>$off->jor_aoq_items_id,
+                'currency'=>$off->currency,
+                'offer'=>$off->offer,
+                'price'=>$off->unit_price,
+                'amount'=>$off->amount,
+                'min'=>$min,
+                'recommended'=>$off->recommended,
+                'comments'=>$off->comments,
+
+            );
+              $x++;
+        }
+
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
+        $this->load->view('template/header');
+        $this->load->view('joaoq/joaoq_prnt1',$data);
+        $this->load->view('template/footer');
+    } 
+
     public function add_item_supplier($vendor_id, $aoq_date, $pr_details_id, $offer, $unit_price){
         $rows_series = $this->super_model->count_rows("item");
         if($rows_series==0){
