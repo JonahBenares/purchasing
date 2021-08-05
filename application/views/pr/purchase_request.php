@@ -226,7 +226,8 @@ $ci =& get_instance();
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
+                                              <!--   <th>#</th> -->
+                                                <th>Item #</th>
                                                 <th>Qty</th>
                                                 <th>UOM</th>
                                                 <th>PN No.</th>
@@ -250,7 +251,8 @@ $ci =& get_instance();
                                         ?>
                                         <?php if($det['cancelled']==1){ ?>
                                             <tr class="tr-red">
-                                                <td><?php echo $x; ?></td>
+                                                <!-- <td><?php echo $x; ?></td> -->
+                                                 <td><?php echo $det['item_no']; ?></td>
                                                 <td><?php echo $det['quantity']; ?></td>
                                                 <td><?php echo $det['uom']; ?></td>
                                                 <td><?php echo $det['pn_no']; ?></td>
@@ -274,7 +276,8 @@ $ci =& get_instance();
                                             </tr>
                                         <?php } else { ?>
                                             <tr>
-                                                <td><?php echo $x; ?></td>
+                                              <!--   <td><?php echo $x; ?></td> -->
+                                                  <td><?php echo $det['item_no']; ?></td>
                                                 <td><?php echo $det['quantity']; ?></td>
                                                 <td><?php echo $det['uom']; ?></td>
                                                  <td><?php echo $det['pn_no']; ?></td>

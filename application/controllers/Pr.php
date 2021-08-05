@@ -405,7 +405,7 @@ class Pr extends CI_Controller {
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         /*$data['details']=*/
         $data['cancelled']='';
-        foreach($this->super_model->select_custom_where("pr_details", "pr_id='$prid'") AS $det){
+        foreach($this->super_model->select_row_where_order_by("pr_details","pr_id",$prid,"item_no","ASC") AS $det){
             $vendor='';
             foreach($this->super_model->select_custom_where("rfq_head", "pr_id='$prid' AND grouping_id = '$det->grouping_id' AND cancelled = '0' GROUP BY vendor_id") AS $ven){
                 $vendor.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$ven->vendor_id) . "<br>";
@@ -414,6 +414,7 @@ class Pr extends CI_Controller {
             $data['details'][]=array(
                 'pr_details_id'=>$det->pr_details_id,
                 'quantity'=>$det->quantity,
+                'item_no'=>$det->item_no,
                 'wh_stocks'=>$det->wh_stocks,
                 'uom'=>$det->uom,
                 'pn_no'=>$det->part_no,
