@@ -439,6 +439,7 @@ class Joaoq extends CI_Controller {
             $allprice[] = array(
                 'item_id'=>$off->jor_aoq_items_id,
                 'price'=>$off->unit_price,
+                'materials_unitprice'=>$off->materials_unitprice,
             );
 
           }
@@ -451,12 +452,15 @@ class Joaoq extends CI_Controller {
                        
                         if($key['item_id']==$off->jor_aoq_items_id){
                             $minprice[$x][] = $key['price'];
+                            $minmaterialsprice[$x][] = $key['materials_unitprice'];
                         }
                     }               
                 }
                 $min=min($minprice[$x]);
+                $minmaterials=min($minmaterialsprice[$x]);
             } else {
                 $min=0;
+                $minmaterials=0;
             }
 
       
@@ -464,14 +468,20 @@ class Joaoq extends CI_Controller {
                 'jor_aoq_offer_id'=>$off->jor_aoq_offer_id,
                 'vendor_id'=>$off->vendor_id,
                 'quantity'=>$off->quantity,
+                'materials_qty'=>$off->materials_qty,
+                'materials_recommended'=>$off->materials_recommended,
                 'jor_items_id'=>$off->jor_items_id,
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
                 'item_id'=>$off->jor_aoq_items_id,
                 'currency'=>$off->currency,
                 'offer'=>$off->offer,
+                'materials_offer'=>$off->materials_offer,
+                'materials_unitprice'=>$off->materials_unitprice,
+                'materials_amount'=>$off->materials_amount,
                 'price'=>$off->unit_price,
                 'amount'=>$off->amount,
                 'min'=>$min,
+                'minmaterials'=>$minmaterials,
                 'recommended'=>$off->recommended,
                 'comments'=>$off->comments,
 
@@ -640,6 +650,9 @@ class Joaoq extends CI_Controller {
                     $offer_qty = $this->input->post('offerqty_'.$x.'_'.$v.'_'.$a);
                     $uom = $this->input->post('uom_'.$x.'_'.$v);
                     $jor_items_id = $this->input->post('jor_items_id_'.$x.'_'.$v);
+                    $materials_offer = $this->input->post('materials_offer_'.$x.'_'.$v.'_'.$a);
+                    $materials_price = $this->input->post('materials_price_'.$x.'_'.$v.'_'.$a);
+                    $materials_amount = $this->input->post('materials_amount_'.$x.'_'.$v.'_'.$a);
 
                     //echo $offer. " = " . 'offer_'.$x.'_'.$v.'_'.$a . '<br><br>';
                     //echo $up. " = " . 'price_'.$x.'_'.$v.'_'.$a . '<br><br>';
@@ -656,7 +669,10 @@ class Joaoq extends CI_Controller {
                                 'quantity'=>$offer_qty,
                                 'balance'=>$offer_qty,
                                 'amount'=>$amount,
-                                'uom'=>$uom
+                                'uom'=>$uom,
+                                'materials_offer'=>$materials_offer,
+                                'materials_unitprice'=>$materials_price,
+                                'materials_amount'=>$materials_amount,
                             );
                             //print_r($offers);
                             $this->super_model->insert_into("jor_aoq_offers", $offers);
@@ -676,7 +692,10 @@ class Joaoq extends CI_Controller {
                             'quantity'=>$offer_qty,
                             'balance'=>$offer_qty,
                             'amount'=>$amount,
-                            'uom'=>$uom
+                            'uom'=>$uom,
+                            'materials_offer'=>$materials_offer,
+                            'materials_unitprice'=>$materials_price,
+                            'materials_amount'=>$materials_amount,
                         );
                         //print_r($offers);
                         $this->super_model->insert_into("jor_aoq_offers", $offers);
@@ -745,12 +764,19 @@ class Joaoq extends CI_Controller {
         for($x=1;$x<=$count;$x++){
             $price = str_replace(",", "", $this->input->post('price_'.$x));
             $amount = str_replace(",", "", $this->input->post('amount_'.$x));
+            $materials_offer = $this->input->post('materials_offer_'.$x);
+            $materials_price = $this->input->post('materials_price_'.$x);
+            $materials_amount = $this->input->post('materials_amount_'.$x);
             $data = array(
                 'currency'=>$this->input->post('currency_'.$x),
                 'offer'=>$this->input->post('offer_'.$x),
                 'unit_price'=>$price,
+                'materials_qty'=>$this->input->post('materialsqty_'.$x),
                 'quantity'=>$this->input->post('offerqty_'.$x),
-                'amount'=>$amount
+                'amount'=>$amount,
+                'materials_offer'=>$materials_offer,
+                'materials_unitprice'=>$materials_price,
+                'materials_amount'=>$materials_amount,
             );
             $this->super_model->update_where("jor_aoq_offers", $data, "jor_aoq_offer_id", $this->input->post('offerid_'.$x));
             if($submit=='Save AOQ'){
@@ -808,6 +834,7 @@ class Joaoq extends CI_Controller {
         for($x=1;$x<$count_offer;$x++){
             $data =  array(
                 'recommended'=>$this->input->post('award_'.$x),
+                'materials_recommended'=>$this->input->post('materials_recommended_'.$x),
                 'comments'=>$this->input->post('comments_'.$x),
             );
 
@@ -828,12 +855,17 @@ class Joaoq extends CI_Controller {
         for($x=1;$x<=$count;$x++){
             $price = str_replace(",", "", $this->input->post('price_'.$x));
             $amount = str_replace(",", "", $this->input->post('amount_'.$x));
+            $materials_unitprice = str_replace(",", "", $this->input->post('materials_price_'.$x));
+            $materials_amount = str_replace(",", "", $this->input->post('materials_amount_'.$x));
             $data = array(
                 'currency'=>$this->input->post('currency_'.$x),
                 'offer'=>$this->input->post('offer_'.$x),
                 'unit_price'=>$price,
                 'quantity'=>$this->input->post('offerqty_'.$x),
-                'amount'=>$amount
+                'materials_qty'=>$this->input->post('materialsqty_'.$x),
+                'amount'=>$amount,
+                'materials_unitprice'=>$materials_unitprice,
+                'materials_amount'=>$materials_amount,
             );
             $this->super_model->update_where("jor_aoq_offers", $data, "jor_aoq_offer_id", $this->input->post('offerid_'.$x));
         }
@@ -983,13 +1015,14 @@ class Joaoq extends CI_Controller {
                     foreach($this->super_model->select_row_where("jor_aoq_offers", "jor_items_id",  $ven->jor_items_id) AS $rf){
                         $allprice[] = array(
                             'item_id'=>$rf->jor_aoq_items_id,
-                            'price'=>$ven->unit_price
+                            'price'=>$ven->unit_price,
+                            'materials_unitprice'=>$ven->materials_unitprice,
                         );
                     }
                 }
-
                 $q = $num2;
                 foreach ($this->super_model->select_custom_where("jor_aoq_offers","jor_aoq_id='$aoq_id' AND vendor_id = '$rfq->vendor_id' AND jor_items_id = '$items->jor_items_id'") AS $allrfq) {
+                    //FOR SERVICES//
                     $amount = $allrfq->quantity*$allrfq->unit_price;
 
                     if(!empty($allprice)){
@@ -1022,19 +1055,77 @@ class Joaoq extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->getStyle($col.$q)->getFont()->setColor($phpColor);
 
                     if($allrfq->unit_price==$min){
-                        $col2 = chr(ord($col) + 2);
+                        $col2 = chr(ord($col) + 3);
                         $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f4e542');
                     }
 
                     if($allrfq->vendor_id==$supplier_id && $allrfq->recommended==1){
+                        $col2 = chr(ord($col) + 4);
+                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
+                    }
+                    $objPHPExcel->getActiveSheet()->fromArray($sheet, null, $col.$q);
+                    $objPHPExcel->getActiveSheet()->getStyle('C'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('F'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    /*$objPHPExcel->getActiveSheet()->getStyle('K'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);*/
+                    $objPHPExcel->getActiveSheet()->getStyle('P'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+
+                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                  
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$q.":V".$q)->applyFromArray($styleArray);
+                    $q++;
+                    //FOR SERVICES//
+
+                    //FOR ITEMS//
+                    $amount = $allrfq->materials_qty*$allrfq->materials_unitprice;
+
+                    if(!empty($allprice)){
+                        foreach($allprice AS $var=>$key){
+                            foreach($key AS $v=>$k){
+                               
+                                if($key['item_id']==$items->jor_aoq_items_id){
+                                    $minmaterialsprice[$x][] = $key['materials_unitprice'];
+                                }
+                            }               
+                        }
+                        $minmaterials=min($minmaterialsprice[$x]);
+                    } else {
+                        $minmaterials=0;
+                    }
+
+                    $sheet = array(
+                        array(
+                            $allrfq->materials_offer,
+                            $allrfq->currency,
+                            $allrfq->materials_qty,
+                            $allrfq->materials_unitprice,
+                            $amount,
+                            $allrfq->comments,
+                        )
+                    );
+
+                    $phpColor = new PHPExcel_Style_Color();
+                    $phpColor->setRGB('FF0000'); 
+                    $objPHPExcel->getActiveSheet()->getStyle($col.$q)->getFont()->setColor($phpColor);
+
+                    if($allrfq->materials_unitprice==$minmaterials){
                         $col2 = chr(ord($col) + 3);
+                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f4e542');
+                    }
+
+                    if($allrfq->vendor_id==$supplier_id && $allrfq->materials_recommended==1){
+                        $col2 = chr(ord($col) + 4);
                         $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
                     }
 
                     $objPHPExcel->getActiveSheet()->fromArray($sheet, null, $col.$q);
                     $objPHPExcel->getActiveSheet()->getStyle('C'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('F'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('K'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    //$objPHPExcel->getActiveSheet()->getStyle('K'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('P'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
@@ -1047,6 +1138,7 @@ class Joaoq extends CI_Controller {
                   
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$q.":V".$q)->applyFromArray($styleArray);
                     $q++;
+                    //FOR ITEMS//
                 }
 
                 $objPHPExcel->getActiveSheet()->getStyle($col.$one)->getFont()->setBold(true);
