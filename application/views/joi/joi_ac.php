@@ -215,6 +215,7 @@
 		    			<td class="all-border" align="center" colspan="2"><b class="nomarg">UOM</b></td>
 		    			<td class="all-border" align="center" colspan="3"><b class="nomarg">Remarks</b></td>
 		    		</tr>
+		    		<!--ITEMS-->
 		    		<?php $x=1; foreach($jo_det AS $jd){ ?>
 		       		<tr>
 		    			<td class="all-border" align="center"><?php echo $x; ?></td>
@@ -226,6 +227,23 @@
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
 		    		<?php $x++; } ?>
+		    		<!--ITEMS-->
+		    		<tr>
+						<td class="all-border" align="left" colspan="20"><b>Materials:</b></td>
+					</tr>
+		    		<!--MATERIALS-->
+		    		<?php $x=1; foreach($jo_det AS $jd){ ?>
+		       		<tr>
+		    			<td class="all-border" align="center"><?php echo $x; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['supplier'];?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['materials_offer'];?></td>
+		    			<td class="all-border" align="center"><?php echo $jd['materials_qty'];?></td>
+		    			<td class="all-border" align="center"></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['uom'];?></td>
+		    			<td class="all-border" align="center" colspan="3"></td>
+		    		</tr>
+		    		<?php $x++; } ?>
+		    		<!--MATERIALS-->
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>

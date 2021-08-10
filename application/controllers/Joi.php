@@ -310,6 +310,8 @@ class Joi extends CI_Controller {
                     'offer'=>$items->offer,
                     'delivered_quantity'=>$items->delivered_quantity,
                     'received_quantity'=>$items->quantity,
+                    'materials_offer'=>$items->materials_offer,
+                    'materials_qty'=>$items->materials_qty,
                     'uom'=>$items->uom,
                 );
             }
@@ -592,10 +594,11 @@ class Joi extends CI_Controller {
             foreach($this->super_model->select_row_where("joi_jor", "joi_id" , $joi_id) AS $popr){
              
                 foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id' AND recommended='1' ORDER BY jor_items_id ASC") AS $off){
-                    $data['currency'] = $off->currency;
+                    //$data['currency'] = $off->currency;
                     $balance = $this->item_checker($off->jor_aoq_id,$off->jor_items_id, $vendor_id);
 
                     $total = $off->unit_price*$balance;
+                    $materials_total = $off->materials_unitprice*$off->materials_qty;
                     $jor_id = $this->super_model->select_column_where("jor_aoq_head",'jor_id',"jor_aoq_id",$off->jor_aoq_id);
                       
                     //echo $balance ."<br>";
@@ -612,8 +615,12 @@ class Joi extends CI_Controller {
                         'balance'=>$balance,
                         'amount'=>$off->amount,
                         'uom'=>$off->uom,
-                        'currency'=>'',
-                        'total'=>$total
+                        'total'=>$total,
+                        'materials_qty'=>$off->materials_qty,
+                        'materials_offer'=>$off->materials_offer,
+                        'materials_unitprice'=>$off->materials_unitprice,
+                        'materials_amount'=>$materials_total,
+
                     );
                     
                     $data['vendor_id'] = $this->super_model->select_column_custom_where('jor_aoq_vendors', 'vendor_id', "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id'");
@@ -704,7 +711,7 @@ class Joi extends CI_Controller {
         );
 
         $this->super_model->insert_into("joi_dr", $dr);
-
+        $b=1;
         for($x=1; $x<$count_item;$x++){
             $qty=$this->input->post('quantity'.$x);
             $rows_items = $this->super_model->count_rows("joi_items");
@@ -718,6 +725,8 @@ class Joi extends CI_Controller {
             if($qty!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                $materials_price = str_replace(",", "", $this->input->post('materials_price'.$x."_".$b));
+                $materials_tprice = str_replace(",", "", $this->input->post('materials_tprice'.$x."_".$b));
                 $data=array(
                     'joi_items_id'=>$joi_items_id,
                     'jor_id'=>$this->super_model->select_column_where('jor_aoq_head', 'jor_id', 'jor_aoq_id', $this->input->post('jor_aoq_id'.$x)),
@@ -731,7 +740,11 @@ class Joi extends CI_Controller {
                     'currency'=>$this->input->post('currency'.$x),
                     'unit_price'=>$price,
                     'amount'=>$amount,
-                    'item_no'=>$a
+                    'item_no'=>$a,
+                    'materials_offer'=>$this->input->post('materials_offer'.$x),
+                    'materials_qty'=>$this->input->post('materials_qty'.$x."_".$b),
+                    'materials_unitprice'=>$materials_price,
+                    'materials_amount'=>$materials_tprice,
                 );
 
                 $data_dr=array(
@@ -748,11 +761,16 @@ class Joi extends CI_Controller {
                     'currency'=>$this->input->post('currency'.$x),
                     'unit_price'=>$price,
                     'amount'=>$amount,
-                    'item_no'=>$a
+                    'item_no'=>$a,
+                    'materials_offer'=>$this->input->post('materials_offer'.$x),
+                    'materials_qty'=>$this->input->post('materials_qty'.$x."_".$b),
+                    'materials_unitprice'=>$materials_price,
+                    'materials_amount'=>$materials_tprice,
                 );
                 $this->super_model->insert_into("joi_items", $data);
                 $this->super_model->insert_into("joi_dr_items", $data_dr);
                 $a++;
+                $b++;
             }   
         }
 
@@ -1085,6 +1103,7 @@ class Joi extends CI_Controller {
         $data['items'] = $this->super_model->select_row_where('joi_items', 'joi_id', $joi_id);
         $data['currency'] = $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
+            $data['jor_aoq_id']=$ppr->jor_aoq_id;
             $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
             /*if($jo!=''){
                 $jo_no=$jo;
@@ -1120,14 +1139,19 @@ class Joi extends CI_Controller {
         $data['currency1']='';
 
         $a=1;
+        $b=1;
         for($x=1; $x<$count_item;$x++){
             $qty=$this->input->post('quantity'.$x);
             $uom=$this->input->post('uom'.$x);
             $joi_items_id = $this->input->post('joi_items_id'.$x);        
             if($qty!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
-                $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                $amount = str_replace(",", "", $this->input->post('tprice'.$x)); 
                 $offer = $this->input->post('offer'.$x);
+                $materials_price = str_replace(",", "", $this->input->post('materials_price'.$x."_".$b));
+                $materials_tprice = str_replace(",", "", $this->input->post('materials_tprice'.$x."_".$b));
+                $materials_offer = $this->input->post('materials_offer'.$x."_".$b);
+                $materials_qty = $this->input->post('materials_qty'.$x."_".$b);
                 $currency = $this->input->post('currency'.$x);
                 $data=array(
                  
@@ -1137,7 +1161,11 @@ class Joi extends CI_Controller {
                     'unit_price'=>$price,
                     'amount'=>$amount,
                     'currency'=>$currency,
-                    'item_no'=>$a
+                    'item_no'=>$a,
+                    'materials_offer'=>$materials_offer,
+                    'materials_qty'=>$materials_qty,
+                    'materials_unitprice'=>$materials_price,
+                    'materials_amount'=>$materials_tprice,
                 );
                 $data_dr=array(
                     'delivered_quantity'=>$qty,
@@ -1145,12 +1173,17 @@ class Joi extends CI_Controller {
                     'unit_price'=>$price,
                     'amount'=>$amount,
                     'currency'=>$currency,
-                    'item_no'=>$a
+                    'item_no'=>$a,
+                    'materials_offer'=>$materials_offer,
+                    'materials_qty'=>$materials_qty,
+                    'materials_unitprice'=>$materials_price,
+                    'materials_amount'=>$materials_tprice,
                 );
 
                     $this->super_model->update_where("joi_items", $data, "joi_items_id", $joi_items_id);
                     $this->super_model->update_where("joi_dr_items", $data_dr, "joi_items_id", $joi_items_id);
              $a++;
+             $b++;
             } else {
                 
                 $this->super_model->delete_where("joi_items", "joi_items_id", $joi_items_id);
@@ -1907,6 +1940,7 @@ class Joi extends CI_Controller {
         $data['cancelled']=$this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
         foreach($this->super_model->select_row_where('joi_items', 'joi_id', $joi_id) AS $items){
             $total = $items->unit_price*$items->delivered_quantity;
+            $materials_total = $items->materials_unitprice*$items->materials_qty;
            if(!empty($items->offer)){
                 $offer = $items->offer;
             } else {
@@ -1919,6 +1953,10 @@ class Joi extends CI_Controller {
                 'offer'=>$offer,
                 'quantity'=>$items->delivered_quantity,
                 'price'=>$items->unit_price,
+                'materials_offer'=>$items->materials_offer,
+                'materials_unitprice'=>$items->materials_unitprice,
+                'materials_qty'=>$items->materials_qty,
+                'materials_amount'=>$materials_total,
                 'total'=>$total,
                 'uom'=>$items->uom,
                 'payment_amount'=>$payment_amount,
@@ -2010,6 +2048,7 @@ class Joi extends CI_Controller {
         $data['cancelled']=$this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
         foreach($this->super_model->select_row_where('joi_items', 'joi_id', $joi_id) AS $items){
             $total = $items->unit_price*$items->delivered_quantity;
+            $materials_total = $items->materials_unitprice*$items->materials_qty;
            if(!empty($items->offer)){
                 $offer = $items->offer;
             } else {
@@ -2023,6 +2062,10 @@ class Joi extends CI_Controller {
                 'quantity'=>$items->delivered_quantity,
                 'price'=>$items->unit_price,
                 'total'=>$total,
+                'materials_offer'=>$items->materials_offer,
+                'materials_qty'=>$items->materials_qty,
+                'materials_unitprice'=>$items->materials_unitprice,
+                'materials_amount'=>$materials_total,
                 'uom'=>$items->uom,
                 'payment_amount'=>$payment_amount,
                 'payment_desc'=>$payment_desc,
@@ -2349,7 +2392,9 @@ class Joi extends CI_Controller {
             $data['jo_det'][]=array(
                 'supplier'=>$vendor,
                 'scope_of_work'=>$jd->offer,
-                'quantity'=>$jd->quantity,
+                'quantity'=>$jd->delivered_quantity,
+                'materials_offer'=>$jd->materials_offer,
+                'materials_qty'=>$jd->materials_qty,
                 'uom'=>$jd->uom,
             );
         }
