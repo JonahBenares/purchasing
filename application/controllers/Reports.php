@@ -129,7 +129,7 @@ class Reports extends CI_Controller {
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         $data['terms']=$this->super_model->select_all_order_by("terms","terms","ASC");
         $data['proj_act']=$this->super_model->select_custom_where("project_activity","status='Active' ORDER BY proj_activity ASC");
-        foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $pr){
+        foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%' ORDER BY ph.date_prepared DESC, pd.item_no ASC") AS $pr){
             //echo $pr->wh_stocks;
 
             $count_number_po = $this->super_model->count_custom_where("po_items", "pr_details_id = '$pr->pr_details_id'");
@@ -318,6 +318,8 @@ class Reports extends CI_Controller {
                 $sum_received_qty = $sum_received_qty;
             }
            
+          // echo $pr_details_id . " -  rfq = ". $count_rfq .", aoq = ". $count_aoq. ", awarded = ".  $count_aoq_awarded . ", po = ". $count_po . ", poserved = ". $count_po_served ."<br>"; 
+                          
 
            //echo $pr_qty ." < " . $sum_received_qty;
 
@@ -432,7 +434,7 @@ class Reports extends CI_Controller {
 
                           
                         } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0) || 
-                            ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0)) {
+                            ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0)) {
                             $uom = $this->super_model->select_column_where("pr_details", "uom","pr_details_id",$pr_details_id);
                             //echo $pr_qty ."<=". $sum_delivered_qty;
                             if($pr_qty < $sum_delivered_qty){
@@ -442,7 +444,7 @@ class Reports extends CI_Controller {
                                  $status = "PO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_delivered_qty . " ".$uom .")</span><br>" . $statuss;
                             }
                            
-                        } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0 && $draft==0){
+                        } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served !=0 && $draft==0){
                             $status_remarks='';
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr_details_id' AND date_received!=''") AS $del){
                       
