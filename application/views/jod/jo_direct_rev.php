@@ -359,13 +359,13 @@
 		    			<td colspan="20">
 		    				<table class="table-borsdered" width="100%">
 		    					<tr>
-		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
-		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
+		    						<td width="54%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
+		    						<td width="5%" class="f13" align="center"><b>Qty</b></td>
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
-		    						<td width="15%" class="f13" align="center"><b>Currency</b></td>
+		    						<td width="5%" class="f13" align="center"><b>Currency</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
-		    						<td width="15%" class="f13" align="center"></td>
+		    						<td width="1%" class="f13" align="center"></td>
 		    					</tr>
 		    					<?php 
 		    						$x=1; 
@@ -395,6 +395,36 @@
 		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' style = "width:100%;text-align: center" value = "<?php echo $det->unit_price; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo number_format($det->amount); ?>"></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><a href="<?php echo base_url(); ?>joi/delete_scope/<?php echo $det->joi_items_id?>/<?php echo $det->joi_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td>
+		    					</tr>
+		    					<tr>
+		    						<td colspan="6"><br> &nbsp;&nbsp;Materials:</td>
+		    					</tr>
+		    					<tr>
+		    						<td class="f13 p-l-5" align="left">
+		    							<b class="nomarg"><textarea rows="4" style="width:100%" name=''></textarea></b>
+		    						</td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+		    							<b>
+		    								<input type="text" name='' id='quantity' class='quantity' value='' style='width:50px; color:red;text-align: center' onchange='' onkeypress="return isNumberKey(this, event)"/>
+		    							</b>
+		    						</td>
+		    						<td class="f13" align="center" style="vertical-align:top"></td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+					    				<select name=''>
+							    			
+							    		<option value=""></option>
+							    		</select>
+				    				</td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+		    							<b>
+		    								<input type='text' name=''  style='color:red; width: 100%;text-align: center'>
+		    							</b>
+		    						</td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+		    							<b class="nomarg">
+		    									<input type='text' name='' id='' class='tprice' style='text-align:right;width: 100%;' readonly>
+		    							</b>
+		    						</td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5" style="vertical-align:top;"></td></tr>
 		    					<?php $x++; } ?> 
@@ -503,28 +533,35 @@
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Amount:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly"></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Amount:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly" style="width: 100%;text-align: right"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td>VAT %:</td>
-		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent;?>"></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_amount;?>"></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent;?>" style="width:30px;border-bottom:1px solid red"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_amount;?>" style="width: 100%;text-align: right"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Subtotal:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" value="<?php echo $subtotal;?>"></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Subtotal:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" value="<?php echo $subtotal;?>" style="width: 100%;text-align: right"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Less Discount:</td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Less Discount:</td>
 		    						
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount;?>" onblur='changePrice()'></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount;?>" onblur='changePrice()' style="width: 100%;text-align: right"></td>
 		    					</tr>
 		    					<?php } else { 
 		    						$sum_cost = array_sum($gtotal2);
@@ -534,35 +571,44 @@
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Amount:</td>
-		    						<td class="bor-btm" align="right"></span><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly"></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Amount:</td>
+		    						<td class="bor-btm" align="right"></span><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly" style="width: 100%;text-align: right"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td>VAT %:</td>
-		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent_temp;?>"></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_temp;?>"></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent_temp;?>" style="width:30px;border-bottom:1px solid red"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_temp;?>" style="width: 100%;text-align: right"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Subtotal:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" value="<?php echo $subtotal;?>"></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Subtotal:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" value="<?php echo $subtotal;?>" style="width: 100%;text-align: right"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Less Discount:</td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Less Discount:</td>
 		    						
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount_temp;?>" onblur='changePrice()'></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount_temp;?>" onblur='changePrice()' style="width: 100%;text-align: right"></td>
 		    					</tr>
 		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>GRAND TOTAL:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="<?php echo $grandtotal;?>" readonly="readonly"></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">GRAND TOTAL:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="<?php echo $grandtotal;?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
 		    					</tr>
 		    				</table>
 		    			</td>
