@@ -228,7 +228,7 @@
 	    				<td width="25%"></td>
 	    			</tr>
 	    		</table>  		  			
-		    	<table class="table-basdordered" width="100%" style="border:2px solid #000">
+		    	<table class="table-bdordered" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
@@ -343,7 +343,7 @@
 		    					?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
-		    							<b class="nomarg"><textarea rows="7" style="width:100%" name='offer<?php echo $x; ?>'> <?php echo $it['offer']; ?></textarea></b>
+		    							<b class="nomarg"><textarea rows="4" style="width:100%" name='offer<?php echo $x; ?>'> <?php echo $it['offer']; ?></textarea></b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
@@ -371,6 +371,36 @@
 		    								<?php if($saved==0){ ?>
 		    									<input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right;' readonly>
 		    								<?php }else { echo number_format($it['total'],2); } ?>
+		    							</b>
+		    						</td>
+		    					</tr>
+		    					<tr>
+		    						<td colspan="6"><br> &nbsp;&nbsp;Materials:</td>
+		    					</tr>
+		    					<tr>
+		    						<td class="f13 p-l-5" align="left">
+		    							<b class="nomarg"><textarea rows="4" style="width:100%" name=''></textarea></b>
+		    						</td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+		    							<b>
+		    								<input type="text" name='' id='quantity' class='quantity' value='' style='width:50px; color:red;text-align: center' onchange='' onkeypress="return isNumberKey(this, event)"/>
+		    							</b>
+		    						</td>
+		    						<td class="f13" align="center" style="vertical-align:top"></td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+					    				<select name=''>
+							    			
+							    		<option value=""></option>
+							    		</select>
+				    				</td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+		    							<b>
+		    								<input type='text' name=''  style='color:red; width:100px;text-align: center'>
+		    							</b>
+		    						</td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+		    							<b class="nomarg">
+		    									<input type='text' name='' id='' class='tprice' style='text-align:right;' readonly>
 		    							</b>
 		    						</td>
 		    					</tr>
@@ -413,9 +443,8 @@
 		    						<td class="f13" align="center"></td>
 		    					</tr>
 		    					<tr>
+		    						<td colspan='4' align="right">Amount:</td>
 		    						<td></td>
-		    						<td></td>
-		    						<td colspan='2'>Amount:</td>
 		    						<td class="bor-btm" align="right">
 		    							<?php if($saved==0){ ?>
 		    								<span class="pull-left"><input type='text' class="nobord" name='sum_cost' id='sum_cost' class='sum_cost' style='text-align:right;' readonly>
@@ -423,29 +452,26 @@
 		    						</td>
 		    					</tr>
 		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td>VAT %:</td>
-		    						<td><span class="pull-left"><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'></td>
+		    						<td colspan="4" align="right">VAT %:</td>
+		    						<td>
+		    							<span class="pull-left">
+		    								<input style="text-align: center; border-bottom:1px solid red ;" class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'>
+		    							</span>
+		    							</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly"></td>
 		    					</tr>
 		    					<tr>
+		    						<td colspan="4" align="right">Subtotal:</td>
 		    						<td></td>
-		    						<td></td>
-		    						<td colspan='2'>Subtotal:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly"></td>
 		    					</tr>
 		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td>Less Discount:</td>
+		    						<td colspan="4" align="right">Less Discount:</td>
 		    						<td><!-- <input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent'> --></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount'  onblur='changePrice()'></td>
 		    					</tr>
 		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td>GRAND TOTAL:</td>
+		    						<td colspan="4" align="right">GRAND TOTAL:</td>
 		    						<td></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="" readonly="readonly"></td>
 		    					</tr>
