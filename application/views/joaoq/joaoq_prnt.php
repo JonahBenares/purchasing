@@ -8,6 +8,9 @@
     	html,body{
     		font-size:13px!important;
     	}
+    	textarea, input, select{
+    		font-size:13px!important;
+    	}
     	.padding-0{
     		padding: 0!important;
     	}
@@ -277,13 +280,13 @@
 		    		</tr>
 		    		
 		    		<tr>
-		    			<td class="f10"  align="center" width="20%" style="width:850px">
+		    			<td class="f10"  align="center" width="20%" style="width:700px">
 		    				<!-- <button id="add_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-id="">
 							  <span class="fa fa-plus"></span> Add Item
 							</button>	 -->						
 		    			</td>
 		    			<?php foreach($vendors AS $ven) { ?>
-		    			<td  class="f10 bor-right bor-left bor-top"  align="center" style="width:1050px">
+		    			<td  class="f10 bor-right bor-left bor-top"  align="center" style="width:1000px">
 		    				<b><?php echo $ven['vendor']; ?></b><br>
 		    				<?php echo $ven['phone']; ?><br>
 		    				<?php echo $ven['contact']; ?>
@@ -300,7 +303,7 @@
 		    			<td style="padding: 0px;vertical-align: text-top;border-right: 1px solid #000;">
 		    				<table class="f" width="100%" style='border:px solid #000;margin: 0px;'>
 		    					<tr style="height:40px;border-bottom:1px solid #000">
-		    						<td class="f9 table-borbold" align="center"><b>#</td>
+		    						<td class="f9 table-borbold" width="5%" align="center"><b>#</td>
 					    			<td class="f9 table-borbold" align=""><b>DESCRIPTION</td>
 					    			<td class="f9 table-borbold" width="10%" align="center"><b>QTY</td>
 					    			<td class="f9 table-borbold" width="10%" align="center"><b>UOM</td>
