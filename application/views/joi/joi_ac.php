@@ -100,11 +100,12 @@
 	    		<center>
 			    	<div class="btn-group">
 						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-						<?php if($saved==0){ ?>
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
-						<?php } else { ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
-						<?php } ?>
+						<!-- <?php if($saved==0){ ?>
+						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
+						<?php } else { ?> -->
+						
+						<!-- <?php } ?> -->
 					</div>
 					<p class="text-white">Instructions: When printing ACKNOWLEDGEMENT RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
@@ -162,44 +163,24 @@
 		    			<td colspan="17" class="all-border "><b class="nomarg"></b><?php echo date("F d, Y",strtotime($jh->date_prepared))?></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="3" class="all-border"><b class="nomarg">Delivered to: </b></td>
-		    			<?php if($saved==0){ ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><textarea name = "delivered_to"></textarea></b></td>
-		    			<?php } else { ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $delivered_to; ?></b></td>
-		    			<?php } ?>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="3" class="all-border"><b class="nomarg">Address: </b></td>
-		    			<?php if($saved==0){ ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><textarea name = "address"></textarea></b></td>
-		    			<?php } else { ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $address; ?></b></td>
-		    			<?php } ?>
-		    		</tr>
-		    		<tr>
 		    			<td colspan="3" class="all-border"><b class="nomarg">JO No.: </b></td>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jh->joi_no."-".COMPANY; ?></b></td>
+		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jh->joi_no ."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="3" class="all-border"><b class="nomarg">Gate Pass No.: </b></td>
-		    			<?php if($saved==0){ ?>
-			    			<td colspan="17" class="all-border"><b class="nomarg"><textarea name = "gatepass"></textarea></b></td>
-			    			<?php } else { ?>
-			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $gatepass_no; ?></b></td>
-			    			<?php } ?>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="3" class="all-border"><b class="nomarg">Requested by: </b></td>
-		    			<?php if($saved==0){ ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><textarea name = "requested_by"></textarea></b></td>
-		    			<?php } else { ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $requested_by; ?></b></td>
-		    			<?php } ?>
+		    			<td colspan="3" class="all-border"><b class="nomarg">JOR No.: </b></td>
+		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jor_no ."-".COMPANY; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3" class="all-border"><b class="nomarg">Project Title: </b></td>
-		    			<td colspan="17" class="all-border"><h4 style="margin:0px"><b><?php echo $jh->project_title; ?></b></h4></td>
+		    			<td colspan="17" class="all-border"><b><?php echo $jh->project_title; ?></b></td>
+		    		</tr>
+		    		<!-- <tr>
+		    			<td colspan="3" class="all-border"><b class="nomarg">General Description: </b></td>
+		    			<td colspan="17" class="all-border"><b><?php echo $h->general_desc; ?></b></td>
+		    		</tr> -->
+		    		<tr>
+		    			<td colspan="3" class="all-border"><b class="nomarg">Requested by: </b></td>
+		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $requested_by; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" align="center"><br></td>

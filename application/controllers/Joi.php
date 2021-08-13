@@ -2399,6 +2399,7 @@ class Joi extends CI_Controller {
         $data['joi_id'] = $joi_id;
         $this->load->view('template/header');
         $data['saved'] = $this->super_model->select_column_where("joi_ar", "saved", "joi_id", $joi_id);
+        $data['revision_no']= $this->super_model->select_column_where("joi_dr", "revision_no", "joi_id", $joi_id);
         $data['cancelled'] = $this->super_model->select_column_where("joi_head", "cancelled", "joi_id", $joi_id);
         $data['delivered_to'] = $this->super_model->select_column_where("joi_ar", "delivered_to", "joi_id", $joi_id);
         $data['address'] = $this->super_model->select_column_where("joi_ar", "address", "joi_id", $joi_id);
@@ -2410,6 +2411,7 @@ class Joi extends CI_Controller {
         $jor_id= $this->super_model->select_column_where("joi_items", "jor_id", "joi_id", $joi_id);
         $data['jo_head']=$this->super_model->select_row_where('joi_head', 'joi_id', $joi_id);
         $data['requested_by'] = $this->super_model->select_column_where("jor_head", "requested_by", "jor_id", $jor_id);
+        $data['jor_no'] = $this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor_id);
         foreach($this->super_model->select_row_where("joi_items","joi_id",$joi_id) AS $jd){
             $vendor_id = $this->super_model->select_column_where("joi_head","vendor_id","joi_id",$joi_id);
             $vendor = $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$vendor_id);
