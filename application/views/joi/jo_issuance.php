@@ -336,8 +336,9 @@
 		    							$x=1;
 			    						foreach($items AS $it){ 
 			    							if($it['balance']!=0){ 
-			    								$gtotal[] = $it['total'];
+			    								$gtotal[] = $it['total'] + $it['materials_amount'];
 		    					?>
+		    					<!--ITEMS-->
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
 		    							<b class="nomarg"><?php echo nl2br($it['offer'])."<br><br>"; ?></b>
@@ -353,7 +354,7 @@
 		    						<td class="f13" align="center" style="vertical-align:top">
 				    				<select name='currency<?php echo $x; ?>'>
 						    			<?php foreach($currency AS $curr){ ?>
-						    		<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$it['currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    		<?php } ?>
 						    		</select>
 				    				</td>
@@ -378,6 +379,62 @@
 		    					<?php } $x++; } ?> 
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    					<?php }else{ $gtotal=array(); } ?>
+		    					<!--ITEMS-->
+		    					<tr>
+		    						<td width="55%" class="f13 p-l-5" align="left"><b>Materials:</b></td>
+		    					</tr>
+		    					<!--MATERIALS-->
+		    					<?php 
+		    						$gtotal=array();
+		    						if(!empty($items)){
+		    							$y=1;
+		    							$b=1;
+			    						foreach($items AS $it){ 
+			    							if($it['balance']!=0){ 
+			    								$gtotal[] = $it['total'] + $it['materials_amount'];
+		    					?>
+		    					<tr>
+		    						<td class="f13 p-l-5" align="left">
+		    							<b class="nomarg"><?php echo nl2br($it['materials_offer'])."<br><br>"; ?></b>
+		    						</td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+		    							<b>
+		    								<input type="text" name='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' id='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' class='materials_qty' onblur="this.value = minmax(this.value, 0, <?php echo $it['materials_qty']; ?>)" value='<?php echo $it['materials_qty']; ?>' style='width:50px; color:red;text-align: center' onchange='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)"/>
+                       
+		    								<!-- <input type='text' name='quantity<?php echo $y; ?>' id='quantity<?php echo $y; ?>' class='quantity' value='<?php echo $it['balance']; ?>' <?php echo (($revised!='r') ? "max=".$it['balance'] : ""); ?> style='width:50px; color:red;text-align: center' onkeyup='changePrice_JO(<?php echo $y; ?>)' onkeypress="return isNumberKey(this, event)"> -->
+		    							</b>
+		    						</td>
+		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $it['uom']; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+				    				<select name='currency<?php echo $y; ?>_<?php echo $b; ?>'>
+						    			<?php foreach($currency AS $curr){ ?>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$it['currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    		<?php } ?>
+						    		</select>
+				    				</td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+		    							<b>
+		    								<input type='text' name='materials_price<?php echo $y; ?>_<?php echo $b; ?>' id='materials_price<?php echo $y; ?>_<?php echo $b; ?>' value='<?php echo $it['materials_unitprice']; ?>' onkeyup='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px;text-align: center'>
+		    							</b>
+		    						</td>
+		    						<td class="f13" align="center" style="vertical-align:top">
+		    							<b class="nomarg">
+		    								<input type='text' name='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' id='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' class='tprice' value="<?php echo $it['materials_amount']; ?>" style='text-align:right;' readonly>
+		    							</b>
+		    						</td>
+		    					</tr>
+		    					<!--<input type='hidden' name='currency<?php echo $y; ?>' value="<?php echo $it['currency']; ?>">-->
+					    		<input type='hidden' name='jor_aoq_id<?php echo $y; ?>' value="<?php echo $it['jor_aoq_id']; ?>">
+					    		<input type='hidden' name='jor_aoq_offer_id<?php echo $y; ?>' value="<?php echo $it['jor_aoq_offer_id']; ?>">
+					    		<input type='hidden' name='jor_aoq_items_id<?php echo $y; ?>' value="<?php echo $it['jor_aoq_items_id']; ?>">
+					    		<input type='hidden' name='jor_items_id<?php echo $y; ?>' value="<?php echo $it['jor_items_id']; ?>">
+					    		<textarea hidden name='materials_offer<?php echo $y; ?>'><?php echo $it['materials_offer']; ?></textarea>
+					    		<input type='hidden' name='uom<?php echo $y; ?>' value="<?php echo $it['uom']; ?>">
+		    					<?php 
+		    							} $y++; $b++; } 
+		    						}else{ $gtotal=array(); } 
+		    					?>
+		    					<!--MATERIALS-->
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">

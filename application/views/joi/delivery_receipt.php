@@ -212,6 +212,7 @@
 		    				</b>
 		    			</td>
 		    		</tr>
+		    		<!--ITEMS-->
 		    		<?php foreach($items AS $it){ ?>
 		       		<tr>
 		    			<td class="all-border" align="center"><?php echo $it['item_no']; ?><br></td>
@@ -223,6 +224,23 @@
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
 		    		<?php } ?>
+		    		<!--ITEMS-->
+		    		<tr>
+						<td class="all-border" align="left" colspan="20"><b>Materials:</b></td>
+					</tr>
+		    		<!--MATERIALS-->
+		    		<?php foreach($items AS $it){ ?>
+		       		<tr>
+		    			<td class="all-border" align="center"><?php echo $it['item_no']; ?><br></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $it['vendor']; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo nl2br($it['materials_offer']); ?></td>
+		    			<td class="all-border" align="center"><?php echo number_format($it['materials_qty'],2); ?></td>
+		    			<td class="all-border" align="center"><?php echo (($it['received_quantity']==0) ? '' : number_format($it['received_quantity'],2)); ?></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $it['uom']; ?></td>
+		    			<td class="all-border" align="center" colspan="3"></td>
+		    		</tr>
+		    		<?php } ?>
+		    		<!--MATERIALS-->
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
