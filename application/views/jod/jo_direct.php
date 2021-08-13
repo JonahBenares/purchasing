@@ -320,14 +320,14 @@
 			    	</tr> -->		    		
 		    		<tr>
 		    			<td colspan="20">
-		    				<table class="table-borsdered" width="100%">
+		    				<table class="table-bordered" width="100%">
 		    					<tr>
-		    						<td width="50%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
+		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="5%" class="f13" align="center"><b>Qty</b></td>
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
 		    						<td width="5%" class="f13" align="center"><b>Currency</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
-		    						<td width="20%" class="f13" align="center"><b>Total Cost</b></td>
+		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
 		    					<tr>
                                     <td class="f13 p-l-5" align="left"><b><?php echo $h['general_desc']; ?></b></td>
@@ -362,14 +362,14 @@
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
 		    								<?php if($saved==0) { ?>
-		    								<input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px;text-align: center'>
+		    								<input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' onkeyup='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red;width: 100%;text-align: center'>
 			    							<?php } else { echo $it['price']; } ?>
 		    							</b>
 		    						</td>
-		    						<td class="f13" align="center" style="vertical-align:top">
+		    						<td class="f13" align="right" style="vertical-align:top">
 		    							<b class="nomarg">
 		    								<?php if($saved==0){ ?>
-		    									<input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right;' readonly>
+		    									<input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right;width: 100%' readonly>
 		    								<?php }else { echo number_format($it['total'],2); } ?>
 		    							</b>
 		    						</td>
@@ -395,12 +395,12 @@
 				    				</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
-		    								<input type='text' name=''  style='color:red; width:100px;text-align: center'>
+		    								<input type='text' name=''  style='color:red; width: 100%;text-align: center'>
 		    							</b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b class="nomarg">
-		    									<input type='text' name='' id='' class='tprice' style='text-align:right;' readonly>
+		    									<input type='text' name='' id='' class='tprice' style='text-align:right;width: 100%;' readonly>
 		    							</b>
 		    						</td>
 		    					</tr>
@@ -443,37 +443,34 @@
 		    						<td class="f13" align="center"></td>
 		    					</tr>
 		    					<tr>
-		    						<td colspan='4' align="right">Amount:</td>
-		    						<td></td>
+		    						<td colspan='4' ></td>
+		    						<td align="right">Amount:</td>
 		    						<td class="bor-btm" align="right">
 		    							<?php if($saved==0){ ?>
-		    								<span class="pull-left"><input type='text' class="nobord" name='sum_cost' id='sum_cost' class='sum_cost' style='text-align:right;' readonly>
+		    								<span class="pull-left"><input type='text' class="nobord" name='sum_cost' id='sum_cost' class='sum_cost' style='text-align:right;width: 100%;' readonly >
 		    							<?php }else { echo number_format($it['total'],2); } ?>
 		    						</td>
 		    					</tr>
 		    					<tr>
-		    						<td colspan="4" align="right">VAT %:</td>
-		    						<td>
-		    							<span class="pull-left">
-		    								<input style="text-align: center; border-bottom:1px solid red ;" class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'>
-		    							</span>
-		    							</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly"></td>
+		    						<td colspan="4"></td>
+		    						<td  align="right">VAT %: <input style="text-align: center; border-bottom:1px solid red ;width:60px" class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'>
+		    						</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" style='text-align:right;width: 100%;'></td>
 		    					</tr>
 		    					<tr>
-		    						<td colspan="4" align="right">Subtotal:</td>
-		    						<td></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly"></td>
+		    						<td colspan="4" ></td>
+		    						<td align="right">Subtotal:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" style='text-align:right;width: 100%;'></td>
 		    					</tr>
 		    					<tr>
-		    						<td colspan="4" align="right">Less Discount:</td>
-		    						<td><!-- <input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent'> --></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount'  onblur='changePrice()'></td>
+		    						<td colspan="4" ></td>
+		    						<td align="right">Less Discount:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount'  onblur='changePrice()' style='text-align:right;width: 100%;'></td>
 		    					</tr>
 		    					<tr>
-		    						<td colspan="4" align="right">GRAND TOTAL:</td>
-		    						<td></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="" readonly="readonly"></td>
+		    						<td colspan="4" ></td>
+		    						<td align="right">GRAND TOTAL:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="net" id='net' value="" readonly="readonly" style='text-align:right;width: 100%;'></td>
 		    					</tr>
 		    				
 		    					
