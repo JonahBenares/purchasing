@@ -463,7 +463,8 @@ class Joaoq extends CI_Controller {
                 $minmaterials=0;
             }
 
-      
+            $offer=str_replace("<br />", "", $off->offer);
+            $materials_offer=str_replace("<br />", "", $off->materials_offer);
               $data['offers'][] = array(
                 'jor_aoq_offer_id'=>$off->jor_aoq_offer_id,
                 'vendor_id'=>$off->vendor_id,
@@ -474,8 +475,8 @@ class Joaoq extends CI_Controller {
                 'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $off->vendor_id),
                 'item_id'=>$off->jor_aoq_items_id,
                 'currency'=>$off->currency,
-                'offer'=>$off->offer,
-                'materials_offer'=>$off->materials_offer,
+                'offer'=>$offer,
+                'materials_offer'=>$materials_offer,
                 'materials_unitprice'=>$off->materials_unitprice,
                 'materials_amount'=>$off->materials_amount,
                 'price'=>$off->unit_price,
@@ -863,6 +864,7 @@ class Joaoq extends CI_Controller {
                 'unit_price'=>$price,
                 'quantity'=>$this->input->post('offerqty_'.$x),
                 'materials_qty'=>$this->input->post('materialsqty_'.$x),
+                'materials_offer'=>$this->input->post('materials_offer_'.$x),
                 'amount'=>$amount,
                 'materials_unitprice'=>$materials_unitprice,
                 'materials_amount'=>$materials_amount,

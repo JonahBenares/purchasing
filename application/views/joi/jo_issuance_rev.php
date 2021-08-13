@@ -383,7 +383,7 @@
 		    						<td class="f13" style="padding-left: 5px" align="left"> <textarea name = "scope_of_work<?php echo $x; ?>" class = "form-control" rows="7"><?php echo $det->offer; ?></textarea></td>
 
 		    						<td class="f13" align="center" style="vertical-align:top;">
-		    							<input type="text" name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $det->delivered_quantity; ?>)" value='<?php echo $det->delivered_quantity; ?>' style='width:50px; color:red;text-align: center' onchange='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"/>
+		    							<input type="text" name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $det->delivered_quantity; ?>)" value='<?php echo number_format($det->delivered_quantity,2); ?>' style='width:50px; color:red;text-align: center' onchange='changePrice_JO(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"/>
 		    							<!-- <input type="text" name="quantity<?php echo $x; ?>" id='quantity<?php echo $x; ?>' style = "width:50%;text-align: center" value = "<?php echo $det->delivered_quantity; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'> -->
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name="uom<?php echo $x; ?>" style = "width:100%;text-align: center" value = "<?php echo $det->uom; ?>"></td>
@@ -414,7 +414,7 @@
 		    						<td class="f13" style="padding-left: 5px" align="left"> <textarea name = "materials_offer<?php echo $y; ?>_<?php echo $b; ?>" class = "form-control" rows="7"><?php echo $det->materials_offer; ?></textarea></td>
 
 		    						<td class="f13" align="center" style="vertical-align:top;">
-		    							<input type="text" name='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' id='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $det->materials_qty; ?>)" value='<?php echo $det->materials_qty; ?>' style='width:50px; color:red;text-align: center' onchange='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)"/>
+		    							<input type="text" name='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' id='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $det->materials_qty; ?>)" value='<?php echo number_format($det->materials_qty,2); ?>' style='width:50px; color:red;text-align: center' onchange='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)"/>
 		    							<!-- <input type="text" name="quantity<?php echo $x; ?>" id='quantity<?php echo $x; ?>' style = "width:50%;text-align: center" value = "<?php echo $det->delivered_quantity; ?>" onblur='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)'> -->
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name="uom<?php echo $y; ?>" style = "width:100%;text-align: center" value = "<?php echo $det->uom; ?>"></td>
