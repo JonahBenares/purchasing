@@ -288,7 +288,7 @@ class Reports extends CI_Controller {
 
             $count_po_draft = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '0' and draft = '1' AND pi.pr_details_id = '$pr_details_id'"); //checks if item has already PO but not yet served or delivered
 
-            $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '1'  and draft = '0' AND pi.pr_details_id = '$pr_details_id'"); //checks if item has already PO but already served or delivered
+            $count_po_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '1'  and draft = '0' AND pi.pr_details_id = '$pr_details_id' AND ph.po_id = '$po_id'"); //checks if item has already PO but already served or delivered
 
             //$count_po_not_served = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '0'  and draft = '0' AND pi.pr_details_id = '$pr_details_id'");
 
@@ -298,7 +298,7 @@ class Reports extends CI_Controller {
             $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id'"); // gets the total received qty of the item
 
             
-            $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id'"); // gets the total delivered qty of the item
+            $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id' AND ph.po_id = '$po_id'"); // gets the total delivered qty of the item
 
 
             $po_qty = $this->super_model->select_column_where("po_items","delivered_quantity","pr_details_id",$pr_details_id);
@@ -318,7 +318,7 @@ class Reports extends CI_Controller {
                 $sum_received_qty = $sum_received_qty;
             }
            
-          // echo $pr_details_id . " -  rfq = ". $count_rfq .", aoq = ". $count_aoq. ", awarded = ".  $count_aoq_awarded . ", po = ". $count_po . ", poserved = ". $count_po_served ."<br>"; 
+         //  echo $po_id . ", ". $pr_details_id . " -  rfq = ". $count_rfq .", aoq = ". $count_aoq. ", awarded = ".  $count_aoq_awarded . ", po = ". $count_po . ", poserved = ". $count_po_served ."<br>"; 
                           
 
            //echo $pr_qty ." < " . $sum_received_qty;
