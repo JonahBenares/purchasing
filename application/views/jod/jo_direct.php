@@ -322,12 +322,12 @@
 		    			<td colspan="20">
 		    				<table class="table-borsdered" width="100%">
 		    					<tr>
-		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
-		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
+		    						<td width="50%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
+		    						<td width="5%" class="f13" align="center"><b>Qty</b></td>
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
 		    						<td width="5%" class="f13" align="center"><b>Currency</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
-		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
+		    						<td width="20%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
 		    					<tr>
                                     <td class="f13 p-l-5" align="left"><b><?php echo $h['general_desc']; ?></b></td>
