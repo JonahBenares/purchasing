@@ -525,7 +525,7 @@
 		    						<!-- ---------------------------- FOR SERVICE ---------------------------- -->			
 			    					<tr style="height:150px">
 				    					<td width="25%" class="bor-btm bor-right">
-				    						<textarea class="form-control" style="width: 100%;height: 100%;" readonly><?php echo nl2br($of['offer']); ?></textarea>
+				    						<textarea class="form-control" style="width: 100%;height: 100%;" readonly><?php echo $of['offer']; ?></textarea>
 				    					</td>
 				    						<td width="6%" class="bor-btm bor-right">
 				    						<center><?php echo $of['currency']; ?></center>
@@ -568,7 +568,7 @@
 				    				<!-- ---------------------------- FOR ITEMS ---------------------------- -->
 				    				<tr style="height:150px">
 				    					<td width="25%" class="bor-btm bor-right">
-				    						<textarea class="form-control" style="width: 100%;height: 100%;" readonly><?php echo nl2br($of['materials_offer']); ?></textarea>
+				    						<textarea class="form-control" style="width: 100%;height: 100%;" readonly><?php echo $of['materials_offer']; ?></textarea>
 				    					</td>
 				    						<td width="6%" class="bor-btm bor-right">
 				    						<center><?php echo $of['currency']; ?></center>
@@ -643,7 +643,7 @@
 			    					<!-- ---------------------------------------FOR SERVICES------------------------------------ -->
 			    					<tr style="height:150px">
 				    					<td class="bor-btm bor-right padding-0">
-				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe"><?php echo nl2br($of['offer']); ?></textarea>
+				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe"><?php echo $of['offer']; ?></textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10 padding-0" align="center">
 				    						<select name='currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe">
@@ -668,7 +668,7 @@
 				    				<!-- ---------------------------------------FOR ITEMS------------------------------------ -->
 				    				<tr style="height:150px">
 				    					<td class="bor-btm bor-right padding-0">
-				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed"><?php echo nl2br($of['materials_offer']); ?></textarea>
+				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed"><?php echo $of['materials_offer']; ?></textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10 padding-0" align="center">
 				    						<select name='currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed">
@@ -728,7 +728,7 @@
 		    						<!-- ---------------------------------------FOR SERVICES------------------------------------ -->			
 			    					<tr style="height:150px">
 				    					<td class="bor-btm bor-right">
-				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe" ><?php echo nl2br($of['offer']); ?>
+				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe" ><?php echo $of['offer']; ?>
 				    						</textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10 " align="center">
@@ -754,7 +754,7 @@
 				    				<!-- ---------------------------------------FOR Items------------------------------------ -->
 				    				<tr style="height:150px">
 				    					<td class="bor-btm bor-right">
-				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed" ><?php echo nl2br($of['materials_offer']); ?>
+				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed" ><?php echo $of['materials_offer']; ?>
 				    						</textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10 " align="center">
