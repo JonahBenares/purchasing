@@ -366,10 +366,10 @@
 		    			<td colspan="20">
 		    				<table class="table-borsdered" width="100%">
 		    					<tr>
-		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
+		    						<td width="45%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
-		    						<td width="15%" class="f13" align="center"><b>Currency</b></td>
+		    						<td width="10%" class="f13" align="center"><b>Currency</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    					</tr>
@@ -389,7 +389,7 @@
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->uom; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->currency; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->unit_price; ?></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->amount; ?></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->amount; ?>&nbsp;&nbsp;</td>
 		    					</tr>
 		    					<?php } }else { $gtotal=array(); } ?>
 		    					<!--ITEMS-->
@@ -455,32 +455,42 @@
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Amount:</td>
-		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Amount:</td>
+		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?>&nbsp;&nbsp;</td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'><?php echo $vat_percent; ?>% VAT:</td>
-		    						<td align="right"><?php echo number_format($vat,2); ?></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right"><?php echo $vat_percent; ?>% VAT:</td>
+		    						<td align="right"><?php echo number_format($vat,2); ?>&nbsp;&nbsp;</td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Sub Total:</td>
-		    						<td align="right"><?php echo number_format($subtotal,2);?></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Sub Total:</td>
+		    						<td align="right"><?php echo number_format($subtotal,2);?>&nbsp;&nbsp;</td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Less Discount:</td>
-		    						<td align="right"><?php echo number_format($discount,2);?></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Less Discount:</td>
+		    						<td align="right"><?php echo number_format($discount,2);?>&nbsp;&nbsp;</td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Grand Total:</td>
-		    						<td align="right"><?php echo number_format($grandtotal,2); ?></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Grand Total:</td>
+		    						<td align="right"><?php echo number_format($grandtotal,2); ?>&nbsp;&nbsp;</td>
 		    					</tr>
 		    				</table>
 		    			</td>
