@@ -220,12 +220,13 @@
                         <td align="left" colspan="17" class="bor-right"><b><?php echo $general_desc; ?></b></td>
                         <td align="right" colspan="3"></td>
                     </tr>
-		    				<?php
-					    		$subtotal=array();
-					    		if(!empty($items)){
-					    		foreach($items AS $i){ 
-					    			$subtotal[] = $i['total'];
-				    		?>
+                    <!--ITEMS-->
+    				<?php
+			    		$subtotal=array();
+			    		if(!empty($items)){
+			    		foreach($items AS $i){ 
+			    			$subtotal[] = $i['total'];
+		    		?>
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></td>
 		    			<td align="right" colspan="1"><?php echo $i['quantity']; ?></td>
@@ -237,6 +238,29 @@
 		    			</td>
 		    		</tr>
 		    		<?php } } else { $subtotal=array(); } ?>
+		    		<!--ITEMS-->
+		    		<tr>
+						<td colspan="17" class="bor-right"><br> <b>&nbsp;&nbsp;Materials:</b></td>
+					</tr>
+		    		<!--MATERIALS-->
+		    		<?php
+			    		$subtotal=array();
+			    		if(!empty($items)){
+			    		foreach($items AS $i){ 
+			    			$subtotal[] = $i['total'];
+		    		?>
+		    		<tr>
+		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['materials_offer'])."<br><br>"; ?></td>
+		    			<td align="right" colspan="1"><?php echo $i['materials_qty']; ?></td>
+		    			<td align="right" colspan="2"><?php echo $i['uom']; ?></td>
+		    			<td align="right" colspan="2" class="bor-right"><?php echo number_format($i['materials_unitprice'],2); ?></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><?php echo number_format($i['materials_amount'],2); ?></span>
+		    			</td>
+		    		</tr>
+		    		<?php } } else { $subtotal=array(); } ?>
+		    		<!--MATERIALS-->
 		    		<tr>
 		    			<td align="left" colspan="7" ><?php echo $cenpri_jo_no."/".$joi_no."-".COMPANY; ?></td>
 		    			<td align="right" colspan="10" class="bor-right"></td>

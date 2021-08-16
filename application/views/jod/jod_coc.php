@@ -228,11 +228,12 @@
 		    					<tr>
                                     <td class="f13 p-l-5" align="left"><b><?php echo $general_desc; ?></b></td>
                                 </tr>
+                                <!--ITEMS-->
 		    					<?php 
 		    						$gtotal=array();
 		    						if(!empty($details)){
 		    						foreach($details AS $det){ 
-		    							$gtotal[] = $det->amount;
+		    							$gtotal[] = $det->amount + $det->materials_amount;
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->offer); ?></td>
@@ -243,6 +244,27 @@
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    				<?php } } else{ $gtotal=array(); } ?>
+		    				<!--ITEMS-->
+		    				<tr>
+								<td colspan="6"><br> <b>&nbsp;&nbsp;Materials:</b></td>
+							</tr>
+							<!--MATERIALS-->
+		    				<?php 
+	    						$gtotal=array();
+	    						if(!empty($details)){
+	    						foreach($details AS $det){ 
+	    							$gtotal[] = $det->amount + $det->materials_amount;
+	    					?>
+	    					<tr>
+	    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->materials_offer); ?></td>
+	    						<td class="f13" align="center"><?php echo $det->materials_qty; ?></td>
+	    						<td class="f13" align="center"><?php echo $det->uom; ?></td>
+	    						<td class="f13" align="center"><?php echo number_format($det->materials_unitprice,2); ?></td>
+	    						<td class="f13" align="right"><?php echo number_format($det->materials_amount,2); ?></td>
+	    					</tr>
+	    					<tr><td colspan="5" class="p-5"></td></tr>
+		    				<?php } } else{ $gtotal=array(); } ?>
+		    				<!--MATERIALS-->
 								<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>

@@ -156,50 +156,30 @@
 		    			<td colspan="3" class="all-border "><b class="nomarg">DR No. </b></td>
 		    			<td colspan="17" class="all-border "><h4 style="margin:0px"><b><?php echo  COMPANY; ?><?php echo $ar_no."-".COMPANY; ?></b></h4> </td>
 		    		</tr>
-		    		<?php foreach($jo_head AS $jh){ ?>		    		
+		    		<?php foreach($jo_head AS $h){ ?>		    		
 		    		<tr>
-		    			<td colspan="3" class="all-border "><b class="nomarg">Date :</b></td>
-		    			<td colspan="17" class="all-border "><b class="nomarg"></b><?php echo date("F d, Y",strtotime($jh->date_prepared))?></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="3" class="all-border"><b class="nomarg">Delivered to: </b></td>
-		    			<?php if($saved==0){ ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><textarea name = "delivered_to"></textarea></b></td>
-		    			<?php } else { ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $delivered_to; ?></b></td>
-		    			<?php } ?>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="3" class="all-border"><b class="nomarg">Address: </b></td>
-		    			<?php if($saved==0){ ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><textarea name = "address"></textarea></b></td>
-		    			<?php } else { ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $address; ?></b></td>
-		    			<?php } ?>
+		    			<td colspan="3" class="all-border "><b class="nomarg">Date : </b></td>
+		    			<td colspan="17" class="all-border "><b class="nomarg"><?php echo date('F j, Y', strtotime($h->joi_date)); ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3" class="all-border"><b class="nomarg">JO No.: </b></td>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jh->joi_no."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
+		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $h->joi_no ."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="3" class="all-border"><b class="nomarg">Gate Pass No.: </b></td>
-		    			<?php if($saved==0){ ?>
-			    			<td colspan="17" class="all-border"><b class="nomarg"><textarea name = "gatepass"></textarea></b></td>
-			    			<?php } else { ?>
-			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $gatepass_no; ?></b></td>
-			    			<?php } ?>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="3" class="all-border"><b class="nomarg">Requested by: </b></td>
-		    			<?php if($saved==0){ ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><textarea name = "requested_by"></textarea></b></td>
-		    			<?php } else { ?>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $requested_by; ?></b></td>
-		    			<?php } ?>
+		    			<td colspan="3" class="all-border"><b class="nomarg">JOR No.: </b></td>
+		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jor_no ."-".COMPANY; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3" class="all-border"><b class="nomarg">Project Title: </b></td>
-		    			<td colspan="17" class="all-border"><h4 style="margin:0px"><b><?php echo $jh->project_title; ?></b></h4></td>
+		    			<td colspan="17" class="all-border"><b><?php echo $h->project_title; ?></b></td>
+		    		</tr>
+		    		<!-- <tr>
+		    			<td colspan="3" class="all-border"><b class="nomarg">General Description: </b></td>
+		    			<td colspan="17" class="all-border"><b><?php echo $h->general_desc; ?></b></td>
+		    		</tr> -->
+		    		<tr>
+		    			<td colspan="3" class="all-border"><b class="nomarg">Requested by: </b></td>
+		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $requested_by; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" align="center"><br></td>
@@ -215,6 +195,7 @@
 		    			<td class="all-border" align="center" colspan="2"><b class="nomarg">UOM</b></td>
 		    			<td class="all-border" align="center" colspan="3"><b class="nomarg">Remarks</b></td>
 		    		</tr>
+		    		<!--ITEMS-->
 		    		<?php $x=1; foreach($jo_det AS $jd){ ?>
 		       		<tr>
 		    			<td class="all-border" align="center"><?php echo $x; ?></td>
@@ -226,6 +207,23 @@
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
 		    		<?php $x++; } ?>
+		    		<!--ITEMS-->
+		    		<tr>
+						<td colspan="6"><br> <b>&nbsp;&nbsp;Materials:</b></td>
+					</tr>
+		    		<!--MATERIALS-->
+		    		<?php $x=1; foreach($jo_det AS $jd){ ?>
+		       		<tr>
+		    			<td class="all-border" align="center"><?php echo $x; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['supplier'];?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['materials_offer'];?></td>
+		    			<td class="all-border" align="center"><?php echo $jd['materials_qty'];?></td>
+		    			<td class="all-border" align="center"></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['uom'];?></td>
+		    			<td class="all-border" align="center" colspan="3"></td>
+		    		</tr>
+		    		<?php $x++; } ?>
+		    		<!--MATERIALS-->
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
