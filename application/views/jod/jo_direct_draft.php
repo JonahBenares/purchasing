@@ -398,36 +398,6 @@
 		    							</b>
 		    						</td>
 		    					</tr>
-		    					<tr>
-		    						<td colspan="6"><br> &nbsp;&nbsp;Materials:</td>
-		    					</tr>
-		    					<tr>
-		    						<td class="f13 p-l-5" align="left">
-		    							<b class="nomarg"><textarea rows="4" style="width:100%" name=''></textarea></b>
-		    						</td>
-		    						<td class="f13" align="center" style="vertical-align:top">
-		    							<b>
-		    								<input type="text" name='' id='quantity' class='quantity' value='' style='width:50px; color:red;text-align: center' onchange='' onkeypress="return isNumberKey(this, event)"/>
-		    							</b>
-		    						</td>
-		    						<td class="f13" align="center" style="vertical-align:top"></td>
-		    						<td class="f13" align="center" style="vertical-align:top">
-					    				<select name=''>
-							    			
-							    		<option value=""></option>
-							    		</select>
-				    				</td>
-		    						<td class="f13" align="center" style="vertical-align:top">
-		    							<b>
-		    								<input type='text' name=''  style='color:red; width: 100%;text-align: center'>
-		    							</b>
-		    						</td>
-		    						<td class="f13" align="center" style="vertical-align:top">
-		    							<b class="nomarg">
-		    									<input type='text' name='' id='' class='tprice' style='text-align:right;width: 100%;' readonly>
-		    							</b>
-		    						</td>
-		    					</tr>
 		    					<input type='hidden' name='joi_items_id<?php echo $x; ?>' value="<?php echo $it->joi_items_id; ?>">
 		    					<?php $x++; } }else{ $gtotal=array(); } ?>
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
@@ -455,7 +425,7 @@
 		    								<input type="text" name='materials_qty<?php echo $y; ?>' id='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' class='materials_qty' value="<?php echo $it->materials_qty; ?>" style='width:50px; color:red;text-align: center' onchange='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)"/>
 		    							</b>
 		    						</td>
-		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $it->uom; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top"><b><input type='text' style='color:red; width:50px;text-align: center' name='uom<?php echo $y; ?>' value="<?php echo $it->uom; ?>"></b></td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 				    				<select name='currency<?php echo $y; ?>'>
 						    			<?php foreach($currency2 AS $curr){ ?>
