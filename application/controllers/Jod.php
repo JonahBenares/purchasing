@@ -1462,6 +1462,8 @@ class Jod extends CI_Controller {
             if($this->input->post('quantity'.$x)!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
+                $materials_price = str_replace(",", "", $this->input->post('materials_price'.$x));
+                $materials_tprice = str_replace(",", "", $this->input->post('materials_tprice'.$x));
                 $currency = $this->input->post('currency'.$x);
                 $data_details = array(
                     "joi_items_id"=>$jodets->joi_items_id,
@@ -1478,6 +1480,10 @@ class Jod extends CI_Controller {
                     "currency"=>$currency,
                     "amount"=>$amount,
                     "offer"=>$this->input->post('scope_of_work'.$x),
+                    "materials_offer"=>$this->input->post('materials_offer'.$x),
+                    "materials_qty"=>$this->input->post('materials_qty'.$x),
+                    "materials_unitprice"=>$materials_price,
+                    "materials_amount"=>$materials_tprice,
                 );
                 $this->super_model->insert_into("joi_items_temp", $data_details);
             }
@@ -1578,7 +1584,11 @@ class Jod extends CI_Controller {
                 'uom'=>$dritems->uom,
                 'amount'=>$dritems->amount,
                 'item_no'=>$dritems->item_no,
-                'revision_no'=>$dritems->revision_no
+                'revision_no'=>$dritems->revision_no,
+                'materials_offer'=>$dritems->materials_offer,
+                'materials_qty'=>$dritems->materials_qty,
+                'materials_unitprice'=>$dritems->materials_unitprice,
+                'materials_amount'=>$dritems->materials_amount,
             );
             $this->super_model->insert_into("joi_dr_items_revised", $data_dritems);
         }
@@ -1692,6 +1702,10 @@ class Jod extends CI_Controller {
                 "currency"=>$poitems->currency,
                 "item_no"=>$poitems->item_no,
                 "revision_no"=>$poitems->revision_no,
+                "materials_offer"=>$poitems->materials_offer,
+                "materials_qty"=>$poitems->materials_qty,
+                "materials_unitprice"=>$poitems->materials_unitprice,
+                "materials_amount"=>$poitems->materials_amount,
             );
             $this->super_model->insert_into("joi_items_revised", $data_items);
         }
@@ -1754,7 +1768,11 @@ class Jod extends CI_Controller {
                 "amount"=>$poitems->amount,
                 "currency"=>$poitems->currency,
                 "item_no"=>$poitems->item_no,
-                "revision_no"=>$revision_no
+                "revision_no"=>$revision_no,
+                "materials_offer"=>$poitems->materials_offer,
+                "materials_qty"=>$poitems->materials_qty,
+                "materials_unitprice"=>$poitems->materials_unitprice,
+                "materials_amount"=>$poitems->materials_amount,
             );
              $this->super_model->update_where("joi_items", $data_items, "joi_items_id", $poitems->joi_items_id);
 
@@ -1765,7 +1783,11 @@ class Jod extends CI_Controller {
                 'unit_price'=>$poitems->unit_price,
                 'amount'=>$poitems->amount,
                 "currency"=>$poitems->currency,
-                'offer'=>$poitems->offer
+                'offer'=>$poitems->offer,
+                'materials_offer'=>$poitems->materials_offer,
+                'materials_qty'=>$poitems->materials_qty,
+                'materials_unitprice'=>$poitems->materials_unitprice,
+                'materials_amount'=>$poitems->materials_amount,
             );
 
             $this->super_model->update_where("joi_dr_items", $data_dr_items, "joi_items_id", $poitems->joi_items_id);

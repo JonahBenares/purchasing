@@ -247,7 +247,7 @@
 			    		$subtotal=array();
 			    		if(!empty($items)){
 			    		foreach($items AS $i){ 
-			    			$subtotal[] = $i['total'];
+			    			$subtotal[] = $i['total'] + $i['materials_amount'];
 		    		?>
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['materials_offer'])."<br><br>"; ?></td>
