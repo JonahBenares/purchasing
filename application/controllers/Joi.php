@@ -128,25 +128,32 @@ class Joi extends CI_Controller {
         $this->super_model->update_where("joi_head", $data_head, "joi_id", $joi_id);
         for($x=1;$x<$count;$x++){
             $joi_items_id = $this->input->post('joi_items_id'.$x);
+            $curr_matrec_balance = $this->super_model->select_column_where('joi_items', 'materials_received', 'joi_items_id', $joi_items_id);
             $curr_rec_balance = $this->super_model->select_column_where('joi_items', 'quantity', 'joi_items_id', $joi_items_id);
             $new_qty = $curr_rec_balance + $this->input->post('received_qty'.$x);
+            $new_mat_qty = $curr_matrec_balance + $this->input->post('materials_received'.$x);
 
              $data_poitems=array(
-                'quantity'=>$new_qty
+                'quantity'=>$new_qty,
+                'materials_received'=>$new_mat_qty
             );
 
             $data=array(
-                'quantity'=>$this->input->post('received_qty'.$x)
+                'quantity'=>$this->input->post('received_qty'.$x),
+                'materials_received'=>$this->input->post('materials_received'.$x),
             );
 
             $this->super_model->update_where("joi_items", $data_poitems, "joi_items_id", $joi_items_id);
             $this->super_model->update_custom_where("joi_dr_items", $data, "joi_items_id='$joi_items_id' AND joi_dr_id='$joi_dr_id'");
 
             $curr_balance = $this->super_model->select_column_where('jor_aoq_offers', 'balance', 'jor_aoq_offer_id', $this->input->post('jor_aoq_offer_id'.$x));
+            $curr_materials_balance = $this->super_model->select_column_where('jor_aoq_offers', 'materials_balance', 'jor_aoq_offer_id', $this->input->post('jor_aoq_offer_id'.$x));
             $new_balance = $curr_balance-$this->input->post('received_qty'.$x);
+            $new_materials_balance = $curr_materials_balance-$this->input->post('materials_received'.$x);
 
             $data_aoq = array(
-                'balance'=>$new_balance
+                'balance'=>$new_balance,
+                'materials_balance'=>$new_materials_balance
             );
             $this->super_model->update_where("jor_aoq_offers", $data_aoq, "jor_aoq_offer_id", $this->input->post('jor_aoq_offer_id'.$x));
         }  
@@ -225,6 +232,7 @@ class Joi extends CI_Controller {
 
         foreach($this->super_model->custom_query("SELECT * FROM joi_items WHERE delivered_quantity > quantity AND joi_id = '$joi_id'") AS $items){
             $new_qty = $items->delivered_quantity-$items->quantity;
+            $new_materials_qty = $items->materials_qty-$items->materials_received;
             $data = array(
                 'joi_items_id'=>$items->joi_items_id,
                 'joi_dr_id'=>$joi_dr_id,
@@ -239,7 +247,11 @@ class Joi extends CI_Controller {
                 'unit_price'=>$items->unit_price,
                 'uom'=>$items->uom,
                 'amount'=>$items->amount,
-                'item_no'=>$items->item_no
+                'item_no'=>$items->item_no,
+                'materials_offer'=>$items->materials_offer,
+                'materials_qty'=>$new_materials_qty,
+                'materials_unitprice'=>$items->materials_unitprice,
+                'materials_amount'=>$items->materials_amount,
             );
             $this->super_model->insert_into("joi_dr_items", $data);
         }
@@ -296,6 +308,9 @@ class Joi extends CI_Controller {
                     'offer'=>$items->offer,
                     'delivered_quantity'=>$items->delivered_quantity,
                     'received_quantity'=>$items->quantity,
+                    'materials_offer'=>$items->materials_offer,
+                    'materials_qty'=>$items->materials_qty,
+                    'materials_received'=>$items->materials_received,
                     'uom'=>$items->uom,
                 );
             }
@@ -312,6 +327,7 @@ class Joi extends CI_Controller {
                     'received_quantity'=>$items->quantity,
                     'materials_offer'=>$items->materials_offer,
                     'materials_qty'=>$items->materials_qty,
+                    'materials_received'=>$items->materials_received,
                     'uom'=>$items->uom,
                 );
             }
@@ -398,7 +414,7 @@ class Joi extends CI_Controller {
     public function getsupplierJOI(){
         $supplier = $this->input->post('supplier');
         echo '<option value="">-Select JO No-</option>';
-        foreach($this->super_model->custom_query("SELECT ah.jor_id, ah.jor_aoq_id, ah.aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE vendor_id = '$supplier' AND recommended = '1' and cancelled='0' GROUP BY ah.jor_aoq_id") AS $row){
+        foreach($this->super_model->custom_query("SELECT ah.jor_id, ah.jor_aoq_id, ah.aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_offers ao ON ah.jor_aoq_id = ao.jor_aoq_id WHERE vendor_id = '$supplier' AND cancelled='0' AND (recommended = '1' OR materials_recommended='1') GROUP BY ah.jor_aoq_id") AS $row){
             $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $row->jor_id);
             /*if($jo!=''){
                 $jo_no=$jo;
@@ -524,7 +540,7 @@ class Joi extends CI_Controller {
     }
 
     public function item_checker($jor_aoq_id, $jor_items_id, $vendor_id){
-        $offer_qty = $this->super_model->select_column_custom_where('jor_aoq_offers', 'quantity', "jor_aoq_id = '$jor_aoq_id' AND jor_items_id='$jor_items_id' AND vendor_id = '$vendor_id' AND recommended='1'");
+        $offer_qty = $this->super_model->select_column_custom_where('jor_aoq_offers', 'quantity', "jor_aoq_id = '$jor_aoq_id' AND jor_items_id='$jor_items_id' AND vendor_id = '$vendor_id' AND (recommended='1' OR materials_recommended='1')");
         //$jor_qty = $this->super_model->select_column_where('jor_items', 'quantity', 'jor_items_id', $jor_items_id);
 
         $delivered_qty = $this->super_model->select_sum_join("quantity","joi_head","joi_items", "jor_items_id = '$jor_items_id' AND cancelled = '0' ","joi_id");
@@ -576,7 +592,7 @@ class Joi extends CI_Controller {
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
         }
 
-        foreach($this->super_model->custom_query("SELECT ao.jor_aoq_id, ah.jor_id, ao.currency FROM jor_aoq_offers ao INNER JOIN jor_aoq_head ah ON ao.jor_aoq_id = ah.jor_aoq_id WHERE ao.vendor_id = '$vendor_id' AND recommended = '1' GROUP BY jor_id") AS $off){
+        foreach($this->super_model->custom_query("SELECT ao.jor_aoq_id, ah.jor_id, ao.currency FROM jor_aoq_offers ao INNER JOIN jor_aoq_head ah ON ao.jor_aoq_id = ah.jor_aoq_id WHERE ao.vendor_id = '$vendor_id' AND (recommended = '1' OR materials_recommended='1') GROUP BY jor_id") AS $off){
             $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $off->jor_id);
             /*if($jo!=''){
                 $jo_no=$jo;
@@ -593,7 +609,7 @@ class Joi extends CI_Controller {
         if(empty($revised)){
             foreach($this->super_model->select_row_where("joi_jor", "joi_id" , $joi_id) AS $popr){
              
-                foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id' AND recommended='1' ORDER BY jor_items_id ASC") AS $off){
+                foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$popr->jor_aoq_id' AND vendor_id='$vendor_id' AND (recommended = '1' OR materials_recommended='1') ORDER BY jor_items_id ASC") AS $off){
                     //$data['currency'] = $off->currency;
                     $balance = $this->item_checker($off->jor_aoq_id,$off->jor_items_id, $vendor_id);
 
@@ -2419,8 +2435,10 @@ class Joi extends CI_Controller {
                 'supplier'=>$vendor,
                 'scope_of_work'=>$jd->offer,
                 'quantity'=>$jd->delivered_quantity,
+                'received_quantity'=>$jd->quantity,
                 'materials_offer'=>$jd->materials_offer,
                 'materials_qty'=>$jd->materials_qty,
+                'materials_received'=>$jd->materials_received,
                 'uom'=>$jd->uom,
             );
         }

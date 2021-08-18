@@ -299,6 +299,7 @@ class Jod extends CI_Controller {
                     'materials_qty'=>$items->materials_qty,
                     'materials_unitprice'=>$items->materials_unitprice,
                     'materials_amount'=>$items->materials_amount,
+                    'materials_received'=>$items->materials_received,
                     'uom'=>$items->uom,
                 );
             }
@@ -317,6 +318,7 @@ class Jod extends CI_Controller {
                     'materials_qty'=>$items->materials_qty,
                     'materials_unitprice'=>$items->materials_unitprice,
                     'materials_amount'=>$items->materials_amount,
+                    'materials_received'=>$items->materials_received,
                     'uom'=>$items->uom,
                 );
             }
@@ -993,8 +995,9 @@ class Jod extends CI_Controller {
             $data['item_warranty']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'item_warranty', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
             $data['freight']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'freight', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
             $data['delivery_time']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'delivery_date', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
+            $data['tc'] = $this->super_model->select_row_where("jor_notes", "jor_id", $ppr->jor_id);
         }
-        $data['tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
+        //$data['tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
         $data['dr'] = $this->super_model->select_row_where("joi_dr", "joi_id", $joi_id);
         $data['rfd'] = $this->super_model->select_custom_where("joi_rfd", "joi_id='$joi_id'");
         $this->load->view('jod/jo_direct_saved',$data);
@@ -2357,11 +2360,13 @@ class Jod extends CI_Controller {
             $data['jo_det'][]=array(
                 'supplier'=>$vendor,
                 'scope_of_work'=>$jd->offer,
-                'quantity'=>$jd->quantity,
+                'received_quantity'=>$jd->quantity,
+                'delivered_quantity'=>$jd->delivered_quantity,
                 'materials_offer'=>$jd->materials_offer,
                 'materials_qty'=>$jd->materials_qty,
                 'materials_unitprice'=>$jd->materials_unitprice,
                 'materials_amount'=>$jd->materials_amount,
+                'materials_received'=>$jd->materials_received,
                 'uom'=>$jd->uom,
             );
         }

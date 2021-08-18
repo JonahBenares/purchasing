@@ -29,6 +29,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <!--ITEMS-->
                                             <?php 
                                             $x=1;
                                             foreach($items AS $i){ ?>
@@ -39,9 +40,27 @@
                                                 <td style="padding-left: 0px!important;padding: 0px!important"><input style="background: #ffd1d1" type="text" class="form-control" name="received_qty<?php echo $x; ?>" required="required"></td>
                                             </tr>
                                             <input type = "hidden" id='joi_items_id' name='joi_items_id<?php echo $x ?>' value="<?php echo $i->joi_items_id; ?>" >  
-                                         <input type = "hidden" id='jor_aoq_offer_id' name='jor_aoq_offer_id<?php echo $x ?>' value="<?php echo $i->joi_aoq_offer_id; ?>" >  
+                                            <input type = "hidden" id='jor_aoq_offer_id' name='jor_aoq_offer_id<?php echo $x ?>' value="<?php echo $i->joi_aoq_offer_id; ?>" >  
+                                            <?php $x++; } ?>
+                                            <!--ITEMS-->
+                                            <tr>
+                                                <td colspan="17" class="bor-right"><br> <b>Materials:</b></td>
+                                            </tr>
+                                            <!--MATERIALS-->
+                                            <?php 
+                                            $y=1;
+                                            foreach($items AS $i){ ?>
+                                            <tr>
+                                                <td><?php echo $y; ?></td>
+                                                <td><?php echo $i->materials_offer; ?></td>
+                                                <td><?php echo $i->materials_qty; ?></td>
+                                                <td style="padding-left: 0px!important;padding: 0px!important"><input style="background: #ffd1d1" type="text" class="form-control" name="materials_received<?php echo $y; ?>" required="required"></td>
+                                            </tr>
+                                            <input type = "hidden" id='joi_items_id' name='joi_items_id<?php echo $y ?>' value="<?php echo $i->joi_items_id; ?>" >  
+                                            <input type = "hidden" id='jor_aoq_offer_id' name='jor_aoq_offer_id<?php echo $y ?>' value="<?php echo $i->joi_aoq_offer_id; ?>" >  
                                             <?php
-                                            $x++; } ?>
+                                            $y++; } ?>
+                                            <!--MATERIALS-->
                                         </tbody>
                                     </table>
                                     <center>      

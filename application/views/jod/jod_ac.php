@@ -100,11 +100,11 @@
 	    		<center>
 			    	<div class="btn-group">
 						<a href="<?php echo base_url(); ?>joi/joi_list" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
-						<?php if($saved==0){ ?>
-						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
-						<?php } else { ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-100 p-r-100"><span class="fa fa-print"></span> Print</a>
-						<?php } ?>
+						<!--<?php if($saved==0){ ?>
+						<input type='submit' class="btn btn-primary btn-md p-l-100 p-r-100" value="Save">
+						<?php } else { ?>-->
+						<?php } ?>-->
 					</div>
 					<p class="text-white">Instructions: When printing ACKNOWLEDGEMENT RECEIPT make sure the following options are set correctly -- <u>Browser</u>: Chrome, <u>Layout</u>: Portrait, <u>Paper Size</u>: A4 <u>Margin</u> : Default <u>Scale</u>: 100 and the option: Background graphics is checked</p>
 				</center>
@@ -201,8 +201,8 @@
 		    			<td class="all-border" align="center"><?php echo $x; ?></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['supplier'];?></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['scope_of_work'];?></td>
-		    			<td class="all-border" align="center"><?php echo $jd['quantity'];?></td>
-		    			<td class="all-border" align="center"></td>
+		    			<td class="all-border" align="center"><?php echo $jd['delivered_quantity'];?></td>
+		    			<td class="all-border" align="center"><?php echo (($jd['received_quantity']==0) ? '' : number_format($jd['received_quantity'],2)); ?></td>
 		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['uom'];?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
@@ -218,7 +218,7 @@
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['supplier'];?></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['materials_offer'];?></td>
 		    			<td class="all-border" align="center"><?php echo $jd['materials_qty'];?></td>
-		    			<td class="all-border" align="center"></td>
+		    			<td class="all-border" align="center"><?php echo (($jd['materials_received']==0) ? '' : number_format($jd['materials_received'],2)); ?></td>
 		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['uom'];?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>

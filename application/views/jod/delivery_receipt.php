@@ -206,8 +206,7 @@
 		    		<tr>
 		    			<td class="all-border" align="center" colspan="20">
 		    				<b class="nomarg">
-		    				<!-- <?php echo $h->general_desc; ?> -->
-		    				Machining of Sprocket/Chain Coupling for Unit 4 Lube Oil Priming Pump Replacement and Spare for Unit 4 and 5.
+		    					<?php echo $h->general_desc; ?>
 		    				</b>
 		    			</td>
 		    		</tr>
@@ -234,7 +233,7 @@
 		    			<td class="all-border" align="left" colspan="6"><?php echo $it['vendor']; ?></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo nl2br($it['materials_offer']); ?></td>
 		    			<td class="all-border" align="center"><?php echo number_format($it['materials_qty'],2); ?></td>
-		    			<td class="all-border" align="center"><?php echo (($it['received_quantity']==0) ? '' : number_format($it['received_quantity'],2)); ?></td>
+		    			<td class="all-border" align="center"><?php echo (($it['materials_received']==0) ? '' : number_format($it['materials_received'],2)); ?></td>
 		    			<td class="all-border" align="center" colspan="2"><?php echo $it['uom']; ?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>

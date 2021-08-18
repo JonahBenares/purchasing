@@ -79,7 +79,7 @@ class Joaoq extends CI_Controller {
                 $supplier='';
                 $not_recom='';
                 foreach($this->super_model->select_custom_where("jor_aoq_vendors", "jor_aoq_id='$list->jor_aoq_id'") AS $ven){
-                    foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$list->jor_aoq_id' AND recommended='1' GROUP BY vendor_id") AS $offer){
+                    foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$list->jor_aoq_id' AND (recommended='1' OR materials_recommended='1') GROUP BY vendor_id") AS $offer){
                         if($offer->vendor_id==$ven->vendor_id){
                             $supplier.="<span style='background-color:#b5e61d;'>-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "</span><br> ";
 
@@ -286,7 +286,7 @@ class Joaoq extends CI_Controller {
                     $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $list->jor_id);
                  }*/
                 foreach($this->super_model->select_custom_where("jor_aoq_vendors", "jor_aoq_id='$list->jor_aoq_id'") AS $ven){
-                    foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$list->jor_aoq_id' AND recommended='1' GROUP BY vendor_id") AS $offer){
+                    foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$list->jor_aoq_id' AND (recommended='1' OR materials_recommended='1') GROUP BY vendor_id") AS $offer){
                         if($offer->vendor_id==$ven->vendor_id){
                             $supplier.="<span style='background-color:#b5e61d;'>-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "</span><br> ";
                             $not_recom .= "vendor_id != '$offer->vendor_id' AND ";
@@ -340,7 +340,7 @@ class Joaoq extends CI_Controller {
                     $jor_no=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $list->jor_id);
                  }*/
                 foreach($this->super_model->select_custom_where("jor_aoq_vendors", "jor_aoq_id='$list->jor_aoq_id'") AS $ven){
-                    foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$list->jor_aoq_id' AND recommended='1' GROUP BY vendor_id") AS $offer){
+                    foreach($this->super_model->select_custom_where("jor_aoq_offers", "jor_aoq_id = '$list->jor_aoq_id' AND (recommended='1' OR materials_recommended='1') GROUP BY vendor_id") AS $offer){
                         if($offer->vendor_id==$ven->vendor_id){
                             $supplier.="<span style='background-color:#b5e61d;'>-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id', $offer->vendor_id). "</span><br> ";
                             $not_recom .= "vendor_id != '$offer->vendor_id' AND ";
@@ -674,6 +674,7 @@ class Joaoq extends CI_Controller {
                                 'materials_offer'=>$materials_offer,
                                 'materials_unitprice'=>$materials_price,
                                 'materials_amount'=>$materials_amount,
+                                'materials_balance'=>$offer_qty,
                             );
                             //print_r($offers);
                             $this->super_model->insert_into("jor_aoq_offers", $offers);
@@ -697,6 +698,7 @@ class Joaoq extends CI_Controller {
                             'materials_offer'=>$materials_offer,
                             'materials_unitprice'=>$materials_price,
                             'materials_amount'=>$materials_amount,
+                            'materials_balance'=>$offer_qty,
                         );
                         //print_r($offers);
                         $this->super_model->insert_into("jor_aoq_offers", $offers);
@@ -774,10 +776,12 @@ class Joaoq extends CI_Controller {
                 'unit_price'=>$price,
                 'materials_qty'=>$this->input->post('materialsqty_'.$x),
                 'quantity'=>$this->input->post('offerqty_'.$x),
+                'balance'=>$this->input->post('offerqty_'.$x),
                 'amount'=>$amount,
                 'materials_offer'=>$materials_offer,
                 'materials_unitprice'=>$materials_price,
                 'materials_amount'=>$materials_amount,
+                'materials_balance'=>$this->input->post('offerqty_'.$x),
             );
             $this->super_model->update_where("jor_aoq_offers", $data, "jor_aoq_offer_id", $this->input->post('offerid_'.$x));
             if($submit=='Save AOQ'){
@@ -905,7 +909,8 @@ class Joaoq extends CI_Controller {
         );
 
         $data_offers = array(
-            'recommended'=>0
+            'recommended'=>0,
+            'materials_recommended'=>0
         );
 
         $this->super_model->update_where("jor_aoq_offers", $data_offers, "jor_aoq_id", $aoq_id);
@@ -1061,7 +1066,7 @@ class Joaoq extends CI_Controller {
                         $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f4e542');
                     }
 
-                    if($allrfq->vendor_id==$supplier_id && $allrfq->recommended==1){
+                    if($allrfq->vendor_id==$supplier_id && $allrfq->recommended==1 || $allrfq->vendor_id==$supplier_id && $allrfq->materials_recommended==1){
                         $col2 = chr(ord($col) + 4);
                         $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
                     }
@@ -1119,7 +1124,7 @@ class Joaoq extends CI_Controller {
                         $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f4e542');
                     }
 
-                    if($allrfq->vendor_id==$supplier_id && $allrfq->materials_recommended==1){
+                    if($allrfq->vendor_id==$supplier_id && $allrfq->recommended==1 || $allrfq->vendor_id==$supplier_id && $allrfq->materials_recommended==1){
                         $col2 = chr(ord($col) + 4);
                         $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
                     }

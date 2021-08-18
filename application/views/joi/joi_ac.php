@@ -203,7 +203,7 @@
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['supplier'];?></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['scope_of_work'];?></td>
 		    			<td class="all-border" align="center"><?php echo $jd['quantity'];?></td>
-		    			<td class="all-border" align="center"></td>
+		    			<td class="all-border" align="center"><?php echo (($jd['received_quantity']==0) ? '' : number_format($jd['received_quantity'],2)); ?></td>
 		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['uom'];?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
@@ -213,17 +213,17 @@
 						<td class="all-border" align="left" colspan="20"><b>Materials:</b></td>
 					</tr>
 		    		<!--MATERIALS-->
-		    		<?php $x=1; foreach($jo_det AS $jd){ ?>
+		    		<?php $y=1; foreach($jo_det AS $jd){ ?>
 		       		<tr>
-		    			<td class="all-border" align="center"><?php echo $x; ?></td>
+		    			<td class="all-border" align="center"><?php echo $y; ?></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['supplier'];?></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['materials_offer'];?></td>
 		    			<td class="all-border" align="center"><?php echo $jd['materials_qty'];?></td>
-		    			<td class="all-border" align="center"></td>
+		    			<td class="all-border" align="center"><?php echo (($jd['materials_received']==0) ? '' : number_format($jd['materials_received'],2)); ?></td>
 		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['uom'];?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
-		    		<?php $x++; } ?>
+		    		<?php $y++; } ?>
 		    		<!--MATERIALS-->
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>

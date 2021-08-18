@@ -142,7 +142,7 @@
 						</button>
 					</h5>										
 				</div>
-				<form method='POST' action='<?php echo base_url(); ?>joi/create_jo_terms'>
+				<form method='POST' action='<?php echo base_url(); ?>jod/create_jo_terms_saved'>
 					<div class="modal-body">
 						<div class="form-group">
 							<p style="font-size: 14px" class="nomarg">Terms & Conditions:</p>
@@ -169,7 +169,7 @@
 						</h5>
 						
 					</div>
-					<form method="POST" action="<?php echo base_url(); ?>joi/update_terms">
+					<form method="POST" action="<?php echo base_url(); ?>jod/update_terms_draft">
 						<div class="modal-body">
 							<div class="form-group">
 								Payment:
@@ -203,7 +203,7 @@
 						</h5>
 						
 					</div>
-					<form method="POST" action="<?php echo base_url(); ?>joi/update_condition">
+					<form method="POST" action="<?php echo base_url(); ?>jod/update_condition_draft">
 						<div class="modal-body">
 							<div class="form-group">
 								Terms & Conditions:
@@ -477,7 +477,7 @@
 		    						<td></td>
 		    						<td></td>
 		    					</tr>
-		    					<input type='hidden' name='joi_tc_id<?php echo $y; ?>' value="<?php echo $n->joi_tc_id; ?>">
+		    					
 		    					<?php $y++; } } ?>
 		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
 		    					<tr>
