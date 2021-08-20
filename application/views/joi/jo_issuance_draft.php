@@ -425,11 +425,11 @@
 		    								<!-- <input type='text' name='quantity<?php echo $y; ?>' id='quantity<?php echo $y; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:50px; color:red;text-align: center' onkeyup='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)"> -->
 		    							</b>
 		    						</td>
-		    						<td class="f13" align="center" style="vertical-align:top"><b><input type='text' style='color:red; width:50px;text-align: center' name='uom<?php echo $y; ?>' value="<?php echo $it->uom; ?>"></b></td>
+		    						<td class="f13" align="center" style="vertical-align:top"><b><input type='text' style='color:red; width:50px;text-align: center' name='materials_unit<?php echo $y; ?>' value="<?php echo $it->materials_unit; ?>"></b></td>
 		    						<td class="f13" align="center" style="vertical-align:top">
-				    				<select name='currency<?php echo $y; ?>'>
+				    				<select name='materials_currency<?php echo $y; ?>'>
 						    			<?php foreach($currency2 AS $curr){ ?>
-						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$it->currency) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$it->materials_currency) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    		<?php } ?>
 						    		</select>
 				    				</td>

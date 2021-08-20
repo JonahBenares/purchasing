@@ -287,18 +287,19 @@
 			    		if(!empty($items)){
 			    		foreach($items AS $i){ 
 			    			$subtotal[] = $i['total'] + $i['materials_amount'];
+			    			if($i['materials_offer']!=''){
 		    		?>
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['materials_offer'])."<br><br>"; ?></td>
 		    			<td align="right" colspan="1" style="vertical-align:top;"><?php echo $i['materials_qty']; ?></td>
-		    			<td align="right" colspan="2" style="vertical-align:top;"><?php echo $i['uom']; ?></td>
+		    			<td align="right" colspan="2" style="vertical-align:top;"><?php echo $i['materials_unit']; ?></td>
 		    			<td align="right" colspan="2" class="bor-right" style="vertical-align:top;"><?php echo number_format($i['materials_unitprice'],2); ?></td>
 		    			<td align="right" colspan="3" style="vertical-align:top;">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><?php echo number_format($i['materials_amount'],2); ?></span>
 		    			</td>
 		    		</tr>
-		    		<?php } } else { $subtotal=array(); } ?>
+		    		<?php } } } else { $subtotal=array(); } ?>
 		    		<!--MATERIALS-->
 		    		<tr>
 		    			<td align="left" colspan="7" ><?php echo $cenpri_jo_no."/".$joi_no."-".COMPANY; ?></td>

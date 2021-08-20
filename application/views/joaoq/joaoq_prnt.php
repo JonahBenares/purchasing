@@ -369,7 +369,7 @@
 				    							style="width: 100%;height: 100%;background:#f3ffed"></textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10" align="center">
-				    						<select style="width: 100%;height: 100%;background:#f3ffed" name='currency_<?php echo $x; ?>_<?php echo $v; ?>_1'>
+				    						<select style="width: 100%;height: 100%;background:#f3ffed" name='materials_currency_<?php echo $x; ?>_<?php echo $v; ?>_1'>
 						    					<?php foreach($currency AS $curr){ ?>
 						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
@@ -419,7 +419,7 @@
 				    						<textarea type="text" class="form-control f10" name="materials_offer_<?php echo $x; ?>_<?php echo $v; ?>_2" style="width: 100%;height: 100%;background:#f3ffed"></textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10" align="center">
-				    						<select style="width: 100%;height: 100%;background:#f3ffed" name='currency_<?php echo $x; ?>_<?php echo $v; ?>_2'>
+				    						<select style="width: 100%;height: 100%;background:#f3ffed" name='materials_currency_<?php echo $x; ?>_<?php echo $v; ?>_2'>
 						    					<?php foreach($currency AS $curr){ ?>
 						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
@@ -470,7 +470,7 @@
 				    							style="width: 100%;height: 100%;background:#f3ffed"></textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10" align="center">
-				    						<select style="width: 100%;height: 100%;background:#f3ffed" name='currency_<?php echo $x; ?>_<?php echo $v; ?>_3'>
+				    						<select style="width: 100%;height: 100%;background:#f3ffed" name='materials_currency_<?php echo $x; ?>_<?php echo $v; ?>_3'>
 						    					<?php foreach($currency AS $curr){ ?>
 						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
@@ -571,7 +571,7 @@
 				    						<textarea class="form-control" style="width: 100%;height: 100%;" readonly><?php echo $of['materials_offer']; ?></textarea>
 				    					</td>
 				    						<td width="6%" class="bor-btm bor-right">
-				    						<center><?php echo $of['currency']; ?></center>
+				    						<center><?php echo $of['materials_currency']; ?></center>
 				    					</td>
 				    					<td width="10%" class="bor-btm bor-right f10" align="center">
 				    						<?php echo number_format($of['materials_qty'],2); ?>
@@ -671,9 +671,9 @@
 				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed"><?php echo $of['materials_offer']; ?></textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10 padding-0" align="center">
-				    						<select name='currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed">
+				    						<select name='materials_currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed">
 						    					<?php foreach($currency AS $curr){ ?>
-						    						<option value="<?php echo $curr; ?>" <?php echo (($curr==$of['currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    						<option value="<?php echo $curr; ?>" <?php echo (($curr==$of['materials_currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
 						    				</select>
 				    					</td>
@@ -758,9 +758,9 @@
 				    						</textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10 " align="center">
-				    						<select name='currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed">
+				    						<select name='materials_currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed">
 						    					<?php foreach($currency AS $curr){ ?>
-						    						<option value="<?php echo $curr; ?>" <?php echo (($curr==$of['currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    						<option value="<?php echo $curr; ?>" <?php echo (($curr==$of['materials_currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
 						    				</select>
 				    					</td>

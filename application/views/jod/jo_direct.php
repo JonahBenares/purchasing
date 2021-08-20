@@ -386,60 +386,34 @@
 		    						<td colspan="6"><br> <b>&nbsp;&nbsp;Materials:</b></td>
 		    					</tr>
 		    					<!--MATERIAL-->
-		    					<?php 
-		    						$gtotal=array();
-		    						if(!empty($items)){
-		    							$y=1;
-		    							$b=1;
-			    						foreach($items AS $it){ 
-			    							if($saved==1){
-					    						$gtotal[] = $it['total'] + $it['materials_amount']; 
-					    					}
-		    					?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
-		    							<?php if($saved==0) { ?>
-		    								<b class="nomarg"><textarea rows="4" style="width:100%" name='materials_offer<?php echo $y; ?>'></textarea></b>
-		    							<?php } else{ ?>
-		    								<?php echo $it['materials_offer']; ?>
-		    							<?php } ?>
+		    							<b class="nomarg"><textarea rows="4" style="width:100%" name='materials_offer'></textarea></b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>	
-		    								<?php if($saved==0) { ?>
-		    								<input type="text" name='materials_qty<?php echo $y; ?>' id='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' class='materials_qty' style='width:50px; color:red;text-align: center' onchange='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)"/>
-		    								<?php } else{ echo $it['materials_qty']; }?>
+		    								<input type="text" name='materials_qty' id='materials_qty' class='materials_qty' style='width:50px; color:red;text-align: center' onchange='changesinglePrice_JO()' onkeypress="return isNumberKey(this, event)"/>
 		    							</b>
 		    						</td>
-		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $it['uom']; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top"><input type='text' name='materials_uom' style='width:50px; color:red;text-align: center'></td>
 		    						<td class="f13" align="center" style="vertical-align:top">
-				    				<select name='currency<?php echo $y; ?>'>
+				    				<select name='materials_currency'>
 						    			<?php foreach($currency AS $curr){ ?>
-						    		<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
-						    		<?php } ?>
+						    				<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    			<?php } ?>
 						    		</select>
 				    				</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
-		    								<?php if($saved==0) { ?>
-		    								<input type='text' name='materials_price<?php echo $y; ?>' id='materials_price<?php echo $y; ?>_<?php echo $b; ?>' onkeyup='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px;text-align: center'>
-			    							<?php } else { echo $it['materials_unitprice']; } ?>
+		    								<input type='text' name='materials_price' id='materials_price' onkeyup='changesinglePrice_JO()' onkeypress="return isNumberKey(this, event)" style='color:red; width:161px;text-align: center'>
 		    							</b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b class="nomarg">
-		    								<?php if($saved==0){ ?>
-		    									<input type='text' name='materials_tprice<?php echo $y; ?>' id='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' class='tprice' style='text-align:right;' readonly>
-		    								<?php }else { echo number_format($it['materials_amount'],2); } ?>
+		    								<input type='text' name='materials_tprice' id='materials_tprice' class='tprice' style='text-align:right;' readonly>
 		    							</b>
 		    						</td>
 		    					</tr>
-		    					<!-- <input type='text' name='currency<?php echo $y; ?>' value="<?php echo $it['currency']; ?>"> -->
-					    		<input type='hidden' name='jor_items_id<?php echo $y; ?>' value="<?php echo $it['jor_items_id']; ?>">
-					    		<input type='hidden' name='uom<?php echo $y; ?>' value="<?php echo $it['uom']; ?>">
-		    					<?php  $y++;$b++; } ?> 
-		    					<input type='hidden' name='count_item' value="<?php echo $y; ?>">
-		    					<?php }else{ $gtotal=array(); } ?>
 		    					<!--MATERIAL-->
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<tr>

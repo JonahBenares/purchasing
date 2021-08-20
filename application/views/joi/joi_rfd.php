@@ -252,7 +252,7 @@
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['materials_offer'])."<br><br>"; ?></td>
 		    			<td align="right" colspan="1"><?php echo $i['materials_qty']; ?></td>
-		    			<td align="right" colspan="2"><?php echo $i['uom']; ?></td>
+		    			<td align="right" colspan="2"><?php echo $i['materials_unit']; ?></td>
 		    			<td align="right" colspan="2" class="bor-right"><?php echo number_format($i['materials_unitprice'],2); ?></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>

@@ -408,27 +408,28 @@
 		    						$y=1; 
 		    						$b=1; 
 			    					foreach($items AS $det){ 
+			    						if($det->materials_offer!=''){
 		    					?>
 		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left" ><textarea name = "materials_offer<?php echo $y; ?>" class = "form-control" rows="7"><?php echo $det->materials_offer; ?></textarea></td>
+		    						<td class="f13" style="padding-left: 5px" align="left" ><textarea name = "materials_offer" class = "form-control" rows="7"><?php echo $det->materials_offer; ?></textarea></td>
 
 		    						<td class="f13" align="center" style="vertical-align:top;">
-		    							<input type="text" name='materials_qty<?php echo $y; ?>' id='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' class='materials_qty' onblur="this.value = minmax(this.value, 0, <?php echo $det->materials_qty; ?>)" value='<?php echo $det->materials_qty; ?>' style='width:50px; color:red;text-align: center' onchange='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)"/>
+		    							<input type="text" name='materials_qty' id='materials_qty' class='materials_qty' onblur="this.value = minmax(this.value, 0, <?php echo $det->materials_qty; ?>)" value='<?php echo $det->materials_qty; ?>' style='width:50px; color:red;text-align: center' onchange='changesinglePrice_JO()' onkeypress="return isNumberKey(this, event)"/>
 		    						</td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name="uom<?php echo $y; ?>" style = "width:100%;text-align: center" value = "<?php echo $det->uom; ?>"></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name="materials_uom" style = "width:100%;text-align: center" value = "<?php echo $det->materials_unit; ?>"></td>
 		    						<td class="f13" align="center" style="vertical-align:top">
-				    				<select name='currency<?php echo $y; ?>'>
+				    				<select name='materials_currency'>
 						    			<?php foreach($currency2 AS $curr){ ?>
-						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$det->currency) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$det->materials_currency) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    		<?php } ?>
 						    		</select>
 				    				</td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name='materials_price<?php echo $y; ?>' id='materials_price<?php echo $y; ?>_<?php echo $b; ?>' style = "width:100%;text-align: center" value = "<?php echo $det->materials_unitprice; ?>" onblur='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)'></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='materials_tprice<?php echo $y; ?>' id='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo number_format($det->materials_amount); ?>"></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name='materials_price' id='materials_price' style = "width:100%;text-align: center" value = "<?php echo $det->materials_unitprice; ?>" onblur='changesinglePrice_JO()'></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='materials_tprice' id='materials_tprice' style = "width:100%;text-align: center" class='tprice' value = "<?php echo number_format($det->materials_amount); ?>"></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><a href="<?php echo base_url(); ?>joi/delete_scope/<?php echo $det->joi_items_id?>/<?php echo $det->joi_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5" style="vertical-align:top;"></td></tr>
-		    					<?php $y++; $b++; } ?>
+		    					<?php $y++; $b++; } } ?>
 		    					<!--MATERIALS-->
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
@@ -486,17 +487,18 @@
 		    					<!--MATERIALS-->
 		    					<?php 
 		    						foreach($items_temp AS $det){ 
+		    							if($det->materials_offer!=''){
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo " - ".nl2br($det->materials_offer)."<br><br>"; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->materials_qty; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->uom; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->currency; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->materials_unit; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->materials_currency; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->materials_unitprice; ?></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($det->materials_amount,2); ?></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
-		    					<?php } ?> 
+		    					<?php } } ?> 
 		    					<!--MATERIALS-->
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">

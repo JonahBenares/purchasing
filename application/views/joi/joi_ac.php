@@ -220,7 +220,7 @@
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['materials_offer'];?></td>
 		    			<td class="all-border" align="center"><?php echo $jd['materials_qty'];?></td>
 		    			<td class="all-border" align="center"><?php echo (($jd['materials_received']==0) ? '' : number_format($jd['materials_received'],2)); ?></td>
-		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['uom'];?></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['materials_unit'];?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
 		    		<?php $y++; } ?>

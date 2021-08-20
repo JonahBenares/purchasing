@@ -311,6 +311,7 @@ class Joi extends CI_Controller {
                     'materials_offer'=>$items->materials_offer,
                     'materials_qty'=>$items->materials_qty,
                     'materials_received'=>$items->materials_received,
+                    'materials_unit'=>$items->materials_unit,
                     'uom'=>$items->uom,
                 );
             }
@@ -328,6 +329,7 @@ class Joi extends CI_Controller {
                     'materials_offer'=>$items->materials_offer,
                     'materials_qty'=>$items->materials_qty,
                     'materials_received'=>$items->materials_received,
+                    'materials_unit'=>$items->materials_unit,
                     'uom'=>$items->uom,
                 );
             }
@@ -635,6 +637,7 @@ class Joi extends CI_Controller {
                         'materials_qty'=>$off->materials_qty,
                         'materials_offer'=>$off->materials_offer,
                         'materials_unitprice'=>$off->materials_unitprice,
+                        'materials_currency'=>$off->materials_currency,
                         'materials_amount'=>$materials_total,
 
                     );
@@ -653,6 +656,7 @@ class Joi extends CI_Controller {
              foreach($this->super_model->select_row_where("joi_items", "joi_id" , $joi_id) AS $off){
                     $data['currency'] = $off->currency;
                     $total = $off->unit_price*$off->quantity;
+                    $materials_total = $off->materials_unitprice*$off->materials_qty;
                     $data['items'][] =  array(
                         'jor_aoq_id'=>$this->super_model->select_column_where('joi_jor', 'jor_aoq_id', 'joi_id', $joi_id),
                         'jor_aoq_offer_id'=>$off->jor_aoq_offer_id,
@@ -665,7 +669,13 @@ class Joi extends CI_Controller {
                         'amount'=>$off->amount,
                         'uom'=>$off->uom,
                         'currency'=>$items->currency,
-                        'total'=>$total
+                        'total'=>$total,
+                        'materials_qty'=>$off->materials_qty,
+                        'materials_offer'=>$off->materials_offer,
+                        'materials_unitprice'=>$off->materials_unitprice,
+                        'materials_unit'=>$off->materials_unit,
+                        'materials_currency'=>$off->materials_currency,
+                        'materials_amount'=>$materials_total,
                     );
                 
 
@@ -761,6 +771,8 @@ class Joi extends CI_Controller {
                     'materials_qty'=>$this->input->post('materials_qty'.$x."_".$b),
                     'materials_unitprice'=>$materials_price,
                     'materials_amount'=>$materials_tprice,
+                    'materials_unit'=>$this->input->post('uom'.$x),
+                    'materials_currency'=>$this->input->post('materials_currency'.$x."_".$b),
                 );
 
                 $data_dr=array(
@@ -782,6 +794,8 @@ class Joi extends CI_Controller {
                     'materials_qty'=>$this->input->post('materials_qty'.$x."_".$b),
                     'materials_unitprice'=>$materials_price,
                     'materials_amount'=>$materials_tprice,
+                    'materials_unit'=>$this->input->post('uom'.$x),
+                    'materials_currency'=>$this->input->post('materials_currency'.$x."_".$b),
                 );
                 $this->super_model->insert_into("joi_items", $data);
                 $this->super_model->insert_into("joi_dr_items", $data_dr);
@@ -1169,6 +1183,8 @@ class Joi extends CI_Controller {
                 $materials_offer = $this->input->post('materials_offer'.$x."_".$b);
                 $materials_qty = $this->input->post('materials_qty'.$x."_".$b);
                 $currency = $this->input->post('currency'.$x);
+                $materials_currency = $this->input->post('materials_currency'.$x);
+                $materials_unit = $this->input->post('materials_unit'.$x);
                 $data=array(
                  
                     'delivered_quantity'=>$qty,
@@ -1182,6 +1198,8 @@ class Joi extends CI_Controller {
                     'materials_qty'=>$materials_qty,
                     'materials_unitprice'=>$materials_price,
                     'materials_amount'=>$materials_tprice,
+                    'materials_currency'=>$materials_currency,
+                    'materials_unit'=>$materials_unit,
                 );
                 $data_dr=array(
                     'delivered_quantity'=>$qty,
@@ -1194,6 +1212,8 @@ class Joi extends CI_Controller {
                     'materials_qty'=>$materials_qty,
                     'materials_unitprice'=>$materials_price,
                     'materials_amount'=>$materials_tprice,
+                    'materials_currency'=>$materials_currency,
+                    'materials_unit'=>$materials_unit,
                 );
 
                     $this->super_model->update_where("joi_items", $data, "joi_items_id", $joi_items_id);
@@ -1558,6 +1578,8 @@ class Joi extends CI_Controller {
                     "offer"=>$this->input->post('scope_of_work'.$x),
                     "materials_offer"=>$this->input->post('materials_offer'.$x."_".$b),
                     "materials_qty"=>$this->input->post('materials_qty'.$x."_".$b),
+                    "materials_unit"=>$this->input->post('materials_unit'.$x."_".$b),
+                    "materials_currency"=>$this->input->post('materials_currency'.$x."_".$b),
                     "materials_unitprice"=>$materials_price,
                     "materials_amount"=>$materials_tprice,
                 );
@@ -1658,6 +1680,7 @@ class Joi extends CI_Controller {
                 'delivered_quantity'=>$dritems->delivered_quantity,
                 'quantity'=>$dritems->quantity,
                 'unit_price'=>$dritems->unit_price,
+                'currency'=>$dritems->currency,
                 'uom'=>$dritems->uom,
                 'amount'=>$dritems->amount,
                 'item_no'=>$dritems->item_no,
@@ -1666,6 +1689,8 @@ class Joi extends CI_Controller {
                 'materials_qty'=>$dritems->materials_qty,
                 'materials_unitprice'=>$dritems->materials_unitprice,
                 'materials_amount'=>$dritems->materials_amount,
+                'materials_unit'=>$dritems->materials_unit,
+                'materials_currency'=>$dritems->materials_currency,
             );
             $this->super_model->insert_into("joi_dr_items_revised", $data_dritems);
         }
@@ -1782,6 +1807,8 @@ class Joi extends CI_Controller {
                 "materials_qty"=>$poitems->materials_qty,
                 "materials_unitprice"=>$poitems->materials_unitprice,
                 "materials_amount"=>$poitems->materials_amount,
+                'materials_unit'=>$poitems->materials_unit,
+                'materials_currency'=>$poitems->materials_currency,
             );
             $this->super_model->insert_into("joi_items_revised", $data_items);
         }
@@ -1849,6 +1876,8 @@ class Joi extends CI_Controller {
                 "materials_qty"=>$poitems->materials_qty,
                 "materials_unitprice"=>$poitems->materials_unitprice,
                 "materials_amount"=>$poitems->materials_amount,
+                'materials_unit'=>$poitems->materials_unit,
+                'materials_currency'=>$poitems->materials_currency,
             );
              $this->super_model->update_where("joi_items", $data_items, "joi_items_id", $poitems->joi_items_id);
 
@@ -1864,11 +1893,14 @@ class Joi extends CI_Controller {
                 'materials_qty'=>$poitems->materials_qty,
                 'materials_unitprice'=>$poitems->materials_unitprice,
                 'materials_amount'=>$poitems->materials_amount,
+                'materials_unit'=>$poitems->materials_unit,
+                'materials_currency'=>$poitems->materials_currency,
             );
 
             $this->super_model->update_where("joi_dr_items", $data_dr_items, "joi_items_id", $poitems->joi_items_id);
 
             $old_qty = $this->super_model->select_column_where('joi_items', 'delivered_quantity', 'jor_aoq_offer_id',  $poitems->jor_aoq_offer_id);
+            $old_materials_qty = $this->super_model->select_column_where('joi_items', 'materials_qty', 'jor_aoq_offer_id',  $poitems->jor_aoq_offer_id);
             if($old_qty!=$poitems->delivered_quantity){
            
                 $difference = $old_qty - $poitems->quantity;
@@ -1888,6 +1920,27 @@ class Joi extends CI_Controller {
                     'balance'=>$balance
                 );
                 $this->super_model->update_where("jor_aoq_offers", $data_aoq, "jor_aoq_offer_id", $poitems->jor_aoq_offer_id);
+            }
+
+            if($old_materials_qty!=$poitems->materials_qty){
+           
+                $difference_mat = $old_materials_qty - $poitems->materials_received;
+
+                $old_mat_balance = $this->super_model->select_column_where('jor_aoq_offers', 'materials_balance', 'jor_aoq_offer_id',  $poitems->jor_aoq_offer_id);
+
+                $materials_balance = $old_mat_balance+$difference_mat;
+
+                $data_aoq_mat = array(
+                    'materials_balance'=>$materials_balance
+                );
+                $this->super_model->update_where("jor_aoq_offers", $data_aoq_mat, "jor_aoq_offer_id", $poitems->jor_aoq_offer_id);
+            } else {
+             
+                $materials_balance = $this->super_model->select_column_where('jor_aoq_offers', 'materials_balance', 'jor_aoq_offer_id',  $poitems->jor_aoq_offer_id);
+                $data_aoq_mat = array(
+                    'materials_balance'=>$materials_balance
+                );
+                $this->super_model->update_where("jor_aoq_offers", $data_aoq_mat, "jor_aoq_offer_id", $poitems->jor_aoq_offer_id);
             }
          
             
@@ -1996,6 +2049,7 @@ class Joi extends CI_Controller {
                 'materials_offer'=>$items->materials_offer,
                 'materials_unitprice'=>$items->materials_unitprice,
                 'materials_qty'=>$items->materials_qty,
+                'materials_unit'=>$items->materials_unit,
                 'materials_amount'=>$materials_total,
                 'total'=>$total,
                 'uom'=>$items->uom,
@@ -2105,6 +2159,7 @@ class Joi extends CI_Controller {
                 'materials_offer'=>$items->materials_offer,
                 'materials_qty'=>$items->materials_qty,
                 'materials_unitprice'=>$items->materials_unitprice,
+                'materials_unit'=>$items->materials_unit,
                 'materials_amount'=>$materials_total,
                 'uom'=>$items->uom,
                 'payment_amount'=>$payment_amount,
@@ -2439,6 +2494,7 @@ class Joi extends CI_Controller {
                 'materials_offer'=>$jd->materials_offer,
                 'materials_qty'=>$jd->materials_qty,
                 'materials_received'=>$jd->materials_received,
+                'materials_unit'=>$jd->materials_unit,
                 'uom'=>$jd->uom,
             );
         }

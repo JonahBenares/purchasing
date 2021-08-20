@@ -291,7 +291,7 @@
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></td>
 		    			<td align="right" colspan="1" style="vertical-align:top;"><?php echo $i['quantity']; ?></td>
-		    			<td align="right" colspan="2" style="vertical-align:top;"><?php echo $i['uom']; ?></td>
+		    			<td align="right" colspan="2" style="vertical-align:top;"><?php echo $i['materials_unit']; ?></td>
 		    			<td align="right" colspan="2" class="bor-right" style="vertical-align:top;"><?php echo number_format($i['price'],2); ?></td>
 		    			<td align="right" colspan="3" style="vertical-align:top;">
 		    				<span class="pull-left nomarg">₱</span>

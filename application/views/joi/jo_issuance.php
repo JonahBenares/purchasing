@@ -406,9 +406,9 @@
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $it['uom']; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top">
-				    				<select name='currency<?php echo $y; ?>_<?php echo $b; ?>'>
+				    				<select name='materials_currency<?php echo $y; ?>_<?php echo $b; ?>'>
 						    			<?php foreach($currency AS $curr){ ?>
-						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$it['currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$it['materials_currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    		<?php } ?>
 						    		</select>
 				    				</td>

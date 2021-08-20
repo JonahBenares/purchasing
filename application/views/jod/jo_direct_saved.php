@@ -402,16 +402,17 @@
 					    		if(!empty($items)){
 					    		foreach($items AS $it){ 
 					    			$gtotal[] = $it->amount + $it->materials_amount;
+					    			if($it->materials_offer!=''){
 				    			?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->materials_offer)."<br><br>"; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->materials_qty,2); ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->uom; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->currency; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_unit; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_currency; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_unitprice; ?></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->materials_amount; ?></td>
 		    					</tr>
-		    					<?php } }else { $gtotal=array(); } ?>
+		    					<?php } } }else { $gtotal=array(); } ?>
 		    					<!--MATERIALS-->
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<tr>

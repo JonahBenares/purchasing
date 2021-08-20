@@ -417,11 +417,11 @@
 		    							<input type="text" name='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' id='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' class='quantity' onblur="this.value = minmax(this.value, 0, <?php echo $det->materials_qty; ?>)" value='<?php echo number_format($det->materials_qty,2); ?>' style='width:50px; color:red;text-align: center' onchange='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)"/>
 		    							<!-- <input type="text" name="quantity<?php echo $x; ?>" id='quantity<?php echo $x; ?>' style = "width:50%;text-align: center" value = "<?php echo $det->delivered_quantity; ?>" onblur='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)'> -->
 		    						</td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name="uom<?php echo $y; ?>" style = "width:100%;text-align: center" value = "<?php echo $det->uom; ?>"></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name="materials_unit<?php echo $y; ?>_<?php echo $b; ?>" style = "width:100%;text-align: center" value = "<?php echo $det->materials_unit; ?>"></td>
 		    						<td class="f13" align="center" style="vertical-align:top">
-				    				<select name='currency<?php echo $y; ?>'>
+				    				<select name='materials_currency<?php echo $y; ?>_<?php echo $b; ?>'>
 						    			<?php foreach($currency2 AS $curr){ ?>
-						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$det->currency) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
+						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$det->materials_currency) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    		<?php } ?>
 						    		</select>
 				    				</td>
@@ -493,8 +493,8 @@
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->materials_offer)."<br><br>"; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->materials_qty; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->uom; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->currency; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->materials_unit; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->materials_currency; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->materials_unitprice; ?></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($det->materials_amount,2); ?></td>
 		    					</tr>

@@ -212,17 +212,21 @@
 						<td colspan="6"><br> <b>&nbsp;&nbsp;Materials:</b></td>
 					</tr>
 		    		<!--MATERIALS-->
-		    		<?php $x=1; foreach($jo_det AS $jd){ ?>
+		    		<?php 
+		    			$x=1; 
+		    			foreach($jo_det AS $jd){ 
+		    				if($jd['materials_offer']!=''){
+		    		?>
 		       		<tr>
 		    			<td class="all-border" align="center"><?php echo $x; ?></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['supplier'];?></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['materials_offer'];?></td>
 		    			<td class="all-border" align="center"><?php echo $jd['materials_qty'];?></td>
 		    			<td class="all-border" align="center"><?php echo (($jd['materials_received']==0) ? '' : number_format($jd['materials_received'],2)); ?></td>
-		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['uom'];?></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['materials_unit'];?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
-		    		<?php $x++; } ?>
+		    		<?php $x++; } } ?>
 		    		<!--MATERIALS-->
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
