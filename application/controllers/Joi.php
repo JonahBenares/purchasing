@@ -199,6 +199,8 @@ class Joi extends CI_Controller {
                 'revised'=>$head->revised,
                 'revision_no'=>$head->revision_no,
                 'served'=>$head->served,
+                'saved'=>$head->saved,
+                'jo_type'=>$head->joi_type,
                 'unreceived_dr'=>$unreceived_dr,
                 'joi_dr_id'=>$joi_dr_id
             );

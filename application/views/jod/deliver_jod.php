@@ -7,7 +7,7 @@
                         <div class="sparkline8-graph" style="text-align: unset;">
                             <div class="datatable-dashv1-list custom-datatable-overright">
                                 <div class="modal-body-lowpad">
-                                    <form method='POST' action="<?php echo base_url(); ?>joi/save_delivery">
+                                    <form method='POST' action="<?php echo base_url(); ?>jod/save_delivery">
                                     <table width="100%">
                                         <tr>
                                             <td width="20%" style="padding-left: 0px!important">
@@ -29,6 +29,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <!--ITEMS-->
                                             <?php 
                                             $x=1;
                                             foreach($items AS $i){ ?>
@@ -39,9 +40,29 @@
                                                 <td style="padding-left: 0px!important;padding: 0px!important"><input style="background: #ffd1d1" type="text" class="form-control" name="received_qty<?php echo $x; ?>" required="required"></td>
                                             </tr>
                                             <input type = "hidden" id='joi_items_id' name='joi_items_id<?php echo $x ?>' value="<?php echo $i->joi_items_id; ?>" >  
-                                         <input type = "hidden" id='jor_aoq_offer_id' name='jor_aoq_offer_id<?php echo $x ?>' value="<?php echo $i->joi_aoq_offer_id; ?>" >  
+                                            <input type = "hidden" id='jor_aoq_offer_id' name='jor_aoq_offer_id<?php echo $x ?>' value="<?php echo $i->joi_aoq_offer_id; ?>" >  
                                             <?php
                                             $x++; } ?>
+                                            <!--ITEMS-->
+                                            <tr>
+                                                <td colspan="6"><br> <b>&nbsp;&nbsp;Materials:</b></td>
+                                            </tr>
+                                            <!--MATERIALS-->
+                                            <?php 
+                                                $y=1;
+                                                foreach($items AS $i){ 
+                                                    if($i->materials_offer!=''){
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $y; ?></td>
+                                                <td><?php echo $i->materials_offer; ?></td>
+                                                <td><?php echo $i->materials_qty; ?></td>
+                                                <td style="padding-left: 0px!important;padding: 0px!important"><input style="background: #ffd1d1" type="text" class="form-control" name="materials_received" required="required"></td>
+                                            </tr>
+                                            <input type = "hidden" id='joi_items_id' name='joi_items_id' value="<?php echo $i->joi_items_id; ?>" >  
+                                            <input type = "hidden" id='jor_aoq_offer_id' name='jor_aoq_offer_id' value="<?php echo $i->joi_aoq_offer_id; ?>" >  
+                                            <?php $y++; } } ?>
+                                            <!--MATERIALS-->
                                         </tbody>
                                     </table>
                                     <center>      

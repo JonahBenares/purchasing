@@ -82,14 +82,26 @@
                                                 ?></td>
                                                 <td>
                                                     <center>                                                        
-                                                       <?php if($head['unreceived_dr']==0){ ?>                                                
-                                                        <a href="<?php echo base_url(); ?>joi/create_dr/<?php echo $head['joi_id']; ?>" onclick="confirm('Are you sure you want to create DR?');" class="btn btn-custon-three btn-warning btn-xs " title='Create DR'>
-                                                            <span class="fa fa-file"></span>
-                                                        </a>
+                                                       <?php if($head['unreceived_dr']==0){ ?> 
+                                                            <?php if($head['saved']==1 && $head['jo_type']==0){ ?>
+                                                                <a href="<?php echo base_url(); ?>joi/create_dr/<?php echo $head['joi_id']; ?>" onclick="confirm('Are you sure you want to create DR?');" class="btn btn-custon-three btn-warning btn-xs " title='Create DR'>
+                                                                    <span class="fa fa-file"></span>
+                                                                </a>
+                                                            <?php }else{ ?>
+                                                                <a href="<?php echo base_url(); ?>jod/create_dr/<?php echo $head['joi_id']; ?>" onclick="confirm('Are you sure you want to create DR?');" class="btn btn-custon-three btn-warning btn-xs " title='Create DR'>
+                                                                    <span class="fa fa-file"></span>
+                                                                </a>
+                                                            <?php } ?>
                                                      <?php } else { ?>
-                                                     <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver PO' onclick="deliver_jo('<?php echo base_url(); ?>','<?php echo $head['joi_id']?>','<?php echo $head['joi_dr_id']?>')">
-                                                            <span class="fa fa-truck"></span>
-                                                        </a>
+                                                        <?php if($head['saved']==1 && $head['jo_type']==0){ ?>
+                                                            <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver JO' onclick="deliver_jo('<?php echo base_url(); ?>','<?php echo $head['joi_id']?>','<?php echo $head['joi_dr_id']?>')">
+                                                                <span class="fa fa-truck"></span>
+                                                            </a>
+                                                        <?php }else{ ?>
+                                                            <a href="" class="btn btn-custon-three btn-success btn-xs deliverpo" title='Deliver JO' onclick="deliver_jod('<?php echo base_url(); ?>','<?php echo $head['joi_id']?>','<?php echo $head['joi_dr_id']?>')">
+                                                                <span class="fa fa-truck"></span>
+                                                            </a>
+                                                        <?php } ?>
                                                     <?php } ?>
                                                 </td>
                                             </tr>   

@@ -428,3 +428,7 @@ function minmax(value, min, max) {
 function deliver_jo(baseurl,joi_id, joi_dr_id) {
     window.open(baseurl+"joi/deliver_jo/"+joi_id+"/"+joi_dr_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=45,left=25,width=1300,height=600");
 }
+
+function deliver_jod(baseurl,joi_id, joi_dr_id) {
+    window.open(baseurl+"jod/deliver_jod/"+joi_id+"/"+joi_dr_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=45,left=25,width=1300,height=600");
+}
