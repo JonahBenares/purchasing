@@ -233,6 +233,9 @@
                                                 <th>UOM</th>
                                                 <th>Grouping</th>
                                                 <th>Scope of Work</th>
+                                                <th>Materials Offer</th>
+                                                <th>Materials Qty</th>
+                                                <th>Materials UOM</th>
                                                 <th>Status Remarks</th>
                                                 <th>Status</th>
                                                 <!-- <th>Date Needed</th> -->
@@ -296,6 +299,9 @@
                                                 <td><?php echo $p['uom']; ?></td>
                                                 <td><?php echo $p['grouping_id']; ?></td>
                                                 <td><?php echo nl2br($p['scope_of_work']) . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td> 
+                                                <td><?php echo $p['materials_offer']; ?></td>                                         
+                                                <td><?php echo $p['materials_qty']; ?></td>                                         
+                                                <td><?php echo $p['materials_unit']; ?></td>                                         
                                                 <td><?php echo $p['status_remarks']; ?></td>                                         
                                                 <td><?php echo $p['status']; ?></td>                                           
                                                

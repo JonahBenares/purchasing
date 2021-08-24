@@ -399,14 +399,12 @@
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
-		    								<input type="text" name='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' id='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' class='materials_qty' onblur="this.value = minmax(this.value, 0, <?php echo $it['materials_qty']; ?>)" value='<?php echo number_format($it['materials_qty'],2); ?>' style='width:50px; color:red;text-align: center' onchange='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)"/>
-                       
-		    								<!-- <input type='text' name='quantity<?php echo $y; ?>' id='quantity<?php echo $y; ?>' class='quantity' value='<?php echo $it['balance']; ?>' <?php echo (($revised!='r') ? "max=".$it['balance'] : ""); ?> style='width:50px; color:red;text-align: center' onkeyup='changePrice_JO(<?php echo $y; ?>)' onkeypress="return isNumberKey(this, event)"> -->
+		    								<input type="text" name='materials_qty<?php echo $y; ?>' id='materials_qty<?php echo $y; ?>_<?php echo $b; ?>' class='materials_qty' onblur="this.value = minmax(this.value, 0, <?php echo $it['materials_qty']; ?>)" value='<?php echo number_format($it['materials_qty'],2); ?>' style='width:50px; color:red;text-align: center' onchange='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)"/>
 		    							</b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top"><?php echo $it['uom']; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top">
-				    				<select name='materials_currency<?php echo $y; ?>_<?php echo $b; ?>'>
+				    				<select name='materials_currency<?php echo $y; ?>'>
 						    			<?php foreach($currency AS $curr){ ?>
 						    		<option value="<?php echo $curr; ?>" <?php echo (($curr==$it['materials_currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    		<?php } ?>
@@ -414,12 +412,12 @@
 				    				</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
-		    								<input type='text' name='materials_price<?php echo $y; ?>_<?php echo $b; ?>' id='materials_price<?php echo $y; ?>_<?php echo $b; ?>' value='<?php echo $it['materials_unitprice']; ?>' onkeyup='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100%;text-align: center'>
+		    								<input type='text' name='materials_price<?php echo $y; ?>' id='materials_price<?php echo $y; ?>_<?php echo $b; ?>' value='<?php echo $it['materials_unitprice']; ?>' onkeyup='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100%;text-align: center'>
 		    							</b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b class="nomarg">
-		    								<input type='text' name='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' id='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' class='tprice' value="<?php echo $it['materials_amount']; ?>" style='width:110px;text-align: right' readonly>
+		    								<input type='text' name='materials_tprice<?php echo $y; ?>' id='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' class='tprice' value="<?php echo $it['materials_amount']; ?>" style='width:110px;text-align: right' readonly>
 		    							</b>
 		    						</td>
 		    					</tr>

@@ -7538,6 +7538,14 @@ class Reports extends CI_Controller {
             }else{
                 $jo_no = $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$pr->jor_id);
             }
+
+            $materials_offer = $this->super_model->select_column_where('joi_items', 'materials_offer', 'jor_items_id', $pr->jor_items_id);
+            $materials_qty = $this->super_model->select_column_where('joi_items', 'materials_qty', 'jor_items_id', $pr->jor_items_id);
+            $materials_unitprice = $this->super_model->select_column_where('joi_items', 'materials_unitprice', 'jor_items_id', $pr->jor_items_id);
+            $materials_amount = $this->super_model->select_column_where('joi_items', 'materials_amount', 'jor_items_id', $pr->jor_items_id);
+            $materials_received = $this->super_model->select_column_where('joi_items', 'materials_received', 'jor_items_id', $pr->jor_items_id);
+            $materials_currency = $this->super_model->select_column_where('joi_items', 'materials_currency', 'jor_items_id', $pr->jor_items_id);
+            $materials_unit = $this->super_model->select_column_where('joi_items', 'materials_unit', 'jor_items_id', $pr->jor_items_id);
             $data['jor'][] = array(
                 'joi_offer_id'=>$joi_offer_id,
                 'jor_items_id'=>$pr->jor_items_id,
@@ -7569,6 +7577,13 @@ class Reports extends CI_Controller {
                 'cancelled'=>$pr->cancelled,
                 'cancelled_items_po'=>$cancelled_items_po,
                 'on_hold'=>$pr->on_hold, 
+                'materials_offer'=>$materials_offer,
+                'materials_qty'=>$materials_qty,
+                'materials_unitprice'=>$materials_unitprice,
+                'materials_amount'=>$materials_amount,
+                'materials_received'=>$materials_received,
+                'materials_currency'=>$materials_currency,
+                'materials_unit'=>$materials_unit,
                 /*'company'=>$this->super_model->select_column_where('company','company_name','company_id',$pr->company_id),
                 'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$pr->vendor_id),
                 'company_id'=>$pr->company_id,
@@ -8615,7 +8630,13 @@ class Reports extends CI_Controller {
                         'supplier'=>$supplier,
                         'terms'=>$terms,
                         'served'=>$p->served,
-                        'cancelled'=>$p->cancelled,
+                        'materials_offer'=>$i->materials_offer,
+                        'materials_qty'=>$i->materials_qty,
+                        'materials_unitprice'=>$i->materials_unitprice,
+                        'materials_amount'=>$i->materials_amount,
+                        'materials_received'=>$i->materials_received,
+                        'materials_currency'=>$i->materials_currency,
+                        'materials_unit'=>$i->materials_unit,
                     );
                 }
             }

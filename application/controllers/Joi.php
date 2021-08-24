@@ -753,8 +753,8 @@ class Joi extends CI_Controller {
             if($qty!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
-                $materials_price = str_replace(",", "", $this->input->post('materials_price'.$x."_".$b));
-                $materials_tprice = str_replace(",", "", $this->input->post('materials_tprice'.$x."_".$b));
+                $materials_price = str_replace(",", "", $this->input->post('materials_price'.$x));
+                $materials_tprice = str_replace(",", "", $this->input->post('materials_tprice'.$x));
                 $data=array(
                     'joi_items_id'=>$joi_items_id,
                     'jor_id'=>$this->super_model->select_column_where('jor_aoq_head', 'jor_id', 'jor_aoq_id', $this->input->post('jor_aoq_id'.$x)),
@@ -770,11 +770,11 @@ class Joi extends CI_Controller {
                     'amount'=>$amount,
                     'item_no'=>$a,
                     'materials_offer'=>$this->input->post('materials_offer'.$x),
-                    'materials_qty'=>$this->input->post('materials_qty'.$x."_".$b),
+                    'materials_qty'=>$this->input->post('materials_qty'.$x),
                     'materials_unitprice'=>$materials_price,
                     'materials_amount'=>$materials_tprice,
                     'materials_unit'=>$this->input->post('uom'.$x),
-                    'materials_currency'=>$this->input->post('materials_currency'.$x."_".$b),
+                    'materials_currency'=>$this->input->post('materials_currency'.$x),
                 );
 
                 $data_dr=array(
@@ -793,16 +793,15 @@ class Joi extends CI_Controller {
                     'amount'=>$amount,
                     'item_no'=>$a,
                     'materials_offer'=>$this->input->post('materials_offer'.$x),
-                    'materials_qty'=>$this->input->post('materials_qty'.$x."_".$b),
+                    'materials_qty'=>$this->input->post('materials_qty'.$x),
                     'materials_unitprice'=>$materials_price,
                     'materials_amount'=>$materials_tprice,
                     'materials_unit'=>$this->input->post('uom'.$x),
-                    'materials_currency'=>$this->input->post('materials_currency'.$x."_".$b),
+                    'materials_currency'=>$this->input->post('materials_currency'.$x),
                 );
                 $this->super_model->insert_into("joi_items", $data);
                 $this->super_model->insert_into("joi_dr_items", $data_dr);
                 $a++;
-                $b++;
             }   
         }
 
