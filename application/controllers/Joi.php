@@ -232,7 +232,7 @@ class Joi extends CI_Controller {
         );
         $this->super_model->insert_into("joi_dr", $dr);
 
-        foreach($this->super_model->custom_query("SELECT * FROM joi_items WHERE delivered_quantity > quantity AND joi_id = '$joi_id'") AS $items){
+        foreach($this->super_model->custom_query("SELECT * FROM joi_items WHERE (delivered_quantity > quantity || materials_qty > materials_received)  AND joi_id = '$joi_id'") AS $items){
             $new_qty = $items->delivered_quantity-$items->quantity;
             $new_materials_qty = $items->materials_qty-$items->materials_received;
             $data = array(
@@ -254,6 +254,8 @@ class Joi extends CI_Controller {
                 'materials_qty'=>$new_materials_qty,
                 'materials_unitprice'=>$items->materials_unitprice,
                 'materials_amount'=>$items->materials_amount,
+                'materials_unit'=>$items->materials_unit,
+                'materials_currency'=>$items->materials_currency,
             );
             $this->super_model->insert_into("joi_dr_items", $data);
         }

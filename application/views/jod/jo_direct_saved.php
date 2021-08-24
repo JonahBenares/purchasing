@@ -493,6 +493,7 @@
 		    						<td align="right">Grand Total:</td>
 		    						<td align="right"><?php echo number_format($grandtotal,2); ?>&nbsp;&nbsp;</td>
 		    					</tr>
+		    					<input type = "hidden" id="sum_cost" value="<?php echo $grandtotal; ?>">
 		    				</table>
 		    			</td>
 		    		</tr>
