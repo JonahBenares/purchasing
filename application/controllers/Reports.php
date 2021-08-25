@@ -7766,6 +7766,13 @@ class Reports extends CI_Controller {
             }else{
                 $jo_no = $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$pr->jor_id);
             }
+            $materials_offer = $this->super_model->select_column_where('joi_items', 'materials_offer', 'jor_items_id', $pr->jor_items_id);
+            $materials_qty = $this->super_model->select_column_where('joi_items', 'materials_qty', 'jor_items_id', $pr->jor_items_id);
+            $materials_unitprice = $this->super_model->select_column_where('joi_items', 'materials_unitprice', 'jor_items_id', $pr->jor_items_id);
+            $materials_amount = $this->super_model->select_column_where('joi_items', 'materials_amount', 'jor_items_id', $pr->jor_items_id);
+            $materials_received = $this->super_model->select_column_where('joi_items', 'materials_received', 'jor_items_id', $pr->jor_items_id);
+            $materials_currency = $this->super_model->select_column_where('joi_items', 'materials_currency', 'jor_items_id', $pr->jor_items_id);
+            $materials_unit = $this->super_model->select_column_where('joi_items', 'materials_unit', 'jor_items_id', $pr->jor_items_id);
             $data['jor'][] = array(
                 'joi_offer_id'=>$joi_offer_id,
                 'jor_items_id'=>$pr->jor_items_id,
@@ -7796,7 +7803,14 @@ class Reports extends CI_Controller {
                 'cancelled_reason'=>$pr->cancelled_reason,
                 'cancelled'=>$pr->cancelled,
                 'cancelled_items_po'=>$cancelled_items_po,
-                'on_hold'=>$pr->on_hold,  
+                'on_hold'=>$pr->on_hold, 
+                'materials_offer'=>$materials_offer,
+                'materials_qty'=>$materials_qty,
+                'materials_unitprice'=>$materials_unitprice,
+                'materials_amount'=>$materials_amount,
+                'materials_received'=>$materials_received,
+                'materials_currency'=>$materials_currency,
+                'materials_unit'=>$materials_unit, 
                 /*'company'=>$this->super_model->select_column_where('company','company_name','company_id',$pr->company_id),
                 'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$pr->vendor_id),
                 'company_id'=>$pr->company_id,
@@ -7972,20 +7986,23 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "UOM");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Grouping");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "Scope of Work");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O4', "Status Remarks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P4', "Status");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q4', "Remarks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R4', "Cancel Remarks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S4', "End User's Comments");
-        foreach(range('A','S') as $columnID){
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O4', "Materials Offer");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P4', "Materials QTY");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q4', "Materials UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R4', "Status Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S4', "Status");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T4', "Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U4', "Cancel Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V4', "End User's Comments");
+        foreach(range('A','V') as $columnID){
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }
-        $objPHPExcel->getActiveSheet()->getStyle('A4:S4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:V4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle("A1:E1")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setSize(15);
         $objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:S4')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:S4')->applyFromArray($styleArray1);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:V4')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:V4')->applyFromArray($styleArray1);
         if($filt!=''){
             $num = 5;
             foreach($this->super_model->custom_query("SELECT ji.*, jh.* FROM jor_items ji INNER JOIN jor_head jh ON ji.jor_id = jh.jor_id WHERE ".$query) AS $pr){
@@ -8058,21 +8075,21 @@ class Reports extends CI_Controller {
                 //$delivered_by=$this->like($status, "Delivered by");
 
                 if($status=='Fully Delivered'){
-                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
+                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
                 } else if($status=='Partially Delivered') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                 } else if($status=='Cancelled') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                 }else if($status=='Partially Delivered / Cancelled') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                 }/*else if($status=='For Recom') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('fd9c77');
                 }*/else if($status=='On-Hold') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('d2deff');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('d2deff');
                 }else if($jo_issue=='1') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
                 }/*else if($delivered_by=='1') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('eeccff');
                 }*/
@@ -8087,6 +8104,9 @@ class Reports extends CI_Controller {
                     }
                 }
                 $revise_qty = $revised."\n".$current_qty;
+                $materials_offer = $this->super_model->select_column_where('joi_items', 'materials_offer', 'jor_items_id', $pr->jor_items_id);
+                $materials_qty = $this->super_model->select_column_where('joi_items', 'materials_qty', 'jor_items_id', $pr->jor_items_id);
+                $materials_unit = $this->super_model->select_column_where('joi_items', 'materials_unit', 'jor_items_id', $pr->jor_items_id);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->date_prepared");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->delivery_date");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->completion_date");
@@ -8099,11 +8119,14 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$pr->uom");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->grouping_id");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$pr->scope_of_work $unserved");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$status_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$status");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$pr->add_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$pr->cancel_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$materials_offer");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$materials_qty");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$materials_unit");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$status_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, "$pr->add_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U'.$num, "$pr->cancel_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V'.$num, "");
 
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -8117,11 +8140,13 @@ class Reports extends CI_Controller {
                 $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setWrapText(true);
-                $objPHPExcel->getActiveSheet()->getStyle('P'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setWrapText(true);
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num.":O".$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('S'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('R'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('P'.$num.":Q".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('R'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->applyFromArray($styleArray);
                 $num++;  
             }
         }else{
@@ -8197,21 +8222,21 @@ class Reports extends CI_Controller {
                 //$delivered_by=$this->like($status, "Delivered by");
 
                 if($status=='Fully Delivered'){
-                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
+                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
                 } else if($status=='Partially Delivered') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                 } else if($status=='Cancelled') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                 }else if($status=='Partially Delivered / Cancelled') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                 }/*else if($status=='For Recom') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('fd9c77');
                 }*/else if($status=='On-Hold') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('d2deff');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('d2deff');
                 }else if($jo_issue=='1') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
                 }/*else if($delivered_by=='1') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('eeccff');
                 }*/
@@ -8226,6 +8251,9 @@ class Reports extends CI_Controller {
                     }
                 }
                 $revise_qty = $revised."\n".$current_qty;
+                $materials_offer = $this->super_model->select_column_where('joi_items', 'materials_offer', 'jor_items_id', $pr->jor_items_id);
+                $materials_qty = $this->super_model->select_column_where('joi_items', 'materials_qty', 'jor_items_id', $pr->jor_items_id);
+                $materials_unit = $this->super_model->select_column_where('joi_items', 'materials_unit', 'jor_items_id', $pr->jor_items_id);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$pr->date_prepared");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$pr->delivery_date");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, "$pr->completion_date");
@@ -8238,11 +8266,14 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$pr->uom");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$pr->grouping_id");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$pr->scope_of_work $unserved");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$status_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$status");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$pr->add_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$pr->cancel_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$materials_offer");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$materials_qty");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$materials_unit");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$status_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, "$pr->add_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U'.$num, "$pr->cancel_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V'.$num, "");
 
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -8256,10 +8287,13 @@ class Reports extends CI_Controller {
                 $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setWrapText(true);
-                $objPHPExcel->getActiveSheet()->getStyle('P'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num.":O".$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('S'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('R'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('P'.$num.":Q".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('P'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('R'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->applyFromArray($styleArray);
                 $num++;
             }
         }
@@ -8746,10 +8780,12 @@ class Reports extends CI_Controller {
 
         if(!empty($this->input->post('scope_of_work'))){
             $scope_of_work = $this->input->post('scope_of_work');
-            foreach($this->super_model->select_custom_where('jor_aoq_items', "scope_of_work LIKE '%$scope_of_work%'") AS $t){
+            $sql.=" ji.offer LIKE '%$scope_of_work%' AND";
+            $filter.=$scope_of_work;
+            /*foreach($this->super_model->select_custom_where('jor_aoq_items', "scope_of_work LIKE '%$scope_of_work%'") AS $t){
                 $it = $t->jor_items_id;
                 $sql.=" ji.jor_items_id = '$it' OR";
-            }
+            }*/
         }
 
         if(!empty($this->input->post('supplier'))){
@@ -8860,6 +8896,13 @@ class Reports extends CI_Controller {
                 'terms'=>$terms,
                 'served'=>$p->served,
                 'cancelled'=>$p->cancelled,
+                'materials_offer'=>$p->materials_offer,
+                'materials_qty'=>$p->materials_qty,
+                'materials_unitprice'=>$p->materials_unitprice,
+                'materials_amount'=>$p->materials_amount,
+                'materials_received'=>$p->materials_received,
+                'materials_currency'=>$p->materials_currency,
+                'materials_unit'=>$p->materials_unit,
             );
         }
         $this->load->view('template/header');        
@@ -8917,10 +8960,11 @@ class Reports extends CI_Controller {
         }
 
         if($scope_of_work!='null'){
-            foreach($this->super_model->select_custom_where('item', "item_name LIKE '%$scope_of_work%'") AS $t){
+            /*foreach($this->super_model->select_custom_where('item', "item_name LIKE '%$scope_of_work%'") AS $t){
                 $it = $t->item_id;
                 $sql.=" ji.item_id = '$it' OR";
-            }
+            }*/
+            $sql.=" ji.offer LIKE '%$scope_of_work%' AND";
             $filter .= $scope_of_work;
         }
 
@@ -8963,26 +9007,32 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G4', "Received Qty");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "UOM");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I4', "Scope of Work");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "Status");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "Status Remarks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Supplier");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Payment Terms");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "Unit Price");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O4', "Total Price");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P4', "Remarks");
-        foreach(range('A','P') as $columnID){
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "Materials Offer");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "Materials QTY");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Materials UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Status");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "Status Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O4', "Supplier");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P4', "Payment Terms");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q4', "Materials Unit Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R4', "Materials Total Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S4', "Unit Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T4', "Total Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U4', "Remarks");
+        foreach(range('A','U') as $columnID){
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }
-        $objPHPExcel->getActiveSheet()->getStyle('A4:P4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle("A1:E1")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setSize(15);
         $objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:P4')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:P4')->applyFromArray($styleArray1);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->applyFromArray($styleArray1);
         if($filt!=''){
             $num = 5;
             foreach($this->super_model->custom_query("SELECT * FROM joi_head jh INNER JOIN joi_items ji ON jh.joi_id = ji.joi_id INNER JOIN joi_jor  jj ON ji.joi_id = jj.joi_id  WHERE ".$query) AS $p){
-                $total=$p->quantity*$p->unit_price;
+                $total=$p->delivered_quantity*$p->unit_price;
+                $mat_total=$p->materials_qty*$p->materials_unitprice;
                 $jo=$this->super_model->select_column_where('jor_head','jo_no','jor_id',$p->jor_id);
                 if($jo!=''){
                     $jo_no=$jo."-".COMPANY;
@@ -9057,17 +9107,17 @@ class Reports extends CI_Controller {
                 }*/
                 $jo_issue=$this->like($status, "JO Issued");
                 if($status=='Fully Delivered'){
-                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
+                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
                 } else if($status=='Partially Delivered') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                 } else if($status=='Cancelled') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                 }else if($status=='Partially Delivered / Cancelled') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                 }else if($jo_issue=='1') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
                 }
 
                 $joi_no = $p->joi_no."-".COMPANY;
@@ -9080,13 +9130,18 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->quantity");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->uom");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$item");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$status");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$status_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$supplier");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$terms");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$p->currency $p->unit_price");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$total");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$p->notes");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$p->materials_offer");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$p->materials_qty");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$p->materials_unit");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$status_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$supplier");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$terms");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$p->materials_currency $p->materials_unitprice");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$mat_total");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$p->currency $p->unit_price");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, "$total");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U'.$num, "$p->notes");
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
@@ -9094,12 +9149,14 @@ class Reports extends CI_Controller {
                 $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setWrapText(true);
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->applyFromArray($styleArray);
-                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setWrapText(true);
+                $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('Q'.$num.":T".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('Q'.$num.":T".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->applyFromArray($styleArray);
                 $num++;
             }
         }else {
@@ -9115,7 +9172,8 @@ class Reports extends CI_Controller {
                         $jo_no=$this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$pr->jor_id)."-".COMPANY;
                     }
                     foreach($this->super_model->select_row_where('joi_items','joi_id',$p->joi_id) AS $i){
-                        $total=$i->quantity*$i->unit_price;
+                        $total=$i->delivered_quantity*$i->unit_price;
+                        $mat_total=$i->materials_qty*$i->materials_unitprice;
                         if($i->item_id!=0){
                             foreach($this->super_model->select_row_where('item','item_id',$i->item_id) AS $it){
                                 $uom=$this->super_model->select_column_where("unit",'unit_name','unit_id',$it->unit_id);
@@ -9180,17 +9238,17 @@ class Reports extends CI_Controller {
                         }*/
                         $jo_issue=$this->like($status, "JO Issued");
                         if($status=='Fully Delivered'){
-                           $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
+                           $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
                         } else if($status=='Partially Delivered') {
-                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                         } else if($status=='Cancelled') {
-                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                             $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                         }else if($status=='Partially Delivered / Cancelled') {
-                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                             $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                         }else if($jo_issue=='1') {
-                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
                         }
                         $joi_no = $p->joi_no."-".COMPANY;
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
@@ -9202,13 +9260,18 @@ class Reports extends CI_Controller {
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$i->quantity");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$i->uom");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$item");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$status");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$status_remarks");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$supplier");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$terms");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$i->currency $i->unit_price");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$total");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$pr->notes");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$i->materials_offer");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$i->materials_qty");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$i->materials_unit");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$status");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$status_remarks");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$supplier");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$terms");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$i->materials_currency $i->materials_unitprice");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$mat_total");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$i->currency $i->unit_price");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, "$total");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U'.$num, "$pr->notes");
                         $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                         $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                         $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
@@ -9216,12 +9279,14 @@ class Reports extends CI_Controller {
                         $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                         $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                         $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setWrapText(true);
-                        $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                        $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                        $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                        $objPHPExcel->getActiveSheet()->getStyle('O'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                        $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setWrapText(true);
-                        $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->applyFromArray($styleArray);
+                        $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setWrapText(true);
+                        $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setWrapText(true);
+                        $objPHPExcel->getActiveSheet()->getStyle('L'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                        $objPHPExcel->getActiveSheet()->getStyle('Q'.$num.":T".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $objPHPExcel->getActiveSheet()->getStyle('Q'.$num.":T".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                        $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->applyFromArray($styleArray);
                         $num++;
                     }
                 }
@@ -9283,6 +9348,7 @@ class Reports extends CI_Controller {
                 }
                 foreach($this->super_model->select_row_where('joi_items','joi_id',$p->joi_id) AS $i){
                     $unserved_qty = $i->delivered_quantity - $i->quantity;
+                    $unserved_materials_qty = $i->materials_qty - $i->materials_received;
                     $requestor = $pr->requestor;
                     /*if($p->cancelled ==1){
                         $status = "<span style='color:red'>Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
@@ -9315,13 +9381,15 @@ class Reports extends CI_Controller {
                      $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$i->jor_id' AND served = '1' AND pi.jor_items_id = '$i->jor_items_id'");
                     $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$i->jor_items_id'");
                     $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$i->jor_items_id'");
-                    $unserved_qty=0;
+                    //$unserved_qty=0;
+                    //$unserved_materials_qty=0;
                     $unserved_uom='';  
                     $stat = $this->jor_item_status($i->jor_items_id,$controller_name,$i->joi_id);
                     $status = $stat['status'];
                     $status_remarks = $stat['remarks'];
                     $total = $unserved_qty * $i->unit_price;
-                    if($p->served==1 && $i->delivered_quantity>$i->quantity){ 
+                    $mat_total = $unserved_materials_qty * $i->materials_unitprice;
+                    if($p->served==1 && ($i->delivered_quantity>$i->quantity || $i->materials_qty>$i->materials_received)){ 
                         $data['po'][]=array(
                             'joi_id'=>$i->joi_id,
                             'jo_no'=>$jo_no,
@@ -9334,6 +9402,13 @@ class Reports extends CI_Controller {
                             'item'=>$i->offer,
                             'currency'=>$i->currency,
                             'unit_price'=>$i->unit_price,
+                            'unserved_materials_qty'=>$unserved_materials_qty,
+                            'materials_offer'=>$i->materials_offer,
+                            'materials_qty'=>$i->materials_qty,
+                            'materials_unit'=>$i->materials_unit,
+                            'materials_unitprice'=>$i->materials_unitprice,
+                            'materials_currency'=>$i->materials_currency,
+                            'mat_total'=>$mat_total,
                             'notes'=>$pr->notes,
                             'joi_id'=>$p->joi_id,
                             'joi_date'=>$p->joi_date,
@@ -9493,6 +9568,7 @@ class Reports extends CI_Controller {
                 $jo_no=$this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$p->jor_id);
             }
             $unserved_qty = $p->delivered_quantity - $p->quantity;
+            $unserved_materials_qty = $p->materials_qty - $p->materials_received;
             $requestor = $p->requestor;
             /*if($p->cancelled ==1){
                 $status = "<span style='color:red'>Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
@@ -9531,7 +9607,8 @@ class Reports extends CI_Controller {
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
             $total = $unserved_qty * $p->unit_price;
-            if($p->served==1 && $p->delivered_quantity>$p->quantity){ 
+            $mat_total = $unserved_materials_qty * $p->materials_unitprice;
+            if($p->served==1 && ($p->delivered_quantity>$p->quantity || $p->materials_qty>$p->materials_received)){ 
                 $data['po'][]=array(
                     'joi_id'=>$p->joi_id,
                     'jo_no'=>$jo_no,
@@ -9544,6 +9621,13 @@ class Reports extends CI_Controller {
                     'item'=>$p->offer,
                     'currency'=>$p->currency,
                     'unit_price'=>$p->unit_price,
+                    'unserved_materials_qty'=>$unserved_materials_qty,
+                    'materials_offer'=>$p->materials_offer,
+                    'materials_qty'=>$p->materials_qty,
+                    'materials_unit'=>$p->materials_unit,
+                    'materials_unitprice'=>$p->materials_unitprice,
+                    'materials_currency'=>$p->materials_currency,
+                    'mat_total'=>$mat_total,
                     'notes'=>$p->notes,
                     'joi_id'=>$p->joi_id,
                     'joi_date'=>$p->joi_date,
@@ -9649,22 +9733,27 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F4', "Qty");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G4', "UOM");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H4', "Scope of Work");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I4', "Status");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "Status Remarks");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "Supplier");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Payment Terms");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Unit Price");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "Total Price");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O4', "Remarks");
-        foreach(range('A','O') as $columnID){
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I4', "Materials Offer");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J4', "Materials Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K4', "Materials UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L4', "Status");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M4', "Status Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N4', "Supplier");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O4', "Payment Terms");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P4', "Materials Unit Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q4', "Materials Total Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R4', "Unit Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S4', "Total Price");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T4', "Remarks");
+        foreach(range('A','T') as $columnID){
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }
-        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:T4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle("A1:E1")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setSize(15);
         $objPHPExcel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:N4')->applyFromArray($styleArray1);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:T4')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:T4')->applyFromArray($styleArray1);
         if($filt!=''){
             $num = 5;
             foreach($this->super_model->custom_query("SELECT * FROM joi_head jh INNER JOIN joi_items ji ON jh.joi_id = ji.joi_id INNER JOIN joi_jor jj ON ji.joi_id = jj.joi_id  WHERE ".$query) AS $p){
@@ -9677,6 +9766,7 @@ class Reports extends CI_Controller {
                     $jo_no= $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$p->jor_id)." - ".COMPANY;
                 }
                 $unserved_qty = $p->delivered_quantity - $p->quantity;
+                $unserved_materials_qty = $p->materials_qty - $p->materials_received;
                 $requestor = $p->requestor;
                 /*if($p->cancelled ==1){
                     $status = "Cancelled / ".date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason;
@@ -9709,27 +9799,28 @@ class Reports extends CI_Controller {
                  $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$p->jor_id' AND served = '1' AND pi.jor_items_id = '$p->jor_items_id'");
                 $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$p->jor_items_id'");
                 $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$p->jor_items_id'");
-                $unserved_qty=0;
+                //$unserved_qty=0;
                 $unserved_uom='';  
-                $stat = $this->jor_item_status($p->jor_items_id,$controller_name,$p->joi_id);
+                $stat = $this->jor_item_status_export($p->jor_items_id,$controller_name,$p->joi_id);
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
 
                 $jo_issue=$this->like($status, "JO Issued");
                 if($status=='Fully Delivered'){
-                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
+                   $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
                 } else if($status=='Partially Delivered') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                 } else if($status=='Cancelled') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                 }else if($status=='Partially Delivered / Cancelled') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                     $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                 }else if($jo_issue=='1') {
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
                 }
                 $total = $unserved_qty * $p->unit_price;
+                $mat_total = $unserved_materials_qty * $p->materials_unitprice;
                 $styleArray = array(
                     'borders' => array(
                         'allborders' => array(
@@ -9737,7 +9828,7 @@ class Reports extends CI_Controller {
                         )
                     )
                 );
-                if($p->served==1 && $p->delivered_quantity>$p->quantity){ 
+                if($p->served==1 && ($p->delivered_quantity>$p->quantity || $p->materials_qty>$p->materials_unitprice)){ 
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->purpose");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->joi_date");
@@ -9746,25 +9837,33 @@ class Reports extends CI_Controller {
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$unserved_qty");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$p->uom");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$p->offer");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$status");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$status_remarks");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$supplier");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$terms");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$p->unit_price");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$total");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$p->notes");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->materials_offer");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$unserved_materials_qty");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$p->materials_unit");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$status");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$status_remarks");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$supplier");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$terms");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$p->materials_unitprice");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$mat_total");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$p->unit_price");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$total");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, "$p->notes");
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('C'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('P'.$num.":S".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('P'.$num.":S".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('P'.$num.":S".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                     $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setWrapText(true);
-                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
+                    $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setWrapText(true);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->applyFromArray($styleArray);
                     $num++;   
                 }
             }
@@ -9783,6 +9882,7 @@ class Reports extends CI_Controller {
                     }
                     foreach($this->super_model->select_row_where('joi_items','joi_id',$p->joi_id) AS $i){
                         $unserved_qty = $i->delivered_quantity - $i->quantity;
+                        $unserved_materials_qty = $i->materials_qty - $i->materials_received;
                         $requestor = $pr->requestor;
                         /*if($p->cancelled ==1){
                             $status = "Cancelled / ". date('d.m.Y', strtotime($p->cancelled_date)). "/ " . $p->cancel_reason."</span>";
@@ -9815,26 +9915,26 @@ class Reports extends CI_Controller {
                          $count_po_served = $this->super_model->count_custom_query("SELECT ph.joi_id FROM joi_head ph INNER JOIN joi_jor pr ON ph.joi_id = pr.joi_id INNER JOIN joi_items pi ON ph.joi_id=pi.joi_id WHERE ph.cancelled='0' AND pr.jor_id = '$i->jor_id' AND served = '1' AND pi.jor_items_id = '$i->jor_items_id'");
                         $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$i->jor_items_id'");
                         $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$i->jor_items_id'");
-                        $unserved_qty=0;
                         $unserved_uom='';  
-                        $stat = $this->jor_item_status($i->jor_items_id,$controller_name,$i->joi_id);
+                        $stat = $this->jor_item_status_export($i->jor_items_id,$controller_name,$i->joi_id);
                         $status = $stat['status'];
                         $status_remarks = $stat['remarks'];
                         $jo_issue=$this->like($status, "JO Issued");
                         if($status=='Fully Delivered'){
-                           $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
+                           $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
                         } else if($status=='Partially Delivered') {
-                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                         } else if($status=='Cancelled') {
-                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                             $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                         }else if($status=='Partially Delivered / Cancelled') {
-                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
                             $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getFont()->getColor()->setRGB('ff0000');
                         }else if($jo_issue=='1') {
-                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
                         }
                         $total = $unserved_qty * $i->unit_price;
+                        $mat_total = $unserved_materials_qty * $i->materials_unitprice;
                         $styleArray = array(
                             'borders' => array(
                                 'allborders' => array(
@@ -9842,7 +9942,7 @@ class Reports extends CI_Controller {
                                 )
                             )
                         );
-                        if($p->served==1 && $i->delivered_quantity>$i->quantity){ 
+                        if($p->served==1 && ($i->delivered_quantity>$i->quantity || $i->materials_qty>$i->materials_unitprice)){ 
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->joi_date");
@@ -9851,26 +9951,34 @@ class Reports extends CI_Controller {
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, "$unserved_qty");
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, "$i->uom");
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, "$i->offer");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$status");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$status_remarks");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$supplier");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$terms");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$i->unit_price");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$total");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$pr->notes");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$i->materials_offer");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$unserved_materials_qty");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$i->materials_unit");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$status");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$status_remarks");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$supplier");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$terms");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$i->materials_unitprice");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$mat_total");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$i->unit_price");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$total");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, "$pr->notes");
                             $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                             $objPHPExcel->getActiveSheet()->getStyle('C'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                             $objPHPExcel->getActiveSheet()->getStyle('D'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                             $objPHPExcel->getActiveSheet()->getStyle('G'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $objPHPExcel->getActiveSheet()->getStyle('K'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $objPHPExcel->getActiveSheet()->getStyle('P'.$num.":S".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                             $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                             $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                            $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                            $objPHPExcel->getActiveSheet()->getStyle('M'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                            $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                            $objPHPExcel->getActiveSheet()->getStyle('N'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                            $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                            $objPHPExcel->getActiveSheet()->getStyle('P'.$num.":S".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $objPHPExcel->getActiveSheet()->getStyle('P'.$num.":S".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                             $objPHPExcel->getActiveSheet()->getStyle('H'.$num)->getAlignment()->setWrapText(true);
-                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":O".$num)->applyFromArray($styleArray);
-                            $num++;
+                            $objPHPExcel->getActiveSheet()->getStyle('I'.$num)->getAlignment()->setWrapText(true);
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->applyFromArray($styleArray);
+                            $num++;   
                         }
                     }
                 }

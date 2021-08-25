@@ -109,10 +109,15 @@
                                             <th>Qty</th>
                                             <th>UOM</th>
                                             <th>Scope of Work</th>
+                                            <th>Materials Offer</th>
+                                            <th>Materials Qty</th>
+                                            <th>Materials UOM</th>
                                             <th>Status</th>
                                             <th>Status Remarks</th>
                                             <th>Supplier </th>
                                             <th>Payment Term</th>
+                                            <th>Materials Unit Price</th>
+                                            <th>Materials Total Price</th>
                                             <th>Unit Price</th>
                                             <th>Total Price</th>
                                             <th>Remarks</th>                                        
@@ -146,10 +151,15 @@
                                             <td><?php echo $p['unserved_qty'];?></td>
                                             <td><?php echo $p['uom'];?></td>
                                             <td><?php echo $p['item'];?></td>
+                                            <td><?php echo $p['materials_offer'];?></td>
+                                            <td><?php echo $p['unserved_materials_qty'];?></td>
+                                            <td><?php echo $p['materials_unit'];?></td>
                                             <td><?php echo $p['status']; ?></td>
                                             <td><?php echo $p['status_remarks']; ?></td>
                                             <td><?php echo $p['supplier'];?></td>
                                             <td><?php echo $p['terms'];?></td>
+                                            <td><?php echo $p['materials_unitprice'];?></td>
+                                            <td><?php echo number_format($p['mat_total'],2);?></td>
                                             <td><?php echo $p['unit_price'];?></td>
                                             <td><?php echo number_format($p['total'],2);?></td>
                                             <td><?php echo $p['notes'];?></td>
