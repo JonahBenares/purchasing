@@ -305,6 +305,9 @@
                                                 <td></td>
                                                 <td align="center">  
                                                     <center>
+                                                        <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#updateremarks" title='Add Remarks' data-id="<?php echo $p['jor_items_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['joi_offer_id']; ?>" data-month="<?php echo $month; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['jor_id']; ?>" data-remarks="<?php echo $p['remarks']?>" data-cancel="<?php echo $p['cancel_remarks']?>">
+                                                            <span class="fa fa-pencil"></span>
+                                                        </button> 
                                                         <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['jor_items_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['joi_offer_id']; ?>" data-month="<?php echo $month; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['jor_id']; ?>" data-remarks="<?php echo $p['remarks']?>" data-cancel="<?php echo $p['cancel_remarks']?>">
                                                             <span class="fa fa-plus"></span>
                                                         </button>  
@@ -448,6 +451,33 @@
                         <input type='hidden' name='joi_offer_id' id='joi_offer_id'>
                         <input type='hidden' name='year' id='year'>
                         <input type='hidden' name='month' id='month'>
+                        <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateremarks" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Status Remarks
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>    
+                </div>
+                <form method='POST' action="<?php echo base_url(); ?>reports/add_jo_remarks">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <p class="m-b-0"><input type="radio" class="forms-control"  name="" value=" "> Partially Delivered</p>
+                            <p class=""><input type="radio" class="forms-control"  name="" value=" "> Fully Delivered</p>
+                        <textarea class="form-control" rows="5" name='statusremarks' id='statusremarks' placeholder="Remarks"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      
                         <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
                     </div>
                 </form>
