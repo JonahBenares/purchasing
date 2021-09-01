@@ -131,13 +131,12 @@ class Jod extends CI_Controller {
             $joi_items_id = $this->input->post('joi_items_id'.$x);
             $curr_rec_balance = $this->super_model->select_column_where('joi_items', 'quantity', 'joi_items_id', $joi_items_id);
             $new_qty = $curr_rec_balance + $this->input->post('received_qty'.$x);
-
-             $data_poitems=array(
-                'quantity'=>$new_qty
+            $data_poitems=array(
+                'quantity'=>$new_qty,
             );
 
             $data=array(
-                'quantity'=>$this->input->post('received_qty'.$x)
+                'quantity'=>$this->input->post('received_qty'.$x),
             );
 
             $this->super_model->update_where("joi_items", $data_poitems, "joi_items_id", $joi_items_id);
@@ -147,10 +146,28 @@ class Jod extends CI_Controller {
             $new_balance = $curr_balance-$this->input->post('received_qty'.$x);
 
             $data_aoq = array(
-                'balance'=>$new_balance
+                'balance'=>$new_balance,
             );
             $this->super_model->update_where("jor_aoq_offers", $data_aoq, "jor_aoq_offer_id", $this->input->post('jor_aoq_offer_id'.$x));
-        }  
+        }
+
+        $curr_matrec_balance = $this->super_model->select_column_where('joi_items', 'materials_received', 'joi_items_id', $joi_items_id);
+        $new_mat_qty = $curr_matrec_balance + $this->input->post('materials_received'); 
+        $data_poitems=array(
+            'materials_received'=>$new_mat_qty
+        ); 
+
+        $data=array(
+            'materials_received'=>$this->input->post('materials_received'),
+        );
+        $this->super_model->update_where("joi_items", $data_poitems, "joi_items_id", $joi_items_id);
+        $this->super_model->update_custom_where("joi_dr_items", $data, "joi_items_id='$joi_items_id' AND joi_dr_id='$joi_dr_id'");
+        $curr_materials_balance = $this->super_model->select_column_where('jor_aoq_offers', 'materials_balance', 'jor_aoq_offer_id', $this->input->post('jor_aoq_offer_id'));
+        $new_materials_balance = $curr_materials_balance-$this->input->post('materials_received');
+        $data_aoq = array(
+            'materials_balance'=>$new_materials_balance
+        );
+        $this->super_model->update_where("jor_aoq_offers", $data_aoq, "jor_aoq_offer_id", $this->input->post('jor_aoq_offer_id'));
         ?>
         <script>
               window.onunload = refreshParent;
@@ -223,8 +240,9 @@ class Jod extends CI_Controller {
         );
         $this->super_model->insert_into("joi_dr", $dr);
 
-        foreach($this->super_model->custom_query("SELECT * FROM joi_items WHERE delivered_quantity > quantity AND joi_id = '$joi_id'") AS $items){
+        foreach($this->super_model->custom_query("SELECT * FROM joi_items WHERE (delivered_quantity > quantity || materials_qty > materials_received) AND joi_id = '$joi_id'") AS $items){
             $new_qty = $items->delivered_quantity-$items->quantity;
+            $new_materials_qty = $items->materials_qty-$items->materials_received;
             $data = array(
                 'joi_items_id'=>$items->joi_items_id,
                 'joi_dr_id'=>$joi_dr_id,
@@ -239,7 +257,13 @@ class Jod extends CI_Controller {
                 'unit_price'=>$items->unit_price,
                 'uom'=>$items->uom,
                 'amount'=>$items->amount,
-                'item_no'=>$items->item_no
+                'item_no'=>$items->item_no,
+                'materials_offer'=>$items->materials_offer,
+                'materials_qty'=>$new_materials_qty,
+                'materials_unitprice'=>$items->materials_unitprice,
+                'materials_amount'=>$items->materials_amount,
+                'materials_unit'=>$items->materials_unit,
+                'materials_currency'=>$items->materials_currency,
             );
             $this->super_model->insert_into("joi_dr_items", $data);
         }

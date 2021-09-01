@@ -493,6 +493,7 @@
 		    						<td align="right">Grand Total:</td>
 		    						<td align="right"><?php echo number_format($grandtotal,2); ?>&nbsp;&nbsp;</td>
 		    					</tr>
+		    					<input type = "hidden" id="sum_cost" value="<?php echo $grandtotal; ?>">
 		    				</table>
 		    			</td>
 		    		</tr>
@@ -666,4 +667,13 @@
 		    }   
 		    return false;   
 		}
+
+		function check_coc(){
+		    var sum_cost = document.getElementById("sum_cost").value;
+			if(parseFloat(sum_cost)>=10000){
+				alert("Please Print COC!");
+			}
+		}
+
+		window.onload = check_coc();
     </script>

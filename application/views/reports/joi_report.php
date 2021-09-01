@@ -109,11 +109,16 @@
                                             <th>JO Qty</th>
                                             <th>Received Qty</th>
                                             <th>UOM</th>
-                                            <th>Item Description</th>
+                                            <th>Scope of Work</th>
+                                            <th>Materials Offer</th>
+                                            <th>Materials Qty</th>
+                                            <th>Materials UOM</th>
                                             <th>Status</th>
                                             <th>Status Remarks</th>
                                             <th>Supplier </th>
                                             <th>Payment Term</th>
+                                            <th>Materials Unit Price</th>
+                                            <th>Materials Total Price</th>
                                             <th>Unit Price</th>
                                             <th>Total Price</th>
                                             <th>Remarks</th>										
@@ -138,7 +143,8 @@
                                             if(!empty($po)){
                                             foreach($po AS $p){ 
                                                 /*foreach($po_items AS $items){*/
-                                                    $total = $p['qty']*$p['unit_price'];
+                                                    $total = $p['joi_qty']*$p['unit_price'];
+                                                    $mat_total = $p['materials_qty']*$p['materials_unitprice'];
                                                     $jo_issue=$CI->like($p['status'], "JO Issued");
                                         ?>                                     
                                         <!-- <tr
@@ -173,10 +179,15 @@
                                             <td><?php echo $p['qty'];?></td>
                                             <td><?php echo $p['uom'];?></td>
                                             <td><?php echo $p['item'];?></td>
+                                            <td><?php echo $p['materials_offer'];?></td>
+                                            <td><?php echo $p['materials_qty'];?></td>
+                                            <td><?php echo $p['materials_unit'];?></td>
                                             <td><?php echo $p['status']; ?></td>
                                             <td><?php echo $p['status_remarks']; ?></td>
                                             <td><?php echo $p['supplier'];?></td>
                                             <td><?php echo $p['terms'];?></td>
+                                            <td><?php echo $p['materials_unitprice'];?></td>
+                                            <td><?php echo $p['materials_currency'] . " ".number_format($mat_total,2);?></td>
                                             <td><?php echo $p['currency'] . " ".$p['unit_price'];?></td>
                                             <td><?php echo $p['currency'] . " ".number_format($total,2);?></td>
                                             <td><?php echo $p['notes'];?></td>

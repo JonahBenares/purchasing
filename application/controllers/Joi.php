@@ -199,6 +199,8 @@ class Joi extends CI_Controller {
                 'revised'=>$head->revised,
                 'revision_no'=>$head->revision_no,
                 'served'=>$head->served,
+                'saved'=>$head->saved,
+                'jo_type'=>$head->joi_type,
                 'unreceived_dr'=>$unreceived_dr,
                 'joi_dr_id'=>$joi_dr_id
             );
@@ -230,7 +232,7 @@ class Joi extends CI_Controller {
         );
         $this->super_model->insert_into("joi_dr", $dr);
 
-        foreach($this->super_model->custom_query("SELECT * FROM joi_items WHERE delivered_quantity > quantity AND joi_id = '$joi_id'") AS $items){
+        foreach($this->super_model->custom_query("SELECT * FROM joi_items WHERE (delivered_quantity > quantity || materials_qty > materials_received)  AND joi_id = '$joi_id'") AS $items){
             $new_qty = $items->delivered_quantity-$items->quantity;
             $new_materials_qty = $items->materials_qty-$items->materials_received;
             $data = array(
@@ -252,6 +254,8 @@ class Joi extends CI_Controller {
                 'materials_qty'=>$new_materials_qty,
                 'materials_unitprice'=>$items->materials_unitprice,
                 'materials_amount'=>$items->materials_amount,
+                'materials_unit'=>$items->materials_unit,
+                'materials_currency'=>$items->materials_currency,
             );
             $this->super_model->insert_into("joi_dr_items", $data);
         }
@@ -751,8 +755,8 @@ class Joi extends CI_Controller {
             if($qty!=0){
                 $price = str_replace(",", "", $this->input->post('price'.$x));
                 $amount = str_replace(",", "", $this->input->post('tprice'.$x));
-                $materials_price = str_replace(",", "", $this->input->post('materials_price'.$x."_".$b));
-                $materials_tprice = str_replace(",", "", $this->input->post('materials_tprice'.$x."_".$b));
+                $materials_price = str_replace(",", "", $this->input->post('materials_price'.$x));
+                $materials_tprice = str_replace(",", "", $this->input->post('materials_tprice'.$x));
                 $data=array(
                     'joi_items_id'=>$joi_items_id,
                     'jor_id'=>$this->super_model->select_column_where('jor_aoq_head', 'jor_id', 'jor_aoq_id', $this->input->post('jor_aoq_id'.$x)),
@@ -768,11 +772,11 @@ class Joi extends CI_Controller {
                     'amount'=>$amount,
                     'item_no'=>$a,
                     'materials_offer'=>$this->input->post('materials_offer'.$x),
-                    'materials_qty'=>$this->input->post('materials_qty'.$x."_".$b),
+                    'materials_qty'=>$this->input->post('materials_qty'.$x),
                     'materials_unitprice'=>$materials_price,
                     'materials_amount'=>$materials_tprice,
                     'materials_unit'=>$this->input->post('uom'.$x),
-                    'materials_currency'=>$this->input->post('materials_currency'.$x."_".$b),
+                    'materials_currency'=>$this->input->post('materials_currency'.$x),
                 );
 
                 $data_dr=array(
@@ -791,16 +795,15 @@ class Joi extends CI_Controller {
                     'amount'=>$amount,
                     'item_no'=>$a,
                     'materials_offer'=>$this->input->post('materials_offer'.$x),
-                    'materials_qty'=>$this->input->post('materials_qty'.$x."_".$b),
+                    'materials_qty'=>$this->input->post('materials_qty'.$x),
                     'materials_unitprice'=>$materials_price,
                     'materials_amount'=>$materials_tprice,
                     'materials_unit'=>$this->input->post('uom'.$x),
-                    'materials_currency'=>$this->input->post('materials_currency'.$x."_".$b),
+                    'materials_currency'=>$this->input->post('materials_currency'.$x),
                 );
                 $this->super_model->insert_into("joi_items", $data);
                 $this->super_model->insert_into("joi_dr_items", $data_dr);
                 $a++;
-                $b++;
             }   
         }
 

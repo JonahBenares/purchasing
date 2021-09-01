@@ -207,8 +207,7 @@
 		    		<tr>
 		    			<td class="all-border" align="center" colspan="20">
 		    				<b class="nomarg">
-		    				<!-- <?php echo $h->general_desc; ?> -->
-		    				Machining of Sprocket/Chain Coupling for Unit 4 Lube Oil Priming Pump Replacement and Spare for Unit 4 and 5.
+		    					<?php echo $h->general_desc; ?>
 		    				</b>
 		    			</td>
 		    		</tr>

@@ -256,11 +256,17 @@ $(document).on("click", "#approve_rev", function () {
                                             </td>
                                             <td>
                                                 <center>
-                                                    <?php if($h['saved']==1){ ?> 
+                                                    <?php if($h['saved']==1 && $h['joi_type']==0){ ?> 
                                                     <a href="" class="btn btn-custon-three btn-success btn-xs deliverjoi" title='Deliver JOI' onclick="deliver_jo('<?php echo base_url(); ?>','<?php echo $h['joi_id']?>','<?php echo $h['joi_dr_id']?>')">
                                                         <span class="fa fa-truck"></span>
                                                     </a>
+                                                    <?php }else if($h['saved']==1 && $h['joi_type']==1){ ?>
+                                                    <a href="" class="btn btn-custon-three btn-success btn-xs deliverjoi" title='Deliver JOD' onclick="deliver_jod('<?php echo base_url(); ?>','<?php echo $h['joi_id']?>','<?php echo $h['joi_dr_id']?>')">
+                                                        <span class="fa fa-truck"></span>
+                                                    </a>
                                                     <?php } ?>
+
+
                                                     <?php if($h['saved']==0 && $h['joi_type']==0 && $h['revised']==0){ ?>
                                                     <a href="<?php echo base_url(); ?>joi/jo_issuance/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
