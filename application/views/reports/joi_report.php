@@ -158,9 +158,9 @@
                                             echo "class='pi'";
                                         } ?>> -->
                                         <tr
-                                        <?php if($p['status']=='Fully Delivered'){
+                                        <?php if($p['jor_status']=='Fully Delivered'){
                                                 echo "class='green'";
-                                            } else if($p['status']=='Partially Delivered') {
+                                            } else if($p['jor_status']=='Partially Delivered') {
                                                 echo "class='yellow'";
                                             } else if($p['status']=='Cancelled') {
                                                 echo "class='cd'";
@@ -182,8 +182,8 @@
                                             <td><?php echo $p['materials_offer'];?></td>
                                             <td><?php echo $p['materials_qty'];?></td>
                                             <td><?php echo $p['materials_unit'];?></td>
-                                            <td><?php echo $p['status']; ?></td>
-                                            <td><?php echo $p['status_remarks']; ?></td>
+                                            <td><?php echo ($p['jor_status']!='') ? $p['jor_status'] : $p['status']; ?></td>
+                                            <td><?php echo ($p['jor_status_remarks']!='') ? $p['jor_status_remarks'] : $p['status_remarks']; ?></td>
                                             <td><?php echo $p['supplier'];?></td>
                                             <td><?php echo $p['terms'];?></td>
                                             <td><?php echo $p['materials_unitprice'];?></td>

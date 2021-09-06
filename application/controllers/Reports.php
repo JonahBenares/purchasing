@@ -7077,8 +7077,7 @@ class Reports extends CI_Controller {
                 $status= "Cancelled";
                 $status_remarks =  "";
             } 
-           
-           //echo $pr_qty ." < " . $sum_received_qty;
+
             if($pr_qty > $sum_received_qty || $sum_received_qty == 0){
             
                 if($item_cancelled == 1 || $po_cancelled==1){
@@ -7090,17 +7089,6 @@ class Reports extends CI_Controller {
                   
 
                 } else {
-
-               /*    
-                    if($item_on_hold == 1){
-                         $status = 'On-Hold';
-                         $onhold_by_id = $this->super_model->select_column_where("jor_items", "onhold_by","jor_items_id",$jor_items_id); // get onhold date
-                         $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by_id);
-          
-                        $onhold_date = $this->super_model->select_column_where("jor_items", "onhold_date","jor_items_id",$jor_items_id); // get onhold date
-                        $statuss = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
-                    }*/
-
                     if($item_for_recom == 1){
                         $recom_date_from = $this->super_model->select_column_where("jor_items", "recom_date_from","jor_items_id",$jor_items_id); 
                         $recom_date_to = $this->super_model->select_column_where("jor_items", "recom_date_to","jor_items_id",$jor_items_id); 
@@ -7108,134 +7096,91 @@ class Reports extends CI_Controller {
                         $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$recom_by_id);
                         $statuss = "-Recom By: ".$recom_by."<br> -Recom Date: ".date("M j, Y",strtotime($recom_date_from))." To ".date("M j, Y",strtotime($recom_date_to));
                     }
-                   
-                    //if($count_po_served == 0){
-                        
-                       // echo $count_rfq ." aoq =  " . $count_aoq . ", award = ". $count_aoq_awarded . ", po = ".$count_po . ", served = ". $count_po_served;
 
-                        if($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0){
-                             
-                             if($item_on_hold == 1){
-                                $status = 'On-Hold';
-                                $onhold_by_id = $this->super_model->select_column_where("jor_items", "onhold_by","jor_items_id",$jor_items_id); // get onhold date
-                                $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by_id);
-                  
-                                $onhold_date = $this->super_model->select_column_where("jor_items", "onhold_date","jor_items_id",$jor_items_id); // get onhold date
-                                $statuss = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
-                                $status_remarks = 'For RFQ <br>' . $statuss;
-                             } else {
-                                if($item_fulfilled_by_mnl == 1){
-                                    $status = 'Delivered by CENPRI-MNL';
-                                     $status_remarks = 'For RFQ <br>' . $statuss;
-                                } else {
-                                    $status = 'Pending';
-                                    $status_remarks = 'For RFQ <br>' . $statuss;
-                                }
-                                
-                             }
-
-
-                        } else if($count_rfq != 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0){
-                             if($item_on_hold == 1){
-                                $status = 'On-Hold';
-                                $onhold_by_id = $this->super_model->select_column_where("jor_items", "onhold_by","jor_items_id",$jor_items_id); // get onhold date
-                                $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by_id);
-                  
-                                $onhold_date = $this->super_model->select_column_where("jor_items", "onhold_date","jor_items_id",$jor_items_id); // get onhold date
-                                $statuss = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
-                                $status_remarks = 'Canvassing Ongoing  <br>' . $statuss;
-                             } else {
-                                 $status = 'Pending';
-                                 $status_remarks = 'Canvassing Ongoing <br>' . $statuss;
-                            }
-
-                            
-                        }  else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_draft != 0 && $count_po_served_draft ==0 && $draft!=0)){
-                             if($item_on_hold == 1){
-                                $status = 'On-Hold';
-                                $onhold_by_id = $this->super_model->select_column_where("jor_items", "onhold_by","jor_items_id",$jor_items_id); // get onhold date
-                                $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by_id);
-                  
-                                $onhold_date = $this->super_model->select_column_where("jor_items", "onhold_date","jor_items_id",$jor_items_id); // get onhold date
-                                $statuss = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
-                                $status_remarks = 'JO AOQ Done - For TE - '. $aoq_date .'<br>' . $statuss;
-                             } else {
-                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$jor_items_id' AND saved='1' ");
-                                 $status = 'Pending';
-                                 $status_remarks = 'JO AOQ Done - For TE - '. $aoq_date .'<br>' . $statuss;
-
-                            }
-                          
-                        } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served ==0){
-
-                            if($item_on_hold == 1){
-                                $status = 'On-Hold';
-                                $onhold_by_id = $this->super_model->select_column_where("jor_items", "onhold_by","jor_items_id",$jor_items_id); // get onhold date
-                                $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by_id);
-                  
-                                $onhold_date = $this->super_model->select_column_where("jor_items", "onhold_date","jor_items_id",$jor_items_id); // get onhold date
-                                $statuss = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
-                                $status_remarks = 'For JO - AOQ Done (awarded) <br>' . $statuss;
-                             } else {
-                                 $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$jor_items_id' AND saved='1' ");
-                                 $status = 'Pending';
-                                 $status_remarks = 'For JO - AOQ Done (awarded) <br>' . $statuss;
-
-                            }
-
-
-                          
-                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0) || 
-                            ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0)) {
-                            $uom = $this->super_model->select_column_where("jor_items", "uom","jor_items_id",$jor_items_id);
-                            //echo $pr_qty ."<=". $sum_delivered_qty;
-                            if($pr_qty < $sum_delivered_qty){
-                                 $status = 'JO Issued - Partial';
+                    if($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0){
+                         
+                         if($item_on_hold == 1){
+                            $status = 'On-Hold';
+                            $onhold_by_id = $this->super_model->select_column_where("jor_items", "onhold_by","jor_items_id",$jor_items_id); // get onhold date
+                            $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by_id);
+              
+                            $onhold_date = $this->super_model->select_column_where("jor_items", "onhold_date","jor_items_id",$jor_items_id); // get onhold date
+                            $statuss = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                            $status_remarks = 'For RFQ <br>' . $statuss;
+                         } else {
+                            if($item_fulfilled_by_mnl == 1){
+                                $status = 'Delivered by CENPRI-MNL';
+                                 $status_remarks = 'For RFQ <br>' . $statuss;
                             } else {
-                                 //$status = 'PO Issued';
-                                 $status = "JO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_delivered_qty . " ".$uom .")</span><br>" . $statuss;
+                                $status = 'Pending';
+                                $status_remarks = 'For RFQ <br>' . $statuss;
                             }
-                           
-                        }  else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0 && $draft==0){
-                            $status_remarks='';
-                            foreach($this->super_model->custom_query("SELECT pdr.* FROM joi_dr_items pdr INNER JOIN joi_dr po ON pdr.joi_dr_id = po.joi_dr_id WHERE jor_items_id = '$jor_items_id' AND date_received!=''") AS $del){
+                            
+                         }
+
+
+                    } else if($count_rfq != 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0){
+                         if($item_on_hold == 1){
+                            $status = 'On-Hold';
+                            $onhold_by_id = $this->super_model->select_column_where("jor_items", "onhold_by","jor_items_id",$jor_items_id); // get onhold date
+                            $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by_id);
+              
+                            $onhold_date = $this->super_model->select_column_where("jor_items", "onhold_date","jor_items_id",$jor_items_id); // get onhold date
+                            $statuss = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                            $status_remarks = 'Canvassing Ongoing  <br>' . $statuss;
+                         } else {
+                             $status = 'Pending';
+                             $status_remarks = 'Canvassing Ongoing <br>' . $statuss;
+                        }
+
+                        
+                    }  else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_draft != 0 && $count_po_served_draft ==0 && $draft!=0)){
+                         if($item_on_hold == 1){
+                            $status = 'On-Hold';
+                            $onhold_by_id = $this->super_model->select_column_where("jor_items", "onhold_by","jor_items_id",$jor_items_id); // get onhold date
+                            $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by_id);
+              
+                            $onhold_date = $this->super_model->select_column_where("jor_items", "onhold_date","jor_items_id",$jor_items_id); // get onhold date
+                            $statuss = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                            $status_remarks = 'JO AOQ Done - For TE - '. $aoq_date .'<br>' . $statuss;
+                         } else {
+                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$jor_items_id' AND saved='1' ");
+                             $status = 'Pending';
+                             $status_remarks = 'JO AOQ Done - For TE - '. $aoq_date .'<br>' . $statuss;
+
+                        }
                       
-                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id)."-".COMPANY." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
-                            }
-                            //echo $sum_delivered_qty ."<". $sum_received_qty;
-                             if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
-                                if($controller_name=='joi_report'){
-                                    if($po_qty != $po_rec_qty){
-                                        $status = 'Partially Delivered';
-                                    }else{
-                                        $status = 'Fully Delivered';
-                                    }
-                                }else{
-                                    $status = 'Partially Delivered';
-                                }
+                    } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served ==0){
 
-                             } else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
-                                 $status = 'JO Issued - Partial <br> Partially Delivered';
+                        if($item_on_hold == 1){
+                            $status = 'On-Hold';
+                            $onhold_by_id = $this->super_model->select_column_where("jor_items", "onhold_by","jor_items_id",$jor_items_id); // get onhold date
+                            $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$onhold_by_id);
+              
+                            $onhold_date = $this->super_model->select_column_where("jor_items", "onhold_date","jor_items_id",$jor_items_id); // get onhold date
+                            $statuss = "-On Hold Date: ".$onhold_date."<br> -On Hold By: ".$onhold_by;
+                            $status_remarks = 'For JO - AOQ Done (awarded) <br>' . $statuss;
+                         } else {
+                             $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM jor_aoq_head ah INNER JOIN jor_aoq_items ai ON ah.jor_aoq_id = ai.jor_aoq_id WHERE ai.jor_items_id= '$jor_items_id' AND saved='1' ");
+                             $status = 'Pending';
+                             $status_remarks = 'For JO - AOQ Done (awarded) <br>' . $statuss;
 
-                             } else if($sum_delivered_qty == $sum_received_qty || $po_qty == $po_rec_qty){
-                                $status = 'Fully Delivered';
-                             }
                         }
 
 
-    
+                      
+                    } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0) || 
+                        ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0)) {
+                        $uom = $this->super_model->select_column_where("jor_items", "uom","jor_items_id",$jor_items_id);
+                        $status = "JO Issued";
+                        /*if($pr_qty < $sum_delivered_qty){
+                             $status = 'JO Issued - Partial';
+                        } else {*/
+                             
+                        //}    
                     }
-              //  }
-
-            } else if($pr_qty <= $sum_received_qty && $po_cancelled==0) {
-
-                  $status_remarks='';
-                foreach($this->super_model->custom_query("SELECT pdr.* FROM joi_dr_items pdr INNER JOIN joi_dr po ON pdr.joi_dr_id = po.joi_dr_id WHERE jor_items_id = '$jor_items_id' AND date_received!=''") AS $del){
-          
-                     $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id)."-".COMPANY."<br>";
                 }
-                          
-                $status = 'Fully Delivered';
+
             }
 
             $data=array(
@@ -7391,60 +7336,14 @@ class Reports extends CI_Controller {
                                  $status_remarks = "For JO - AOQ Done (awarded) \n" . $statuss;
 
                             }
-
-
-                          
                         } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0) || 
                             ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0)) {
                             $uom = $this->super_model->select_column_where("jor_items", "uom","jor_items_id",$jor_items_id);
-                            //echo $pr_qty ."<=". $sum_delivered_qty;
-                            if($pr_qty < $sum_delivered_qty){
-                                 $status = 'JO Issued - Partial';
-                            } else {
-                                 //$status = 'PO Issued';
-                                 $status = "JO Issued (". $sum_delivered_qty . " ".$uom .")\n" . $statuss;
-                            }
-                           
-                        }  else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0 && $draft==0){
-                            $status_remarks='';
-                            foreach($this->super_model->custom_query("SELECT pdr.* FROM joi_dr_items pdr INNER JOIN joi_dr po ON pdr.joi_dr_id = po.joi_dr_id WHERE jor_items_id = '$jor_items_id' AND date_received!=''") AS $del){
-                      
-                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id)."-".COMPANY." (". $del->quantity . " ".$del->uom .")\n";
-                            }
-                            //echo $sum_delivered_qty ."<". $sum_received_qty;
-                             if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
-                                if($controller_name=='joi_report'){
-                                    if($po_qty != $po_rec_qty){
-                                        $status = 'Partially Delivered';
-                                    }else{
-                                        $status = 'Fully Delivered';
-                                    }
-                                }else{
-                                    $status = 'Partially Delivered';
-                                }
-
-                             } else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
-                                 $status = "JO Issued - Partial \n Partially Delivered";
-
-                             } else if($sum_delivered_qty == $sum_received_qty  || $po_qty == $po_rec_qty){
-                                $status = 'Fully Delivered';
-                             }
-                        }
-
-
-    
+                            $status = "JO Issued";
+                        }     
                     }
               //  }
 
-            } else if($pr_qty <= $sum_received_qty && $po_cancelled==0) {
-
-                  $status_remarks='';
-                foreach($this->super_model->custom_query("SELECT pdr.* FROM joi_dr_items pdr INNER JOIN joi_dr po ON pdr.joi_dr_id = po.joi_dr_id WHERE jor_items_id = '$jor_items_id' AND date_received!=''") AS $del){
-          
-                     $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('joi_dr', 'date_received', 'joi_dr_id', $del->joi_dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('joi_dr', 'joi_dr_no', 'joi_dr_id', $del->joi_dr_id)."-".COMPANY."\n";
-                }
-                          
-                $status = 'Fully Delivered';
             }
 
             $data=array(
@@ -7518,6 +7417,8 @@ class Reports extends CI_Controller {
             $revised='';
             $current_qty='';
             $revision_no = $this->super_model->select_column_where("joi_head","revision_no","joi_id",$joi_id);
+            $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$pr->jor_items_id'");
+            $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$pr->jor_items_id'");
             if($revision_no!=0){
                 foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM joi_items_revised WHERE joi_id = '$joi_id' AND jor_items_id = '$pr->jor_items_id' GROUP BY revision_no") AS $rev){
                     if($rev->revision_no == 0){
@@ -7584,6 +7485,8 @@ class Reports extends CI_Controller {
                 'materials_received'=>$materials_received,
                 'materials_currency'=>$materials_currency,
                 'materials_unit'=>$materials_unit,
+                'jor_status'=>$jor_status,
+                'jor_status_remarks'=>$jor_status_remarks,
                 /*'company'=>$this->super_model->select_column_where('company','company_name','company_id',$pr->company_id),
                 'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$pr->vendor_id),
                 'company_id'=>$pr->company_id,
@@ -7743,6 +7646,8 @@ class Reports extends CI_Controller {
             $stat = $this->jor_item_status($pr->jor_items_id,$controller_name,$joi_id);
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
+            $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$pr->jor_items_id'");
+            $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$pr->jor_items_id'");
             $revised='';
             $current_qty='';
             $revision_no = $this->super_model->select_column_where("joi_head","revision_no","joi_id",$joi_id);
@@ -7811,6 +7716,8 @@ class Reports extends CI_Controller {
                 'materials_received'=>$materials_received,
                 'materials_currency'=>$materials_currency,
                 'materials_unit'=>$materials_unit, 
+                'jor_status'=>$jor_status, 
+                'jor_status_remarks'=>$jor_status_remarks, 
                 /*'company'=>$this->super_model->select_column_where('company','company_name','company_id',$pr->company_id),
                 'supplier'=>$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$pr->vendor_id),
                 'company_id'=>$pr->company_id,
@@ -7908,6 +7815,24 @@ class Reports extends CI_Controller {
             window.location = '".base_url()."reports/jor_report/".$year."/".$month."';</script>";
         }
     }
+
+    public function update_jo_remarks(){
+        $jor_items_id =$this->input->post('jor_items_id');
+        $jor_status=$this->input->post('jor_status');
+        $status_remarks=$this->input->post('status_remarks');
+        $year =$this->input->post('year');
+        $month =$this->input->post('month');
+        $data=array(
+            'status'=>$jor_status,
+            'status_remarks'=>$status_remarks,
+        );
+        if($this->super_model->update_where("jor_items", $data, "jor_items_id", $jor_items_id)){
+            echo "<script>alert('Successfully Changed!');
+            window.location = '".base_url()."reports/jor_report/".$year."/".$month."';</script>";
+        }
+    }
+
+
 
     public function export_jor(){
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
@@ -8037,6 +7962,8 @@ class Reports extends CI_Controller {
                 $revised='';
                 $current_qty='';
                 $revision_no = $this->super_model->select_column_where("joi_head","revision_no","joi_id",$joi_id);
+                $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$pr->jor_items_id'");
+                $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$pr->jor_items_id'");
                 if($revision_no!=0){
                     foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM joi_items_revised WHERE joi_id = '$joi_id' AND jor_items_id = '$pr->jor_items_id' GROUP BY revision_no") AS $rev){
                         if($rev->revision_no == 0){
@@ -8074,9 +8001,9 @@ class Reports extends CI_Controller {
                 $jo_issue=$this->like($status, "JO Issued");
                 //$delivered_by=$this->like($status, "Delivered by");
 
-                if($status=='Fully Delivered'){
+                if($jor_status=='Fully Delivered'){
                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
-                } else if($status=='Partially Delivered') {
+                } else if($jor_status=='Partially Delivered') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                 } else if($status=='Cancelled') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
@@ -8094,7 +8021,7 @@ class Reports extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('eeccff');
                 }*/
                 $jor_no = $jo_no."-".COMPANY;
-                if($status!='Fully Delivered' && $status!='Cancelled'){
+                if($jor_status!='Fully Delivered' && $status!='Cancelled'){
                     if($pr->on_hold==1){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "✓");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "");
@@ -8104,6 +8031,17 @@ class Reports extends CI_Controller {
                     }
                 }
                 $revise_qty = $revised."\n".$current_qty;
+                if($jor_status!=''){
+                    $stats = $jor_status;
+                }else{
+                    $stats = $status;
+                }
+
+                if($jor_status_remarks!=''){
+                    $stats_rem = $jor_status_remarks;
+                }else{
+                    $stats_rem = $status_remarks;
+                }
                 $materials_offer = $this->super_model->select_column_where('joi_items', 'materials_offer', 'jor_items_id', $pr->jor_items_id);
                 $materials_qty = $this->super_model->select_column_where('joi_items', 'materials_qty', 'jor_items_id', $pr->jor_items_id);
                 $materials_unit = $this->super_model->select_column_where('joi_items', 'materials_unit', 'jor_items_id', $pr->jor_items_id);
@@ -8122,8 +8060,8 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$materials_offer");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$materials_qty");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$materials_unit");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$status_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$stats_rem");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$stats");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, "$pr->add_remarks");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U'.$num, "$pr->cancel_remarks");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V'.$num, "");
@@ -8183,6 +8121,8 @@ class Reports extends CI_Controller {
                 $revised='';
                 $current_qty='';
                 $revision_no = $this->super_model->select_column_where("joi_head","revision_no","joi_id",$joi_id);
+                $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$pr->jor_items_id'");
+                $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$pr->jor_items_id'");
                 if($revision_no!=0){
                     foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM joi_items_revised WHERE joi_id = '$joi_id' AND jor_items_id = '$pr->jor_items_id' GROUP BY revision_no") AS $rev){
                         if($rev->revision_no == 0){
@@ -8221,9 +8161,9 @@ class Reports extends CI_Controller {
                 $jo_issue=$this->like($status, "JO Issued");
                 //$delivered_by=$this->like($status, "Delivered by");
 
-                if($status=='Fully Delivered'){
+                if($jor_status=='Fully Delivered'){
                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
-                } else if($status=='Partially Delivered') {
+                } else if($jor_status=='Partially Delivered') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                 } else if($status=='Cancelled') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":V".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
@@ -8241,7 +8181,7 @@ class Reports extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('eeccff');
                 }*/
                 $jor_no = $jo_no."-".COMPANY;
-                if($status!='Fully Delivered' && $status!='Cancelled'){
+                if($jor_status!='Fully Delivered' && $status!='Cancelled'){
                     if($pr->on_hold==1){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "✓");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "");
@@ -8251,6 +8191,17 @@ class Reports extends CI_Controller {
                     }
                 }
                 $revise_qty = $revised."\n".$current_qty;
+                if($jor_status!=''){
+                    $stats = $jor_status;
+                }else{
+                    $stats = $status;
+                }
+
+                if($jor_status_remarks!=''){
+                    $stats_rem = $jor_status_remarks;
+                }else{
+                    $stats_rem = $status_remarks;
+                }
                 $materials_offer = $this->super_model->select_column_where('joi_items', 'materials_offer', 'jor_items_id', $pr->jor_items_id);
                 $materials_qty = $this->super_model->select_column_where('joi_items', 'materials_qty', 'jor_items_id', $pr->jor_items_id);
                 $materials_unit = $this->super_model->select_column_where('joi_items', 'materials_unit', 'jor_items_id', $pr->jor_items_id);
@@ -8269,8 +8220,8 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$materials_offer");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$materials_qty");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$materials_unit");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$status_remarks");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$status");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "$stats_rem");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, "$stats");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, "$pr->add_remarks");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U'.$num, "$pr->cancel_remarks");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V'.$num, "");
@@ -8639,6 +8590,8 @@ class Reports extends CI_Controller {
                     $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM joi_items pi INNER JOIN joi_head ph ON  ph.joi_id = pi.joi_id WHERE ph.cancelled = '0' AND pi.jor_items_id = '$i->jor_items_id'");
                     $unserved_qty=0;
                     $unserved_uom='';  
+                    $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$i->jor_items_id'");
+                    $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$i->jor_items_id'");
                     $stat = $this->jor_item_status($i->jor_items_id,$controller_name,$i->joi_id);
                     $status = $stat['status'];
                     $status_remarks = $stat['remarks'];
@@ -8671,6 +8624,8 @@ class Reports extends CI_Controller {
                         'materials_received'=>$i->materials_received,
                         'materials_currency'=>$i->materials_currency,
                         'materials_unit'=>$i->materials_unit,
+                        'jor_status'=>$jor_status,
+                        'jor_status_remarks'=>$jor_status_remarks,
                     );
                 }
             }
@@ -8872,6 +8827,8 @@ class Reports extends CI_Controller {
             $stat = $this->jor_item_status($p->jor_items_id,$controller_name,$p->joi_id);
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
+            $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$p->jor_items_id'");
+            $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$p->jor_items_id'");
             $data['po'][]=array(
                 'joi_id'=>$p->joi_id,
                 'jo_no'=>$jo_no,
@@ -8903,6 +8860,8 @@ class Reports extends CI_Controller {
                 'materials_received'=>$p->materials_received,
                 'materials_currency'=>$p->materials_currency,
                 'materials_unit'=>$p->materials_unit,
+                'jor_status'=>$jor_status,
+                'jor_status_remarks'=>$jor_status_remarks,
             );
         }
         $this->load->view('template/header');        
@@ -9088,6 +9047,8 @@ class Reports extends CI_Controller {
                 $stat = $this->jor_item_status_export($p->jor_items_id,$controller_name,$p->joi_id);
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
+                $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$p->jor_items_id'");
+                $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$p->jor_items_id'");
                 $styleArray = array(
                     'borders' => array(
                         'allborders' => array(
@@ -9106,9 +9067,9 @@ class Reports extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
                 }*/
                 $jo_issue=$this->like($status, "JO Issued");
-                if($status=='Fully Delivered'){
+                if($jor_status=='Fully Delivered'){
                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
-                } else if($status=='Partially Delivered') {
+                } else if($jor_status=='Partially Delivered') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                 } else if($status=='Cancelled') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
@@ -9121,6 +9082,17 @@ class Reports extends CI_Controller {
                 }
 
                 $joi_no = $p->joi_no."-".COMPANY;
+                if($jor_status!=''){
+                    $stats = $jor_status;
+                }else{
+                    $stats = $status;
+                }
+
+                if($jor_status_remarks!=''){
+                    $stats_rem = $jor_status_remarks;
+                }else{
+                    $stats_rem = $status_remarks;
+                }
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->purpose");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->joi_date");
@@ -9133,8 +9105,8 @@ class Reports extends CI_Controller {
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$p->materials_offer");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$p->materials_qty");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$p->materials_unit");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$status");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$status_remarks");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$stats");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$stats_rem");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$supplier");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$terms");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$p->materials_currency $p->materials_unitprice");
@@ -9219,6 +9191,8 @@ class Reports extends CI_Controller {
                         $stat = $this->jor_item_status_export($i->jor_items_id,$controller_name,$i->joi_id);
                         $status = $stat['status'];
                         $status_remarks = $stat['remarks'];
+                        $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$i->jor_items_id'");
+                        $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$i->jor_items_id'");
                         $styleArray = array(
                             'borders' => array(
                                 'allborders' => array(
@@ -9237,9 +9211,9 @@ class Reports extends CI_Controller {
                             $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
                         }*/
                         $jo_issue=$this->like($status, "JO Issued");
-                        if($status=='Fully Delivered'){
+                        if($jor_status=='Fully Delivered'){
                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
-                        } else if($status=='Partially Delivered') {
+                        } else if($jor_status=='Partially Delivered') {
                             $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                         } else if($status=='Cancelled') {
                             $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
@@ -9251,6 +9225,17 @@ class Reports extends CI_Controller {
                             $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('ffecd0');
                         }
                         $joi_no = $p->joi_no."-".COMPANY;
+                        if($jor_status!=''){
+                            $stats = $jor_status;
+                        }else{
+                            $stats = $status;
+                        }
+
+                        if($jor_status_remarks!=''){
+                            $stats_rem = $jor_status_remarks;
+                        }else{
+                            $stats_rem = $status_remarks;
+                        }
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->joi_date");
@@ -9263,8 +9248,8 @@ class Reports extends CI_Controller {
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$i->materials_offer");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$i->materials_qty");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$i->materials_unit");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$status");
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$status_remarks");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$stats");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$stats_rem");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$supplier");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$terms");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, "$i->materials_currency $i->materials_unitprice");
@@ -9387,6 +9372,8 @@ class Reports extends CI_Controller {
                     $stat = $this->jor_item_status($i->jor_items_id,$controller_name,$i->joi_id);
                     $status = $stat['status'];
                     $status_remarks = $stat['remarks'];
+                    $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$i->jor_items_id'");
+                    $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$i->jor_items_id'");
                     $total = $unserved_qty * $i->unit_price;
                     $mat_total = $unserved_materials_qty * $i->materials_unitprice;
                     if($p->served==1 && ($i->delivered_quantity>$i->quantity || $i->materials_qty>$i->materials_received)){ 
@@ -9422,6 +9409,8 @@ class Reports extends CI_Controller {
                             'served'=>$p->served,
                             'cancelled'=>$p->cancelled,
                             'total'=>$total,
+                            'jor_status'=>$jor_status,
+                            'jor_status_remarks'=>$jor_status_remarks,
                         );
                     }
                 }
@@ -9606,6 +9595,8 @@ class Reports extends CI_Controller {
             $stat = $this->jor_item_status($p->jor_items_id,$controller_name,$p->joi_id);
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
+            $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$p->jor_items_id'");
+            $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$p->jor_items_id'");
             $total = $unserved_qty * $p->unit_price;
             $mat_total = $unserved_materials_qty * $p->materials_unitprice;
             if($p->served==1 && ($p->delivered_quantity>$p->quantity || $p->materials_qty>$p->materials_received)){ 
@@ -9641,6 +9632,8 @@ class Reports extends CI_Controller {
                     'served'=>$p->served,
                     'cancelled'=>$p->cancelled,
                     'total'=>$total,
+                    'jor_status'=>$jor_status,
+                    'jor_status_remarks'=>$jor_status_remarks,
                 );
             }
         }
@@ -9804,11 +9797,12 @@ class Reports extends CI_Controller {
                 $stat = $this->jor_item_status_export($p->jor_items_id,$controller_name,$p->joi_id);
                 $status = $stat['status'];
                 $status_remarks = $stat['remarks'];
-
+                $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$p->jor_items_id'");
+                $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$p->jor_items_id'");
                 $jo_issue=$this->like($status, "JO Issued");
-                if($status=='Fully Delivered'){
+                if($jor_status=='Fully Delivered'){
                    $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
-                } else if($status=='Partially Delivered') {
+                } else if($jor_status=='Partially Delivered') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                 } else if($status=='Cancelled') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
@@ -9828,6 +9822,17 @@ class Reports extends CI_Controller {
                         )
                     )
                 );
+                if($jor_status!=''){
+                    $stats = $jor_status;
+                }else{
+                    $stats = $status;
+                }
+
+                if($jor_status_remarks!=''){
+                    $stats_rem = $jor_status_remarks;
+                }else{
+                    $stats_rem = $status_remarks;
+                }
                 if($p->served==1 && ($p->delivered_quantity>$p->quantity || $p->materials_qty>$p->materials_unitprice)){ 
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->purpose");
@@ -9840,8 +9845,8 @@ class Reports extends CI_Controller {
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$p->materials_offer");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$unserved_materials_qty");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$p->materials_unit");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$status");
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$status_remarks");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$stats");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$stats_rem");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$supplier");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$terms");
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$p->materials_unitprice");
@@ -9919,10 +9924,12 @@ class Reports extends CI_Controller {
                         $stat = $this->jor_item_status_export($i->jor_items_id,$controller_name,$i->joi_id);
                         $status = $stat['status'];
                         $status_remarks = $stat['remarks'];
+                        $jor_status = $this->super_model->select_column_custom_where("jor_items","status","jor_items_id='$i->jor_items_id'");
+                        $jor_status_remarks = $this->super_model->select_column_custom_where("jor_items","status_remarks","jor_items_id='$i->jor_items_id'");
                         $jo_issue=$this->like($status, "JO Issued");
-                        if($status=='Fully Delivered'){
+                        if($jor_status=='Fully Delivered'){
                            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('bcffc7');
-                        } else if($status=='Partially Delivered') {
+                        } else if($jor_status=='Partially Delivered') {
                             $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f7ffb9');
                         } else if($status=='Cancelled') {
                             $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":T".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cacaca');
@@ -9942,6 +9949,17 @@ class Reports extends CI_Controller {
                                 )
                             )
                         );
+                        if($jor_status!=''){
+                            $stats = $jor_status;
+                        }else{
+                            $stats = $status;
+                        }
+
+                        if($jor_status_remarks!=''){
+                            $stats_rem = $jor_status_remarks;
+                        }else{
+                            $stats_rem = $status_remarks;
+                        }
                         if($p->served==1 && ($i->delivered_quantity>$i->quantity || $i->materials_qty>$i->materials_unitprice)){ 
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
@@ -9954,8 +9972,8 @@ class Reports extends CI_Controller {
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, "$i->materials_offer");
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, "$unserved_materials_qty");
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, "$i->materials_unit");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$status");
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$status_remarks");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, "$stats");
+                            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, "$stats_rem");
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, "$supplier");
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, "$terms");
                             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, "$i->materials_unitprice");

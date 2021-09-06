@@ -262,9 +262,11 @@
                     <!--ITEMS-->
     				<?php
 			    		$subtotal=array();
+			    		$materials_subtotal=array();
 			    		if(!empty($items)){
 			    		foreach($items AS $i){ 
-			    			$subtotal[] = $i['total'] + $i['materials_amount'];
+			    			$subtotal[] = $i['total'];
+			    			$materials_subtotal[] = $i['materials_amount'];
 		    		?>
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></td>
@@ -276,7 +278,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($i['total'],2); ?></span>
 		    			</td>
 		    		</tr>
-		    		<?php } } else { $subtotal=array(); } ?>
+		    		<?php } } else { $subtotal=array();$materials_subtotal=array(); } ?>
 		    		<!--ITEMS-->
 		    		<tr>
 						<td colspan="17" class="bor-right"><br> <b>&nbsp;&nbsp;Materials:</b></td>
@@ -284,9 +286,11 @@
 		    		<!--MATERIALS-->
 		    		<?php
 			    		$subtotal=array();
+			    		$materials_subtotal=array();
 			    		if(!empty($items)){
 			    		foreach($items AS $i){ 
-			    			$subtotal[] = $i['total'] + $i['materials_amount'];
+			    			$subtotal[] = $i['total'];
+			    			$materials_subtotal[] = $i['materials_amount'];
 			    			if($i['materials_offer']!=''){
 		    		?>
 		    		<tr>
@@ -299,7 +303,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($i['materials_amount'],2); ?></span>
 		    			</td>
 		    		</tr>
-		    		<?php } } } else { $subtotal=array(); } ?>
+		    		<?php } } } else { $subtotal=array();$materials_subtotal=array(); } ?>
 		    		<!--MATERIALS-->
 		    		<tr>
 		    			<td align="left" colspan="7" ><?php echo $cenpri_jo_no."/".$joi_no."-".COMPANY; ?></td>
@@ -322,16 +326,24 @@
 		    		<?php } ?>
 		    		<?php 
 
+		    			$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
 		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt) - $discount;
+		    			$mattotal = (array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
 		    		?>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">SubTotal:</b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Labor SubTotal:</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
 		    				<span class="nomarg" id=''><?php echo number_format(array_sum($subtotal),2); ?></span>
 		    			</td>
 		    		</tr>
-		    		
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Materials SubTotal:</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"></span>
+		    				<span class="nomarg" id=''><?php echo number_format(array_sum($materials_subtotal),2); ?></span>
+		    			</td>
+		    		</tr>
 		    		</tr>
 		    			<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less Discount"; ?></b></td>
@@ -345,7 +357,7 @@
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Net: "; ?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><?php echo number_format($stotal,2); ?></span>
+		    				<span class="nomarg" id=''><?php echo number_format($nettotal,2); ?></span>
 		    			</td>
 		    		</tr>
 		    		<?php 
@@ -358,27 +370,46 @@
 		    			$payments_desc.=$pay->payment_desc; 
 		    		}
 		    		$percent=$ewt/100;
+		    		$materials_percent=2/100;
 		    		if($vat==1){
 		    			$less= ($stotal/1.12)*$percent;
+		    			$materials_less= ($mattotal/1.12)*$materials_percent;
 		    			$gtotal = $stotal-$less;
-		    			$btotal = $gtotal-array_sum($baltotal);
+		    			$mtotal = $mattotal-$materials_less;
+		    			$btotal = ($gtotal+$mtotal)-array_sum($baltotal);
 		    		} else {
 		    			$less= $stotal*$percent;
+		    			$materials_less= $mattotal*$materials_percent;
 		    			$gtotal = $stotal-$less;
-		    			$btotal = $gtotal-array_sum($baltotal);
+		    			$mtotal = $mattotal-$materials_less;
+		    			$btotal = ($gtotal+$mtotal)-array_sum($baltotal);
 		    		} ?>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% EWT</b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% Labor EWT</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
 		    				<span class="nomarg" id=''><?php echo number_format($less,2); ?></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payments!='0.0000' && $payment_amount!='0.000') ? 'Balance Amount Due' : 'Total Amount Due';?></b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo '2'; ?>% Materials EWT</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"></span>
+		    				<span class="nomarg" id=''><?php echo number_format($less,2); ?></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payments!='0.0000' && $payment_amount!='0.000') ? 'Balance Labor Amount Due' : 'Total Labor Amount Due';?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payments!='0.0000' && $payment_amount!='0.000') ? 'Balance Materials Amount Due' : 'Total Materials Amount Due';?></b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($mtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<?php 

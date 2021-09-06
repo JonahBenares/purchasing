@@ -27,6 +27,26 @@
              //$(".modal #remarks").val(remarks);
              $(".modal #joi_offer_id").val(joi_offer_id);
         });
+
+        $(document).on("click", ".updateremarks", function () {
+             var jor_items_id = $(this).data('id');
+             var year = $(this).data('year');
+             var month = $(this).data('month');
+             var partially = $(this).data('status');
+             var fully = $(this).data('status');
+            var status_remarks = $(this).data('remarks');
+
+            if(partially=='Partially Delivered'){
+                document.getElementById("partially").checked = true;
+            }else if(fully=='Fully Delivered'){
+                document.getElementById('fully').checked = true;
+            }
+
+             $(".modal #jor_items_id").val(jor_items_id);
+             $(".modal #year").val(year);
+             $(".modal #month").val(month);
+             $(".modal #status_remarks").val(status_remarks);
+        });
     </script>
 
     <script type="text/javascript">
@@ -254,9 +274,9 @@
                                         ?>   
 
                                             <tr 
-                                            <?php if($p['status']=='Fully Delivered'){
+                                            <?php if($p['jor_status']=='Fully Delivered'){
                                                 echo "class='green'";
-                                            } else if($p['status']=='Partially Delivered') {
+                                            } else if($p['jor_status']=='Partially Delivered') {
                                                 echo "class='yellow'";
                                             } else if($p['status']=='Cancelled') {
                                                 echo "class='cd'";
@@ -269,15 +289,12 @@
                                                 echo "class='blue'";
                                             }else if($jo_issue=='1') {
                                                 echo "class='peach'";
-                                            }/*else if($delivered_by=='1') {
-                                                echo "class='purple'";
-                                            }*/ ?>
-                                            >   
-
-                                               <?php if($p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['on_hold']==0){ ?>
+                                            } 
+                                            ?>>   
+                                               <?php if($p['jor_status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['on_hold']==0){ ?>
                                                 <td><input type="checkbox" name="onhold[]" id="onhold<?php echo $x; ?>" value="<?php echo $p['jor_items_id'];?>" class="form-control" style="width: 50%" <?php echo ((strpos($p['on_hold'], "1") !== false) ? ' checked' : '');?> onclick="hidecheck(<?php echo $x; ?>);"></td>
                                                 <td></td>
-                                                <?php } else if($p['status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['on_hold']==1){ ?>
+                                                <?php } else if($p['jor_status']!='Fully Delivered' && $p['status']!='Cancelled' && $p['on_hold']==1){ ?>
                                                 <td><input type="checkbox" name="onhold[]" id="onhold<?php echo $x; ?>" value="<?php echo $p['jor_items_id'];?>" class="form-control" style="width: 50%;pointer-events: none" <?php echo ((strpos($p['on_hold'], "1") !== false) ? ' checked' : '');?> onclick="hidecheck(<?php echo $x; ?>);"></td>
                                                 <td><input type="checkbox" name="proceed[]" id="proceed<?php echo $x; ?>" value="<?php echo $p['jor_items_id'];?>" class="form-control" style="width: 50%" <?php echo ((strpos($p['on_hold'], "0") !== false) ? ' checked' : '');?> onclick="hidecheck(<?php echo $x; ?>);"></td>
                                                 <?php }else{ ?>
@@ -298,12 +315,12 @@
                                                 <td ><span style='font-size:11px'><?php echo $p['revised_qty']."<br>".$p['current_qty']; ?></span></td>
                                                 <td><?php echo $p['uom']; ?></td>
                                                 <td><?php echo $p['grouping_id']; ?></td>
-                                                <td><?php echo nl2br($p['scope_of_work']) . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td> 
-                                                <td><?php echo $p['materials_offer']; ?></td>                                         
+                                                <td><?php echo nl2br($p['scope_of_work']); ?></td> 
+                                                <td><?php echo nl2br($p['materials_offer']); ?></td>                                         
                                                 <td><?php echo $p['materials_qty']; ?></td>                                         
                                                 <td><?php echo $p['materials_unit']; ?></td>                                         
-                                                <td><?php echo $p['status_remarks']; ?></td>                                         
-                                                <td><?php echo $p['status']; ?></td>                                           
+                                                <td><?php echo ($p['jor_status_remarks']!='') ? $p['jor_status_remarks'] : $p['status_remarks']; ?></td>                                         
+                                                <td><?php echo ($p['jor_status']!='') ? $p['jor_status'] : $p['status']; ?></td>                                           
                                                
                                                 <!-- <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td> -->
                                                 <td><?php echo $p['remarks'];?></td>
@@ -311,7 +328,7 @@
                                                 <td></td>
                                                 <td align="center">  
                                                     <center>
-                                                        <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#updateremarks" title='Add Remarks' data-id="<?php echo $p['jor_items_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['joi_offer_id']; ?>" data-month="<?php echo $month; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['jor_id']; ?>" data-remarks="<?php echo $p['remarks']?>" data-cancel="<?php echo $p['cancel_remarks']?>">
+                                                        <button type="button" class="btn btn-primary btn-xs updateremarks" data-toggle="modal" data-target="#updateremarks" title='Add Remarks' data-id="<?php echo $p['jor_items_id']; ?>" data-year="<?php echo $year; ?>" data-month="<?php echo $month; ?>" data-status="<?php echo $p['jor_status']; ?>" data-remarks="<?php echo $p['jor_status_remarks']?>">
                                                             <span class="fa fa-pencil"></span>
                                                         </button> 
                                                         <button type="button" class="btn btn-primary btn-xs addremarks" data-toggle="modal" data-target="#addremarks" title='Add Remarks' data-id="<?php echo $p['jor_items_id']; ?>" data-year="<?php echo $year; ?>" data-offerid="<?php echo $p['joi_offer_id']; ?>" data-month="<?php echo $month; ?>" data-status="<?php echo $p['status']; ?>" data-prid="<?php echo $p['jor_id']; ?>" data-remarks="<?php echo $p['remarks']?>" data-cancel="<?php echo $p['cancel_remarks']?>">
@@ -474,16 +491,18 @@
                         </button>
                     </h5>    
                 </div>
-                <form method='POST' action="<?php echo base_url(); ?>reports/add_jo_remarks">
+                <form method='POST' action="<?php echo base_url(); ?>reports/update_jo_remarks">
                     <div class="modal-body">
                         <div class="form-group">
-                            <p class="m-b-0"><input type="radio" class="forms-control"  name="" value=" "> Partially Delivered</p>
-                            <p class=""><input type="radio" class="forms-control"  name="" value=" "> Fully Delivered</p>
-                        <textarea class="form-control" rows="5" name='statusremarks' id='statusremarks' placeholder="Remarks"></textarea>
+                            <p class="m-b-0"><input type="radio" class="forms-control"  name="jor_status" id="partially" value="Partially Delivered"> Partially Delivered</p>
+                            <p class=""><input type="radio" class="forms-control" id="fully" name="jor_status" value="Fully Delivered"> Fully Delivered</p>
+                        <textarea class="form-control" rows="5" name='status_remarks' id='status_remarks' placeholder="Remarks"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                      
+                         <input type='hidden' name='jor_items_id' id='jor_items_id'>
+                         <input type='hidden' name='year' id='year'>
+                         <input type='hidden' name='month' id='month'>
                         <input type="submit" class="btn btn-primary btn-block" value='Save changes'>
                     </div>
                 </form>

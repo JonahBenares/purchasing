@@ -223,9 +223,11 @@
                     <!--ITEMS-->
     				<?php
 			    		$subtotal=array();
+			    		$materials_subtotal=array();
 			    		if(!empty($items)){
 			    		foreach($items AS $i){ 
-			    			$subtotal[] = $i['total'] + $i['materials_amount'];
+			    			$subtotal[] = $i['total'];
+			    			$materials_subtotal[] = $i['materials_amount'];
 		    		?>
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></td>
@@ -245,9 +247,11 @@
 		    		<!--MATERIALS-->
     				<?php
 			    		$subtotal=array();
+			    		$materials_subtotal=array();
 			    		if(!empty($items)){
 			    		foreach($items AS $i){ 
-			    			$subtotal[] = $i['total'] + $i['materials_amount'];
+			    			$subtotal[] = $i['total'];
+			    			$materials_subtotal[] = $i['materials_amount'];
 		    		?>
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['materials_offer'])."<br><br>"; ?></td>
@@ -259,7 +263,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($i['materials_amount'],2); ?></span>
 		    			</td>
 		    		</tr>
-		    		<?php } } else { $subtotal=array(); } ?>
+		    		<?php } } else { $subtotal=array(); $materials_subtotal=array(); } ?>
 		    		<!--MATERIALS-->
 		    		<tr>
 		    			<td align="left" colspan="7" ><?php echo $cenpri_jo_no."/".$joi_no."-".COMPANY; ?></td>
@@ -282,16 +286,24 @@
 		    		<?php } ?>
 		    		<?php 
 
+		    			$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
 		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt) - $discount;
+		    			$mattotal = (array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
 		    		?>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">SubTotal:</b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Labor SubTotal:</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
 		    				<span class="nomarg" id=''><?php echo number_format(array_sum($subtotal),2); ?></span>
 		    			</td>
 		    		</tr>
-		    		
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Materials SubTotal:</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"></span>
+		    				<span class="nomarg" id=''><?php echo number_format(array_sum($materials_subtotal),2); ?></span>
+		    			</td>
+		    		</tr>
 		    		</tr>
 		    			<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less Discount"; ?></b></td>
@@ -305,30 +317,49 @@
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Net: "; ?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><?php echo number_format($stotal,2); ?></span>
+		    				<span class="nomarg" id=''><?php echo number_format($nettotal,2); ?></span>
 		    			</td>
 		    		</tr>
 		    		<?php 
 		    		$percent=$ewt/100;
+		    		$materials_percent=2/100;
 		    		if($vat==1){
 		    			$less= ($stotal/1.12)*$percent;
+		    			$materials_less= ($mattotal/1.12)*$materials_percent;
 		    			$gtotal = $stotal-$less;
+		    			$mtotal = $mattotal-$materials_less;
 		    		} else {
 		    			$less= $stotal*$percent;
+		    			$materials_less= $mattotal*$materials_percent;
 		    			$gtotal = $stotal-$less;
+		    			$mtotal = $mattotal-$materials_less;
 		    		} ?>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% EWT</b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% Labor EWT</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
 		    				<span class="nomarg" id=''><?php echo number_format($less,2); ?></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance Amount Due</b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo '2'; ?>% Materials EWT</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"></span>
+		    				<span class="nomarg" id=''><?php echo number_format($materials_less,2); ?></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance Labor Amount Due</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance Materials Amount Due</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($mtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<?php 
@@ -443,6 +474,7 @@
 	    	<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
 	    	<input type='hidden' name='pay_to' value='<?php echo $vendor_id; ?>'>
 	    	<input type='hidden' name='total_amount' id = "total_amount" value='<?php echo $gtotal; ?>'>
+	    	<input type='hidden' name='mtotal_amount' id = "mtotal_amount" value='<?php echo $mtotal; ?>'>
 	    	<input type='hidden' name='sum_amount' id = "sum_amount" value='<?php echo $sum_amount; ?>'>
     	</form>
     </div>
