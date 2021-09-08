@@ -653,6 +653,7 @@ class Joaoq extends CI_Controller {
                     $uom = $this->input->post('uom_'.$x.'_'.$v);
                     $jor_items_id = $this->input->post('jor_items_id_'.$x.'_'.$v);
                     $materials_offer = $this->input->post('materials_offer_'.$x.'_'.$v.'_'.$a);
+                    $materials_qty = $this->input->post('materialsqty_'.$x.'_'.$v.'_'.$a);
                     $materials_price = $this->input->post('materials_price_'.$x.'_'.$v.'_'.$a);
                     $materials_amount = $this->input->post('materials_amount_'.$x.'_'.$v.'_'.$a);
                     $materials_currency = $this->input->post('materials_currency_'.$x.'_'.$v.'_'.$a);
@@ -674,6 +675,7 @@ class Joaoq extends CI_Controller {
                                 'amount'=>$amount,
                                 'uom'=>$uom,
                                 'materials_offer'=>$materials_offer,
+                                'materials_qty'=>$materials_qty,
                                 'materials_unitprice'=>$materials_price,
                                 'materials_amount'=>$materials_amount,
                                 'materials_currency'=>$materials_currency,
@@ -699,6 +701,7 @@ class Joaoq extends CI_Controller {
                             'amount'=>$amount,
                             'uom'=>$uom,
                             'materials_offer'=>$materials_offer,
+                            'materials_qty'=>$materials_qty,
                             'materials_unitprice'=>$materials_price,
                             'materials_amount'=>$materials_amount,
                             'materials_currency'=>$materials_currency,
@@ -775,7 +778,6 @@ class Joaoq extends CI_Controller {
             $materials_price = $this->input->post('materials_price_'.$x);
             $materials_amount = $this->input->post('materials_amount_'.$x);
             $materials_currency = $this->input->post('materials_currency_'.$x);
-            $materials_unit = $this->input->post('materials_unit_'.$x);
             $data = array(
                 'currency'=>$this->input->post('currency_'.$x),
                 'offer'=>$this->input->post('offer_'.$x),
@@ -787,7 +789,6 @@ class Joaoq extends CI_Controller {
                 'materials_offer'=>$materials_offer,
                 'materials_unitprice'=>$materials_price,
                 'materials_amount'=>$materials_amount,
-                'materials_unit'=>$materials_unit,
                 'materials_currency'=>$materials_currency,
                 'materials_balance'=>$this->input->post('offerqty_'.$x),
             );

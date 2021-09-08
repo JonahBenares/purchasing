@@ -289,7 +289,7 @@ class Jorfq extends CI_Controller {
             'completed'=>1
           );
         if($this->super_model->update_where("jo_rfq_head", $data, "jo_rfq_id", $jo_rfq_id)){
-             redirect(base_url().'jorfq/jo_rfq_list/', 'refresh');
+             redirect(base_url().'jorfq/jorfq_list/', 'refresh');
         }
     }
     

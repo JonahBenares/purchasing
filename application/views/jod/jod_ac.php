@@ -208,9 +208,11 @@
 		    		</tr>
 		    		<?php $x++; } ?>
 		    		<!--ITEMS-->
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 						<td colspan="6"><br> <b>&nbsp;&nbsp;Materials:</b></td>
 					</tr>
+					<?php } ?>
 		    		<!--MATERIALS-->
 		    		<?php 
 		    			$x=1; 

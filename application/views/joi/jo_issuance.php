@@ -380,9 +380,11 @@
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    					<?php }else{ $gtotal=array(); } ?>
 		    					<!--ITEMS-->
+		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Materials:</b></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<!--MATERIALS-->
 		    					<?php 
 		    						$gtotal=array();
@@ -392,6 +394,7 @@
 			    						foreach($items AS $it){ 
 			    							if($it['balance']!=0){ 
 			    								$gtotal[] = $it['total'] + $it['materials_amount'];
+			    								if($it['materials_offer']!='' && $it['materials_qty']!=0){ 
 		    					?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
@@ -429,7 +432,7 @@
 					    		<textarea hidden name='materials_offer<?php echo $y; ?>'><?php echo $it['materials_offer']; ?></textarea>
 					    		<input type='hidden' name='uom<?php echo $y; ?>' value="<?php echo $it['uom']; ?>">
 		    					<?php 
-		    							} $y++; $b++; } 
+		    							} $y++; $b++; } } 
 		    						}else{ $gtotal=array(); } 
 		    					?>
 		    					<!--MATERIALS-->

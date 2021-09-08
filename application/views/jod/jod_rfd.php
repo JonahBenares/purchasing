@@ -241,9 +241,11 @@
 		    		</tr>
 		    		<?php } } else { $subtotal=array();$materials_subtotal=array(); } ?>
 		    		<!--ITEMS-->
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 						<td colspan="17" class="bor-right"><br> <b>&nbsp;&nbsp;Materials:</b></td>
 					</tr>
+					<?php } ?>
 		    		<!--MATERIALS-->
 		    		<?php
 			    		$subtotal=array();
@@ -298,6 +300,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format(array_sum($subtotal),2); ?></span>
 		    			</td>
 		    		</tr>
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Materials SubTotal:</b></td>
 		    			<td align="right" colspan="3">
@@ -305,6 +308,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format(array_sum($materials_subtotal),2); ?></span>
 		    			</td>
 		    		</tr>
+		    		<?php } ?>
 		    		</tr>
 		    			<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less Discount"; ?></b></td>
@@ -342,6 +346,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($less,2); ?></span>
 		    			</td>
 		    		</tr>
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo '2'; ?>% Materials EWT</b></td>
 		    			<td align="right" colspan="3">
@@ -349,6 +354,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($materials_less,2); ?></span>
 		    			</td>
 		    		</tr>
+		    		<?php } ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance Labor Amount Due</b></td>
 		    			<td align="right" colspan="3">
@@ -356,6 +362,7 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance Materials Amount Due</b></td>
 		    			<td align="right" colspan="3">
@@ -363,6 +370,7 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($mtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php } ?>
 		    		<?php 
 		    		foreach($payment AS $p){  ?>
 		    			<?php if($rows_rfd!=0 && $p->payment_amount !=0){ ?>

@@ -224,11 +224,16 @@
 		    		</tr>
 		    		<?php } ?>
 		    		<!--ITEMS-->
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 						<td class="all-border" align="left" colspan="20"><b>Materials:</b></td>
 					</tr>
+					<?php } ?>
 		    		<!--MATERIALS-->
-		    		<?php foreach($items AS $it){ ?>
+		    		<?php 
+		    			foreach($items AS $it){ 
+		    				if($it['materials_offer']!='' && $it['materials_qty']!=0){ 
+		    		?>
 		       		<tr>
 		    			<td class="all-border" align="center"><?php echo $it['item_no']; ?><br></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $it['vendor']; ?></td>
@@ -238,7 +243,7 @@
 		    			<td class="all-border" align="center" colspan="2"><?php echo $it['materials_unit']; ?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
-		    		<?php } ?>
+		    		<?php } } ?>
 		    		<!--MATERIALS-->
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>

@@ -401,14 +401,17 @@
 		    					<tr><td colspan="5" class="p-5" style="vertical-align:top;"></td></tr>
 		    					<?php $x++; } ?> 
 		    					<!--ITEMS-->
+		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Materials:</b></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<!--MATERIALS-->
 		    					<?php 
 		    						$y=1;
 		    						$b=1;
 		    						foreach($items AS $det){ 
+		    							if($det->materials_offer!='' && $det->materials_qty!=0){
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"> <textarea name = "materials_offer<?php echo $y; ?>_<?php echo $b; ?>" class = "form-control" rows="4"><?php echo $det->materials_offer; ?></textarea></td>
@@ -430,7 +433,7 @@
 		    						<td class="f13" align="right" style="vertical-align:top;"><a href="<?php echo base_url(); ?>joi/delete_scope/<?php echo $det->joi_items_id?>/<?php echo $det->joi_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td> -->
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5" style="vertical-align:top;"></td></tr>
-		    					<?php $y++; $b++; } ?> 
+		    					<?php $y++; $b++; } } ?> 
 		    					<!--MATERIALS-->
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
@@ -483,12 +486,15 @@
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<?php } ?> 
 		    					<!--ITEMS-->
+		    					<?php if($materials_offer_temp!='' && $materials_qty_temp!=0){ ?>
 		    					<tr>
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Materials:</b></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<!--MATERIALS-->
 		    					<?php 
 		    						foreach($items_temp AS $det){ 
+		    							if($det->materials_offer!='' && $det->materials_qty!=0){
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->materials_offer)."<br><br>"; ?></td>
@@ -499,7 +505,7 @@
 		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($det->materials_amount,2); ?></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
-		    					<?php } ?> 
+		    					<?php } } ?> 
 		    					<!--MATERIALS-->
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">

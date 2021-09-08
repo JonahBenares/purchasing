@@ -447,15 +447,18 @@ tr:nth-child(4) td {
 		    					</tr>
 		    					<?php } }else { $gtotal=array(); } ?>
 		    					<!--ITEMS-->
+		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Materials:</b></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<!--MATERIALS-->
 		    					<?php
 					    		$gtotal=array();
 					    		if(!empty($items)){
 					    		foreach($items AS $it){ 
 					    			$gtotal[] = $it->amount + $it->materials_amount;
+					    			if($it->materials_offer!='' && $it->materials_qty!=0){
 				    			?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->materials_offer)."<br><br>"; ?></td>
@@ -465,7 +468,7 @@ tr:nth-child(4) td {
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_unitprice; ?></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->materials_amount; ?></td>
 		    					</tr>
-		    					<?php } }else { $gtotal=array(); } ?>
+		    					<?php } } }else { $gtotal=array(); } ?>
 		    					<!--MATERIALS-->
 		    					<tr><td colspan="6" class="p-5"></td></tr>
 		    					<tr>

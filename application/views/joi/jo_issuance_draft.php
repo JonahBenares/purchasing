@@ -402,9 +402,11 @@
 		    					<?php $x++; } }else{ $gtotal=array(); } ?>
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    					<!--ITEMS-->
+		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Materials:</b></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<!--MATERIALS-->
 		    					<?php 
 		    						$gtotal=array();
@@ -412,8 +414,9 @@
 		    							$y=1;
 		    							$b=1;
 			    						foreach($items AS $it){ 
-			    								$gtotal[] = $it->amount + $it->materials_amount;
-			    								$balance=$CI->item_checker($jor_aoq_id,$it->jor_items_id, $h['vendor_id']);
+		    								$gtotal[] = $it->amount + $it->materials_amount;
+		    								$balance=$CI->item_checker($jor_aoq_id,$it->jor_items_id, $h['vendor_id']);
+		    								if($it->materials_offer!='' && $it->materials_qty!=0){
 		    					?>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left">
@@ -445,7 +448,7 @@
 		    						</td>
 		    					</tr>
 		    					<input type='hidden' name='joi_items_id<?php echo $y; ?>' value="<?php echo $it->joi_items_id; ?>">
-		    					<?php $y++; $b++; } }else{ $gtotal=array(); } ?>
+		    					<?php $y++; $b++; } } }else{ $gtotal=array(); } ?>
 		    					<!--MATERIALS-->
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<tr>

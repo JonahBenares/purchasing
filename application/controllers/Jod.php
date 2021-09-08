@@ -312,6 +312,8 @@ class Jod extends CI_Controller {
             $data['dr_no']= $this->super_model->select_column_where("joi_dr", "joi_dr_no", "joi_id", $joi_id);
             foreach($this->super_model->select_custom_where("joi_dr_items", "joi_id='$joi_id' AND joi_dr_id = '$joi_dr_id'") AS $items){
                $vendor_id= $this->super_model->select_column_where("joi_head", "vendor_id", "joi_id", $joi_id);
+               $data['materials_offer']= $items->materials_offer;
+                $data['materials_qty']= $items->materials_qty;
                 $data['items'][]= array(
                     'item_no'=>$items->item_no,
                     'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
@@ -332,6 +334,8 @@ class Jod extends CI_Controller {
             $data['dr_no']= $this->super_model->select_column_custom_where("joi_dr", "joi_dr_no", "joi_id='$joi_id' AND joi_dr_id = '$joi_dr_id'");
             foreach($this->super_model->select_custom_where('joi_dr_items', "joi_id= '$joi_id' AND joi_dr_id = '$joi_dr_id'") AS $items){
                $vendor_id= $this->super_model->select_column_where("joi_head", "vendor_id", "joi_id", $joi_id);
+               $data['materials_offer']= $items->materials_offer;
+            $data['materials_qty']= $items->materials_qty;
                 $data['items'][]= array(
                     'item_no'=>$items->item_no,
                     'vendor'=>$this->super_model->select_column_where("vendor_head", "vendor_name", "vendor_id", $vendor_id),
@@ -1012,6 +1016,8 @@ class Jod extends CI_Controller {
         }
 
         $data['items'] = $this->super_model->select_row_where('joi_items', 'joi_id', $joi_id);
+        $data['materials_offer']= $this->super_model->select_column_where('joi_items', 'materials_offer', 'joi_id', $joi_id);
+        $data['materials_qty']= $this->super_model->select_column_where('joi_items', 'materials_qty', 'joi_id', $joi_id);
         $data['currency'] = $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
             $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
@@ -1094,6 +1100,8 @@ class Jod extends CI_Controller {
         }
 
         $data['items'] = $this->super_model->select_row_where('joi_items', 'joi_id', $joi_id);
+        $data['materials_offer']= $this->super_model->select_column_where('joi_items', 'materials_offer', 'joi_id', $joi_id);
+        $data['materials_qty']= $this->super_model->select_column_where('joi_items', 'materials_qty', 'joi_id', $joi_id);
         $data['currency'] = $this->super_model->select_column_where('joi_items', 'currency', 'jor_id', $jor_id);
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
             $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
@@ -1307,9 +1315,13 @@ class Jod extends CI_Controller {
         }
 
         $data['items'] = $this->super_model->select_row_where('joi_items', 'joi_id', $joi_id);
+        $data['materials_offer']= $this->super_model->select_column_where('joi_items', 'materials_offer', 'joi_id', $joi_id);
+        $data['materials_qty']= $this->super_model->select_column_where('joi_items', 'materials_qty', 'joi_id', $joi_id);
         $data['currency2'] = $this->currency_list();
         $data['currency']= $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
         $data['items_temp'] = $this->super_model->select_row_where('joi_items_temp', 'joi_id', $joi_id);
+        $data['materials_offer_temp']= $this->super_model->select_column_where('joi_items_temp', 'materials_offer', 'joi_id', $joi_id);
+        $data['materials_qty_temp']= $this->super_model->select_column_where('joi_items_temp', 'materials_qty', 'joi_id', $joi_id);
       
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
             $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
@@ -2012,6 +2024,8 @@ class Jod extends CI_Controller {
             } else {
                 $offer = $this->super_model->select_column_where("joi_items", "offer", "joi_items_id", $items->joi_items_id);
             }
+            $data['materials_offer']= $items->materials_offer;
+            $data['materials_qty']= $items->materials_qty;
             $data['items'][]= array(
                 'item_no'=>$items->item_no,
                 'offer'=>$offer,
@@ -2119,6 +2133,8 @@ class Jod extends CI_Controller {
             }
             $payment_amount = $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $items->joi_id);
             $payment_desc = $this->super_model->select_column_where("joi_rfd", "payment_desc", "joi_id", $items->joi_id);
+            $data['materials_offer']= $items->materials_offer;
+            $data['materials_qty']= $items->materials_qty;
             $data['items'][]= array(
                 'item_no'=>$items->item_no,
                 'offer'=>$offer,
@@ -2458,6 +2474,8 @@ class Jod extends CI_Controller {
         foreach($this->super_model->select_row_where("joi_items","joi_id",$joi_id) AS $jd){
             $vendor_id = $this->super_model->select_column_where("joi_head","vendor_id","joi_id",$joi_id);
             $vendor = $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$vendor_id);
+            $data['materials_offer']= $jd->materials_offer;
+            $data['materials_qty']= $jd->materials_qty;
             $data['jo_det'][]=array(
                 'supplier'=>$vendor,
                 'scope_of_work'=>$jd->offer,
@@ -2528,6 +2546,8 @@ class Jod extends CI_Controller {
 
         $data['dr'] = $this->super_model->select_row_where("joi_dr", "joi_id", $joi_id);
         $data['details'] = $this->super_model->select_row_where("joi_items", "joi_id", $joi_id);
+        $data['materials_offer']= $this->super_model->select_column_where('joi_items', 'materials_offer', 'joi_id', $joi_id);
+        $data['materials_qty']= $this->super_model->select_column_where('joi_items', 'materials_qty', 'joi_id', $joi_id);
         $data['terms'] = $this->super_model->select_row_where("joi_terms", "joi_terms_id", $joi_id);
         $this->load->view('jod/jod_coc',$data);
         $this->load->view('template/footer');

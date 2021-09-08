@@ -393,9 +393,11 @@
 		    					</tr>
 		    					<?php } }else { $gtotal=array(); } ?>
 		    					<!--ITEMS-->
+		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td colspan="6"><br> <b>&nbsp;&nbsp;Materials:</b></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<!--MATERIALS-->
 		    					<?php
 					    		$gtotal=array();

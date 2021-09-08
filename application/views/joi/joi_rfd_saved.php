@@ -280,9 +280,11 @@
 		    		</tr>
 		    		<?php } } else { $subtotal=array();$materials_subtotal=array(); } ?>
 		    		<!--ITEMS-->
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 						<td align="left" class="bor-right" colspan="17"><b>Materials:</b></td>
 					</tr>
+					<?php } ?>
 		    		<!--MATERIALS-->
     				<?php
 			    		$subtotal=array();
@@ -291,6 +293,7 @@
 			    		foreach($items AS $i){ 
 			    			$subtotal[] = $i['total'];
 			    			$materials_subtotal[] = $i['materials_amount'];
+			    			if($i['materials_offer']!='' && $i['materials_qty']!=0){
 		    		?>
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['materials_offer'])."<br><br>"; ?></td>
@@ -302,7 +305,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($i['materials_amount'],2); ?></span>
 		    			</td>
 		    		</tr>
-		    		<?php } } else { $subtotal=array();$materials_subtotal=array(); } ?>
+		    		<?php } } } else { $subtotal=array();$materials_subtotal=array(); } ?>
 		    		<!--MATERIALS-->
 		    		<tr>
 		    			<td align="left" colspan="7" ><?php echo $cenpri_jo_no."/".$joi_no."-".COMPANY; ?></td>
@@ -336,6 +339,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format(array_sum($subtotal),2); ?></span>
 		    			</td>
 		    		</tr>
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Materials SubTotal:</b></td>
 		    			<td align="right" colspan="3">
@@ -343,6 +347,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format(array_sum($materials_subtotal),2); ?></span>
 		    			</td>
 		    		</tr>
+		    		<?php } ?>
 		    		</tr>
 		    			<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less Discount"; ?></b></td>
@@ -390,6 +395,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($less,2); ?></span>
 		    			</td>
 		    		</tr>
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo '2'; ?>% Materials EWT</b></td>
 		    			<td align="right" colspan="3">
@@ -397,6 +403,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($materials_less,2); ?></span>
 		    			</td>
 		    		</tr>
+		    		<?php } ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payments!='0.0000' && $payment_amount!='0.000') ? 'Balance Labor Amount Due' : 'Total Labor Amount Due';?></b></td>
 		    			<td align="right" colspan="3">
@@ -404,6 +411,7 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payments!='0.0000' && $payment_amount!='0.000') ? 'Balance Materials Amount Due' : 'Total Materials Amount Due';?></b></td>
 		    			<td align="right" colspan="3">
@@ -411,6 +419,7 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($mtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
+		    		<?php } ?>
 		    		<?php foreach($payment AS $p){ ?>
 		    		<?php if($payment_desc != $p->payment_desc && $p->payment_amount!='0.0000' && $payment_amount!='0.0000'){ ?>
 		    		<tr>

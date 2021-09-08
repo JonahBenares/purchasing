@@ -209,11 +209,17 @@
 		    		</tr>
 		    		<?php $x++; } ?>
 		    		<!--ITEMS-->
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 						<td class="all-border" align="left" colspan="20"><b>Materials:</b></td>
 					</tr>
+					<?php } ?>
 		    		<!--MATERIALS-->
-		    		<?php $y=1; foreach($jo_det AS $jd){ ?>
+		    		<?php
+		    			$y=1; 
+		    			foreach($jo_det AS $jd){ 
+		    				if($jd['materials_offer']!='' && $jd['materials_qty']!=0){
+		    		?>
 		       		<tr>
 		    			<td class="all-border" align="center"><?php echo $y; ?></td>
 		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['supplier'];?></td>
@@ -223,7 +229,7 @@
 		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['materials_unit'];?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
-		    		<?php $y++; } ?>
+		    		<?php $y++; } } ?>
 		    		<!--MATERIALS-->
 		    		<!-- Loop end here-->
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
