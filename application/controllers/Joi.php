@@ -108,7 +108,7 @@ class Joi extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function save_delivery(){
+    public function save_delivery() {
         $count = $this->input->post('count');
         $joi_id = $this->input->post('joi_id');
         $joi_dr_id = $this->input->post('joi_dr_id');
