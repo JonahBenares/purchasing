@@ -108,7 +108,7 @@ class Joi extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function save_delivery() {
+    public function save_delivery(){
         $count = $this->input->post('count');
         $joi_id = $this->input->post('joi_id');
         $joi_dr_id = $this->input->post('joi_dr_id');
@@ -896,8 +896,9 @@ class Joi extends CI_Controller {
             ); 
             if($this->super_model->update_where("joi_head", $head, "joi_id", $joi_id)){
                 if($sum_cost>=10000){
-                    echo "<script>alert('Please Print COC!');
-                    window.location ='".base_url()."joi/jo_issuance_saved/; </script>";
+                    echo "<script>alert('Please Print COC!'); window.location ='".base_url()."joi/jo_issuance_draft/$joi_id';</script>";
+                    /*echo "<script>alert('Please Print COC!');
+                    window.location ='".base_url()."joi/jo_issuance_saved/; </script>";*/
                 }else{
                     redirect(base_url().'joi/jo_issuance_draft/'.$joi_id);
                 }
