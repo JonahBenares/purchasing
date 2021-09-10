@@ -564,7 +564,7 @@
 				    					<?php } ?>
 				    				</tr>
 				    				<!-- ---------------------------- FOR SERVICE ---------------------------- -->
-
+				    				<?php if($of['materials_offer']!='' && $of['materials_qty']!=0){ ?>
 				    				<!-- ---------------------------- FOR ITEMS ---------------------------- -->
 				    				<tr style="height:150px">
 				    					<td width="25%" class="bor-btm bor-right">
@@ -604,6 +604,7 @@
 			    						</td>
 				    					<?php } ?>
 				    				</tr>
+				    				<?php } ?>
 				    				<!-- ---------------------------- FOR ITEMS ---------------------------- -->
 
 				    				<input type='hidden' name='offerid_<?php echo $a; ?>' value="<?php echo $of['jor_aoq_offer_id']; ?>">
@@ -666,6 +667,7 @@
 				    				</tr>
 
 				    				<!-- ---------------------------------------FOR ITEMS------------------------------------ -->
+				    				<?php if($of['materials_offer']!='' && $of['materials_qty']!=0){ ?>
 				    				<tr style="height:150px">
 				    					<td class="bor-btm bor-right padding-0">
 				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed"><?php echo $of['materials_offer']; ?></textarea>
@@ -689,6 +691,7 @@
 				    					<td class="bor-btm-red bor-right padding-0" style="background:#f3ffed">
 				    					</td>
 				    				</tr>
+				    				<?php } ?>
 				    				<input type='hidden' name='offerid_<?php echo $a; ?>' value="<?php echo $of['jor_aoq_offer_id']; ?>">
 				    				<?php }
 				    				$a++;
@@ -752,6 +755,7 @@
 				    				</tr>
 
 				    				<!-- ---------------------------------------FOR Items------------------------------------ -->
+				    				<?php if($of['materials_offer']!='' && $of['materials_qty']!=0){ ?>
 				    				<tr style="height:150px">
 				    					<td class="bor-btm bor-right">
 				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed" ><?php echo $of['materials_offer']; ?>
@@ -776,7 +780,7 @@
 				    					<td class="bor-btm-red bor-right" style="background:#f3ffed">				    						
 				    					</td>				    					
 				    				</tr>
-
+				    				<?php } ?>
 
 				    				<input type='hidden' name='offerid_<?php echo $a; ?>' value="<?php echo $of['jor_aoq_offer_id']; ?>">
 				    				<?php } $a++; $b++; } ?>
