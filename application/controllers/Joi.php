@@ -895,12 +895,13 @@ class Joi extends CI_Controller {
                 'revised'=>0
             ); 
             if($this->super_model->update_where("joi_head", $head, "joi_id", $joi_id)){
-                if($sum_cost>=10000){
-                    echo "<script>alert('Please Print COC!');
-                    window.location ='".base_url()."joi/jo_issuance_saved/; </script>";
-                }else{
+                //if($sum_cost>=10000){
+                    //echo "<script>alert('Please Print COC!'); window.location ='".base_url()."joi/jo_issuance_draft/$joi_id';</script>";
+                    /*echo "<script>alert('Please Print COC!');
+                    window.location ='".base_url()."joi/jo_issuance_saved/; </script>";*/
+                //}else{
                     redirect(base_url().'joi/jo_issuance_draft/'.$joi_id);
-                }
+                //}
             }
         }      
     }
