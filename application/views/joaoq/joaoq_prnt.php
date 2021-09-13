@@ -294,20 +294,64 @@
 		    			<?php } ?>
 		    		</tr>
 
-		    		<?php
-		    		$x=1; 
-		    		foreach($items AS $it){ ?>
-		    		<input type='hidden' name='quantity_<?php echo $x; ?>' id="quantity_<?php echo $x; ?>" value='<?php echo $it->quantity; ?>'>
-		    		
 		    		<tr style='border:1px solid #000'>
-		    			<td style="padding: 0px;vertical-align: text-top;border-right: 1px solid #000;">
+		    			<td style="padding: 0px;border-right: 1px solid #000;">
 		    				<table class="f" width="100%" style='border:px solid #000;margin: 0px;'>
 		    					<tr style="height:40px;border-bottom:1px solid #000">
 		    						<td class="f9 table-borbold" width="5%" align="center"><b>#</td>
 					    			<td class="f9 table-borbold" align=""><b>DESCRIPTION</td>
 					    			<td class="f9 table-borbold" width="10%" align="center"><b>QTY</td>
 					    			<td class="f9 table-borbold" width="10%" align="center"><b>UOM</td>
-		    					</tr>
+					    		</tr>	
+		    				</table>	
+		    			</td>
+		    			<td style="padding: 0px;border-right: 1px solid #000;">
+		    				<table class="tablde-bordered" width="100%" style='border:px solid #000;margin: 0px;'>
+		    					<tr style="height:40px;border-bottom:1px solid #000">
+		    						<td width="25%" class="f9 table-borbold" align="center"><b>OFFER</b></td>
+					    			<td width="6%" class="f9 table-borbold" align="center"><b>CURR</b></td>
+					    			<td width="10%" class="f9 table-borbold" align="center"><b>OFFER QTY</b></td>
+					    			<td width="10%" class="f9 table-borbold" align="center"><b>U/P</b></td>
+					    			<td width="10%" class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
+					    			<td width="15%" class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
+		    					</tr>		
+		    				</table>
+		    			</td>	
+		    			<td style="padding: 0px;border-right: 1px solid #000;">
+		    				<table class="f" width="100%" style='border:px solid #000;margin: 0px;'>
+		    					<tr style="height:40px;border-bottom:1px solid #000">
+		    						<td width="25%" class="f9 table-borbold" align="center"><b>OFFER</b></td>
+					    			<td width="6%" class="f9 table-borbold" align="center"><b>CURR</b></td>
+					    			<td width="10%" class="f9 table-borbold" align="center"><b>OFFER QTY</b></td>
+					    			<td width="10%" class="f9 table-borbold" align="center"><b>U/P</b></td>
+					    			<td width="10%" class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
+					    			<td width="15%" class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
+		    					</tr>		
+		    				</table>
+		    			</td>
+		    			<td style="padding: 0px;border-right: 1px solid #000;">
+		    				<table class="f" width="100%" style='border:px solid #000;margin: 0px;'>
+		    					<tr style="height:40px;border-bottom:1px solid #000">
+		    						<td width="25%" class="f9 table-borbold" align="center"><b>OFFER</b></td>
+					    			<td width="6%" class="f9 table-borbold" align="center"><b>CURR</b></td>
+					    			<td width="10%" class="f9 table-borbold" align="center"><b>OFFER QTY</b></td>
+					    			<td width="10%" class="f9 table-borbold" align="center"><b>U/P</b></td>
+					    			<td width="10%" class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
+					    			<td width="15%" class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
+		    					</tr>		
+		    				</table>
+		    			</td>
+		    		</tr>
+
+		    		<?php
+		    		$x=1; 
+		    		foreach($items AS $it){ ?>
+		    		<input type='hidden' name='quantity_<?php echo $x; ?>' id="quantity_<?php echo $x; ?>" value='<?php echo $it->quantity; ?>'>
+		    		
+		    		<tr style='border:1px solid #000'>
+		    			<td style="padding: 0px;border-right: 1px solid #000;">
+		    				<table class="f" width="100%" style='border:px solid #000;margin: 0px;'>
+		    					
 		    					<tr>
 		    						<td></td>
 					    			<td class="f10 " align="" colspan="3" style="border-left:0px solid #000; border-right:0px solid #000"><b><?php echo $h['general_desc']; ?></td>
@@ -328,14 +372,14 @@
 			    		?>
 			    			<td style='vertical-align:text-bottom;padding-right: 1px;' >
 			    				<table class="tabale" width="100%" height="50%" style='margin-bottom: 0px;'>	
-				    				<tr style="border-bottom:1px solid #000">
+				    				<!-- <tr style="border-bottom:1px solid #000">
 			    						<td width="51%" class="f9 table-borbold" align="center"><b>OFFER</b></td>
 						    			<td width="6%" class="f9 table-borbold" align="center"><b>CURR</b></td>
 						    			<td width="11%" class="f9 table-borbold" align="center"><b>OFFER QTY</b></td>
 						    			<td width="11%" class="f9 table-borbold" align="center"><b>U/P</b></td>
 						    			<td width="11%" class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
-			    					</tr>		
+			    					</tr>		 -->
 			    					<!-- -------------------------------- FOR SERVICE --------------------------------	 -->			
 			    					<tr style="height:150px">
 				    					<td class="bor-btm bor-right">
@@ -509,14 +553,14 @@
 		    					
 			    			<td style='vertical-align:text-bottom;padding-right: 1px;' >
 			    				<table class="tabale" width="100%" height="50%" style='margin-bottom: 0px;'>	
-				    				<tr style="border-bottom:1px solid #000">
+				    				<!-- <tr style="border-bottom:1px solid #000">
 			    						<td width="50%" class="f9 table-borbold" align="center"><b>OFFER</b></td>
 						    			<td width="5%" class="f9 table-borbold" align="center"><b>CURR</b></td>
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>OFFER QTY</b></td>
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>U/P</b></td>
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 						    			<td width="15%" class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
-			    					</tr>		
+			    					</tr>		 -->
 			    				<?php 	
 			    				$a=1;
 			    				foreach($offers AS $of){
@@ -624,14 +668,14 @@
 		    				<!-- ------------------------ OPEN AOQ ----------------------- -->	
 			    			<td style='vertical-align:text-bottom;padding-right: 1px;' >
 			    				<table class="tabale" width="100%" height="50%" style='margin-bottom: 0px;'>	
-				    				<tr style="border-bottom:1px solid #000">
+				    				<!-- <tr style="border-bottom:1px solid #000">
 			    						<td width="50%" class="f9 table-borbold" align="center"><b>OFFER</b></td>
 						    			<td width="5%" class="f9 table-borbold" align="center"><b>CURR</b></td>
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>OFFER QTY</b></td>
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>U/P</b></td>
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 						    			<td width="15%" class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
-			    					</tr>		
+			    					</tr> -->		
 				    				<?php 	
 				    					$a=1;
 				    					$b=1;
@@ -709,14 +753,14 @@
 		    					
 			    			<td style='vertical-align:text-bottom;padding-right: 1px;' >
 			    				<table class="tabale" width="100%" height="50%" style='margin-bottom: 0px;'>	
-				    				<tr style="border-bottom:1px solid #000">
+				    				<!-- <tr style="border-bottom:1px solid #000">
 			    						<td width="50%" class="f9 table-borbold" align="center"><b>OFFER</b></td>
 						    			<td width="5%" class="f9 table-borbold" align="center"><b>CURR</b></td>
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>OFFER QTY</b></td>
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>U/P</b></td>
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>AMOUNT</b></td>
 						    			<td width="15%" class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
-			    					</tr>	
+			    					</tr>	 -->
 			    				<?php 	
 			    					$a=1;
 			    					$b=1;
