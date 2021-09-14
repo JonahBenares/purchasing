@@ -976,14 +976,18 @@ class Joaoq extends CI_Controller {
         }
 
         $num1 = 8;
-        $num2 = 9;
+        $num2 = 10;
         foreach(range('A','B') as $columnID){
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }
+        $general_desc=$this->super_model->select_column_where("jor_items", "general_desc", "jor_id", $head->jor_id);
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', "#");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B8', "DESCRIPTION");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C8', "QTY");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', "OUM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', "$general_desc");
+        $objPHPExcel->getActiveSheet()->mergeCells("A9:V9");
+        $objPHPExcel->getActiveSheet()->getStyle('A9')->getFont()->setBold(true);
         $x=0;
         $y=1;
         foreach($this->super_model->select_row_where_order_by("jor_aoq_items","jor_aoq_id",$aoq_id,"jor_items_id","ASC") AS $items){
@@ -1134,7 +1138,12 @@ class Joaoq extends CI_Controller {
                         $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f4e542');
                     }
 
-                    if($allrfq->vendor_id==$supplier_id && $allrfq->recommended==1 || $allrfq->vendor_id==$supplier_id && $allrfq->materials_recommended==1){
+                    if($allrfq->vendor_id==$supplier_id && $allrfq->materials_recommended==1){
+                        $col2 = chr(ord($col) + 4);
+                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
+                    }
+
+                    if($allrfq->vendor_id==$supplier_id && $allrfq->materials_recommended==1){
                         $col2 = chr(ord($col) + 4);
                         $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
                     }

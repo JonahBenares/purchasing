@@ -342,7 +342,9 @@
 		    				</table>
 		    			</td>
 		    		</tr>
-
+		    		<tr>
+		    			<td class="f10" align="" colspan="3" style="border-left:0px solid #000; border-right:0px solid #000"><b><?php echo $h['general_desc']; ?></td>
+					</tr>
 		    		<?php
 		    		$x=1; 
 		    		foreach($items AS $it){ ?>
@@ -352,10 +354,10 @@
 		    			<td style="padding: 0px;border-right: 1px solid #000;">
 		    				<table class="f" width="100%" style='border:px solid #000;margin: 0px;'>
 		    					
-		    					<tr>
+		    					<!-- <tr>
 		    						<td></td>
 					    			<td class="f10 " align="" colspan="3" style="border-left:0px solid #000; border-right:0px solid #000"><b><?php echo $h['general_desc']; ?></td>
-		    					</tr>
+		    					</tr> -->
 		    					<tr style="height:500px">
 		    						<td class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $x; ?></td>
 					    			<td class="f10 table-borreg" style="vertical-align: text-top;" align="left" ><?php echo nl2br($it->scope_of_work); ?></td>
