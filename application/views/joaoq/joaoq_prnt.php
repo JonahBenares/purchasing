@@ -342,7 +342,9 @@
 		    				</table>
 		    			</td>
 		    		</tr>
-
+		    		<tr>
+		    			<td class="f10" align="" colspan="3" style="border-left:0px solid #000; border-right:0px solid #000"><b><?php echo $h['general_desc']; ?></td>
+					</tr>
 		    		<?php
 		    		$x=1; 
 		    		foreach($items AS $it){ ?>
@@ -354,7 +356,7 @@
 		    					<tr>
 		    						<td></td>
 					    			<td class="f10 " align="" colspan="3" style="border-left:0px solid #000; border-right:0px solid #000"><b><?php echo $h['general_desc']; ?></td>
-		    					</tr>
+		    					</tr> -->
 		    					<tr style="height:500px">
 		    						<td class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $x; ?></td>
 					    			<td class="f10 table-borreg" style="vertical-align: text-top;" align="left" ><?php echo nl2br($it->scope_of_work); ?></td>
@@ -798,11 +800,10 @@
 				    				</tr>
 
 				    				<!-- ---------------------------------------FOR Items------------------------------------ -->
-				    				<?php if($of['materials_offer']!='' && $of['materials_qty']!=0){ ?>
+				    				<?php //if($of['materials_offer']!='' && $of['materials_qty']!=0){ ?>
 				    				<tr style="height:150px">
 				    					<td class="bor-btm bor-right">
-				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed" ><?php echo $of['materials_offer']; ?>
-				    						</textarea>
+				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed" ><?php echo $of['materials_offer']; ?></textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10 " align="center">
 				    						<select name='materials_currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed">
@@ -823,7 +824,7 @@
 				    					<td class="bor-btm-red bor-right" style="background:#f3ffed">				    						
 				    					</td>				    					
 				    				</tr>
-				    				<?php } ?>
+				    				<?php //} ?>
 
 				    				<input type='hidden' name='offerid_<?php echo $a; ?>' value="<?php echo $of['jor_aoq_offer_id']; ?>">
 				    				<?php } $a++; $b++; } ?>
