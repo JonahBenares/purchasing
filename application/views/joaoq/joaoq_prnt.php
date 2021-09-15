@@ -800,7 +800,7 @@
 				    				</tr>
 
 				    				<!-- ---------------------------------------FOR Items------------------------------------ -->
-				    				<?php if($of['materials_offer']!='' && $of['materials_qty']!=0){ ?>
+				    				<?php //if($of['materials_offer']!='' && $of['materials_qty']!=0){ ?>
 				    				<tr style="height:150px">
 				    					<td class="bor-btm bor-right">
 				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed" ><?php echo $of['materials_offer']; ?></textarea>
@@ -824,7 +824,7 @@
 				    					<td class="bor-btm-red bor-right" style="background:#f3ffed">				    						
 				    					</td>				    					
 				    				</tr>
-				    				<?php } ?>
+				    				<?php //} ?>
 
 				    				<input type='hidden' name='offerid_<?php echo $a; ?>' value="<?php echo $of['jor_aoq_offer_id']; ?>">
 				    				<?php } $a++; $b++; } ?>
