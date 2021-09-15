@@ -298,10 +298,10 @@
 		    			<td style="padding: 0px;border-right: 1px solid #000;">
 		    				<table class="f" width="100%" style='border:px solid #000;margin: 0px;'>
 		    					<tr style="height:40px;border-bottom:1px solid #000">
-		    						<td class="f9 table-borbold" width="5%" align="center"><b>#</td>
-					    			<td class="f9 table-borbold" align=""><b>DESCRIPTION</td>
-					    			<td class="f9 table-borbold" width="10%" align="center"><b>QTY</td>
-					    			<td class="f9 table-borbold" width="10%" align="center"><b>UOM</td>
+		    						<td width="3%" class="f9 table-borbold" width="5%" align="center"><b>#</td>
+					    			<td width="72%" class="f9 table-borbold" align=""><b>DESCRIPTION</td>
+					    			<td width="12%" class="f9 table-borbold" width="10%" align="center"><b>QTY</td>
+					    			<td width="12%" class="f9 table-borbold" width="10%" align="center"><b>UOM</td>
 					    		</tr>	
 		    				</table>	
 		    			</td>
@@ -343,7 +343,7 @@
 		    			</td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f10" align="" colspan="3" style="border-left:0px solid #000; border-right:0px solid #000"><b><?php echo $h['general_desc']; ?></td>
+		    			<td class="f10" align="" colspan="3" style="border-left:0px solid #000; border-right:0px solid #000">&nbsp;<b><?php echo $h['general_desc']; ?></td>
 					</tr>
 		    		<?php
 		    		$x=1; 
@@ -355,13 +355,13 @@
 		    				<table class="f" width="100%" style='border:px solid #000;margin: 0px;'>		    					
 		    					<tr>
 		    						<td></td>
-					    			<td class="f10 " align="" colspan="3" style="border-left:0px solid #000; border-right:0px solid #000"><b><?php echo $h['general_desc']; ?></td>
-		    					</tr> -->
+					    			<td class="f10 " align="" colspan="3" style="border-left:0px solid #000; border-right:0px solid #000"><b><!-- <?php echo $h['general_desc']; ?> --></td>
+		    					</tr> 
 		    					<tr style="height:500px">
-		    						<td class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $x; ?></td>
-					    			<td class="f10 table-borreg" style="vertical-align: text-top;" align="left" ><?php echo nl2br($it->scope_of_work); ?></td>
-					    			<td class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $it->quantity; ?></td>
-					    			<td class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $it->uom; ?></td>
+		    						<td width="3%" class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $x; ?></td>
+					    			<td width="72%" class="f10 table-borreg" style="vertical-align: text-top;" align="left" ><?php echo nl2br($it->scope_of_work); ?></td>
+					    			<td width="12%" class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $it->quantity; ?></td>
+					    			<td width="12%" class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $it->uom; ?></td>
 					    		</tr>
 		    				</table>
 		    			</td>
