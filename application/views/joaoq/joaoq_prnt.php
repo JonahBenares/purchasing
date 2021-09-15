@@ -777,8 +777,7 @@
 		    						<!-- ---------------------------------------FOR SERVICES------------------------------------ -->			
 			    					<tr style="height:150px">
 				    					<td class="bor-btm bor-right">
-				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe" ><?php echo $of['offer']; ?>
-				    						</textarea>
+				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe" ><?php echo $of['offer']; ?></textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10 " align="center">
 				    						<select name='currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe">
@@ -804,8 +803,7 @@
 				    				<?php if($of['materials_offer']!='' && $of['materials_qty']!=0){ ?>
 				    				<tr style="height:150px">
 				    					<td class="bor-btm bor-right">
-				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed" ><?php echo $of['materials_offer']; ?>
-				    						</textarea>
+				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed" ><?php echo $of['materials_offer']; ?></textarea>
 				    					</td>
 				    					<td class="bor-btm bor-right f10 " align="center">
 				    						<select name='materials_currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed">

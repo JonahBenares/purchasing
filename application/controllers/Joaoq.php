@@ -793,9 +793,10 @@ class Joaoq extends CI_Controller {
                 'materials_balance'=>$this->input->post('offerqty_'.$x),
             );
             $this->super_model->update_where("jor_aoq_offers", $data, "jor_aoq_offer_id", $this->input->post('offerid_'.$x));
-            if($submit=='Save AOQ'){
-                $this->super_model->delete_custom_where("jor_aoq_offers", "offer='' AND jor_aoq_id = '$aoq_id'");
-            }
+        }
+
+        if($submit=='Save AOQ'){
+            $this->super_model->delete_custom_where("jor_aoq_offers", "offer='' AND jor_aoq_id = '$aoq_id'");
         }
 
         for($v=1;$v<=$count;$v++){
