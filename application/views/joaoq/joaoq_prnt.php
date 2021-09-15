@@ -349,9 +349,8 @@
 		    		<input type='hidden' name='quantity_<?php echo $x; ?>' id="quantity_<?php echo $x; ?>" value='<?php echo $it->quantity; ?>'>
 		    		
 		    		<tr style='border:1px solid #000'>
-		    			<td style="padding: 0px;border-right: 1px solid #000;">
-		    				<table class="f" width="100%" style='border:px solid #000;margin: 0px;'>
-		    					
+		    			<td style="padding: 0px;border-right: 1px solid #000;vertical-align: top;">
+		    				<table class="f" width="100%" style='border:px solid #000;margin: 0px;'>		    					
 		    					<tr>
 		    						<td></td>
 					    			<td class="f10 " align="" colspan="3" style="border-left:0px solid #000; border-right:0px solid #000"><b><?php echo $h['general_desc']; ?></td>
@@ -382,27 +381,27 @@
 			    					</tr>		 -->
 			    					<!-- -------------------------------- FOR SERVICE --------------------------------	 -->			
 			    					<tr style="height:150px">
-				    					<td class="bor-btm bor-right">
+				    					<td width="25%" class="bor-btm bor-right">
 				    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_1" 
 				    							style="width: 100%;height: 100%;background:#f6fffe"></textarea>
 				    					</td>
-				    					<td class="bor-btm bor-right f10" align="center">
+				    					<td width="6%" class="bor-btm bor-right f10" align="center">
 				    							<select style="width: 100%;height: 100%;background:#f6fffe" name='currency_<?php echo $x; ?>_<?php echo $v; ?>_1'>
 						    					<?php foreach($currency AS $curr){ ?>
 						    						<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
 						    				</select>
 				    					</td>
-				    					<td class="bor-btm bor-right f10" align="center">
+				    					<td width="10%" class="bor-btm bor-right f10" align="center">
 				    						<input type="text" class="form-control f10" id="offerqty_<?php echo $x; ?>_<?php echo $v; ?>_1" name="offerqty_<?php echo $x; ?>_<?php echo $v; ?>_1" style="width: 100%;height: 100%;background:#f6fffe">
 				    					</td>
-				    					<td class="bor-btm bor-right f10" align="center">
+				    					<td width="10%" class="bor-btm bor-right f10" align="center">
 				    						<input type="text" class="form-control f10" id="price_<?php echo $x; ?>_<?php echo $v; ?>_1" name="price_<?php echo $x; ?>_<?php echo $v; ?>_1" onblur="calculateAmount(<?php echo $x; ?>, <?php echo $v; ?>,'1')" onkeypress="return isNumberKey(this, event)" style="width: 100%;height: 100%;background:#f6fffe">
 				    					</td>
-				    					<td class="bor-btm bor-right" align="center">
+				    					<td width="10%" class="bor-btm bor-right" align="center">
 				    						<input type="text" class="form-control f10" readonly="readonly" id="amount_<?php echo $x; ?>_<?php echo $v; ?>_1" name="amount_<?php echo $x; ?>_<?php echo $v; ?>_1" style="width: 100%;height: 100%;background:#f6fffe">
 				    					</td>
-				    					<td class="bor-btm bor-right" style="background:#f6fffe">
+				    					<td  width="15%"class="bor-btm bor-right" style="background:#f6fffe">
 				    					</td>
 				    				</tr>
 				    				<!-- -------------------------------- FOR SERVICE --------------------------------	 -->			
@@ -687,26 +686,26 @@
 
 			    					<!-- ---------------------------------------FOR SERVICES------------------------------------ -->
 			    					<tr style="height:150px">
-				    					<td class="bor-btm bor-right padding-0">
+				    					<td width="25%" class="bor-btm bor-right padding-0">
 				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe"><?php echo $of['offer']; ?></textarea>
 				    					</td>
-				    					<td class="bor-btm bor-right f10 padding-0" align="center">
+				    					<td width="6%" class="bor-btm bor-right f10 padding-0" align="center">
 				    						<select name='currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe">
 						    					<?php foreach($currency AS $curr){ ?>
 						    						<option value="<?php echo $curr; ?>" <?php echo (($curr==$of['currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
 						    				</select>
 				    					</td>
-				    					<td class="bor-btm-red bor-right padding-0" align="center">				    						
+				    					<td width="10%" class="bor-btm-red bor-right padding-0" align="center">				    						
 				    						<input type='text' class="form-control f10" name='offerqty_<?php echo $a; ?>' id='offerqty_<?php echo $a; ?>' value="<?php echo number_format($of['quantity'],2); ?>" style="width: 100%;height: 100%;background:#f6fffe">
 				    					</td> 
-				    					<td class="bor-btm bor-right f10 padding-0" align="center">
+				    					<td width="10%" class="bor-btm bor-right f10 padding-0" align="center">
 				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],4); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)" style="width: 100%;height: 100%;background:#f6fffe">
 				    					</td>
-				    					<td class="bor-btm-red bor-right padding-0" align="center">				    						
+				    					<td width="10%" class="bor-btm-red bor-right padding-0" align="center">				    						
 				    						<input type='text' class="form-control f10" name='amount_<?php echo $a; ?>' id='amount_<?php echo $a; ?>' readonly="readonly" value="<?php echo number_format($of['amount'],4); ?>" style="width: 100%;height: 100%;background:#f6fffe">
 				    					</td> 
-				    					<td  class="bor-btm-red bor-right padding-0" style="background:#f6fffe">
+				    					<td width="15%"  class="bor-btm-red bor-right padding-0" style="background:#f6fffe">
 				    					</td>
 				    				</tr>
 
@@ -756,7 +755,7 @@
 		    					
 			    			<td style='vertical-align:text-bottom;padding-right: 1px;' >
 			    				<table class="tabale" width="100%" height="50%" style='margin-bottom: 0px;'>	
-				    				<!-- <tr style="border-bottom:1px solid #000">
+				    				<!-- <tr style=a"border-bottom:1px solid #000">
 			    						<td width="50%" class="f9 table-borbold" align="center"><b>OFFER</b></td>
 						    			<td width="5%" class="f9 table-borbold" align="center"><b>CURR</b></td>
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>OFFER QTY</b></td>
@@ -774,27 +773,27 @@
 
 		    						<!-- ---------------------------------------FOR SERVICES------------------------------------ -->			
 			    					<tr style="height:150px">
-				    					<td class="bor-btm bor-right">
+				    					<td width="25%" class="bor-btm bor-right">
 				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe" ><?php echo $of['offer']; ?>
 				    						</textarea>
 				    					</td>
-				    					<td class="bor-btm bor-right f10 " align="center">
+				    					<td width="6%" class="bor-btm bor-right f10 " align="center">
 				    						<select name='currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe">
 						    					<?php foreach($currency AS $curr){ ?>
 						    						<option value="<?php echo $curr; ?>" <?php echo (($curr==$of['currency']) ? ' selected' : ''); ?>><?php echo $curr; ?></option>
 						    					<?php } ?>
 						    				</select>
 				    					</td>
-				    					<td class="bor-btm-red bor-right" align="center">				    						
+				    					<td width="10%" class="bor-btm-red bor-right" align="center">				    						
 				    						<input type='text' class="form-control f10" name='offerqty_<?php echo $a; ?>' id='offerqty_<?php echo $a; ?>' value="<?php echo number_format($of['quantity'],2); ?>" style="width: 100%;height: 100%;background:#f6fffe">				    						
 				    					</td> 
-				    					<td class="bor-btm bor-right f10 " align="center">
+				    					<td width="10%" class="bor-btm bor-right f10 " align="center">
 				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],4); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)" style="width: 100%;height: 100%;background:#f6fffe">
 				    					</td>				    					
-				    					<td class="bor-btm-red bor-right" align="center">				    						
+				    					<td width="10%" class="bor-btm-red bor-right" align="center">				    						
 				    						<input type='text' class="form-control f10" name='amount_<?php echo $a; ?>' id='amount_<?php echo $a; ?>' readonly="readonly" value="<?php echo number_format($of['amount'],4); ?>" style="width: 100%;height: 100%;background:#f6fffe">				    						
 				    					</td> 
-				    					<td class="bor-btm-red bor-right" style="background:#f6fffe">				    						
+				    					<td width="15%" class="bor-btm-red bor-right" style="background:#f6fffe">				    						
 				    					</td>				    					
 				    				</tr>
 
