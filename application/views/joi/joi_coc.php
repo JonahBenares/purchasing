@@ -176,13 +176,13 @@
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="3"><b>Date:</td>
-		    			<td class="f13" colspan="15"></td>	
+		    			<td class="f13" colspan="15">November 21, 2019</td>	
 		    			<td class="f13" ></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="3"><b>Ref:</td>
-		    			<td class="f13" colspan="15"></td>
+		    			<td class="f13" colspan="15">COC-200983-1298</td>
 		    			<td class="f13" ></td>
 		    		</tr>
 		    		<tr>
@@ -193,7 +193,7 @@
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="3" style="vertical-align:top;"><b>Activity:</td>
-		    			<td class="f13" colspan="15"></td>
+		    			<td class="f13" colspan="15"><?php echo $project_title; ?></td>
 		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<tr>
@@ -234,8 +234,8 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
-		    			<td class="f13" colspan="2"><b><br></td>
-		    			<td class="f13" colspan="15">Scope of work includes:</td>
+		    			<td class="f13" colspan="1"><b><br></td>
+		    			<td class="f13" colspan="14">Scope of work includes:</td>
 		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<tr>
@@ -266,8 +266,8 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
-		    			<td class="f13" colspan="2"><b><br></td>
-		    			<td class="f13" colspan="15">Materials:</td>
+		    			<td class="f13" colspan="1"><b><br></td>
+		    			<td class="f13" colspan="14">Materials:</td>
 		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<tr>
