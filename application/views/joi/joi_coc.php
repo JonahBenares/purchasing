@@ -176,13 +176,13 @@
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="3"><b>Date:</td>
-		    			<td class="f13" colspan="15">November 21, 2019</td>	
+		    			<td class="f13" colspan="15"><?php echo date("F d, Y",strtotime($date_prepared));?></td>	
 		    			<td class="f13" ></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="3"><b>Ref:</td>
-		    			<td class="f13" colspan="15">COC-200983-1298</td>
+		    			<td class="f13" colspan="15"><?php echo $ref_year; ?>-<?php echo $ref_series; ?></td>
 		    			<td class="f13" ></td>
 		    		</tr>
 		    		<tr>
@@ -205,8 +205,8 @@
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="3" style="vertical-align:top;"><b>JO Reference:</td>
 		    			<td class="f13" colspan="15">
-		    				2021-ADMIN-067 <br>
-		    				JO 2021-29-CNPR-ADM.r2 <br>
+		    				<?php echo $jo_no."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?> <br>
+		    				 <?php echo $cenjo_no; ?><br>
 		    			</td>
 		    			<td class="f13" ></td>		    			
 		    		</tr>
@@ -218,7 +218,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
-		    			<td class="f13" colspan="18">This is to ceretify that <U><b>Sample Supplier Here</b></U> has already completed the following scope of works for:</td>
+		    			<td class="f13" colspan="18">This is to ceretify that <U><b><?php echo $vendor; ?></b></U> has already completed the following scope of works for:</td>
 		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<tr>
@@ -238,58 +238,40 @@
 		    			<td class="f13" colspan="14">Scope of work includes:</td>
 		    			<td class="f13" ></td>		    			
 		    		</tr>
+		    		        <!--ITEMS-->
+		    					<?php 
+		    						$gtotal=array();
+		    						if(!empty($details)){
+		    						foreach($details AS $det){ 
+		    					?>
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="2"><b><br></td>
-		    			<td class="f13" colspan="15">Sample Sample</td>
+		    			<td class="f13" colspan="15"><?php echo nl2br($det->offer); ?></td>
 		    			<td class="f13" ></td>		    			
 		    		</tr>
-		    		<tr>
-		    			<td class="f13" ></td>
-		    			<td class="f13" colspan="2"><b><br></td>
-		    			<td class="f13" colspan="15">
-		    				Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-							<br>Aliquam tincidunt mauris eu risus.
-							<br>Vestibulum auctor dapibus neque.
-							<br>Nunc dignissim risus id metus.
-							<br>Cras ornare tristique elit.
-							<br>Vivamus vestibulum ntulla nec ante.
-							<br>Praesent placerat risus quis eros.
-							<br>Fusce pellentesque suscipit nibh.
-							<br>Integer vitae libero ac risus egestas placerat.
-							<br>Vestibulum commodo felis quis tortor.
-							<br>Ut aliquam sollicitudin leo.
-							<br>Cras iaculis ultricies nulla.
-							<br>Donec quis dui at dolor tempor interdum.
-		    			</td>
-		    			<td class="f13" ></td>		    			
-		    		</tr>
+		    		<?php } } ?>
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="1"><b><br></td>
 		    			<td class="f13" colspan="14">Materials:</td>
 		    			<td class="f13" ></td>		    			
 		    		</tr>
+		    		<?php } ?>
+		    					<!--MATERIALS-->
+		    					<?php 
+		    						if(!empty($details)){
+		    						foreach($details AS $det){ 
+		    							if($det->materials_offer!='' && $det->materials_qty!=0){
+		    					?>
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="2"><b><br></td>
-		    			<td class="f13" colspan="15">
-		    				Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-							<br>Aliquam tincidunt mauris eu risus.
-							<br>Vestibulum auctor dapibus neque.
-							<br>Nunc dignissim risus id metus.
-							<br>Cras ornare tristique elit.
-							<br>Vivamus vestibulum ntulla nec ante.
-							<br>Praesent placerat risus quis eros.
-							<br>Fusce pellentesque suscipit nibh.
-							<br>Integer vitae libero ac risus egestas placerat.
-							<br>Vestibulum commodo felis quis tortor.
-							<br>Ut aliquam sollicitudin leo.
-							<br>Cras iaculis ultricies nulla.
-							<br>Donec quis dui at dolor tempor interdum.
-		    			</td>
+		    			<td class="f13" colspan="15"><?php echo nl2br($det->materials_offer); ?></td>
 		    			<td class="f13" ></td>		    			
 		    		</tr>
+		    				<?php } } } ?>
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="2"><b><br></td>
@@ -298,7 +280,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
-		    			<td class="f13" colspan="18">The above scope of works was completed and tested on <U><b>Sample Supplier Here</b></U> on <U><b>Date</b></U>. One (1) year warranty for parts and three (3) months warranty for service. 
+		    			<td class="f13" colspan="18">The above scope of works was completed and tested on <U><b><?php echo $vendor; ?></b></U> on <U><b><?php echo date("F d, Y",strtotime($date_prepared));?></b></U>. One (1) year warranty for parts and three (3) months warranty for service. 
 		    			<br>
 		    			<br>
 		    			This certification is being issued on the above-name contractor for payment purposes only.
@@ -327,16 +309,16 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13"></td>
-		    			<td class="f13 bor-btm" colspan="8"><input style="width:100%;border:0px solid" type="text" value="Jomarie Calibjo / Syndey Sinoro" name=""></td>
+		    			<td class="f13 bor-btm" colspan="8"><?php echo $checked; ?></td>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13 bor-btm" colspan="8"><input style="width:100%;border:0px solid" type="text" value="Mila B. Arana /  David C. Tan" name=""></td>
+		    			<td class="f13 bor-btm" colspan="8"><?php echo $approved;?></td>
 		    			<td class="f13"></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13"></td>
-		    			<td class="f13 " colspan="8"><input style="width:100%;border:0px solid" type="text" value="Driver / Asst. Manager for Personnel & Admin" name=""></td>
+		    			<td class="f13 " colspan="8"><?php echo $pos_checked; ?></td>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="8"><input style="width:100%;border:0px solid" type="text" value="General Manager / Asst. Executive Director" name=""></td>
+		    			<td class="f13" colspan="8"><?php echo $pos_approved;?></td>
 		    			<td class="f13"></td>
 		    		</tr>
 		    		<tr>

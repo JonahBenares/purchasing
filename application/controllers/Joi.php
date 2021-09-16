@@ -852,6 +852,30 @@ class Joi extends CI_Controller {
 
         $this->super_model->insert_into("joi_ar", $ar);
 
+
+        $date_coc = date("Y");
+        $rows_coc = $this->super_model->count_rows("joi_coc");
+        if($rows_coc==0){
+            $coc_no= "COC-".$date_coc."_01";
+        } else {
+            $max = $this->super_model->get_max("joi_coc", "series");
+            $nexts = $max+1;
+            $nxts = str_pad($nexts, 2, "0", STR_PAD_LEFT);
+            $coc_no = "COC-".$date_coc."_".$nxts;
+        }
+
+        $coc_det=explode("_", $coc_no);
+        $coc_prefix=$coc_det[0];
+        $series = $coc_det[1];
+        $coc = array(
+            'joi_id'=>$joi_id,
+            'year'=>$coc_prefix,
+            'series'=>$series,
+        );
+
+        $this->super_model->insert_into("joi_coc", $coc);
+
+
         if($submit=='Save'){
             $head = array(
                 'shipping'=>$this->input->post('shipping'),
@@ -2592,6 +2616,7 @@ class Joi extends CI_Controller {
             $data['start_of_work']= $head->start_of_work;
             $data['general_desc']= $head->general_desc;
             $data['completion_date']= $head->completion_date;
+            $data['revision_no']= $head->revision_no;
             // /$data['discount_percent']= $head->discount_percent;
             $data['discount_amount']= $head->discount;
             $data['vat_percent']= $head->vat_percent;
@@ -2602,8 +2627,12 @@ class Joi extends CI_Controller {
             $data['conforme']= $head->conforme;
             $data['verified_by']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->verified_by);
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
+            $data['pos_checked'] = $this->super_model->select_column_where('employees', 'position', 'employee_id', $head->checked_by);
             $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
+            $data['pos_approved'] = $this->super_model->select_column_where('employees', 'position', 'employee_id', $head->approved_by);
             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
+            $data['ref_year'] = $this->super_model->select_column_where('joi_coc', 'year', 'joi_id', $head->joi_id);
+            $data['ref_series'] = $this->super_model->select_column_where('joi_coc', 'series', 'joi_id', $head->joi_id);
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
             $data['cancelled']=$head->cancelled;
         }   
