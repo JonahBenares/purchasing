@@ -522,7 +522,7 @@
 		    						<td></td>
 		    						<td><!-- <input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent'> --></td>
 		    						<td align="right">Less Discount:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo number_format($discount,2); ?>" onblur='changePrice()' style="width: 100%;text-align: right;"></td>
+		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount; ?>" onblur='changePrice()' style="width: 100%;text-align: right;"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
