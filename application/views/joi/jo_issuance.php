@@ -388,12 +388,14 @@
 		    					<!--MATERIALS-->
 		    					<?php 
 		    						$gtotal=array();
+		    						$mattotal=array();
 		    						if(!empty($items)){
 		    							$y=1;
 		    							$b=1;
 			    						foreach($items AS $it){ 
 			    							if($it['balance']!=0){ 
-			    								$gtotal[] = $it['total'] + $it['materials_amount'];
+			    								$gtotal[] = $it['total'];
+			    								$mattotal[] = $it['materials_amount'];
 			    								if($it['materials_offer']!='' && $it['materials_qty']!=0){ 
 		    					?>
 		    					<tr>
@@ -433,7 +435,7 @@
 					    		<input type='hidden' name='uom<?php echo $y; ?>' value="<?php echo $it['uom']; ?>">
 		    					<?php 
 		    							} $y++; $b++; } } 
-		    						}else{ $gtotal=array(); } 
+		    						}else{ $gtotal=array(); $mattotal=array(); } 
 		    					?>
 		    					<!--MATERIALS-->
 		    					<tr><td colspan="6" class="p-5"></td></tr>
@@ -474,8 +476,16 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Amount:</td>
+		    						<td align="right">Labor Amount:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo array_sum($gtotal); ?>" readonly="readonly" style="text-align: right;width: 100%;"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Materials Amount:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly" style="text-align: right;width: 100%;"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>

@@ -433,9 +433,11 @@ tr:nth-child(4) td {
                                 <!--ITEMS-->
 		    					<?php
 					    		$gtotal=array();
+					    		$mattotal=array();
 					    		if(!empty($items)){
 					    		foreach($items AS $it){ 
-					    			$gtotal[] = $it->amount + $it->materials_amount;
+					    			$gtotal[] = $it->amount;
+					    			$mattotal[] = $it->materials_amount;
 				    			?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->offer)."<br><br>"; ?></td>
@@ -445,7 +447,7 @@ tr:nth-child(4) td {
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->unit_price; ?></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->amount; ?></td>
 		    					</tr>
-		    					<?php } }else { $gtotal=array(); } ?>
+		    					<?php } }else { $gtotal=array(); $mattotal=array(); } ?>
 		    					<!--ITEMS-->
 		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
@@ -455,9 +457,11 @@ tr:nth-child(4) td {
 		    					<!--MATERIALS-->
 		    					<?php
 					    		$gtotal=array();
+					    		$mattotal=array();
 					    		if(!empty($items)){
 					    		foreach($items AS $it){ 
-					    			$gtotal[] = $it->amount + $it->materials_amount;
+					    			$gtotal[] = $it->amount;
+					    			$mattotal[] = $it->materials_amount;
 					    			if($it->materials_offer!='' && $it->materials_qty!=0){
 				    			?>
 		    					<tr>
@@ -468,7 +472,7 @@ tr:nth-child(4) td {
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_unitprice; ?></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->materials_amount; ?></td>
 		    					</tr>
-		    					<?php } } }else { $gtotal=array(); } ?>
+		    					<?php } } }else { $gtotal=array(); $mattotal=array(); } ?>
 		    					<!--MATERIALS-->
 		    					<tr><td colspan="6" class="p-5"></td></tr>
 		    					<tr>
@@ -506,7 +510,7 @@ tr:nth-child(4) td {
 		    						<td class="f13" align="center"></td>
 		    					</tr>
 		    					<?php 
-		    						$grtotal =array_sum($gtotal);
+		    						$grtotal =array_sum($gtotal) +array_sum($mattotal);
 		    						$subtotal=$grtotal+$vat;
 		    						$grandtotal = ($grtotal+$vat)-$discount;
 		    					?>
@@ -515,8 +519,16 @@ tr:nth-child(4) td {
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Amount:</td>
+		    						<td align="right">Labor Amount:</td>
 		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Materials Amount:</td>
+		    						<td align="right"><?php echo number_format(array_sum($mattotal),2); ?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>

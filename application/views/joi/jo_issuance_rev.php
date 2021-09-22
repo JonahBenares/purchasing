@@ -374,7 +374,8 @@
 		    							//ITEMS
 		    							if(!empty($items)){
 			    							foreach($items AS $det){ 
-			    								$gtotal2[] = $det->amount + $det->materials_amount;
+			    								$gtotal2[] = $det->amount;
+			    								$mattotal[] = $det->materials_amount;
 		    					?>
 		    					<tr>
 		    						<tr>
@@ -464,7 +465,7 @@
 		    					<?php $y++; } } ?>
 		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
 
-		    					<?php }else { $gtotal2=array(); } }else {
+		    					<?php }else { $gtotal2=array(); $mattotal=array(); } }else {
 		    					?>
 		    					<!--ITEMS-->
 		    					<tr>
@@ -473,7 +474,8 @@
 		    					<?php
 		    						if(!empty($items_temp)){
 		    						foreach($items_temp AS $det){ 
-			    						$gtotal2[] = $det->amount + $det->materials_amount;
+			    						$gtotal2[] = $det->amount;
+			    						$mattotal[] = $det->materials_amount;
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->offer)."<br><br>"; ?></td>
@@ -535,7 +537,7 @@
 		    					<input type='hidden' name='joi_tc_id<?php echo $y; ?>' value="<?php echo $n->joi_tc_id; ?>">
 		    					<?php $y++; } } ?>
 		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
-		    					<?php }else { $gtotal2=array(); } } ?>
+		    					<?php }else { $gtotal2=array();  $mattotal=array(); } } ?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"></td>
 		    						<td class="f13" align="center"></td>
@@ -559,16 +561,25 @@
 		    					<?php 
 		    						if($revised==0){ 
 			    						$sum_cost = array_sum($gtotal2);
-			    						$subtotal= $sum_cost + $vat_amount; 
-			    						$grandtotal = ($sum_cost+$vat_amount)-$discount;
+			    						$matsum_cost = array_sum($mattotal);
+			    						$subtotal= $sum_cost + $matsum_cost + $vat_amount; 
+			    						$grandtotal = ($sum_cost+ $matsum_cost +$vat_amount)-$discount;
 		    					?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Amount:</td>
+		    						<td align="right">Labor Amount:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly" style='text-align: right;'></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Materials Amount:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo $matsum_cost;?>" readonly="readonly" style='text-align: right;'></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
@@ -597,16 +608,25 @@
 		    					</tr>
 		    					<?php } else { 
 		    						$sum_cost = array_sum($gtotal2);
-		    						$subtotal= $sum_cost + $vat_temp; 
-		    						$grandtotal = ($sum_cost+$vat_temp)-$discount_temp;
+		    						$matsum_cost = array_sum($mattotal);
+		    						$subtotal= $sum_cost + $matsum_cost + $vat_temp; 
+		    						$grandtotal = ($sum_cost+$matsum_cost+$vat_temp)-$discount_temp;
 	    						?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Amount:</td>
+		    						<td align="right">Labor Amount:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly" style='text-align: right;'></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Materials Amount:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo $matsum_cost;?>" readonly="readonly" style='text-align: right;'></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>

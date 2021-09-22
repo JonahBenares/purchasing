@@ -44,13 +44,14 @@ function changePrice(){
   /* var price = document.getElementById("unit_cost").value;
    var qty = document.getElementById("quantity").value;*/
    var sum_cost =document.getElementById("sum_cost").value;
+   var mat_sum_cost =document.getElementById("mat_sum_cost").value;
 
     var vat_percent = document.getElementById("vat_percent").value;
     var vat = vat_percent/100;
     var vat_amount = parseFloat(sum_cost) * parseFloat(vat);
     document.getElementById("vat_amount").value  =vat_amount.toFixed(2);;
-     var subtotal = parseFloat(sum_cost) + parseFloat(vat_amount);
-       document.getElementById("subtotal").value  =subtotal.toFixed(2);;
+    var subtotal = parseFloat(sum_cost) + parseFloat(mat_sum_cost) + parseFloat(vat_amount);
+    document.getElementById("subtotal").value  =subtotal.toFixed(2);
 
   /*var less_percent = document.getElementById("less_percent").value;
    var less = less_percent/100;*/
@@ -94,7 +95,7 @@ function changePrice_rfd(){
 
 
     document.getElementById("balaft").innerHTML  = balnet.toFixed(2);
-    document.getElementById("totalamdue").innerHTML  = totalamdue.toFixed(2);
+    //document.getElementById("totalamdue").innerHTML  = totalamdue.toFixed(2);
 }
 
 function check_rfd(){

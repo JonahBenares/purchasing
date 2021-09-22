@@ -334,11 +334,13 @@
 		    			$materials_less= ($mattotal/1.12)*$materials_percent;
 		    			$gtotal = $stotal-$less;
 		    			$mtotal = $mattotal-$materials_less;
+		    			$totalamt=$gtotal + $mtotal - $discount;
 		    		} else {
 		    			$less= $stotal*$percent;
 		    			$materials_less= $mattotal*$materials_percent;
 		    			$gtotal = $stotal-$less;
 		    			$mtotal = $mattotal-$materials_less;
+		    			$totalamt=$gtotal + $mtotal - $discount;
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% Labor EWT</b></td>
@@ -383,7 +385,7 @@
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount Due</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<b style="font-weight: 900"><span class="nomarg" id='totalamdue'></span></b>
+		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($totalamt,2); ?></span></b>
 		    			</td>
 		    		</tr>
 		    		<?php 
