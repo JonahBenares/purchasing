@@ -123,7 +123,7 @@
 	    				<td width="25%"></td>
 	    			</tr>
 	    		</table>   		  			
-		    	<table class="table-borsdered" width="100%" style="border:2px solid #000">
+		    	<table class="table-bordesdred" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
@@ -164,259 +164,170 @@
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20" align="center"><h4><b>CERTIFICATE OF COMPLETION</b></h4></td></tr>
-		    		<tr>
-		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
-		    			<td class="f13" colspan="10" align="left">
-		    				<b><?php echo $vendor; ?></b><br>
-		    				<span id='contact_person'><?php echo $contact_person; ?></span><br>
-		    				<span id='address'><?php echo $address; ?></span><br>
-		    				<span id='phone'><?php echo $phone; ?></span><br>
-		    				<span id='fax'><?php echo $fax; ?></span><br>
-		    				<br>
-		    			</td>
-		    			<td colspan="7"></td>
-		    		</tr>
-		    		
-		    		<tr>
-		    			<td class="f13" colspan="4">Date Needed:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_needed));?></td>
-		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="5"><?php echo date("F d, Y",strtotime($completion_date));?></td>
-		    		</tr>
+
+
+
 
 		    		<tr>
-		    			<td class="f13" colspan="4">Date Prepared:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($date_prepared));?></td>
-		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
-		    			<td class="f13 bor-btm" colspan="5"><b></b><?php echo $cenjo_no; ?></td>
+		    			<td class="f13" ></td>
+		    			<td class="f13" ><br></td>
+		    			<td class="f13" colspan="10"></td>		    			
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="4">Start of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($start_of_work));?></td>
-		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">JO. No:</td>
-		    			<td class="f13 bor-btm" colspan="5"><?php echo $jo_no."-".COMPANY; ?></td>
-		    		</tr>	
-		    		<!-- <tr>
-		    			<td class="f13" colspan="4">Completion of Work:</td>
-		    			<td class="f13 bor-btm" colspan="7"><?php echo date("F d, Y",strtotime($work_completion));?></td>
-		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3"></td>
-		    			<td class="f13" colspan="5"></td>
-		    		</tr> -->			    			    		
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
-		    		<tr>
-		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
-			    			<h5 style="margin: 5px"><b><?php echo $project_title; ?></b></h5>
-			    		</td>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="3"><b>Date:</td>
+		    			<td class="f13" colspan="15"><?php echo date("F d, Y",strtotime($date_prepared));?></td>	
+		    			<td class="f13" ></td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		    		
 		    		<tr>
-		    		
-		    			<td colspan="20">
-		    				<table class="table-borddered" width="100%">
-		    					<tr>
-		    						<td width="70%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
-		    						<td width="15%"  class="f13" align="center"><b></b></td>
-		    						<td width="15%" class="f13" align="right" style="padding-right: 10px"><b>Total Cost</b></td>
-		    					</tr>
-		    					<tr>
-                                    <td class="f13 p-l-5" align="left"><b><?php echo $general_desc; ?></b></td>
-                                </tr>
-                                <!--ITEMS-->
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="3"><b>Ref:</td>
+		    			<td class="f13" colspan="15"><?php echo $ref_year; ?>-<?php echo $ref_series; ?></td>
+		    			<td class="f13" ></td>
+		    		</tr>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" ><br></td>
+		    			<td class="f13" colspan="10"></td>		    			
+		    		</tr>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="3" style="vertical-align:top;"><b>Activity:</td>
+		    			<td class="f13" colspan="15"><?php echo $project_title; ?></td>
+		    			<td class="f13" ></td>		    			
+		    		</tr>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" ><br></td>
+		    			<td class="f13" colspan="10"></td>		    			
+		    		</tr>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="3" style="vertical-align:top;"><b>JO Reference:</td>
+		    			<td class="f13" colspan="15">
+		    				<?php echo $jo_no."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?> <br>
+		    				 <?php echo $cenjo_no; ?><br>
+		    			</td>
+		    			<td class="f13" ></td>		    			
+		    		</tr>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="3"><b><br></td>
+		    			<td class="f13" colspan="15"></td>
+		    			<td class="f13" ></td>		    			
+		    		</tr>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="18">This is to ceretify that <U><b><?php echo $vendor; ?></b></U> has already completed the following scope of works for:</td>
+		    			<td class="f13" ></td>		    			
+		    		</tr>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="3"><b><br></td>
+		    			<td class="f13" colspan="15"></td>
+		    			<td class="f13" ></td>		    			
+		    		</tr>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="18">A. Supply of labor, Materials, tools, equipment and technical expertise for the <b><?php echo $project_title; ?></td>
+		    			<td class="f13" ></td>		    			
+		    		</tr>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="1"><b><br></td>
+		    			<td class="f13" colspan="14">Scope of work includes:</td>
+		    			<td class="f13" ></td>		    			
+		    		</tr>
+		    		        <!--ITEMS-->
 		    					<?php 
 		    						$gtotal=array();
 		    						if(!empty($details)){
 		    						foreach($details AS $det){ 
-		    							$gtotal[] = $det->amount + $det->materials_amount;
 		    					?>
-		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->offer); ?></td>
-		    						<td class="f13" align="center"></td>
-		    						<td style="padding-right: 10px" class="f13" align="right"><?php echo number_format($det->amount,2); ?></td>
-		    					</tr>
-		    					<?php } } else{ $gtotal=array(); } ?>
-		    					<!--ITEMS-->
-		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
-		    					<tr>
-									<td class="all-border" align="left" colspan="20"><b>Materials:</b></td>
-								</tr>
-								<?php } ?>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="2"><b><br></td>
+		    			<td class="f13" colspan="15"><?php echo nl2br($det->offer); ?></td>
+		    			<td class="f13" ></td>		    			
+		    		</tr>
+		    		<?php } } ?>
+		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="1"><b><br></td>
+		    			<td class="f13" colspan="14">Materials:</td>
+		    			<td class="f13" ></td>		    			
+		    		</tr>
+		    		<?php } ?>
 		    					<!--MATERIALS-->
 		    					<?php 
-		    						$gtotal=array();
 		    						if(!empty($details)){
 		    						foreach($details AS $det){ 
-		    							$gtotal[] = $det->amount + $det->materials_amount;
 		    							if($det->materials_offer!='' && $det->materials_qty!=0){
 		    					?>
-		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($det->materials_offer); ?></td>
-		    						<td class="f13" align="center"></td>
-		    						<td style="padding-right: 10px" class="f13" align="right"><?php echo number_format($det->materials_amount,2); ?></td>
-		    					</tr>
-		    					<?php } } } else{ $gtotal=array(); } ?>
-		    					<!--MATERIALS-->
-								<tr>
-		    						<td class="f13 p-l-5" align="left"></td>
-		    						<td class="f13" align="center"><br><br></td>
-		    						<td class="f13" align="center"></td>
-		    					</tr>
-		    					<?php if($vat_amount!=0){ ?>
-		    					<tr>
-		    						<td></td>
-		    						<td><?php echo number_format($vat_percent) . "% VAT:"; ?></td>
-		    						<td align="right"><?php echo number_format($vat_amount,2); ?></td>
-		    					</tr>
-		    					<?php } ?>
-		    					<?php 
-		    						$grtotal =array_sum($gtotal);
-		    						$subtotal=$grtotal+$vat_amount;
-		    						$grandtotal = ($grtotal+$vat_amount)-$discount_amount;
-		    					?>
-		    					<tr>
-		    						<td></td>
-		    						<td>Sub Total:</td>
-		    						<td style="padding-right: 10px" align="right"><?php echo number_format($subtotal,2); ?></td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td>Less Discount:</td>
-		    						<td style="padding-right: 10px" align="right"><?php echo number_format($discount_amount,2); ?></td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td>Grand Total:</td>
-		    						<td style="padding-right: 10px" align="right"><?php echo number_format($grandtotal,2); ?></td>
-		    					</tr>
-		    				</table>
-		    			</td>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="2"><b><br></td>
+		    			<td class="f13" colspan="15"><?php echo nl2br($det->materials_offer); ?></td>
+		    			<td class="f13" ></td>		    			
+		    		</tr>
+		    				<?php } } } ?>
+		    		<tr>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="2"><b><br></td>
+		    			<td class="f13" colspan="16"></td>
+		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="11" align="left" style="padding-left: 5px">
-		    				<br><b>Terms and Conditions:</b><br>
-		    				<?php foreach($terms AS $trm){ 
-		    					echo nl2br($trm->terms)."<br>";
-		    				} ?>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="18">The above scope of works was completed and tested on <U><b><?php echo $vendor; ?></b></U> on <U><b><?php echo date("F d, Y",strtotime($date_prepared));?></b></U>. One (1) year warranty for parts and three (3) months warranty for service. 
+		    			<br>
+		    			<br>
+		    			This certification is being issued on the above-name contractor for payment purposes only.
 		    			</td>
-		    			<td colspan="9"></td>
-		    		</tr>	
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
-		    		<tr>
-		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
-		    			<td class="f13" colspan="7"></td>
-		    			<td class="f13" colspan="3"></td>
-		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
-		    		<tr>
-		    			<td class="f13 p-l-5" colspan="3">Conforme:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="center"><?php echo $conforme; ?></td>
-		    			<td class="f13" colspan="7"></td>
-		    			<td class="f13" colspan="3"></td>
+		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="3"></td>
-		    			<td class="f13" colspan="7" align="center">Supplier's Signature Over Printed Name</td>
-		    			<td class="f13" colspan="7"></td>
-		    			<td class="f13" colspan="3"></td>
-		    		</tr>
-		    		<tr><td class="f13 bor-btm" colspan="20" align="center"><br></td></tr>    	
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
-
-		    		<tr>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="4" align="center">Prepared by:</td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">Checked by:</td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="4" align="center">Recommended by:</td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="3" align="center">Approved by:</td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>   
-		    		<tr>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 bor-btm" colspan="4" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="3" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>   
-		    		<tr>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
-		    				<?php echo $prepared; ?>
-		    			</td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
-		    				<?php echo $checked; ?>
-		    			</td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
-		    				<?php echo $recommended; ?>
-		    			</td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="3" align="center">
-		    				<?php echo $approved;?>
-		    			</td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr> 
-		    		<!-- <tr>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="5" align="center"><small>Purchasing Department</small></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="6" align="center"><small>Personnel</small></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="5" align="center"><small>Project Director</small></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    		</tr>   -->
-		    		<?php if($grandtotal<10000){ ?>
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>    	
-		    		<tr>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="4" align="center">Work Completion Verified by:</td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center"></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="4" align="center"></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="4" align="center"></td>
+		    			<td class="f13" ></td>
+		    			<td class="f13" colspan="2"><b><br></td>
+		    			<td class="f13" colspan="16"></td>
+		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center"><br></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center"><br></td>
-		    		</tr>   
-		    		<tr>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
-		    				<?php echo $verified_by;?>
-		    			</td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center"></td>
-		    			<td class="f13" colspan="1" align="center"></td></td>
-
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="3" align="center"></td>
-		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 " colspan="4" align="center"></td>
+		    			<td class="f13"></td>
+		    			<td class="f13" colspan="8">Check and Endorsed by:</td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13" colspan="8">Approve by:</td>
+		    			<td class="f13"></td>
 		    		</tr>
-		    		<?php } ?>       	
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><br><br></td></tr>  
-		    		
+		    		<tr>
+		    			<td class="f13"></td>
+		    			<td class="f13" colspan="8"><br></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13" colspan="8"></td>
+		    			<td class="f13"></td>
+		    		</tr>
+		    		<tr>
+		    			<td class="f13"></td>
+		    			<td class="f13 bor-btm" colspan="8"><?php echo $checked; ?></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13 bor-btm" colspan="8"><?php echo $approved;?></td>
+		    			<td class="f13"></td>
+		    		</tr>
+		    		<tr>
+		    			<td class="f13"></td>
+		    			<td class="f13 " colspan="8"><?php echo $pos_checked; ?></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13" colspan="8"><?php echo $pos_approved;?></td>
+		    			<td class="f13"></td>
+		    		</tr>
+		    		<tr>
+		    			<td class="f13"></td>
+		    			<td class="f13" colspan="8"><br></td>
+		    			<td class="f13" colspan="2"></td>
+		    			<td class="f13" colspan="8"></td>
+		    			<td class="f13"></td>
+		    		</tr>
 		    	</table>		    
 	    	</div>
     	</form>
