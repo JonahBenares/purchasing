@@ -328,9 +328,10 @@
 		    		<?php } ?>
 		    		<?php 
 
-		    			$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
-		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt) - $discount;
-		    			$mattotal = (array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
+		    			//$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
+		    			$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt);
+		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt);
+		    			$mattotal = (array_sum($materials_subtotal) + $shipping+$packing+$vatt);
 		    		?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Labor SubTotal:</b></td>
@@ -349,13 +350,13 @@
 		    		</tr>
 		    		<?php } ?>
 		    		</tr>
-		    			<tr>
+		    		<!-- <tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less Discount"; ?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
 		    				<span class="nomarg" id=''><?php echo number_format($discount,2); ?></span>
 		    			</td>
-		    		</tr>
+		    		</tr> -->
 		    		</tr>
 		    			<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Net: "; ?></b></td>
@@ -380,13 +381,15 @@
 		    			$materials_less= ($mattotal/1.12)*$materials_percent;
 		    			$gtotal = $stotal-$less;
 		    			$mtotal = $mattotal-$materials_less;
-		    			$btotal = ($gtotal+$mtotal)-array_sum($baltotal);
+		    			$overtotal = ($gtotal+$mtotal) - $discount;
+		    			$btotal = ($gtotal+$mtotal)-array_sum($baltotal) - $discount;
 		    		} else {
 		    			$less= $stotal*$percent;
 		    			$materials_less= $mattotal*$materials_percent;
 		    			$gtotal = $stotal-$less;
 		    			$mtotal = $mattotal-$materials_less;
-		    			$btotal = ($gtotal+$mtotal)-array_sum($baltotal);
+		    			$overtotal = ($gtotal+$mtotal) - $discount;
+		    			$btotal = ($gtotal+$mtotal)-array_sum($baltotal) - $discount;
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% Labor EWT</b></td>
@@ -420,6 +423,20 @@
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less Discount"; ?></b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"></span>
+		    				<span class="nomarg" id=''><?php echo number_format($discount,2); ?></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount Due</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg" id='totalamdue'><?php echo number_format($overtotal,2);?></span></b>
+		    			</td>
+		    		</tr>
 		    		<?php foreach($payment AS $p){ ?>
 		    		<?php if($payment_desc != $p->payment_desc && $p->payment_amount!='0.0000' && $payment_amount!='0.0000'){ ?>
 		    		<tr>

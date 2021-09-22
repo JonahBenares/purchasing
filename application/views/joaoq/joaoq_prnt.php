@@ -776,8 +776,7 @@
 		    						<!-- ---------------------------------------FOR SERVICES------------------------------------ -->			
 			    					<tr style="height:150px">
 				    					<td width="25%" class="bor-btm bor-right">
-				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe" ><?php echo $of['offer']; ?>
-				    						</textarea>
+				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe" ><?php echo $of['offer']; ?></textarea>
 				    					</td>
 				    					<td width="6%" class="bor-btm bor-right f10 " align="center">
 				    						<select name='currency_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe">

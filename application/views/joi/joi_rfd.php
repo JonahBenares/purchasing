@@ -289,9 +289,10 @@
 		    		<?php } ?>
 		    		<?php 
 
-		    			$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
-		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt) - $discount;
-		    			$mattotal = (array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
+		    			//$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
+		    			$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt);
+		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt);
+		    			$mattotal = (array_sum($materials_subtotal) + $shipping+$packing+$vatt);
 		    		?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Labor SubTotal:</b></td>
@@ -310,13 +311,13 @@
 		    		</tr>
 		    		<?php } ?>
 		    		</tr>
-		    			<tr>
+		    		<!-- <tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less Discount"; ?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
 		    				<span class="nomarg" id=''><?php echo number_format($discount,2); ?></span>
 		    			</td>
-		    		</tr>
+		    		</tr> -->
 		    		</tr>
 		    			<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Net: "; ?></b></td>
@@ -371,6 +372,20 @@
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less Discount"; ?></b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"></span>
+		    				<span class="nomarg" id=''><?php echo number_format($discount,2); ?></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount Due</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg" id='totalamdue'></span></b>
+		    			</td>
+		    		</tr>
 		    		<?php 
 		    		foreach($payment AS $p){  ?>
 		    			<?php if($rows_rfd!=0 && $p->payment_amount !=0){ ?>
@@ -485,6 +500,7 @@
 	    	<input type='hidden' name='total_amount' id = "total_amount" value='<?php echo $gtotal; ?>'>
 	    	<input type='hidden' name='mtotal_amount' id = "mtotal_amount" value='<?php echo $mtotal; ?>'>
 	    	<input type='hidden' name='sum_amount' id = "sum_amount" value='<?php echo $sum_amount; ?>'>
+	    	<input type='hidden' name='discount_deduct' id = "discount_deduct" value='<?php echo $discount; ?>'>
     	</form>
     </div>
     <script type="text/javascript">

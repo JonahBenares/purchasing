@@ -679,7 +679,7 @@ class Joaoq extends CI_Controller {
                                 'materials_unitprice'=>$materials_price,
                                 'materials_amount'=>$materials_amount,
                                 'materials_currency'=>$materials_currency,
-                                'materials_balance'=>$offer_qty,
+                                'materials_balance'=>$materials_qty,
                             );
                             //print_r($offers);
                             $this->super_model->insert_into("jor_aoq_offers", $offers);
@@ -705,7 +705,7 @@ class Joaoq extends CI_Controller {
                             'materials_unitprice'=>$materials_price,
                             'materials_amount'=>$materials_amount,
                             'materials_currency'=>$materials_currency,
-                            'materials_balance'=>$offer_qty,
+                            'materials_balance'=>$materials_qty,
                         );
                         //print_r($offers);
                         $this->super_model->insert_into("jor_aoq_offers", $offers);
@@ -790,7 +790,7 @@ class Joaoq extends CI_Controller {
                 'materials_unitprice'=>$materials_price,
                 'materials_amount'=>$materials_amount,
                 'materials_currency'=>$materials_currency,
-                'materials_balance'=>$this->input->post('offerqty_'.$x),
+                'materials_balance'=>$this->input->post('materialsqty_'.$x),
             );
             $this->super_model->update_where("jor_aoq_offers", $data, "jor_aoq_offer_id", $this->input->post('offerid_'.$x));
         }
