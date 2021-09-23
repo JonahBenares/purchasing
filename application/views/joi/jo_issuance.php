@@ -320,7 +320,7 @@
 		    			<td colspan="20">
 		    				<table class="table-borderesd" width="100%">
 		    					<tr>
-		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
+		    						<td width="40%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
 		    						<td width="5%" class="f13" align="center"><b>Currency</b></td>
@@ -492,7 +492,7 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">VAT %: <input class="nobord" style="width:60px;border-bottom:1px solid red" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'></td>
+		    						<td align="right">VAT %: <input class="nobord" style="width:60px;border-bottom:1px solid black" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" style="text-align: right;width: 100%;"></td>
 		    					</tr>
 		    					<tr>
