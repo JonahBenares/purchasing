@@ -144,12 +144,13 @@ function changePrice_JO(count){
     document.getElementById("sum_cost").value  =grandtotal1;
 
      var sum_cost =document.getElementById("sum_cost").value;
+     var mat_sum_cost =document.getElementById("mat_sum_cost").value;
 
     var vat_percent = document.getElementById("vat_percent").value;
     var vat = vat_percent/100;
     var vat_amount = parseFloat(sum_cost) * parseFloat(vat);
     document.getElementById("vat_amount").value  =vat_amount.toFixed(2);;
-     var subtotal = parseFloat(sum_cost) + parseFloat(vat_amount);
+     var subtotal = parseFloat(sum_cost)  + parseFloat(mat_sum_cost) + parseFloat(vat_amount);
        document.getElementById("subtotal").value  =subtotal.toFixed(2);;
 
        var less =document.getElementById("less_amount").value;
@@ -242,26 +243,26 @@ function changesinglePrice_JO(){
 
    //  document.getElementById("total_pr"+countPR).value  =total_pr;
     var grandtotal=0;
-    $(".tprice").each(function(){
+    $(".materials_tprice").each(function(){
           var p = $(this).val().replace(",", "");
           grandtotal += parseFloat(p);
     });
 
     var grandtotal1=0;
-    $(".tprice").each(function(){
+    $(".materials_tprice").each(function(){
           var p1 = $(this).val().replace(",", "");
           grandtotal1 += parseFloat(p1);
     });
    
-    document.getElementById("sum_cost").value  =grandtotal1;
+    document.getElementById("mat_sum_cost").value  =grandtotal1;
 
-     var sum_cost =document.getElementById("sum_cost").value;
+     var mat_sum_cost =document.getElementById("mat_sum_cost").value;
 
     var vat_percent = document.getElementById("vat_percent").value;
     var vat = vat_percent/100;
-    var vat_amount = parseFloat(sum_cost) * parseFloat(vat);
+    var vat_amount = parseFloat(mat_sum_cost) * parseFloat(vat);
     document.getElementById("vat_amount").value  =vat_amount.toFixed(2);
-     var subtotal = parseFloat(sum_cost) + parseFloat(vat_amount);
+     var subtotal = parseFloat(sum_cost) + parseFloat(mat_sum_cost) + parseFloat(vat_amount);
        document.getElementById("subtotal").value  =subtotal.toFixed(2);
   var less =document.getElementById("less_amount").value;
   var net =  parseFloat(subtotal) - parseFloat(less);

@@ -496,15 +496,19 @@
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Labor Amount:</td>
+		    						<td colspan='2'>Total Labor:</td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo array_sum($gtotal); ?>" readonly="readonly"></td>
 		    					</tr>
+		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Materials Amount:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly"></td>
+		    						<td colspan='2'>Total Materials:</td>
+		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly"></td>
 		    					</tr>
+		    					<?php }else { ?>
+		    						<input class="nobord" type="hidden" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly">
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>

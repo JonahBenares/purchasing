@@ -376,7 +376,8 @@
 		    						$x=1; 
 		    							if(!empty($items)){
 		    							foreach($items AS $det){ 
-		    								$gtotal2[] = $det->amount + $det->materials_amount;
+		    								$gtotal2[] = $det->amount;
+		    								$mattotal[] = $det->materials_amount;
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left" ><textarea name = "scope_of_work<?php echo $x; ?>" class = "form-control" rows="7"><?php echo $det->offer; ?></textarea></td>
@@ -428,7 +429,7 @@
 						    		</select>
 				    				</td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name='materials_price' id='materials_price' style = "width:100%;text-align: center" value = "<?php echo $det->materials_unitprice; ?>" onblur='changesinglePrice_JO()'></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='materials_tprice' id='materials_tprice' style = "width:100%;text-align: center" class='tprice' value = "<?php echo number_format($det->materials_amount); ?>"></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='materials_tprice' id='materials_tprice' style = "width:100%;text-align: center" class='materials_tprice' value = "<?php echo number_format($det->materials_amount); ?>"></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><a href="<?php echo base_url(); ?>joi/delete_scope/<?php echo $det->joi_items_id?>/<?php echo $det->joi_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5" style="vertical-align:top;"></td></tr>
@@ -463,7 +464,7 @@
 		    					<?php $y++; } } ?>
 		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
 
-		    					<?php }else { $gtotal2=array(); } }else { ?>
+		    					<?php }else { $gtotal2=array();$mattotal=array(); } }else { ?>
 		    					<tr>
                                     <td class="f13 p-l-5" align="left"><b><?php echo $general_desc_temp; ?></b></td>
                                 </tr>
@@ -471,7 +472,8 @@
 		    					<?php 
 		    						if(!empty($items_temp)){
 		    						foreach($items_temp AS $det){ 
-			    						$gtotal2[] = $det->amount + $det->materials_amount;
+			    						$gtotal2[] = $det->amount;
+			    						$mattotal[] = $det->materials_amount;
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo " - ".nl2br($det->offer)."<br><br>"; ?></td>
@@ -534,7 +536,7 @@
 		    					<input type='hidden' name='joi_tc_id<?php echo $y; ?>' value="<?php echo $n->joi_tc_id; ?>">
 		    					<?php $y++; } } ?>
 		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
-		    					<?php }else { $gtotal2=array(); } } ?>
+		    					<?php }else { $gtotal2=array();$mattotal=array(); } } ?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"></td>
 		    						<td class="f13" align="center"></td>
@@ -558,6 +560,7 @@
 		    					<?php 
 		    						if($revised==0){ 
 			    						$sum_cost = array_sum($gtotal2);
+			    						$material_cost = array_sum($mattotal);
 			    						$subtotal= $sum_cost + $vat_amount; 
 			    						$grandtotal = ($sum_cost+$vat_amount)-$discount;
 		    					?>
@@ -566,9 +569,21 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Amount:</td>
+		    						<td align="right">Total Labor:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly" style="width: 100%;text-align: right"></td>
 		    					</tr>
+		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Total Materials:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo $material_cost;?>" readonly="readonly" style="width: 100%;text-align: right"></td>
+		    					</tr>
+		    					<?php } else { ?>
+		    						<input class="nobord" type="hidden" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo $material_cost;?>" readonly="readonly" style="width: 100%;text-align: right">
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -596,7 +611,8 @@
 		    					</tr>
 		    					<?php } else { 
 		    						$sum_cost = array_sum($gtotal2);
-		    						$subtotal= $sum_cost + $vat_temp; 
+		    						$material_cost = array_sum($mattotal);
+		    						$subtotal= $sum_cost + $material_cost + $vat_temp; 
 		    						$grandtotal = ($sum_cost+$vat_temp)-$discount_temp;
 	    						?>
 		    					<tr>
@@ -604,9 +620,21 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Amount:</td>
+		    						<td align="right">Total Labor:</td>
 		    						<td class="bor-btm" align="right"></span><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly" style="width: 100%;text-align: right"></td>
 		    					</tr>
+		    					<?php if($materials_offer_temp!='' && $materials_qty_temp!=0){ ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Total Materials:</td>
+		    						<td class="bor-btm" align="right"></span><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo $material_cost;?>" readonly="readonly" style="width: 100%;text-align: right"></td>
+		    					</tr>
+		    					<?php } else { ?>
+		    						<input class="nobord" type="hidden" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo $material_cost;?>" readonly="readonly" style="width: 100%;text-align: right">
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
