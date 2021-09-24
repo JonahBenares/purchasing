@@ -190,7 +190,7 @@
                             <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0" style="width: 250px">
                                 <a class="dropdown-item" data-toggle="modal" data-target="#jor_modal">JOR Summary</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#joi_modal">JOI Summary</a>
-                                <a class="dropdown-item" data-toggle="modal" data-target="#jounserved_modal">Unserved Report</a>
+                                <!-- <a class="dropdown-item" data-toggle="modal" data-target="#jounserved_modal">Unserved Report</a> -->
                                 <!-- <a class="dropdown-item" data-toggle="modal" data-target="#unserved_modal">Unserved Report</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#weekly_recom">Summary of Weekly Recom</a>
                                 <a class="dropdown-item" href="<?php echo base_url(); ?>reports/pending_pr" >Pending PR</a>
