@@ -502,7 +502,6 @@
 		    						<td  align="right">Total Labor:</td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo array_sum($gtotal); ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
 		    					</tr>
-		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -511,9 +510,6 @@
 		    						<td  align="right">Total Materials:</td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
 		    					</tr>
-		    					<?php }else{ ?>
-		    						<input class="nobord" type="hidden" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly" style="width: 100%;text-align: right;">
-		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
