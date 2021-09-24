@@ -519,7 +519,7 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' value="<?php echo $vat_percent;?>" onblur='changePrice()' style="width:30px;border-bottom: 1px solid red;"></td>
+		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' value="<?php echo $vat_percent;?>" onblur='changePrice()' style="width:30px;border-bottom: 1px solid #000;"></td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo number_format($vat,2);?>" style="width: 100%;text-align: right;"></td>
 		    					</tr>
 		    					<tr>

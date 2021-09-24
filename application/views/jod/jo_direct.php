@@ -469,7 +469,7 @@
 		    					</tr>
 		    					<tr>
 		    						<td colspan="4"></td>
-		    						<td  align="right">VAT %: <input style="text-align: center; border-bottom:1px solid red ;width:60px" class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'>
+		    						<td  align="right">VAT %: <input style="text-align: center; border-bottom:1px solid #000 ;width:60px" class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'>
 		    						</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" style='text-align:right;width: 100%;'></td>
 		    					</tr>

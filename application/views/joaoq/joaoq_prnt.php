@@ -280,13 +280,13 @@
 		    		</tr>
 		    		
 		    		<tr>
-		    			<td class="f10"  align="center" width="20%" style="width:700px">
+		    			<td class="f10"  align="center" width="20%" style="width:350px">
 		    				<!-- <button id="add_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-id="">
 							  <span class="fa fa-plus"></span> Add Item
 							</button>	 -->						
 		    			</td>
 		    			<?php foreach($vendors AS $ven) { ?>
-		    			<td  class="f10 bor-right bor-left bor-top"  align="center" style="width:1000px">
+		    			<td  class="f10 bor-right bor-left bor-top"  align="center" style="width:700px">
 		    				<b><?php echo $ven['vendor']; ?></b><br>
 		    				<?php echo $ven['phone']; ?><br>
 		    				<?php echo $ven['contact']; ?>
@@ -372,7 +372,7 @@
 			    			foreach($vendors AS $ven) {
 			    		?>
 			    			<td style='vertical-align:text-bottom;padding-right: 1px;' >
-			    				<table class="tabale" width="100%" height="50%" style='margin-bottom: 0px;'>	
+			    				<table class="tabale" width="100%" height="30%" style='margin-bottom: 0px;'>	
 				    				<!-- <tr style="border-bottom:1px solid #000">
 			    						<td width="51%" class="f9 table-borbold" align="center"><b>OFFER</b></td>
 						    			<td width="6%" class="f9 table-borbold" align="center"><b>CURR</b></td>
@@ -382,7 +382,7 @@
 						    			<td width="10%" class="f9 table-borbold" align="center"><b>COMMENTS</b></td>
 			    					</tr>		 -->
 			    					<!-- -------------------------------- FOR SERVICE --------------------------------	 -->			
-			    					<tr style="height:150px">
+			    					<tr style="height:100px">
 				    					<td width="25%" class="bor-btm bor-right">
 				    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_1" 
 				    							style="width: 100%;height: 100%;background:#f6fffe"></textarea>
@@ -408,7 +408,7 @@
 				    				</tr>
 				    				<!-- -------------------------------- FOR SERVICE --------------------------------	 -->			
 				    				<!-- -------------------------------- FOR ITEMS ----------------------------------	 -->			
-				    				<tr style="height:150px">
+				    				<tr style="height:100px">
 				    					<td class="bor-btm bor-right">
 				    						<textarea type="text" class="form-control f10" name="materials_offer_<?php echo $x; ?>_<?php echo $v; ?>_1" 
 				    							style="width: 100%;height: 100%;background:#f3ffed"></textarea>
@@ -434,7 +434,7 @@
 				    				</tr>	
 				    				<!-- -------------------------------- FOR ITEMS ----------------------------------	 -->		
 				    				<!-- -------------------------------- FOR SERVICE --------------------------------	 -->			
-				    				<tr style="height:150px">
+				    				<tr style="height:100px">
 				    					<td class="bor-btm bor-right">
 				    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_2" style="width: 100%;height: 100%;background:#f6fffe"></textarea>
 				    					</td>
@@ -459,7 +459,7 @@
 				    				</tr>
 				    				<!-- -------------------------------- FOR SERVICE --------------------------------	 -->			
 				    				<!-- -------------------------------- FOR ITEMS ----------------------------------	 -->			
-				    				<tr style="height:150px">
+				    				<tr style="height:100px">
 				    					<td class="bor-btm bor-right">
 				    						<textarea type="text" class="form-control f10" name="materials_offer_<?php echo $x; ?>_<?php echo $v; ?>_2" style="width: 100%;height: 100%;background:#f3ffed"></textarea>
 				    					</td>
@@ -484,7 +484,7 @@
 				    				</tr>	
 				    				<!-- -------------------------------- FOR ITEMS ----------------------------------	 -->		
 				    				<!-- -------------------------------- FOR SERVICE --------------------------------	 -->	
-				    				<tr style="height:150px">
+				    				<tr style="height:100px">
 				    					<td class="bor-btm bor-right">
 				    						<textarea type="text" class="form-control f10" name="offer_<?php echo $x; ?>_<?php echo $v; ?>_3" style="width: 100%;height: 100%;background:#f6fffe"></textarea>
 				    					</td>
@@ -509,7 +509,7 @@
 				    				</tr>
 				    				<!-- -------------------------------- FOR SERVICE --------------------------------	 -->			
 				    				<!-- -------------------------------- FOR ITEMS ----------------------------------	 -->			
-				    				<tr style="height:150px">
+				    				<tr style="height:100px">
 				    					<td class="bor-btm bor-right">
 				    						<textarea type="text" class="form-control f10" name="materials_offer_<?php echo $x; ?>_<?php echo $v; ?>_3" 
 				    							style="width: 100%;height: 100%;background:#f3ffed"></textarea>
@@ -568,7 +568,7 @@
 		    						if($ven['vendor_id'] == $of['vendor_id'] && $it->jor_aoq_items_id == $of['item_id']){ ?>	
 
 		    						<!-- ---------------------------- FOR SERVICE ---------------------------- -->			
-			    					<tr style="height:150px">
+			    					<tr style="height:100px">
 				    					<td width="25%" class="bor-btm bor-right">
 				    						<textarea class="form-control" style="width: 100%;height: 100%;" readonly><?php echo $of['offer']; ?></textarea>
 				    					</td>
@@ -611,7 +611,7 @@
 				    				<!-- ---------------------------- FOR SERVICE ---------------------------- -->
 				    				<?php if($of['materials_offer']!='' && $of['materials_qty']!=0){ ?>
 				    				<!-- ---------------------------- FOR ITEMS ---------------------------- -->
-				    				<tr style="height:150px">
+				    				<tr style="height:100px">
 				    					<td width="25%" class="bor-btm bor-right">
 				    						<textarea class="form-control" style="width: 100%;height: 100%;" readonly><?php echo $of['materials_offer']; ?></textarea>
 				    					</td>
@@ -687,7 +687,7 @@
 			    					<?php if($ven['vendor_id'] == $of['vendor_id'] && $it->jor_aoq_items_id == $of['item_id']){ ?>
 
 			    					<!-- ---------------------------------------FOR SERVICES------------------------------------ -->
-			    					<tr style="height:150px">
+			    					<tr style="height:100px">
 				    					<td width="25%" class="bor-btm bor-right padding-0">
 				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe"><?php echo $of['offer']; ?></textarea>
 				    					</td>
@@ -713,7 +713,7 @@
 
 				    				<!-- ---------------------------------------FOR ITEMS------------------------------------ -->
 				    				<?php if($of['materials_offer']!='' && $of['materials_qty']!=0){ ?>
-				    				<tr style="height:150px">
+				    				<tr style="height:100px">
 				    					<td class="bor-btm bor-right padding-0">
 				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed"><?php echo $of['materials_offer']; ?></textarea>
 				    					</td>
@@ -774,7 +774,7 @@
 		    					<?php if($ven['vendor_id'] == $of['vendor_id'] && $it->jor_aoq_items_id == $of['item_id']){ ?>	
 
 		    						<!-- ---------------------------------------FOR SERVICES------------------------------------ -->			
-			    					<tr style="height:150px">
+			    					<tr style="height:100px">
 				    					<td width="25%" class="bor-btm bor-right">
 				    						<textarea  class="form-control f10" name='offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f6fffe" ><?php echo $of['offer']; ?></textarea>
 				    					</td>
@@ -800,7 +800,7 @@
 
 				    				<!-- ---------------------------------------FOR Items------------------------------------ -->
 				    				<?php //if($of['materials_offer']!='' && $of['materials_qty']!=0){ ?>
-				    				<tr style="height:150px">
+				    				<tr style="height:100px">
 				    					<td class="bor-btm bor-right">
 				    						<textarea  class="form-control f10" name='materials_offer_<?php echo $a; ?>' style="width: 100%;height: 100%;background:#f3ffed" ><?php echo $of['materials_offer']; ?></textarea>
 				    					</td>
