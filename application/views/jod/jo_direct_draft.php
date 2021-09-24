@@ -402,11 +402,11 @@
 		    					<?php $x++; } }else{ $gtotal=array(); } ?>
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    					<!--ITEM-->
-		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
+		    					<?php //if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td colspan="6"><br> <b>&nbsp;&nbsp;Materials:</b></td>
 		    					</tr>
-		    					<?php } ?>
+		    					<?php //} ?>
 		    					<!--MATERIAL-->
 		    					<?php 
 		    						$gtotal=array();
@@ -417,7 +417,7 @@
 			    						foreach($items AS $it){ 
 					    					$gtotal[] = $it->amount; 
 					    					$mattotal[] = $it->materials_amount; 
-					    					if($it->materials_offer!=''){
+					    					//if($it->materials_offer!=''){
 					    				
 		    					?>
 		    					<tr>
@@ -449,7 +449,7 @@
 		    						</td>
 		    					</tr>
 		    					<input type='hidden' name='joi_items_id' value="<?php echo $it->joi_items_id; ?>">
-		    					<?php  $y++;$b++; } } ?> 
+		    					<?php  $y++;$b++; }  ?> 
 		    					<input type='hidden' name='count_item' value="<?php echo $y; ?>">
 		    					<?php }else{ $gtotal=array(); $mattotal=array(); } ?>
 		    					<!--MATERIAL-->
@@ -502,7 +502,6 @@
 		    						<td  align="right">Total Labor:</td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo array_sum($gtotal); ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
 		    					</tr>
-		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -511,9 +510,6 @@
 		    						<td  align="right">Total Materials:</td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
 		    					</tr>
-		    					<?php }else{ ?>
-		    						<input class="nobord" type="hidden" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly" style="width: 100%;text-align: right;">
-		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
