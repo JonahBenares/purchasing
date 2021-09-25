@@ -408,7 +408,7 @@
 					    		foreach($items AS $it){ 
 					    			$gtotal[] = $it->amount;
 					    			$mattotal[] = $it->materials_amount;
-					    			if($it->materials_offer!=''){
+					    			if($it->materials_offer!='' && $it->materials_qty!=0){
 				    			?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->materials_offer)."<br><br>"; ?></td>

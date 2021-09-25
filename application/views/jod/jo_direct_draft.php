@@ -402,11 +402,11 @@
 		    					<?php $x++; } }else{ $gtotal=array(); } ?>
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    					<!--ITEM-->
-		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
+		    					<?php //if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td colspan="6"><br> <b>&nbsp;&nbsp;Materials:</b></td>
 		    					</tr>
-		    					<?php } ?>
+		    					<?php //} ?>
 		    					<!--MATERIAL-->
 		    					<?php 
 		    						$gtotal=array();
