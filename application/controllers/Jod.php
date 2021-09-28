@@ -1342,8 +1342,8 @@ class Jod extends CI_Controller {
         $data['currency2'] = $this->currency_list();
         $data['currency']= $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
         $data['items_temp'] = $this->super_model->select_row_where('joi_items_temp', 'joi_id', $joi_id);
-        $data['materials_offer_temp']= $this->super_model->select_column_custom_where('joi_items', 'materials_offer', "joi_id='$joi_id' ORDER BY materials_offer DESC LIMIT 1");
-        $data['materials_qty_temp']= $this->super_model->select_column_custom_where('joi_items', 'materials_qty', "joi_id='$joi_id' ORDER BY materials_offer DESC LIMIT 1");
+        $data['materials_offer_temp']= $this->super_model->select_column_custom_where('joi_items_temp', 'materials_offer', "joi_id='$joi_id' ORDER BY materials_offer DESC LIMIT 1");
+        $data['materials_qty_temp']= $this->super_model->select_column_custom_where('joi_items_temp', 'materials_qty', "joi_id='$joi_id' ORDER BY materials_offer DESC LIMIT 1");
       
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
             $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
