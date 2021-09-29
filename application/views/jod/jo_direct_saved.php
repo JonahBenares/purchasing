@@ -402,11 +402,11 @@
 		    					<?php } ?>
 		    					<!--MATERIALS-->
 		    					<?php
-					    		$gtotal=array();
+					    		//$gtotal=array();
 					    		$mattotal=array();
-					    		if(!empty($items)){
-					    		foreach($items AS $it){ 
-					    			$gtotal[] = $it->amount;
+					    		if(!empty($items_materials)){
+					    		foreach($items_materials AS $it){ 
+					    			//$gtotal[] = $it->amount;
 					    			$mattotal[] = $it->materials_amount;
 					    			if($it->materials_offer!='' && $it->materials_qty!=0){
 				    			?>
@@ -418,7 +418,7 @@
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_unitprice; ?></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->materials_amount; ?></td>
 		    					</tr>
-		    					<?php } } }else { $gtotal=array();$mattotal=array(); } ?>
+		    					<?php } } }else { $mattotal=array(); } //$gtotal=array(); } ?>
 		    					<!--MATERIALS-->
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<tr>

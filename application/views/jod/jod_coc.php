@@ -261,8 +261,8 @@
 		    		<?php } ?>
 		    					<!--MATERIALS-->
 		    					<?php 
-		    						if(!empty($details)){
-		    						foreach($details AS $det){ 
+		    						if(!empty($details_materials)){
+		    						foreach($details_materials AS $det){ 
 		    							if($det->materials_offer!='' && $det->materials_qty!=0){
 		    					?>
 		    		<tr>
