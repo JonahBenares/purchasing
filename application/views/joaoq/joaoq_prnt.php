@@ -233,7 +233,7 @@
 			</div>		
 
 	    	<div style="padding-top:50px;" class = "">  <!-- -insert in class this <?php if($served==1){ echo 'served';} ?> -->
-		    	<table class="table-bsordered" style="width:4000px;background: #fff;border:1px solid #000;margin:10px ;" >
+		    	<table class="table-bordered" style="width:4000px;background: #fff;border:1px solid #000;margin:10px ;" >
 		    		<tr><td ><h5><b>JO AOQ - <?php echo $jor_aoq_id; ?></b></h5></td></tr>
 		    		<tr>
 		    			<td colspan="2">
@@ -853,7 +853,7 @@
 		    			<td class="f10" align="right">
 		    				<table width="100%">
 		    					<tr>
-		    						<td width="80%" align="right">a. </td>
+		    						<td width="75%" align="right">a. </td>
 		    						<td>&nbsp; Price Validity</td>
 		    					</tr>
 		    				</table>
@@ -892,7 +892,7 @@
 		    			<td class="f10" align="right">
 		    				<table width="100%">
 		    					<tr>
-		    						<td width="80%" align="right">b. </td>
+		    						<td width="75%" align="right">b. </td>
 		    						<td>&nbsp; Payment Terms</td>
 		    					</tr>
 		    				</table>
@@ -931,7 +931,7 @@
 		    			<td class="f10" align="right">
 		    				<table width="100%">
 		    					<tr>
-		    						<td width="80%" align="right">c. </td>
+		    						<td width="75%" align="right">c. </td>
 		    						<td>&nbsp; Work Duration</td>
 		    					</tr>
 		    				</table>
@@ -970,7 +970,7 @@
 		    			<td class="" align="right">
 		    				<table width="100%">
 		    					<tr>
-		    						<td width="80%" align="right">d. </td>
+		    						<td width="75%" align="right">d. </td>
 		    						<td>&nbsp; Item's Warranty</td>
 		    					</tr>
 		    				</table>
@@ -1009,7 +1009,7 @@
 		    			<td class="" align="right">
 		    			<table width="100%">
 		    					<tr>
-		    						<td width="80%" align="right">e. </td>
+		    						<td width="75%" align="right">e. </td>
 		    						<td>&nbsp; In-land Freight</td>
 		    					</tr>
 		    				</table>
