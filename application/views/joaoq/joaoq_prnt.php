@@ -280,7 +280,7 @@
 		    		</tr>
 		    		
 		    		<tr>
-		    			<td class="f10"  align="center" width="20%" style="width:350px">
+		    			<td class="f10"  align="center" width="20%" style="<?php echo ($count_vendors==3) ? "width:350px" : "width:500px"; ?>">
 		    				<!-- <button id="add_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-id="">
 							  <span class="fa fa-plus"></span> Add Item
 							</button>	 -->						
