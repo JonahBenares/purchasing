@@ -368,6 +368,11 @@
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    						<td width="5%" class="f13" align="center"></td>
 		    					</tr>
+		    					<?php if($revised==0){ ?>
+		    					<tr>
+                               		<td class="f13" style="padding-left: 5px" align="left"><input type="text" name="general_desc" class = "form-control" value="<?php echo $general_desc;?>"></input></td>
+                            	</tr>
+                            	<?php } ?>
 		    					<?php 
 		    						$x=1; 
 		    						if($revised==0){
@@ -378,9 +383,6 @@
 			    								$mattotal[] = $det->materials_amount;
 		    					?>
 		    					<tr>
-		    						<tr>
-                                   <td class="f13" style="padding-left: 5px" align="left"><input type="text" name="general_desc" class = "form-control" value="<?php echo $general_desc;?>"></input></td>
-                                	</tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"> <textarea name = "scope_of_work<?php echo $x; ?>" class = "form-control" rows="4"><?php echo $det->offer; ?></textarea></td>
 
 		    						<td class="f13" align="center" style="vertical-align:top;">
@@ -430,7 +432,7 @@
 						    		</select>
 				    				</td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name='materials_price<?php echo $y; ?>_<?php echo $b; ?>' id='materials_price<?php echo $y; ?>_<?php echo $b; ?>' style = "width:130px;text-align: center" value = "<?php echo $det->materials_unitprice; ?>" onblur='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)'></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' id='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo number_format($det->materials_amount); ?>"></td><!-- 
+		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' id='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' style = "width:100%;text-align: center" class='materials_tprice' value = "<?php echo number_format($det->materials_amount); ?>"></td><!-- 
 		    						<td class="f13" align="right" style="vertical-align:top;"><a href="<?php echo base_url(); ?>joi/delete_scope/<?php echo $det->joi_items_id?>/<?php echo $det->joi_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td> -->
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5" style="vertical-align:top;"></td></tr>
@@ -570,17 +572,21 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Labor Amount:</td>
+		    						<td align="right">Total Labor:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly" style='text-align: right;'></td>
 		    					</tr>
+		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Materials Amount:</td>
+		    						<td align="right">Total Materials:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo $matsum_cost;?>" readonly="readonly" style='text-align: right;'></td>
 		    					</tr>
+		    					<?php } else{ ?>
+		    						<input class="nobord" type="hidden" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo $matsum_cost;?>" readonly="readonly" style='text-align: right;'>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -617,17 +623,21 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Labor Amount:</td>
+		    						<td align="right">Total Labor:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo $sum_cost;?>" readonly="readonly" style='text-align: right;'></td>
 		    					</tr>
+		    					<?php if($materials_offer_temp!='' && $materials_qty_temp!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Materials Amount:</td>
+		    						<td align="right">Total Materials:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo $matsum_cost;?>" readonly="readonly" style='text-align: right;'></td>
 		    					</tr>
+		    					<?php } else{ ?>
+		    						<input class="nobord" type="hidden" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo $matsum_cost;?>" readonly="readonly" style='text-align: right;'>
+		    					<?php }?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>

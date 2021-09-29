@@ -775,8 +775,8 @@ class Joaoq extends CI_Controller {
             $price = str_replace(",", "", $this->input->post('price_'.$x));
             $amount = str_replace(",", "", $this->input->post('amount_'.$x));
             $materials_offer = $this->input->post('materials_offer_'.$x);
-            $materials_price = $this->input->post('materials_price_'.$x);
-            $materials_amount = $this->input->post('materials_amount_'.$x);
+            $materials_price = str_replace(",", "", $this->input->post('materials_price_'.$x));
+            $materials_amount = str_replace(",", "", $this->input->post('materials_amount_'.$x));
             $materials_currency = $this->input->post('materials_currency_'.$x);
             $data = array(
                 'currency'=>$this->input->post('currency_'.$x),

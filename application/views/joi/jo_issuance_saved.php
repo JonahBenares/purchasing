@@ -519,17 +519,19 @@ tr:nth-child(4) td {
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Labor Amount:</td>
+		    						<td align="right">Total Labor:</td>
 		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
 		    					</tr>
+		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Materials Amount:</td>
+		    						<td align="right">Total Materials:</td>
 		    						<td align="right"><?php echo number_format(array_sum($mattotal),2); ?></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>

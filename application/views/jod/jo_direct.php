@@ -335,11 +335,13 @@
                                 <!--ITEM-->
 		    					<?php 
 		    						$gtotal=array();
+		    						$mattotal=array();
 		    						if(!empty($items)){
 		    							$x=1;
 			    						foreach($items AS $it){ 
 			    							if($saved==1){
-					    						$gtotal[] = $it['total'] + $it['materials_amount'];
+					    						$gtotal[] = $it['total'];
+					    						$mattotal[] = $it['materials_amount'];
 					    					}
 		    					?>
 		    					<tr>
@@ -380,7 +382,7 @@
 					    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
 		    					<?php  $x++; } ?> 
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
-		    					<?php }else{ $gtotal=array(); } ?>
+		    					<?php }else{ $gtotal=array(); $mattotal=array(); } ?>
 		    					<!--ITEM-->
 		    					<tr>
 		    						<td colspan="6"><br> <b>&nbsp;&nbsp;Materials:</b></td>
@@ -410,7 +412,7 @@
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b class="nomarg">
-		    								<input type='text' name='materials_tprice' id='materials_tprice' class='tprice' style='text-align:right;' readonly>
+		    								<input type='text' name='materials_tprice' id='materials_tprice' class='materials_tprice' style='text-align:right;' readonly>
 		    							</b>
 		    						</td>
 		    					</tr>
@@ -449,11 +451,20 @@
 		    					</tr>
 		    					<tr>
 		    						<td colspan='4' ></td>
-		    						<td align="right">Amount:</td>
+		    						<td align="right">Total Labor:</td>
 		    						<td class="bor-btm" align="right">
 		    							<?php if($saved==0){ ?>
 		    								<span ><input type='text' class="nobord" name='sum_cost' id='sum_cost' class='sum_cost' style='text-align:right;width: 100%;' readonly >
 		    							<?php }else { echo number_format($it['total'],2); } ?>
+		    						</td>
+		    					</tr>
+		    					<tr>
+		    						<td colspan='4' ></td>
+		    						<td align="right">Total Materials:</td>
+		    						<td class="bor-btm" align="right">
+		    							<?php if($saved==0){ ?>
+		    								<span ><input type='text' class="nobord" name='mat_sum_cost' id='mat_sum_cost' class='mat_sum_cost' style='text-align:right;width: 100%;' readonly >
+		    							<?php }else { echo number_format($it['materials_amount'],2); } ?>
 		    						</td>
 		    					</tr>
 		    					<tr>
