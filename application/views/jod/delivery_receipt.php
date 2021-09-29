@@ -230,8 +230,8 @@
 					<?php } ?>
 		    		<!--MATERIALS-->
 		    		<?php 
-		    			foreach($items AS $it){ 
-		    				if($it['materials_offer']!=''){
+		    			foreach($items_materials AS $it){ 
+		    				if($it['materials_offer']!='' && $jd['materials_qty']!=0){
 		    		?>
 		       		<tr>
 		    			<td class="all-border" align="center"><?php echo $it['item_no']; ?><br></td>

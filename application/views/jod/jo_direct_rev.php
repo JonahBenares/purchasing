@@ -377,7 +377,7 @@
 		    							if(!empty($items)){
 		    							foreach($items AS $det){ 
 		    								$gtotal2[] = $det->amount;
-		    								$mattotal[] = $det->materials_amount;
+		    								
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left" ><textarea name = "scope_of_work<?php echo $x; ?>" class = "form-control" rows="7"><?php echo $det->offer; ?></textarea></td>
@@ -410,7 +410,8 @@
 		    					<?php 
 		    						$y=1; 
 		    						$b=1; 
-			    					foreach($items AS $det){ 
+			    					foreach($items_materials AS $det){ 
+			    						$mattotal[] = $det->materials_amount;
 			    						if($det->materials_offer!=''){
 			    							if($det->materials_offer!='' && $det->materials_qty!=0){
 		    					?>
@@ -473,7 +474,6 @@
 		    						if(!empty($items_temp)){
 		    						foreach($items_temp AS $det){ 
 			    						$gtotal2[] = $det->amount;
-			    						$mattotal[] = $det->materials_amount;
 		    					?>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo " - ".nl2br($det->offer)."<br><br>"; ?></td>
@@ -493,7 +493,8 @@
 		    					<?php } ?>
 		    					<!--MATERIALS-->
 		    					<?php 
-		    						foreach($items_temp AS $det){ 
+		    						foreach($items_materials_temp AS $det){ 
+		    							$mattotal[] = $det->materials_amount;
 		    							if($det->materials_offer!=''){
 		    								if($det->materials_offer!='' && $det->materials_qty!=0){
 		    					?>

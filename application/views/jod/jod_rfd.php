@@ -248,11 +248,11 @@
 					<?php } ?>
 		    		<!--MATERIALS-->
 		    		<?php
-			    		$subtotal=array();
+			    		//$subtotal=array();
 			    		$materials_subtotal=array();
-			    		if(!empty($items)){
-			    		foreach($items AS $i){ 
-			    			$subtotal[] = $i['total'];
+			    		if(!empty($items_materials)){
+			    		foreach($items_materials AS $i){ 
+			    			//$subtotal[] = $i['total'];
 			    			$materials_subtotal[] = $i['materials_amount'];
 			    			if($i['materials_offer']!=''){
 		    		?>

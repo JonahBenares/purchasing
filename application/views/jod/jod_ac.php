@@ -216,8 +216,8 @@
 		    		<!--MATERIALS-->
 		    		<?php 
 		    			$x=1; 
-		    			foreach($jo_det AS $jd){ 
-		    				if($jd['materials_offer']!=''){
+		    			foreach($jo_det_materials AS $jd){ 
+		    				if($jd['materials_offer']!='' && $jd['materials_qty']!=0){
 		    		?>
 		       		<tr>
 		    			<td class="all-border" align="center"><?php echo $x; ?></td>

@@ -363,10 +363,12 @@
                                 <!--ITEM-->
 		    					<?php 
 		    						$gtotal=array();
+		    						$mattotal=array();
 		    						if(!empty($items)){
 		    							$x=1;
 			    						foreach($items AS $it){ 
-			    								$gtotal[] = $it->amount + $it->materials_amount;
+			    								$gtotal[] = $it->amount;
+			    								$mattotal[] = $it->materials_amount;
 			    								$balance=$CI->item_checker($it->jor_items_id, $h['vendor_id']);
 		    					?>
 		    					<tr>
@@ -399,7 +401,7 @@
 		    						</td>
 		    					</tr>
 		    					<input type='hidden' name='joi_items_id<?php echo $x; ?>' value="<?php echo $it->joi_items_id; ?>">
-		    					<?php $x++; } }else{ $gtotal=array(); } ?>
+		    					<?php $x++; } }else{ $gtotal=array(); $mattotal=array(); } ?>
 		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    					<!--ITEM-->
 		    					<?php //if($materials_offer!='' && $materials_qty!=0){ ?>
@@ -409,13 +411,13 @@
 		    					<?php //} ?>
 		    					<!--MATERIAL-->
 		    					<?php 
-		    						$gtotal=array();
+		    						//$gtotal=array();
 		    						$mattotal=array();
-		    						if(!empty($items)){
+		    						if(!empty($items_materials)){
 		    							$y=1;
 		    							$b=1;
-			    						foreach($items AS $it){ 
-					    					$gtotal[] = $it->amount; 
+			    						foreach($items_materials AS $it){ 
+					    					//$gtotal[] = $it->amount; 
 					    					$mattotal[] = $it->materials_amount; 
 					    					if($it->materials_offer!==NULL){
 					    				
