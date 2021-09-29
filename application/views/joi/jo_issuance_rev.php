@@ -358,7 +358,7 @@
 		    		<tr>
 		    		
 		    			<td colspan="20">
-		    				<table class="table-bordered" width="100%">
+		    				<table class="table-bordedred" width="100%">
 		    					<tr>
 		    						<td width="40%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
