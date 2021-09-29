@@ -233,11 +233,11 @@
 			</div>		
 
 	    	<div style="padding-top:50px;" class = "">  <!-- -insert in class this <?php if($served==1){ echo 'served';} ?> -->
-		    	<table class="table-bordered" style="width:4000px;background: #fff;border:1px solid #000;margin:10px ;" >
+		    	<table class="table-bosdered" style="width:4000px;background: #fff;border:1px solid #000;margin:10px ;" >
 		    		<tr><td ><h5><b>JO AOQ - <?php echo $jor_aoq_id; ?></b></h5></td></tr>
 		    		<tr>
 		    			<td colspan="2">
-		    				<table class="tables-bordered" width="100%">
+		    				<table class="tables-bordersded" width="100%">
 		    					<tr>
 		    						<td width="30%"></td>
 		    						<td class="f10"align=""><h5><b>ABSTRACT OF QUOTATION</b></h5></td>
@@ -249,7 +249,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2">
-		    				<table class="tables-bordered" width="100%">
+		    				<table class="tables-borderedds" width="100%">
 		    					<?php foreach($head AS $h){ ?>
 					    		<tr>
 					    			<td width="1%"></td>
