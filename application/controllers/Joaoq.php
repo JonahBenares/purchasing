@@ -391,7 +391,8 @@ class Joaoq extends CI_Controller {
         $approved_by=$this->super_model->select_column_where("jor_aoq_head", "approved_by", "jor_aoq_id", $jor_aoq_id);
         $prepared_id=$this->super_model->select_column_where("jor_aoq_head", "prepared_by", "jor_aoq_id", $jor_aoq_id);
         $prepared_by=$this->super_model->select_column_where("users", "fullname", "user_id", $prepared_id);
-
+        $count_vendors = $this->super_model->count_rows_where("jor_aoq_vendors", "jor_aoq_id", $jor_aoq_id);
+        $data['count_vendors']=$count_vendors;
         /*$data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $noted_id);
         $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $approved_id);*/
         $data['noted']=$noted_by;
@@ -821,7 +822,11 @@ class Joaoq extends CI_Controller {
                 'draft'=>0
             );
             if($this->super_model->update_where("jor_aoq_head", $head, "jor_aoq_id", $aoq_id)){
-                if($count_vendors==3){
+                if($count_vendors==1){
+                    redirect(base_url().'joaoq/joaoq_prnt/'.$aoq_id, 'refresh');
+                }else if($count_vendors==2){
+                    redirect(base_url().'joaoq/joaoq_prnt/'.$aoq_id, 'refresh');
+                }else if($count_vendors==3){
                     redirect(base_url().'joaoq/joaoq_prnt/'.$aoq_id, 'refresh');
                 }
             }
@@ -835,7 +840,11 @@ class Joaoq extends CI_Controller {
                 'draft'=>1,
             );
             if($this->super_model->update_where("jor_aoq_head", $head, "jor_aoq_id", $aoq_id)){
-                if($count_vendors==3){
+                if($count_vendors==1){
+                    redirect(base_url().'joaoq/joaoq_prnt/'.$aoq_id, 'refresh');
+                }else if($count_vendors==2){
+                    redirect(base_url().'joaoq/joaoq_prnt/'.$aoq_id, 'refresh');
+                }else if($count_vendors==3){
                     redirect(base_url().'joaoq/joaoq_prnt/'.$aoq_id, 'refresh');
                 }
             }

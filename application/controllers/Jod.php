@@ -2026,7 +2026,7 @@ class Jod extends CI_Controller {
             'revision_no'=>$revision_no
         );
         if($this->super_model->update_where("joi_head", $data, "joi_id", $joi_id)){
-            redirect(base_url().'joi/joi_list/', 'refresh');
+            redirect(base_url().'jod/jo_direct_saved/'.$joi_id, 'refresh');
         }
     }
 
