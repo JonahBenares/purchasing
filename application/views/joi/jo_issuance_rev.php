@@ -358,14 +358,14 @@
 		    		<tr>
 		    		
 		    			<td colspan="20">
-		    				<table class="table-bordersed" width="100%">
+		    				<table class="table-bordered" width="100%">
 		    					<tr>
-		    						<td width="50%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
+		    						<td width="40%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
 		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Currency</b></td>
-		    						<td width="10%" class="f13" align="center"><b>Unit Cost</b></td>
-		    						<td width="10%" class="f13" align="center"><b>Total Cost</b></td>
+		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
+		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
 		    						<td width="5%" class="f13" align="center"></td>
 		    					</tr>
 		    					<?php if($revised==0){ ?>

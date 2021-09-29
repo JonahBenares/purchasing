@@ -357,7 +357,7 @@
 		    						<td></td>
 					    			<td class="f10 " align="" colspan="3" style="border-left:0px solid #000; border-right:0px solid #000"><b><!-- <?php echo $h['general_desc']; ?> --></td>
 		    					</tr> 
-		    					<tr style="height:500px">
+		    					<tr >
 		    						<td width="3%" class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $x; ?></td>
 					    			<td width="72%" class="f10 table-borreg" style="vertical-align: text-top;" align="left" ><?php echo nl2br($it->scope_of_work); ?></td>
 					    			<td width="12%" class="f10 table-borreg" style="vertical-align: text-top;" align="center"><?php echo $it->quantity; ?></td>
