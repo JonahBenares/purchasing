@@ -227,6 +227,7 @@ class Jorfq extends CI_Controller {
                 $data['jo_no']= $this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $head->jor_id);
             }*/
             $data['requested_by']= $this->super_model->select_column_where("jor_head", "requested_by", "jor_id", $head->jor_id);
+            $data['purpose']= $this->super_model->select_column_where("jor_head", "purpose", "jor_id", $head->jor_id);
             $data['duration']= $this->super_model->select_column_where("jor_head", "duration", "jor_id", $head->jor_id);
             $data['notes']= $head->notes;
             //$data['code']= $head->processing_code;
