@@ -7454,6 +7454,7 @@ class Reports extends CI_Controller {
                 'date_prepared'=>$pr->date_prepared,
                 'jo_request'=>$pr->jo_request,
                 'jo_no'=>$jo_no,
+                'user_jo_no'=>$pr->user_jo_no,
                 'purpose'=>$pr->purpose,
                 'department'=>$pr->department,
                 'requestor'=>$pr->requested_by,
@@ -7685,6 +7686,7 @@ class Reports extends CI_Controller {
                 'date_prepared'=>$pr->date_prepared,
                 'jo_request'=>$pr->jo_request,
                 'jo_no'=>$jo_no,
+                'user_jo_no'=>$pr->user_jo_no,
                 'purpose'=>$pr->purpose,
                 'department'=>$pr->department,
                 'requestor'=>$pr->requested_by,
@@ -8020,7 +8022,7 @@ class Reports extends CI_Controller {
                 }/*else if($delivered_by=='1') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('eeccff');
                 }*/
-                $jor_no = $jo_no."-".COMPANY;
+                $jor_no = $jo_no."-".COMPANY." / ".$pr->user_jo_no;
                 if($jor_status!='Fully Delivered' && $status!='Cancelled'){
                     if($pr->on_hold==1){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "✓");
@@ -8180,7 +8182,7 @@ class Reports extends CI_Controller {
                 }/*else if($delivered_by=='1') {
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":S".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('eeccff');
                 }*/
-                $jor_no = $jo_no."-".COMPANY;
+                $jor_no = $jo_no."-".COMPANY." / ".$pr->user_jo_no;
                 if($jor_status!='Fully Delivered' && $status!='Cancelled'){
                     if($pr->on_hold==1){
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "✓");
@@ -8542,6 +8544,7 @@ class Reports extends CI_Controller {
 
             foreach($this->super_model->select_row_where('joi_jor','joi_id',$p->joi_id) AS $pr){
                 $jo = $this->super_model->select_column_where('jor_head','jo_no','jor_id',$pr->jor_id);
+                $user_jo_no = $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$pr->jor_id);
                 if($jo!=''){
                     $jo_no=$jo;
                 }else{
@@ -8598,6 +8601,7 @@ class Reports extends CI_Controller {
                     $data['po'][]=array(
                         'joi_id'=>$i->joi_id,
                         'jo_no'=>$jo_no,
+                        'user_jo_no'=>$user_jo_no,
                         'project_title'=>$p->project_title,
                         'qty'=>$i->quantity,
                         'joi_qty'=>$i->delivered_quantity,
@@ -8770,6 +8774,7 @@ class Reports extends CI_Controller {
         $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
         foreach($this->super_model->custom_query("SELECT * FROM joi_head jh INNER JOIN joi_items ji ON jh.joi_id = ji.joi_id INNER JOIN joi_jor jj ON ji.joi_id = jj.joi_id WHERE ".$query) AS $p){
             $jo = $this->super_model->select_column_where('jor_head','jo_no','jor_id',$p->jor_id);
+            $user_jo_no = $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$p->jor_id);
             if($jo!=''){
                 $jo_no = $jo;
             }else{
@@ -8832,6 +8837,7 @@ class Reports extends CI_Controller {
             $data['po'][]=array(
                 'joi_id'=>$p->joi_id,
                 'jo_no'=>$jo_no,
+                'user_jo_no'=>$user_jo_no,
                 'project_title'=>$p->project_title,
                 'requested_by'=>$requestor,
                 'joi_qty'=>$p->delivered_quantity,
@@ -8993,11 +8999,14 @@ class Reports extends CI_Controller {
                 $total=$p->delivered_quantity*$p->unit_price;
                 $mat_total=$p->materials_qty*$p->materials_unitprice;
                 $jo=$this->super_model->select_column_where('jor_head','jo_no','jor_id',$p->jor_id);
+                $user_jo_no = $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$p->jor_id);
                 if($jo!=''){
                     $jo_no=$jo."-".COMPANY;
                 }else{
                     $jo_no = $this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$p->jor_id)."-".COMPANY;
                 }
+
+                $jor_no = $jo."-".COMPANY." / ".$user_jo_no;
                 $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
                 if($p->item_id!=0){
@@ -9093,7 +9102,7 @@ class Reports extends CI_Controller {
                 }else{
                     $stats_rem = $status_remarks;
                 }
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jor_no");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$p->purpose");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->joi_date");
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$joi_no");
@@ -9138,11 +9147,13 @@ class Reports extends CI_Controller {
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
                 foreach($this->super_model->select_row_where('joi_jor','joi_id',$p->joi_id) AS $pr){
                     $jo = $this->super_model->select_column_where('jor_head','jo_no','jor_id',$pr->jor_id);
+                    $user_jo_no =$this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$pr->jor_id);
                     if($jo!=''){
                         $jo_no=$jo."-".COMPANY;
                     }else{
                         $jo_no=$this->super_model->select_column_where('jor_head','user_jo_no','jor_id',$pr->jor_id)."-".COMPANY;
                     }
+                    $jor_no = $jo."-".COMPANY." / ".$user_jo_no;
                     foreach($this->super_model->select_row_where('joi_items','joi_id',$p->joi_id) AS $i){
                         $total=$i->delivered_quantity*$i->unit_price;
                         $mat_total=$i->materials_qty*$i->materials_unitprice;
@@ -9236,7 +9247,7 @@ class Reports extends CI_Controller {
                         }else{
                             $stats_rem = $status_remarks;
                         }
-                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jo_no");
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, "$jor_no");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, "$pr->purpose");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, "$p->joi_date");
                         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, "$joi_no");

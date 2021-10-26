@@ -239,9 +239,17 @@ class Jorfq extends CI_Controller {
             $data['cancelled']= $head->cancelled;
             $data['served']= $head->served;
             $data['completed']= $head->completed;
-            $data['items'] = $this->super_model->select_row_where_order_by('jo_rfq_details', 'jo_rfq_id', $jo_rfq_id, 'jor_items_id', 'ASC');
+            /*$data['items'] = $this->super_model->select_row_where_order_by('jo_rfq_details', 'jo_rfq_id', $jo_rfq_id, 'jor_items_id', 'ASC');*/
             $data['rfq_notes'] = $this->super_model->select_row_where_order_by('jor_notes', 'jor_id', $head->jor_id, 'jor_notes_id', 'ASC');
             $data['general_desc']= $this->super_model->select_column_where("jor_items", "general_desc", "jor_id", $head->jor_id);
+
+            foreach($this->super_model->select_row_where_order_by('jo_rfq_details', 'jo_rfq_id', $jo_rfq_id, 'jor_items_id', 'ASC') AS $as){
+                $item_no=$this->super_model->select_column_where("jor_items", "item_no", "jor_items_id", $as->jor_items_id);
+                $data['items'][]=array(
+                    "item_no"=>$item_no,
+                    "scope_of_work"=>$as->scope_of_work,
+                );
+            }
         }
 
         

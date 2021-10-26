@@ -263,7 +263,7 @@
 			    				<?php echo $general_desc;?>
 			    				<br>
 			    				<?php foreach($items AS $i){ ?>
-			    				<?php echo nl2br($i->scope_of_work)."<br>"; ?><br>
+			    				<?php echo "<b>".$i['item_no'].".</b> ".nl2br($i['scope_of_work'])."<br>"; ?><br>
 			    				<?php } ?>
 							</div>
 		    			</td>

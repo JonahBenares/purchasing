@@ -172,7 +172,7 @@
 								<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>">
 								Item Warranty:
 								<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>">
-								Delivery_item:
+								Work Duration:
 								<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>">
 								Freight:
 								<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>">
@@ -335,14 +335,14 @@
 		    			<td class="f13" colspan="4">Date Prepared:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['date_prepared']; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
+		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JOR No.:</td>
 		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $h['cenpri_jo_no']; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="4">Start of Work:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['start_of_work']; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">JO. No:</td>
+		    			<td class="f13" colspan="3">JOI No.:</td>
 		    			<td class="f13 bor-btm" colspan="5"><?php echo $h['joi_no']."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></td>
 		    		</tr>	
 		    		<!-- <tr>
@@ -532,7 +532,7 @@
 							</button><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> Work Duration: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>
@@ -561,7 +561,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -594,28 +594,24 @@
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $prepared; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 bor-btm" colspan="4" align="center"><?php echo $checked; ?><br></td>
+		    			<td class="f13 bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $recommended; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="3" align="center"><?php echo $approved; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="3" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
-		    			</td>
+		    			<td class="f13" colspan="4" align="center"><?php echo $prepared; ?></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
-		    			</td>
+		    			<td class="f13" colspan="4" align="center"><?php echo $checked; ?></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
-		    			</td>
+		    			<td class="f13" colspan="4" align="center"><?php echo $recommended; ?></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="3" align="center">
-		    			</td>
+		    			<td class="f13" colspan="3" align="center"><?php echo $approved; ?></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr> 
 		    		<!-- <tr>

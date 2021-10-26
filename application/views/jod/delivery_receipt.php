@@ -174,7 +174,7 @@
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">JOR No.: </b></td>
-			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jor_no ."-".COMPANY; ?></b></td>
+			    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jor_no."-".COMPANY." / ".$user_jo_no; ?></b></td>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="3" class="all-border"><b class="nomarg">Project Title: </b></td>
@@ -230,16 +230,16 @@
 					<?php } ?>
 		    		<!--MATERIALS-->
 		    		<?php 
-		    			foreach($items_materials AS $it){ 
+		    			foreach($items_materials AS $jd){ 
 		    				if($it['materials_offer']!='' && $jd['materials_qty']!=0){
 		    		?>
 		       		<tr>
-		    			<td class="all-border" align="center"><?php echo $it['item_no']; ?><br></td>
-		    			<td class="all-border" align="left" colspan="6"><?php echo $it['vendor']; ?></td>
-		    			<td class="all-border" align="left" colspan="6"><?php echo nl2br($it['materials_offer']); ?></td>
-		    			<td class="all-border" align="center"><?php echo number_format($it['materials_qty'],2); ?></td>
-		    			<td class="all-border" align="center"><?php echo (($it['materials_received']==0) ? '' : number_format($it['materials_received'],2)); ?></td>
-		    			<td class="all-border" align="center" colspan="2"><?php echo $it['materials_unit']; ?></td>
+		    			<td class="all-border" align="center"><?php echo $jd['item_no']; ?><br></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo $jd['vendor']; ?></td>
+		    			<td class="all-border" align="left" colspan="6"><?php echo nl2br($jd['materials_offer']); ?></td>
+		    			<td class="all-border" align="center"><?php echo number_format($jd['materials_qty'],2); ?></td>
+		    			<td class="all-border" align="center"><?php echo (($jd['materials_received']==0) ? '' : number_format($jd['materials_received'],2)); ?></td>
+		    			<td class="all-border" align="center" colspan="2"><?php echo $jd['materials_unit']; ?></td>
 		    			<td class="all-border" align="center" colspan="3"></td>
 		    		</tr>
 		    		<?php } } ?>

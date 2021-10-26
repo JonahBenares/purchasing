@@ -287,6 +287,7 @@ class Jod extends CI_Controller {
         $jor_id= $this->super_model->select_column_where("joi_items", "jor_id", "joi_id", $joi_id);
         $data['requested_by'] = $this->super_model->select_column_where("jor_head", "requested_by", "jor_id", $jor_id);
         $data['jor_no'] = $this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor_id);
+        $data['user_jo_no'] = $this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $jor_id);
         foreach($this->super_model->select_row_where('joi_jor', 'joi_id', $joi_id) AS $pr){
              $itemno='';
             foreach($this->super_model->select_custom_where("joi_dr_items", "jor_id= '$pr->jor_id' AND joi_id='$joi_id' AND joi_dr_id = '$joi_dr_id'") AS $it){
@@ -1168,7 +1169,7 @@ class Jod extends CI_Controller {
         $data['items_materials'] = $this->super_model->select_custom_where('joi_items', "joi_id='$joi_id' GROUP BY materials_offer");
         $data['materials_offer']= $this->super_model->select_column_custom_where('joi_items', 'materials_offer', "joi_id='$joi_id' ORDER BY materials_offer DESC LIMIT 1");
         $data['materials_qty']= $this->super_model->select_column_custom_where('joi_items', 'materials_qty', "joi_id='$joi_id' ORDER BY materials_offer DESC LIMIT 1");
-        $data['currency'] = $this->super_model->select_column_where('joi_items', 'currency', 'jor_id', $jor_id);
+        $data['currency'] = $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
             $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
             /*if($jo!=''){
@@ -2610,6 +2611,7 @@ class Jod extends CI_Controller {
         $jor_id= $this->super_model->select_column_where("joi_items", "jor_id", "joi_id", $joi_id);
         $data['requested_by'] = $this->super_model->select_column_where("jor_head", "requested_by", "jor_id", $jor_id);
         $data['jor_no'] = $this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor_id);
+        $data['user_jo_no'] = $this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $jor_id);
         foreach($this->super_model->select_row_where("joi_items","joi_id",$joi_id) AS $jd){
             $vendor_id = $this->super_model->select_column_where("joi_head","vendor_id","joi_id",$joi_id);
             $vendor = $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$vendor_id);
