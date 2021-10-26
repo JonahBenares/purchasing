@@ -616,7 +616,7 @@ tr:nth-child(4) td {
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -649,27 +649,27 @@ tr:nth-child(4) td {
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $prepared; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 bor-btm" colspan="4" align="center"><?php echo $checked; ?><br></td>
+		    			<td class="f13 bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $recommended; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="3" align="center"><?php echo $approved; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="3" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
+		    			<td class="f13" colspan="4" align="center"><?php echo $prepared; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
+		    			<td class="f13" colspan="4" align="center"><?php echo $checked; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
+		    			<td class="f13" colspan="4" align="center"><?php echo $recommended; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="3" align="center">
+		    			<td class="f13" colspan="3" align="center"><?php echo $approved; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr> 
@@ -697,7 +697,7 @@ tr:nth-child(4) td {
 		    		</tr>  
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $verified_by; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -708,7 +708,7 @@ tr:nth-child(4) td {
 		    		<?php } ?>    
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
+		    			<td class="f13" colspan="4" align="center"><?php echo $verified_by; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"></td>
