@@ -94,7 +94,7 @@
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
+						<a href="<?php echo base_url(); ?>index.php/joi/jo_issuance_saved/<?php echo $joi_id; ?>" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
 						<?php if($coc_saved==0){  ?>
 						<input type='submit' class="btn btn-primary btn-md p-l-25 p-r-25" id="submit" name='submit' value="Save">	

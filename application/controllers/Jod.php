@@ -2698,11 +2698,19 @@ class Jod extends CI_Controller {
             $data['total_cost']= $head->total_cost;
             $data['grand_total']= $head->grand_total;
             $data['conforme']= $head->conforme;
+
+            $data['checked_by']= $this->super_model->select_column_where('joi_coc', 'checked_by', 'joi_id', $head->joi_id);
+            $data['approved_by']= $this->super_model->select_column_where('joi_coc', 'approved_by', 'joi_id', $head->joi_id);
+            $checked_by= $this->super_model->select_column_where('joi_coc', 'checked_by', 'joi_id', $head->joi_id);
+            $approved_by= $this->super_model->select_column_where('joi_coc', 'approved_by', 'joi_id', $head->joi_id);
+            $data['coc_saved']=  $this->super_model->select_column_where('joi_coc', 'saved', 'joi_id', $head->joi_id);
+            $data['warranty']=  $this->super_model->select_column_where('joi_coc', 'warranty', 'joi_id', $head->joi_id);
+
             $data['verified_by']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->verified_by);
-            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
-            $data['pos_checked'] = $this->super_model->select_column_where('employees', 'position', 'employee_id', $head->checked_by);
-            $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
-            $data['pos_approved'] = $this->super_model->select_column_where('employees', 'position', 'employee_id', $head->approved_by);
+            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $checked_by);
+            $data['pos_checked'] = $this->super_model->select_column_where('employees', 'position', 'employee_id', $checked_by);
+            $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $approved_by);
+            $data['pos_approved'] = $this->super_model->select_column_where('employees', 'position', 'employee_id', $approved_by);
             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
             $data['ref_year'] = $this->super_model->select_column_where('joi_coc', 'year', 'joi_id', $head->joi_id);
@@ -2716,8 +2724,22 @@ class Jod extends CI_Controller {
         $data['materials_offer']= $this->super_model->select_column_where('joi_items', 'materials_offer', 'joi_id', $joi_id);
         $data['materials_qty']= $this->super_model->select_column_where('joi_items', 'materials_qty', 'joi_id', $joi_id);
         $data['terms'] = $this->super_model->select_row_where("joi_terms", "joi_terms_id", $joi_id);
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('jod/jod_coc',$data);
         $this->load->view('template/footer');
+    }
+
+    public function save_coc(){
+        $joi_id = $this->input->post('joi_id');
+        $data = array(
+            'approved_by'=>$this->input->post('approved_by'),
+            'checked_by'=>$this->input->post('checked_by'),
+            'warranty'=>$this->input->post('coc_warranty'),
+            'saved'=>1
+        );
+        if($this->super_model->update_where("joi_coc", $data, "joi_id", $joi_id)){
+            echo "<script>window.location ='".base_url()."jod/jod_coc/$joi_id';</script>";
+        }
     }
 }
 

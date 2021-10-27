@@ -90,25 +90,15 @@
     </style>
     
     <div  class="pad">
-    	<form method='POST' action='<?php echo base_url(); ?>'>  
+    	<form method='POST' action='<?php echo base_url(); ?>index.php/jod/save_coc'>  
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="<?php echo base_url(); ?>joi/joi_list" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
-						<a  href='<?php echo base_url(); ?>jod/jo_direct_rev/<?php echo $joi_id; ?>' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JO</b></u></a>
+						<a href="<?php echo base_url(); ?>index.php/jod/jo_direct_saved/<?php echo $joi_id; ?>" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
-						<a  href="<?php echo base_url(); ?>jod/jod_rfd/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
-						<!-- <?php foreach($dr AS $d){ ?>
-						<a  href="<?php echo base_url(); ?>jod/jod_dr/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
-						<?php } ?> -->
-						<a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
-						<ul class="dropdown-menu dropdown-alerts animated fadeInDown" style="width:200px;top:30px;border:1px solid #e66614;left:650px;">
-							<?php foreach($dr AS $d){ ?>
-								<li style="text-align: left!important"><a href="<?php echo base_url(); ?>jod/delivery_receipt/<?php echo $d->joi_id; ?>/<?php echo $d->joi_dr_id; ?>" target='_blank' class="btn btn-link"><?php echo "DR# ".$d->joi_dr_no; ?></a></li>
-							<?php } ?>
-						</ul>
-						<a  href="<?php echo base_url(); ?>jod/jod_ac/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AR</b></a>
-						<a  href="<?php echo base_url(); ?>jod/jod_coc/<?php echo $joi_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
+						<?php if($coc_saved==0){  ?>
+						<input type='submit' class="btn btn-primary btn-md p-l-25 p-r-25" id="submit" name='submit' value="Save">	
+						<?php } ?>
 						
 					</div>
 					<h4 class="text-white"><b>CERTIFICATE OF COMPLETION</b></h4>
@@ -280,7 +270,10 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
-		    			<td class="f13" colspan="18">The above scope of works was completed and tested on <U><b><?php echo $vendor; ?></b></U> on <U><b><?php echo date("F d, Y",strtotime($date_prepared));?></b></U>. One (1) year warranty for parts and three (3) months warranty for service. 
+		    			<td class="f13" colspan="18">The above scope of works was completed and tested on <U><b><?php echo $vendor; ?></b></U> on <U><b><?php echo date("F d, Y",strtotime($date_prepared));?></b></U>. 
+		    				<?php if($coc_saved==0){ ?>
+		    					<textarea name="coc_warranty" class="form-control">One (1) year warranty for parts and three (3) months warranty for service.</textarea> 
+		    				<?php }else{ echo $warranty; } ?> 
 		    			<br>
 		    			<br>
 		    			This certification is being issued on the above-name contractor for payment purposes only.
@@ -309,16 +302,48 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13"></td>
-		    			<td class="f13 bor-btm" colspan="8"><?php echo $checked; ?></td>
+		    			<td class="f13 bor-btm" colspan="8">
+		    				<?php 
+			    				if($coc_saved==1){ 
+			    				 	echo $checked; 
+			    				}else{ 
+		    				?> 	
+		    				<select type="text" name="checked_by" class="btn-block" id="checked" onchange="chooseEmpchecked()">
+		    					<option value=''>-Select-</option>
+		    					<?php foreach($employee AS $emp){ ?>
+				    				<option value='<?php echo $emp->employee_id; ?>' <?php echo (($checked_by==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+		    				</select>	
+		    				<?php } ?>
+		    			</td>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13 bor-btm" colspan="8"><?php echo $approved;?></td>
+		    			<td class="f13 bor-btm" colspan="8">
+		    				<?php 
+			    				if($coc_saved==1){ 
+			    				 	echo $approved; 
+			    				}else{ 
+		    				?> 	
+							<select type="text" name="approved_by" class="btn-block" id="approved" onchange="chooseEmpapprove()">
+		    					<option value=''>-Select-</option>
+		    					<?php foreach($employee AS $emp){ ?>
+				    				<option value='<?php echo $emp->employee_id; ?>' <?php echo (($approved_by==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+		    				</select>	
+		    				<?php } ?>
+		    			</td>
 		    			<td class="f13"></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13"></td>
-		    			<td class="f13 " colspan="8"><?php echo $pos_checked; ?></td>
+		    			<td class="f13 " colspan="8">
+		    				<center><div id='altss' style="font-weight:bold"></div></center>
+		    				<span id="positionchecked"><?php echo $pos_checked; ?></span>
+		    			</td>
 		    			<td class="f13" colspan="2"></td>
-		    			<td class="f13" colspan="8"><?php echo $pos_approved;?></td>
+		    			<td class="f13" colspan="8">
+		    				<center><div id='altsss' style="font-weight:bold"></div></center>
+		    				<span id="positionapproved"><?php echo $pos_approved; ?></span>
+		    			</td>
 		    			<td class="f13"></td>
 		    		</tr>
 		    		<tr>
@@ -330,6 +355,8 @@
 		    		</tr>
 		    	</table>		    
 	    	</div>
+	    	<input type="hidden" id="baseurl" name="baseurl" value="<?php echo base_url(); ?>">
+	    	<input type="hidden" id="joi_id" name="joi_id" value="<?php echo $joi_id; ?>">
     	</form>
     </div>
     <script type="text/javascript">
