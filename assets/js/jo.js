@@ -444,3 +444,38 @@ function deliver_jo(baseurl,joi_id, joi_dr_id) {
 function deliver_jod(baseurl,joi_id, joi_dr_id) {
     window.open(baseurl+"jod/deliver_jod/"+joi_id+"/"+joi_dr_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=45,left=25,width=1300,height=600");
 }
+
+
+function chooseEmpchecked(){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'index.php/joi/getEmpChecked';
+    var checked = document.getElementById("checked").value;
+    document.getElementById('altss').innerHTML='<b>Please wait, Loading data...</b>'; 
+    $.ajax({
+        type: 'POST',
+        url: redirect,
+        data: 'employee_id='+checked,
+        dataType: 'json',
+        success: function(response){
+            $("#altss").hide();
+            $("#positionchecked").html(response.position);
+        }
+    }); 
+}
+
+function chooseEmpapprove(){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'index.php/joi/getEmpChecked';
+    var approved = document.getElementById("approved").value;
+    document.getElementById('altsss').innerHTML='<b>Please wait, Loading data...</b>'; 
+    $.ajax({
+        type: 'POST',
+        url: redirect,
+        data: 'employee_id='+approved,
+        dataType: 'json',
+        success: function(response){
+            $("#altsss").hide();
+            $("#positionapproved").html(response.position);
+        }
+    }); 
+}
