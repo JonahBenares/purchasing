@@ -501,7 +501,7 @@
 							</button>
 							<?php $x=3; ?>
 		    				<br>Terms & Conditions:<br>
-		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				1. JO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
                             3. Price is 
                             	<select type="text" name="vat_in_ex">
