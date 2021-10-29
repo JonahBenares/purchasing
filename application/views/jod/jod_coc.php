@@ -270,7 +270,11 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
-		    			<td class="f13" colspan="18">The above scope of works was completed and tested on <U><b><?php echo $vendor; ?></b></U> on <U><b><?php echo date("F d, Y",strtotime($date_prepared));?></b></U>. 
+		    			<td class="f13" colspan="18">The above scope of works was completed and tested on <U><b><?php echo $vendor; ?></b></U> on <U><b>
+		    				<?php if($coc_saved==0){ ?>
+		    					<input type="date" name="date_prepared" value="<?php echo date("Y-m-d"); ?>">
+		    				<?php } else{ echo date("F d,Y",strtotime($date_prepared)); }?>
+		    			</b></U>. 
 		    				<?php if($coc_saved==0){ ?>
 		    					<textarea name="coc_warranty" class="form-control">One (1) year warranty for parts and three (3) months warranty for service.</textarea> 
 		    				<?php }else{ echo $warranty; } ?> 

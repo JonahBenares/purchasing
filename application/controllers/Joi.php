@@ -2641,7 +2641,7 @@ class Joi extends CI_Controller {
             $data['cenjo_no']= $head->cenpri_jo_no;
             $data['jo_no']= $head->joi_no;
             $data['project_title']= $head->project_title;
-            $data['date_prepared']= $head->date_prepared;
+            //$data['date_prepared']= $head->date_prepared;
             $data['date_needed']= $head->date_needed;
             $data['start_of_work']= $head->start_of_work;
             $data['general_desc']= $head->general_desc;
@@ -2661,6 +2661,7 @@ class Joi extends CI_Controller {
             $approved_by= $this->super_model->select_column_where('joi_coc', 'approved_by', 'joi_id', $head->joi_id);
             $data['coc_saved']=  $this->super_model->select_column_where('joi_coc', 'saved', 'joi_id', $head->joi_id);
             $data['warranty']=  $this->super_model->select_column_where('joi_coc', 'warranty', 'joi_id', $head->joi_id);
+            $data['date_prepared']=  $this->super_model->select_column_where('joi_coc', 'date_prepared', 'joi_id', $head->joi_id);
 
             $data['verified_by']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->verified_by);
             $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $checked_by);
@@ -2698,6 +2699,7 @@ class Joi extends CI_Controller {
             'approved_by'=>$this->input->post('approved_by'),
             'checked_by'=>$this->input->post('checked_by'),
             'warranty'=>$this->input->post('coc_warranty'),
+            'date_prepared'=>$this->input->post('date_prepared'),
             'saved'=>1
         );
         if($this->super_model->update_where("joi_coc", $data, "joi_id", $joi_id)){
