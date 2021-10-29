@@ -166,7 +166,7 @@
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="3"><b>Date:</td>
-		    			<td class="f13" colspan="15"><?php echo date("F d, Y",strtotime($date_prepared));?></td>	
+		    			<td class="f13" colspan="15"><?php echo ($date_created!='') ? date("F d, Y",strtotime($date_created)) : date("F d, Y");?></td>	
 		    			<td class="f13" ></td>
 		    		</tr>
 		    		<tr>
