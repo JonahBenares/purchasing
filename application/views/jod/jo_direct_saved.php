@@ -543,8 +543,8 @@
 		    				<?php $x++; } ?>
 		    				<?php 
 		    					//$no=8;
-		    					foreach($tc AS $t){ 
-		    						if(!empty($t->tc_desc)){
+		    					foreach($joi_tc AS $t){ 
+		    						if($t->tc_desc!=''){
 			    						echo $x.". " . $t->tc_desc;
 			    			?>
 			    				<a class='btn btn-primary btn-xs' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->joi_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>

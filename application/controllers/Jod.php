@@ -1106,7 +1106,7 @@ class Jod extends CI_Controller {
             $data['delivery_time']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'delivery_date', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
             $data['tc'] = $this->super_model->select_row_where("jor_notes", "jor_id", $ppr->jor_id);
         }
-        //$data['tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
+        $data['joi_tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
         $data['dr'] = $this->super_model->select_row_where("joi_dr", "joi_id", $joi_id);
         $data['rfd'] = $this->super_model->select_custom_where("joi_rfd", "joi_id='$joi_id'");
         $this->load->view('jod/jo_direct_saved',$data);
