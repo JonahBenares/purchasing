@@ -705,7 +705,6 @@ tr:nth-child(4) td {
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    		</tr>
-		    		<?php } ?>    
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><?php echo $verified_by; ?>
@@ -718,7 +717,8 @@ tr:nth-child(4) td {
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center"></td>
-		    		</tr>     	
+		    		</tr>
+		    		<?php } ?>         	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr> 
 		    	</table>		    
 	    	</div>
