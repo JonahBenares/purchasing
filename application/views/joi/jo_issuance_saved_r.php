@@ -439,12 +439,14 @@
 		    						<td colspan='2'>Amount:</td>
 		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
 		    					</tr>
+		    					<?php if($vat!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'><?php echo $vat_percent; ?>% VAT:</td>
 		    						<td align="right"><?php echo number_format($vat,2); ?></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
