@@ -297,7 +297,7 @@
 			    			<td class="f13" colspan="4">Start of Work:</td>
 			    			<td class="f13 bor-btm" colspan="7"><input type="date" name="start_of_work" value="<?php echo $start_of_work;?>" style = "width: 100%"></td>
 			    			<td class="f13" colspan="1"></td>
-			    			<td class="f13" colspan="3">JOI No.:</td>
+			    			<td class="f13" colspan="3">JO No.:</td>
 			    			<td class="f13 bor-btm" colspan="5"><input type="text" name="joi_no" value="<?php echo $joi_no;?>" style = "width: 100%" readonly></td>
 			    		</tr>	    			    		
 			    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	 
