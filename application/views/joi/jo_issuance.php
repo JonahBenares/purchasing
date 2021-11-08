@@ -297,7 +297,7 @@
 		    			<td class="f13 p-l-5" colspan="3">Start of Work:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['start_of_work']; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">JOI No.:</td>
+		    			<td class="f13" colspan="3">JO No.:</td>
 		    			<td class="f13 bor-btm" colspan="6"><?php echo $h['joi_no']."-".COMPANY; ?></td>
 		    		</tr>		    			    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		

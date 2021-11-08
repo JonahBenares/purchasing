@@ -396,7 +396,7 @@ tr:nth-child(4) td {
 		    			<td class="f13" colspan="4">Start of Work:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['start_of_work']; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">JOI No.:</td>
+		    			<td class="f13" colspan="3">JO No.:</td>
 		    			<td class="f13 bor-btm" colspan="5"><?php echo $h['joi_no']."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></td>
 		    		</tr>	
 		    		<!-- <tr>
@@ -532,6 +532,7 @@ tr:nth-child(4) td {
 		    						<td align="right"><?php echo number_format(array_sum($mattotal),2); ?></td>
 		    					</tr>
 		    					<?php } ?>
+		    					<?php if($vat!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -540,6 +541,7 @@ tr:nth-child(4) td {
 		    						<td align="right"><?php echo $vat_percent; ?>% VAT:</td>
 		    						<td align="right"></span> <?php echo number_format($vat,2); ?></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>

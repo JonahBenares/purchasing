@@ -49,7 +49,13 @@ CREATE TABLE IF NOT EXISTS `joi_coc` (
 `coc_id` int(11) NOT NULL,
   `joi_id` int(11) NOT NULL DEFAULT '0',
   `year` varchar(20) DEFAULT NULL,
-  `series` varchar(20) DEFAULT NULL
+  `series` varchar(20) DEFAULT NULL,
+  `approved_by` int(11) NOT NULL DEFAULT '0',
+  `checked_by` int(11) NOT NULL DEFAULT '0',
+  `warranty` text,
+  `saved` int(11) NOT NULL DEFAULT '0',
+  `date_prepared` varchar(50) DEFAULT NULL,
+  `date_created` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
