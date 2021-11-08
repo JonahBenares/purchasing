@@ -451,22 +451,41 @@ class Reports extends CI_Controller {
                                  $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
                             }
                             //echo $sum_delivered_qty ."<". $sum_received_qty;
-                            if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
-                                if($controller_name=='po_report'){
-                                    if($po_qty != $po_rec_qty){
-                                        $status = 'Partially Delivered';
+                            if($controller_name=='po_report'){
+                                if($sum_delivered_qty < $sum_received_qty){
+                                    if($controller_name=='po_report'){
+                                        if($po_qty != $po_rec_qty){
+                                            $status = 'Partially Delivered';
+                                        }else{
+                                            $status = 'Fully Delivered';
+                                        }
                                     }else{
-                                        $status = 'Fully Delivered';
+                                        $status = 'Partially Delivered';
                                     }
-                                }else{
-                                    $status = 'Partially Delivered';
-                                }
-                            }else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
-                                 $status = 'PO Issued - Partial <br> Partially Delivered';
+                                }else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
+                                     $status = 'PO Issued - Partial <br> Partially Delivered';
 
-                             } else if($sum_delivered_qty == $sum_received_qty || $po_qty == $po_rec_qty){
-                                $status = 'Fully Delivered';
-                             }
+                                } else if($sum_delivered_qty == $sum_received_qty || $po_qty == $po_rec_qty){
+                                    $status = 'Fully Delivered';
+                                }
+                            }else{
+                                if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
+                                    if($controller_name=='po_report'){
+                                        if($po_qty != $po_rec_qty){
+                                            $status = 'Partially Delivered';
+                                        }else{
+                                            $status = 'Fully Delivered';
+                                        }
+                                    }else{
+                                        $status = 'Partially Delivered';
+                                    }
+                                }else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
+                                     $status = 'PO Issued - Partial <br> Partially Delivered';
+
+                                } else if($sum_delivered_qty == $sum_received_qty || $po_qty == $po_rec_qty){
+                                    $status = 'Fully Delivered';
+                                }
+                            }
                         }
 
 
@@ -662,7 +681,7 @@ class Reports extends CI_Controller {
                                  $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." (". $del->quantity . " ".$del->uom .")\n";
                             }
                             //echo $sum_delivered_qty ."<". $sum_received_qty;
-                             if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
+                             /*if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
                                 if($controller_name=='po_report'){
                                     if($po_qty != $po_rec_qty){
                                         $status = 'Partially Delivered';
@@ -677,7 +696,42 @@ class Reports extends CI_Controller {
 
                              } else if($sum_delivered_qty == $sum_received_qty || $po_qty == $po_rec_qty){
                                 $status = 'Fully Delivered';
-                             }
+                             }*/
+                             if($controller_name=='po_report'){
+                                if($sum_delivered_qty < $sum_received_qty){
+                                    if($controller_name=='po_report'){
+                                        if($po_qty != $po_rec_qty){
+                                            $status = 'Partially Delivered';
+                                        }else{
+                                            $status = 'Fully Delivered';
+                                        }
+                                    }else{
+                                        $status = 'Partially Delivered';
+                                    }
+                                }else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
+                                     $status = 'PO Issued - Partial \n Partially Delivered';
+
+                                } else if($sum_delivered_qty == $sum_received_qty || $po_qty == $po_rec_qty){
+                                    $status = 'Fully Delivered';
+                                }
+                            }else{
+                                if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
+                                    if($controller_name=='po_report'){
+                                        if($po_qty != $po_rec_qty){
+                                            $status = 'Partially Delivered';
+                                        }else{
+                                            $status = 'Fully Delivered';
+                                        }
+                                    }else{
+                                        $status = 'Partially Delivered';
+                                    }
+                                }else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
+                                     $status = 'PO Issued - Partial \n Partially Delivered';
+
+                                } else if($sum_delivered_qty == $sum_received_qty || $po_qty == $po_rec_qty){
+                                    $status = 'Fully Delivered';
+                                }
+                            }
                         }
 
 
