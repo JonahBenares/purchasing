@@ -52,7 +52,7 @@
 			border: 0px!important;
 		}
 		@media print{
-			#prnt_btn, #printnotes{
+			#prnt_btn, #printnotes, #updateTerm{
 				display: none;
 			}
 			.emphasis{
