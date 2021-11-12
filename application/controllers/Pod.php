@@ -741,7 +741,7 @@ class Pod extends CI_Controller {
         $po_id = $this->input->post('po_id');
         $pr_id = $this->input->post('pr_id');
         $group_id = $this->input->post('group_id');
-        $po_tc_id = $this->input->post('po_tc_id');
+        $po_tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
         ); 
