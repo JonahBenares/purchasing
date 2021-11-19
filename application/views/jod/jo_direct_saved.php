@@ -390,8 +390,8 @@
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->delivered_quantity,2); ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->uom; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->currency; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->unit_price; ?></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->amount; ?>&nbsp;&nbsp;</td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->unit_price,4); ?></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($it->amount,4); ?>&nbsp;&nbsp;</td>
 		    					</tr>
 		    					<?php } }else { $gtotal=array(); $mattotal=array(); } ?>
 		    					<!--ITEMS-->
@@ -415,8 +415,8 @@
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->materials_qty,2); ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_unit; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_currency; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_unitprice; ?></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->materials_amount; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->materials_unitprice,4); ?></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($it->materials_amount,4); ?></td>
 		    					</tr>
 		    					<?php } } }else { $mattotal=array(); } //$gtotal=array(); } ?>
 		    					<!--MATERIALS-->
