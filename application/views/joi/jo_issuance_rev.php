@@ -290,14 +290,14 @@
 			    			<td class="f13" colspan="4">Date Prepared:</td>
 			    			<td class="f13 bor-btm" colspan="7"><input type="date" name="date_prepared" value="<?php echo $date_prepared;?>" style = "width: 100%"></td>
 			    			<td class="f13" colspan="1"></td>
-			    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
+			    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JOR No.:</td>
 			    			<td class="f13 bor-btm" colspan="5"><b><input type="text" name="cenjo_no" value="<?php echo $cenjo_no;?>" style = "width: 100%"></b></td>
 			    		</tr>
 			    		<tr>
 			    			<td class="f13" colspan="4">Start of Work:</td>
 			    			<td class="f13 bor-btm" colspan="7"><input type="date" name="start_of_work" value="<?php echo $start_of_work;?>" style = "width: 100%"></td>
 			    			<td class="f13" colspan="1"></td>
-			    			<td class="f13" colspan="3">JO. No:</td>
+			    			<td class="f13" colspan="3">JOI No.:</td>
 			    			<td class="f13 bor-btm" colspan="5"><input type="text" name="joi_no" value="<?php echo $joi_no;?>" style = "width: 100%" readonly></td>
 			    		</tr>	    			    		
 			    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	 
@@ -706,7 +706,7 @@
 							</button>
 							<?php } ?>
 		    				<br>Terms & Conditions:<br>
-		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				1. JO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
                             3. Price is
                            <?php 
@@ -727,7 +727,7 @@
 		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?><br>
+		    				echo $x."."; ?> Work Duration: <?php echo $delivery_time; ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
 		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?><br>

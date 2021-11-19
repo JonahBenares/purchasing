@@ -170,7 +170,7 @@
                                                 echo "class='peach'";
                                             }
                                         ?>>
-                                            <td><?php echo $p['jo_no']."-".COMPANY;?></td>
+                                            <td><?php echo $p['jo_no']."-".COMPANY." / ".$p['user_jo_no'];?></td>
                                             <td><?php echo $p['project_title'];?></td>
                                             <td><?php echo $p['joi_date'];?></td>
                                             <td><?php echo $p['joi_no']."-".COMPANY;?></td>

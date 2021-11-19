@@ -287,6 +287,7 @@ class Jod extends CI_Controller {
         $jor_id= $this->super_model->select_column_where("joi_items", "jor_id", "joi_id", $joi_id);
         $data['requested_by'] = $this->super_model->select_column_where("jor_head", "requested_by", "jor_id", $jor_id);
         $data['jor_no'] = $this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor_id);
+        $data['user_jo_no'] = $this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $jor_id);
         foreach($this->super_model->select_row_where('joi_jor', 'joi_id', $joi_id) AS $pr){
              $itemno='';
             foreach($this->super_model->select_custom_where("joi_dr_items", "jor_id= '$pr->jor_id' AND joi_id='$joi_id' AND joi_dr_id = '$joi_dr_id'") AS $it){
@@ -1105,7 +1106,7 @@ class Jod extends CI_Controller {
             $data['delivery_time']= $this->super_model->select_column_custom_where('jor_aoq_vendors', 'delivery_date', "jor_aoq_id = '$ppr->jor_aoq_id' AND vendor_id='$vendor_id'");
             $data['tc'] = $this->super_model->select_row_where("jor_notes", "jor_id", $ppr->jor_id);
         }
-        //$data['tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
+        $data['joi_tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
         $data['dr'] = $this->super_model->select_row_where("joi_dr", "joi_id", $joi_id);
         $data['rfd'] = $this->super_model->select_custom_where("joi_rfd", "joi_id='$joi_id'");
         $this->load->view('jod/jo_direct_saved',$data);
@@ -1168,7 +1169,7 @@ class Jod extends CI_Controller {
         $data['items_materials'] = $this->super_model->select_custom_where('joi_items', "joi_id='$joi_id' GROUP BY materials_offer");
         $data['materials_offer']= $this->super_model->select_column_custom_where('joi_items', 'materials_offer', "joi_id='$joi_id' ORDER BY materials_offer DESC LIMIT 1");
         $data['materials_qty']= $this->super_model->select_column_custom_where('joi_items', 'materials_qty', "joi_id='$joi_id' ORDER BY materials_offer DESC LIMIT 1");
-        $data['currency'] = $this->super_model->select_column_where('joi_items', 'currency', 'jor_id', $jor_id);
+        $data['currency'] = $this->super_model->select_column_where('joi_items', 'currency', 'joi_id', $joi_id);
         foreach($this->super_model->select_row_where("joi_jor", "joi_id", $joi_id) AS $ppr){
             $jo_no=$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id', $ppr->jor_id);
             /*if($jo!=''){
@@ -2610,6 +2611,7 @@ class Jod extends CI_Controller {
         $jor_id= $this->super_model->select_column_where("joi_items", "jor_id", "joi_id", $joi_id);
         $data['requested_by'] = $this->super_model->select_column_where("jor_head", "requested_by", "jor_id", $jor_id);
         $data['jor_no'] = $this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $jor_id);
+        $data['user_jo_no'] = $this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $jor_id);
         foreach($this->super_model->select_row_where("joi_items","joi_id",$joi_id) AS $jd){
             $vendor_id = $this->super_model->select_column_where("joi_head","vendor_id","joi_id",$joi_id);
             $vendor = $this->super_model->select_column_where("vendor_head","vendor_name","vendor_id",$vendor_id);
@@ -2682,7 +2684,7 @@ class Jod extends CI_Controller {
             $data['cenjo_no']= $head->cenpri_jo_no;
             $data['jo_no']= $head->joi_no;
             $data['project_title']= $head->project_title;
-            $data['date_prepared']= $head->date_prepared;
+            //$data['date_prepared']= $head->date_prepared;
             $data['date_needed']= $head->date_needed;
             $data['general_desc']= $head->general_desc;
             $data['start_of_work']= $head->start_of_work;
@@ -2696,11 +2698,21 @@ class Jod extends CI_Controller {
             $data['total_cost']= $head->total_cost;
             $data['grand_total']= $head->grand_total;
             $data['conforme']= $head->conforme;
+
+            $data['checked_by']= $this->super_model->select_column_where('joi_coc', 'checked_by', 'joi_id', $head->joi_id);
+            $data['approved_by']= $this->super_model->select_column_where('joi_coc', 'approved_by', 'joi_id', $head->joi_id);
+            $checked_by= $this->super_model->select_column_where('joi_coc', 'checked_by', 'joi_id', $head->joi_id);
+            $approved_by= $this->super_model->select_column_where('joi_coc', 'approved_by', 'joi_id', $head->joi_id);
+            $data['coc_saved']=  $this->super_model->select_column_where('joi_coc', 'saved', 'joi_id', $head->joi_id);
+            $data['warranty']=  $this->super_model->select_column_where('joi_coc', 'warranty', 'joi_id', $head->joi_id);
+            $data['date_prepared_coc']=  $this->super_model->select_column_where('joi_coc', 'date_prepared', 'joi_id', $head->joi_id);
+            $data['date_created']=  $this->super_model->select_column_where('joi_coc', 'date_created', 'joi_id', $head->joi_id);
+
             $data['verified_by']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->verified_by);
-            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->checked_by);
-            $data['pos_checked'] = $this->super_model->select_column_where('employees', 'position', 'employee_id', $head->checked_by);
-            $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->approved_by);
-            $data['pos_approved'] = $this->super_model->select_column_where('employees', 'position', 'employee_id', $head->approved_by);
+            $data['checked'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $checked_by);
+            $data['pos_checked'] = $this->super_model->select_column_where('employees', 'position', 'employee_id', $checked_by);
+            $data['approved'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $approved_by);
+            $data['pos_approved'] = $this->super_model->select_column_where('employees', 'position', 'employee_id', $approved_by);
             $data['recommended'] = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $head->recommended_by);
             $data['prepared'] = $this->super_model->select_column_where('users', 'fullname', 'user_id', $head->user_id);
             $data['ref_year'] = $this->super_model->select_column_where('joi_coc', 'year', 'joi_id', $head->joi_id);
@@ -2714,8 +2726,24 @@ class Jod extends CI_Controller {
         $data['materials_offer']= $this->super_model->select_column_where('joi_items', 'materials_offer', 'joi_id', $joi_id);
         $data['materials_qty']= $this->super_model->select_column_where('joi_items', 'materials_qty', 'joi_id', $joi_id);
         $data['terms'] = $this->super_model->select_row_where("joi_terms", "joi_terms_id", $joi_id);
+        $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('jod/jod_coc',$data);
         $this->load->view('template/footer');
+    }
+
+    public function save_coc(){
+        $joi_id = $this->input->post('joi_id');
+        $data = array(
+            'approved_by'=>$this->input->post('approved_by'),
+            'checked_by'=>$this->input->post('checked_by'),
+            'warranty'=>$this->input->post('coc_warranty'),
+            'date_prepared'=>$this->input->post('date_prepared'),
+            'date_created'=>date('Y-m-d H:i:s'),
+            'saved'=>1
+        );
+        if($this->super_model->update_where("joi_coc", $data, "joi_id", $joi_id)){
+            echo "<script>window.location ='".base_url()."jod/jod_coc/$joi_id';</script>";
+        }
     }
 }
 

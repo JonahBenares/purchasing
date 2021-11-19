@@ -608,7 +608,7 @@ class Jor extends CI_Controller {
             $jor_no = 'JOR '.$year."-".$next;
         }
 
-        $check_exist = $this->super_model->count_custom_where("jor_head", "user_jo_no='$user_jo_no' AND user_jo_no!=''");
+        $check_exist = $this->super_model->count_custom_where("jor_head", "user_jo_no='$user_jo_no' AND user_jo_no!='' AND cancelled='0'");
         if($user_jo_no!=''){
             $jor_nos='';
             $jors_nos=$user_jo_no;

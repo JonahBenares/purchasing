@@ -307,7 +307,7 @@
                                                 <td><?php echo $p['jo_request']; ?></td>
                                                 <td><?php echo $p['purpose']; ?></td>
                                                 <!-- <td><?php echo $p['enduse']; ?></td> -->
-                                                <td><?php echo $p['jo_no']."-".COMPANY; ?></td>
+                                                <td><?php echo $p['jo_no']."-".COMPANY." / ".$p['user_jo_no']; ?></td>
                                                 <td><?php echo $p['requestor']; ?></td>
                                                 <!-- <td><?php echo $p['wh_stocks']; ?></td> -->
                                                <!--  <td><?php echo $p['item_no']; ?></td> -->

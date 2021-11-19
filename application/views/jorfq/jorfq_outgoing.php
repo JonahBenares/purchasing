@@ -243,7 +243,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
 		    		<tr>
 		    			<td class="f13" colspan="20" align="center" style="border:2px solid #000">
-			    			<h5 style="margin: 5px; text-transform: uppercase;"><b>Printing of tarpaulin for Environmental Compliance Certificate (ECC) notice as per DENR-EMB Compliance</b></h5>
+			    			<h5 style="margin: 5px; text-transform: uppercase;"><b><?php echo $purpose; ?></b></h5>
 			    		</td>
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
@@ -263,7 +263,7 @@
 			    				<?php echo $general_desc;?>
 			    				<br>
 			    				<?php foreach($items AS $i){ ?>
-			    				<?php echo nl2br($i->scope_of_work)."<br>"; ?><br>
+			    				<?php echo "<b>".$i['item_no'].".</b> ".nl2br($i['scope_of_work'])."<br>"; ?><br>
 			    				<?php } ?>
 							</div>
 		    			</td>

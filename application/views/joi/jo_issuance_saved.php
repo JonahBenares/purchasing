@@ -52,7 +52,7 @@
 			border: 0px!important;
 		}
 		@media print{
-			#prnt_btn, #printnotes{
+			#prnt_btn, #printnotes, #updateTerm{
 				display: none;
 			}
 			.emphasis{
@@ -209,7 +209,7 @@ tr:nth-child(4) td {
 								<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>">
 								Item Warranty:
 								<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>">
-								Delivery_item:
+								Work Duration:
 								<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>">
 								Freight:
 								<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>">
@@ -389,14 +389,14 @@ tr:nth-child(4) td {
 		    			<td class="f13" colspan="4">Date Prepared:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['date_prepared']; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
+		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JOR No.:</td>
 		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $h['cenpri_jo_no']; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="4">Start of Work:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['start_of_work']; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">JO. No:</td>
+		    			<td class="f13" colspan="3">JO No.:</td>
 		    			<td class="f13 bor-btm" colspan="5"><?php echo $h['joi_no']."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></td>
 		    		</tr>	
 		    		<!-- <tr>
@@ -444,8 +444,8 @@ tr:nth-child(4) td {
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->delivered_quantity,2); ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->uom; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->currency; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->unit_price; ?></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->amount; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->unit_price,4); ?></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($it->amount,4); ?></td>
 		    					</tr>
 		    					<?php } }else { $gtotal=array(); $mattotal=array(); } ?>
 		    					<!--ITEMS-->
@@ -469,8 +469,8 @@ tr:nth-child(4) td {
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->materials_qty,2); ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_unit; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_currency; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_unitprice; ?></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo $it->materials_amount; ?></td>
+		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->materials_unitprice,4); ?></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($it->materials_amount,4); ?></td>
 		    					</tr>
 		    					<?php } } }else { $gtotal=array(); $mattotal=array(); } ?>
 		    					<!--MATERIALS-->
@@ -532,6 +532,7 @@ tr:nth-child(4) td {
 		    						<td align="right"><?php echo number_format(array_sum($mattotal),2); ?></td>
 		    					</tr>
 		    					<?php } ?>
+		    					<?php if($vat!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -540,6 +541,7 @@ tr:nth-child(4) td {
 		    						<td align="right"><?php echo $vat_percent; ?>% VAT:</td>
 		    						<td align="right"></span> <?php echo number_format($vat,2); ?></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -571,7 +573,7 @@ tr:nth-child(4) td {
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				Terms & Conditions:<br>
-		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				1. JO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
                             3. Price is <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?> 	
                             <br>
@@ -587,7 +589,7 @@ tr:nth-child(4) td {
 							</button><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> Work Duration: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>
@@ -616,7 +618,7 @@ tr:nth-child(4) td {
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>
@@ -649,27 +651,27 @@ tr:nth-child(4) td {
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $prepared; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13 bor-btm" colspan="4" align="center"><?php echo $checked; ?><br></td>
+		    			<td class="f13 bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $recommended; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="3" align="center"><?php echo $approved; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="3" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr>   
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
+		    			<td class="f13" colspan="4" align="center"><?php echo $prepared; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
+		    			<td class="f13" colspan="4" align="center"><?php echo $checked; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
+		    			<td class="f13" colspan="4" align="center"><?php echo $recommended; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="3" align="center">
+		    			<td class="f13" colspan="3" align="center"><?php echo $approved; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    		</tr> 
@@ -697,7 +699,7 @@ tr:nth-child(4) td {
 		    		</tr>  
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $verified_by; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
@@ -705,10 +707,9 @@ tr:nth-child(4) td {
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    		</tr>
-		    		<?php } ?>    
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13" colspan="4" align="center">
+		    			<td class="f13" colspan="4" align="center"><?php echo $verified_by; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"></td>
@@ -718,7 +719,8 @@ tr:nth-child(4) td {
 		    			<td class="f13" colspan="3" align="center"></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13 " colspan="4" align="center"></td>
-		    		</tr>     	
+		    		</tr>
+		    		<?php } ?>         	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr> 
 		    	</table>		    
 	    	</div>

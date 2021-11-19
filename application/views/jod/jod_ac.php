@@ -167,7 +167,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3" class="all-border"><b class="nomarg">JOR No.: </b></td>
-		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jor_no ."-".COMPANY; ?></b></td>
+		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $jor_no."-".COMPANY." / ".$user_jo_no; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="3" class="all-border"><b class="nomarg">Project Title: </b></td>

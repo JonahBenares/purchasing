@@ -176,7 +176,7 @@
 								<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>">
 								Item Warranty:
 								<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>">
-								Delivery_item:
+								Work Duration:
 								<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>">
 								Freight:
 								<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>">
@@ -320,14 +320,14 @@
 		    			<td class="f13 p-l-5" colspan="3">Date Prepared:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['date_prepared']; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
+		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JOR No.:</td>
 		    			<td class="f13 bor-btm" colspan="6"><b><?php echo $h['cenpri_jo_no']; ?></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Start of Work:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['start_of_work']; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">JO. No:</td>
+		    			<td class="f13" colspan="3">JO No.:</td>
 		    			<td class="f13 bor-btm" colspan="6"><?php echo $h['joi_no']."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></td>
 		    		</tr>		    			    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	    		
@@ -557,7 +557,7 @@
 							</button><br>
 		    				<?php $x=3; ?>
 		    				<br>Terms & Conditions:<br>
-		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				1. JO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
 		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>
 		    				3. Price is 
                                 <select type="text" name="vat_in_ex">
@@ -577,7 +577,7 @@
 							</button><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> Work Duration: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>
@@ -605,7 +605,7 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span> <span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>		    			
 		    		</tr>
