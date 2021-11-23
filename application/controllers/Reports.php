@@ -377,7 +377,11 @@ class Reports extends CI_Controller {
                                     $status = 'Delivered by CENPRI-MNL';
                                      $status_remarks = 'For RFQ <br>' . $statuss;
                                 } else {
-                                    $status = 'Pending';
+                                    if($item_for_recom==0){
+                                        $status = 'Pending';
+                                    }else{
+                                        $status = 'For Recom';
+                                    }
                                     $status_remarks = 'For RFQ <br>' . $statuss;
                                 }
                                 
@@ -606,7 +610,11 @@ class Reports extends CI_Controller {
                                     $status = "Delivered by CENPRI-MNL';
                                      $status_remarks = 'For RFQ \n" . $statuss;
                                 } else {
-                                    $status = 'Pending';
+                                    if($item_for_recom==0){
+                                        $status = 'Pending';
+                                    }else{
+                                        $status = 'For Recom';
+                                    }
                                     $status_remarks = "For RFQ \n" . $statuss;
                                 }
                                 

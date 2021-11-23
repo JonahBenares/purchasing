@@ -439,15 +439,16 @@ class Pod extends CI_Controller {
             $data['revision_no']=$h->revision_no;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+            $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
         }
 /*
          $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
         $data['currency'] = $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);*/
 
-        //$draft=$this->super_model->select_column_where('po_head', 'draft', 'po_id', $po_id);
+        $draft=$this->super_model->select_column_where('po_head', 'draft', 'po_id', $po_id);
         $saved=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
-        if($saved==0){
+        if($saved==0 && $draft==0){
             foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$pr_id' AND grouping_id = '$group_id'") AS $items){
                 //$total = $items->quantity*$items->unit_price;
                 $data['items'][]= array(
@@ -610,6 +611,7 @@ class Pod extends CI_Controller {
                 'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'checked_by'=>$this->input->post('checked'),
                 'approved_by'=>$this->input->post('approved'),
+                'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
                 'saved'=>0,
                 'draft'=>1
