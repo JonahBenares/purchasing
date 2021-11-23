@@ -445,9 +445,9 @@ class Pod extends CI_Controller {
          $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
         $data['currency'] = $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);*/
 
-        //$draft=$this->super_model->select_column_where('po_head', 'draft', 'po_id', $po_id);
+        $draft=$this->super_model->select_column_where('po_head', 'draft', 'po_id', $po_id);
         $saved=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
-        if($saved==0){
+        if($saved==0 && $draft==0){
             foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$pr_id' AND grouping_id = '$group_id'") AS $items){
                 //$total = $items->quantity*$items->unit_price;
                 $data['items'][]= array(

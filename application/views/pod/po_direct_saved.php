@@ -263,13 +263,13 @@
 
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it['quantity']; ?></b></td>
 
-		    			<td colspan="" class="bor-right v-align" align="center"><b><<?php echo $it['uom']; ?></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it['uom']; ?></b></td>
 
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it['item'].", ".$CI->get_pn($it['pr_details_id']);?></b></td>
 
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it['price'],4); ?></b></td>
 		    			<td width="10%" class="bor-right v-align" align="center">
-		    				<?php if($saved==0){ ?>
+		    				<?php if($saved==0 && $draft==0){ ?>
 				    		<select style="width: 100%" name='currency<?php echo $x; ?>'>
 						    	<?php foreach($currency AS $curr){ ?>
 						    		<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
