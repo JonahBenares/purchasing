@@ -555,17 +555,6 @@
 		    			<td colspan="1"></td>
 		    			<td colspan="4" class=""><b>
 			    			<?php if($draft==0){ ?>
-			    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
-				    			<option value=''>-Select-</option>
-				    			<?php foreach($employee AS $emp){ ?>
-				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-				    			<?php } ?>
-			    			</select></b></td>
-			    			<?php }else { ?>
-			    			<?php echo $approved; } ?>
-		    			<td colspan="1"></td>
-		    			<td colspan="3" class=""><b>
-			    			<?php if($draft==0){ ?>
 			    			<select name='recommended' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
 				    			<?php foreach($employee AS $emp){ ?>
@@ -574,6 +563,17 @@
 			    			</select></b></td>
 			    			<?php }else { ?>
 			    			<?php echo $recommended; } ?>
+		    			<td colspan="1"></td>
+		    			<td colspan="3" class=""><b>
+			    			<?php if($draft==0){ ?>
+			    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select></b></td>
+			    			<?php }else { ?>
+			    			<?php echo $approved; } ?>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
