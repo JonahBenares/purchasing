@@ -439,6 +439,7 @@ class Pod extends CI_Controller {
             $data['revision_no']=$h->revision_no;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+            $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
         }
 /*
@@ -610,6 +611,7 @@ class Pod extends CI_Controller {
                 'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'checked_by'=>$this->input->post('checked'),
                 'approved_by'=>$this->input->post('approved'),
+                'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
                 'saved'=>0,
                 'draft'=>1
