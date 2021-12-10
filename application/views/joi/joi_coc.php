@@ -207,7 +207,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
-		    			<td class="f13" colspan="18">This is to ceretify that <U><b><?php echo $vendor; ?></b></U> has already completed the following scope of works for:</td>
+		    			<td class="f13" colspan="18">This is to certify that <U><b><?php echo $vendor; ?></b></U> has already completed the following scope of works for:</td>
 		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<tr>
@@ -269,7 +269,7 @@
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
-		    			<td class="f13" colspan="18">The above scope of works was completed and tested on <U><b><?php echo $vendor; ?></b></U> on <U><b>
+		    			<td class="f13" colspan="18">The above scope of works was completed and tested by <U><b><?php echo $vendor; ?></b></U> on <U><b>
 		    				<?php if($coc_saved==0){ ?>
 		    					<input type="date" name="date_prepared" value="<?php echo date("Y-m-d"); ?>">
 		    				<?php } else{ echo date("F d,Y",strtotime($date_prepared_coc)); }?>

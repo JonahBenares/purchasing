@@ -375,7 +375,7 @@
 		    			$payments_desc.=$pay->payment_desc; 
 		    		}
 		    		$percent=$ewt/100;
-		    		$materials_percent=2/100;
+		    		$materials_percent=1/100;
 		    		if($vat==1){
 		    			$less= ($stotal/1.12)*$percent;
 		    			$materials_less= ($mattotal/1.12)*$materials_percent;
@@ -400,7 +400,7 @@
 		    		</tr>
 		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo '2'; ?>% Materials EWT</b></td>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo '1'; ?>% Materials EWT</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
 		    				<span class="nomarg" id=''><?php echo number_format($materials_less,2); ?></span>
