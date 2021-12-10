@@ -433,7 +433,7 @@
 		    					</tr>
 		    					<?php 
 		    						$y=1; 
-		    						foreach($tc AS $n){ 
+		    						foreach($joi_tc AS $n){ 
 		    							if($n->notes!=''){
 		    					?>
 		    					<tr>
