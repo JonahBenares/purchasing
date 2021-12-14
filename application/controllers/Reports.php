@@ -307,6 +307,9 @@ class Reports extends CI_Controller {
            
 
             $draft = $this->super_model->select_column_where("po_head","draft","po_id",$po_id);
+
+            $count_po_zero = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '1' AND pi.quantity='0' AND draft = '0' AND pi.pr_details_id = '$pr_details_id'");
+            $count_po_served_zero = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '1' AND pi.quantity='0'  AND draft = '0' AND pi.pr_details_id = '$pr_details_id' AND ph.po_id = '$po_id'");
                //echo $pr_details_id . " - rfq = " .$count_rfq. ", aoq = ".  $count_aoq . " , award = ".  $count_aoq_awarded . " ,po =  " . $count_po   . ", served = " . $count_po_served . " ,draft = ". $draft."<br>";
 
             /*$po_id = $this->super_model->select_column_where("po_items","po_id","pr_details_id",$pr_details_id);
@@ -448,11 +451,36 @@ class Reports extends CI_Controller {
                                  $status = "PO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_delivered_qty . " ".$uom .")</span><br>" . $statuss;
                             }
                            
+                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_zero != 0 && $count_po_served_zero ==0) || 
+                            ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po_zero != 0 && $count_po_served_zero !=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po_zero != 0 && $count_po_served_zero !=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po_zero != 0 && $count_po_served_zero !=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_zero != 0 && $count_po_served_zero !=0)) {
+                            $uom = $this->super_model->select_column_where("pr_details", "uom","pr_details_id",$pr_details_id);
+                            //echo $pr_qty ."<=". $sum_delivered_qty;
+                            if($pr_qty < $sum_delivered_qty){
+                                 $status = 'PO Issued - Partial';
+                            } else {
+                                 //$status = 'PO Issued';
+                                 $status = "PO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_delivered_qty . " ".$uom .")</span><br>" . $statuss;
+                            }
+                           
+                        }else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0) || 
+                            ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0)) {
+                            $uom = $this->super_model->select_column_where("pr_details", "uom","pr_details_id",$pr_details_id);
+                            //echo $pr_qty ."<=". $sum_delivered_qty;
+                            if($pr_qty < $sum_delivered_qty){
+                                 $status = 'PO Issued - Partial';
+                            } else {
+                                 //$status = 'PO Issued';
+                                 $status = "PO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_delivered_qty . " ".$uom .")</span><br>" . $statuss;
+                            }
+                           
                         } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served !=0 && $draft==0){
                             $status_remarks='';
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr_details_id' AND date_received!=''") AS $del){
-                      
-                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
+                                if($pr_qty > $po_qty){
+                                    $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." <span style='font-size:11px; color:green; font-weight:bold'>(". $del->quantity . " ".$del->uom .")</span><br>";
+                                }else{
+                                    $status_remarks.='';
+                                }
                             }
                             //echo $sum_delivered_qty ."<". $sum_received_qty;
                             if($controller_name=='po_report'){
@@ -480,8 +508,13 @@ class Reports extends CI_Controller {
                                         }else{
                                             $status = 'Fully Delivered';
                                         }
-                                    }else{
-                                        $status = 'Partially Delivered';
+                                    }else {
+                                        if($pr_qty > $po_qty){
+                                            $status = 'Partially Delivered';
+                                        }else{
+                                            $uom = $this->super_model->select_column_where("pr_details", "uom","pr_details_id",$pr_details_id);
+                                            $status = "PO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_delivered_qty . " ".$uom .")</span><br>" . $statuss;
+                                        }
                                     }
                                 }else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
                                      $status = 'PO Issued - Partial <br> Partially Delivered';
@@ -550,6 +583,8 @@ class Reports extends CI_Controller {
             $po_qty = $this->super_model->select_column_where("po_items","delivered_quantity","pr_details_id",$pr_details_id);
             $po_rec_qty = $this->super_model->select_column_where("po_items","quantity","pr_details_id",$pr_details_id);
             $draft = $this->super_model->select_column_where("po_head","draft","po_id",$po_id);
+            $count_po_zero = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '1' AND pi.quantity='0' AND draft = '0' AND pi.pr_details_id = '$pr_details_id'");
+            $count_po_served_zero = $this->super_model->count_custom_query("SELECT ph.po_id FROM po_head ph INNER JOIN po_pr pr ON ph.po_id = pr.po_id INNER JOIN po_items pi ON ph.po_id=pi.po_id WHERE ph.cancelled='0'  AND served = '1' AND pi.quantity='0'  AND draft = '0' AND pi.pr_details_id = '$pr_details_id' AND ph.po_id = '$po_id'");
             if(empty($sum_received_qty)){
                 $sum_received_qty = 0;
             } else {
@@ -682,11 +717,25 @@ class Reports extends CI_Controller {
                                  $status = "PO Issued (". $sum_delivered_qty . " ".$uom .")\n" . $statuss;
                             }
                            
+                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_zero != 0 && $count_po_served_zero ==0) || 
+                            ($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po_zero != 0 && $count_po_served_zero !=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po_zero != 0 && $count_po_served_zero !=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po_zero != 0 && $count_po_served_zero !=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_zero != 0 && $count_po_served_zero !=0)) {
+                            $uom = $this->super_model->select_column_where("pr_details", "uom","pr_details_id",$pr_details_id);
+                            //echo $pr_qty ."<=". $sum_delivered_qty;
+                            if($pr_qty < $sum_delivered_qty){
+                                 $status = 'PO Issued - Partial';
+                            } else {
+                                 //$status = 'PO Issued';
+                                 $status = "PO Issued (". $sum_delivered_qty . " ".$uom .")\n" . $statuss;
+                            }
+                           
                         } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0 && $draft==0){
                             $status_remarks='';
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr_details_id' AND date_received!=''") AS $del){
-                      
-                                 $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." (". $del->quantity . " ".$del->uom .")\n";
+                                if($pr_qty > $po_qty){
+                                    $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." (". $del->quantity . " ".$del->uom .")\n";
+                                }else{
+                                    $status_remarks.='';
+                                }
                             }
                             //echo $sum_delivered_qty ."<". $sum_received_qty;
                              /*if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
@@ -731,7 +780,12 @@ class Reports extends CI_Controller {
                                             $status = 'Fully Delivered';
                                         }
                                     }else{
-                                        $status = 'Partially Delivered';
+                                        if($pr_qty > $po_qty){
+                                            $status = 'Partially Delivered';
+                                        }else{
+                                            $uom = $this->super_model->select_column_where("pr_details", "uom","pr_details_id",$pr_details_id);
+                                            $status = "PO Issued (". $sum_delivered_qty . " ".$uom .")\n" . $statuss;
+                                        }
                                     }
                                 }else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
                                      $status = 'PO Issued - Partial \n Partially Delivered';
@@ -1039,7 +1093,7 @@ class Reports extends CI_Controller {
                 'recom_qty'=>$pr->recom_qty,
                 'recom_date_from'=>$pr->recom_date_from,
                 'recom_date_to'=>$pr->recom_date_to,
-
+                 'current_qty'=>$current_qty,
                 'cancelled'=>$pr->cancelled,
                 'recom_unit_price'=>$recom_unit_price,
                 'ver_date_needed'=>$ver_date_needed,
