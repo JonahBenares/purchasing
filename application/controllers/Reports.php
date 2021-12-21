@@ -721,11 +721,11 @@ class Reports extends CI_Controller {
                         } else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0 && $draft==0){
                             $status_remarks='';
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr_details_id' AND date_received!=''  AND quantity!='0'") AS $del){
-                                if($pr_qty > $po_qty){
+                                //if($pr_qty > $po_qty){
                                     $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY." (". $del->quantity . " ".$del->uom .")\n";
-                                }else{
-                                    $status_remarks.='';
-                                }
+                                //}else{
+                                    //$status_remarks.='';
+                                //}
                             }
                             //echo $sum_delivered_qty ."<". $sum_received_qty;
                              /*if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
@@ -745,7 +745,7 @@ class Reports extends CI_Controller {
                                 $status = 'Fully Delivered';
                              }*/
                              if($controller_name=='po_report'){
-                                if($sum_delivered_qty < $sum_received_qty){
+                                if($sum_delivered_qty > $sum_received_qty){
                                     if($controller_name=='po_report'){
                                         if($po_qty != $po_rec_qty){
                                             $status = 'Partially Delivered';
