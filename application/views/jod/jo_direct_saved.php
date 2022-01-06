@@ -433,7 +433,7 @@
 		    					</tr>
 		    					<?php 
 		    						$y=1; 
-		    						foreach($tc AS $n){ 
+		    						foreach($joi_tc AS $n){ 
 		    							if($n->notes!=''){
 		    					?>
 		    					<tr>
@@ -640,7 +640,17 @@
 		    		</tr>      
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
-		    			<td class="f13  bor-btm" colspan="4" align="center"><?php echo $verified_by; ?><br></td>
+		    			<td class="f13  bor-btm" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center"><br></td>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13" colspan="4" align="center"><br></td>
+		    		</tr>
+		    		<tr>
+		    			<td class="f13" colspan="1" align="center"></td>
+		    			<td class="f13 " colspan="4" align="center"><?php echo $verified_by; ?></td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center"><br></td>
 		    			<td class="f13" colspan="1" align="center"></td>
