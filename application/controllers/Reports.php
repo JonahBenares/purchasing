@@ -859,10 +859,22 @@ class Reports extends CI_Controller {
             $month= "null";
         }
 
-        if(!empty($this->input->post('date_receive'))){
+        /*if(!empty($this->input->post('date_receive'))){
             $data['date_receive'] = $this->input->post('date_receive');
         } else {
             $data['date_receive']= "null";
+        }*/
+
+        if(!empty($this->input->post('date_receive_from'))){
+            $data['date_receive_from'] = $this->input->post('date_receive_from');
+        } else {
+            $data['date_receive_from']= "null";
+        }
+
+        if(!empty($this->input->post('date_receive_to'))){
+            $data['date_receive_to'] = $this->input->post('date_receive_to');
+        } else {
+            $data['date_receive_to']= "null";
         }
 
         if(!empty($this->input->post('purchase_request'))){
@@ -903,11 +915,12 @@ class Reports extends CI_Controller {
 
         $sql="";
         $filter = " ";
-
-        if(!empty($this->input->post('date_receive'))){
+        $date_from = $this->input->post('date_receive_from');
+        $date_to = $this->input->post('date_receive_to');
+        if(!empty($this->input->post('date_receive_from')) && ($this->input->post('date_receive_to'))){
             $date_receive = $this->input->post('date_receive');
-            $sql.=" ph.date_prepared LIKE '%$date_receive%' AND";
-            $filter .= "Date Received/Emailed - ".$date_receive.", ";
+            $sql.="ph.date_prepared BETWEEN '$date_from' AND '$date_to' AND";
+            $filter .= "Date Received/Emailed From - ".$date_from." Date Received/Emailed To - ".$date_to.", ";
         }
 
         if(!empty($this->input->post('purchase_request'))){
@@ -1065,6 +1078,7 @@ class Reports extends CI_Controller {
                 'uom'=>$pr->uom,
                 'status'=>$status,
                 'status_remarks'=>$status_remarks,
+                'current_qty'=>$current_qty,
                 'date_needed'=>$pr->date_needed,
                 'unserved_qty'=>$unserved_qty,
                 'unserved_uom'=>$unserved_uom,
@@ -1120,20 +1134,28 @@ class Reports extends CI_Controller {
         } else {
              $date = $year;
         }
-        $date_received=$this->uri->segment(5);
-        $purpose=str_replace("%20", " ", $this->uri->segment(6));
-        $enduse=str_replace("%20", " ", $this->uri->segment(7));
-        $pr_no=$this->uri->segment(8);
-        $requestor=str_replace("%20", " ", $this->uri->segment(9));
-        $description=str_replace("%20", " ", $this->uri->segment(10));
-        $purchase_request=$this->uri->segment(11);
+        
+        //$date_received=$this->uri->segment(5);
+        $date_receive_from=$this->uri->segment(5);
+        $date_receive_to=$this->uri->segment(6);
+        $purpose=str_replace("%20", " ", $this->uri->segment(7));
+        $enduse=str_replace("%20", " ", $this->uri->segment(8));
+        $pr_no=$this->uri->segment(9);
+        $requestor=str_replace("%20", " ", $this->uri->segment(10));
+        $description=str_replace("%20", " ", $this->uri->segment(11));
+        $purchase_request=$this->uri->segment(12);
 
         $sql="";
         $filter = " ";
 
-        if($date_received!='null'){
+        /*if($date_received!='null'){
             $sql.=" ph.date_prepared LIKE '%$date_received%' AND";
             $filter .= $date_received;
+        }*/
+
+        if($date_receive_from!='null' && $date_receive_to!='null' || $date_receive_from!='' && $date_receive_to!=''){
+           $sql.= " ph.date_prepared BETWEEN '$date_receive_from' AND '$date_receive_to' AND";
+            $filter .= $date_receive_from;
         }
 
         if($purchase_request!='null'){
