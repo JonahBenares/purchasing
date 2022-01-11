@@ -405,7 +405,7 @@ class Reports extends CI_Controller {
                                  $status_remarks = 'Canvassing Ongoing <br>' . $statuss;
                             }
                             
-                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_draft != 0 && $count_po_served_draft ==0 && $draft!=0)){
+                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0 && $draft==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_draft != 0 && $count_po_served_draft ==0 && $draft!=0)){
                              if($item_on_hold == 1){
                                 $status = 'On-Hold';
                                 $onhold_by_id = $this->super_model->select_column_where("pr_details", "onhold_by","pr_details_id",$pr_details_id); // get onhold date
@@ -661,7 +661,7 @@ class Reports extends CI_Controller {
                             }
 
                             
-                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served ==0 && $draft==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_draft != 0 && $count_po_served_draft ==0 && $draft!=0)){
+                        } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0 && $draft==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_draft != 0 && $count_po_served_draft ==0 && $draft!=0)){
                              if($item_on_hold == 1){
                                 $status = 'On-Hold';
                                 $onhold_by_id = $this->super_model->select_column_where("pr_details", "onhold_by","pr_details_id",$pr_details_id); // get onhold date
