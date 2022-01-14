@@ -158,9 +158,9 @@
                                             echo "class='pi'";
                                         } ?>> -->
                                         <tr
-                                        <?php if($p['jor_status']=='Fully Delivered'){
+                                        <?php if($p['jor_status']=='Fully Delivered' && $p['cancelled']=='0'){
                                                 echo "class='green'";
-                                            } else if($p['jor_status']=='Partially Delivered') {
+                                            } else if($p['jor_status']=='Partially Delivered' && $p['cancelled']=='0') {
                                                 echo "class='yellow'";
                                             } else if($p['status']=='Cancelled') {
                                                 echo "class='cd'";
