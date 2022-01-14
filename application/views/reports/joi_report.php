@@ -182,8 +182,8 @@
                                             <td><?php echo $p['materials_offer'];?></td>
                                             <td><?php echo $p['materials_qty'];?></td>
                                             <td><?php echo $p['materials_unit'];?></td>
-                                            <td><?php echo ($p['jor_status']!='') ? $p['jor_status'] : $p['status']; ?></td>
-                                            <td><?php echo ($p['jor_status_remarks']!='') ? $p['jor_status_remarks'] : $p['status_remarks']; ?></td>
+                                            <td><?php echo ($p['jor_status']!='' && $p['cancelled']=='0') ? $p['jor_status'] : $p['status']; ?></td>
+                                            <td><?php echo ($p['jor_status_remarks']!='' && $p['cancelled']=='0') ? $p['jor_status_remarks'] : $p['status_remarks']; ?></td>
                                             <td><?php echo $p['supplier'];?></td>
                                             <td><?php echo $p['terms'];?></td>
                                             <td><?php echo $p['materials_unitprice'];?></td>
