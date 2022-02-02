@@ -334,7 +334,7 @@
 
 			    		<tr>
 			    			<td class="f13" colspan="4">Date Prepared:</td>
-			    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_prepared));?></td>
+			    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_prepared_temp));?></td>
 			    			<td class="f13" colspan="1"></td>
 			    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
 			    			<td class="f13 bor-btm" colspan="5"><b><?php echo $cenjo_no_temp; ?></b></td>
@@ -398,7 +398,7 @@
 						    		</select>
 				    				</td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' style = "width:130px;text-align: center" value = "<?php echo $det->unit_price; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo number_format($det->amount); ?>"></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo number_format($det->amount,2); ?>"></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><a href="<?php echo base_url(); ?>joi/delete_scope/<?php echo $det->joi_items_id?>/<?php echo $det->joi_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5" style="vertical-align:top;"></td></tr>
@@ -432,7 +432,7 @@
 						    		</select>
 				    				</td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name='materials_price<?php echo $y; ?>_<?php echo $b; ?>' id='materials_price<?php echo $y; ?>_<?php echo $b; ?>' style = "width:130px;text-align: center" value = "<?php echo $det->materials_unitprice; ?>" onblur='changematerialsPrice_JO(<?php echo $y; ?>,<?php echo $b; ?>)'></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' id='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' style = "width:100%;text-align: center" class='materials_tprice' value = "<?php echo number_format($det->materials_amount); ?>"></td><!-- 
+		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' id='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' style = "width:100%;text-align: center" class='materials_tprice' value = "<?php echo number_format($det->materials_amount,2); ?>"></td><!-- 
 		    						<td class="f13" align="right" style="vertical-align:top;"><a href="<?php echo base_url(); ?>joi/delete_scope/<?php echo $det->joi_items_id?>/<?php echo $det->joi_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td> -->
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5" style="vertical-align:top;"></td></tr>

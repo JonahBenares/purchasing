@@ -609,6 +609,7 @@ class Po extends CI_Controller {
                 'approved_by'=>$this->input->post('approved'),
                 'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>1,
+                'draft'=>0,
                 'revised'=>0
             ); 
              if($this->super_model->update_where("po_head", $head, "po_id", $po_id)){
