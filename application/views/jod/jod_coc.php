@@ -236,8 +236,7 @@
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="1"><b><br></td>
-		    			<td class="f13" colspan="14">Materials:</td>
-		    			<td class="f13" ></td>		    			
+		    			<td class="f13" colspan="18">Materials:</td>    			
 		    		</tr>
 		    		<?php } ?>
 		    					<!--MATERIALS-->
@@ -250,6 +249,7 @@
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="2"><b><br></td>
 		    			<td class="f13" colspan="15"><?php echo nl2br($det->materials_offer); ?></td>
+		    			<td class="f13" ></td>		    			
 		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    				<?php } } } ?>
