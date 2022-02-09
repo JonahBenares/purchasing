@@ -43,6 +43,9 @@
 		.bor-btm{
 			border-bottom: 1px solid #000;
 		}
+		.bor-right{
+			border-right: 1px solid #000;
+		}
 		.sel-des{
 			border: 0px!important;
 		}
@@ -72,6 +75,9 @@
 	        .all-border
 	        {
 			    border: 1px solid #000!important;
+			}
+			.bor-right{
+				border-right: 1px solid #000;
 			}
 		}
 		.text-white{
@@ -132,10 +138,10 @@
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
-		    			<td width="5%"><br></td>
+		    			<td class="bor-right" width="5%"><br></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20">
+		    			<td class="bor-right" colspan="20">
 		    				<center>
 			    				<h4 class="company-st" >
 				    				<img class="logo-st" width="120px" src="<?php echo base_url().LOGO;?>">
@@ -151,7 +157,7 @@
 			    			</center>
 		    			</td>
 		    		</tr>
-		    		<tr><td colspan="20" align="center"><h5><b class="">ACKNOWLEDGEMENT RECEIPT</b></h5></td></tr>
+		    		<tr><td class="bor-right" colspan="20" align="center"><h5><b class="">ACKNOWLEDGEMENT RECEIPT</b></h5></td></tr>
 
 		    		<tr>
 		    			<td colspan="3" class="all-border "><b class="nomarg">DR No. </b></td>
@@ -183,7 +189,7 @@
 		    			<td colspan="17" class="all-border"><b class="nomarg"><?php echo $requested_by; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="20" align="center"><br></td>
+		    			<td class="bor-right" colspan="20" align="center"><br></td>
 		    		</tr>
 		    		<?php } ?>
 		    		<!-- Loop -->
@@ -232,7 +238,7 @@
 		    		<?php $y++; } } ?>
 		    		<!--MATERIALS-->
 		    		<!-- Loop end here-->
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
+		    		<tr><td class="bor-right f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td colspan="2"></td>
 		    			<td colspan="4"><b>Prepared by:</b></td>
@@ -240,7 +246,7 @@
 		    			<td colspan="4"><b>Received by:</b></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="4"><b>Noted by:</b></td>
-		    			<td colspan="2"></td>
+		    			<td class="bor-right" colspan="2"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2"></td>
@@ -249,7 +255,7 @@
 		    			<td colspan="4" class="bor-btm"><b><br></b></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="4" class="bor-btm"><b><br></b></td>
-		    			<td colspan="2"></td>
+		    			<td class="bor-right" colspan="2"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2"></td>
@@ -258,10 +264,10 @@
 		    			<td colspan="4" align="center">Print Name & Signature with Date Received</td>
 		    			<td colspan="2"></td>
 		    			<td colspan="4" align="center"></td>
-		    			<td colspan="2"></td>
+		    			<td class="bor-right" colspan="2"></td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
+		    		<tr><td class="bor-right f13" colspan="20" align="center"><br></td></tr>
+		    		<tr><td class="bor-right f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td colspan="2"></td>
 		    			<td colspan="5" class="bor-btm" align="center"><?php echo $requested_by; ?></td>
@@ -269,7 +275,7 @@
 		    			<td colspan="4" class="bor-btm"><b></b></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="4"><b></b></td>
-		    			<td colspan="2"></td>
+		    			<td class="bor-right" colspan="2"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="2"></td>
@@ -278,9 +284,9 @@
 		    			<td colspan="4" align="center"><b>	Witnessed by: </b></td>
 		    			<td colspan="2"></td>
 		    			<td colspan="4"><b></b></td>
-		    			<td colspan="2"></td>
+		    			<td class="bor-right" colspan="2"></td>
 		    		</tr>
-		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>		
+		    		<tr><td class="bor-right f13" colspan="20" align="center"><br></td></tr>		
 		    	</table>		    
 	    	</div>
 	    	<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
