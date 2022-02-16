@@ -720,16 +720,16 @@
 	                        <br>
 		    				<?php if($joi_type!=1){ $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
+		    				echo $x."."; ?> Payment term: <?php echo nl2br($payment_terms); ?><br>
 		    				<?php $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?><br>
+		    				echo $x."."; ?> Item Warranty: <?php echo nl2br($item_warranty); ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Work Duration: <?php echo $delivery_time; ?><br>
+		    				echo $x."."; ?> Work Duration: <?php echo nl2br($delivery_time); ?><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?><br>
+		    				echo $x."."; ?> In-land Freight: <?php echo nl2br($freight); ?><br>
 		    				<?php $x++; } } ?>
 		    				<?php 
 		    				
@@ -748,7 +748,7 @@
 		    					}else { 
 		    						foreach($tc AS $t){ 
 			    						if(!empty($t->tc_desc)){
-				    						echo $x.". " . $t->tc_desc."<br>";
+				    						echo $x.". " . nl2br($t->tc_desc)."<br>";
 				    						$x++; 
 				    					}
 			    					} 
