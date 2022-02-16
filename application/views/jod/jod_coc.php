@@ -113,7 +113,7 @@
 	    				<td width="25%"></td>
 	    			</tr>
 	    		</table>   		  			
-		    	<table class="table-bordesdred" width="100%" style="border:2px solid #000">
+		    	<table class="table-bordsddered" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
@@ -159,9 +159,7 @@
 
 
 		    		<tr>
-		    			<td class="f13" ></td>
-		    			<td class="f13" ><br></td>
-		    			<td class="f13" colspan="10"></td>		    			
+		    			<td class="f13" colspan="20"></td>		    			
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
@@ -176,9 +174,7 @@
 		    			<td class="f13" ></td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" ></td>
-		    			<td class="f13" ><br></td>
-		    			<td class="f13" colspan="10"></td>		    			
+		    			<td class="f13" colspan="20"></td>		    			
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
@@ -187,9 +183,7 @@
 		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" ></td>
-		    			<td class="f13" ><br></td>
-		    			<td class="f13" colspan="10"></td>		    			
+		    			<td class="f13" colspan="20"></td>		    			
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
@@ -201,10 +195,7 @@
 		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" ></td>
-		    			<td class="f13" colspan="3"><b><br></td>
-		    			<td class="f13" colspan="15"></td>
-		    			<td class="f13" ></td>		    			
+		    			<td class="f13" colspan="20"></td>		    			
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
@@ -225,8 +216,7 @@
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="1"><b><br></td>
-		    			<td class="f13" colspan="14">Scope of work includes:</td>
-		    			<td class="f13" ></td>		    			
+		    			<td class="f13" colspan="18">Scope of work includes:</td>
 		    		</tr>
 		    		        <!--ITEMS-->
 		    					<?php 
@@ -239,14 +229,14 @@
 		    			<td class="f13" colspan="2"><b><br></td>
 		    			<td class="f13" colspan="15"><?php echo nl2br($det->offer); ?></td>
 		    			<td class="f13" ></td>		    			
+		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<?php } } ?>
 		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="1"><b><br></td>
-		    			<td class="f13" colspan="14">Materials:</td>
-		    			<td class="f13" ></td>		    			
+		    			<td class="f13" colspan="18">Materials:</td>    			
 		    		</tr>
 		    		<?php } ?>
 		    					<!--MATERIALS-->
@@ -259,6 +249,7 @@
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="2"><b><br></td>
 		    			<td class="f13" colspan="15"><?php echo nl2br($det->materials_offer); ?></td>
+		    			<td class="f13" ></td>		    			
 		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    				<?php } } } ?>

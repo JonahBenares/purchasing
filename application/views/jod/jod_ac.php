@@ -210,7 +210,7 @@
 		    		<!--ITEMS-->
 		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
-						<td colspan="6"><br> <b>&nbsp;&nbsp;Materials:</b></td>
+						<td colspan="20"><br> <b>&nbsp;&nbsp;Materials:</b></td>
 					</tr>
 					<?php } ?>
 		    		<!--MATERIALS-->

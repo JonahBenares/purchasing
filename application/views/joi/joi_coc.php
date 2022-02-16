@@ -48,6 +48,9 @@
 		.bor-btm{
 			border-bottom: 1px solid #000;
 		}
+		.bor-right{
+			border-right: 1px solid #000;
+		}
 		.sel-des{
 			border: 0px!important;
 		}
@@ -68,6 +71,9 @@
 	        	background-size: contain!important;
 	        	background-position: center center!important;
 	        }
+	        .bor-right{
+				border-right: 1px solid #000;
+			}
 		}
 		.text-white{
 			color: #fff;
@@ -112,7 +118,7 @@
 	    				<td width="25%"></td>
 	    			</tr>
 	    		</table>   		  			
-		    	<table class="table-bordesdred" width="100%" style="border:2px solid #000">
+		    	<table class="table-bordesred" width="100%" style="border:2px solid #000">
 		    		<tr>
 		    			<td width="5%"><br></td>
 		    			<td width="5%"><br></td>
@@ -158,9 +164,7 @@
 
 
 		    		<tr>
-		    			<td class="f13" ></td>
-		    			<td class="f13" ><br></td>
-		    			<td class="f13" colspan="10"></td>		    			
+		    			<td class="f13" colspan="20"></td>		    			
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
@@ -175,9 +179,7 @@
 		    			<td class="f13" ></td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" ></td>
-		    			<td class="f13" ><br></td>
-		    			<td class="f13" colspan="10"></td>		    			
+		    			<td class="f13" colspan="20"></td>		    			
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
@@ -186,9 +188,7 @@
 		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" ></td>
-		    			<td class="f13" ><br></td>
-		    			<td class="f13" colspan="10"></td>		    			
+		    			<td class="f13" colspan="20"></td>		    			
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" ></td>
@@ -224,8 +224,7 @@
 		    		<tr>
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="1"><b><br></td>
-		    			<td class="f13" colspan="14">Scope of work includes:</td>
-		    			<td class="f13" ></td>		    			
+		    			<td class="f13" colspan="18">Scope of work includes:</td>
 		    		</tr>
 		    		        <!--ITEMS-->
 		    					<?php 
@@ -237,6 +236,7 @@
 		    			<td class="f13" ></td>
 		    			<td class="f13" colspan="2"><b><br></td>
 		    			<td class="f13" colspan="15"><?php echo nl2br($det->offer); ?></td>
+		    			<td class="f13" ></td>		    			
 		    			<td class="f13" ></td>		    			
 		    		</tr>
 		    		<?php } } ?>
