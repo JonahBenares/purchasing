@@ -169,13 +169,13 @@
 						<div class="modal-body">
 							<div class="form-group">
 								Payment:
-								<input type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>">
+								<textarea type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>" rows='3'></textarea>
 								Item Warranty:
-								<input type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>">
+								<textarea type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>" rows='3'></textarea>
 								Work Duration:
-								<input type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>">
+								<textarea type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>" rows='3'></textarea>
 								Freight:
-								<input type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>">
+								<textarea type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>" rows='3'></textarea>
 							</div>
 						</div>
 						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
@@ -203,7 +203,7 @@
 						<div class="modal-body">
 							<div class="form-group">
 								Terms & Conditions:
-								<input type="text" class="form-control" name="condition" autocomplete="off" id = "terms">
+								<textarea type="text" class="form-control" name="condition" autocomplete="off" id = "terms" rows='3'></textarea>
 							</div>
 						</div>
 						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
