@@ -1329,6 +1329,10 @@ class Jod extends CI_Controller {
             $data['prepared_by']=$this->super_model->select_column_where('users','fullname','user_id', $head->user_id);
             $data['revised']=$head->revised;
         }
+
+        foreach($this->super_model->select_row_where("joi_head_temp", "joi_id",$joi_id) AS $head_temp){
+            $data['prepared_by_temp']=$this->super_model->select_column_where('users','fullname','user_id', $head_temp->user_id);
+        }
         
         $data['joi_id'] = $joi_id;
         $vendor_id = $this->super_model->select_column_where('joi_head', 'vendor_id', 'joi_id', $joi_id);
@@ -1581,7 +1585,8 @@ class Jod extends CI_Controller {
                 "verified_by"=>$this->input->post('verified_by'),
                 "approved_by"=>$this->input->post('approved_by'),
                 "recommended_by"=>$this->input->post('recommended_by'),
-                "user_id"=>$johead->user_id,
+                //"user_id"=>$johead->user_id,
+                "user_id"=>$_SESSION['user_id'],
                 "vat_percent"=>$this->input->post('vat_percent'),
                 "vat"=>$this->input->post('vat_amount'),
                 "discount"=>$this->input->post('less_amount'),
@@ -1809,6 +1814,7 @@ class Jod extends CI_Controller {
                         "vat_percent"=>$headt->vat_percent,
                         "vat_in_ex"=>$headt->vat_in_ex,
                         "discount"=>$headt->discount,
+                        "user_id"=>$headt->user_id,
                         "date_needed"=>$headt->date_needed,
                         "completion_date"=>$headt->completion_date,
                         "general_desc"=>$headt->general_desc,

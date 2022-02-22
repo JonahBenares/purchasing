@@ -1356,6 +1356,10 @@ class Joi extends CI_Controller {
             $data['prepared_by']=$this->super_model->select_column_where('users','fullname','user_id', $head->user_id);
             $data['revised']=$head->revised;
         }
+
+        foreach($this->super_model->select_row_where("joi_head_temp", "joi_id",$joi_id) AS $head_temp){
+            $data['prepared_by_temp']=$this->super_model->select_column_where('users','fullname','user_id', $head_temp->user_id);
+        }
         
         $data['joi_id'] = $joi_id;
         $vendor_id = $this->super_model->select_column_where('joi_head', 'vendor_id', 'joi_id', $joi_id);
@@ -1608,7 +1612,8 @@ class Joi extends CI_Controller {
                 "verified_by"=>$this->input->post('verified_by'),
                 "approved_by"=>$this->input->post('approved_by'),
                 "recommended_by"=>$this->input->post('recommended_by'),
-                "user_id"=>$johead->user_id,
+                //"user_id"=>$johead->user_id,
+                "user_id"=>$_SESSION['user_id'],
                 "vat_percent"=>$this->input->post('vat_percent'),
                 "vat"=>$this->input->post('vat_amount'),
                 'vat_in_ex'=>$this->input->post('vat_in_ex'),
@@ -1839,6 +1844,7 @@ class Joi extends CI_Controller {
                         "start_of_work"=>$headt->start_of_work,
                         "project_title"=>$headt->project_title,
                         "conforme"=>$headt->conforme,
+                        "user_id"=>$headt->user_id,
                         "vat_in_ex"=>$headt->vat_in_ex,
                         "recommended_by"=>$headt->recommended_by,
                         "approved_by"=>$headt->approved_by,

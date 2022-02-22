@@ -805,7 +805,7 @@
 		    		<tr>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">
-		    				<?php echo $prepared; ?>
+		    				<?php echo ($revised==0) ? $prepared : $prepared_by_temp; ?>
 		    			</td>
 		    			<td class="f13" colspan="1" align="center"></td>
 		    			<td class="f13" colspan="4" align="center">

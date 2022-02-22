@@ -1012,6 +1012,10 @@ class Pod extends CI_Controller {
             $data['prepared_by']=$this->super_model->select_column_where('users','fullname','user_id', $head->user_id);
             $data['revised']=$head->revised;
         }
+
+        foreach($this->super_model->select_row_where("po_head_temp", "po_id",$po_id) AS $head_temp){
+            $data['prepared_by_temp']=$this->super_model->select_column_where('users','fullname','user_id', $head_temp->user_id);
+        }
         
         $data['po_id'] = $po_id;
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
@@ -1100,7 +1104,8 @@ class Pod extends CI_Controller {
             'vat'=>$this->input->post('vat'),
             'vat_percent'=>$this->input->post('vat_percent'),
             'vat_in_ex'=>$this->input->post('vat_in_ex'),
-            'discount'=>$this->input->post('discount')
+            'discount'=>$this->input->post('discount'),
+            'user_id'=>$_SESSION['user_id'],
         );
         $this->super_model->insert_into("po_head_temp", $data_head);
           foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $poitems){
@@ -1268,6 +1273,7 @@ class Pod extends CI_Controller {
             if($this->super_model->insert_into("po_head_revised", $data_head)){
                 foreach($this->super_model->select_row_where("po_head_temp","po_id",$po_id) AS $headt){
                     $data_po=array(
+                        "user_id"=>$headt->user_id,
                         "po_date"=>$headt->po_date,
                         "shipping"=>$headt->shipping,
                         "packing_fee"=>$headt->packing_fee,

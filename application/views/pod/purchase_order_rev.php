@@ -673,17 +673,31 @@
 		    			<td colspan="3" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
-		    		<tr>
-		    			<td colspan="1"></td>
-		    			<td colspan="4"><b><?php echo $prepared_by; ?></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="4"><b><?php echo $checked;?></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="4"><b><?php echo $recommended;?></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="3"><b><?php echo $approved_by; ?></b></td>
-		    			<td colspan="1"></td>
-		    		</tr>
+		    		<?php if($revised==0){ ?>
+			    		<tr>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $prepared_by; ?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $checked;?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $recommended;?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="3"><b><?php echo $approved_by; ?></b></td>
+			    			<td colspan="1"></td>
+			    		</tr>
+		    		<?php }else { ?>
+		    			<tr>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $prepared_by_temp; ?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $checked;?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $recommended;?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="3"><b><?php echo $approved_by; ?></b></td>
+			    			<td colspan="1"></td>
+			    		</tr>
+		    		<?php } ?>
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="4"></td>
