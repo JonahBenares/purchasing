@@ -426,6 +426,17 @@ $(document).on("click", "#jo", function () {
     $("#joi_id1").val(joi_id1);
 });
 
+$(document).on("click", "#prnt_btn", function () {
+    var payment = $(this).attr("data-payment");
+    var warranty = $(this).attr("data-warranty");
+    var delivery = $(this).attr("data-delivery");
+    var freight = $(this).attr("data-freight");
+    $("#payment").val(payment);
+    $("#warranty").val(warranty);
+    $("#delivery").val(delivery);
+    $("#freight").val(freight);
+});
+
 function minmax(value, min, max) {
   if(parseFloat(value) < min || isNaN(parseFloat(value))){ 
     return 0;
