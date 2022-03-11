@@ -517,8 +517,11 @@ class Reports extends CI_Controller {
                                             $status = 'Fully Delivered';
                                         }
                                     }else {
-                                        if($po_rec_qty!=0){
+                                        //if($po_rec_qty!=0){
+                                        if($po_qty != $po_rec_qty){
                                             $status = 'Partially Delivered';
+                                        }elseif($po_qty == $po_rec_qty){
+                                            $status = 'Fully Delivered';
                                         }else{
                                             $uom = $this->super_model->select_column_where("pr_details", "uom","pr_details_id",$pr_details_id);
                                             $status = "PO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_delivered_qty . " ".$uom .")</span><br>" . $statuss;
@@ -812,8 +815,13 @@ class Reports extends CI_Controller {
                                             $status = 'Fully Delivered';
                                         }
                                     }else{
-                                        if($pr_qty > $po_qty){
+                                        /*if($pr_qty > $po_qty){
                                             $status = 'Partially Delivered';
+                                        }*/
+                                        if($po_qty != $po_rec_qty){
+                                            $status = 'Partially Delivered';
+                                        }elseif($po_qty == $po_rec_qty){
+                                            $status = 'Fully Delivered';
                                         }else{
                                             $uom = $this->super_model->select_column_where("pr_details", "uom","pr_details_id",$pr_details_id);
                                             $status = "PO Issued (". $sum_delivered_qty . " ".$uom .")\n" . $statuss;
