@@ -497,7 +497,7 @@ class Reports extends CI_Controller {
                                 if($sum_delivered_qty > $sum_received_qty){
                                     //$status="Partially Delivered";
                                     if($controller_name=='po_report'){
-                                        if($po_qty != $po_rec_qty){
+                                        if($po_qty != $sum_received_qty){
                                             $status = 'Partially Delivered';
                                         }else{
                                             $status = 'Fully Delivered';
@@ -514,7 +514,7 @@ class Reports extends CI_Controller {
                             }else{
                                 if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
                                     if($controller_name=='po_report'){
-                                        if($po_qty != $po_rec_qty){
+                                        if($po_qty != $sum_received_qty){
                                             $status = 'Partially Delivered';
                                         }else{
                                             $status = 'Fully Delivered';
@@ -601,9 +601,9 @@ class Reports extends CI_Controller {
             if($controller_name=='po_report'){
                 $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id' AND ph.po_id = '$po_id'"); // gets the total received qty of the item
             }else{
-                $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id'"); // gets the total received qty of the item
+                $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id'");
             }
-            $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id'"); // gets the total delivered qty of the item
+            $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id' AND ph.po_id = '$po_id'"); // gets the total delivered qty of the item
             $po_qty = $this->super_model->select_column_where("po_items","delivered_quantity","pr_details_id",$pr_details_id);
             $po_rec_qty = $this->super_model->select_column_where("po_items","quantity","pr_details_id",$pr_details_id);
             $draft = $this->super_model->select_column_where("po_head","draft","po_id",$po_id);
@@ -798,7 +798,7 @@ class Reports extends CI_Controller {
                              if($controller_name=='po_report'){
                                 if($sum_delivered_qty > $sum_received_qty){
                                     if($controller_name=='po_report'){
-                                        if($po_qty != $po_rec_qty){
+                                        if($po_qty != $sum_received_qty){
                                             $status = 'Partially Delivered';
                                         }else{
                                             $status = 'Fully Delivered';
@@ -815,7 +815,7 @@ class Reports extends CI_Controller {
                             }else{
                                 if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
                                     if($controller_name=='po_report'){
-                                        if($po_qty != $po_rec_qty){
+                                        if($po_qty != $sum_received_qty){
                                             $status = 'Partially Delivered';
                                         }else{
                                             $status = 'Fully Delivered';
