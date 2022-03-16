@@ -441,7 +441,7 @@
 		    			<td colspan="3"><b class="nomarg"><?php echo $_SESSION['fullname']; ?></b></td>
 		    			<td colspan="3">
 		    			<b>
-					    			<select name='checked' class="select-des emphasis" required style="width:90%">
+					    			<select name='checked' class="select-des emphasis" style="width:90%">
 					    			<option value=''>-Select Employee-</option>
 					    			<?php foreach($employee AS $emp){ ?>
 					    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
@@ -462,7 +462,7 @@
 		    			</td>
 		    			<td colspan="3">
 			    			<b>
-				    			<select name='endorsed' class="select-des emphasis" required style="width:90%">
+				    			<select name='endorsed' class="select-des emphasis" style="width:90%">
 					    			<option value=''>-Select Employee-</option>
 					    			<?php foreach($employee AS $emp){ ?>
 					    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
