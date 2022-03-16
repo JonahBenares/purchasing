@@ -498,7 +498,7 @@
 		    			<td colspan="3">
 		    			<b>
 			    				<?php if($rows_rfd==0){ ?>
-					    			<select name='checked' class="select-des emphasis" style="width:90%">
+					    			<select name='checked' class="select-des emphasis" required style="width:90%">
 					    			<option value=''>-Select Employee-</option>
 					    			<?php foreach($employee AS $emp){ ?>
 					    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
@@ -529,7 +529,7 @@
 		    			<td colspan="3">
 			    			<b>
 			    				<?php if($rows_rfd==0){ ?>
-				    			<select name='endorsed' class="select-des emphasis" style="width:90%">
+				    			<select name='endorsed' class="select-des emphasis" required style="width:90%">
 					    			<option value=''>-Select Employee-</option>
 					    			<?php foreach($employee AS $emp){ ?>
 					    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
