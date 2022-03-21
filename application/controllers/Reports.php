@@ -481,7 +481,7 @@ class Reports extends CI_Controller {
                                  $status = "PO Issued <span style='font-size:11px; color:green; font-weight:bold'>(". $sum_delivered_qty . " ".$uom .")</span><br>" . $statuss;
                             }
                            
-                        }else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served !=0 && $draft==0 || $count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served !=0 && $draft==0){
+                        }else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served !=0 && $draft==0 || $count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served !=0 && $draft==0){
                             $status_remarks='';
                             foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr_details_id' AND pdr.po_id = '$po_id' AND date_received!='' AND quantity!='0'") AS $del){
                                 //if($po_rec_qty!=0){
