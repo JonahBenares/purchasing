@@ -623,7 +623,7 @@ class Reports extends CI_Controller {
                 $sum_received_qty = $sum_received_qty;
             }
            
-            if($item_cancelled == 1 && $po_cancelled==0){
+            /*if($item_cancelled == 1 && $po_cancelled==0){
                 if($controller_name=='pr_report'){
                     $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr_details_id);
                     $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr_details_id);
@@ -637,24 +637,24 @@ class Reports extends CI_Controller {
                     $status= "Cancelled";
                     $status_remarks =  $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));
                 }
-            } 
+            }*/ 
             //echo $pr_qty ." < " . $sum_received_qty;
             if($pr_qty > $sum_received_qty || $sum_received_qty == 0){
             
-                if($item_cancelled == 1 && $po_cancelled==0){
-                    if($controller_name=='pr_report'){
+                if($item_cancelled == 1 && $controller_name=='pr_report'){
+                    //if($controller_name=='pr_report'){
                         $cancel_reason = $this->super_model->select_column_where('pr_details', 'cancelled_reason', 'pr_details_id', $pr_details_id);
                         $cancel_date = $this->super_model->select_column_where('pr_details', 'cancelled_date', 'pr_details_id', $pr_details_id);
                         $status= "Cancelled";
                         $status_remarks =  $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));
-                    }
-                }else if($po_cancelled==1 && $item_cancelled==0){
-                    if($controller_name=='po_report'){
+                    //}
+                }else if($po_cancelled==1 && $controller_name=='po_report'){
+                    //if($controller_name=='po_report'){
                         $cancel_reason = $this->super_model->select_column_where('po_head', 'cancel_reason', 'po_id', $po_id);
                         $cancel_date = $this->super_model->select_column_where('po_head', 'cancelled_date', 'po_id', $po_id);
                         $status= "Cancelled";
                         $status_remarks =  $cancel_reason ." " . date('m.d.y', strtotime($cancel_date));
-                    }
+                    //}
                 }else {
 
                /*    
