@@ -510,9 +510,10 @@ tr:nth-child(4) td {
 		    						<td class="f13" align="center"></td>
 		    					</tr>
 		    					<?php 
-		    						$grtotal =array_sum($gtotal) +array_sum($mattotal);
-		    						$subtotal=$grtotal+$vat;
-		    						$grandtotal = ($grtotal+$vat)-$discount;
+		    						$grtotal =array_sum($gtotal);
+		    						$gmtotal=array_sum($mattotal);
+		    						$subtotal=$grtotal+$gmtotal+$vat;
+		    						$grandtotal = ($grtotal+$gmtotal+$vat)-$discount;
 		    					?>
 		    					<tr>
 		    						<td></td>

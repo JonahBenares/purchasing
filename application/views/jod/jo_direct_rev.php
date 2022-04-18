@@ -481,7 +481,7 @@
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->uom; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->currency; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->unit_price; ?></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($det->amount,2); ?></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($det->amount,4); ?></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<?php } ?> 
@@ -504,7 +504,7 @@
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->materials_unit; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->materials_currency; ?></td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $det->materials_unitprice; ?></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($det->materials_amount,2); ?></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($det->materials_amount,4); ?></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<?php } } } ?> 

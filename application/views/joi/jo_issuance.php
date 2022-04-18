@@ -422,7 +422,7 @@
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b class="nomarg">
-		    								<input type='text' name='materials_tprice<?php echo $y; ?>' id='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' class='tprice' value="<?php echo $it['materials_amount']; ?>" style='width:110px;text-align: right' readonly>
+		    								<input type='text' name='materials_tprice<?php echo $y; ?>' id='materials_tprice<?php echo $y; ?>_<?php echo $b; ?>' class='materials_tprice' value="<?php echo $it['materials_amount']; ?>" style='width:110px;text-align: right' readonly>
 		    							</b>
 		    						</td>
 		    					</tr>
