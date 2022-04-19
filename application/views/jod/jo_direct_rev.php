@@ -395,7 +395,7 @@
 						    		</select>
 				    				</td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' style = "width:100%;text-align: center" value = "<?php echo $det->unit_price; ?>" onblur='changePrice_JO(<?php echo $x; ?>)'></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo number_format($det->amount); ?>"></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' style = "width:100%;text-align: center" class='tprice' value = "<?php echo $det->amount; ?>"></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><a href="<?php echo base_url(); ?>joi/delete_scope/<?php echo $det->joi_items_id?>/<?php echo $det->joi_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5" style="vertical-align:top;"></td></tr>
@@ -430,7 +430,7 @@
 						    		</select>
 				    				</td>
 		    						<td class="f13" align="center" style="vertical-align:top;"><input type="text" name='materials_price' id='materials_price' style = "width:100%;text-align: center" value = "<?php echo $det->materials_unitprice; ?>" onblur='changesinglePrice_JO()'></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='materials_tprice' id='materials_tprice' style = "width:100%;text-align: center" class='materials_tprice' value = "<?php echo number_format($det->materials_amount); ?>"></td>
+		    						<td class="f13" align="right" style="vertical-align:top;"><input type="text" name='materials_tprice' id='materials_tprice' style = "width:100%;text-align: center" class='materials_tprice' value = "<?php echo $det->materials_amount; ?>"></td>
 		    						<td class="f13" align="right" style="vertical-align:top;"><a href="<?php echo base_url(); ?>joi/delete_scope/<?php echo $det->joi_items_id?>/<?php echo $det->joi_id?>" class="btn btn-danger btn-xs" style = "text-align: center"><span class="fa fa-times"></span></a></td>
 		    					</tr>
 		    					<tr><td colspan="5" class="p-5" style="vertical-align:top;"></td></tr>
