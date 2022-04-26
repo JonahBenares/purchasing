@@ -34,8 +34,9 @@
                             <table class="table-bordered" width="100%" style="margin-top: 20px">
                                 <thead>
                                     <tr>
+                                         <th width="15%"></th>
                                         <th width="10%">Qty</th>
-                                        <th width="15%"></th>
+                                        <th width='5%'>PR Qty</th>
                                         <th width="10%">UOM</th>
                                         <th width="35%">Description</th>
                                         <th width="10%">Price</th>
@@ -50,13 +51,16 @@
                                      foreach($items AS $i){ ?>
                                     
                                     <tr>
-                                        <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" onblur="check_prdet(<?php echo $x; ?>);" onkeyup='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
-                                        <td style="padding: 0px!important"><select class="form-control" id = "pr_details_id<?php echo $x; ?>" name='pr_details_id<?php echo $x; ?>'>
+                                          <td style="padding: 0px!important"><select class="form-control" id = "pr_details_id<?php echo $x; ?>" name='pr_details_id<?php echo $x; ?>' onchange='getqty(this,<?php echo $x; ?>)'>
                                             <option value='' selected>-Choose Item-</option>
                                             <?php foreach($pr_det AS $det){ ?>
                                                 <option value="<?php echo $det['pr_details_id']; ?>"><?php echo $det['item_description']; ?></option>
+                                                 <!-- <input type='hidden' id='qty<?php echo $x; ?>' value="<?php echo $det['quantity']; ?>">  -->
                                             <?php } ?>
+
                                         </select></td>
+                                        <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" onblur="check_prdet(<?php echo $x; ?>);" onkeyup='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
+                                        <td><input type='text' disabled name='qty<?php echo $x; ?>' id='qty<?php echo $x; ?>' style='width:80px'> </td>
                                         <td><?php echo $i['uom']; ?></td>
                                         <td><?php echo $i['offer']; ?></td>
                                         <td style="padding: 0px!important"><input type="text" name="price<?php echo $x; ?>" id="price<?php echo $x; ?>" value="<?php echo $i['price']; ?>"  onkeypress="return isNumberKey(this, event)" class="form-control" onkeyup='changePrice(<?php echo $x; ?>,0)' style='border:0px' readonly></td>
@@ -64,10 +68,10 @@
                                             <input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' style='text-align:right; border:0px' readonly></span>
                                         <td><?php echo $i['pr_no']; ?></td>    
                                     </tr>
-                                    <input type='hidden' id='qty<?php echo $x; ?>' value="<?php echo $i['quantity']; ?>"> 
                                     <input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>"> 
                                     <input type='hidden' name='pr_id' value="<?php echo $pr_id; ?>">
                                     <input type='hidden' name='group_id' value="<?php echo $group_id; ?>"> 
+                                    
                                    <!--<input type='text' name='pr_details_id<?php echo $x; ?>' value="<?php echo $i['pr_details_id']; ?>">-->
                                     <?php $x++; } 
                                 } $counter = $x-1; ?>
@@ -80,7 +84,8 @@
                              <input type='hidden' name='vendor_id' value="<?php echo $vendor_id; ?>"> 
                             <input type='hidden' name='po_id' value="<?php echo $po_id; ?>">   
                             <input type='hidden' name='count_item' value="<?php echo $x; ?>">
-                            <input type='submit' class="btn btn-primary btn-block" value='Save'>
+                            <input type='hidden' name='baseurl' id='baseurl' value='<?php echo base_url(); ?>'>
+                            <input type='submit' class="btn btn-primary btn-block" id="save" value='Save'>
                         </div>
                     </div>   
                 </form>
@@ -91,6 +96,21 @@
     </div>
 </div>
 <script>
+  function getqty(id, count){
+    var loc= document.getElementById("baseurl").value;
+    var pr_details_id = id.value;
+    
+      $.ajax({
+            type: 'POST',
+            url: loc+'po/quantity_of_pr',
+            data: 'id='+pr_details_id,
+            success: function(data){
+             
+                document.getElementById("qty"+count).value =  data;
+           }
+     }); 
+  }
+
     function check_prdet(count){
         var pr_details_id = document.getElementById("pr_details_id"+count).value;
         var qty = parseFloat(document.getElementById("quantity"+count).value);
@@ -101,6 +121,9 @@
         var pr_qty = parseFloat(document.getElementById("qty"+count).value);
         if(qty>pr_qty){
             alert("PR quantity is less than your PO quantity!");
+            $("#save").hide();
+        }else{
+            $("#save").show();
         }
     }
 

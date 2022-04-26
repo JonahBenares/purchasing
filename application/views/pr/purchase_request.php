@@ -206,9 +206,15 @@ $ci =& get_instance();
                                         </tr>
                                         <tr>
                                             <td><i>Enduse:</i></td>
-                                            <td colspan="3"><b class="capital"><?php echo $h->enduse; ?> </b></td>
-                                           <!--  <td><i>WH Stock:</i></td>
-                                            <td colspan="1"><b class="capital"><?php echo $h->wh_stocks; ?></b></td> -->
+                                            <td><b class="capital"><?php echo $h->enduse; ?> </b></td>
+                                            <td><i>NEW PR #:</i></td>
+                                            <td style="padding: 0px">
+                                                <b class="capital">
+                                                    <select class="form-control">
+                                                        <option></option>
+                                                    </select>
+                                                </b>
+                                            </td>
                                            
                                         </tr>
                                         <tr>
@@ -220,7 +226,8 @@ $ci =& get_instance();
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
+                                              <!--   <th>#</th> -->
+                                                <th>Item #</th>
                                                 <th>Qty</th>
                                                 <th>UOM</th>
                                                 <th>PN No.</th>
@@ -244,7 +251,8 @@ $ci =& get_instance();
                                         ?>
                                         <?php if($det['cancelled']==1){ ?>
                                             <tr class="tr-red">
-                                                <td><?php echo $x; ?></td>
+                                                <!-- <td><?php echo $x; ?></td> -->
+                                                 <td><?php echo $det['item_no']; ?></td>
                                                 <td><?php echo $det['quantity']; ?></td>
                                                 <td><?php echo $det['uom']; ?></td>
                                                 <td><?php echo $det['pn_no']; ?></td>
@@ -261,15 +269,15 @@ $ci =& get_instance();
                                                     </select>
                                                 </td>
                                                 <td></td>
-                                                <?php }else { ?>
+                                                <?php } ?>
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
                                                 <td><?php echo $det['vendor']; ?></td>
-                                                <?php } ?>
                                                 <td align="center"><?php echo $det['cancelled_reason'] . " by ". $det['cancelled_by']." /".date('m.d.y', strtotime($det['cancelled_date']));?></td>
                                             </tr>
                                         <?php } else { ?>
                                             <tr>
-                                                <td><?php echo $x; ?></td>
+                                              <!--   <td><?php echo $x; ?></td> -->
+                                                  <td><?php echo $det['item_no']; ?></td>
                                                 <td><?php echo $det['quantity']; ?></td>
                                                 <td><?php echo $det['uom']; ?></td>
                                                  <td><?php echo $det['pn_no']; ?></td>
@@ -285,7 +293,7 @@ $ci =& get_instance();
                                                         <?php } ?>
                                                     </select>
                                                 </td>
-                                                <td></td>
+                                                <td><?php echo $det['vendor']; ?></td>
                                                 <?php }else { ?>
                                                 <td align="center"><?php echo $det['grouping_id']; ?></td>
                                                 <td><?php echo $det['vendor']; ?></td>

@@ -463,17 +463,17 @@
 			    					</td>
 			    					<td style='width:14.3%' class="bor-right f10"><center><?php echo $of['currency']; ?></center></td>
 			    					<td style='width:14.4%' class="bor-right f10 <?php echo (($of['price']==$of['min']) ? 'yellow-back' : ''); ?> " align="center">
-			    						<?php echo number_format($of['price'],4); ?>
+			    						<?php echo number_format($of['price'],2); ?>
 			    					</td>
 			    					<?php if($awarded==0){ ?>
 			    					<td style='width:14.4%'  class="bor-btm-red bor-right f10 " align="center">
-			    						<?php echo number_format($of['amount'],4); ?><br>
+			    						<?php echo number_format($of['amount'],2); ?><br>
 				    					<!-- <input type="radio" name="award_<?php echo $a; ?>" value="1" > -->
 				    					<input type="checkbox" name="award_<?php echo $a; ?>" value="1" >
 			    					</td>
 			    					<?php } else { ?>
 			    					<td style='width:14.4%' class="bor-btm bor-right <?php echo (($of['recommended'] == 1) ? 'green-back': ''); ?>" align="center">
-			    						<?php echo number_format($of['amount'],4); ?><br>
+			    						<?php echo number_format($of['amount'],2); ?><br>
 			    					</td> 
 			    					<?php } ?>
 			    					<?php if($awarded==0){  ?>
@@ -522,11 +522,11 @@
 						    				</select>
 				    					</td>
 				    					<td style='width:14.4%' class="bor-btm bor-right f10 " align="center">
-				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],4); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)">
+				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],2); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)">
 				    					</td>
 				    					
 				    					<td style='width:14.4%' class="bor-btm-red bor-right" align="center">				    						
-				    						<input type='text' class="form-control f10" name='amount_<?php echo $a; ?>' id='amount_<?php echo $a; ?>' readonly="readonly" value="<?php echo number_format($of['amount'],4); ?>">
+				    						<input type='text' class="form-control f10" name='amount_<?php echo $a; ?>' id='amount_<?php echo $a; ?>' readonly="readonly" value="<?php echo number_format($of['amount'],2); ?>">
 				    						
 				    					</td> 
 				    					<td style='width:28.3%' class="bor-btm-red bor-right">
@@ -568,11 +568,11 @@
 						    				</select>
 				    					</td>
 				    					<td style='width:14.4%' class="bor-btm bor-right f10 " align="center">
-				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],4); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)">
+				    						<input type='text' class="form-control f10" name='price_<?php echo $a; ?>' id='price_<?php echo $a; ?>' value="<?php echo number_format($of['price'],2); ?>" onblur="calculateAmount2(<?php echo $a; ?>)" onkeypress="return isNumberKey(this, event)">
 				    					</td>
 				    					
 				    					<td style='width:14.4%' class="bor-btm-red bor-right" align="center">				    						
-				    						<input type='text' class="form-control f10" name='amount_<?php echo $a; ?>' id='amount_<?php echo $a; ?>' readonly="readonly" value="<?php echo number_format($of['amount'],4); ?>">
+				    						<input type='text' class="form-control f10" name='amount_<?php echo $a; ?>' id='amount_<?php echo $a; ?>' readonly="readonly" value="<?php echo number_format($of['amount'],2); ?>">
 				    						
 				    					</td> 
 				    					<td style='width:28.3%' class="bor-btm-red bor-right">

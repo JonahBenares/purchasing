@@ -605,6 +605,7 @@ class Po extends CI_Controller {
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
                 'checked_by'=>$this->input->post('checked'),
+                'endorsed_by'=>$this->input->post('endorsed'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
                 'saved'=>1,
@@ -621,6 +622,7 @@ class Po extends CI_Controller {
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
+                'endorsed_by'=>$this->input->post('endorsed'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -690,6 +692,7 @@ class Po extends CI_Controller {
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
+                'endorsed_by'=>$this->input->post('endorsed'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -708,6 +711,7 @@ class Po extends CI_Controller {
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
+                'endorsed_by'=>$this->input->post('endorsed'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -973,10 +977,12 @@ class Po extends CI_Controller {
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved_by']=$h->approved_by;
             $data['checked_by']=$h->checked_by;
+            $data['endorsed_by']=$h->endorsed_by;
             $data['recommended_by']=$h->recommended_by;
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
+            $data['endorsed']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->endorsed_by);
         }
 
         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
@@ -1062,6 +1068,7 @@ class Po extends CI_Controller {
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
+            $data['endorsed']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->endorsed_by);
         }
 
         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
@@ -1380,6 +1387,7 @@ class Po extends CI_Controller {
             $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
             $data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->noted_by);
             $data['received']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->received_by);
+            $data['released']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->released_by);
             $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->approved_by);
         }
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
@@ -1413,6 +1421,7 @@ class Po extends CI_Controller {
             'approved_by'=>$this->input->post('approved'),
             'noted_by'=>$this->input->post('noted'),
             'received_by'=>$this->input->post('received'),
+            'released_by'=>$this->input->post('released'),
             'rfd_type'=>$this->input->post('po_type'),
             'notes'=>$this->input->post('notes'),
             'user_id'=>$_SESSION['user_id'],
@@ -1458,10 +1467,12 @@ class Po extends CI_Controller {
         $recommended_id = $this->super_model->select_column_where('po_head', 'recommended_by', 'po_id', $po_id);
         $approved_id = $this->super_model->select_column_where('po_head', 'approved_by', 'po_id', $po_id);
         $checked_id = $this->super_model->select_column_where('po_head', 'checked_by', 'po_id', $po_id);
+        $endorsed_id = $this->super_model->select_column_where('po_head', 'endorsed_by', 'po_id', $po_id);
         $data['approved_id'] = $approved_id;
         $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $recommended_id );
         $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $approved_id );
         $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $checked_id);
+        $data['endorsed']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $endorsed_id);
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         foreach($this->super_model->select_row_where("po_head", "po_id", $po_id) AS $head){
             
@@ -1558,12 +1569,15 @@ class Po extends CI_Controller {
         $data['revision_no']=$this->super_model->select_column_where('po_head', 'revision_no', 'po_id', $po_id);
         $approved_id = $this->super_model->select_column_where('po_head', 'approved_by', 'po_id', $po_id);
         $checked_id = $this->super_model->select_column_where('po_head', 'checked_by', 'po_id', $po_id);
+        $endorsed_id = $this->super_model->select_column_where('po_head', 'endorsed_by', 'po_id', $po_id);
         $recommended_id = $this->super_model->select_column_where('po_head', 'recommended_by', 'po_id', $po_id);
         $data['approved_id'] = $approved_id;
         $data['checked_id'] = $checked_id;
+        $data['endorsed_id'] = $endorsed_id;
         $data['recommended_id'] = $recommended_id;
         $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $approved_id );
         $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $checked_id);
+        $data['endorsed']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $endorsed_id);
         $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id',  $recommended_id);
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
         foreach($this->super_model->select_row_where("po_head", "po_id", $po_id) AS $head){
@@ -1763,6 +1777,7 @@ class Po extends CI_Controller {
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
+                'endorsed_by'=>$this->input->post('endorsed'),
                 'saved'=>1,
                 'draft'=>0,
                 'revised'=>0
@@ -1859,6 +1874,7 @@ class Po extends CI_Controller {
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
+                'endorsed_by'=>$this->input->post('endorsed'),
                 'saved'=>1,
                 'draft'=>0,
                 'revised'=>0
@@ -1876,6 +1892,7 @@ class Po extends CI_Controller {
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
+                'endorsed_by'=>$this->input->post('endorsed'),
                 'saved'=>0,
                 'draft'=>1,
                 'revised'=>0
@@ -1948,7 +1965,8 @@ class Po extends CI_Controller {
         foreach($this->super_model->select_custom_where("pr_details", "pr_id='$pr_id' AND grouping_id='$group_id'") AS $p){
             $data['pr_det'][]=array(
                 'pr_details_id'=>$p->pr_details_id,
-                'item_description'=>$p->item_description
+                'item_description'=>$p->item_description,
+                'quantity'=>$p->quantity,
             );
         }
 
@@ -2191,6 +2209,7 @@ class Po extends CI_Controller {
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
+            $data['endorsed']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->endorsed_by);
         }
 
         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
@@ -2438,6 +2457,7 @@ class Po extends CI_Controller {
                 "vat_percent"=>$head->vat_percent,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
+                "endorsed_by"=>$head->endorsed_by,
                 "saved"=>$head->saved,
                 "done_po"=>$head->done_po,
                 "date_revised"=>$this->input->post('approve_date'),
@@ -2854,6 +2874,7 @@ class Po extends CI_Controller {
             $data['endorsed']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->endorsed_by);
             $data['noted']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->noted_by);
             $data['received']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->received_by);
+            $data['released']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->released_by);
             $data['approved']=$this->super_model->select_column_where("employees", "employee_name", "employee_id", $r->approved_by);
         }
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");     
@@ -2877,6 +2898,7 @@ class Po extends CI_Controller {
             'approved_by'=>$this->input->post('approved'),
             'noted_by'=>$this->input->post('noted'),
             'received_by'=>$this->input->post('received'),
+            'released_by'=>$this->input->post('released'),
             'rfd_type'=>$this->input->post('po_type'),
             'user_id'=>$_SESSION['user_id'],
             'saved'=>1
@@ -2905,6 +2927,12 @@ class Po extends CI_Controller {
         $this->load->view('template/header');         
         $this->load->view('po/rfd_calapan_r');
         $this->load->view('template/footer');
+    }
+
+    public function quantity_of_pr(){
+       $pr_details_id = $_POST['id'];
+       $quantity = $this->super_model->select_column_where("pr_details", "quantity", "pr_details_id", $pr_details_id);
+       echo $quantity;
     }
     
 }

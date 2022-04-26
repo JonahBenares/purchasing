@@ -193,6 +193,19 @@ class super_model extends CI_Model
         }
     }
 
+    public function select_column_innerjoin_where($column, $table1,$table2, $where,$group_id)
+    {
+        $this->db->select($table1.".".$column);
+        $this->db->from($table1);
+        $this->db->join($table2, $table1.'.'.$group_id .' = '.$table2.'.'.$group_id);
+        $this->db->where($where);
+       
+        $query = $this->db->get();
+        foreach($query->result() as $result){
+            return $result->$column;
+        }
+    }
+
       public function select_join_where_order($table1,$table2, $where,$group_id, $column, $order)
     {
         $this->db->select($table1.'.*');

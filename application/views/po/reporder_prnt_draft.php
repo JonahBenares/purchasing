@@ -325,12 +325,12 @@
 					    			</td>
 					    			<td colspan="2" class="bor-right" align="center">
 					    				<!-- <b><?php echo number_format($it['price'],2); ?></b> -->
-					    				<b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it['price'],4); ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red;width:100%' ></b>
+					    				<b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it['price'],2); ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red;width:100%' ></b>
 					    			</td>
 					    			<td colspan="3" class="bor-right" align="right">
 					    				<b>
 					    				<!-- <?php echo number_format($it['amount'],2); ?> -->
-					    				<input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it['amount'],4); ?>" style='text-align:right;width:100%' readonly>
+					    				<input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it['amount'],2); ?>" style='text-align:right;width:100%' readonly>
 					    				</b>
 					    			</td>
 					    			<!-- <td align="center"><a href='<?php echo base_url(); ?>/po/remove_po_item/' class="btn-danger btn-xs" onclick="return confirm('Are you sure you want to remove item?')"><span class="fa fa-times"></span></a></td>	 -->
@@ -463,7 +463,7 @@
 					    		?>
 					    		<tr>
 					    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,4); ?></span></b></td>
+					    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
 					    		</tr>
 					    	<?php } ?>
 		    				</table>
@@ -536,31 +536,46 @@
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="4"><b>Prepared by:</b></td>
+		    			<td colspan="3"><b>Prepared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="4"><b>Reviewed/Checked by:</b></td>
+		    			<td colspan="3"><b>Endorsed by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="4"><b>Recommended by:</b></td>
+		    			<td colspan="3"><b>Cleared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Approved by:</b></td>
+		    			<td colspan="3"><b>Recommended by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="2"><b>Approved by:</b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="4" class="bor-btm"><b><br></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="4" class="bor-btm"><b></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="4" class="bor-btm"><b></b></td>
+		    			<td colspan="3" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="3" class="bor-btm"><b></b></td>
 		    			<td colspan="1"></td>
+		    			<td colspan="3" class="bor-btm"><b></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="3" class="bor-btm"><b></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="2" class="bor-btm"><b></b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="4" ><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="3" ><b><?php echo $prepared; ?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="4" ><b>
+		    			<td colspan="3" ><b>
+			    			<?php if($saved==0){ ?>
+			    			<select name='endorsed' class="select-des emphasis" style="width: 100%" required>
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    			<option value='<?php echo $emp->employee_id; ?>' <?php echo (($endorsed_id==$emp->employee_id) ? ' selected' : ''); ?>><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select></b></td>
+			    			<?php }else { ?>
+			    			<?php echo $endorsed; } ?>
+		    			<td colspan="1"></td>
+		    			<td colspan="3" ><b>
 			    			<?php if($saved==0){ ?>
 			    			<select name='checked' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
@@ -572,7 +587,7 @@
 			    			<?php echo $checked; } ?>
 
 			    		<td colspan="1"></td>
-		    			<td colspan="4" ><b>
+		    			<td colspan="3" ><b>
 			    			<?php if($saved==0){ ?>
 			    			<select name='recommended' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
@@ -584,7 +599,7 @@
 			    			<?php echo $recommended; } ?>
 
 		    			<td colspan="1"></td>
-		    			<td colspan="3" ><b>
+		    			<td colspan="2" ><b>
 			    			<?php if($saved==0){ ?>
 			    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>

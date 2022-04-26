@@ -64,6 +64,7 @@
              var po_offer_id = $(this).data('offerid');
              var status = $(this).data('status');
              var recom_unit_price = $(this).data('price');
+             var recom_qty = $(this).data('recomqty');
               var pr_id = $(this).data('prid');
                $(".modal #pr_id").val(pr_id);
               $(".modal #status").val(status);
@@ -73,6 +74,7 @@
              $(".modal #remarks").val(remarks);
              $(".modal #po_offer_id").val(po_offer_id);
              $(".modal #recom_unit_price").val(recom_unit_price);
+             $(".modal #recom_qty").val(recom_qty);
         });
     </script>
      <script type="text/javascript">
@@ -287,7 +289,7 @@
                                                 <td><?php echo $p['wh_stocks']; ?></td>
                                                 <td><?php echo $p['item_no']; ?></td>
                                                 <td><?php echo $p['qty']; ?></td>
-                                                <td ><span style='font-size:11px'><?php echo $p['revised_qty']; ?></span></td>
+                                                <td ><span style='font-size:11px'><?php echo $p['revised_qty']."<br>".$p['current_qty']; ?></span></td>
                                                 <td><?php echo $p['uom']; ?></td>
                                                 <td><?php echo $p['grouping_id']; ?></td>
                                                 <td><?php echo $p['item_description'] . (($p['unserved_qty']!=0) ? " - <span style='color:red; font-size:11px'>UNSERVED ". $p['unserved_qty'] . " " . $p['unserved_uom'] . "</span>" : ""); ?></td> 
@@ -411,6 +413,16 @@
                         <td></td>
                         <td>Delivered by another company</td>
                     </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div style="margin:5px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #cacaca "></td>
+                        <td></td>
+                        <td>Cancelled</td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -493,7 +505,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label>Unit Price:</label>
-                                    <input type="number" name="unit_price" class="form-control" id="unit_price" placeholder="Unit Price">
+                                    <input type="text" name="unit_price" class="form-control" id="unit_price" placeholder="Unit Price">
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Quantity Delivered:</label>
@@ -555,11 +567,15 @@
                                 <?php } ?>
                             </select>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
+                                <label>Quantity:</label>
+                                    <input placeholder="Quantity" name="recom_qty" class="form-control" type="text" id="recom_qty">
+                                </div>
+                            <div class="col-lg-3">
                                 <label>Unit Price:</label>
                                     <input placeholder="Unit Price" name="recom_unit_price" class="form-control" type="text" id="recom_unit_price">
                                 </div>
-                            </div>   
+                              </div>   
                         </div>
                     </div>
                     <div class="modal-footer">

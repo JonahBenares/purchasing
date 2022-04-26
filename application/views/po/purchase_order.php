@@ -363,7 +363,7 @@
 		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>    		
 		    		<tr>
 		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency; ?></span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),4); ?></span></b></td>
+					    <td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency; ?></span><span id='grandtotal'><?php echo number_format(array_sum($gtotal),2); ?></span></b></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
@@ -436,40 +436,36 @@
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="4"><b>Prepared by:</b></td>
+		    			<td colspan="3"><b>Prepared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="4"><b>Reviewed/Checked by:</b></td>
+		    			<td colspan="3"><b>Endorsed by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="4"><b>Recommended by:</b></td>
+		    			<td colspan="3"><b>Cleared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Approved by:</b></td>
+		    			<td colspan="3"><b>Recommended by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="2"><b>Approved by:</b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
-		    			<td colspan="1"></td>
-		    			<td colspan="4" class="bor-btm"><b><br></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="4" class="bor-btm"><b><br></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="4" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="3" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
+		    			<td colspan="3" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="3" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="3" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="2" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="4"><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="3"><b><?php echo $prepared; ?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="4"><b>
-		    			<select name='checked' class="select-des emphasis" style="width: 100%" >
-			    			<option value=''>-Select-</option>
-			    			<?php foreach($employee AS $emp){ ?>
-			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-			    			<?php } ?>
-		    			</select></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="4"><b>
-		    			<select name='recommended' class="select-des emphasis" style="width: 100%" >
+		    			<td colspan="3"><b>
+		    			<select name='endorsed' class="select-des emphasis" style="width: 100%" >
 			    			<option value=''>-Select-</option>
 			    			<?php foreach($employee AS $emp){ ?>
 			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
@@ -477,6 +473,22 @@
 		    			</select></b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="3"><b>
+		    			<select name='checked' class="select-des emphasis" style="width: 100%" >
+			    			<option value=''>-Select-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+		    			</select></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="3"><b>
+		    			<select name='recommended' class="select-des emphasis" style="width: 100%" >
+			    			<option value=''>-Select-</option>
+			    			<?php foreach($employee AS $emp){ ?>
+			    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+			    			<?php } ?>
+		    			</select></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="2"><b>
 		    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
 			    			<option value=''>-Select-</option>
 			    			<?php foreach($employee AS $emp){ ?>

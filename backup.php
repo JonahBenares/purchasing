@@ -1,13 +1,13 @@
 <?php
 //include 'functions/functions.php';
-backup_tables('localhost','root','1t@dm1N','db_purchasing');
+backup_tables('localhost','root','1t@dm1N','db_purchasing_cpgc');
 
 $now=date('Y-m-d');
 
 $host='localhost';
 $user='root';
 $pass='1t@dm1N';
-$name='db_purchasing';
+$name='db_purchasing_cpgc';
 function backup_tables($host,$user,$pass,$name,$tables = '*')
 {
 
@@ -55,13 +55,13 @@ $return.="\n\n\n";
 
 
 $data=date("m_d_Y").'.sql';
-$handle = fopen('C:\/Purchasing Backup\/Back-up\/db_backup\/'.$data,'w+');
+$handle = fopen('C:\/backup\/Purchasing\/CPGC\/db_backup\/'.$data,'w+');
 
 fwrite($handle,$return);
 
 
-$copysql='C:\/Purchasing Backup\/Back-up\/db_backup\/'.$data;
-rcopy($copysql , "C:\/Users\/User\/OneDrive\/Purchasing Backup\/db_backup\/".$data);
+$copysql='C:\/backup\/Purchasing\/CPGC\/db_backup\/'.$data;
+rcopy($copysql , "C:\/Onedrive_link\/Purchasing\/CPGC\/db_backup\/".$data);
 
 fclose($handle);
 
@@ -96,11 +96,11 @@ fclose($handle);
 
 
 // Get real path for our folder
-$rootPath = realpath('uploads');
+$rootPath = realpath('upload');
 
 // Initialize archive object
 $zip = new ZipArchive();
-$fname = 'C:\/Purchasing Backup\/Back-up\/uploads\/'.date('m_d_Y').'.zip';
+$fname = 'C:\/backup\/Purchasing\/CPGC\/uploads\/'.date('m_d_Y').'.zip';
 $zip->open($fname, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
 // Create recursive directory iterator
@@ -135,7 +135,7 @@ $zip->close();
 
 //rcopy($fname , 'Back-up/uploads/'.$fname );
 $zipname=date('m_d_Y').'.zip';
-rcopy($fname , "C:\/Users\/User\/OneDrive\/Purchasing Backup\/uploads\/".$zipname);
+rcopy($fname , "C:\/Onedrive_link\/Purchasing\/CPGC\/uploads\/".$zipname);
 
 
 //rrmdir($fname);

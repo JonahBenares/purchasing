@@ -196,6 +196,7 @@ class Pod extends CI_Controller {
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
+            $data['endorsed']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->endorsed_by);
         }
 /*
          $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
@@ -288,6 +289,8 @@ class Pod extends CI_Controller {
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['checked_id']=$h->checked_by;
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
+            $data['endorsed_id']=$h->endorsed_by;
+            $data['endorsed']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->endorsed_by);
         }
 /*
          $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
@@ -456,7 +459,7 @@ class Pod extends CI_Controller {
             }
         }else {
             foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
-                $currency = $this->input->post('currency'.$x);
+                //$currency = $this->input->post('currency'.$x);
                 $total = $items->delivered_quantity*$items->unit_price;
                 $data['items'][]= array(
                     'pr_details_id'=>$items->pr_details_id,
@@ -585,6 +588,7 @@ class Pod extends CI_Controller {
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
+                'endorsed_by'=>$this->input->post('endorsed'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -602,8 +606,10 @@ class Pod extends CI_Controller {
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
+                'endorsed_by'=>$this->input->post('endorsed'),
                 'checked_by'=>$this->input->post('checked'),
                 'approved_by'=>$this->input->post('approved'),
+                'recommended_by'=>$this->input->post('recommended'),
                 'checked_by'=>$this->input->post('checked'),
                 'saved'=>0,
                 'draft'=>1
@@ -668,6 +674,7 @@ class Pod extends CI_Controller {
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
+                'endorsed_by'=>$this->input->post('endorsed'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -686,6 +693,7 @@ class Pod extends CI_Controller {
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
+                'endorsed_by'=>$this->input->post('endorsed'),
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -1211,6 +1219,7 @@ class Pod extends CI_Controller {
                 'delivered_quantity'=>$dritems->delivered_quantity,
                 'quantity'=>$dritems->quantity,
                 'unit_price'=>$dritems->unit_price,
+                'currency'=>$dritems->currency,
                 'uom'=>$dritems->uom,
                 'amount'=>$dritems->amount,
                 'item_no'=>$dritems->item_no,
@@ -1292,6 +1301,7 @@ class Pod extends CI_Controller {
                 "item_id"=>$poitems->item_id,
                 "delivered_quantity"=>$poitems->delivered_quantity,
                 "unit_price"=>$poitems->unit_price,
+                "currency"=>$poitems->currency,
                 "uom"=>$poitems->uom,
                 "amount"=>$poitems->amount,
                 "item_no"=>$poitems->item_no,
@@ -1363,6 +1373,7 @@ class Pod extends CI_Controller {
                     "delivered_quantity"=>$poitems->delivered_quantity,
                     "quantity"=>$nqty,
                     "unit_price"=>$poitems->unit_price,
+                    "currency"=>$poitems->currency,
                     "uom"=>$poitems->uom,
                     "amount"=>$poitems->amount,
                     "item_no"=>$poitems->item_no,
@@ -1375,6 +1386,7 @@ class Pod extends CI_Controller {
                     'quantity'=>0,
                     "uom"=>$poitems->uom,
                     'unit_price'=>$poitems->unit_price,
+                    'currency'=>$poitems->currency,
                     'amount'=>$poitems->amount,
                     'offer'=>$poitems->offer
                 );

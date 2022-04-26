@@ -256,7 +256,7 @@
 		    			</td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
-		    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],4); ?></b></span>
+		    				<span class="nomarg" id=''><b><?php echo number_format($it['total'],2); ?></b></span>
 		    			</td>
 		    		</tr>	
 			    	<?php } ?>
@@ -297,7 +297,7 @@
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Subtotal</b></td>
 		    			<td align="right" colspan="3" class=" bor-top">
 		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,4); ?></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($stotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
 
@@ -350,7 +350,7 @@
 		    			<td align="right" colspan="10" class="bor-right"><b class="nomarg" style="font-weight: 900">Total Amount Due</b></td>
 		    			<td align="right" colspan="3" style="border-bottom: 2px solid #000">
 		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,4); ?></b></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($gtotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<tr>
@@ -383,7 +383,7 @@
 		    			<td colspan="3"><b>Checked by:</b></td>
 		    			<td colspan="3"><b>Noted by:</b></td>
 		    			<td colspan="3"><b>Approved by:</b></td>
-		    			<td colspan="3"><b>Request Initiated	 by:</b></td>
+		    			<td colspan="3"><b>Request Initiated by:</b></td>
 		    			<td colspan="5"><b>Payment Received by:</b></td>
 		    		</tr>	
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	

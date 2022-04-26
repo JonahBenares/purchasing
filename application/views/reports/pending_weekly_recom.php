@@ -105,6 +105,7 @@
                                             <th>Enduse</th>
                                             <th>Requested by</th>
                                             <th>QTY as per PR</th>
+                                            <th>QTY as per Recom</th>
                                             <th>UOM</th>
                                             <th>Description</th>
                                             <th>Supplier</th>
@@ -125,6 +126,7 @@
                                             <td class="nowrap"><?php echo $p['enduse']; ?></td>
                                             <td><?php echo $p['requestor']; ?></td>
                                             <td><?php echo $p['quantity']; ?></td>
+                                            <td><?php echo $p['recom_qty']; ?></td>
                                             <td><?php echo $p['uom']; ?></td>
                                             <td><?php echo $p['item_description']; ?></td>
                                             <td><?php echo $p['supplier']; ?></td>
