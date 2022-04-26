@@ -134,10 +134,20 @@
                 </div>
                 <form method="POST" action = "<?php echo base_url();?>reports/search_pr/<?php echo $year;?>/<?php echo $month;?>">
                     <div class="modal-body-lowpad">                        
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <p class="m-b-0">Date Received/Email:</p>
                             <input type="date" name="date_receive" class="form-control">
-                        </div> 
+                        </div>-->
+                        <div class = "row">
+                          <div class = "col-lg-6">
+                            <p class="m-b-0">Date Received/Email From:</p>
+                            <input type="date" name="date_receive_from" class="form-control">
+                          </div>
+                          <div class = "col-lg-6">
+                            <p class="m-b-0">Date Received/Email To:</p>
+                            <input type="date" name="date_receive_to" class="form-control">
+                          </div>
+                        </div>
                         <div class="form-group">
                             <p class="m-b-0">Purchase Request:</p>
                             <input type="text" name="purchase_request" class="form-control">
@@ -190,10 +200,13 @@
                                         <button type="button" class="btn btn-sm btn-warning btn-custon-three" data-toggle="modal" data-target="#legend">Legend</button>
                                         <input type="submit" class="btn btn-success btn-custon-three" name="submit" value="Change Status">
                                         <?php if(!empty($filt)){ ?>
-                                            <a href="<?php echo base_url(); ?>reports/export_pr/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $date_receive; ?>/<?php echo $purpose1; ?>/<?php echo $enduse1; ?>/<?php echo $pr_no1; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $purchase_request; ?>" class="btn btn-custon-three btn-info"> 
+                                            <!--<a href="<?php echo base_url(); ?>reports/export_pr/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $date_receive; ?>/<?php echo $purpose1; ?>/<?php echo $enduse1; ?>/<?php echo $pr_no1; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $purchase_request; ?>" class="btn btn-custon-three btn-info"> 
+                                                <span class="fa fa-upload"></span> Export to Excel
+                                            </a>-->
+                                            <a href="<?php echo base_url(); ?>reports/export_pr/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $date_receive_from; ?>/<?php echo $date_receive_to; ?>/<?php echo $purpose1; ?>/<?php echo $enduse1; ?>/<?php echo $pr_no1; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $purchase_request; ?>" class="btn btn-custon-three btn-info"> 
                                                 <span class="fa fa-upload"></span> Export to Excel
                                             </a>
-                                            <a href="<?php echo base_url(); ?>reports/export_pr_summary/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $date_receive; ?>/<?php echo $purpose1; ?>/<?php echo $enduse1; ?>/<?php echo $pr_no1; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $purchase_request; ?>" class="btn btn-custon-three btn-info"> 
+                                            <a href="<?php echo base_url(); ?>reports/export_pr_summary/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $date_receive_from; ?>/<?php echo $date_receive_to; ?>/<?php echo $purpose1; ?>/<?php echo $enduse1; ?>/<?php echo $pr_no1; ?>/<?php echo $requestor; ?>/<?php echo $description; ?>/<?php echo $purchase_request; ?>" class="btn btn-custon-three btn-info"> 
                                                 <span class="fa fa-upload"></span> Calapan Export to Excel
                                             </a>
                                         <?php } else { ?>

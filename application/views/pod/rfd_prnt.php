@@ -252,7 +252,11 @@
 		    			$subtotal[] = $it['total']; ?>
 			    		<tr>
 			    			<td align="left" colspan="17" class="bor-right">
+<<<<<<< HEAD
 			    				<b class="nomarg"><?php echo number_format($it['quantity'],2) ." ".$it['uom'] ." " . $it['offer'] . ", " . "  @ ". number_format($it['price'],2) ." per ".  $it['uom']; ?></b>
+=======
+			    				<b class="nomarg"><?php echo number_format($it['quantity'],2) ." ".$it['uom'] ." " . $it['offer'] . ", " . "  @ ". number_format($it['price'],4) ." per ".  $it['uom']; ?></b>
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 			    			</td>
 			    			<td align="right" colspan="3">
 			    				<span class="pull-left nomarg"><?php echo $currency; ?></span>

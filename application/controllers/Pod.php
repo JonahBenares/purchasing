@@ -191,6 +191,7 @@ class Pod extends CI_Controller {
             $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
             $data['revised']=$h->revised;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['revision_no']=$h->revision_no;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
@@ -280,6 +281,7 @@ class Pod extends CI_Controller {
             $data['vat_percent']=$h->vat_percent;
             $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
@@ -435,10 +437,12 @@ class Pod extends CI_Controller {
             $data['vat_percent']=$h->vat_percent;
             $data['cancelled']=$h->cancelled;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['revised']=$h->revised;
             $data['revision_no']=$h->revision_no;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
+            $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
         }
 /*
@@ -446,7 +450,8 @@ class Pod extends CI_Controller {
         $data['currency'] = $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);*/
 
         $draft=$this->super_model->select_column_where('po_head', 'draft', 'po_id', $po_id);
-        if($draft==0){
+        $saved=$this->super_model->select_column_where('po_head', 'saved', 'po_id', $po_id);
+        if($saved==0 && $draft==0){
             foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$pr_id' AND grouping_id = '$group_id'") AS $items){
                 //$total = $items->quantity*$items->unit_price;
                 $data['items'][]= array(
@@ -588,7 +593,11 @@ class Pod extends CI_Controller {
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
+<<<<<<< HEAD
                 'endorsed_by'=>$this->input->post('endorsed'),
+=======
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
@@ -606,7 +615,11 @@ class Pod extends CI_Controller {
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat'),
                 'vat_percent'=>$this->input->post('vat_percent'),
+<<<<<<< HEAD
                 'endorsed_by'=>$this->input->post('endorsed'),
+=======
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
                 'checked_by'=>$this->input->post('checked'),
                 'approved_by'=>$this->input->post('approved'),
                 'recommended_by'=>$this->input->post('recommended'),
@@ -678,6 +691,7 @@ class Pod extends CI_Controller {
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>1,
                 'draft'=>0,
                 'revised'=>0
@@ -697,6 +711,7 @@ class Pod extends CI_Controller {
                 'checked_by'=>$this->input->post('checked'),
                 'recommended_by'=>$this->input->post('recommended'),
                 'approved_by'=>$this->input->post('approved'),
+                'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 'saved'=>0,
                 'draft'=>1,
                 'revised'=>0
@@ -741,11 +756,11 @@ class Pod extends CI_Controller {
         $po_id = $this->input->post('po_id');
         $pr_id = $this->input->post('pr_id');
         $group_id = $this->input->post('group_id');
-        $tc_id = $this->input->post('tc_id');
+        $po_tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
         ); 
-        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$po_tc_id)){
             redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id);
         }
     }
@@ -1010,6 +1025,10 @@ class Pod extends CI_Controller {
             $data['prepared_by']=$this->super_model->select_column_where('users','fullname','user_id', $head->user_id);
             $data['revised']=$head->revised;
         }
+
+        foreach($this->super_model->select_row_where("po_head_temp", "po_id",$po_id) AS $head_temp){
+            $data['prepared_by_temp']=$this->super_model->select_column_where('users','fullname','user_id', $head_temp->user_id);
+        }
         
         $data['po_id'] = $po_id;
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
@@ -1034,6 +1053,7 @@ class Pod extends CI_Controller {
             $data['revision_no']=$h->revision_no;
             $data['po_no']=$h->po_no;
             $data['notes']=$h->notes;
+            $data['vat_in_ex']=$h->vat_in_ex;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
@@ -1068,6 +1088,7 @@ class Pod extends CI_Controller {
         $data['discount_temp'] = $this->super_model->select_column_where('po_head_temp', 'discount', 'po_id', $po_id);
         $data['packing_temp'] = $this->super_model->select_column_where('po_head_temp', 'packing_fee', 'po_id', $po_id);
         $data['vat_temp'] = $this->super_model->select_column_where('po_head_temp', 'vat', 'po_id', $po_id);
+        $data['vat_in_ex_temp'] = $this->super_model->select_column_where('po_head_temp', 'vat_in_ex', 'po_id', $po_id);
         $data['vat_percent_temp'] = $this->super_model->select_column_where('po_head_temp', 'vat_percent', 'po_id', $po_id);
 
         $datarfd = array(
@@ -1095,7 +1116,9 @@ class Pod extends CI_Controller {
             'packing_fee'=>$this->input->post('packing'),
             'vat'=>$this->input->post('vat'),
             'vat_percent'=>$this->input->post('vat_percent'),
-            'discount'=>$this->input->post('discount')
+            'vat_in_ex'=>$this->input->post('vat_in_ex'),
+            'discount'=>$this->input->post('discount'),
+            'user_id'=>$_SESSION['user_id'],
         );
         $this->super_model->insert_into("po_head_temp", $data_head);
           foreach($this->super_model->select_row_where("po_items","po_id",$po_id) AS $poitems){
@@ -1251,6 +1274,7 @@ class Pod extends CI_Controller {
                 "packing_fee"=>$head->packing_fee,
                 "vat"=>$head->vat,
                 "vat_percent"=>$head->vat_percent,
+                "vat_in_ex"=>$head->vat_in_ex,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
                 "saved"=>$head->saved,
@@ -1262,11 +1286,13 @@ class Pod extends CI_Controller {
             if($this->super_model->insert_into("po_head_revised", $data_head)){
                 foreach($this->super_model->select_row_where("po_head_temp","po_id",$po_id) AS $headt){
                     $data_po=array(
+                        "user_id"=>$headt->user_id,
                         "po_date"=>$headt->po_date,
                         "shipping"=>$headt->shipping,
                         "packing_fee"=>$headt->packing_fee,
                         "vat"=>$headt->vat,
                         "vat_percent"=>$headt->vat_percent,
+                        "vat_in_ex"=>$headt->vat_in_ex,
                         "discount"=>$headt->discount,
                        
                     );

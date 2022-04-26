@@ -85,6 +85,7 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 
+<<<<<<< HEAD
 define('LOGO','assets/img/logo/logo_cpgc.png');
 define('TIN','TIN No. 008-158-746-000');
 define('COMPANY_NAME','CALAPAN POWER GENERATION CORPORATION');
@@ -94,4 +95,15 @@ define('TELFAX','Telefax: 738-0186');
 define('ADDRESS_2','');
 define('JO_NAME','CPGC/SIPC'); 
 define('COMPANY','CPGC');
+=======
+define('LOGO','assets/img/logo/logo_cenpri.png');
+define('TIN','TIN No.: 008-691-287-000');
+define('COMPANY_NAME','CENTRAL NEGROS POWER RELIABILITY, INC.');
+define('ADDRESS','Office: 88 Corner Rizal-Mabini Sts., Bacolod City');
+define('TEL_NO','Tel. No.: (034) 435-1932/476-7382');
+define('TELFAX','Telefax: (034) 435-1932');
+define('ADDRESS_2','Plant Site: Purok San Jose, Barangay Calumangan, Bago City');
+define('JO_NAME','CENPRI');
+define('COMPANY','CNPR');
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
  

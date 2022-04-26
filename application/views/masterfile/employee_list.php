@@ -110,7 +110,7 @@
                                             <td><?php echo $emp['position'];?></td>
                                             <td>
                                                 <center>
-                                                    <a <?php echo base_url(); ?>index.php/vendors/update_proj_activity/<?php echo $pa['vendor_id'];?>" class="btn btn-custon-three btn-info btn-xs">
+                                                    <a href="<?php echo base_url(); ?>index.php/masterfile/update_employee/<?php echo $emp['emp_id'];?>" class="btn btn-custon-three btn-info btn-xs">
                                                         <span class="fa fa-pencil"></span>
                                                     </a>
                                                     <a href="<?php echo base_url(); ?>index.php/masterfile/delete_employee/<?php echo $emp['emp_id'];?>" class="btn btn-custon-three btn-danger btn-xs" onclick="confirmationDelete(this);return false;">

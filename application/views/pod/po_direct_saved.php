@@ -245,10 +245,15 @@
 		    			<td colspan="" class="all-border" align="center"><b>#</b></td>
 		    			<td colspan="" class="all-border" align="center"><b>Qty</b></td>
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
-		    			<td colspan="13" class="all-border" align="center"><b>Description</b></td>
+		    			<td colspan="12" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
+<<<<<<< HEAD
 		    			<td colspan="2" class="all-border" align="center"><b>Currency</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>Total</b></td>
+=======
+		    			<td colspan="1" class="all-border" align="center"><b>Currency</b></td>
+		    			<td colspan="2" class="all-border" align="center"></td>
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    		</tr>
 		    		<?php 
 		    			$x=1;
@@ -263,13 +268,17 @@
 
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it['quantity']; ?></b></td>
 
-		    			<td colspan="" class="bor-right v-align" align="center"><b><<?php echo $it['uom']; ?></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it['uom']; ?></b></td>
 
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it['item'].", ".$CI->get_pn($it['pr_details_id']);?></b></td>
 
+<<<<<<< HEAD
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it['price'],2); ?></b></td>
+=======
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it['price'],4); ?></b></td>
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    			<td width="10%" class="bor-right v-align" align="center">
-		    				<?php if($saved==0){ ?>
+		    				<?php if($saved==0 && $draft==0){ ?>
 				    		<select style="width: 100%" name='currency<?php echo $x; ?>'>
 						    	<?php foreach($currency AS $curr){ ?>
 						    		<option value="<?php echo $curr; ?>" <?php echo (($curr=='PHP') ? ' selected' : ''); ?>><?php echo $curr; ?></option>
@@ -277,7 +286,11 @@
 						    </select>
 							<?php }else{ echo $it['currency']; } ?>
 				    	</td>	
+<<<<<<< HEAD
 		    			<td colspan="" class="bor-right v-align"></td>
+=======
+		    			<!--<td colspan="" class="bor-right v-align"></td>-->
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it['total'],2); ?></b></td>
 
 		    		</tr>
@@ -454,13 +467,18 @@
 		    		</tr>
 		    		<tr>		    			
 		    			<td colspan="20" style="padding: 10px!important">
-		    				Other Instructions: 
-		    				<?php 
-		    					foreach($tc AS $t){ 
-		    						if(!empty($t->notes)) { 
-		    				?>
-		    					<p style = "color:blue;"><?php echo nl2br($t->notes);?></p>
-		    				<?php } } ?>
+		    				Other Instructions:<br><?php foreach($tc AS $t){ ?>
+		    					<p style = "color:blue;"><?php echo nl2br($t->notes);?> 
+		    						<?php if(!empty($t->notes)){ ?>
+			    						<a class='btn btn-primary btn-xs' id = "edits" data-toggle='modal' data-target='#EditIns' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
+					    					<span class = 'fa fa-edit'></span>
+					    				</a>
+					    				<a href="<?php echo base_url(); ?>index.php/po/delete_inst/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>" class="btn btn-custon-three btn-danger btn-xs prnt" onclick="confirmationDelete(this);return false;">
+		                                    <span class="fa fa-times"></span>
+		                                </a>
+	                            	<?php } ?>
+	                            </p>
+	                        <?php } ?>
 		    			</td>
 		    		</tr>
 		    		<tr>
@@ -471,9 +489,10 @@
 							</button>
 							<?php } ?>
 		    				<br>Terms & Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>	
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?>  	
+                            <br>
 		    				<?php 
 		    					$no=4;
 			    				foreach($tc AS $t){ 
@@ -512,36 +531,31 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b>Prepared by:</b></td>
+		    			<td colspan="4"><b>Prepared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6"><b>Reviewed/Checked by:</b></td>
+		    			<td colspan="4"><b>Reviewed/Checked by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="5"><b>Approved by:</b></td>
+		    			<td colspan="4"><b>Recommended by:</b></td>
 		    			<td colspan="1"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan="1"></td>
-		    			<td colspan="5"><b><br></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="6"><b></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="5"><b></b></td>
+		    			<td colspan="3"><b>Approved by:</b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6" class="bor-btm"><b><br></b></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="5" class="bor-btm"><b><br></b></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="3" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="5" class=""><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="4" class=""><b><?php echo $prepared; ?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="6" class=""><b>
+		    			<td colspan="4" class=""><b>
 			    			<?php if($draft==0){ ?>
 			    			<select name='checked' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
@@ -552,7 +566,18 @@
 			    			<?php }else { ?>
 			    			<?php echo $checked; } ?>
 		    			<td colspan="1"></td>
-		    			<td colspan="5" class=""><b>
+		    			<td colspan="4" class=""><b>
+			    			<?php if($draft==0){ ?>
+			    			<select name='recommended' class="select-des emphasis" style="width: 100%" required>
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select></b></td>
+			    			<?php }else { ?>
+			    			<?php echo $recommended; } ?>
+		    			<td colspan="1"></td>
+		    			<td colspan="3" class=""><b>
 			    			<?php if($draft==0){ ?>
 			    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
@@ -584,6 +609,36 @@
 	    	<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
 	    	<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
     	</form>
+
+    	<div class="modal fade" id="EditIns" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Other Instructions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>pod/update_notes">
+						<div class="modal-body">
+							<div class="form-group">
+								Other Instructions:
+								<textarea class="form-control" rows="5" name = "notes" id="notes"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+							<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+							<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
+							<input type='hidden' name='tc_id' id = "tc1_id">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
     	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -608,6 +663,36 @@
 						<div class="modal-footer">
 							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+				<div class="modal fade" id="UpdateTerms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Terms & Condition
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>pod/update_condition">
+						<div class="modal-body">
+							<div class="form-group">
+								Terms & Conditions:
+								<input type="text" class="form-control" name="condition" autocomplete="off" id = "terms">
+							</div>
+						</div>
+						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+						<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+						<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
+						<input type='hidden' name='po_tc_id' id = "po_tc_id">
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
 					</form>
 				</div>
 			</div>

@@ -1,3 +1,4 @@
+     <?php $CI =& get_instance(); ?>
     <div id="filter_pr" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -119,6 +120,7 @@
                                             <th>UOM</th>
                                             <th>Item Description</th>
                                             <th>Status</th>
+                                            <th>Status Remarks</th>
                                             <th>Date Needed</th>
                                             <th>Supplier </th>
                                             <th>Payment Term</th>
@@ -137,8 +139,21 @@
                                                             //if($p['pr_details_id']==$u['pr_details_id']){
                                                             /*foreach($po_items AS $items){*/
                                                             //$total = $u['unserved_qty']*$p['unit_price'];
+                                                            $jo_issue=$CI->like($p['status'], "PO Issued");
                                             ?>                                     
-                                        <tr>
+                                        <tr
+                                            <?php if($p['status']=='Fully Delivered'){
+                                                echo "class='green'";
+                                            } else if($p['status']=='Partially Delivered') {
+                                                echo "class='yellow'";
+                                            } else if($p['status']=='Cancelled') {
+                                                echo "class='cd'";
+                                            } else if($p['status']=='Partially Delivered / Cancelled') {
+                                                echo "class='cd'";
+                                            }else if($jo_issue=='1') {
+                                                echo "class='peach'";
+                                            }
+                                        ?>>
                                             <td><?php echo $p['pr_no']."-".COMPANY;?></td>
                                             <td><?php echo $p['purpose'];?></td>
                                             <td><?php echo $p['enduse'];?></td>
@@ -149,6 +164,7 @@
                                             <td><?php echo $p['uom'];?></td>
                                             <td><?php echo $p['item'];?></td>
                                             <td><?php echo $p['status']; ?></td>
+                                            <td><?php echo $p['status_remarks']; ?></td>
                                             <td><?php echo (empty($p['date_needed']) ? '' : date('M j, Y', strtotime($p['date_needed']))); ?></td>
                                             <td><?php echo $p['supplier'];?></td>
                                             <td><?php echo $p['terms'];?></td>

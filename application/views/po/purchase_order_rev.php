@@ -258,7 +258,11 @@
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->delivered_quantity,2); ?></b></td>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="11" class="bor-right v-align" align="left"><b class="nomarg"><?php echo (!empty($ci->get_pn($it->pr_details_id))) ? $offer.", ".$ci->get_pn($it->pr_details_id) : $offer; ?></b></td>
+<<<<<<< HEAD
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,2); ?></b></td>
+=======
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,4); ?></b></td>
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it->amount,2); ?></b></td>		
 		    		</tr>	
 		    		<?php 
@@ -386,7 +390,11 @@
 								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:100%; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
 								    			<td colspan="" class="bor-right v-align" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value="<?php echo $it->uom; ?>" style='width:100%;'></b></td>
 								    			<td colspan="11" class="bor-right v-align" align="left"><textarea style='width:100%' name='offer<?php echo $x; ?>'><?php echo $offer; ?></textarea></td>
+<<<<<<< HEAD
 								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it->unit_price,2); ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
+=======
+								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it->unit_price,4); ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 								    			<td colspan="3" class="bor-right v-align" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,2); ?>" style='text-align:right;' readonly></td>		
 								    		</tr>	
 								    			<?php 
@@ -412,7 +420,11 @@
 								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->delivered_quantity; ?></td>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 								    			<td colspan="11" class="bor-right" align="left"><?php echo $offer; ?></td>
+<<<<<<< HEAD
 								    			<td colspan="2" class="bor-right" align="center"><?php echo number_format($it->unit_price,2); ?></td>
+=======
+								    			<td colspan="2" class="bor-right" align="center"><?php echo number_format($it->unit_price,4); ?></td>
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 								    			<td colspan="3" class="bor-right" align="right"><?php echo number_format($it->amount,2); ?></td>		
 								    		</tr>	
 								    			<?php 
@@ -561,9 +573,19 @@
 							</button>
 							<?php } ?>
 		    				<br>Terms & Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is
+                           <?php 
+                            if($revised==0){ ?>
+                                <select type="text" name="vat_in_ex">
+                                    <option value = "0" <?php echo (($vat_in_ex == '0') ? 'selected' : '');?>>inclusive of VAT</option>
+                                    <option value = "1" <?php echo (($vat_in_ex == '1') ? 'selected' : '');?>>exclusive of VAT</option>
+                                </select>	
+                            <?php } else { ?>
+                               <?php echo (($vat_in_ex_temp == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?>
+                            <?php } ?>
+	                        <br>
 		    				<?php if($po_type!=1){ $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
 		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?><br>
@@ -636,6 +658,7 @@
 		    			<td colspan="2" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
+<<<<<<< HEAD
 		    		<tr>
 		    			<td colspan="1"></td>
 		    			<td colspan="3"><b><?php echo $prepared; ?></b></td>
@@ -649,6 +672,33 @@
 		    			<td colspan="2"><b><?php echo $approved; ?></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
+=======
+		    		<?php if($revised==0){ ?>
+			    		<tr>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $prepared; ?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $checked;?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $recommended; ?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="3"><b><?php echo $approved; ?></b></td>
+			    			<td colspan="1"></td>
+			    		</tr>
+		    		<?php } else { ?>
+		    			<tr>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $prepared_by_temp; ?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $checked;?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="4"><b><?php echo $recommended; ?></b></td>
+			    			<td colspan="1"></td>
+			    			<td colspan="3"><b><?php echo $approved; ?></b></td>
+			    			<td colspan="1"></td>
+			    		</tr>
+		    		<?php } ?>
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="4"></td>

@@ -35,7 +35,7 @@
 
                         <li class="nav-item">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-                                <i class="fa big-icon fa-th-large"></i> 
+                                <i class="fa big-icon fa-file-text-o"></i> 
                                 <span class="mini-dn">PO Transactions</span> 
                                 <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
                             </a>
@@ -72,13 +72,64 @@
                                 </a>
                             </div>
                         </li>
+
                         <li class="nav-item">
-                            <a href="<?php echo base_url(); ?>jo/jo_list"  role="button" class="nav-link dropdown-toggle" title="Job Order">
-                                <i class="fa big-icon fa-file-text"></i>
-                                <span class="mini-dn"> Job Order</span> 
-                                <span class="indicator-right-menu mini-dn"></span>
+                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                <i class="fa big-icon fa-bar-chart"></i> 
+                                <span class="mini-dn">PO Reports</span> 
+                                <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
                             </a>
+                            <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0" style="width: 250px">
+                                <a class="dropdown-item" data-toggle="modal" data-target="#pr_modal">PR Summary</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#po_modal">PO Summary</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#unserved_modal">Unserved Report</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#weekly_recom">Summary of Weekly Recom</a>
+                                <a class="dropdown-item" href="<?php echo base_url(); ?>reports/pending_pr" >Pending PR</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#purch_calendar">Calendar</a>
+                            </div>
+                        </li> 
+
+                        <li class="nav-item">
+                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                <i class="fa big-icon fa-file-text"></i> 
+                                <span class="mini-dn">JO Transactions</span> 
+                                <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
+                            </a>
+                            <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0">
+                                <a  href="<?php echo base_url(); ?>jor/jor_list" role="button" class="nav-link dropdown-toggle" title="Job Order Request List">
+                                    <i class="fa big-icon fa-file-o"></i>
+                                    <span class="mini-dn">JO Request</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>jorfq/jorfq_list"  role="button" class="nav-link dropdown-toggle" title="JO Request For Quotation">
+                                    <i class="fa big-icon fa-pencil-square-o"></i>
+                                    <span class="mini-dn">JO Request For Quotation</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>joaoq/joaoq_list"  role="button" class="nav-link dropdown-toggle" title="JO Abstract of Quotation">
+                                    <i class="fa big-icon fa-folder"></i>
+                                    <span class="mini-dn">JO Abstract of Quotation</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>joi/joi_list"  role="button" class="nav-link dropdown-toggle" title="JO Issuance">
+                                    <i class="fa big-icon fa-shopping-cart"></i>
+                                    <span class="mini-dn">JO Issuance</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>jorfd/jorfd_list"  role="button" class="nav-link dropdown-toggle" title="JO Request for Disbursement">
+                                    <i class="fa big-icon fa-list-alt"></i>
+                                    <span class="mini-dn">JO Request for Disbursement</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                                <a href="<?php echo base_url(); ?>jodr/jodr_list"  role="button" class="nav-link dropdown-toggle" title="JO Delivery Receipt">
+                                    <i class="fa big-icon fa-truck "></i>
+                                    <span class="mini-dn">JO Delivery Receipt</span> 
+                                    <span class="indicator-right-menu mini-dn"></span>
+                                </a>
+                            </div>
                         </li>
+
+                        
                         
 
                         <!-- <li class="nav-item">
@@ -130,22 +181,32 @@
                                 </a>
                             </div>
                         </li> -->
-                       
                         <li class="nav-item">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
                                 <i class="fa big-icon fa-bar-chart"></i> 
-                                <span class="mini-dn">Reports</span> 
+                                <span class="mini-dn">JO Reports</span> 
                                 <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span>
                             </a>
                             <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX p-t-0" style="width: 250px">
-                                <a class="dropdown-item" data-toggle="modal" data-target="#pr_modal">PR Summary</a>
-                                <a class="dropdown-item" data-toggle="modal" data-target="#po_modal">PO Summary</a>
-                                <a class="dropdown-item" data-toggle="modal" data-target="#unserved_modal">Unserved Report</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#jor_modal">JOR Summary</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#joi_modal">JOI Summary</a>
+                                <!-- <a class="dropdown-item" data-toggle="modal" data-target="#jounserved_modal">Unserved Report</a> -->
+                                <!-- <a class="dropdown-item" data-toggle="modal" data-target="#unserved_modal">Unserved Report</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#weekly_recom">Summary of Weekly Recom</a>
                                 <a class="dropdown-item" href="<?php echo base_url(); ?>reports/pending_pr" >Pending PR</a>
-                                <a class="dropdown-item" data-toggle="modal" data-target="#purch_calendar">Calendar</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#purch_calendar">Calendar</a> -->
                             </div>
                         </li> 
+
+                        <li class="nav-item">
+                            <a href="<?php echo base_url(); ?>jo/jo_list"  role="button" class="nav-link dropdown-toggle" title="Job Order">
+                                <i class="fa big-icon list-alt"></i>
+                                <span class="mini-dn"> Job Order</span> 
+                                <span class="indicator-right-menu mini-dn"></span>
+                            </a>
+                        </li>
+                       
+                       
 
                     </ul>
                 </div>
@@ -369,7 +430,159 @@
             </div>
         </div>
 
+        <!-- JO MODAL -->
+        <div class="modal fade" id="jor_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Choose Month and Year (<u><b>JOR</b></u> Summary Report)
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </h5>                            
+                    </div>
+                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_jor_summary" target='_blank'>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                Choose Year:
+                                <select class="form-control" name="year" required="required">
+                                    <option value='' selected="selected">-Select Year-</option>
+                                    <?php
+                                    $curr_year = date('Y'); 
+                                    for($x=2017;$x<=$curr_year;$x++){ ?>
+                                        <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Choose Month:
+                                <select class="form-control" name="month">
+                                    <option value='' selected="selected">-Select Month-</option>
+                                    <option value='01'>January</option>
+                                    <option value='02'>February</option>
+                                    <option value='03'>March</option>
+                                    <option value='04'>April</option>
+                                    <option value='05'>May</option>
+                                    <option value='06'>June</option>
+                                    <option value='07'>July</option>
+                                    <option value='08'>August</option>
+                                    <option value='09'>September</option>
+                                    <option value='10'>October</option>
+                                    <option value='11'>November</option>
+                                    <option value='12'>December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
+        <div class="modal fade" id="joi_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Choose Month and Year (<u><b>JOI</b></u> Summary Report)
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </h5>                            
+                    </div>
+                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_joi_summary" target='_blank'>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                Choose Year:
+                                <select class="form-control" name="year">
+                                    <option value='' selected="selected">-Select Year-</option>
+                                    <?php
+                                    $curr_year = date('Y'); 
+                                    for($x=2017;$x<=$curr_year;$x++){ ?>
+                                        <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Choose Month:
+                                <select class="form-control" name="month">
+                                    <option value='' selected="selected">-Select Month-</option>
+                                    <option value='01'>January</option>
+                                    <option value='02'>February</option>
+                                    <option value='03'>March</option>
+                                    <option value='04'>April</option>
+                                    <option value='05'>May</option>
+                                    <option value='06'>June</option>
+                                    <option value='07'>July</option>
+                                    <option value='08'>August</option>
+                                    <option value='09'>September</option>
+                                    <option value='10'>October</option>
+                                    <option value='11'>November</option>
+                                    <option value='12'>December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- JO MODAL -->
+        <!-- JO UNSERVED MODAL -->
+        <div class="modal fade" id="jounserved_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Choose Month and Year (<u><b>UNSERVED</b></u> Report)
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </h5>                            
+                    </div>
+                    <form method='POST' action="<?php echo base_url(); ?>reports/generate_jounserved_report" target='_blank'>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                Choose Year:
+                                <select class="form-control" name="year">
+                                    <option value='' selected="selected">-Select Year-</option>
+                                    <?php
+                                    $curr_year = date('Y'); 
+                                    for($x=2019;$x<=$curr_year;$x++){ ?>
+                                        <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Choose Month:
+                                <select class="form-control" name="month">
+                                    <option value='' selected="selected">-Select Month-</option>
+                                    <option value='01'>January</option>
+                                    <option value='02'>February</option>
+                                    <option value='03'>March</option>
+                                    <option value='04'>April</option>
+                                    <option value='05'>May</option>
+                                    <option value='06'>June</option>
+                                    <option value='07'>July</option>
+                                    <option value='08'>August</option>
+                                    <option value='09'>September</option>
+                                    <option value='10'>October</option>
+                                    <option value='11'>November</option>
+                                    <option value='12'>December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary btn-block" value='Proceed'>
+                            <!-- <a href="<?php echo base_url(); ?>index.php/reports/po_report"  class="btn btn-primary " target="_blank">Proceed</a> -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- JO UNSERVED MODAL -->
         <div class="content-inner-all"><!-- ara sa footer </div> -->
             <div class="header-top-area">
                 <div class="fixed-header-top">
@@ -388,6 +601,7 @@
                             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
                                 <div class="header-right-info">
                                     <a href='<?php echo base_url(); ?>uploads/format/PurchaseRequestForm.xlsx' class="-right btn default btn-sm default-marg animated headShake infinite">Download PR Format</a>
+                                    <a href='<?php echo base_url(); ?>uploads/format/JORequestForm.xlsx' class="-right btn default btn-sm default-marg animated headShake infinite">Download JOR Format</a>
                                     <!-- <a href="../uploads/Purchase Request.xlsx" class="btn default btn-sm default-marg animated headShake infinite">Download PR Format</a> -->
                                     <ul class="nav navbar-nav mai-top-nav header-right-menu">
                                         <li class="nav-item">

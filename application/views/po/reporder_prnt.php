@@ -310,7 +310,11 @@
 					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['quantity']; ?></b></td>
 					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['uom']; ?></b></td>
 					    			<td colspan="12" class="bor-right" align="left"><b><?php echo $it['offer']; ?></b></td>
+<<<<<<< HEAD
 					    			<td colspan="2" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo number_format($it['price'],2); ?></b></td>
+=======
+					    			<td colspan="2" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo number_format($it['price'],4); ?></b></td>
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 					    			<td colspan="3" class="bor-right" align="right" style='vertical-align: text-top;'><b><?php echo number_format($it['amount'],2); ?></b></td>
 					    			<!-- <td align="center"><a href='<?php echo base_url(); ?>/po/remove_po_item/' class="btn-danger btn-xs" onclick="return confirm('Are you sure you want to remove item?')"><span class="fa fa-times"></span></a></td>	 -->			
 					    		</tr> 
@@ -492,9 +496,19 @@
 							</button>
 							<?php } ?>
 							<br>Terms & Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is
+                           <?php 
+                            if($saved==0){ ?>
+                                <select type="text" name="vat_in_ex">
+                                    <option value = "0" <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : '');?>>inclusive of VAT</option>
+                                    <option value = "1" <?php echo (($vat_in_ex == '1') ? 'exclusive of VAT' : '');?>>exclusive of VAT</option>
+                                </select>	
+                            <?php } else { ?>
+                               <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?>
+                            <?php } ?>
+	                        <br>
 		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
 		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">

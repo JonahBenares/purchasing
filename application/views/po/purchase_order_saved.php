@@ -224,33 +224,33 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="EditIns" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Update Other Instructions
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-						</button>
-					</h5>
-					
-				</div>
-				<form method="POST" action="<?php echo base_url(); ?>po/update_notes">
-					<div class="modal-body">
-						<div class="form-group">
-							Other Instructions:
-							<textarea class="form-control" rows="5" name = "notes" id="notes"></textarea>
+		<div class="modal fade" id="EditIns" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Other Instructions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>po/update_notes">
+						<div class="modal-body">
+							<div class="form-group">
+								Other Instructions:
+								<textarea class="form-control" rows="5" name = "notes" id="notes"></textarea>
+							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
-						<input type='hidden' name='tc_id' id = "tc1_id">
-						<input type="submit" class="btn btn-primary btn-block" value="Save changes">
-					</div>
-				</form>
+						<div class="modal-footer">
+							<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+							<input type='hidden' name='tc_id' id = "tc1_id">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-	</div>
     <div  class="pad ">
     	<form method='POST' action='<?php echo base_url(); ?>po/po_complete'>  
     		<div  id="prnt_btn">
@@ -340,7 +340,9 @@
 
 		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b></h4><?php echo ($draft==1) ? '<small class="text-red">DRAFT</small>' : ''; ?></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
-		    		<?php foreach($head AS $h){ ?>
+		    		<?php 
+		    			foreach($head AS $h){ 
+		    		?>
 		    		<tr>
 		    			<td colspan="3"><h6 class="nomarg"><b>Date</b></h6></td>
 		    			<td colspan="12"><h6 class="nomarg"><b><?php echo date('F j, Y', strtotime($h['po_date'])); ?></b></h6></td>
@@ -396,7 +398,11 @@
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo number_format($it->delivered_quantity,2); ?></b></td>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo (!empty($ci->get_pn($it->pr_details_id))) ? nl2br($offer).", ".$ci->get_pn($it->pr_details_id) : nl2br($offer); ?></b></td>
+<<<<<<< HEAD
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,2); ?></b></td>
+=======
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,4); ?></b></td>
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it->amount,2); ?></b></td>
 		    		</tr>	
 		    		<?php 
@@ -531,7 +537,7 @@
 		    				Other Instructions:<br><?php foreach($tc AS $t){ ?>
 		    					<p style = "color:blue;"><?php echo nl2br($t->notes);?> 
 		    						<?php if(!empty($t->notes)){ ?>
-			    						<a class='btn btn-primary btn-xs' id = "prnt_btn" data-toggle='modal' data-target='#EditIns' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
+			    						<a class='btn btn-primary btn-xs' id = "edits" data-toggle='modal' data-target='#EditIns' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
 					    					<span class = 'fa fa-edit'></span>
 					    				</a>
 					    				<a href="<?php echo base_url(); ?>index.php/po/delete_inst/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>" class="btn btn-custon-three btn-danger btn-xs prnt" onclick="confirmationDelete(this);return false;">
@@ -545,9 +551,10 @@
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				Terms & Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?> 	
+                            <br>
 		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
 		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">

@@ -1,5 +1,5 @@
-     <script src="<?php echo base_url(); ?>assets/js/jo.js"></script> 
-     <div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="approveLabel" aria-hidden="true">
+    <script src="<?php echo base_url(); ?>assets/js/jo.js"></script> 
+    <div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="approveLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

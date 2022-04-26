@@ -94,14 +94,15 @@
     		<div  id="prnt_btn">
 	    		<center>
 			    	<div class="btn-group">
-						<a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a>
+						<!-- <a href="" onclick="return quitBox('quit');" class="btn btn-success btn-md p-l-25 p-r-25"><span class="fa fa-arrow-left"></span> Back</a> -->
+						<a href="javascript:history.go(-1)" class="btn btn-success btn-md p-l-100 p-r-100"><span class="fa fa-arrow-left"></span> Back</a>
 						<?php //if($revised==0){ ?>
 							<a  href='<?php echo base_url(); ?>jo/job_order_rev/<?php echo $jo_id; ?>' onclick="return confirm('Are you sure you want to revise JO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>JO</b></u></a>
 						<?php //} ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print</a>
 						<a  href="<?php echo base_url(); ?>jo/jo_rfd/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>RFD</b></a>
 						<a  href="<?php echo base_url(); ?>jo/jo_dr/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>DR</b></a>
-						<a  href="<?php echo base_url(); ?>jo/jo_ac/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AC</b></a>
+						<a  href="<?php echo base_url(); ?>jo/jo_ac/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>AR</b></a>
 						<a  href="<?php echo base_url(); ?>jo/job_coc/<?php echo $jo_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <b>COC</b></a>
 						
 					</div>

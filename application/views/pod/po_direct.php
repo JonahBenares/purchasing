@@ -300,13 +300,17 @@
 		    		<tr>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
 
-		    			<td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['quantity']; ?>' max='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"><?php }else { echo $it['quantity']; } ?></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type='number' step="any" name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['quantity']; ?>' max='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"><?php }else { echo $it['quantity']; } ?></b></td>
 
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type = "text" style='width:50px; color:red' name='uom<?php echo $x; ?>' value = "<?php echo $it['uom']; ?>"><?php } else { echo $it['uom']; }?></b></td>
 
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php if($saved==0){ ?><textarea class = "form-control" name='item<?php echo $x; ?>'><?php echo $it['item'].", ".$CI->get_pn($it['pr_details_id']); ?></textarea><?php } else { echo $it['item']; }?></b></td>
 
+<<<<<<< HEAD
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>'  onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ><?php }else { echo number_format($it['price'],2); } ?></b></td>
+=======
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>'  onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ><?php }else { echo number_format($it['price'],4); } ?></b></td>
+>>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    			<td width="10%" class="bor-right v-align" align="center">
 		    				<?php if($saved==0){ ?>
 				    		<select style="width: 100%" name='currency<?php echo $x; ?>'>
@@ -522,9 +526,19 @@
 							</button>
 							<?php } ?>
 		    				<br>Terms & Conditions:<br>
-		    				1. Price is inclusive of taxes.<br>
-		    				2. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
-		    				3. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>
+		    				1. PO No. must appear on all copies of Invoices, Delivery Receipt & Correspondences submitted.<br>
+		    				2. Sub-standard items shall be returned to supplier @ no cost to <?php echo JO_NAME;?>.<br>		    				 
+                            3. Price is
+                           <?php 
+                            if($saved==0){ ?>
+                                <select type="text" name="vat_in_ex">
+                                    <option value = "0" <?php echo (($vat_in_ex == '0') ? 'selected' : '');?>>inclusive of VAT</option>
+                                    <option value = "1" <?php echo (($vat_in_ex == '1') ? 'selected' : '');?>>exclusive of VAT</option>
+                                </select>	
+                            <?php } else { ?>
+                               <?php echo (($vat_in_ex == '0') ? 'inclusive of VAT' : 'exclusive of VAT');?>
+                            <?php } ?>
+	                        <br>
 		    				<?php 
 		    					$no=4;
 			    				foreach($tc AS $t){ 
