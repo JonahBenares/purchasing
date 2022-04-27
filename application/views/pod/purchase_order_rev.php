@@ -256,11 +256,7 @@
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->delivered_quantity,2); ?></b></td>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="11" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $offer; ?></b></td>
-<<<<<<< HEAD
-		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,2); ?></b></td>
-=======
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,4); ?></b></td>
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it->currency; ?></b></td>
 		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it->amount,2); ?></b></td>		
 		    		</tr>	
@@ -397,11 +393,7 @@
 								    			<!-- <td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td> -->
 								    			<td colspan="" class="bor-right v-align" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value='<?php echo $it->uom; ?>' style = "width:100%;"></b></td>
 								    			<td colspan="11" class="bor-right v-align" align="left"><input type='text' style='width:100%' name='offer<?php echo $x; ?>' value='<?php echo utf8_encode($offer); ?>'></td>
-<<<<<<< HEAD
-								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it->unit_price,2); ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
-=======
 								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it->unit_price,4); ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 								    			<td colspan="2" class="bor-right v-align" align="center">
 								    				<select style="width: 100%" name='currency<?php echo $x; ?>'>
 						    							<?php foreach($currency_list AS $curr){ ?>
@@ -434,11 +426,7 @@
 								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->delivered_quantity; ?></td>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 								    			<td colspan="11" class="bor-right" align="left"><?php echo utf8_encode($offer); ?></td>
-<<<<<<< HEAD
-								    			<td colspan="2" class="bor-right" align="center"><?php echo number_format($it->unit_price,2); ?></td>
-=======
 								    			<td colspan="2" class="bor-right" align="center"><?php echo number_format($it->unit_price,4); ?></td>
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 								    			<td colspan="2" class="bor-right v-align" align="center">
 		    										<?php if($saved==0){ ?>
 				    								<select style="width: 100%" name='currency<?php echo $x; ?>'>

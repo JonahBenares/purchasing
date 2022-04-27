@@ -247,13 +247,8 @@
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
 		    			<td colspan="12" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
-<<<<<<< HEAD
-		    			<td colspan="2" class="all-border" align="center"><b>Currency</b></td>
-		    			<td colspan="2" class="all-border" align="center"><b>Total</b></td>
-=======
 		    			<td colspan="1" class="all-border" align="center"><b>Currency</b></td>
 		    			<td colspan="2" class="all-border" align="center"></td>
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    		</tr>
 		    		<?php 
 		    			$x=1;
@@ -272,11 +267,7 @@
 
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it['item'].", ".$CI->get_pn($it['pr_details_id']);?></b></td>
 
-<<<<<<< HEAD
-		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it['price'],2); ?></b></td>
-=======
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it['price'],4); ?></b></td>
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    			<td width="10%" class="bor-right v-align" align="center">
 		    				<?php if($saved==0 && $draft==0){ ?>
 				    		<select style="width: 100%" name='currency<?php echo $x; ?>'>
@@ -286,11 +277,7 @@
 						    </select>
 							<?php }else{ echo $it['currency']; } ?>
 				    	</td>	
-<<<<<<< HEAD
-		    			<td colspan="" class="bor-right v-align"></td>
-=======
 		    			<!--<td colspan="" class="bor-right v-align"></td>-->
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    			<td colspan="2" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it['total'],2); ?></b></td>
 
 		    		</tr>

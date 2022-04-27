@@ -258,11 +258,7 @@
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->delivered_quantity,2); ?></b></td>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="11" class="bor-right v-align" align="left"><b class="nomarg"><?php echo (!empty($ci->get_pn($it->pr_details_id))) ? $offer.", ".$ci->get_pn($it->pr_details_id) : $offer; ?></b></td>
-<<<<<<< HEAD
-		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,2); ?></b></td>
-=======
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,4); ?></b></td>
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it->amount,2); ?></b></td>		
 		    		</tr>	
 		    		<?php 
@@ -390,11 +386,7 @@
 								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:100%; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
 								    			<td colspan="" class="bor-right v-align" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value="<?php echo $it->uom; ?>" style='width:100%;'></b></td>
 								    			<td colspan="11" class="bor-right v-align" align="left"><textarea style='width:100%' name='offer<?php echo $x; ?>'><?php echo $offer; ?></textarea></td>
-<<<<<<< HEAD
-								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it->unit_price,2); ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
-=======
 								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it->unit_price,4); ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 								    			<td colspan="3" class="bor-right v-align" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,2); ?>" style='text-align:right;' readonly></td>		
 								    		</tr>	
 								    			<?php 
@@ -420,11 +412,7 @@
 								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->delivered_quantity; ?></td>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 								    			<td colspan="11" class="bor-right" align="left"><?php echo $offer; ?></td>
-<<<<<<< HEAD
-								    			<td colspan="2" class="bor-right" align="center"><?php echo number_format($it->unit_price,2); ?></td>
-=======
 								    			<td colspan="2" class="bor-right" align="center"><?php echo number_format($it->unit_price,4); ?></td>
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 								    			<td colspan="3" class="bor-right" align="right"><?php echo number_format($it->amount,2); ?></td>		
 								    		</tr>	
 								    			<?php 
@@ -634,45 +622,26 @@
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Prepared by:</b></td>
+		    			<td colspan="4"><b>Prepared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Endorsed by:</b></td>
+		    			<td colspan="4"><b>Reviewed/Checked by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Cleared by:</b></td>
+		    			<td colspan="4"><b>Recommended by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Recommended by:</b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="2"><b>Approved by:</b></td>
+		    			<td colspan="3"><b>Approved by:</b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="3" class="bor-btm"><b><br></b></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="3" class="bor-btm"><b><br></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="3" class="bor-btm"><b><br></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="3" class="bor-btm"><b><br></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="2" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
-<<<<<<< HEAD
-		    		<tr>
-		    			<td colspan="1"></td>
-		    			<td colspan="3"><b><?php echo $prepared; ?></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="3"><b><?php echo $endorsed; ?></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="3"><b><?php echo $checked;?></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="3"><b><?php echo $recommended; ?></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="2"><b><?php echo $approved; ?></b></td>
-		    			<td colspan="1"></td>
-		    		</tr>
-=======
 		    		<?php if($revised==0){ ?>
 			    		<tr>
 			    			<td colspan="1"></td>
@@ -698,7 +667,6 @@
 			    			<td colspan="1"></td>
 			    		</tr>
 		    		<?php } ?>
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="4"></td>

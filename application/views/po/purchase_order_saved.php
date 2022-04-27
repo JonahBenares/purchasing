@@ -398,11 +398,7 @@
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo number_format($it->delivered_quantity,2); ?></b></td>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo (!empty($ci->get_pn($it->pr_details_id))) ? nl2br($offer).", ".$ci->get_pn($it->pr_details_id) : nl2br($offer); ?></b></td>
-<<<<<<< HEAD
-		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,2); ?></b></td>
-=======
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it->unit_price,4); ?></b></td>
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it->amount,2); ?></b></td>
 		    		</tr>	
 		    		<?php 
@@ -597,41 +593,35 @@
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Prepared by:</b></td>
+		    			<td colspan="4"><b>Prepared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Endorsed by:</b></td>
+		    			<td colspan="4"><b>Reviewed/Checked by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Cleared by:</b></td>
+		    			<td colspan="4"><b>Recommended by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Recommended by:</b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="2"><b>Approved by:</b></td>
+		    			<td colspan="3"><b>Approved by:</b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="3" class="bor-btm"><b><br></b></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="3" class="bor-btm"><b><br></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="3" class="bor-btm"><b><br></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="3" class="bor-btm"><b><br></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="2" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="4"><b><?php echo $prepared; ?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b><?php echo $endorsed;?></b></td>
+		    			<td colspan="4"><b><?php echo $checked;?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b><?php echo $checked;?></b></td>
+		    			<td colspan="4"><b><?php echo $recommended;?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b><?php echo $recommended;?></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="2"><b><?php echo $approved;?></b></td>
+		    			<td colspan="3"><b><?php echo $approved;?></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>

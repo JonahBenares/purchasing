@@ -310,11 +310,7 @@
 					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['quantity']; ?></b></td>
 					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['uom']; ?></b></td>
 					    			<td colspan="12" class="bor-right" align="left"><b><?php echo $it['offer']; ?></b></td>
-<<<<<<< HEAD
-					    			<td colspan="2" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo number_format($it['price'],2); ?></b></td>
-=======
 					    			<td colspan="2" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo number_format($it['price'],4); ?></b></td>
->>>>>>> c9e8e0f813b8484a6c3ee2eccb71b9030aca0bb4
 					    			<td colspan="3" class="bor-right" align="right" style='vertical-align: text-top;'><b><?php echo number_format($it['amount'],2); ?></b></td>
 					    			<!-- <td align="center"><a href='<?php echo base_url(); ?>/po/remove_po_item/' class="btn-danger btn-xs" onclick="return confirm('Are you sure you want to remove item?')"><span class="fa fa-times"></span></a></td>	 -->			
 					    		</tr> 
@@ -550,46 +546,31 @@
 		    		<tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Prepared by:</b></td>
+		    			<td colspan="4"><b>Prepared by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Endorsed by:</b></td>
+		    			<td colspan="4"><b>Reviewed/Checked by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Cleared by:</b></td>
+		    			<td colspan="4"><b>Recommended by:</b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3"><b>Recommended by:</b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="2"><b>Approved by:</b></td>
+		    			<td colspan="3"><b>Approved by:</b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="3" class="bor-btm"><b><br></b></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3" class="bor-btm"><b><br></b></td>
+		    			<td colspan="4" class="bor-btm"><b></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class="bor-btm"><b></b></td>
 		    			<td colspan="1"></td>
 		    			<td colspan="3" class="bor-btm"><b></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="3" class="bor-btm"><b></b></td>
-		    			<td colspan="1"></td>
-		    			<td colspan="2" class="bor-btm"><b></b></td>
 		    			<td colspan="1"></td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="1"></td>
-		    			<td colspan="3" ><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="4" ><b><?php echo $prepared; ?></b></td>
 		    			<td colspan="1"></td>
-		    			<td colspan="3" ><b>
-			    			<?php if($saved==0){ ?>
-			    			<select name='endorsed' class="select-des emphasis" style="width: 100%" >
-				    			<option value=''>-Select-</option>
-				    			<?php foreach($employee AS $emp){ ?>
-				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-				    			<?php } ?>
-			    			</select></b></td>
-			    			<?php }else { ?>
-			    			<?php echo $endorsed; } ?>
-		    			<td colspan="1"></td>
-		    			<td colspan="3" ><b>
+		    			<td colspan="4" ><b>
 			    			<?php if($saved==0){ ?>
 			    			<select name='checked' class="select-des emphasis" style="width: 100%" >
 				    			<option value=''>-Select-</option>
@@ -600,7 +581,7 @@
 			    			<?php }else { ?>
 			    			<?php echo $checked; } ?>
 			    		<td colspan="1"></td>
-		    			<td colspan="3"><b>
+		    			<td colspan="4"><b>
 			    			<?php if($saved==0){ ?>
 			    			<select name='recommended' class="select-des emphasis" style="width: 100%" >
 				    			<option value=''>-Select-</option>
@@ -612,7 +593,7 @@
 			    			<?php echo $recommended; } ?>
 
 		    			<td colspan="1"></td>
-		    			<td colspan="2"><b>
+		    			<td colspan="3"><b>
 			    			<?php if($saved==0){ ?>
 			    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
 				    			<option value=''>-Select-</option>
