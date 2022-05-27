@@ -57,6 +57,7 @@ class Vendors extends CI_Controller {
                 'address'=>$et->address,
                 'phone'=>$et->phone_number,
                 'fax'=>$et->fax_number,
+                'email'=>$et->email,
                 'terms'=>$et->terms,
                 'type'=>$et->type,
                 'contact'=>$et->contact_person,
@@ -76,6 +77,7 @@ class Vendors extends CI_Controller {
         $address = trim($this->input->post('address')," ");
         $phone_num = trim($this->input->post('phone_num')," ");
         $fax_num = trim($this->input->post('fax_num')," ");
+        $email = trim($this->input->post('email')," ");
         $terms = trim($this->input->post('terms')," ");
         $type = trim($this->input->post('type')," ");
         $contact = trim($this->input->post('contact')," ");
@@ -90,6 +92,7 @@ class Vendors extends CI_Controller {
             'address'=>$address,
             'phone_number'=>$phone_num,
             'fax_number'=>$fax_num,
+            'email'=>$email,
             'terms'=>$terms,
             'type'=>$type,
             'contact_person'=>$contact,
@@ -120,6 +123,7 @@ class Vendors extends CI_Controller {
             'address'=>$this->input->post('address'),
             'phone_number'=>$this->input->post('phone'),
             'fax_number'=>$this->input->post('fax'),
+            'email'=>$this->input->post('email'),
             'terms'=>$this->input->post('terms'),
             'type'=>$this->input->post('type'),
             'contact_person'=>$this->input->post('contact'),
@@ -241,6 +245,12 @@ class Vendors extends CI_Controller {
             $data['phone'] = "null";
         }
 
+        if(!empty($this->input->post('email'))){
+            $data['email'] = $this->input->post('email');
+        } else {
+            $data['email'] = "null";
+        }
+
         if(!empty($this->input->post('terms'))){
             $data['terms'] = $this->input->post('terms');
         } else {
@@ -316,6 +326,12 @@ class Vendors extends CI_Controller {
             $filter .= "Fax Number - ".$fax.", ";
         }
 
+        if(!empty($this->input->post('email'))){
+            $email = $this->input->post('email');
+            $sql.=" vendor_head.email LIKE '%$email%' AND";
+            $filter .= "Email Address - ".$email.", ";
+        }
+
         if(!empty($this->input->post('terms'))){
             $terms = $this->input->post('terms');
             $sql.=" vendor_head.terms LIKE '%$terms%' AND";
@@ -368,6 +384,7 @@ class Vendors extends CI_Controller {
                 'address'=>$et->address,
                 'phone'=>$et->phone_number,
                 'fax'=>$et->fax_number,
+                'email'=>$et->email,
                 'terms'=>$et->terms,
                 'type'=>$et->type,
                 'contact'=>$et->contact_person,

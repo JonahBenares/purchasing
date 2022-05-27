@@ -75,6 +75,10 @@
                                                             <input type="text" name="fax_num" class="form-control">
                                                         </div>
                                                         <div class="form-group">
+                                                            <p class="m-b-0">Email Address:</p>
+                                                            <input type="email" name="email" class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
                                                             <p class="m-b-0">Terms:</p>
                                                             <input type="text" name="terms" class="form-control">
                                                         </div>
@@ -160,6 +164,10 @@
                                                             <input type="text" name="fax" class="form-control">
                                                         </div>
                                                         <div class="form-group">
+                                                            <p class="m-b-0">Email Address:</p>
+                                                            <input type="email" name="email" class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
                                                             <p class="m-b-0">Terms:</p>
                                                             <input type="text" name="terms" class="form-control">
                                                         </div>
@@ -237,6 +245,7 @@
                                             <th>Product/Services</th>
                                             <th>Address</th>
                                             <th>Phone</th>
+                                            <th>Email</th>
                                             <th>Terms</th>
                                             <th>Type</th>
                                             <th>Notes</th>
@@ -259,6 +268,7 @@
                                             <td><?php echo $v['product']?></td>
                                             <td><?php echo $v['address']?></td>
                                             <td><?php echo $v['phone']?></td>
+                                            <td><?php echo $v['email']?></td>
                                             <td><?php echo $v['terms']?></td>
                                             <td><?php echo $v['type']?></td>
                                             <td><?php echo $v['notes']?></td>

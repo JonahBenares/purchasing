@@ -37,6 +37,10 @@
                                                             <input type="text" name="fax" class="form-control" value = "<?php echo $v->fax_number;?>">
                                                         </div>
                                                         <div class="form-group">
+                                                            <p class="m-b-0">Email Address</p>
+                                                            <input type="email" name="email" class="form-control" value = "<?php echo $v->email;?>">
+                                                        </div>
+                                                        <div class="form-group">
                                                             <p class="m-b-0">Terms:</p>
                                                             <textarea name="terms" class="form-control"><?php echo $v->terms;?></textarea>
                                                         </div>
