@@ -64,6 +64,12 @@
                                             <td><p><?php echo $v->fax_number; ?></p></td>
                                         </tr>
                                         <tr>
+                                            <td><u><b>Email Address:</b></u></td>
+                                        </tr>
+                                        <tr>
+                                            <td><p><?php echo $v->email; ?></p></td>
+                                        </tr>
+                                        <tr>
                                             <td><u><b>Terms:</b></u></td>
                                         </tr>
                                         <tr>
