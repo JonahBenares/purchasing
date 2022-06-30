@@ -2997,6 +2997,14 @@ class Po extends CI_Controller {
        $quantity = $this->super_model->select_column_where("pr_details", "quantity", "pr_details_id", $pr_details_id);
        echo $quantity;
     }
+
+    public function item_balance($pr_details_id,$po_id){
+      /*  echo "SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id='$po_id'";*/
+        $pr_qty = $this->super_model->custom_query_single("quantity","SELECT quantity FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pr_details_id = '$pr_details_id' AND saved='1'");
+        $po_qty = $this->super_model->custom_query_single("delivered_quantity","SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id!='$po_id'");
+        $balance = $pr_qty - $po_qty;
+        return $balance;
+    }
     
 }
 ?>
