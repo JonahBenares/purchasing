@@ -278,20 +278,15 @@
 		    			<td align="right" colspan="10" class="bor-right"><br><br><br></td>
 		    			<td align="right" colspan="3"></td>
 		    			</tr>
-		    			<?php if($vatt!=0){ ?>
-		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent."% VAT"; ?></b></td>
-		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><?php echo number_format($vatt,2); ?></span>
-		    			</td>
-		    		</tr>
-		    		<?php } ?>
 		    		<?php 
 
-		    			$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt);
+
+		    			/*$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt);
 		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt);
-		    			$mattotal = (array_sum($materials_subtotal) + $shipping+$packing+$vatt);
+		    			$mattotal = (array_sum($materials_subtotal) + $shipping+$packing+$vatt);*/
+		    			$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal));
+		    			$stotal = (array_sum($subtotal));
+		    			$mattotal = (array_sum($materials_subtotal));
 		    		?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Labor SubTotal:</b></td>
@@ -333,13 +328,13 @@
 		    			$materials_less= ($mattotal/1.12)*$materials_percent;
 		    			$gtotal = $stotal-$less;
 		    			$mtotal = $mattotal-$materials_less;
-		    			$totalamt=$gtotal + $mtotal - $discount;
+		    			$totalamt=($gtotal + $mtotal + $vatt) - $discount;
 		    		} else {
 		    			$less= $stotal*$percent;
 		    			$materials_less= $mattotal*$materials_percent;
 		    			$gtotal = $stotal-$less;
 		    			$mtotal = $mattotal-$materials_less;
-		    			$totalamt=$gtotal + $mtotal - $discount;
+		    			$totalamt=($gtotal + $mtotal + $vatt) - $discount;
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% Labor EWT</b></td>
@@ -370,6 +365,15 @@
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($mtotal,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<?php } ?>
+		    		<?php if($vatt!=0){ ?>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent."% VAT"; ?></b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"></span>
+		    				<span class="nomarg" id=''><?php echo number_format($vatt,2); ?></span>
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
