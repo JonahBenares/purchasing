@@ -564,8 +564,13 @@
 		    						if($revised==0){ 
 			    						$sum_cost = array_sum($gtotal2);
 			    						$matsum_cost = array_sum($mattotal);
-			    						$subtotal= $sum_cost + $matsum_cost + $vat_amount; 
-			    						$grandtotal = ($sum_cost+ $matsum_cost +$vat_amount)-$discount;
+			    						$percent=$vat_percent/100;
+			    						$total=$sum_cost+$matsum_cost;
+			    						$sumvat=($total*$percent);
+			    						$subtotal= $total + $sumvat; 
+			    						$grandtotal = ($sum_cost+ $matsum_cost +$sumvat)-$discount;
+			    						/*$subtotal= $sum_cost + $matsum_cost + $vat_amount; 
+			    						$grandtotal = ($sum_cost+ $matsum_cost +$vat_amount)-$discount;*/
 		    					?>
 		    					<tr>
 		    						<td></td>
@@ -593,7 +598,7 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent;?>" style="width:60px;border-bottom: 1px solid #000"></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_amount;?>" style='text-align: right;'></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $sumvat;?>" style='text-align: right;'></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
@@ -615,8 +620,13 @@
 		    					<?php } else { 
 		    						$sum_cost = array_sum($gtotal2);
 		    						$matsum_cost = array_sum($mattotal);
-		    						$subtotal= $sum_cost + $matsum_cost + $vat_temp; 
-		    						$grandtotal = ($sum_cost+$matsum_cost+$vat_temp)-$discount_temp;
+		    						$percent_temp=$vat_percent_temp/100;
+		    						$total_temp=$sum_cost+$matsum_cost;
+		    						$sumvat_temp=($total_temp*$percent_temp);
+		    						$subtotal= $total_temp + $sumvat_temp; 
+		    						$grandtotal = ($sum_cost+ $matsum_cost +$sumvat_temp)-$discount_temp;
+		    						/*$subtotal= $sum_cost + $matsum_cost + $vat_temp; 
+		    						$grandtotal = ($sum_cost+$matsum_cost+$vat_temp)-$discount_temp;*/
 	    						?>
 		    					<tr>
 		    						<td></td>
@@ -644,7 +654,7 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent_temp;?>" style="width: 60px;border-bottom: 1px solid #000;"></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_temp;?>" style='text-align: right;'></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $sumvat_temp;?>" style='text-align: right;'></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>

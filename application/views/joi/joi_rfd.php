@@ -278,20 +278,27 @@
 		    			<td align="right" colspan="10" class="bor-right"><br><br><br></td>
 		    			<td align="right" colspan="3"></td>
 		    			</tr>
-		    			<?php if($vatt!=0){ ?>
+		    			<?php 
+		    				$percent=$vat_percent/100;
+		    				$total=array_sum($subtotal) + array_sum($materials_subtotal);
+							$sumvat=($total*$percent); 
+							if($vatt!=0){ 
+						?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent."% VAT"; ?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><?php echo number_format($vatt,2); ?></span>
+		    				<span class="nomarg" id=''><?php echo number_format($sumvat,2); ?></span>
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
 		    		<?php 
 
 		    			//$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
-		    			$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt);
-		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt);
+		    			
+		    			
+		    			$nettotal = ($total+$shipping+$packing+$sumvat);
+		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$sumvat);
 		    			$mattotal = array_sum($materials_subtotal);
 		    			//$mattotal = (array_sum($materials_subtotal) + $shipping+$packing+$vatt);
 		    		?>

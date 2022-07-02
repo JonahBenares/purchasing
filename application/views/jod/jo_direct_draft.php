@@ -441,12 +441,12 @@
 				    				</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b>
-		    								<input type='text' name='materials_price' id='materials_price' value="<?php echo number_format($it->materials_unitprice,2); ?>" onkeyup='changesinglePrice_JO()' onkeypress="return isNumberKey(this, event)" style='color:red; width:100%;text-align: center'>
+		    								<input type='text' name='materials_price' id='materials_price' value="<?php echo $it->materials_unitprice; ?>" onkeyup='changesinglePrice_JO()' onkeypress="return isNumberKey(this, event)" style='color:red; width:100%;text-align: center'>
 		    							</b>
 		    						</td>
 		    						<td class="f13" align="center" style="vertical-align:top">
 		    							<b class="nomarg">
-		    								<input type='text' name='materials_tprice' id='materials_tprice' value="<?php echo number_format($it->materials_amount,2); ?>" class='materials_tprice' style='text-align:right;' readonly>
+		    								<input type='text' name='materials_tprice' id='materials_tprice' value="<?php echo $it->materials_amount; ?>" class='materials_tprice' style='text-align:right;' readonly>
 		    							</b>
 		    						</td>
 		    					</tr>
@@ -519,7 +519,7 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' value="<?php echo $vat_percent;?>" onblur='changePrice()' style="width:30px;border-bottom: 1px solid #000;"></td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo number_format($vat,2);?>" style="width: 100%;text-align: right;"></td>
+		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo $vat;?>" style="width: 100%;text-align: right;"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
@@ -527,7 +527,7 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td  align="right">Subtotal:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="subtotal" id='subtotal' value="<?php echo number_format($subtotal,2); ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
+		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="subtotal" id='subtotal' value="<?php echo $subtotal; ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
@@ -543,7 +543,7 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right">GRAND TOTAL:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="net" id='net' value="<?php echo number_format($grandtotal,2); ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
+		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="net" id='net' value="<?php echo $grandtotal; ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
 		    					</tr>
 		    				
 		    					
