@@ -323,8 +323,8 @@
 		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt);
 		    			$mattotal = (array_sum($materials_subtotal) + $shipping+$packing+$vatt);*/
 		    			$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping + $packing);
-		    			$stotal = (array_sum($subtotal) + $shipping + $packing));
-		    			$mattotal = (array_sum($materials_subtotal) + $shipping + $packing));
+		    			$stotal = (array_sum($subtotal) + $shipping + $packing);
+		    			$mattotal = (array_sum($materials_subtotal) + $shipping + $packing);
 		    		?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Labor SubTotal:</b></td>
