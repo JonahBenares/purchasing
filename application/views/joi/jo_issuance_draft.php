@@ -489,9 +489,16 @@
 		    						<td class="f13" align="center"></td>
 		    					</tr>
 		    					<?php 
-		    						$grtotal =array_sum($gtotal)+array_sum($mattotal);
+		    						/*$grtotal =array_sum($gtotal)+array_sum($mattotal);
 		    						$subtotal=$grtotal+$vat;
-		    						$grandtotal = ($grtotal+$vat)-$discount;
+		    						$grandtotal = ($grtotal+$vat)-$discount;*/
+		    						$grtotal =array_sum($gtotal);
+		    						$gmtotal=array_sum($mattotal);
+		    						$percent=$vat_percent/100;
+		    						$total=$grtotal+$gmtotal;
+		    						$sumvat=($total*$percent);
+		    						$subtotal=$total+$sumvat;
+		    						$grandtotal = ($grtotal+$gmtotal+$sumvat)-$discount;
 		    					?>
 		    					<tr>
 		    						<td></td>
@@ -514,7 +521,7 @@
 		    						<td></td>
 		    						<td>VAT %:</td>
 		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' value="<?php echo $vat_percent;?>" onblur='changePrice()'></td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo number_format($vat,2);?>"></td>
+		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo number_format($sumvat,2);?>"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>

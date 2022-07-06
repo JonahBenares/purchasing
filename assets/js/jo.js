@@ -48,9 +48,13 @@ function changePrice(){
 
     var vat_percent = document.getElementById("vat_percent").value;
     var vat = vat_percent/100;
-    var vat_amount = parseFloat(sum_cost) * parseFloat(vat);
-    document.getElementById("vat_amount").value  =vat_amount.toFixed(2);;
-    var subtotal = parseFloat(sum_cost) + parseFloat(mat_sum_cost) + parseFloat(vat_amount);
+    var total= parseFloat(sum_cost)+parseFloat(mat_sum_cost);
+    var sumvat=parseFloat(total)*parseFloat(vat);
+    //var vat_amount = parseFloat(sum_cost) * parseFloat(vat);
+    var vat_amount = total * parseFloat(sumvat);
+    //document.getElementById("vat_amount").value  =vat_amount.toFixed(2);;
+    document.getElementById("vat_amount").value  =sumvat.toFixed(2);
+    var subtotal = parseFloat(sum_cost) + parseFloat(mat_sum_cost) + parseFloat(sumvat);
     document.getElementById("subtotal").value  =subtotal.toFixed(2);
 
   /*var less_percent = document.getElementById("less_percent").value;
@@ -148,9 +152,11 @@ function changePrice_JO(count){
 
     var vat_percent = document.getElementById("vat_percent").value;
     var vat = vat_percent/100;
-    var vat_amount = parseFloat(sum_cost) * parseFloat(vat);
-    document.getElementById("vat_amount").value  =vat_amount.toFixed(2);;
-     var subtotal = parseFloat(sum_cost)  + parseFloat(mat_sum_cost) + parseFloat(vat_amount);
+    var total=parseFloat(sum_cost)+parseFloat(mat_sum_cost);
+    var sumvat=total*vat;
+    var vat_amount = parseFloat(total) * parseFloat(sumvat);
+    document.getElementById("vat_amount").value  =sumvat.toFixed(2);;
+     var subtotal = parseFloat(sum_cost)  + parseFloat(mat_sum_cost) + parseFloat(sumvat);
        document.getElementById("subtotal").value  =subtotal.toFixed(2);;
 
        var less =document.getElementById("less_amount").value;
