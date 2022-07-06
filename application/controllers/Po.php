@@ -302,7 +302,7 @@ class Po extends CI_Controller {
     public function item_checker($pr_details_id, $vendor_id){
         $pr_qty = $this->super_model->select_column_where('pr_details', 'quantity', 'pr_details_id', $pr_details_id);
 
-        $delivered_qty = $this->super_model->select_sum_join("quantity","po_head","po_items", "pr_details_id = '$pr_details_id' AND cancelled = '0' ","po_id");
+        $delivered_qty = $this->super_model->select_sum_join("delivered_quantity","po_head","po_items", "pr_details_id = '$pr_details_id' AND cancelled = '0' ","po_id");
 
        // if($delivered_qty!=0){
             if($delivered_qty==$pr_qty){

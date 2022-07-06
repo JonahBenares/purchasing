@@ -206,17 +206,20 @@ class Pod extends CI_Controller {
         if($saved==0){
             foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$pr_id' AND grouping_id = '$group_id'") AS $items){
                 //$total = $items->quantity*$items->unit_price;
+                $balance = $this->item_checker($items->pr_details_id);
                 $data['items'][]= array(
                     'pr_details_id'=>$items->pr_details_id,
                     'item'=>$items->item_description,
                     'uom'=>$items->uom,
                     'quantity'=>$items->quantity,
+                    'balance'=>$balance
                     //'total'=>$total,
                 );
             }
         }else {
             foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
                 $total = $items->delivered_quantity*$items->unit_price;
+                 $balance = $this->item_checker($items->pr_details_id);
                 $data['currency1']=$items->currency;
                 $data['items'][]= array(
                     'pr_details_id'=>$items->pr_details_id,
@@ -224,6 +227,7 @@ class Pod extends CI_Controller {
                     'item'=>$items->offer,
                     'uom'=>$items->uom,
                     'quantity'=>$items->delivered_quantity,
+                    'balance'=>$balance,
                     'price'=>$items->unit_price,
                     'currency'=>$items->currency,
                     'total'=>$total,
@@ -246,6 +250,21 @@ class Pod extends CI_Controller {
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('pod/po_direct',$data);
         $this->load->view('template/footer');
+    }
+
+     public function item_checker($pr_details_id){
+        $pr_qty = $this->super_model->select_column_where('pr_details', 'quantity', 'pr_details_id', $pr_details_id);
+
+        $delivered_qty = $this->super_model->select_sum_join("delivered_quantity","po_head","po_items", "pr_details_id = '$pr_details_id' AND cancelled = '0' ","po_id");
+
+    
+            if($delivered_qty==$pr_qty){
+                $qty = 0;
+            } else {
+                $qty = $pr_qty-$delivered_qty;
+            }
+
+        return $qty;
     }
 
     public function po_direct_draft(){
