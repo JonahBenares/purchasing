@@ -437,8 +437,11 @@
 		    				<b style="font-weight: 900"><span class="nomarg" id='totalamdue'><?php echo number_format($overtotal,2);?></span></b>
 		    			</td>
 		    		</tr>
-		    		<?php foreach($payment AS $p){ ?>
-		    		<?php if($payment_desc != $p->payment_desc && $p->payment_amount!='0.0000' && $payment_amount!='0.0000'){ ?>
+		    		
+		    		<?php 
+		    			if($payment_desc !=''  && $payment_amount!='0.0000'){
+		    				foreach($payment AS $p){ 
+		    		?>
 		    		<tr>
 			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $p->payment_desc; ?></b></td>
 			    		<td align="right" colspan="3">
@@ -446,7 +449,8 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($p->payment_amount,2); ?></b></span>
 		    			</td>
 		    		</tr>
-		    		<?php } }?>
+		    		<?php } }else{ ?>
+
 		    		<?php if($payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc!='' || $payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc==''){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $payment_desc; ?></b></td>
@@ -455,7 +459,7 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($payment_amount,2); ?></b></span>
 		    			</td>
 		    		</tr>
-		    		<?php } ?>
+		    		<?php } } ?>
 		    		<?php if($payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc!='' || $payments != '0.0000' && $payment_amount!='0.0000' && $payments_desc==''){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance After Payment</b></td>
