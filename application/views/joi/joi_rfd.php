@@ -223,11 +223,11 @@
                     <!--ITEMS-->
     				<?php
 			    		$subtotal=array();
-			    		$materials_subtotal=array();
+			    		//$materials_subtotal=array();
 			    		if(!empty($items)){
 			    		foreach($items AS $i){ 
 			    			$subtotal[] = $i['total'];
-			    			$materials_subtotal[] = $i['materials_amount'];
+			    			//$materials_subtotal[] = $i['materials_amount'];
 		    		?>
 		    		<tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></td>
@@ -248,11 +248,11 @@
 					<?php } ?>
 		    		<!--MATERIALS-->
     				<?php
-			    		$subtotal=array();
+			    		//$subtotal=array();
 			    		$materials_subtotal=array();
 			    		if(!empty($items)){
 			    		foreach($items AS $i){ 
-			    			$subtotal[] = $i['total'];
+			    			//$subtotal[] = $i['total'];
 			    			$materials_subtotal[] = $i['materials_amount'];
 			    			if($i['materials_offer']!='' && $i['materials_qty']!=0){
 		    		?>
@@ -277,22 +277,19 @@
 		    			<td align="left" colspan="7" ></td>
 		    			<td align="right" colspan="10" class="bor-right"><br><br><br></td>
 		    			<td align="right" colspan="3"></td>
-		    			</tr>
-		    			<?php if($vatt!=0){ ?>
-		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent."% VAT"; ?></b></td>
-		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><?php echo number_format($vatt,2); ?></span>
-		    			</td>
 		    		</tr>
-		    		<?php } ?>
 		    		<?php 
 
 		    			//$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt) - $discount;
-		    			$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt);
-		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt);
-		    			$mattotal = array_sum($materials_subtotal);
+		    			
+		    			$percent=$vat_percent/100;
+	    				$total=array_sum($subtotal) + array_sum($materials_subtotal);
+						$sumvat=($total*$percent); 
+		    			/*$nettotal = ($total+$shipping+$packing+$sumvat);
+		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$sumvat);*/
+		    			$nettotal = ($total+$shipping+$packing);
+		    			$stotal = (array_sum($subtotal) + $shipping+$packing);
+		    			$mattotal = array_sum($materials_subtotal)+ $shipping+$packing;
 		    			//$mattotal = (array_sum($materials_subtotal) + $shipping+$packing+$vatt);
 		    		?>
 		    		<tr>
@@ -335,13 +332,13 @@
 		    			$materials_less= ($mattotal/1.12)*$materials_percent;
 		    			$gtotal = $stotal-$less;
 		    			$mtotal = $mattotal-$materials_less;
-		    			$totalamt=$gtotal + $mtotal - $discount;
+		    			$totalamt=($gtotal + $mtotal + $sumvat) - $discount;
 		    		} else {
 		    			$less= $stotal*$percent;
 		    			$materials_less= $mattotal*$materials_percent;
 		    			$gtotal = $stotal-$less;
 		    			$mtotal = $mattotal-$materials_less;
-		    			$totalamt=$gtotal + $mtotal - $discount;
+		    			$totalamt=($gtotal + $mtotal + $sumvat) - $discount;
 		    		} ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% Labor EWT</b></td>
@@ -372,6 +369,15 @@
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($mtotal,2); ?></b></span>
+		    			</td>
+		    		</tr>
+		    		<?php } ?>
+		    		<?php if($vatt!=0){ ?>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $vat_percent."% VAT"; ?></b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg"></span>
+		    				<span class="nomarg" id=''><?php echo number_format($sumvat,2); ?></span>
 		    			</td>
 		    		</tr>
 		    		<?php } ?>

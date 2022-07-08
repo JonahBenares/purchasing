@@ -374,6 +374,9 @@
 						    		if($revised==0){
 							    		if(!empty($items)){
 								    		foreach($items AS $it){ 
+
+
+								    			$balance = $ci->item_balance($it->pr_details_id,$it->po_id);
 								    			$gtotal2[] = $it->amount;
 
 								    			if(!empty($it->offer)){
@@ -383,7 +386,7 @@
 							    				} ?>
 								    		<tr>
 								    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
-								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:100%; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
+								    			<td colspan="2" class="bor-right v-align" align="center"><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it->delivered_quantity; ?>' max='<?php echo $balance; ?>' style='width:100%; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
 								    			<td colspan="" class="bor-right v-align" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value="<?php echo $it->uom; ?>" style='width:100%;'></b></td>
 								    			<td colspan="11" class="bor-right v-align" align="left"><textarea style='width:100%' name='offer<?php echo $x; ?>'><?php echo $offer; ?></textarea></td>
 								    			<td colspan="2" class="bor-right v-align" align="center"><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo number_format($it->unit_price,4); ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></td>

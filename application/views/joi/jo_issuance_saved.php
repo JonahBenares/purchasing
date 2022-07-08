@@ -512,8 +512,13 @@ tr:nth-child(4) td {
 		    					<?php 
 		    						$grtotal =array_sum($gtotal);
 		    						$gmtotal=array_sum($mattotal);
-		    						$subtotal=$grtotal+$gmtotal+$vat;
-		    						$grandtotal = ($grtotal+$gmtotal+$vat)-$discount;
+		    						$percent=$vat_percent/100;
+		    						$total=$grtotal+$gmtotal;
+		    						$sumvat=($total*$percent);
+		    						$subtotal=$total+$sumvat;
+		    						$grandtotal = ($grtotal+$gmtotal+$sumvat)-$discount;
+		    						//$subtotal=$grtotal+$gmtotal+$vat;
+		    						//$grandtotal = ($grtotal+$gmtotal+$vat)-$discount;
 		    					?>
 		    					<tr>
 		    						<td></td>
@@ -540,7 +545,7 @@ tr:nth-child(4) td {
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right"><?php echo $vat_percent; ?>% VAT:</td>
-		    						<td align="right"></span> <?php echo number_format($vat,2); ?></td>
+		    						<td align="right"></span> <?php echo number_format($sumvat,2); ?></td>
 		    					</tr>
 		    					<?php } ?>
 		    					<tr>
