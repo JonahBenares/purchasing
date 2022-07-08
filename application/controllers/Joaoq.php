@@ -252,7 +252,7 @@ class Joaoq extends CI_Controller {
 
         $sql=substr($where, 0, -3);
         $sql .= ") AND ji.cancelled = 0 GROUP BY scope_of_work";
-        echo $sql;
+        //echo $sql;
        foreach($this->super_model->custom_query($sql) AS $items){
           $items = array(
             'jor_aoq_id'=>$jor_aoq_id,

@@ -491,14 +491,14 @@ class Pr extends CI_Controller {
         $data['pr_id']=$prid;
         $data['pr_no']=$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $prid);
 
-        foreach($this->super_model->custom_query("SELECT DISTINCT grouping_id FROM pr_details WHERE pr_id = '$prid' AND cancelled='0'") AS $groups){
+        foreach($this->super_model->custom_query("SELECT DISTINCT grouping_id FROM pr_details WHERE pr_id = '$prid' AND grouping_id!='' AND cancelled='0'") AS $groups){
             $data['group'][] = array(
                 'group'=>$groups->grouping_id,
             );
 
         }
 
-       foreach($this->super_model->custom_query("SELECT item_description, grouping_id, cancelled FROM pr_details WHERE pr_id = '$prid' AND cancelled='0'") AS $items){
+       foreach($this->super_model->custom_query("SELECT item_description, grouping_id, cancelled FROM pr_details WHERE pr_id = '$prid' AND grouping_id!='' AND cancelled='0'") AS $items){
             $data['items'][] = array(
                 'group_id'=>$items->grouping_id,
                 'item_desc'=>$items->item_description,

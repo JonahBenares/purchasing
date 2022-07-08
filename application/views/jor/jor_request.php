@@ -258,7 +258,7 @@ $ci =& get_instance();
                                                 <td><?php echo number_format($ji['total_cost'],2); ?></td>
                                                 <?php if($ji['vendor_id']==0){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
-                                                    <select class="form-control text-black"  name='group<?php echo $x; ?>' required>
+                                                    <select class="form-control text-black"  name='group<?php echo $x; ?>'>
                                                         <option value='' selected="selected">-Select Group-</option>
                                                         <?php foreach($ci->createColumnsArray('ZZ') AS $let){ ?>
                                                         <option value='<?php echo $let; ?>' <?php echo ($ji['grouping_id'] == $let) ? ' selected' : ''; ?>><?php echo $let; ?></option>
@@ -283,7 +283,7 @@ $ci =& get_instance();
                                                 <td><?php echo number_format($ji['total_cost'],2); ?></td>
                                                 <?php if($ji['vendor_id']==0){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
-                                                    <select class="form-control" name='group<?php echo $x; ?>' required>
+                                                    <select class="form-control" name='group<?php echo $x; ?>'>
                                                         <option value='' selected="selected">-Select Group-</option>
                                                         <?php foreach($ci->createColumnsArray('ZZ') AS $let){ ?>
                                                         <option value='<?php echo $let; ?>' <?php echo ($ji['grouping_id'] == $let) ? ' selected' : ''; ?>><?php echo $let; ?></option>
@@ -296,7 +296,9 @@ $ci =& get_instance();
                                                 <td><?php echo $ji['vendor']; ?></td>
                                                 <?php } ?>
                                                 <td align="center">
+                                                    <?php if($saved==1){ ?>
                                                     <a href="" class="regroupItem btn btn-xs btn-success btn-custon-three" data-toggle="modal" data-target="#regroup_g" title="Regroup" data-group="" data-id="<?php echo $ji['jor_items_id']; ?>"><span class="fa fa-object-group"> </span></a>
+                                                    <?php } ?>
                                                     <?php if($ji['grouping_id']!=''){ ?>
                                                     <a href="" class="addVendor btn btn-xs btn-warning btn-custon-three" data-toggle="modal" data-target="#exampleModal" title="Add Vendor" data-group="<?php echo $ji['grouping_id']; ?>" data-id="<?php echo $ji['jor_items_id']; ?>"><span class="fa fa-shopping-cart"> </span></a>
                                                     <?php } ?>

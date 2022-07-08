@@ -261,7 +261,7 @@ $ci =& get_instance();
                                                 <td><?php echo (!empty($det['date_needed']) ? date('F j, Y', strtotime($det['date_needed'])) : ''); ?></td>
                                                 <?php if(empty($h->pr_no)){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
-                                                    <select class="form-control text-black" name='group<?php echo $x; ?>' required>
+                                                    <select class="form-control text-black" name='group<?php echo $x; ?>'>
                                                         <option value='' selected="selected">-Select Group-</option>
                                                         <?php foreach($ci->createColumnsArray('ZZ') AS $let){ ?>
                                                         <option value='<?php echo $let; ?>' <?php echo ($det['grouping_id'] == $let) ? ' selected' : ''; ?>><?php echo $let; ?></option>
@@ -286,7 +286,7 @@ $ci =& get_instance();
                                                 <td><?php echo (!empty($det['date_needed']) ? date('F j, Y', strtotime($det['date_needed'])) : ''); ?></td>
                                                 <?php if($saved==0){ ?>
                                                 <td style="padding: 0px!important" class="bor-red">
-                                                    <select class="form-control" name='group<?php echo $x; ?>' required>
+                                                    <select class="form-control" name='group<?php echo $x; ?>'>
                                                         <option value='' selected="selected">-Select Group-</option>
                                                         <?php foreach($ci->createColumnsArray('ZZ') AS $let){ ?>
                                                         <option value='<?php echo $let; ?>' <?php echo ($det['grouping_id'] == $let) ? ' selected' : ''; ?>><?php echo $let; ?></option>
@@ -299,7 +299,9 @@ $ci =& get_instance();
                                                 <td><?php echo $det['vendor']; ?></td>
                                                 <?php } ?>
                                                 <td align="center">
+                                                    <?php if($saved==1){ ?>
                                                     <a href="" class="regroupItem btn btn-xs btn-success btn-custon-three" data-toggle="modal" data-target="#regroup_g" title="Regroup" data-group="" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-object-group"> </span></a>
+                                                    <?php } ?>
                                                     <?php if($det['grouping_id']!=''){ ?>
                                                     <a href="" class="addVendor btn btn-xs btn-warning btn-custon-three" data-toggle="modal" data-target="#exampleModal" title="Add Vendor" data-group="<?php echo $det['grouping_id']; ?>" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-shopping-cart"> </span></a>
                                                     <?php } ?>

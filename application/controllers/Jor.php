@@ -345,14 +345,14 @@ class Jor extends CI_Controller {
             $data['jo_no']=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $jor_id);
         }*/
 
-        foreach($this->super_model->custom_query("SELECT DISTINCT grouping_id FROM jor_items WHERE jor_id = '$jor_id'") AS $groups){
+        foreach($this->super_model->custom_query("SELECT DISTINCT grouping_id FROM jor_items WHERE jor_id = '$jor_id' AND grouping_id!='' AND cancelled='0'") AS $groups){
             $data['group'][] = array(
                 'group'=>$groups->grouping_id,
             );
 
         }
 
-       foreach($this->super_model->custom_query("SELECT jor_id,scope_of_work, grouping_id FROM jor_items WHERE jor_id = '$jor_id'") AS $items){
+       foreach($this->super_model->custom_query("SELECT jor_id,scope_of_work, grouping_id FROM jor_items WHERE jor_id = '$jor_id' AND grouping_id!='' AND cancelled='0'") AS $items){
             $jor_vendor_id=$this->super_model->select_column_where("jor_vendors", "jor_vendor_id", "jor_id", $items->jor_id);
             $vendor_id=$this->super_model->select_column_where("jor_vendors", "vendor_id", "jor_id", $items->jor_id);
             $noted_by=$this->super_model->select_column_where("jor_vendors", "noted_by", "jor_id", $items->jor_id);
