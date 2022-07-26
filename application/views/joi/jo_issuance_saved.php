@@ -637,7 +637,7 @@ tr:nth-child(4) td {
 		    		</tr>
 		    		<tr>
 		    			<td class="f13" colspan="3"></td>
-		    			<td class="f13" colspan="7" align="center">Supplier's Signature Over Printed Name</td>
+		    			<td class="f13" colspan="7" align="center">Contractor's Signature Over Printed Name</td>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>

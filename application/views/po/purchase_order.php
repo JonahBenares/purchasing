@@ -502,7 +502,7 @@
 		    		<tr>
 		    			<td colspan="4"></td>
 		    			<td colspan="2"><b></b></td>
-		    			<td colspan="8" align="center"><b>Supplier's Signature Over Printed Name</b></td>
+		    			<td colspan="8" align="center"><b>Contractor's Signature Over Printed Name</b></td>
 		    			<td colspan="6"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
