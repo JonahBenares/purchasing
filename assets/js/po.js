@@ -160,33 +160,33 @@ function addItemPo(baseurl,pr) {
 
 function changePrice(count){
   //alert(count);
-   var price = document.getElementById("price"+count).value;
+    var price = document.getElementById("price"+count).value;
+    var qty = document.getElementById("quantity"+count).value;
+    var balance = document.getElementById("balance"+count).value;
+    if(qty>balance){
+        alert("Quantity not equal to PR quantity");
+    }else{
+        var tprice = parseFloat(price) * parseFloat(qty);
+        document.getElementById("tprice"+count).value  =tprice;
+        /*var total_pr=0;
+        $(".tprice").each(function(){
+        total_pr += parseFloat($(this).val());
+        });*/
 
-   var qty = document.getElementById("quantity"+count).value;
-
-
-   var tprice = parseFloat(price) * parseFloat(qty);
-
-   document.getElementById("tprice"+count).value  =tprice;
-
-    /*var total_pr=0;
-    $(".tprice").each(function(){
-          total_pr += parseFloat($(this).val());
-    });*/
-
-   //  document.getElementById("total_pr"+countPR).value  =total_pr;
-    var grandtotal=0;
-    $(".tprice").each(function(){
-          var p = $(this).val().replace(",", "");
-          grandtotal += parseFloat(p);
-    });
-    var vat = document.getElementById("vat_percent").value;
-    var percent=vat/100;
-    var new_vat = parseFloat(percent)*parseFloat(grandtotal);
-    $("#vat").val(new_vat);
-    document.getElementById("grandtotal").innerHTML  =grandtotal+new_vat;
-    document.getElementById("orig_amount").value  =grandtotal;
-    document.getElementById("grandtotal").innerHTML  =grandtotal;
+        //  document.getElementById("total_pr"+countPR).value  =total_pr;
+        var grandtotal=0;
+        $(".tprice").each(function(){
+        var p = $(this).val().replace(",", "");
+        grandtotal += parseFloat(p);
+        });
+        var vat = document.getElementById("vat_percent").value;
+        var percent=vat/100;
+        var new_vat = parseFloat(percent)*parseFloat(grandtotal);
+        $("#vat").val(new_vat);
+        document.getElementById("grandtotal").innerHTML  =grandtotal+new_vat;
+        document.getElementById("orig_amount").value  =grandtotal;
+        document.getElementById("grandtotal").innerHTML  =grandtotal;
+    }
 }
 
 function additionalCost(){

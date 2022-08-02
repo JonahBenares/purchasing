@@ -260,6 +260,7 @@
 		    		</tr>	
 		    	<!-- 	<input type='hidden' name='aoq_id<?php echo $x; ?>' value="<?php echo $it->aoq_id; ?>"> -->
 		    		<input type='hidden' name='po_items_id<?php echo $x; ?>' value="<?php echo $it->po_items_id; ?>">
+		    		<input type='hidden' name='balance<?php echo $x; ?>' id='balance<?php echo $x; ?>' value="<?php echo $it->delivered_quantity; ?>">
 		    		
 		    		<?php 
 		    		$x++; } ?>
