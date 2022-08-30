@@ -290,7 +290,7 @@
 		    		<input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $it['pr_details_id']; ?>">
 		    		<textarea hidden  name='offer<?php echo $x; ?>'><?php echo $it['offer']; ?></textarea>
 		    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
-		    		<input type='hidden' name='balance<?php echo $x; ?>' id='balance<?php echo $x; ?>' value="<?php echo number_format($it['balance'],2); ?>">
+		    		<input type='hidden' name='balance<?php echo $x; ?>' id='balance<?php echo $x; ?>' value="<?php echo $it['balance']; ?>">
 			    		<?php 
 			    		$x++; 
 		    				} 
