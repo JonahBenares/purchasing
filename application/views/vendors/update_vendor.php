@@ -18,7 +18,7 @@
                                                     <?php foreach($vendor AS $v){ ?>
                                                         <div class="form-group">
                                                             <p class="m-b-0">Vendor:</p>
-                                                            <input type="text" name="vendor" class="form-control" value = "<?php echo $v->vendor_name;?>">
+                                                            <input type="text" name="vendor" class="form-control" value = "<?php echo $v->vendor_name;?>" readonly>
                                                         </div>
                                                         <div class="form-group">
                                                             <p class="m-b-0">Product/Services:</p>
