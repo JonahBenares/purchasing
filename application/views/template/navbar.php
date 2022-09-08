@@ -32,7 +32,6 @@
                                 <a href="<?php echo base_url(); ?>masterfile/proj_activity_list" class="dropdown-item">Project/Activity</a>
                             </div>
                         </li>
-
                         <li class="nav-item">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
                                 <i class="fa big-icon fa-file-text-o"></i> 

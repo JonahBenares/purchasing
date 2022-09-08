@@ -163,7 +163,7 @@ function changePrice(count){
     var price = document.getElementById("price"+count).value;
     var qty = document.getElementById("quantity"+count).value;
     var balance = document.getElementById("balance"+count).value;
-    if(qty>balance){
+    if(parseFloat(qty) > parseFloat(balance)){
         alert("Quantity not equal to PR quantity");
     }else{
         var tprice = parseFloat(price) * parseFloat(qty);

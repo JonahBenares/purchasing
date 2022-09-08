@@ -744,8 +744,8 @@
 		    				<?php $x++; } } ?>
 		    				<?php 
 		    				
-		    					$y = 1;
-		    					$x = 4;
+		    					$y = $x;
+		    					//$x = 4;
 		    					if($revised==0){
 		    						foreach($tc AS $t){ 
 		    							if(!empty($t->tc_desc)){
