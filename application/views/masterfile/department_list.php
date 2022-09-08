@@ -92,9 +92,9 @@
                                                     <a onclick="updateDepartment('<?php echo base_url(); ?>','<?php echo $d->department_id;?>')" class="btn btn-custon-three btn-info btn-xs">
                                                         <span class="fa fa-pencil"></span>
                                                     </a>
-                                                    <a href="<?php echo base_url(); ?>index.php/masterfile/delete_dept/<?php echo $d->department_id;?>" class="btn btn-custon-three btn-danger btn-xs" onclick="confirmationDelete(this);return false;">
+                                                    <!-- <a href="<?php echo base_url(); ?>index.php/masterfile/delete_dept/<?php echo $d->department_id;?>" class="btn btn-custon-three btn-danger btn-xs" onclick="confirmationDelete(this);return false;">
                                                         <span class="fa fa-times"></span>
-                                                    </a>
+                                                    </a> -->
                                                 </center>
                                             </td>
                                         </tr>
