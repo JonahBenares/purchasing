@@ -277,7 +277,7 @@ class Reports extends CI_Controller {
             $pr_id = $this->super_model->select_column_where("pr_details", "pr_id","pr_details_id",$pr_details_id); // check if item is for recom
             $item_fulfilled_by_mnl = $this->super_model->select_column_where("pr_details", "fulfilled_by","pr_details_id",$pr_details_id); // check if item is fulfilled by MNL
           //  echo "SELECT rd.rfq_details_id FROM rfq_details rd INNER JOIN rfq_head rh WHERE rd.pr_details_id = '$pr_details_id' AND rh.saved = '1' AND rh.cancelled = '0'";
-            $count_rfq = $this->super_model->count_custom_query("SELECT rd.rfq_details_id FROM rfq_details rd INNER JOIN rfq_head rh WHERE rd.pr_details_id = '$pr_details_id' AND rh.saved = '1' AND rh.cancelled = '0'"); // check if item is already in the RFQ process
+            $count_rfq = $this->super_model->count_custom_query("SELECT rd.rfq_details_id FROM rfq_details rd INNER JOIN rfq_head rh ON rd.rfq_id=rh.rfq_id WHERE rd.pr_details_id = '$pr_details_id' AND rh.saved = '1' AND rh.cancelled = '0'"); // check if item is already in the RFQ process
 
             $count_aoq = $this->super_model->count_custom_query("SELECT ah.aoq_id FROM aoq_head ah INNER JOIN aoq_offers ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr_details_id' AND saved='1' AND cancelled='0'"); // check if item is already in the AOQ process but not awarded
 
@@ -319,7 +319,6 @@ class Reports extends CI_Controller {
 
             /*$po_id = $this->super_model->select_column_where("po_items","po_id","pr_details_id",$pr_details_id);
             echo $pr_details_id." - ".$po_id."<br>";*/
-
             if(empty($sum_received_qty)){
                 $sum_received_qty = 0;
             } else {
