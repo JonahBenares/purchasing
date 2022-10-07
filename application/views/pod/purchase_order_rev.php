@@ -1,4 +1,7 @@
-    	<script src="<?php echo base_url(); ?>assets/js/po.js"></script> 
+<?php
+	$ci =& get_instance();
+?>
+<script src="<?php echo base_url(); ?>assets/js/po.js"></script> 
   	<head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -379,7 +382,8 @@
 						    		$x=1; 
 						    		if($revised==0){
 							    		if(!empty($items)){
-								    		foreach($items AS $it){ 
+								    		foreach($items AS $it){
+												$balance = $ci->item_balance($it->pr_details_id,$it->po_id); 
 								    			$gtotal2[] = $it->amount;
 
 								    			if(!empty($it->offer)){
@@ -403,6 +407,7 @@
 								    			</td>
 								    			<td colspan="3" class="bor-right v-align" align="right"><input type='text' name='tprice<?php echo $x; ?>' id='tprice<?php echo $x; ?>' class='tprice' value="<?php echo number_format($it->amount,2); ?>" style='text-align:right;' readonly></td>		
 								    		</tr>	
+											<input type='hidden' name='balance<?php echo $x; ?>' id='balance<?php echo $x; ?>' value="<?php echo $balance; ?>">	
 								    			<?php 
 									    		$x++; 
 								    			}	
@@ -577,8 +582,8 @@
 			    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 									Add Other Instruction
 								</button> 
-								<?php foreach($tc AS $t){ if(!empty($t->notes)){ ?>
-									<textarea type = "text" style='color:blue;width:92%' rows = '1' class="form-control" name = "notes"><?php echo $t->notes; ?></textarea><!-- <span style = "color:blue;"><?php echo $t->notes;?></span> --><?php } } ?>
+								<?php $xy=1; foreach($tc AS $t){ if(!empty($t->notes)){ ?>
+									<textarea type = "text" style='color:blue;width:92%' rows = '1' class="form-control" name = "notes<?php echo $xy; ?>"><?php echo $t->notes; ?></textarea><!-- <span style = "color:blue;"><?php echo $t->notes;?></span> --><?php $xy++; } } ?>
 							<?php }else{ ?>
 								Other Instructions:<br><?php foreach($tc_temp AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes)."<br>";?></span><?php } ?>
 
@@ -626,13 +631,15 @@
 		    					if($revised==0){
 		    						foreach($tc AS $t){ 
 		    							if(!empty($t->tc_desc)){
+											
 			    						//echo $no.". " . $t->tc_desc."<br>";
 			    						//$no++; 
 			    			?>
 			    				<?php echo $x.". "; ?><input type = "text" style='color:red;width: 90%' name = "terms<?php echo $y; ?>" value = "<?php echo $t->tc_desc; ?>"><br>
 			    			<?php
+									$x++;
 				    					}
-				    					$x++;
+				    					
 				    					$y++;
 			    					} 
 		    					}else { 
@@ -728,7 +735,7 @@
 						</h5>
 						
 					</div>
-					<form method="POST" action="<?php echo base_url(); ?>po/add_tc_temp">
+					<form method="POST" action="<?php echo base_url(); ?>pod/add_tc_temp">
 						<div class="modal-body">
 							<div class="form-group">
 								Terms & Conditions:
@@ -754,7 +761,7 @@
 							</button>
 						</h5>						
 					</div>
-					<form method="POST" action="<?php echo base_url(); ?>po/add_otherins_temp">
+					<form method="POST" action="<?php echo base_url(); ?>pod/add_otherins_temp">
 						<div class="modal-body">
 							<div class="form-group">
 								Other Instructions:
