@@ -2222,13 +2222,14 @@ class Po extends CI_Controller {
                 'saved'=>$head->saved,
                 'pr'=>$pr,
                 'rfd'=>$rfd,
+                'revision_no'=>$head->revision_no,
                 'po_type'=>$head->po_type
             );
         }  
         $this->load->view('po/served_po',$data);
         $this->load->view('template/footer');
     }
-
+    
     public function purchase_order_rev(){
 
         $po_id=$this->uri->segment(3); 
