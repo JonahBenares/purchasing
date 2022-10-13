@@ -215,7 +215,7 @@
 			    			</center>
 		    			</td>
 		    		</tr>
-		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b><br><small class="text-red">REVISED</small></h4></td></tr>
+		    		<tr><td colspan="20" align="center"><h4><b>PURCHASE ORDER</b><?php if($po_type==1){ ?><br><small>D I R E C T</small><?php } ?><br><small class="text-red">REVISED</small></h4></td></tr>
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>

@@ -1210,6 +1210,7 @@ class Po extends CI_Controller {
             $data['po_no']=$h->po_no;
             $data['notes']=$h->notes;
             $data['vat_in_ex']=$h->vat_in_ex;
+            $data['po_type']=$h->po_type;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
