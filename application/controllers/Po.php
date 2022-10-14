@@ -1214,6 +1214,7 @@ class Po extends CI_Controller {
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
+            $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
         }
         $data['items'] = $this->super_model->select_custom_where('po_items_revised', "po_id = '$po_id' AND revision_no = '$revise_no'");
         foreach($this->super_model->select_custom_where("po_pr_revised", "po_id = '$po_id' AND revision_no = '$revise_no'") AS $ppr){
@@ -2522,6 +2523,7 @@ class Po extends CI_Controller {
                 "vat_percent"=>$head->vat_percent,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
+                "recommended_by"=>$head->recommended_by,
                 "vat_in_ex"=>$head->vat_in_ex,
                 "saved"=>$head->saved,
                 "done_po"=>$head->done_po,
@@ -2554,6 +2556,7 @@ class Po extends CI_Controller {
         foreach($this->super_model->select_row_where("po_pr","po_id",$po_id) AS $popr){
             $data_popr = array(
                 "po_pr_id"=>$popr->po_pr_id,
+                "pr_id"=>$popr->pr_id,
                 "po_id"=>$popr->po_id,
                 "aoq_id"=>$popr->aoq_id,
                 "enduse"=>$popr->enduse,

@@ -256,6 +256,7 @@
 		    			<td colspan="" class="all-border" align="center"><b>Unit</b></td>
 		    			<td colspan="12" class="all-border" align="center"><b>Description</b></td>
 		    			<td colspan="2" class="all-border" align="center"><b>Unit Price</b></td>
+		    			<td colspan="1" class="all-border" align="center"><b>Currency</b></td>
 		    			<td colspan="3" class="all-border" align="center"></td>
 		    		</tr>
 		    		<?php
@@ -268,6 +269,7 @@
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td>
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it->offer; ?></b></td>
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo $it->unit_price; ?></b></td>
+		    			<td colspan="1" class="bor-right v-align" align="center"><b><?php echo $it->currency; ?></b></td>
 		    			<td colspan="3" class="bor-right v-align" align="right"><b class="nomarg"><?php echo number_format($it->amount,2); ?></b></td>		
 		    		</tr>	
 		    		<?php 
@@ -280,6 +282,7 @@
 		    				<p class="nomarg"><br></p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
 		    		</tr>
 		    		<tr>
@@ -290,6 +293,7 @@
 		    				<p class="nomarg">Shipping Cost</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($shipping,2); ?></b></td>		
 		    		</tr>
 		    		<tr>
@@ -300,6 +304,7 @@
 		    				<p class="nomarg">Packing and Handling Fee</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($packing,2); ?></b></td>		
 		    		</tr>
 		    		<?php if($vat_percent!=0){ ?>
@@ -311,6 +316,7 @@
 		    				<p class="nomarg"><?php echo $vat_percent; ?>% VAT</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($vat,2); ?></b></td>		
 		    		</tr>
 		    		<?php } ?>
@@ -322,6 +328,7 @@
 		    				<p class="nomarg">Less: Discount</p>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"><?php echo number_format($discount,2); ?></b></td>		
 		    		</tr>	
 		    		<tr>
@@ -339,6 +346,7 @@
 		    				<?php } ?>
 		    			</td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
 		    		</tr>	
 		    		<tr>
@@ -347,14 +355,15 @@
 		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="12" class="bor-right" align="left"><b class="nomarg"></b></td>
 		    			<td colspan="2" class="bor-right" align="center"><b></b></td>
+		    			<td colspan="" class="bor-right" align="center"><b></b></td>
 		    			<td colspan="3" class="bor-right" align="right"><b class="nomarg"></b></td>		
 		    		</tr>	
 		    		<?php $grtotal =array_sum($gtotal);
 		    		$grandtotal = ($grtotal+$shipping+$packing)-$discount;
 		    		?>
 		    		<tr>
-		    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
-		    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
+		    			<td colspan="18" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
+		    			<td colspan="2" class="all-border" align="right"><b class="nomarg"><span class="pull-left">₱</span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
 		    		</tr>
 			    	<tr>
 		    			<td class="f13" colspan="20" align="center" style="padding: 10px!important">
@@ -439,7 +448,7 @@
 		    			</td>
 		    		</tr>
 		    		
-		    		<tr><td colspan="20"><br></td></tr>
+		    		<!-- <tr><td colspan="20"><br></td></tr>
 		    		<tr>
 		    			<td colspan="1"></td>
 		    			<td colspan="5"><b>Prepared by:</b></td>
@@ -481,8 +490,116 @@
 		    			<td colspan="6"></td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
+		    		<tr><td colspan="20"><br></td></tr> -->
+		    		<tr>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    			<td width="5%"><br></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="1"></td>
+		    			<td colspan="4"><b>Prepared by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4"><b>Reviewed/Checked by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4"><b>Recommended by:</b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="3"><b>Approved by:</b></td>
+		    			<td colspan="1"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="1"></td>
+		    			<td colspan="4"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4"><b></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4"><b></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="3"><b></b></td>
+		    			<td colspan="1"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="3" class="bor-btm"><b><br></b></td>
+		    			<td colspan="1"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class=""><b><?php echo $prepared; ?></b></td>
+		    			<td colspan="1"></td>
+		    			<td colspan="4" class=""><b>
+			    			<?php if($saved==0){ ?>
+			    			<select name='checked' class="select-des emphasis" style="width: 100%" >
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select></b></td>
+			    			<?php }else { ?>
+			    			<?php echo $checked; } ?>
+			    			<td colspan="1"></td>
+		    			<td colspan="4" class=""><b>
+			    			<?php if($saved==0){ ?>
+			    			<select name='recommended' class="select-des emphasis" style="width: 100%" >
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select></b></td>
+			    			<?php }else { ?>
+			    			<?php echo $recommended; } ?>
+		    			<td colspan="1"></td>
+		    			<td colspan="3" class=""><b>
+			    			<?php if($saved==0){ ?>
+			    			<select name='approved' class="select-des emphasis" style="width: 100%" required>
+				    			<option value=''>-Select-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    			<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+			    			</select></b></td>
+			    			<?php }else { ?>
+			    			<?php echo $approved; } ?>
+		    			<td colspan="1"></td>
+		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>
-		    	</table>	    
+		    		<tr>
+		    			<td colspan="4"></td>
+		    			<td colspan="2"><b>Conforme:</b></td>
+		    			<td colspan="8" class="bor-btm"><b></b></td>
+		    			<td colspan="6"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="4"></td>
+		    			<td colspan="2"><b></b></td>
+		    			<td colspan="8" align="center"><b>Supplier's Signature Over Printed Name</b></td>
+		    			<td colspan="6"></td>
+		    		</tr>
+		    		<tr><td colspan="20"><br></td></tr>
+		    		<tr><td colspan="20"><br></td></tr>	    
+		    	</table>
 	    	</div>
     	</form>
     </div>
