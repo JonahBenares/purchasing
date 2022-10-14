@@ -1840,6 +1840,7 @@ class Joi extends CI_Controller {
                         "date_needed"=>$headt->date_needed,
                         "date_prepared"=>$headt->date_prepared,
                         "completion_date"=>$headt->completion_date,
+                        "general_desc"=>$headt->general_desc,
                         "cenpri_jo_no"=>$headt->cenpri_jo_no,
                         "start_of_work"=>$headt->start_of_work,
                         "project_title"=>$headt->project_title,
