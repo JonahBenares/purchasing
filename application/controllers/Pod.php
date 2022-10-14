@@ -1323,6 +1323,7 @@ class Pod extends CI_Controller {
                 "vat_in_ex"=>$head->vat_in_ex,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
+                "recommended_by"=>$head->recommended_by,
                 "saved"=>$head->saved,
                 "done_po"=>$head->done_po,
                 "date_revised"=>$this->input->post('approve_date'),
@@ -1350,6 +1351,7 @@ class Pod extends CI_Controller {
         foreach($this->super_model->select_row_where("po_pr","po_id",$po_id) AS $popr){
             $data_popr = array(
                 "po_pr_id"=>$popr->po_pr_id,
+                "pr_id"=>$popr->pr_id,
                 "po_id"=>$popr->po_id,
                 "aoq_id"=>$popr->aoq_id,
                 "enduse"=>$popr->enduse,
