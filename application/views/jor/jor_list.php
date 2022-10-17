@@ -3,6 +3,22 @@
          var jor_id = $(this).data('id');
          $(".modal #jor_id").val(jor_id);
     });
+
+    function completeJOR(baseurl,jor_id){
+    var redirect = baseurl+"jor/completed_jor";
+    var conf = confirm('Are you sure you want to tag this as Completed JOR?');
+    if(conf){
+        $.ajax({
+            data: "jor_id="+jor_id,
+            type: "POST",
+            url: redirect,
+            success: function(output){
+                alert('Successfully tag as Completed JOR.');
+                window.location=baseurl+'jor/jor_list/';
+            }
+        });
+    }
+}
 </script>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
@@ -96,7 +112,7 @@
                                             <span class="fa fa-plus p-l-0"></span> Add JOR
                                         </a>
                                         <a href="<?php echo base_url(); ?>jor/jo_pending_forrfq" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-clock-o"></span> Pending for RFQ</a>
-
+                                        <a href="<?php echo base_url(); ?>jor/completed_jor_list" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Completed PR</a>
                                         <a href="<?php echo base_url(); ?>jor/cancelled_jor" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled JOR</a>
                                     </div>
                                 </div>
@@ -138,6 +154,7 @@
                                                         <a href="<?php echo base_url(); ?>jor/jor_request/<?php echo $jh->jor_id?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                         </a>
+                                                        <a href='#' onclick="completeJOR('<?php echo base_url(); ?>','<?php echo $jh->jor_id; ?>')" class="completePR btn btn-custon-three btn-success btn-xs" onclick="return confirm('Are you sure you want to complete this JOR?')" data-toggle="tooltip" data-placement="bottom" title="Complete" ><span class="fa fa-check" title="Complete"></span></a>
                                                         <a class="cancelJOR btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelJOR" data-id="<?php echo $jh->jor_id; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                     </center>
                                                 </td>

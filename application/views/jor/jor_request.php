@@ -296,6 +296,7 @@ $ci =& get_instance();
                                                 <td><?php echo $ji['vendor']; ?></td>
                                                 <?php } ?>
                                                 <td align="center">
+                                                <?php if($completed==0){ ?>
                                                     <?php if($saved==1){ ?>
                                                     <a href="" class="regroupItem btn btn-xs btn-success btn-custon-three" data-toggle="modal" data-target="#regroup_g" title="Regroup" data-group="" data-id="<?php echo $ji['jor_items_id']; ?>"><span class="fa fa-object-group"> </span></a>
                                                     <?php } ?>
@@ -304,6 +305,7 @@ $ci =& get_instance();
                                                     <?php } ?>
                                                     <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $ji['jor_items_id']; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                 </td>
+                                                 <?php } ?>
                                             </tr>
                                                 <input type='hidden' name='jor_items_id<?php echo $x; ?>' value="<?php echo $ji['jor_items_id']; ?>">
                                             <?php $x++; } } } } ?>

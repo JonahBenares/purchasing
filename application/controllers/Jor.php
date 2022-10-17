@@ -163,9 +163,55 @@ class Jor extends CI_Controller {
     public function jor_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $data['jo_head']=$this->super_model->select_custom_where("jor_head","cancelled='0' ORDER BY date_prepared ASC");
+        $data['jo_head']=$this->super_model->select_custom_where("jor_head","cancelled='0' AND completed='0' ORDER BY date_prepared ASC");
         $this->load->view('jor/jor_list',$data);
         $this->load->view('template/footer');
+    }
+
+    public function completed_jor_list(){  
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $count = $this->super_model->count_custom_where("jor_head","completed='1'");
+        if($count!=0){
+            foreach($this->super_model->select_custom_where("jor_head","completed='1' ORDER BY date_completed ASC") AS $heads){
+                $data['jor_completed'][] = array(
+                    'jor_id'=>$heads->jor_id,
+                    'jo_no'=>$heads->jo_no,
+                    'user_jo_no'=>$heads->user_jo_no,
+                    'date_prepared'=>$heads->date_prepared,
+                    'jo_request'=>$heads->jo_request,
+                    'urgency'=>$heads->urgency,
+                    'date_imported'=>$heads->date_imported,
+                    'department'=>$heads->department,
+                    'completed_by'=> $this->super_model->select_column_where('users','fullname','user_id',$heads->completed_by),
+                    'date_completed'=> $heads->date_completed,
+                );
+            }
+        }else {
+            $data['jor_completed']=array();
+        }
+
+        $this->load->view('jor/completed_jor_list',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function completed_jor(){
+        $jor_id=$this->input->post('jor_id');
+        $date=date('Y-m-d H:i:s');
+        $data=array(
+            'completed'=>1,
+            'completed_by'=>$_SESSION['user_id'],
+            'date_completed'=>$date,
+        );
+        
+        if($this->super_model->update_where('jor_head', $data, 'jor_id', $jor_id)){
+            foreach($this->super_model->select_custom_where('jor_items',"jor_id='$jor_id'") AS $jo){
+                $data_jor=array(
+                    'completed'=>1,
+                );
+                $this->super_model->update_where('jor_items', $data_jor, 'jor_items_id', $jo->jor_items_id);
+            }
+        }
     }
 
     public function createColumnsArray($end_column, $first_letters = ''){
@@ -215,6 +261,7 @@ class Jor extends CI_Controller {
                     $vendor_id.=$this->super_model->select_column_where('vendor_head','vendor_id','vendor_id',$ven->vendor_id);
                 }
                 $data['cancelled']=$ji->cancelled;
+                $data['completed']=$ji->completed;
                 if($ji->total_cost==0){
                     $total=$ji->quantity*$ji->unit_cost;
                 }else{
