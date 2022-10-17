@@ -299,6 +299,7 @@ $ci =& get_instance();
                                                 <td><?php echo $det['vendor']; ?></td>
                                                 <?php } ?>
                                                 <td align="center">
+                                                 <?php if($completed==0){ ?>
                                                     <?php if($saved==1){ ?>
                                                     <a href="" class="regroupItem btn btn-xs btn-success btn-custon-three" data-toggle="modal" data-target="#regroup_g" title="Regroup" data-group="" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-object-group"> </span></a>
                                                     <?php } ?>
@@ -306,6 +307,7 @@ $ci =& get_instance();
                                                     <a href="" class="addVendor btn btn-xs btn-warning btn-custon-three" data-toggle="modal" data-target="#exampleModal" title="Add Vendor" data-group="<?php echo $det['grouping_id']; ?>" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-shopping-cart"> </span></a>
                                                     <?php } ?>
                                                     <a class="cancelItem btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelItem" data-id="<?php echo $det['pr_details_id']; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
+                                                     <?php } ?>
                                                 </td>
                                             </tr>
                                         <?php } ?>

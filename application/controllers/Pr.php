@@ -456,6 +456,7 @@ class Pr extends CI_Controller {
                 $vendor.="-".$this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$ven->vendor_id) . "<br>";
             }
             $data['cancelled']=$det->cancelled;
+            $data['completed']=$det->completed;
             $data['details'][]=array(
                 'pr_details_id'=>$det->pr_details_id,
                 'quantity'=>$det->quantity,
