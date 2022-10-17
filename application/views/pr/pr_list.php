@@ -3,6 +3,22 @@
          var pr_id = $(this).data('id');
          $(".modal #pr_id").val(pr_id);
     });
+
+    function completePR(baseurl,pr_id){
+    var redirect = baseurl+"pr/completed_pr";
+    var conf = confirm('Are you sure you want to tag this as Completed PR?');
+    if(conf){
+        $.ajax({
+            data: "pr_id="+pr_id,
+            type: "POST",
+            url: redirect,
+            success: function(output){
+                alert('Successfully tag as Completed PR.');
+                window.location=baseurl+'pr/pr_list/';
+            }
+        });
+    }
+}
 </script>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
@@ -96,7 +112,7 @@
                                             <span class="fa fa-plus p-l-0"></span> Add PR
                                         </a>
                                         <a href="<?php echo base_url(); ?>pr/pending_forrfq" class="btn btn-custon-three btn-warning"><span class="p-l-0 fa fa-clock-o"></span> Pending for RFQ</a>
-
+                                        <a href="<?php echo base_url(); ?>pr/completed_pr_list" class="btn btn-custon-three btn-success"><span class="p-l-0 fa fa-check"></span> Completed PR</a>
                                         <a href="<?php echo base_url(); ?>pr/cancelled_pr" class="btn btn-custon-three btn-danger"><span class="p-l-0 fa fa-ban"></span> Cancelled PR</a>
                                     </div>
                                 </div>
@@ -133,6 +149,7 @@
                                                         <a href="<?php echo base_url(); ?>pr/purchase_request/<?php echo $p->pr_id?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                         </a>
+                                                        <a href='#' onclick="completePR('<?php echo base_url(); ?>','<?php echo $p->pr_id; ?>')" class="completePR btn btn-custon-three btn-success btn-xs" onclick="return confirm('Are you sure you want to complete this PR?')" data-toggle="tooltip" data-placement="bottom" title="Complete" ><span class="fa fa-check" title="Complete"></span></a>
                                                         <a class="cancelPR btn btn-custon-three btn-danger btn-xs" data-toggle="modal" data-target="#cancelPR" data-id="<?php echo $p->pr_id; ?>"><span class="fa fa-ban" title="Cancel"></span></a>
                                                         <!-- <a href="<?php echo base_url(); ?>index.php/pr/cancel_pr/<?php echo $p->pr_id?>" class="btn btn-custon-three btn-danger btn-xs">
                                                             <span class="p-l-0 fa fa-ban"></span>
