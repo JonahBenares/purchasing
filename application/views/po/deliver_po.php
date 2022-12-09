@@ -7,13 +7,13 @@
                         <div class="sparkline8-graph" style="text-align: unset;">
                             <div class="datatable-dashv1-list custom-datatable-overright">
                                 <div class="modal-body-lowpad">
-                                    <form method='POST' action="<?php echo base_url(); ?>po/save_delivery">
+                                    <form method='POST' action="<?php echo base_url(); ?>po/save_delivery" id="formDelivered">
                                     <table width="100%">
                                         <tr>
                                             <td width="20%" style="padding-left: 0px!important">
                                                 <div class="form-group">
-                                                    <p class="m-b-0">Date Delivered:</p>
-                                                    <input type="date" class="form-control" name="date_delivered" required="required">
+                                                    <p class="m-b-0"><b>Date Delivered:</b></p>
+                                                    <input type="date" id="date_change" class="form-control" name="date_delivered" required="required">
                                                 </div>
                                             </td>
                                             <td width="80%"></td>
@@ -48,7 +48,7 @@
                                         <input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>     
                                         <input type='hidden' name='dr_id' value='<?php echo $dr_id; ?>'>     
                                         <input type='hidden' name='count' value='<?php echo $x; ?>'>               
-                                        <input type = "submit" class="btn btn-custon-three btn-primary btn-block" value = "Save">
+                                        <input type = "submit" id="saved" class="btn btn-custon-three btn-primary btn-block" value = "Save">
                                     </center>
                                 </div>  
                                 </form>
@@ -60,3 +60,11 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            $("#formDelivered").submit(function (e) {
+                document.getElementById("saved").disabled = true;
+                return true;
+            });
+        });
+    </script>
