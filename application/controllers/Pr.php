@@ -44,6 +44,17 @@ class Pr extends CI_Controller {
             $series = $max+1;
         }
 
+        //series per year
+        /*$year=date('Y');
+        $series_rows = $this->super_model->count_custom_where("po_head","po_date LIKE '%$year%'");
+        if($series_rows==0){
+            $series=1000;
+        }else{
+            $po_max = $this->super_model->get_max_where("po_head", "po_no","po_date LIKE '%$year%'");
+            $po_exp=explode("-", $po_max);
+            $series = $po_exp[1]+1;
+        }*/
+
         $pr_id = $this->input->post('pr_ids');
         $group_id = $this->input->post('group_id');
          $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id);
@@ -177,6 +188,20 @@ class Pr extends CI_Controller {
             $max = $this->super_model->get_max("po_series", "series");
             $series = $max+1;
         }
+
+
+//series per year
+        /*$year=date('Y');
+        $series_rows = $this->super_model->count_custom_where("po_head","po_date LIKE '%$year%'");
+        if($series_rows==0){
+            $series=1000;
+        }else{
+            $po_max = $this->super_model->get_max_where("po_head", "po_no","po_date LIKE '%$year%'");
+            
+            $po_exp=explode("-", $po_max);
+            $series = $po_exp[1]+1;
+        }*/
+
         $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id);
         $po_no = 'P'.$pr_no.'-'.$series;
         $data_series = array(
@@ -330,7 +355,7 @@ class Pr extends CI_Controller {
             $maxid=$this->super_model->get_max("pr_head", "pr_id");
             $pr_id=$maxid+1;
         }
-
+        $year=date('Y');
         $pr = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue());
         $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
         /*$date_issued = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());*/
@@ -348,7 +373,19 @@ class Pr extends CI_Controller {
             $max_series=$this->super_model->get_max("pr_series", "series_no");
             $pr_series=$max_series+1;
         }
-
+//series per year
+/*        $series_rows = $this->super_model->count_custom_where("pr_head","date_prepared LIKE '%$year%'");
+        if($series_rows==0){
+            $pr_series=1000;
+            $pr_no = $dept_code.date('y')."-1000";
+        }else{
+            $pr_max = $this->super_model->get_max_where("pr_head", "pr_no","date_prepared LIKE '%$year%'");
+            
+            $pr_exp=explode("-", $pr_max);
+            $pr_series = $pr_exp[1]+1;
+            $pr_no = $dept_code.date('y').'-'.$pr_series;
+        }*/
+        //echo $pr_no;
 
         $pr_no = $dept_code.date('y')."-".$pr_series;
 
@@ -416,7 +453,7 @@ class Pr extends CI_Controller {
                 $data_det=array(
                     'cancelled'=>1,
                 );
-                $this->super_model->update_where('pr_details', $data, 'pr_details_id', $up->pr_details_id);
+                $this->super_model->update_where('pr_details', $data_det, 'pr_details_id', $up->pr_details_id);
             }
             echo "<script>alert('Successfully Cancelled!'); window.location ='".base_url()."pr/pr_list';</script>";
         }
@@ -471,6 +508,7 @@ class Pr extends CI_Controller {
                 'cancelled_reason'=>$det->cancelled_reason,
                 'cancelled_date'=>$det->cancelled_date,
                 'cancelled'=>$det->cancelled,
+                'completed'=>$det->completed,
                 'vendor'=>$vendor
             ); 
         }
@@ -537,14 +575,14 @@ class Pr extends CI_Controller {
         $data['pr_id']=$prid;
         $data['pr_no']=$this->super_model->select_column_where("pr_head", "pr_no", "pr_id", $prid);
 
-        foreach($this->super_model->custom_query("SELECT DISTINCT grouping_id FROM pr_details WHERE pr_id = '$prid' AND grouping_id!='' AND cancelled='0'") AS $groups){
+        foreach($this->super_model->custom_query("SELECT DISTINCT grouping_id FROM pr_details WHERE pr_id = '$prid' AND cancelled='0'") AS $groups){
             $data['group'][] = array(
                 'group'=>$groups->grouping_id,
             );
 
         }
 
-       foreach($this->super_model->custom_query("SELECT item_description, grouping_id, cancelled FROM pr_details WHERE pr_id = '$prid' AND grouping_id!='' AND cancelled='0'") AS $items){
+       foreach($this->super_model->custom_query("SELECT item_description, grouping_id, cancelled FROM pr_details WHERE pr_id = '$prid' AND cancelled='0'") AS $items){
             $data['items'][] = array(
                 'group_id'=>$items->grouping_id,
                 'item_desc'=>$items->item_description,

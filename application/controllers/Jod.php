@@ -221,7 +221,7 @@ class Jod extends CI_Controller {
 
     public function create_dr(){
         $joi_id = $this->uri->segment(3);
-        $rows_dr = $this->super_model->count_rows("joi_dr");
+/*        $rows_dr = $this->super_model->count_rows("joi_dr");
         if($rows_dr==0){
             $joi_dr_no=1000;
             $joi_dr_id = 1;
@@ -230,6 +230,24 @@ class Jod extends CI_Controller {
             $maxid = $this->super_model->get_max("joi_dr", "joi_dr_id");
             $joi_dr_no = $max+1;
             $joi_dr_id = $maxid+1;
+        }*/
+
+        $rows_dr = $this->super_model->count_rows("joi_dr");
+        if($rows_dr==0){
+            $joi_dr_id=1;
+        } else {
+            $maxid = $this->super_model->get_max("joi_dr", "joi_dr_id");
+            $joi_dr_id = $maxid+1;
+        }
+
+
+        $year=date('Y');
+        $dr_count = $this->super_model->count_custom_where("joi_dr","joi_dr_date LIKE '%$year%'");
+        if($dr_count==0){
+            $joi_dr_no = 1000;
+        }else{
+            $maxno = $this->super_model->get_max_where("joi_dr", "joi_dr_no","joi_dr_date LIKE '%$year%'");
+            $joi_dr_no = $maxno + 1;
         }
 
          $dr = array(
@@ -514,7 +532,7 @@ class Jod extends CI_Controller {
     }
 
     public function create_joi(){
-        $rows_head = $this->super_model->count_rows("joi_head");
+/*        $rows_head = $this->super_model->count_rows("joi_head");
         if($rows_head==0){
             $joi_id=1;
         } else {
@@ -528,6 +546,26 @@ class Jod extends CI_Controller {
         } else {
             $max = $this->super_model->get_max("joi_series", "series");
             $series = $max+1;
+        }*/
+
+        $rows_head = $this->super_model->count_rows("joi_head");
+        if($rows_head==0){
+            $joi_id=1;
+        } else {
+            $max = $this->super_model->get_max("joi_head", "joi_id");
+            $joi_id = $max+1;
+        }
+
+
+        $year=date('Y');
+        $rows_series = $this->super_model->count_custom_where("joi_head","joi_date LIKE '%$year%'");
+        if($rows_series==0){
+            $series=1000;
+        }else{
+            $joi_max = $this->super_model->get_max_where("joi_head", "joi_no","joi_date LIKE '%$year%'");
+            
+            $joi_exp=explode("-", $joi_max);
+            $series = $joi_exp[1]+1;
         }
 
         if(empty($this->input->post('dp'))){
@@ -729,7 +767,7 @@ class Jod extends CI_Controller {
         $count_item = $this->input->post('count_item');
         $count_notes = $this->input->post('count_notes');
         $a=1;
-        $rows_dr = $this->super_model->count_rows("joi_dr");
+/*        $rows_dr = $this->super_model->count_rows("joi_dr");
         if($rows_dr==0){
             $joi_dr_no=1000;
             $joi_dr_id = 1;
@@ -738,6 +776,24 @@ class Jod extends CI_Controller {
             $maxid = $this->super_model->get_max("joi_dr", "joi_dr_id");
             $joi_dr_no = $max+1;
             $joi_dr_id = $maxid+1;
+        }*/
+
+        $rows_dr = $this->super_model->count_rows("joi_dr");
+        if($rows_dr==0){
+            $joi_dr_id=1;
+        } else {
+            $maxid = $this->super_model->get_max("joi_dr", "joi_dr_id");
+            $joi_dr_id = $maxid+1;
+        }
+
+
+        $year=date('Y');
+        $dr_count = $this->super_model->count_custom_where("joi_dr","joi_dr_date LIKE '%$year%'");
+        if($dr_count==0){
+            $joi_dr_no = 1000;
+        }else{
+            $maxno = $this->super_model->get_max_where("joi_dr", "joi_dr_no","joi_dr_date LIKE '%$year%'");
+            $joi_dr_no = $maxno + 1;
         }
 
         $dr = array(
@@ -830,11 +886,11 @@ class Jod extends CI_Controller {
         }
 
         $date_format = date("Y");
-        $rows_ar = $this->super_model->count_rows("joi_ar");
+        $rows_ar = $this->super_model->count_custom_where("joi_ar","ar_date LIKE '%$date_format%'");
         if($rows_ar==0){
             $ar_no= "AR ".$date_format."-01";
         } else {
-            $max = $this->super_model->get_max("joi_ar", "series");
+            $max = $this->super_model->get_max_where("joi_ar", "series","ar_date LIKE '%$date_format%'");
             $nexts = $max+1;
             $nxts = str_pad($nexts, 2, "0", STR_PAD_LEFT);
             $ar_no = "AR ".$date_format."-".$nxts;
@@ -853,11 +909,11 @@ class Jod extends CI_Controller {
         $this->super_model->insert_into("joi_ar", $ar);
 
         $date_coc = date("Y");
-        $rows_coc = $this->super_model->count_rows("joi_coc");
+        $rows_coc = $this->super_model->count_custom_where("joi_coc","year LIKE '%$date_coc%'");
         if($rows_coc==0){
             $coc_no= "COC-".$date_coc."_01";
         } else {
-            $max = $this->super_model->get_max("joi_coc", "series");
+            $max = $this->super_model->get_max_where("joi_coc", "series","year LIKE '%$date_coc%'");
             $nexts = $max+1;
             $nxts = str_pad($nexts, 2, "0", STR_PAD_LEFT);
             $coc_no = "COC-".$date_coc."_".$nxts;
@@ -1681,21 +1737,24 @@ class Jod extends CI_Controller {
         $max_revision = $this->super_model->get_max_where("joi_head", "revision_no","joi_id = '$joi_id'");
         $revision_no = $max_revision+1;
 
-       $rows_dr = $this->super_model->count_rows("joi_dr");
+        $year=date('Y');
+       $rows_dr = $this->super_model->count_custom_where("joi_dr","joi_dr_date LIKE '%$year%'");
         if($rows_dr==0){
             $dr_no=1000;
+            $series=1000;
         } else {
-            $max = $this->super_model->get_max("joi_dr", "joi_dr_no");
+            $max = $this->super_model->get_max_where("joi_dr", "joi_dr_no","joi_dr_date LIKE '%$year%'");
             $dr_no = $max+1;
+            $series = $max+1;
         }
 
-        $rows_series = $this->super_model->count_rows("joi_series");
+/*        $rows_series = $this->super_model->count_custom_where("joi_series");
         if($rows_series==0){
             $series=1000;
         } else {
             $max = $this->super_model->get_max("joi_series", "series");
             $series = $max+1;
-        }
+        }*/
 
         $data_series = array(
             'series'=>$series

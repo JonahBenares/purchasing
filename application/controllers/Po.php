@@ -146,13 +146,24 @@ class Po extends CI_Controller {
             $po_id = $max+1;
         }
 
-        $rows_series = $this->super_model->count_rows("po_series");
+
+        $year=date('Y');
+        $series_rows = $this->super_model->count_custom_where("po_head","po_date LIKE '%$year%'");
+        if($series_rows==0){
+            $series=1000;
+        }else{
+            $po_max = $this->super_model->get_max_where("po_head", "po_no","date_prepared LIKE '%$year%'");
+            $po_exp=explode("-", $po_max);
+            $series = $po_exp[1]+1;
+        }
+
+/*        $rows_series = $this->super_model->count_rows("po_series");
         if($rows_series==0){
             $series=1000;
         } else {
             $max = $this->super_model->get_max("po_series", "series");
             $series = $max+1;
-        }
+        }*/
 
         if(empty($this->input->post('dp'))){
             $pr_no = $this->super_model->select_column_where('pr_head', 'pr_no', 'pr_id',$this->input->post('prno'));
@@ -223,13 +234,24 @@ class Po extends CI_Controller {
         }
 
 
-            $rows_series = $this->super_model->count_rows("po_series");
+        $year=date('Y');
+        $series_rows = $this->super_model->count_custom_where("po_head","po_date LIKE '%$year%'");
+        if($series_rows==0){
+            $series=1000;
+        }else{
+            $po_max = $this->super_model->get_max_where("po_head", "po_no","date_prepared LIKE '%$year%'");
+            
+            $po_exp=explode("-", $po_max);
+            $series = $po_exp[1]+1;
+        }
+
+/*        $rows_series = $this->super_model->count_rows("po_series");
         if($rows_series==0){
             $series=1000;
         } else {
             $max = $this->super_model->get_max("po_series", "series");
             $series = $max+1;
-        }
+        }*/
 
         $po_no = 'RPO-'.$series;
 
@@ -302,7 +324,7 @@ class Po extends CI_Controller {
     public function item_checker($pr_details_id, $vendor_id){
         $pr_qty = $this->super_model->select_column_where('pr_details', 'quantity', 'pr_details_id', $pr_details_id);
 
-        $delivered_qty = $this->super_model->select_sum_join("delivered_quantity","po_head","po_items", "pr_details_id = '$pr_details_id' AND cancelled = '0' ","po_id");
+        $delivered_qty = $this->super_model->select_sum_join("quantity","po_head","po_items", "pr_details_id = '$pr_details_id' AND cancelled = '0' ","po_id");
 
        // if($delivered_qty!=0){
             if($delivered_qty==$pr_qty){
@@ -518,7 +540,7 @@ class Po extends CI_Controller {
         $a=1;
 
 
-        $rows_dr = $this->super_model->count_rows("po_dr");
+/*        $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
             $dr_no=1000;
             $dr_id = 1;
@@ -527,6 +549,24 @@ class Po extends CI_Controller {
             $maxid = $this->super_model->get_max("po_dr", "dr_id");
             $dr_no = $max+1;
             $dr_id = $maxid+1;
+        }*/
+
+        $rows_head = $this->super_model->count_rows("po_dr");
+        if($rows_head==0){
+            $dr_id=1;
+        } else {
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
+            $dr_id = $maxid+1;
+        }
+
+
+        $year=date('Y');
+        $dr_count = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
+        if($dr_count==0){
+            $dr_no = 1000;
+        }else{
+            $maxno = $this->super_model->get_max_where("po_dr", "dr_no","dr_date LIKE '%$year%'");
+            $dr_no = $maxno + 1;
         }
 
 
@@ -866,14 +906,22 @@ class Po extends CI_Controller {
             
         }
 
-    
-        $rows_dr = $this->super_model->count_rows("po_dr");
+        $year=date('Y');
+        $dr_count = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
+        if($dr_count==0){
+            $dr_no = 1000;
+        }else{
+            $maxno = $this->super_model->get_max_where("po_dr", "dr_no","dr_date LIKE '%$year%'");
+            $dr_no = $maxno + 1;
+        }
+
+/*        $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
             $dr_no=1000;
         } else {
             $max = $this->super_model->get_max("po_dr", "dr_no");
             $dr_no = $max+1;
-        }
+        }*/
 
          $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
         $revision_no = $max_revision+1;
@@ -1210,11 +1258,9 @@ class Po extends CI_Controller {
             $data['po_no']=$h->po_no;
             $data['notes']=$h->notes;
             $data['vat_in_ex']=$h->vat_in_ex;
-            $data['po_type']=$h->po_type;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
-            $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
         }
         $data['items'] = $this->super_model->select_custom_where('po_items_revised', "po_id = '$po_id' AND revision_no = '$revise_no'");
         foreach($this->super_model->select_custom_where("po_pr_revised", "po_id = '$po_id' AND revision_no = '$revise_no'") AS $ppr){
@@ -1546,62 +1592,6 @@ class Po extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function add_repeatorder_notes(){
-        $po_id = $this->input->post('po_id');
-        $pr_id = $this->input->post('pr_id');
-        $group_id = $this->input->post('group_id');
-        $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
-        $data = array(
-            'po_id'=>$this->input->post('po_id'),
-            'notes'=>$this->input->post('notes'),
-        );
-        if($this->super_model->insert_into("po_tc", $data)){
-            if($draft==0){
-                redirect(base_url().'po/reporder_prnt/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
-            } else {
-                 redirect(base_url().'po/reporder_prnt_draft/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
-            }
-        }
-    }
-
-    public function update_repeatorder_notes(){
-        $po_id = $this->input->post('po_id');
-        $pr_id = $this->input->post('pr_id');
-        $group_id = $this->input->post('group_id');
-        $tc_id = $this->input->post('tc_id');
-        $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
-        $saved = $this->super_model->select_column_where("po_head", "saved", "po_id", $po_id);
-        $update = array(
-            'notes'=>$this->input->post('notes'),
-        ); 
-        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
-            if($saved==0 && $draft==0){
-                redirect(base_url().'po/reporder_prnt/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
-            } else if($draft==1){
-                redirect(base_url().'po/reporder_prnt_draft/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
-            }
-        }
-    }
-
-    public function delete_repeatorder_inst(){
-        $id=$this->uri->segment(3);
-        $po_id=$this->uri->segment(4);
-        $pr_id=$this->uri->segment(5);
-        $group_id=$this->uri->segment(6);
-        $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
-        $saved = $this->super_model->select_column_where("po_head", "saved", "po_id", $po_id);
-        if($this->super_model->delete_where('po_tc', 'po_tc_id', $id)){
-            if($saved==0 && $draft==0){
-                echo "<script>alert('Succesfully Deleted');</script>";
-                redirect(base_url().'po/reporder_prnt/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
-            }else if($draft==1){
-                echo "<script>alert('Succesfully Deleted');</script>";
-                redirect(base_url().'po/reporder_prnt_draft/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
-            }
-
-        }
-    }
-
     public function update_condition_reporder(){
         $po_id = $this->input->post('po_id');
         $tc_id = $this->input->post('tc_id');
@@ -1787,7 +1777,7 @@ class Po extends CI_Controller {
         $po_id = $this->input->post('po_id');
         $pr_id = $this->input->post('pr_id');
         $group_id = $this->input->post('group_id');
-        $rows_dr = $this->super_model->count_rows("po_dr");
+/*        $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
             $dr_id = 1;
             $dr_no=1000;
@@ -1796,6 +1786,24 @@ class Po extends CI_Controller {
             $maxid = $this->super_model->get_max("po_dr", "dr_id");
             $dr_no = $max+1;
             $dr_id = $maxid+1;
+        }*/
+
+        $rows_head = $this->super_model->count_rows("po_dr");
+        if($rows_head==0){
+            $dr_id=1;
+        } else {
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
+            $dr_id = $maxid+1;
+        }
+
+
+        $year=date('Y');
+        $dr_count = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
+        if($dr_count==0){
+            $dr_no = 1000;
+        }else{
+            $maxno = $this->super_model->get_max_where("po_dr", "dr_no","dr_date LIKE '%$year%'");
+            $dr_no = $maxno + 1;
         }
 
         $dr = array(
@@ -1869,7 +1877,7 @@ class Po extends CI_Controller {
         $pr_id = $this->input->post('pr_id');
         $group_id = $this->input->post('group_id');
         $count_item = $this->input->post('count_item');
-        $rows_dr = $this->super_model->count_rows("po_dr");
+/*        $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
             $dr_id = 1;
             $dr_no=1000;
@@ -1878,6 +1886,24 @@ class Po extends CI_Controller {
             $maxid = $this->super_model->get_max("po_dr", "dr_id");
             $dr_no = $max+1;
             $dr_id = $maxid+1;
+        }*/
+
+        $rows_head = $this->super_model->count_rows("po_dr");
+        if($rows_head==0){
+            $dr_id=1;
+        } else {
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
+            $dr_id = $maxid+1;
+        }
+
+
+        $year=date('Y');
+        $dr_count = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
+        if($dr_count==0){
+            $dr_no = 1000;
+        }else{
+            $maxno = $this->super_model->get_max_where("po_dr", "dr_no","dr_date LIKE '%$year%'");
+            $dr_no = $maxno + 1;
         }
 
         $dr = array(
@@ -2224,14 +2250,13 @@ class Po extends CI_Controller {
                 'saved'=>$head->saved,
                 'pr'=>$pr,
                 'rfd'=>$rfd,
-                'revision_no'=>$head->revision_no,
                 'po_type'=>$head->po_type
             );
         }  
         $this->load->view('po/served_po',$data);
         $this->load->view('template/footer');
     }
-    
+
     public function purchase_order_rev(){
 
         $po_id=$this->uri->segment(3); 
@@ -2434,7 +2459,7 @@ class Po extends CI_Controller {
         $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
         $revision_no = $max_revision+1;
 
-       $rows_dr = $this->super_model->count_rows("po_dr");
+/*       $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
             $dr_no=1000;
         } else {
@@ -2448,6 +2473,24 @@ class Po extends CI_Controller {
         } else {
             $max = $this->super_model->get_max("po_series", "series");
             $series = $max+1;
+        }*/
+
+        $rows_series = $this->super_model->count_rows("po_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("po_series", "series");
+            $series = $max+1;
+        }
+
+
+        $year=date('Y');
+        $rows_dr = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
+        if($rows_dr==0){
+            $dr_no = 1000;
+        }else{
+            $max = $this->super_model->get_max_where("po_dr", "dr_no","dr_date LIKE '%$year%'");
+            $dr_no = $max + 1;
         }
 
         $data_series = array(
@@ -2523,7 +2566,6 @@ class Po extends CI_Controller {
                 "vat_percent"=>$head->vat_percent,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
-                "recommended_by"=>$head->recommended_by,
                 "vat_in_ex"=>$head->vat_in_ex,
                 "saved"=>$head->saved,
                 "done_po"=>$head->done_po,
@@ -2556,7 +2598,6 @@ class Po extends CI_Controller {
         foreach($this->super_model->select_row_where("po_pr","po_id",$po_id) AS $popr){
             $data_popr = array(
                 "po_pr_id"=>$popr->po_pr_id,
-                "pr_id"=>$popr->pr_id,
                 "po_id"=>$popr->po_id,
                 "aoq_id"=>$popr->aoq_id,
                 "enduse"=>$popr->enduse,
@@ -2824,7 +2865,7 @@ class Po extends CI_Controller {
     public function create_dr(){
          $po_id = $this->uri->segment(3);
 
-        $rows_dr = $this->super_model->count_rows("po_dr");
+/*        $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
             $dr_no=1000;
             $dr_id = 1;
@@ -2833,7 +2874,28 @@ class Po extends CI_Controller {
             $maxid = $this->super_model->get_max("po_dr", "dr_id");
             $dr_no = $max+1;
             $dr_id = $maxid+1;
+        }*/
+
+        $rows_head = $this->super_model->count_rows("po_dr");
+        if($rows_head==0){
+            $dr_id=1;
+        } else {
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
+            $dr_id = $maxid+1;
         }
+
+
+        $year=date('Y');
+        $rows_dr = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
+        if($rows_dr==0){
+            $dr_no = 1000;
+        }else{
+            $max = $this->super_model->get_max_where("po_dr", "dr_no","dr_date LIKE '%$year%'");
+            $dr_no = $max + 1;
+        }
+
+
+
 
          $dr = array(
             'dr_id'=>$dr_id,
@@ -3001,15 +3063,6 @@ class Po extends CI_Controller {
        $pr_details_id = $_POST['id'];
        $quantity = $this->super_model->select_column_where("pr_details", "quantity", "pr_details_id", $pr_details_id);
        echo $quantity;
-    }
-
-    public function item_balance($pr_details_id,$po_id){
-      /*  echo "SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id='$po_id'";*/
-        /*$pr_qty = $this->super_model->custom_query_single("quantity","SELECT quantity FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pr_details_id = '$pr_details_id' AND saved='1'");*/
-        $pr_qty = $this->super_model->custom_query_single("quantity","SELECT quantity FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pr_details_id = '$pr_details_id' AND saved='1'");
-        $po_qty = $this->super_model->custom_query_single("delivered_quantity","SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id!='$po_id' AND ph.cancelled='0'");
-        $balance = $pr_qty - $po_qty;
-        return $balance;
     }
     
 }

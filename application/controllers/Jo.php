@@ -345,11 +345,11 @@ class Jo extends CI_Controller {
         );
 
         $date_format = date("Y");
-        $rows_dr = $this->super_model->count_rows("jo_dr");
+        $rows_dr = $this->super_model->count_custom_where("jo_dr","year LIKE '%$year%'");
         if($rows_dr==0){
             $dr_no= "DR ".$date_format."-01";
         } else {
-            $maxs = $this->super_model->get_max("jo_dr", "series");
+            $maxs = $this->super_model->get_max_where("jo_dr", "series", "year LIKE '%$year%'");
             $next = $maxs+1;
             $nxt = str_pad($next, 2, "0", STR_PAD_LEFT);
             $dr_no = "DR ".$date_format."-".$nxt;
@@ -367,11 +367,11 @@ class Jo extends CI_Controller {
 
         $this->super_model->insert_into("jo_dr", $dr);
 
-        $rows_ar = $this->super_model->count_rows("jo_ar");
+        $rows_ar = $this->super_model->count_custom_where("jo_ar", "year LIKE '%$year%'");
         if($rows_ar==0){
             $ar_no= "AR ".$date_format."-01";
         } else {
-            $max = $this->super_model->get_max("jo_ar", "series");
+            $max = $this->super_model->get_max_where("jo_ar", "series", "year LIKE '%$year%'");
             $nexts = $max+1;
             $nxts = str_pad($nexts, 2, "0", STR_PAD_LEFT);
             $ar_no = "AR ".$date_format."-".$nxts;

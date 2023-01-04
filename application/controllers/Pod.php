@@ -206,20 +206,17 @@ class Pod extends CI_Controller {
         if($saved==0){
             foreach($this->super_model->select_custom_where("pr_details", "pr_id = '$pr_id' AND grouping_id = '$group_id'") AS $items){
                 //$total = $items->quantity*$items->unit_price;
-                $balance = $this->item_checker($items->pr_details_id);
                 $data['items'][]= array(
                     'pr_details_id'=>$items->pr_details_id,
                     'item'=>$items->item_description,
                     'uom'=>$items->uom,
                     'quantity'=>$items->quantity,
-                    'balance'=>$balance
                     //'total'=>$total,
                 );
             }
         }else {
             foreach($this->super_model->select_row_where("po_items", "po_id", $po_id) AS $items){
                 $total = $items->delivered_quantity*$items->unit_price;
-                 $balance = $this->item_checker($items->pr_details_id);
                 $data['currency1']=$items->currency;
                 $data['items'][]= array(
                     'pr_details_id'=>$items->pr_details_id,
@@ -227,7 +224,6 @@ class Pod extends CI_Controller {
                     'item'=>$items->offer,
                     'uom'=>$items->uom,
                     'quantity'=>$items->delivered_quantity,
-                    'balance'=>$balance,
                     'price'=>$items->unit_price,
                     'currency'=>$items->currency,
                     'total'=>$total,
@@ -250,21 +246,6 @@ class Pod extends CI_Controller {
         $data['employee']=$this->super_model->select_all_order_by("employees", "employee_name", "ASC");
         $this->load->view('pod/po_direct',$data);
         $this->load->view('template/footer');
-    }
-
-     public function item_checker($pr_details_id){
-        $pr_qty = $this->super_model->select_column_where('pr_details', 'quantity', 'pr_details_id', $pr_details_id);
-
-        $delivered_qty = $this->super_model->select_sum_join("delivered_quantity","po_head","po_items", "pr_details_id = '$pr_details_id' AND cancelled = '0' ","po_id");
-
-    
-            if($delivered_qty==$pr_qty){
-                $qty = 0;
-            } else {
-                $qty = $pr_qty-$delivered_qty;
-            }
-
-        return $qty;
     }
 
     public function po_direct_draft(){
@@ -369,11 +350,10 @@ class Pod extends CI_Controller {
             'notes'=>$this->input->post('notes'),
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
-            if($saved==0 && $draft==0 || $saved!=0 && $draft==0){
+            if($saved==0 && $draft==0){
                 redirect(base_url().'pod/po_direct/'.$po_id, 'refresh');
-            // } else if($saved!=0){
-            //     redirect(base_url().'pod/po_direct_saved/'.$po_id, 'refresh');
-            //
+            } else if($saved!=0){
+                redirect(base_url().'pod/po_direct_saved/'.$po_id, 'refresh');
             }else if($draft==1){
                 redirect(base_url().'pod/po_direct_draft/'.$po_id, 'refresh');
             }
@@ -387,13 +367,12 @@ class Pod extends CI_Controller {
         $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
         $saved = $this->super_model->select_column_where("po_head", "saved", "po_id", $po_id);
         if($this->super_model->delete_where('po_tc', 'po_tc_id', $id)){
-            if($saved==0 && $draft==0 || $saved!=0 && $draft==0){
+            if($saved==0 && $draft==0){
                 echo "<script>alert('Succesfully Deleted');</script>";
                 redirect(base_url().'pod/po_direct/'.$po_id, 'refresh');
-            // }else if($saved!=0){
-            //     echo "<script>alert('Succesfully Deleted');</script>";
-            //     redirect(base_url().'pod/po_direct_saved/'.$po_id, 'refresh');
-            // 
+            }else if($saved!=0){
+                echo "<script>alert('Succesfully Deleted');</script>";
+                redirect(base_url().'pod/po_direct_saved/'.$po_id, 'refresh');
             }else if($draft==1){
                 echo "<script>alert('Succesfully Deleted');</script>";
                 redirect(base_url().'pod/po_direct_draft/'.$po_id, 'refresh');
@@ -535,7 +514,7 @@ class Pod extends CI_Controller {
         $count_item = $this->input->post('count_item');
         $a=1;
 
-        $rows_dr = $this->super_model->count_rows("po_dr");
+/*        $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
             $dr_id = 1;
             $dr_no=1000;
@@ -544,6 +523,24 @@ class Pod extends CI_Controller {
             $maxid = $this->super_model->get_max("po_dr", "dr_id");
             $dr_no = $max+1;
             $dr_id = $maxid+1;
+        }*/
+
+        $rows_head = $this->super_model->count_rows("po_dr");
+        if($rows_head==0){
+            $dr_id=1;
+        } else {
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
+            $dr_id = $maxid+1;
+        }
+
+
+        $year=date('Y');
+        $dr_count = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
+        if($dr_count==0){
+            $dr_no = 1000;
+        }else{
+            $maxno = $this->super_model->get_max_where("po_dr", "dr_no","dr_date LIKE '%$year%'");
+            $dr_no = $maxno + 1;
         }
 
         $dr = array(
@@ -1109,44 +1106,6 @@ class Pod extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function add_tc_temp(){
-        $po_id = $this->input->post('po_id');
-
-        $rows_head = $this->super_model->count_rows("po_tc");
-        if($rows_head==0){
-            $po_tc_id=1;
-        } else {
-            $max = $this->super_model->get_max("po_tc", "po_tc_id");
-            $po_tc_id = $max+1;
-        }
-        $data = array(
-            'po_tc_id'=>$po_tc_id,
-            'po_id'=>$this->input->post('po_id'),
-            'tc_desc'=>$this->input->post('tc_desc'),
-        );
-        if($this->super_model->insert_into("po_tc", $data)){
-            redirect(base_url().'pod/purchase_order_rev/'.$po_id, 'refresh');
-        }
-    }
-
-    public function add_otherins_temp(){
-        $po_id = $this->input->post('po_id');
-        $rows_head = $this->super_model->count_rows("po_tc");
-        if($rows_head==0){
-            $po_tc_id=1;
-        } else {
-            $max = $this->super_model->get_max("po_tc", "po_tc_id");
-            $po_tc_id = $max+1;
-        }
-        $data = array(
-            'po_tc_id'=>$po_tc_id,
-            'po_id'=>$this->input->post('po_id'),
-            'notes'=>$this->input->post('notes'),
-        );
-        if($this->super_model->insert_into("po_tc", $data)){
-            redirect(base_url().'pod/purchase_order_rev/'.$po_id, 'refresh');
-        }
-    }
 
     public function save_change_order(){
         $po_id = $this->input->post('po_id');
@@ -1207,7 +1166,7 @@ class Pod extends CI_Controller {
             );
             if($this->super_model->insert_into("po_tc_temp", $data_tci)){
                 $data_notes = array(
-                    "notes"=>$this->input->post('notes'.$y),
+                    "notes"=>$this->input->post('notes'),
                 );
                 $this->super_model->update_where("po_tc_temp", $data_notes, "po_tc_id", $potc->po_tc_id);
             }
@@ -1232,7 +1191,7 @@ class Pod extends CI_Controller {
         $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
         $revision_no = $max_revision+1;
 
-        $rows_dr = $this->super_model->count_rows("po_dr");
+/*        $rows_dr = $this->super_model->count_rows("po_dr");
         if($rows_dr==0){
             $dr_no=1000;
         } else {
@@ -1246,6 +1205,24 @@ class Pod extends CI_Controller {
         } else {
             $max = $this->super_model->get_max("po_series", "series");
             $series = $max+1;
+        }*/
+
+        $rows_series = $this->super_model->count_rows("po_series");
+        if($rows_series==0){
+            $series=1000;
+        } else {
+            $max = $this->super_model->get_max("po_series", "series");
+            $series = $max+1;
+        }
+
+
+        $year=date('Y');
+        $rows_dr = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
+        if($rows_dr==0){
+            $dr_no = 1000;
+        }else{
+            $max = $this->super_model->get_max_where("po_dr", "dr_no","dr_date LIKE '%$year%'");
+            $dr_no = $max + 1;
         }
 
         $data_series = array(
@@ -1323,7 +1300,6 @@ class Pod extends CI_Controller {
                 "vat_in_ex"=>$head->vat_in_ex,
                 "approved_by"=>$head->approved_by,
                 "checked_by"=>$head->checked_by,
-                "recommended_by"=>$head->recommended_by,
                 "saved"=>$head->saved,
                 "done_po"=>$head->done_po,
                 "date_revised"=>$this->input->post('approve_date'),
@@ -1351,7 +1327,6 @@ class Pod extends CI_Controller {
         foreach($this->super_model->select_row_where("po_pr","po_id",$po_id) AS $popr){
             $data_popr = array(
                 "po_pr_id"=>$popr->po_pr_id,
-                "pr_id"=>$popr->pr_id,
                 "po_id"=>$popr->po_id,
                 "aoq_id"=>$popr->aoq_id,
                 "enduse"=>$popr->enduse,
@@ -1634,15 +1609,6 @@ class Pod extends CI_Controller {
         if($this->super_model->update_where("rfd", $data, "po_id", $po_id)){
             redirect(base_url().'pod/rfd_calapan/'.$po_id, 'refresh');
         }
-    }
-
-    public function item_balance($pr_details_id,$po_id){
-    /*  echo "SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id='$po_id'";*/
-        /*$pr_qty = $this->super_model->custom_query_single("quantity","SELECT quantity FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pr_details_id = '$pr_details_id' AND saved='1'");*/
-        $pr_qty = $this->super_model->custom_query_single("quantity","SELECT quantity FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pr_details_id = '$pr_details_id' AND saved='1'");
-        $po_qty = $this->super_model->custom_query_single("delivered_quantity","SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id!='$po_id' AND ph.cancelled='0'");
-        $balance = $pr_qty - $po_qty;
-        return $balance;
     }
 
 }

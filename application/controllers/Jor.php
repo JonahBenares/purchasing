@@ -50,12 +50,23 @@ class Jor extends CI_Controller {
             $joi_id = $max+1;
         }
 
-        $rows_series = $this->super_model->count_rows("joi_series");
+/*        $rows_series = $this->super_model->count_rows("joi_series");
         if($rows_series==0){
             $series=1000;
         } else {
             $max = $this->super_model->get_max("joi_series", "series");
             $series = $max+1;
+        }*/
+
+
+        $year=date('Y');
+        $series_rows = $this->super_model->count_custom_where("joi_head","joi_date LIKE '%$year%'");
+        if($series_rows==0){
+            $series=1000;
+        }else{
+            $joi_max = $this->super_model->get_max_where("joi_head", "joi_no","joi_date LIKE '%$year%'");
+            $joi_exp=explode("-", $joi_max);
+            $series = $joi_exp[1]+1;
         }
 
             $jo= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jor_ids'));
@@ -392,14 +403,14 @@ class Jor extends CI_Controller {
             $data['jo_no']=$this->super_model->select_column_where("jor_head", "user_jo_no", "jor_id", $jor_id);
         }*/
 
-        foreach($this->super_model->custom_query("SELECT DISTINCT grouping_id FROM jor_items WHERE jor_id = '$jor_id' AND grouping_id!='' AND cancelled='0'") AS $groups){
+        foreach($this->super_model->custom_query("SELECT DISTINCT grouping_id FROM jor_items WHERE jor_id = '$jor_id'") AS $groups){
             $data['group'][] = array(
                 'group'=>$groups->grouping_id,
             );
 
         }
 
-       foreach($this->super_model->custom_query("SELECT jor_id,scope_of_work, grouping_id FROM jor_items WHERE jor_id = '$jor_id' AND grouping_id!='' AND cancelled='0'") AS $items){
+       foreach($this->super_model->custom_query("SELECT jor_id,scope_of_work, grouping_id FROM jor_items WHERE jor_id = '$jor_id'") AS $items){
             $jor_vendor_id=$this->super_model->select_column_where("jor_vendors", "jor_vendor_id", "jor_id", $items->jor_id);
             $vendor_id=$this->super_model->select_column_where("jor_vendors", "vendor_id", "jor_id", $items->jor_id);
             $noted_by=$this->super_model->select_column_where("jor_vendors", "noted_by", "jor_id", $items->jor_id);

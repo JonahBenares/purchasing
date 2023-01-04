@@ -67,7 +67,26 @@ class Dr extends CI_Controller {
     }
 
     public function add_dr(){
-        $dr_count = $this->super_model->count_rows("po_dr");
+
+        $rows_head = $this->super_model->count_rows("po_dr");
+        if($rows_head==0){
+            $dr_id=1;
+        } else {
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
+            $dr_id = $maxid+1;
+        }
+
+
+        $year=date('Y');
+        $dr_count = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
+        if($dr_count==0){
+            $dr_no = 1000;
+        }else{
+            $maxno = $this->super_model->get_max_where("po_dr", "dr_no","dr_date LIKE '%$year%'");
+            $dr_no = $maxno + 1;
+        }
+
+/*        $dr_count = $this->super_model->count_rows("po_dr");
         if($dr_count==0){
             $dr_id=1;
             $dr_no = 1000;
@@ -76,7 +95,7 @@ class Dr extends CI_Controller {
             $maxno=$this->super_model->get_max("po_dr", "dr_no");
             $dr_id=$maxid+1;
             $dr_no = $maxno + 1;
-        }
+        }*/
 
         $data= array(
             'dr_id'=>$dr_id,

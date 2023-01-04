@@ -66,7 +66,7 @@ class Jodr extends CI_Controller {
     }
     
     public function add_dr(){
-        $dr_count = $this->super_model->count_rows("joi_dr");
+/*        $dr_count = $this->super_model->count_rows("joi_dr");
         if($dr_count==0){
             $joi_dr_id=1;
             $joi_dr_no = 1000;
@@ -74,6 +74,24 @@ class Jodr extends CI_Controller {
             $maxid=$this->super_model->get_max("joi_dr", "joi_dr_id");
             $maxno=$this->super_model->get_max("joi_dr", "joi_dr_no");
             $joi_dr_id=$maxid+1;
+            $joi_dr_no = $maxno + 1;
+        }*/
+
+        $rows_head = $this->super_model->count_rows("joi_dr");
+        if($rows_head==0){
+            $joi_dr_id=1;
+        } else {
+            $maxid = $this->super_model->get_max("joi_dr", "joi_dr_id");
+            $joi_dr_id = $maxid+1;
+        }
+
+
+        $year=date('Y');
+        $dr_count = $this->super_model->count_custom_where("joi_dr","joi_dr_date LIKE '%$year%'");
+        if($dr_count==0){
+            $joi_dr_no = 1000;
+        }else{
+            $maxno = $this->super_model->get_max_where("joi_dr", "joi_dr_no","joi_dr_date LIKE '%$year%'");
             $joi_dr_no = $maxno + 1;
         }
 

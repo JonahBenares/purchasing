@@ -211,7 +211,7 @@ class Rfdis extends CI_Controller {
         );
         if($this->super_model->update_where("rfd", $data, "rfd_id", $rfd_id)){
 
-            $head_rows = $this->super_model->count_rows("po_dr");
+/*            $head_rows = $this->super_model->count_rows("po_dr");
             if($head_rows==0){
                 $dr_id=1;
                 $dr_no = 1000;
@@ -221,6 +221,24 @@ class Rfdis extends CI_Controller {
                 $dr_id=$maxid+1;
                 $dr_no = $maxno + 1;
             }
+*/
+        $rows_head = $this->super_model->count_rows("po_dr");
+        if($rows_head==0){
+            $dr_id=1;
+        } else {
+            $maxid = $this->super_model->get_max("po_dr", "dr_id");
+            $dr_id = $maxid+1;
+        }
+
+
+        $year=date('Y');
+        $dr_count = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
+        if($dr_count==0){
+            $dr_no = 1000;
+        }else{
+            $maxno = $this->super_model->get_max_where("po_dr", "dr_no","dr_date LIKE '%$year%'");
+            $dr_no = $maxno + 1;
+        }
 
             $po_dr=array(
                 'dr_id'=>$dr_id,
