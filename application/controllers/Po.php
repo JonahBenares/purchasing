@@ -152,7 +152,7 @@ class Po extends CI_Controller {
         if($series_rows==0){
             $series=1000;
         }else{
-            $po_max = $this->super_model->get_max_where("po_head", "po_no","date_prepared LIKE '%$year%'");
+            $po_max = $this->super_model->get_max_where("po_head", "po_no","po_date LIKE '%$year%'");
             $po_exp=explode("-", $po_max);
             $series = $po_exp[1]+1;
         }
@@ -239,7 +239,7 @@ class Po extends CI_Controller {
         if($series_rows==0){
             $series=1000;
         }else{
-            $po_max = $this->super_model->get_max_where("po_head", "po_no","date_prepared LIKE '%$year%'");
+            $po_max = $this->super_model->get_max_where("po_head", "po_no","po_date LIKE '%$year%'");
             
             $po_exp=explode("-", $po_max);
             $series = $po_exp[1]+1;
