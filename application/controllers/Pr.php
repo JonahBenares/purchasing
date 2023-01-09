@@ -45,7 +45,7 @@ class Pr extends CI_Controller {
         }
 
         //series per year
-        /*$year=date('Y');
+        $year=date('Y');
         $series_rows = $this->super_model->count_custom_where("po_head","po_date LIKE '%$year%'");
         if($series_rows==0){
             $series=1000;
@@ -53,7 +53,7 @@ class Pr extends CI_Controller {
             $po_max = $this->super_model->get_max_where("po_head", "po_no","po_date LIKE '%$year%'");
             $po_exp=explode("-", $po_max);
             $series = $po_exp[1]+1;
-        }*/
+        }
 
         $pr_id = $this->input->post('pr_ids');
         $group_id = $this->input->post('group_id');
@@ -191,7 +191,7 @@ class Pr extends CI_Controller {
 
 
 //series per year
-        /*$year=date('Y');
+        $year=date('Y');
         $series_rows = $this->super_model->count_custom_where("po_head","po_date LIKE '%$year%'");
         if($series_rows==0){
             $series=1000;
@@ -200,7 +200,7 @@ class Pr extends CI_Controller {
             
             $po_exp=explode("-", $po_max);
             $series = $po_exp[1]+1;
-        }*/
+        }
 
         $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id);
         $po_no = 'P'.$pr_no.'-'.$series;
@@ -374,7 +374,7 @@ class Pr extends CI_Controller {
             $pr_series=$max_series+1;
         }
 //series per year
-/*        $series_rows = $this->super_model->count_custom_where("pr_head","date_prepared LIKE '%$year%'");
+        $series_rows = $this->super_model->count_custom_where("pr_head","date_prepared LIKE '%$year%'");
         if($series_rows==0){
             $pr_series=1000;
             $pr_no = $dept_code.date('y')."-1000";
@@ -384,7 +384,7 @@ class Pr extends CI_Controller {
             $pr_exp=explode("-", $pr_max);
             $pr_series = $pr_exp[1]+1;
             $pr_no = $dept_code.date('y').'-'.$pr_series;
-        }*/
+        }
         //echo $pr_no;
 
         $pr_no = $dept_code.date('y')."-".$pr_series;
