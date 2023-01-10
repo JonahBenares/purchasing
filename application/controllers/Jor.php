@@ -57,17 +57,25 @@ class Jor extends CI_Controller {
             $max = $this->super_model->get_max("joi_series", "series");
             $series = $max+1;
         }*/
-
-
-        $year=date('Y');
-        $series_rows = $this->super_model->count_custom_where("joi_head","joi_date LIKE '%$year%'");
-        if($series_rows==0){
+        $year = date("Y",strtotime($this->input->post('joi_date')));
+        $series_rows = $this->super_model->count_rows_where("joi_series","year",$year);
+        if($rows_series==0){
             $series=1000;
-        }else{
-            $joi_max = $this->super_model->get_max_where("joi_head", "joi_no","joi_date LIKE '%$year%'");
-            $joi_exp=explode("-", $joi_max);
-            $series = $joi_exp[1]+1;
+        } else {
+            $max_series=$this->super_model->get_max_where("joi_series", "series","year = '$year'");
+            $series = $max+1;
         }
+
+
+        // $year=date('Y');
+        // $series_rows = $this->super_model->count_custom_where("joi_head","joi_date LIKE '%$year%'");
+        // if($series_rows==0){
+        //     $series=1000;
+        // }else{
+        //     $joi_max = $this->super_model->get_max_where("joi_head", "joi_no","joi_date LIKE '%$year%'");
+        //     $joi_exp=explode("-", $joi_max);
+        //     $series = $joi_exp[1]+1;
+        // }
 
             $jo= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jor_ids'));
             if($jo!=''){
@@ -105,7 +113,8 @@ class Jor extends CI_Controller {
             );  
 
             $data_series = array(
-                'series'=>$series
+                'series'=>$series,
+                'year'=>$year
             );
             $this->super_model->insert_into("joi_series", $data_series);
 

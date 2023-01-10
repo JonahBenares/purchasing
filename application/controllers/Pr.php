@@ -36,24 +36,34 @@ class Pr extends CI_Controller {
             $po_id = $max+1;
         }
 
-        $rows_series = $this->super_model->count_rows("po_series");
+        $year = date("Y",strtotime($this->input->post('po_date')));
+       
+        $rows_series = $this->super_model->count_rows_where("po_series","year",$year);
         if($rows_series==0){
             $series=1000;
         } else {
-            $max = $this->super_model->get_max("po_series", "series");
+            $max = $this->super_model->get_max_where("po_series", "series","year = '$year'");
             $series = $max+1;
         }
 
-        //series per year
-        $year=date('Y');
-        $series_rows = $this->super_model->count_custom_where("po_head","po_date LIKE '%$year%'");
-        if($series_rows==0){
-            $series=1000;
-        }else{
-            $po_max = $this->super_model->get_max_where("po_head", "po_no","po_date LIKE '%$year%'");
-            $po_exp=explode("-", $po_max);
-            $series = $po_exp[1]+1;
-        }
+        // $rows_series = $this->super_model->count_rows("po_series");
+        // if($rows_series==0){
+        //     $series=1000;
+        // } else {
+        //     $max = $this->super_model->get_max("po_series", "series");
+        //     $series = $max+1;
+        // }
+
+       
+        // $year=date('Y');
+        // $series_rows = $this->super_model->count_custom_where("po_head","po_date LIKE '%$year%'");
+        // if($series_rows==0){
+        //     $series=1000;
+        // }else{
+        //     $po_max = $this->super_model->get_max_where("po_head", "po_no","po_date LIKE '%$year%'");
+        //     $po_exp=explode("-", $po_max);
+        //     $series = $po_exp[1]+1;
+        // }
 
         $pr_id = $this->input->post('pr_ids');
         $group_id = $this->input->post('group_id');
@@ -71,7 +81,8 @@ class Pr extends CI_Controller {
         );  
 
         $data_series = array(
-            'series'=>$series
+            'series'=>$series,
+            'year'=>$year
         );
         $this->super_model->insert_into("po_series", $data_series);
 
@@ -172,6 +183,7 @@ class Pr extends CI_Controller {
     public function create_reorderpo(){
         $pr_id = $this->input->post('pr_idro');
         $group_id = $this->input->post('group_idro');
+        
         $rows_head = $this->super_model->count_rows("po_head");
         if($rows_head==0){
             $po_id=1;
@@ -181,31 +193,40 @@ class Pr extends CI_Controller {
         }
 
 
-        $rows_series = $this->super_model->count_rows("po_series");
+        // $rows_series = $this->super_model->count_rows("po_series");
+        // if($rows_series==0){
+        //     $series=1000;
+        // } else {
+        //     $max = $this->super_model->get_max("po_series", "series");
+        //     $series = $max+1;
+        // }
+        $year = date("Y",strtotime($this->input->post('po_date')));
+        $rows_series = $this->super_model->count_rows_where("po_series","year",$year);
         if($rows_series==0){
             $series=1000;
         } else {
-            $max = $this->super_model->get_max("po_series", "series");
+            $max = $this->super_model->get_max_where("po_series", "series","year = '$year'");
             $series = $max+1;
         }
 
 
 //series per year
-        $year=date('Y');
-        $series_rows = $this->super_model->count_custom_where("po_head","po_date LIKE '%$year%'");
-        if($series_rows==0){
-            $series=1000;
-        }else{
-            $po_max = $this->super_model->get_max_where("po_head", "po_no","po_date LIKE '%$year%'");
+       //$year=date('Y');
+        // $series_rows = $this->super_model->count_custom_where("po_head","po_date LIKE '%$year%'");
+        // if($series_rows==0){
+        //     $series=1000;
+        // }else{
+        //     $po_max = $this->super_model->get_max_where("po_head", "po_no","po_date LIKE '%$year%'");
             
-            $po_exp=explode("-", $po_max);
-            $series = $po_exp[1]+1;
-        }
+        //     $po_exp=explode("-", $po_max);
+        //     $series = $po_exp[1]+1;
+        // }
 
         $pr_no = $this->super_model->select_column_where("pr_head","pr_no","pr_id",$pr_id);
         $po_no = 'P'.$pr_no.'-'.$series;
         $data_series = array(
-            'series'=>$series
+            'series'=>$series,
+            'year'=>$year
         );
         $this->super_model->insert_into("po_series", $data_series);
         $data = array(
@@ -355,7 +376,7 @@ class Pr extends CI_Controller {
             $maxid=$this->super_model->get_max("pr_head", "pr_id");
             $pr_id=$maxid+1;
         }
-        $year=date('Y');
+        //$year=date('Y');
         $pr = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue());
         $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
         /*$date_issued = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());*/
@@ -365,29 +386,32 @@ class Pr extends CI_Controller {
         $dept_code = trim($objPHPExcel->getActiveSheet()->getCell('I8')->getValue());
         $requestor = trim($objPHPExcel->getActiveSheet()->getCell('I9')->getValue());
         $urgency_no = trim($objPHPExcel->getActiveSheet()->getCell('I10')->getValue());
-
-        $series_rows = $this->super_model->count_rows("pr_series");
+        $year= date("Y", strtotime($date_prepared));
+        $year_short = date("y",strtotime($date_prepared));
+        $series_rows = $this->super_model->count_rows_where("pr_series","year",$year);
         if($series_rows==0){
             $pr_series=1000;
+            $pr_no = $dept_code.$year_short."-1000";
         } else {
-            $max_series=$this->super_model->get_max("pr_series", "series_no");
+            $max_series=$this->super_model->get_max_where("pr_series", "series_no","year = '$year'");
             $pr_series=$max_series+1;
+            $pr_no = $dept_code.$year_short."-".$pr_series;
         }
 //series per year
-        $series_rows = $this->super_model->count_custom_where("pr_head","date_prepared LIKE '%$year%'");
-        if($series_rows==0){
-            $pr_series=1000;
-            $pr_no = $dept_code.date('y')."-1000";
-        }else{
-            $pr_max = $this->super_model->get_max_where("pr_head", "pr_no","date_prepared LIKE '%$year%'");
+        // $series_rows = $this->super_model->count_custom_where("pr_head","date_prepared LIKE '%$year%'");
+        // if($series_rows==0){
+        //     $pr_series=1000;
+        //     $pr_no = $dept_code.date('y')."-1000";
+        // }else{
+        //     $pr_max = $this->super_model->get_max_where("pr_head", "pr_no","date_prepared LIKE '%$year%'");
             
-            $pr_exp=explode("-", $pr_max);
-            $pr_series = $pr_exp[1]+1;
-            $pr_no = $dept_code.date('y').'-'.$pr_series;
-        }
+        //     $pr_exp=explode("-", $pr_max);
+        //     $pr_series = $pr_exp[1]+1;
+        //     $pr_no = $dept_code.date('y').'-'.$pr_series;
+        // }
         //echo $pr_no;
 
-        $pr_no = $dept_code.date('y')."-".$pr_series;
+       
 
         $data_head = array(
             'pr_id'=>$pr_id,
@@ -404,7 +428,8 @@ class Pr extends CI_Controller {
         );
         
         $data_series = array(
-            'series_no'=>$pr_series
+            'series_no'=>$pr_series,
+            'year'=>$year
         );
         $this->super_model->insert_into("pr_series", $data_series);
 

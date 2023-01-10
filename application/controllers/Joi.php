@@ -478,12 +478,13 @@ class Joi extends CI_Controller {
             $max = $this->super_model->get_max("joi_head", "joi_id");
             $joi_id = $max+1;
         }
+        $year=date("Y",strtotime($this->input->post('joi_date')));
 
-        $rows_series = $this->super_model->count_rows("joi_series");
+        $series_rows = $this->super_model->count_rows_where("joi_series","year",$year);
         if($rows_series==0){
             $series=1000;
         } else {
-            $max = $this->super_model->get_max("joi_series", "series");
+            $max_series=$this->super_model->get_max_where("joi_series", "series","year = '$year'");
             $series = $max+1;
         }
 
@@ -525,7 +526,8 @@ class Joi extends CI_Controller {
             );  
 
             $data_series = array(
-                'series'=>$series
+                'series'=>$series,
+                'year'=>$year
             );
             $this->super_model->insert_into("joi_series", $data_series);
 
@@ -547,7 +549,8 @@ class Joi extends CI_Controller {
             );  
 
             $data_series = array(
-                'series'=>$series
+                'series'=>$series,
+                'year'=>$year
             );
             $this->super_model->insert_into("joi_series", $data_series);
 
@@ -1713,18 +1716,7 @@ class Joi extends CI_Controller {
             $dr_no = $max+1;
         }
 
-        $rows_series = $this->super_model->count_rows("joi_series");
-        if($rows_series==0){
-            $series=1000;
-        } else {
-            $max = $this->super_model->get_max("joi_series", "series");
-            $series = $max+1;
-        }
-
-        $data_series = array(
-            'series'=>$series
-        );
-        $this->super_model->insert_into("joi_series", $data_series);
+       
 
         foreach($this->super_model->select_row_where("joi_dr","joi_id",$joi_id) AS $drs){
             $data_dr=array(
