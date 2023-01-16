@@ -554,7 +554,8 @@ class Pod extends CI_Controller {
         }
 
 
-        $year=date('Y');
+        //$year=date('Y');
+        $year = date("Y",strtotime($this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id)));
         $dr_count = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
         if($dr_count==0){
             $dr_no = 1000;
@@ -568,6 +569,7 @@ class Pod extends CI_Controller {
             'dr_type'=>1,
             'po_id'=>$po_id,
             'dr_no'=>$dr_no,
+            'dr_date'=>$this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id),
         );
         $this->super_model->insert_into("po_dr", $dr);
 
