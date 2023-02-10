@@ -2951,7 +2951,8 @@ class Po extends CI_Controller {
         }
 
 
-        $year=date('Y');
+        //$year=date('Y');
+        $year = date("Y",strtotime($this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id)));
         $rows_dr = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
         if($rows_dr==0){
             $dr_no = 1000;

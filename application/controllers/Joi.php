@@ -481,13 +481,14 @@ class Joi extends CI_Controller {
         $year=date("Y",strtotime($this->input->post('joi_date')));
 
         $series_rows = $this->super_model->count_rows_where("joi_series","year",$year);
-        if($rows_series==0){
+        if($series_rows==0){
             $series=1000;
         } else {
             $max_series=$this->super_model->get_max_where("joi_series", "series","year = '$year'");
-            $series = $max+1;
+            $series = $max_series+1;
         }
 
+      
         if(empty($this->input->post('dp'))){
             $jo_no= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jo_no'));
             /*if($jo!=''){
