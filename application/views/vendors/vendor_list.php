@@ -76,7 +76,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <p class="m-b-0">Email Address:</p>
-                                                            <input type="email" name="email" class="form-control">
+                                                            <input type="text" name="email" class="form-control">
                                                         </div>
                                                         <div class="form-group">
                                                             <p class="m-b-0">Terms:</p>

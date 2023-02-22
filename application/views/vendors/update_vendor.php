@@ -38,7 +38,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <p class="m-b-0">Email Address</p>
-                                                            <input type="email" name="email" class="form-control" value = "<?php echo $v->email;?>">
+                                                            <input type="text" name="email" class="form-control" value = "<?php echo $v->email;?>">
                                                         </div>
                                                         <div class="form-group">
                                                             <p class="m-b-0">Terms:</p>
