@@ -148,7 +148,7 @@
                                             if(!empty($po)){
                                             foreach($po AS $p){ 
                                                 /*foreach($po_items AS $items){*/
-                                                    $total = $p['qty']*$p['unit_price'];
+                                                    $total = $p['po_qty']*$p['unit_price'];
                                                     $jo_issue=$CI->like($p['status'], "PO Issued");
                                         ?>                                     
                                         <!-- <tr
