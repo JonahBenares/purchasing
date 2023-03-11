@@ -2314,6 +2314,7 @@ class Po extends CI_Controller {
                 'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
                 'supplier_id'=>$head->vendor_id,
                 'saved'=>$head->saved,
+                'revision_no'=>$head->revision_no,
                 'pr'=>$pr,
                 'rfd'=>$rfd,
                 'po_type'=>$head->po_type
