@@ -83,7 +83,11 @@
                                         <?php if(!empty($head)){ foreach($head AS $h){ ?>
                                         <tr>
                                             <td><?php echo (!empty($h['dr_date']) ? date('F j, Y', strtotime($h['dr_date'])) : ''); ?></td>
+                                            <?php if($h['dr_year'] != 0){ ?>
+                                            <td><?php echo $h['dr_year']."-".$h['dr_no']."-".COMPANY; ?></td>
+                                            <?php }else{ ?>
                                             <td><?php echo $h['dr_no']."-".COMPANY; ?></td>
+                                            <?php } ?>
                                             <td><?php
                                                 if($h['dr_type']==0){
                                                     echo "Purchase Order";

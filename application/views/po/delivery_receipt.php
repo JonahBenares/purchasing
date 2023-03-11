@@ -158,9 +158,12 @@
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
-		    			<td colspan="20" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no."-".COMPANY; ?></b></td>
+		    			<?php if($dr_year != 0){ ?>
+		    				<td colspan="20" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_year."-".$dr_no."-".COMPANY; ?></b></td>
+		    			<?php }else{ ?>
+		    				<td colspan="20" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no."-".COMPANY; ?></b></td>
+		    			<?php } ?>
 		    		</tr>
-		    		
 		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($h->po_date)); ?></b></td></tr>
 		    		<?php } ?>
 		    		<tr>

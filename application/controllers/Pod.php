@@ -569,6 +569,7 @@ class Pod extends CI_Controller {
             'dr_type'=>1,
             'po_id'=>$po_id,
             'dr_no'=>$dr_no,
+            'dr_year'=>$year,
             'dr_date'=>$this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id),
         );
         $this->super_model->insert_into("po_dr", $dr);
@@ -829,7 +830,7 @@ class Pod extends CI_Controller {
                 'item_no'=>$item_no
             );
         }
-
+        $data['dr_year']= $this->super_model->select_column_where("po_dr", "dr_year", "po_id", $po_id);
         if(empty($dr_id)){
             $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
             foreach($this->super_model->select_row_where('po_dr_items', 'po_id', $po_id) AS $items){
@@ -1238,7 +1239,7 @@ class Pod extends CI_Controller {
         }
 
 
-        $year=date('Y');
+        $year = date("Y",strtotime($this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id)));
         $rows_dr = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
         if($rows_dr==0){
             $dr_no = 1000;
@@ -1257,6 +1258,7 @@ class Pod extends CI_Controller {
                 'dr_id'=>$drs->dr_id,
                 'po_id'=>$drs->po_id,
                 'dr_no'=>$drs->dr_no,
+                'dr_year'=>$drs->dr_year,
                 'dr_date'=>$drs->dr_date,
                 'dr_type'=>$drs->dr_type,
                 'saved'=>$drs->saved,
