@@ -156,9 +156,9 @@
 		    		<tr>
 		    			<td colspan="20" class="all-border ">
 		    				<?php if($dr_year != 0){ ?>
-		    				<td colspan="20" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_year."-".$dr_no."-".COMPANY; ?></b></td>
+		    					<b class="text-red nomarg">DR No. <?php echo $dr_year."-".$dr_no."-".COMPANY; ?></b>
 		    			<?php }else{ ?>
-		    				<td colspan="20" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no."-".COMPANY; ?></b></td>
+		    				<b class="text-red nomarg">DR No. <?php echo $dr_no."-".COMPANY; ?></b>
 		    			<?php } ?>
 		    			</td>
 		    		</tr>
