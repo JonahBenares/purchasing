@@ -206,7 +206,13 @@
 		    		<tr><td colspan="20" align="center"><h5><b class="text-red">DELIVERY RECEIPT</b></h5></td></tr>
 		    		<!-- <tr><td class="f13" colspan="20" align="center"><br></td></tr> -->
 		    		<tr>
-		    			<td colspan="13" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no."-".COMPANY; ?></b></td>
+		    			<td colspan="13" class="all-border ">
+		    				<?php if($dr_year != 0){ ?>
+		    				<b class="text-red nomarg">DR No. <?php echo $dr_year."-".$dr_no."-".COMPANY; ?></b>
+		    				<?php }else{ ?>
+		    				<b class="text-red nomarg">DR No. <?php echo $dr_no."-".COMPANY; ?></b>
+		    				<?php } ?>
+		    			</td>
 		    			<td colspan="7" class="all-border " align="right"><b style="color: blue;margin-right: 5px">Direct Purchase</b></td>
 		    		</tr>
 		    		<tr>
