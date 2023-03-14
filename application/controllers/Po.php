@@ -1595,6 +1595,7 @@ class Po extends CI_Controller {
             );
         }
         $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['dr'] = $this->super_model->select_row_where("po_dr", "po_id", $po_id);
         $this->load->view('template/header');        
         $this->load->view('po/reporder_prnt',$data);
         $this->load->view('template/footer');

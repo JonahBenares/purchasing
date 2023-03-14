@@ -47,6 +47,8 @@ class Dr extends CI_Controller {
         if($count!=0){
             foreach($this->super_model->select_all("po_dr", "dr_date", "DESC") AS $d){
                 foreach($this->super_model->select_custom_where("po_dr_items", "dr_id = '$d->dr_id' GROUP BY dr_id") AS $da){
+                    $po_no=$this->super_model->select_column_where('po_head','po_no','po_id', $da->po_id);
+                    $revision_no=$this->super_model->select_column_where('po_head','revision_no','po_id', $da->po_id);
                     $data['head'][]=array(
                         'po_id'=>$d->po_id,
                         'rfd_id'=>$d->rfd_id,
@@ -55,6 +57,9 @@ class Dr extends CI_Controller {
                         'dr_type'=>$d->dr_type,
                         'dr_date'=>$d->dr_date,
                         'dr_year'=>$d->dr_year,
+                        'po_id'=>$da->po_id,
+                        'revision_no'=>$revision_no,
+                        'po_no'=>$po_no,
                     );
                 }
             }
