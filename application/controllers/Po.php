@@ -2900,6 +2900,7 @@ class Po extends CI_Controller {
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
                 $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
                 $pr .= $pr_no."<br>";
+                $pr_id=$prd->pr_id;
             }
             $dr_id = $this->super_model->select_column_custom_where("po_dr", "dr_id", "po_id = '$head->po_id' AND received='0'");
             $unreceived_dr = $this->super_model->count_custom_where("po_dr","po_id = '$head->po_id' AND received ='0'");
@@ -2918,7 +2919,9 @@ class Po extends CI_Controller {
                 'revision_no'=>$head->revision_no,
                 'served'=>$head->served,
                 'unreceived_dr'=>$unreceived_dr,
-                'dr_id'=>$dr_id
+                'dr_id'=>$dr_id,
+                'grouping_id'=>$head->grouping_id,
+                'pr_id'=>$pr_id,
             );
         }        
         $this->load->view('template/header');        
