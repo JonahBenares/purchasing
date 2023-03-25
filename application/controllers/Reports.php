@@ -1143,6 +1143,8 @@ class Reports extends CI_Controller {
         $data['terms']=$this->super_model->select_all_order_by("terms","terms","ASC");
         $data['proj_act']=$this->super_model->select_custom_where("project_activity","status='Active' ORDER BY proj_activity ASC");
         foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ".$query) AS $pr){
+            $count_number_po = $this->super_model->count_custom_where("po_items", "pr_details_id = '$pr->pr_details_id'");
+           
             $recom_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $pr->pr_details_id);
             $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
             $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $pr->pr_details_id);
@@ -1151,9 +1153,14 @@ class Reports extends CI_Controller {
             }else{
                 $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
             }
-            //$cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
             //$po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
+            if($count_number_po > 1){
+           // echo $pr->pr_details_id . " = " . $count_number_po . "<br>";
+               $po_id = $this->super_model->select_column_innerjoin_where("po_id", "po_items","po_head", "pr_details_id='$pr->pr_details_id' AND cancelled!='1'","po_id");
+            } else {
+
             $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $pr->pr_details_id, "po_id", "DESC", "1");
+            }
             $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
             $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
             $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
@@ -1164,13 +1171,22 @@ class Reports extends CI_Controller {
             $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
             $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
             $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);
+     
             $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
             $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+
+        
+          
+         
             $unserved_qty=0;
             $unserved_uom='';  
-            $stat = $this->pr_item_status_export($pr->pr_details_id,$controller_name,$po_id);
+            /********************** START STATUS ******************/
+         
+            $stat = $this->pr_item_status($pr->pr_details_id,$controller_name,$po_id);
             $status = $stat['status'];
             $status_remarks = $stat['remarks'];
+        
+            /********************** END STATUS ********************/
             $revised='';
             $current_qty='';
             $revision_no = $this->super_model->select_column_where("po_head","revision_no","po_id",$po_id);
@@ -1396,49 +1412,65 @@ class Reports extends CI_Controller {
         if($filt!=''){
             $num = 5;
             foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ".$query) AS $pr){
-                $recom_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $pr->pr_details_id);
-                $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
-                $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $pr->pr_details_id);
-                if($po_offer_id==0){
-                    $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'po_items_id', $po_items_id);
-                }else{
-                    $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
-                }
-                //$cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
-                //$po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
-                $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $pr->pr_details_id, "po_id", "DESC", "1");
-                $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
-                $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
-                $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
-                $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
-                $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
-                $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
-                $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$pr->pr_details_id);
-                $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
-                $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
-                $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);
-                $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
-                $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
-                $unserved_qty=0;
-                $unserved_uom='';  
-                $stat = $this->pr_item_status_export($pr->pr_details_id,$controller_name,$po_id);
-                $status = $stat['status'];
-                $status_remarks = $stat['remarks'];
-                $current_qty='';
-                $revised='';
-                $revision_no = $this->super_model->select_column_where("po_head","revision_no","po_id",$po_id);
-                if($revision_no!=0){
-                    foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM po_items_revised WHERE po_id = '$po_id' AND pr_details_id = '$pr->pr_details_id' GROUP BY revision_no") AS $rev){
-                        if($rev->revision_no == 0){
-                             $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."\n";
-                        } else {
-                             $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."\n";
-                             $qty = $this->super_model->select_column_custom_where("po_items","delivered_quantity","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
-                             $uom = $this->super_model->select_column_custom_where("po_items","uom","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
-                             $current_qty = "Current Qty: ".$qty." ".$uom;
-                        }
+                            $count_number_po = $this->super_model->count_custom_where("po_items", "pr_details_id = '$pr->pr_details_id'");
+           
+            $recom_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $pr->pr_details_id);
+            $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
+            $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $pr->pr_details_id);
+            if($po_offer_id==0){
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'po_items_id', $po_items_id);
+            }else{
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
+            }
+            //$po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
+            if($count_number_po > 1){
+           // echo $pr->pr_details_id . " = " . $count_number_po . "<br>";
+               $po_id = $this->super_model->select_column_innerjoin_where("po_id", "po_items","po_head", "pr_details_id='$pr->pr_details_id' AND cancelled!='1'","po_id");
+            } else {
+
+            $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $pr->pr_details_id, "po_id", "DESC", "1");
+            }
+            $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
+            $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+            $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+            $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
+            $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
+            $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
+            $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$pr->pr_details_id);
+            $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
+            $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
+            $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);
+     
+            $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+            $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+
+        
+          
+         
+            $unserved_qty=0;
+            $unserved_uom='';  
+            /********************** START STATUS ******************/
+         
+            $stat = $this->pr_item_status($pr->pr_details_id,$controller_name,$po_id);
+            $status = $stat['status'];
+            $status_remarks = $stat['remarks'];
+        
+            /********************** END STATUS ********************/
+            $revised='';
+            $current_qty='';
+            $revision_no = $this->super_model->select_column_where("po_head","revision_no","po_id",$po_id);
+            if($revision_no!=0){
+                foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM po_items_revised WHERE po_id = '$po_id' AND pr_details_id = '$pr->pr_details_id' GROUP BY revision_no") AS $rev){
+                    if($rev->revision_no == 0){
+                         $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                    } else {
+                         $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                         $qty = $this->super_model->select_column_custom_where("po_items","delivered_quantity","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                         $uom = $this->super_model->select_column_custom_where("po_items","uom","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                         $current_qty = "Current Qty: ".$qty." ".$uom;
                     }
                 }
+            }
                 $styleArray = array(
                     'borders' => array(
                         'allborders' => array(
@@ -1555,48 +1587,65 @@ class Reports extends CI_Controller {
         }else {
             $num = 5;
             foreach($this->super_model->custom_query("SELECT pd.*, ph.* FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE ph.date_prepared LIKE '$date%'") AS $pr){
-                $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
-                $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $pr->pr_details_id);
-                if($po_offer_id==0){
-                    $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'po_items_id', $po_items_id);
-                }else{
-                    $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
-                }
-                //$cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
-                //$po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
-                $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $pr->pr_details_id, "po_id", "DESC", "1");
-                $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
-                $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
-                $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
-                $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
-                $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
-                $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
-                $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$pr->pr_details_id);
-                $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
-                $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
-                $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);
-                $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
-                $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
-                $unserved_qty=0;
-                $unserved_uom='';  
-                $stat = $this->pr_item_status_export($pr->pr_details_id,$controller_name,$po_id);
-                $status = $stat['status'];
-                $status_remarks = $stat['remarks'];
-                $current_qty='';
-                $revised='';
-                $revision_no = $this->super_model->select_column_where("po_head","revision_no","po_id",$po_id);
-                if($revision_no!=0){
-                    foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM po_items_revised WHERE po_id = '$po_id' AND pr_details_id = '$pr->pr_details_id' GROUP BY revision_no") AS $rev){
-                        if($rev->revision_no == 0){
-                             $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."\n";
-                        } else {
-                             $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."\n";
-                             $qty = $this->super_model->select_column_custom_where("po_items","delivered_quantity","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
-                             $uom = $this->super_model->select_column_custom_where("po_items","uom","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
-                             $current_qty = "Current Qty: ".$qty." ".$uom;
-                        }
+                            $count_number_po = $this->super_model->count_custom_where("po_items", "pr_details_id = '$pr->pr_details_id'");
+           
+            $recom_unit_price = $this->super_model->select_column_where('aoq_offers', 'unit_price', 'pr_details_id', $pr->pr_details_id);
+            $po_offer_id = $this->super_model->select_column_where('po_items', 'aoq_offer_id', 'pr_details_id', $pr->pr_details_id);
+            $po_items_id = $this->super_model->select_column_where('po_items', 'po_items_id', 'pr_details_id', $pr->pr_details_id);
+            if($po_offer_id==0){
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'po_items_id', $po_items_id);
+            }else{
+                $cancelled_items_po = $this->super_model->select_column_where('po_items', 'cancel', 'aoq_offer_id', $po_offer_id);
+            }
+            //$po_id = $this->super_model->select_column_where('po_items', 'po_id', 'pr_details_id', $pr->pr_details_id);
+            if($count_number_po > 1){
+           // echo $pr->pr_details_id . " = " . $count_number_po . "<br>";
+               $po_id = $this->super_model->select_column_innerjoin_where("po_id", "po_items","po_head", "pr_details_id='$pr->pr_details_id' AND cancelled!='1'","po_id");
+            } else {
+
+            $po_id = $this->super_model->select_column_row_order_limit2("po_id","po_items","pr_details_id", $pr->pr_details_id, "po_id", "DESC", "1");
+            }
+            $cancelled_head_po = $this->super_model->select_column_where('po_head', 'cancelled', 'po_id', $po_id);
+            $sum_po_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+            $sum_delivered_qty = $this->super_model->custom_query_single("deltotal","SELECT sum(delivered_quantity) AS deltotal FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+            $company=$this->super_model->select_column_where("company","company_name","company_id",$pr->company_id);
+            $onhold_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->onhold_by);
+            $recom_by = $this->super_model->select_column_where('users',"fullname",'user_id',$pr->recom_by);
+            $ver_date_needed=$this->super_model->select_column_where('pr_calendar','ver_date_needed','pr_details_id',$pr->pr_details_id);
+            $pr_calendar_id=$this->super_model->select_column_where('pr_calendar','pr_calendar_id','pr_details_id',$pr->pr_details_id);
+            $estimated_price=$this->super_model->select_column_where('pr_calendar','estimated_price','pr_details_id',$pr->pr_details_id);
+            $proj_act_id=$this->super_model->select_column_where('pr_calendar','proj_act_id','pr_details_id',$pr->pr_details_id);
+     
+            $sum_po_issued_qty = $this->super_model->custom_query_single("issued_total","SELECT sum(delivered_quantity) AS issued_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+            $sum_po_delivered_qty = $this->super_model->custom_query_single("delivered_total","SELECT sum(quantity) AS delivered_total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr->pr_details_id'");
+
+        
+          
+         
+            $unserved_qty=0;
+            $unserved_uom='';  
+            /********************** START STATUS ******************/
+         
+            $stat = $this->pr_item_status($pr->pr_details_id,$controller_name,$po_id);
+            $status = $stat['status'];
+            $status_remarks = $stat['remarks'];
+        
+            /********************** END STATUS ********************/
+            $revised='';
+            $current_qty='';
+            $revision_no = $this->super_model->select_column_where("po_head","revision_no","po_id",$po_id);
+            if($revision_no!=0){
+                foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM po_items_revised WHERE po_id = '$po_id' AND pr_details_id = '$pr->pr_details_id' GROUP BY revision_no") AS $rev){
+                    if($rev->revision_no == 0){
+                         $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                    } else {
+                         $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                         $qty = $this->super_model->select_column_custom_where("po_items","delivered_quantity","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                         $uom = $this->super_model->select_column_custom_where("po_items","uom","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
+                         $current_qty = "Current Qty: ".$qty." ".$uom;
                     }
                 }
+            }
 
                 $styleArray = array(
                     'borders' => array(

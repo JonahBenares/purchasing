@@ -1,4 +1,6 @@
     <?php $CI =& get_instance(); ?>
+    <link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
+    <script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
     <div id="filter_pr" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -12,7 +14,7 @@
                     <div class="modal-body-lowpad">                        
                         <div class="form-group">
                             <p class="m-b-0">PR No:</p>
-                            <select name="pr_no" class="form-control">
+                            <select name="pr_no" class="form-control selectpicker" data-live-search="true">
                                 <option value = "">--Select PR Number--</option>
                                 <?php foreach($pr_no1 AS $pr){ ?>
                                 <option value = "<?php echo $pr->pr_id;?>"><?php echo $pr->pr_no."-".COMPANY; ?></option>
@@ -57,7 +59,7 @@
                         </div>      
                         <div class="form-group">
                             <p class="m-b-0">Supplier:</p>
-                            <select name="supplier" class="form-control">
+                            <select name="supplier" class="form-control selectpicker" data-live-search="true">
                                 <option value = "">--Select Supplier--</option>
                                 <?php foreach($vendors AS $s){ ?>
                                 <option value = "<?php echo $s->vendor_id;?>"><?php echo $s->vendor_name; ?></option>
@@ -207,6 +209,8 @@
         function goBack() {
             window.history.back();
         }
+
+        $('.select2').select2();
     </script>
     
     <!-- Data table area End-->
