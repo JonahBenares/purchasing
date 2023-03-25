@@ -162,7 +162,13 @@
                         </div>    
                         <div class="form-group">
                             <p class="m-b-0">PR No:</p>
-                            <input type="text" name="pr_no" class="form-control">
+                            <!-- <input type="text" name="pr_no" class="form-control"> -->
+                             <select name="pr_no" class="form-control">
+                                <option value = "">--Select PR Number--</option>
+                                <?php foreach($pr_no_1 AS $pr1){ ?>
+                                <option value = "<?php echo $pr1->pr_no;?>"><?php echo $pr1->pr_no."-".COMPANY; ?></option>
+                                <?php } ?>
+                            </select>
                         </div>    
                         <div class="form-group">
                             <p class="m-b-0">Requestor:</p>

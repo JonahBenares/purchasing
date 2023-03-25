@@ -125,6 +125,7 @@ class Reports extends CI_Controller {
              $date = $year;
              $data['date']=$date;
         }*/
+        $data['pr_no_1']=$this->super_model->select_custom_where('pr_head',"cancelled='0'");
         $data['company']=$this->super_model->select_all_order_by("company","company_name","ASC");
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         $data['terms']=$this->super_model->select_all_order_by("terms","terms","ASC");
@@ -1101,8 +1102,7 @@ class Reports extends CI_Controller {
         if(!empty($this->input->post('pr_no'))){
             $pr_no = $this->input->post('pr_no');
             $sql.=" ph.pr_no LIKE '%$pr_no%' AND";
-            $filter .= "Pr No. - ".$this->super_model->select_column_where('pr_head', 'pr_no', 
-                        'pr_id', $pr_no).", ";
+            $filter .= "Pr No. - ".$pr_no."-".COMPANY.", ";
         }
 
         if(!empty($this->input->post('requestor'))){
@@ -1137,6 +1137,7 @@ class Reports extends CI_Controller {
         }
         //$data['date']=date('F Y', strtotime($date));
         $controller_name='pr_report';
+        $data['pr_no_1']=$this->super_model->select_custom_where('pr_head',"cancelled='0'");
         $data['company']=$this->super_model->select_all_order_by("company","company_name","ASC");
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head","vendor_name","ASC");
         $data['terms']=$this->super_model->select_all_order_by("terms","terms","ASC");
@@ -1300,7 +1301,7 @@ class Reports extends CI_Controller {
         $pr_no=$this->uri->segment(9);
         $requestor=str_replace("%20", " ", $this->uri->segment(10));
         $description=str_replace("%20", " ", $this->uri->segment(11));
-        $purchase_request=$this->uri->segment(12);
+        $purchase_request=str_replace("%20", " ", $this->uri->segment(12));
 
         $sql="";
         $filter = " ";
@@ -1310,9 +1311,9 @@ class Reports extends CI_Controller {
             $filter .= $date_received;
         }*/
 
-        if($date_receive_from!='null' && $date_receive_to!='null' || $date_receive_from!='' && $date_receive_to!=''){
+        if($date_receive_from!='null' && $date_receive_to!='null'){
            $sql.= " ph.date_prepared BETWEEN '$date_receive_from' AND '$date_receive_to' AND";
-            $filter .= $date_receive_from;
+           $filter .= $date_receive_from ."-". $date_receive_to;
         }
 
         if($purchase_request!='null'){
@@ -1347,6 +1348,9 @@ class Reports extends CI_Controller {
 
         $query=substr($sql, 0, -3);
         $filt=substr($filter, 0, -2);
+
+
+        //echo $query;
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "PR Summary $date");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', "PURCHASE REQUEST");
         $styleArray1 = array(
