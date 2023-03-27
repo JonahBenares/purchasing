@@ -899,7 +899,7 @@ class Reports extends CI_Controller {
                                         $status = 'Partially Delivered';
                                     }
                                 }else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
-                                     $status = 'PO Issued - Partial \n Partially Delivered';
+                                     $status = 'PO Issued - Partial' ."\n". 'Partially Delivered';
 
                                 } else if($sum_delivered_qty == $sum_received_qty || $po_qty == $po_rec_qty){
                                     $status = 'Fully Delivered';
