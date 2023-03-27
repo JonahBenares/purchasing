@@ -758,18 +758,18 @@ class Reports extends CI_Controller {
                   
                                 $onhold_date = $this->super_model->select_column_where("pr_details", "onhold_date","pr_details_id",$pr_details_id); // get onhold date
                                 $statuss = "-On Hold Date: ".$onhold_date."\n -On Hold By: ".$onhold_by;
-                                $status_remarks = 'For RFQ \n' . $statuss;
+                                $status_remarks = 'For RFQ'."\n" . $statuss;
                              } else {
                                 if($item_fulfilled_by_mnl == 1){
                                     $status = 'Delivered by CENPRI-MNL';
-                                     $status_remarks = 'For RFQ \n' . $statuss;
+                                     $status_remarks = 'For RFQ'."\n" . $statuss;
                                 } else {
                                     if($item_for_recom==0){
                                         $status = 'Pending';
                                     }else{
                                         $status = 'For Recom';
                                     }
-                                    $status_remarks = 'For RFQ \n' . $statuss;
+                                    $status_remarks = 'For RFQ'."\n" . $statuss;
                                 }
                                 
                              }
@@ -783,10 +783,10 @@ class Reports extends CI_Controller {
                   
                                 $onhold_date = $this->super_model->select_column_where("pr_details", "onhold_date","pr_details_id",$pr_details_id); // get onhold date
                                 $statuss = "-On Hold Date: ".$onhold_date."\n -On Hold By: ".$onhold_by;
-                                $status_remarks = 'Canvassing Ongoing  \n' . $statuss;
+                                $status_remarks = 'Canvassing Ongoing'."\n" . $statuss;
                              } else {
                                  $status = 'Pending';
-                                 $status_remarks = 'Canvassing Ongoing \n' . $statuss;
+                                 $status_remarks = 'Canvassing Ongoing'."\n" . $statuss;
                             }
                             
                         } else if(($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0 && $draft==0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served ==0 && $draft!=0) || ($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po_draft != 0 && $count_po_served_draft ==0 && $draft!=0)){
@@ -797,11 +797,11 @@ class Reports extends CI_Controller {
                   
                                 $onhold_date = $this->super_model->select_column_where("pr_details", "onhold_date","pr_details_id",$pr_details_id); // get onhold date
                                 $statuss = "-On Hold Date: ".$onhold_date."\n -On Hold By: ".$onhold_by;
-                                $status_remarks = 'AOQ Done - For TE - '. $aoq_date .'\n' . $statuss;
+                                $status_remarks = 'AOQ Done - For TE - '. $aoq_date ."\n" . $statuss;
                              } else {
                                  $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr_details_id' AND saved='1' ");
                                  $status = 'Pending';
-                                 $status_remarks = 'AOQ Done - For TE - '. $aoq_date .'\n' . $statuss;
+                                 $status_remarks = 'AOQ Done - For TE - '. $aoq_date ."\n" . $statuss;
 
                             }
                           
@@ -814,11 +814,11 @@ class Reports extends CI_Controller {
                   
                                 $onhold_date = $this->super_model->select_column_where("pr_details", "onhold_date","pr_details_id",$pr_details_id); // get onhold date
                                 $statuss = "-On Hold Date: ".$onhold_date."\n -On Hold By: ".$onhold_by;
-                                $status_remarks = 'For PO - AOQ Done (awarded) \n' . $statuss;
+                                $status_remarks = 'For PO - AOQ Done (awarded) '."\n" . $statuss;
                              } else {
                                  $aoq_date = $this->super_model->custom_query_single("aoq_date","SELECT aoq_date FROM aoq_head ah INNER JOIN aoq_items ai ON ah.aoq_id = ai.aoq_id WHERE ai.pr_details_id= '$pr_details_id' AND saved='1' ");
                                  $status = 'Pending';
-                                 $status_remarks = 'For PO - AOQ Done (awarded) \n' . $statuss;
+                                 $status_remarks = 'For PO - AOQ Done (awarded)'."\n" . $statuss;
 
                             }
 
@@ -969,7 +969,7 @@ class Reports extends CI_Controller {
 
               
                          // $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$this->super_model->select_column_where('po_dr', 'dr_no', 'dr_id', $del->dr_id)."-".COMPANY."<br>";
-                         $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$dr_no."-".COMPANY."\n>";
+                         $status_remarks.=date('m.d.Y', strtotime($this->super_model->select_column_where('po_dr', 'date_received', 'dr_id', $del->dr_id)))  . " - Delivered DR# ".$dr_no."-".COMPANY."\n";
                     }
                 }
                           
@@ -1478,9 +1478,9 @@ class Reports extends CI_Controller {
             if($revision_no!=0){
                 foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM po_items_revised WHERE po_id = '$po_id' AND pr_details_id = '$pr->pr_details_id' GROUP BY revision_no") AS $rev){
                     if($rev->revision_no == 0){
-                         $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                         $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."\n";
                     } else {
-                         $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                         $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."\n";
                          $qty = $this->super_model->select_column_custom_where("po_items","delivered_quantity","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
                          $uom = $this->super_model->select_column_custom_where("po_items","uom","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
                          $current_qty = "Current Qty: ".$qty." ".$uom;
@@ -1653,9 +1653,9 @@ class Reports extends CI_Controller {
             if($revision_no!=0){
                 foreach($this->super_model->custom_query("SELECT delivered_quantity, uom, revision_no FROM po_items_revised WHERE po_id = '$po_id' AND pr_details_id = '$pr->pr_details_id' GROUP BY revision_no") AS $rev){
                     if($rev->revision_no == 0){
-                         $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                         $revised.="Orig.: " . $rev->delivered_quantity . " ". $rev->uom."\n";
                     } else {
-                         $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."<br>";
+                         $revised.="Rev. ". $rev->revision_no.": " . $rev->delivered_quantity . " ". $rev->uom."\n";
                          $qty = $this->super_model->select_column_custom_where("po_items","delivered_quantity","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
                          $uom = $this->super_model->select_column_custom_where("po_items","uom","po_id='$po_id' AND pr_details_id='$pr->pr_details_id'");
                          $current_qty = "Current Qty: ".$qty." ".$uom;
