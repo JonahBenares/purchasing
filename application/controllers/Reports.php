@@ -2094,7 +2094,7 @@ class Reports extends CI_Controller {
         $data['employees']=$this->super_model->select_all_order_by('employees',"employee_name",'ASC');
         $data['vendors']=$this->super_model->select_all_order_by('vendor_head',"vendor_name",'ASC');
         $data['items']=$this->super_model->select_all_order_by('item',"item_name",'ASC');
-        foreach($this->super_model->custom_query("SELECT * FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id INNER JOIN po_pr pp ON pi.po_id = pp.po_id WHERE ".$query) AS $p){
+        foreach($this->super_model->custom_query("SELECT * FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id INNER JOIN po_pr pp ON pi.po_id = pp.po_id WHERE ".$query." GROUP BY ph.po_id") AS $p){
             $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$p->pr_id);
             $terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
             $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
@@ -2318,7 +2318,7 @@ class Reports extends CI_Controller {
         $objPHPExcel->getActiveSheet()->getStyle('A4:Q4')->applyFromArray($styleArray1);
         if($filt!=''){
             $num = 5;
-            foreach($this->super_model->custom_query("SELECT * FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id INNER JOIN po_pr pp ON pi.po_id = pp.po_id  WHERE ".$query) AS $p){
+            foreach($this->super_model->custom_query("SELECT * FROM po_head ph INNER JOIN po_items pi ON ph.po_id = pi.po_id INNER JOIN po_pr pp ON pi.po_id = pp.po_id  WHERE ".$query." GROUP BY ph.po_id") AS $p){
                 /*$terms =  $this->super_model->select_column_where('vendor_head','terms','vendor_id',$p->vendor_id);
                 $supplier = $this->super_model->select_column_where('vendor_head','vendor_name','vendor_id',$p->vendor_id);
                 $pr_no = $this->super_model->select_column_where('pr_head','pr_no','pr_id',$p->pr_id);
