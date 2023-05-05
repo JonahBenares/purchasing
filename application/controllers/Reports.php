@@ -386,7 +386,7 @@ class Reports extends CI_Controller {
                    
                     //if($count_po_served == 0){
                         
-                       // echo $count_rfq ." aoq =  " . $count_aoq . ", award = ". $count_aoq_awarded . ", po = ".$count_po . ", served = ". $count_po_served;
+                        //echo $po_id . " ---- " . $count_rfq ." aoq =  " . $count_aoq . ", award = ". $count_aoq_awarded . ", po = ".$count_po . ", served = ". $count_po_served . "<br>";
 
                         if($count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served ==0){
                              
@@ -485,6 +485,8 @@ class Reports extends CI_Controller {
                            
                         }else if($count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po == 0 && $count_po_served !=0 && $draft==0 || $count_rfq == 0 && $count_aoq == 0 && $count_aoq_awarded == 0 && $count_po != 0 && $count_po_served !=0 && $draft==0 || $count_rfq != 0 && $count_aoq != 0 && $count_aoq_awarded != 0 && $count_po != 0 && $count_po_served !=0 && $draft==0){
                             $status_remarks='';
+
+                         
                             if($controller_name=='pr_report' && $po_rec_qty!=0){
                                 foreach($this->super_model->custom_query("SELECT pdr.* FROM po_dr_items pdr INNER JOIN po_dr po ON pdr.dr_id = po.dr_id WHERE pr_details_id = '$pr_details_id'AND date_received!='' AND quantity!='0'") AS $del){
                                     //if($po_rec_qty!=0){
@@ -522,7 +524,9 @@ class Reports extends CI_Controller {
                             }
                             //echo $sum_delivered_qty ."<". $sum_received_qty;
                             if($controller_name=='po_report'){
+                                //echo $po_id ." - " . $pr_qty ." ,". $sum_delivered_qty . " = ". $sum_received_qty ."<br>";
                                 if($sum_delivered_qty > $sum_received_qty){
+
                                     //$status="Partially Delivered";
                                     if($controller_name=='po_report'){
                                         if($po_qty != $sum_received_qty){
@@ -534,6 +538,7 @@ class Reports extends CI_Controller {
                                         $status = 'Partially Delivered';
                                     }
                                 }else if($pr_qty > $sum_delivered_qty && $sum_delivered_qty < $sum_received_qty){
+                                    //echo $po_id ."<br>" ;
                                      $status = 'PO Issued - Partial <br> Partially Delivered';
 
                                 } else if($sum_delivered_qty == $sum_received_qty || $po_qty == $po_rec_qty){
