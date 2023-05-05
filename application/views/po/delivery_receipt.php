@@ -164,7 +164,7 @@
 		    				<td colspan="20" class="all-border "><b class="text-red nomarg">DR No. <?php echo $dr_no."-".COMPANY; ?></b></td>
 		    			<?php } ?>
 		    		</tr>
-		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo date('F j, Y', strtotime($h->po_date)); ?></b></td></tr>
+		    		<tr><td colspan="20" class="all-border "><b class="nomarg">Date : <?php echo (!empty($dr_date) ? date('F j, Y', strtotime($dr_date)) : date('F j, Y', strtotime($h->po_date))); ?></b></td></tr>
 		    		<?php } ?>
 		    		<tr>
 		    			<td colspan="20" ><b class="nomarg">PO No: <?php echo $h->po_no ."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></b></td>
