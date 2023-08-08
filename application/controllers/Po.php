@@ -2377,6 +2377,7 @@ class Po extends CI_Controller {
         }
 
         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
+        
         $data['currency']= $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
         $data['items_temp'] = $this->super_model->select_row_where('po_items_temp', 'po_id', $po_id);
         $data['currency_temp']= $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
