@@ -490,14 +490,15 @@ class Joi extends CI_Controller {
 
       
         if(empty($this->input->post('dp'))){
-            $jo_no= $this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jo_no'));
+            $jo_no= str_replace('R','',$this->super_model->select_column_where('jor_head', 'jo_no', 'jor_id',$this->input->post('jo_no')));
             /*if($jo!=''){
                 $jo_no=$jo;
             }else{
                 $jo_no=$this->super_model->select_column_where('jor_head', 'user_jo_no', 'jor_id',$this->input->post('jo_no'));
             }*/
             //$po_no = "P".$pr_no."-".$series;
-            $joi_no = "P".$jo_no."-".$series;
+
+            $joi_no = $jo_no."-".$series;
             $jor_id = $this->input->post('jo_no');
             $data_details = array(
                 'joi_id'=>$joi_id,
@@ -1775,13 +1776,13 @@ class Joi extends CI_Controller {
         $this->super_model->update_where("joi_dr", $data_drs, "joi_id", $joi_id);
 
         $jor_id = $this->super_model->select_column_where("joi_items","jor_id","joi_id",$joi_id);
-        $jo_no = $this->super_model->select_column_where("jor_head","jo_no","jor_id",$jor_id);
+        $jo_no = str_replace('R','',$this->super_model->select_column_where("jor_head","jo_no","jor_id",$jor_id));
         /*if($jo!=''){
             $jo_no=$jo;
         }else{
             $jo_no=$this->super_model->select_column_where("jor_head","user_jo_no","jor_id",$jor_id);
         }*/
-        $joi_no = "P".$jo_no."-".$series;
+        $joi_no = $jo_no."-".$series;
         foreach($this->super_model->select_row_where("joi_head","joi_id",$joi_id) AS $head){
             $data_head = array(
                 "joi_id"=>$head->joi_id,
