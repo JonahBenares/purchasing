@@ -327,8 +327,8 @@ class Po extends CI_Controller {
     public function item_checker($pr_details_id, $vendor_id){
         $pr_qty = $this->super_model->select_column_where('pr_details', 'quantity', 'pr_details_id', $pr_details_id);
 
-        $delivered_qty = $this->super_model->select_sum_join("quantity","po_head","po_items", "pr_details_id = '$pr_details_id' AND cancelled = '0' ","po_id");
-
+        $delivered_qty = $this->super_model->select_sum_join("delivered_quantity","po_head","po_items", "pr_details_id = '$pr_details_id' AND cancelled = '0' ","po_id");
+        ///changed to PO qty only and not delivered 8/8/2023
        // if($delivered_qty!=0){
             if($delivered_qty==$pr_qty){
                 $qty = 0;
@@ -578,6 +578,7 @@ class Po extends CI_Controller {
             'dr_id'=>$dr_id,
             'po_id'=>$po_id,
             'dr_no'=>$dr_no,
+            'dr_year'=>$year,
             'dr_date'=>$this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id),
         );
         $this->super_model->insert_into("po_dr", $dr);
@@ -851,6 +852,7 @@ class Po extends CI_Controller {
                 "dr_id"=>$podr->dr_id,
                 "po_id"=>$podr->po_id,
                 "dr_no"=>$podr->dr_no,
+                "dr_year"=>$podr->dr_year,
                 "revision_no"=>$rev_no
             );
             $this->super_model->insert_into("po_dr_revised", $data_dr);
@@ -1334,8 +1336,10 @@ class Po extends CI_Controller {
             );
         }
 
+        $data['dr_year']= $this->super_model->select_column_where("po_dr", "dr_year", "po_id", $po_id);
         if(empty($dr_id)){
             $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
+            $data['dr_date']= $this->super_model->select_column_where("po_dr", "dr_date", "po_id", $po_id);
             foreach($this->super_model->select_custom_where("po_dr_items", "po_id='$po_id' AND dr_id = '$dr_id'") AS $items){
                $vendor_id= $this->super_model->select_column_where("po_head", "vendor_id", "po_id", $po_id);
                 $data['items'][]= array(
@@ -1592,6 +1596,7 @@ class Po extends CI_Controller {
             );
         }
         $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['dr'] = $this->super_model->select_row_where("po_dr", "po_id", $po_id);
         $this->load->view('template/header');        
         $this->load->view('po/reporder_prnt',$data);
         $this->load->view('template/footer');
@@ -1874,6 +1879,7 @@ class Po extends CI_Controller {
             'dr_id'=>$dr_id,
             'po_id'=>$po_id,
             'dr_no'=>$dr_no,
+            'dr_year'=>$year,
             'dr_date'=>$this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id),
         );
         $this->super_model->insert_into("po_dr", $dr);
@@ -1963,7 +1969,7 @@ class Po extends CI_Controller {
         }
 
 
-        $year=date('Y');
+        $year = date("Y",strtotime($this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id)));
         $dr_count = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
         if($dr_count==0){
             $dr_no = 1000;
@@ -1976,6 +1982,7 @@ class Po extends CI_Controller {
             'dr_id'=>$dr_id,
             'po_id'=>$po_id,
             'dr_no'=>$dr_no,
+            'dr_year'=>$year,
         );
         $this->super_model->insert_into("po_dr", $dr);
         $a=1;
@@ -2059,6 +2066,7 @@ class Po extends CI_Controller {
         $data['head']= $this->super_model->select_row_where('po_head', 'po_id', $po_id);
         $data['revision_no']= $this->super_model->select_column_where("po_dr", "revision_no", "po_id", $po_id);
         $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
+        $data['dr_year']= $this->super_model->select_column_where("po_dr", "dr_year", "po_id", $po_id);
         $user_id= $this->super_model->select_column_where("po_head", "user_id", "po_id", $po_id);
         $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
         
@@ -2255,6 +2263,7 @@ class Po extends CI_Controller {
         $data['head']= $this->super_model->select_custom_where('po_head_revised', "po_id = '$po_id' AND revision_no = '$revise_no'");
         $data['revision_no']= $this->super_model->select_column_where("po_dr_revised", "revision_no", "po_id", $po_id);
         $data['dr_no']= $this->super_model->select_column_custom_where("po_dr_revised", "dr_no", "po_id = '$po_id' AND revision_no = '$revise_no'");
+        $data['dr_year']= $this->super_model->select_column_custom_where("po_dr_revised", "dr_year", "po_id = '$po_id' AND revision_no = '$revise_no'");
         $user_id= $this->super_model->select_column_where("po_head_revised", "user_id", "po_id", $po_id);
         $data['prepared']= $this->super_model->select_column_where("users", "fullname", "user_id", $user_id);
         $data['cancelled']=$this->super_model->select_column_where("po_head_revised", "cancelled", "po_id", $po_id);
@@ -2314,6 +2323,7 @@ class Po extends CI_Controller {
                 'supplier'=>$this->super_model->select_column_where('vendor_head', 'vendor_name', 'vendor_id', $head->vendor_id),
                 'supplier_id'=>$head->vendor_id,
                 'saved'=>$head->saved,
+                'revision_no'=>$head->revision_no,
                 'pr'=>$pr,
                 'rfd'=>$rfd,
                 'po_type'=>$head->po_type
@@ -2367,6 +2377,7 @@ class Po extends CI_Controller {
         }
 
         $data['items'] = $this->super_model->select_row_where('po_items', 'po_id', $po_id);
+        
         $data['currency']= $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
         $data['items_temp'] = $this->super_model->select_row_where('po_items_temp', 'po_id', $po_id);
         $data['currency_temp']= $this->super_model->select_column_where('po_items', 'currency', 'po_id', $po_id);
@@ -2550,7 +2561,8 @@ class Po extends CI_Controller {
         }
 
 
-        $year=date('Y');
+        //$year=date('Y');
+        $year = date("Y",strtotime($this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id)));
         $rows_dr = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
         if($rows_dr==0){
             $dr_no = 1000;
@@ -2569,6 +2581,7 @@ class Po extends CI_Controller {
                 'dr_id'=>$drs->dr_id,
                 'po_id'=>$drs->po_id,
                 'dr_no'=>$drs->dr_no,
+                'dr_year'=>$drs->dr_year,
                 'dr_date'=>$drs->dr_date,
                 'dr_type'=>$drs->dr_type,
                 'saved'=>$drs->saved,
@@ -2900,6 +2913,7 @@ class Po extends CI_Controller {
             foreach($this->super_model->select_row_where("po_pr", "po_id", $head->po_id) AS $prd){
                 $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $prd->pr_id);
                 $pr .= $pr_no."<br>";
+                $pr_id=$prd->pr_id;
             }
             $dr_id = $this->super_model->select_column_custom_where("po_dr", "dr_id", "po_id = '$head->po_id' AND received='0'");
             $unreceived_dr = $this->super_model->count_custom_where("po_dr","po_id = '$head->po_id' AND received ='0'");
@@ -2918,7 +2932,9 @@ class Po extends CI_Controller {
                 'revision_no'=>$head->revision_no,
                 'served'=>$head->served,
                 'unreceived_dr'=>$unreceived_dr,
-                'dr_id'=>$dr_id
+                'dr_id'=>$dr_id,
+                'grouping_id'=>$head->grouping_id,
+                'pr_id'=>$pr_id,
             );
         }        
         $this->load->view('template/header');        
@@ -2968,6 +2984,7 @@ class Po extends CI_Controller {
             'dr_id'=>$dr_id,
             'po_id'=>$po_id,
             'dr_no'=>$dr_no,
+            'dr_year'=>$year,
             'dr_date'=>$this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id),
         );
         $this->super_model->insert_into("po_dr", $dr);
@@ -3133,9 +3150,8 @@ class Po extends CI_Controller {
     }
     public function item_balance($pr_details_id,$po_id){
       /*  echo "SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id='$po_id'";*/
-        /*$pr_qty = $this->super_model->custom_query_single("quantity","SELECT quantity FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pr_details_id = '$pr_details_id' AND saved='1'");*/
         $pr_qty = $this->super_model->custom_query_single("quantity","SELECT quantity FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pr_details_id = '$pr_details_id' AND saved='1'");
-        $po_qty = $this->super_model->custom_query_single("delivered_quantity","SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id!='$po_id' AND ph.cancelled='0'");
+        $po_qty = $this->super_model->custom_query_single("delivered_quantity","SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id!='$po_id'");
         $balance = $pr_qty - $po_qty;
         return $balance;
     }

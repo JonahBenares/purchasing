@@ -156,7 +156,20 @@
 						<!-- <a  href='<?php echo base_url(); ?>po/revise_repeatpo/' onclick="return confirm('Are you sure you want to revise PO?')" class="btn btn-info btn-md p-l-25 p-r-25"><span class="fa fa-pencil"></span> Revise <u><b>PO</b></u></a> -->
 						<?php if($saved==1){ ?>
 						<a  onclick="printPage()" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>PO</b></u></a>
-						<a  href="<?php echo base_url(); ?>po/reporder_dr/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a>
+						<!-- <a  href="<?php echo base_url(); ?>po/reporder_dr/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>DR</b></u></a> -->
+						<a class="btn btn-warning btn-md" data-toggle="dropdown" href="#"><span class="fa fa-print"></span> Print <b>DR</b></a>
+						<ul class="dropdown-menu dropdown-alerts animated fadeInDown" style="width:200px;top:30px;border:1px solid #e66614;left:650px;">
+							<?php foreach($dr AS $d){ ?>
+								<li style="text-align: left!important"><a href="<?php echo base_url(); ?>po/delivery_receipt/<?php echo $d->po_id; ?>/<?php echo $d->dr_id; ?>" target='_blank' class="btn btn-link">
+									<?php if($d->dr_year != 0){ ?>
+									<?php echo "DR# ".$d->dr_year."-".$d->dr_no; ?>
+									<?php }else{ ?>
+									<?php echo "DR# ".$d->dr_no; ?>
+									<?php } ?>
+										
+								</a></li>
+							<?php } ?>
+						</ul>
 						<a  href="<?php echo base_url(); ?>po/rfd_prnt/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25"><span class="fa fa-print"></span> Print <u><b>RFD</b></u></a>
 						<a  href="<?php echo base_url(); ?>po/rfd_calapan/<?php echo $po_id; ?>" class="btn btn-warning btn-md p-l-25 p-r-25" target='_blank'><span class="fa fa-print"></span> Print <u><b>RFD Calapan</b></u></a>
 						<?php } else { ?>

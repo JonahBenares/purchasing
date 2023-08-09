@@ -47,6 +47,9 @@ class Dr extends CI_Controller {
         if($count!=0){
             foreach($this->super_model->select_all("po_dr", "dr_date", "DESC") AS $d){
                 foreach($this->super_model->select_custom_where("po_dr_items", "dr_id = '$d->dr_id' GROUP BY dr_id") AS $da){
+                    $po_no=$this->super_model->select_column_where('po_head','po_no','po_id', $da->po_id);
+                    $po_date=$this->super_model->select_column_where('po_head','po_date','po_id', $da->po_id);
+                    $revision_no=$this->super_model->select_column_where('po_head','revision_no','po_id', $da->po_id);
                     $data['head'][]=array(
                         'po_id'=>$d->po_id,
                         'rfd_id'=>$d->rfd_id,
@@ -54,6 +57,11 @@ class Dr extends CI_Controller {
                         'dr_no'=>$d->dr_no,
                         'dr_type'=>$d->dr_type,
                         'dr_date'=>$d->dr_date,
+                        'dr_year'=>$d->dr_year,
+                        'po_id'=>$da->po_id,
+                        'revision_no'=>$revision_no,
+                        'po_no'=>$po_no,
+                        'po_date'=>$po_date,
                     );
                 }
             }
@@ -77,7 +85,7 @@ class Dr extends CI_Controller {
         }
 
 
-        $year=date('Y');
+        $year = date("Y",strtotime($this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id)));
         $dr_count = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
         if($dr_count==0){
             $dr_no = 1000;
@@ -100,6 +108,7 @@ class Dr extends CI_Controller {
         $data= array(
             'dr_id'=>$dr_id,
             'dr_no'=>$dr_no,
+            'dr_year'=>$year,
             'dr_type'=>2,
             'dr_date'=>$this->input->post('dr_date'),
         );
@@ -117,6 +126,7 @@ class Dr extends CI_Controller {
         $data['saved']=$this->super_model->select_column_where('po_dr','saved','dr_id',$dr_id);
         foreach($this->super_model->select_row_where("po_dr", "dr_id", $dr_id) AS $head){
             $data['dr_no']=$head->dr_no;
+            $data['dr_year']=$head->dr_year;
             $data['date']=$head->dr_date;
         }
 

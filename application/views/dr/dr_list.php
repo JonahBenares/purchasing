@@ -1,3 +1,4 @@
+<script src="<?php echo base_url(); ?>assets/js/po.js"></script> 
      <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -75,6 +76,7 @@
                                         <tr>
                                             <th>Date</th>
                                             <th>Dr No</th>
+                                            <th>PO No</th>
                                             <th>Type</th>
                                             <th><center><span class="fa fa-bars"></span></center></th>
                                         </tr>
@@ -82,8 +84,13 @@
                                     <tbody>
                                         <?php if(!empty($head)){ foreach($head AS $h){ ?>
                                         <tr>
-                                            <td><?php echo (!empty($h['dr_date']) ? date('F j, Y', strtotime($h['dr_date'])) : ''); ?></td>
+                                            <td><?php echo (!empty($h['dr_date']) ? date('F j, Y', strtotime($h['dr_date'])) : date('F j, Y', strtotime($h['po_date']))); ?></td>
+                                            <?php if($h['dr_year'] != 0){ ?>
+                                            <td><?php echo $h['dr_year']."-".$h['dr_no']."-".COMPANY; ?></td>
+                                            <?php }else{ ?>
                                             <td><?php echo $h['dr_no']."-".COMPANY; ?></td>
+                                            <?php } ?>
+                                            <td><a class="btn-link txt-primary" onclick="viewHistory('<?php echo base_url(); ?>','<?php echo $h['po_id']; ?>','<?php echo $h['po_no']; ?>')"><?php echo $h['po_no']."-".COMPANY. (($h['revision_no']!=0) ? ".r".$h['revision_no'] : "");?></a></td>
                                             <td><?php
                                                 if($h['dr_type']==0){
                                                     echo "Purchase Order";

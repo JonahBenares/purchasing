@@ -569,6 +569,7 @@ class Pod extends CI_Controller {
             'dr_type'=>1,
             'po_id'=>$po_id,
             'dr_no'=>$dr_no,
+            'dr_year'=>$year,
             'dr_date'=>$this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id),
         );
         $this->super_model->insert_into("po_dr", $dr);
@@ -829,7 +830,7 @@ class Pod extends CI_Controller {
                 'item_no'=>$item_no
             );
         }
-
+        $data['dr_year']= $this->super_model->select_column_where("po_dr", "dr_year", "po_id", $po_id);
         if(empty($dr_id)){
             $data['dr_no']= $this->super_model->select_column_where("po_dr", "dr_no", "po_id", $po_id);
             foreach($this->super_model->select_row_where('po_dr_items', 'po_id', $po_id) AS $items){
@@ -1128,7 +1129,45 @@ class Pod extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function add_tc_temp(){
+        $po_id = $this->input->post('po_id');
 
+        $rows_head = $this->super_model->count_rows("po_tc");
+        if($rows_head==0){
+            $po_tc_id=1;
+        } else {
+            $max = $this->super_model->get_max("po_tc", "po_tc_id");
+            $po_tc_id = $max+1;
+        }
+        $data = array(
+            'po_tc_id'=>$po_tc_id,
+            'po_id'=>$this->input->post('po_id'),
+            'tc_desc'=>$this->input->post('tc_desc'),
+        );
+        if($this->super_model->insert_into("po_tc", $data)){
+            redirect(base_url().'po/purchase_order_rev/'.$po_id, 'refresh');
+        }
+    }
+
+    public function add_otherins_temp(){
+        $po_id = $this->input->post('po_id');
+        $rows_head = $this->super_model->count_rows("po_tc");
+        if($rows_head==0){
+            $po_tc_id=1;
+        } else {
+            $max = $this->super_model->get_max("po_tc", "po_tc_id");
+            $po_tc_id = $max+1;
+        }
+        $data = array(
+            'po_tc_id'=>$po_tc_id,
+            'po_id'=>$this->input->post('po_id'),
+            'notes'=>$this->input->post('notes'),
+        );
+        if($this->super_model->insert_into("po_tc", $data)){
+            redirect(base_url().'po/purchase_order_rev/'.$po_id, 'refresh');
+        }
+    }
+    
     public function save_change_order(){
         $po_id = $this->input->post('po_id');
         $x=1;
@@ -1238,7 +1277,7 @@ class Pod extends CI_Controller {
         }
 
 
-        $year=date('Y');
+        $year = date("Y",strtotime($this->super_model->select_column_where('po_head', 'po_date', 'po_id', $po_id)));
         $rows_dr = $this->super_model->count_custom_where("po_dr","dr_date LIKE '%$year%'");
         if($rows_dr==0){
             $dr_no = 1000;
@@ -1257,6 +1296,7 @@ class Pod extends CI_Controller {
                 'dr_id'=>$drs->dr_id,
                 'po_id'=>$drs->po_id,
                 'dr_no'=>$drs->dr_no,
+                'dr_year'=>$drs->dr_year,
                 'dr_date'=>$drs->dr_date,
                 'dr_type'=>$drs->dr_type,
                 'saved'=>$drs->saved,
@@ -1631,6 +1671,15 @@ class Pod extends CI_Controller {
         if($this->super_model->update_where("rfd", $data, "po_id", $po_id)){
             redirect(base_url().'pod/rfd_calapan/'.$po_id, 'refresh');
         }
+    }
+
+    public function item_balance($pr_details_id,$po_id){
+      /*  echo "SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id='$po_id'";*/
+        /*$pr_qty = $this->super_model->custom_query_single("quantity","SELECT quantity FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pr_details_id = '$pr_details_id' AND saved='1'");*/
+        $pr_qty = $this->super_model->custom_query_single("quantity","SELECT quantity FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pr_details_id = '$pr_details_id' AND saved='1'");
+        $po_qty = $this->super_model->custom_query_single("delivered_quantity","SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id!='$po_id' AND ph.cancelled='0'");
+        $balance = $pr_qty - $po_qty;
+        return $balance;
     }
 
 }

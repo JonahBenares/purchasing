@@ -1,4 +1,6 @@
 <?php $CI =& get_instance(); ?>
+    <link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
+    <script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
     <style type="text/css">
         tr td{
             white-space: nowrap!important;
@@ -160,9 +162,15 @@
                             <p class="m-b-0">Enduse:</p>
                             <input type="text" name="enduse" class="form-control">
                         </div>    
-                        <div class="form-group">
+                        <div class="form-group btn-block m-b-5">
                             <p class="m-b-0">PR No:</p>
-                            <input type="text" name="pr_no" class="form-control">
+                            <!-- <input type="text" name="pr_no" class="form-control"> -->
+                             <select name="pr_no" class="form-control selectpicker" data-live-search="true">
+                                <option value = "">--Select PR Number--</option>
+                                <?php foreach($pr_no_1 AS $pr1){ ?>
+                                <option value = "<?php echo $pr1->pr_no;?>"><?php echo $pr1->pr_no."-".COMPANY; ?></option>
+                                <?php } ?>
+                            </select>
                         </div>    
                         <div class="form-group">
                             <p class="m-b-0">Requestor:</p>
@@ -669,6 +677,8 @@
                 $('#onhold'+count).removeAttr('disabled');
              }
         }
+
+        $('.select2').select2();
     </script>
 
     
