@@ -527,7 +527,7 @@
 						<div class="modal-body">	
 							<div class="form-group">
 								Terms & Conditions:
-								<input type="text" class="form-control" name="tc_desc" autocomplete="off">
+								<input type="text" class="form-control" name="tc_desc" autocomplete="off" required>
 							</div>
 						</div>
 						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
@@ -589,7 +589,7 @@
 						<div class="modal-body">
 								<div class="form-group">
 								Terms & Conditions:
-								<input type="text" class="form-control" name="condition" autocomplete="off" id = "terms">
+								<input type="text" class="form-control" name="condition" autocomplete="off" id = "terms" required>
 							</div>
 						</div>
 						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
@@ -618,7 +618,7 @@
 						<div class="modal-body">
 							<div class="form-group">
 								Other Instructions:
-								<textarea class="form-control" rows="5" name = "notes" id="notes"></textarea>
+								<textarea class="form-control" rows="5" name = "notes" id="notes" required></textarea>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -645,7 +645,7 @@
 						<div class="modal-body">
 							<div class="form-group">
 								Other Instructions:
-								<textarea class="form-control" rows="5" name = "notes"></textarea>
+								<textarea class="form-control" rows="5" name = "notes" required></textarea>
 							</div>
 						</div>
 						<div class="modal-footer">

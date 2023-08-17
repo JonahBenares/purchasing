@@ -1244,6 +1244,7 @@ class Po extends CI_Controller {
         $data['po_id']=$po_id;
         $data['revise_no']=$revise_no;
         $vendor_id = $this->super_model->select_column_where('po_head', 'vendor_id', 'po_id', $po_id);
+        $data['po_type'] = $this->super_model->select_column_where('po_head', 'po_type', 'po_id', $po_id);
         foreach($this->super_model->select_custom_where('po_head_revised', "po_id = '$po_id' AND revision_no = '$revise_no'") AS $h){
             $data['head'][] = array(
                 'po_date'=>$h->po_date,
@@ -1266,6 +1267,7 @@ class Po extends CI_Controller {
             $data['notes']=$h->notes;
             $data['vat_in_ex']=$h->vat_in_ex;
             $data['prepared']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $h->user_id);
+            $data['recommended']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->recommended_by);
             $data['approved']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->approved_by);
             $data['checked']=$this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $h->checked_by);
         }
@@ -1283,7 +1285,7 @@ class Po extends CI_Controller {
             $data['freight']= $this->super_model->select_column_custom_where('aoq_vendors', 'freight', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
             $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
         }       
-        $data['tc'] = $this->super_model->select_custom_where("po_tc_revised", "po_id='$po_id' AND revision_no = '$revise_no'");
+        $data['tc'] = $this->super_model->select_custom_where("po_tc", "po_id='$po_id' AND revision_no = '$revise_no'");
         $this->load->view('po/purchase_order_saved_r',$data);
         $this->load->view('template/footer');
     }
@@ -2396,8 +2398,8 @@ class Po extends CI_Controller {
             $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
         }
         //$data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
-        $data['tc_notes'] = $this->super_model->select_column_where("po_tc_temp",'notes',"po_id",$po_id);
-        $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['tc_notes'] = $this->super_model->select_custom_where("po_tc","po_id='$po_id' AND notes is not NULL");
+        $data['tc'] = $this->super_model->select_custom_where("po_tc", "po_id='$po_id' AND tc_desc is not NULL");
         $data['tc_temp'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
         //$data['tc'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
         $data['shipping_temp'] = $this->super_model->select_column_where('po_head_temp', 'shipping', 'po_id', $po_id);
@@ -2427,12 +2429,17 @@ class Po extends CI_Controller {
             $max = $this->super_model->get_max("po_tc", "po_tc_id");
             $po_tc_id = $max+1;
         }
+
+        $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
+        $revision_no = $max_revision+1;
+
         $data = array(
             'po_tc_id'=>$po_tc_id,
             'po_id'=>$this->input->post('po_id'),
             'tc_desc'=>$this->input->post('tc_desc'),
+            'revision_no'=>$revision_no
         );
-        if($this->super_model->insert_into("po_tc", $data)){
+        if($this->super_model->insert_into("po_tc_temp", $data)){
             redirect(base_url().'po/purchase_order_rev/'.$po_id, 'refresh');
         }
     }
@@ -2446,12 +2453,17 @@ class Po extends CI_Controller {
             $max = $this->super_model->get_max("po_tc", "po_tc_id");
             $po_tc_id = $max+1;
         }
+
+        $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
+        $revision_no = $max_revision+1;
+
         $data = array(
             'po_tc_id'=>$po_tc_id,
             'po_id'=>$this->input->post('po_id'),
             'notes'=>$this->input->post('notes'),
+            'revision_no'=>$revision_no
         );
-        if($this->super_model->insert_into("po_tc", $data)){
+        if($this->super_model->insert_into("po_tc_temp", $data)){
             redirect(base_url().'po/purchase_order_rev/'.$po_id, 'refresh');
         }
     }
@@ -2460,8 +2472,8 @@ class Po extends CI_Controller {
         $po_id = $this->input->post('po_id');
         $x=1;
         $timestamp = date('Y-m-d');
-     /*   $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
-        $revision_no = $max_revision+1;*/
+        $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
+        $revision_no = $max_revision+1;
 
         $data_head = array(
             'po_date'=>$timestamp,
@@ -2494,8 +2506,7 @@ class Po extends CI_Controller {
                         "unit_price"=>$price,
                         "uom"=>$this->input->post('uom'.$x),
                         "amount"=>$amount,
-                        "item_no"=>$poitems->item_no,
-                       /* "revision_no"=>$revision_no*/
+                        "item_no"=>$poitems->item_no
                     );
                 $this->super_model->insert_into("po_items_temp", $data_items);
         
@@ -2504,23 +2515,27 @@ class Po extends CI_Controller {
         }
 
         $y=1;
-        foreach($this->super_model->select_row_where("po_tc","po_id",$po_id) AS $potc){
-            $data_tci = array(
-                "po_tc_id"=>$potc->po_tc_id,
-                "po_id"=>$po_id,
-                "tc_desc"=>$this->input->post('terms'.$y),
-                //"notes"=>$this->input->post('notes'),
-            );
-            if($this->super_model->insert_into("po_tc_temp", $data_tci)){
-                $data_notes = array(
-                    "notes"=>$this->input->post('notes'.$y),
-                );
-                $this->super_model->update_where("po_tc_temp", $data_notes, "po_tc_id", $potc->po_tc_id);
-            }
+        // $this->super_model->delete_where("po_tc_temp", "po_id", $po_id);
+        // foreach($this->super_model->select_row_where("po_tc","po_id",$po_id) AS $potc){
+        //     $data_tci = array(
+        //         "po_tc_id"=>$potc->po_tc_id,
+        //         "po_id"=>$po_id,
+        //         "tc_desc"=>$this->input->post('terms'.$y),
+        //         "notes"=>$this->input->post('notes'.$y),
+        //         "revision_no"=>$potc->revision_no
+              
+        //     );
+        //     $this->super_model->insert_into("po_tc_temp", $data_tci);
+            // if($this->super_model->insert_into("po_tc_temp", $data_tci)){
+            //     $data_notes = array(
+            //         "notes"=>$this->input->post('notes'.$y),
+            //     );
+            //     $this->super_model->update_where("po_tc_temp", $data_notes, "po_tc_id", $potc->po_tc_id);
+            // }
 
 
-            $y++;
-        }
+        //     $y++;
+        // }
 
         $data_head = array(
             'revised'=>1
@@ -2552,11 +2567,11 @@ class Po extends CI_Controller {
             $series = $max+1;
         }*/
 
-        $rows_series = $this->super_model->count_rows("po_series");
+        $rows_series = $this->super_model->count_custom_where("po_series","year LIKE '%$year%'");
         if($rows_series==0){
             $series=1000;
         } else {
-            $max = $this->super_model->get_max("po_series", "series");
+            $max = $this->super_model->get_max_where("po_series", "series","year LIKE '%$year%'");
             $series = $max+1;
         }
 
@@ -2572,7 +2587,8 @@ class Po extends CI_Controller {
         }
 
         $data_series = array(
-            'series'=>$series
+            'series'=>$series,
+            'year'=>$year
         );
         $this->super_model->insert_into("po_series", $data_series);
 
@@ -2708,36 +2724,39 @@ class Po extends CI_Controller {
             $this->super_model->insert_into("po_items_revised", $data_items);
         }
 
+        // $data_tcn =array(
+        //     'revision_no'=>$revision_no
+        // );
 
-        foreach($this->super_model->select_row_where("po_tc","po_id",$po_id) AS $potc){
-            $data_potc = array(
-                "po_tc_id"=>$potc->po_tc_id,
-                "po_id"=>$popr->po_id,
-                "tc_desc"=>$potc->tc_desc,
-                "notes"=>$potc->notes,
-                "revision_no"=>$potc->revision_no,
-            );
-            $this->super_model->insert_into("po_tc_revised", $data_potc);
-        }
+        // $this->super_model->update_where("po_tc", $data_tcn, "po_id", $po_id);
 
-        $data_tcn =array(
-            'revision_no'=>$revision_no
-        );
 
-        $this->super_model->update_where("po_tc", $data_tcn, "po_id", $po_id);
+        // foreach($this->super_model->select_row_where("po_tc","po_id",$po_id) AS $potc){
+        //     $data_potc = array(
+        //         "po_tc_id"=>$potc->po_tc_id,
+        //         "po_id"=>$popr->po_id,
+        //         "tc_desc"=>$potc->tc_desc,
+        //         "notes"=>$potc->notes,
+        //         "revision_no"=>$potc->revision_no,
+        //     );
+        //     $this->super_model->insert_into("po_tc_revised", $data_potc);
+        // }
+
+   
 
         foreach($this->super_model->select_row_where("po_tc_temp","po_id",$po_id) AS $potcr){
             $data_rev = array(
-                "po_tc_id"=>$potcr->po_tc_id,
+              
                 "po_id"=>$popr->po_id,
                 "tc_desc"=>$potcr->tc_desc,
                 "notes"=>$potcr->notes,
                 "revision_no"=>$potcr->revision_no,
             );
-            $this->super_model->update_where("po_tc", $data_rev, "po_tc_id", $potcr->po_tc_id);
+         
+          $this->super_model->insert_into("po_tc", $data_rev);
         }
 
-
+        
         foreach($this->super_model->custom_query("SELECT po_items_id FROM po_items WHERE po_items_id NOT IN (SELECT po_items_id FROM po_items_temp WHERE po_id='$po_id')  AND po_id = '$po_id'") AS $omit){
            
             $delete_item = $this->super_model->delete_custom_where("po_items", "po_items_id= 

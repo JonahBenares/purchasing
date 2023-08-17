@@ -545,14 +545,19 @@
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
-		    				<?php if($revised==0){ ?>
+		    				<?php  if($revised==0){ ?>
 			    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 									Add Other Instruction
 								</button><br> 
-								<?php $xs = 1; foreach($tc AS $t){ if(!empty($t->notes)){ ?>
+								<?php foreach($tc_notes AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes)."<br>";?></span><?php } ?>
+								<?php $xs = 1; foreach($tc_temp AS $t){ if(!empty($t->notes)){ ?>
 									<textarea type = "text" style='color:blue;width:92%' rows = '1' class="form-control" name = "notes<?php echo $xs; ?>"><?php echo $t->notes; ?></textarea><!-- <span style = "color:blue;"><?php echo $t->notes;?></span> --><?php } $xs++; } ?>
-							<?php }else{ ?>
-								Other Instructions:<br><?php foreach($tc_temp AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes)."<br>";?></span><?php } ?>
+							<?php }else{
+								
+							 ?>
+								Other Instructions:<br><?php 
+								foreach($tc_notes AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes)."<br>";?></span><?php }
+								foreach($tc_temp AS $tt){ ?><span style = "color:blue;"><?php echo nl2br($tt->notes)."<br>";?></span><?php } ?>
 
 							<?php } ?>
 			    		</td>
@@ -570,6 +575,7 @@
                             3. Price is
                            <?php 
                             if($revised==0){ ?>
+							
                                 <select type="text" name="vat_in_ex">
                                     <option value = "0" <?php echo (($vat_in_ex == '0') ? 'selected' : '');?>>inclusive of VAT</option>
                                     <option value = "1" <?php echo (($vat_in_ex == '1') ? 'selected' : '');?>>exclusive of VAT</option>
@@ -597,7 +603,8 @@
 		    					$y = 1;
 		    					$x = 4;
 		    					if($revised==0){
-		    						foreach($tc AS $t){ 
+									 foreach($tc AS $t){ echo $x.". "; ?><span style = "color:blue;"><?php echo nl2br($t->tc_desc)."<br>";?></span><?php $x++; } 
+		    						foreach($tc_temp AS $t){ 
 		    							if(!empty($t->tc_desc)){
 			    						//echo $no.". " . $t->tc_desc."<br>";
 			    						//$no++; 
@@ -610,12 +617,14 @@
 				    					$y++;
 			    					} 
 		    					}else { 
+									 
 		    						foreach($tc AS $t){ 
 			    						if(!empty($t->tc_desc)){
 				    						echo $x.". " . $t->tc_desc."<br>";
 				    						$x++; 
 				    					}
 			    					} 
+									foreach($tc_temp AS $tt){ if(!empty($tt->tc_desc)){ echo $x.". "; ?><span style = "color:blue;"><?php echo nl2br($tt->tc_desc)."<br>";?></span><?php $x++; } }
 			    				}
 		    				?>
 
@@ -706,7 +715,7 @@
 						<div class="modal-body">
 							<div class="form-group">
 								Terms & Conditions:
-								<input type="text" class="form-control" name="tc_desc" autocomplete="off">
+								<input type="text" class="form-control" name="tc_desc" autocomplete="off" required>
 							</div>
 						</div>
 						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
@@ -732,7 +741,7 @@
 						<div class="modal-body">
 							<div class="form-group">
 								Other Instructions:
-								<textarea class="form-control" rows="5" name = "notes"></textarea>
+								<textarea class="form-control" rows="5" name = "notes" required></textarea>
 							</div>
 						</div>
 						<div class="modal-footer">
