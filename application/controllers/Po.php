@@ -216,7 +216,8 @@ class Po extends CI_Controller {
             );  
 
             $data_series = array(
-                'series'=>$series
+                'series'=>$series,
+                'year'=>$year
             );
             $this->super_model->insert_into("po_series", $data_series);
 
@@ -259,7 +260,8 @@ class Po extends CI_Controller {
         $po_no = 'RPO-'.$series;
 
            $data_series = array(
-                'series'=>$series
+                'series'=>$series,
+                'year'=>$year
             );
             $this->super_model->insert_into("po_series", $data_series);
      /*   $head_rows = $this->super_model->count_rows("po_head");
@@ -2567,11 +2569,11 @@ class Po extends CI_Controller {
             $series = $max+1;
         }*/
 
-        $rows_series = $this->super_model->count_custom_where("po_series","year LIKE '%$year%'");
+        $rows_series = $this->super_model->count_custom_where("po_series","year ='$year'");
         if($rows_series==0){
             $series=1000;
         } else {
-            $max = $this->super_model->get_max_where("po_series", "series","year LIKE '%$year%'");
+            $max = $this->super_model->get_max_where("po_series", "series","year= '$year'");
             $series = $max+1;
         }
 
