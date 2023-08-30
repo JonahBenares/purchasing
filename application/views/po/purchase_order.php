@@ -274,10 +274,16 @@
 		    		if(!empty($items)){
 		    		foreach($items AS $it){
 		    			if($it['balance']!=0){ 
-		    			$gtotal[] = $it['total']; ?>
+		    			$gtotal[] = $it['total']; 
+						
+						if($it['balance']<0){
+							$balance=0;
+						} else { 
+							$balance = $it['balance']; 
+						} ?>
 		    		<tr>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
-		    			<td colspan="" class="bor-right v-align" align="center"><b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo number_format($it['balance'],2); ?>' min='0' <?php echo (($revised!='r') ? "max='".$it['balance'] : "")."'"; ?> style='width:50px; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo (($it['balance']<0) ? 0 : $it['balance']); ?>' min='0' <?php echo (($revised!='r') ? "max='".$balance : "")."'"; ?> style='width:50px; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it['uom']; ?></b></td>
 		    			<td colspan="13" class="bor-right v-align" align="left"><b class="nomarg"><?php echo (!empty($CI->get_pn($it['pr_details_id']))) ? nl2br($it['offer']).", ".$CI->get_pn($it['pr_details_id']) : nl2br($it['offer']); ?></b></td>
 		    			<td colspan="2" class="bor-right v-align" align="center"><b><input type='text' name='price<?php echo $x; ?>' id='price<?php echo $x; ?>' value='<?php echo $it['price']; ?>' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)" style='color:red; width:100px' ></b></td>
@@ -287,10 +293,10 @@
 		    		<input type='hidden' name='aoq_id<?php echo $x; ?>' value="<?php echo $it['aoq_id']; ?>">
 		    		<input type='hidden' name='aoq_offer_id<?php echo $x; ?>' value="<?php echo $it['aoq_offer_id']; ?>">
 		    		<input type='hidden' name='aoq_items_id<?php echo $x; ?>' value="<?php echo $it['aoq_items_id']; ?>">
-		    		<input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $it['pr_details_id']; ?>">
+		    		<input type='text' name='pr_details_id<?php echo $x; ?>' value="<?php echo $it['pr_details_id']; ?>">
 		    		<textarea hidden  name='offer<?php echo $x; ?>'><?php echo $it['offer']; ?></textarea>
 		    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
-		    		<input type='hidden' name='balance<?php echo $x; ?>' id='balance<?php echo $x; ?>' value="<?php echo $it['balance']; ?>">
+		    		<input type='text' name='balance<?php echo $x; ?>' id='balance<?php echo $x; ?>' value="<?php echo (($it['balance']<0) ? 0 : $it['balance']); ?>">
 			    		<?php 
 			    		$x++; 
 		    				} 
