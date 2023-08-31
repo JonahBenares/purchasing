@@ -1,6 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require FCPATH.'vendor\autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx as writerxlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as readerxlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing as drawing; // Instead PHPExcel_Worksheet_Drawing
+use PhpOffice\PhpSpreadsheet\Style\Alignment as alignment; // Instead alignment
+use PhpOffice\PhpSpreadsheet\Style\Border as border;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat as number_format;
+use PhpOffice\PhpSpreadsheet\Style\Fill as fill; // Instead fill
+use PhpOffice\PhpSpreadsheet\Style\Color as color; //Instead PHPExcel_Style_Color
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup as pagesetup; // Instead PHPExcel_Worksheet_PageSetup
+use PhpOffice\PhpSpreadsheet\IOFactory as io_factory; // Instead PHPExcel_IOFactory
+use PhpOffice\PhpSpreadsheet\Shared\Date as date; //Instead of PHPExcel_Shared_Date
 class Vendors extends CI_Controller {
 
 	function __construct(){
@@ -399,7 +412,7 @@ class Vendors extends CI_Controller {
     }
 
     public function export_vendor(){
-        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        //require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $id=$this->uri->segment(3);
         foreach($this->super_model->select_row_where('vendor_head', 'vendor_id', $id) AS $info){
             $vendor = $info->vendor_name;
@@ -413,7 +426,7 @@ class Vendors extends CI_Controller {
             $notes = $info->notes;
             $ewt = $info->ewt;
         }
-        $objPHPExcel = new PHPExcel();
+        $objPHPExcel = new Spreadsheet();
         $exportfilename="Vendor Profile.xlsx";
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "VENDOR PROFILE");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "Vendor Name:");
@@ -450,10 +463,19 @@ class Vendors extends CI_Controller {
             $objPHPExcel->getActiveSheet()->mergeCells($col2.$num .':D'.$num);
         }
 
-        $styleArray = array(
+/*        $styleArray = array(
             'borders' => array(
                 'allborders' => array(
                   'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );*/
+
+        $styleArray = array(
+            'borders' => array(
+                'allBorders' => array(
+                    'borderStyle' => border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
                 )
             )
         );
@@ -483,23 +505,26 @@ class Vendors extends CI_Controller {
         $objPHPExcel->getActiveSheet()->mergeCells('C10:D10');
        //$objPHPExcel->getActiveSheet()->mergeCells('C7:D7');
 
-        $objPHPExcel->getActiveSheet()->getStyle('A8:B8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A9')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A10')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('C10')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A8:B8')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A9')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A10')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('C10')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
 
         $objPHPExcel->getActiveSheet()->getStyle('A1:D7')->applyFromArray($styleArray);
         $objPHPExcel->getActiveSheet()->getStyle('A9:D'.$num)->applyFromArray($styleArray);
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+       /* $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
                 unlink($exportfilename);
         $objWriter->save($exportfilename);
         unset($objPHPExcel);
         unset($objWriter);   
-        ob_end_clean();
+        ob_end_clean();*/
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="Vendor Profile.xlsx"');
-        readfile($exportfilename);
+        //readfile($exportfilename);
+        $objWriter = io_factory::createWriter($objPHPExcel, 'Xlsx');
+        $objWriter->save('php://output');
+        exit();
 
     }
 }

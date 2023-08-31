@@ -1,6 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require FCPATH.'vendor\autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx as writerxlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as readerxlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing as drawing; // Instead PHPExcel_Worksheet_Drawing
+use PhpOffice\PhpSpreadsheet\Style\Alignment as alignment; // Instead alignment
+use PhpOffice\PhpSpreadsheet\Style\Border as border;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat as number_format;
+use PhpOffice\PhpSpreadsheet\Style\Fill as fill; // Instead fill
+use PhpOffice\PhpSpreadsheet\Style\Color as color; //Instead PHPExcel_Style_Color
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup as pagesetup; // Instead PHPExcel_Worksheet_PageSetup
+use PhpOffice\PhpSpreadsheet\IOFactory as io_factory; // Instead PHPExcel_IOFactory
+use PhpOffice\PhpSpreadsheet\Shared\Date as date; //Instead of PHPExcel_Shared_Date
 class Rfq extends CI_Controller {
 
 	function __construct(){
@@ -121,10 +134,10 @@ class Rfq extends CI_Controller {
 
     public function export_rfq(){
         $rfq_id=$this->uri->segment(3);
-        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
-        $objPHPExcel = new PHPExcel();
+        //require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new Spreadsheet();
         $exportfilename="RFQ.xlsx";
-        $objDrawing = new PHPExcel_Worksheet_Drawing();
+        $objDrawing = new drawing();
         $objDrawing->setName('Logo');
         $objDrawing->setDescription('Logo');
         $objDrawing->setPath(LOGO);
@@ -166,10 +179,18 @@ class Rfq extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H13', "Brand/Offer");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J13', "Unit Price");
         foreach($this->super_model->select_row_where('rfq_head', 'rfq_id', $rfq_id) AS $head){
-            $styleArray = array(
+            /*$styleArray = array(
                 'borders' => array(
                     'allborders' => array(
                       'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                )
+            );*/
+            $styleArray = array(
+            'borders' => array(
+                'allBorders' => array(
+                    'borderStyle' => border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
                     )
                 )
             );
@@ -179,34 +200,42 @@ class Rfq extends CI_Controller {
             $noted= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->noted_by);
             $approved= $this->super_model->select_column_where("employees", "employee_name", "employee_id", $head->approved_by);
             $prepared= $this->super_model->select_column_where("users", "fullname", "user_id", $head->prepared_by);
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('C9', date('F j, Y',strtotime($head->rfq_date)));
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('C10', $vendor);
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('G9', $head->rfq_no);
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('J9', $head->processing_code);
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('G10', $phone);
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('G11', $pr_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C9', date('F j, Y',strtotime($head->rfq_date)));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C10', $vendor);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G9', $head->rfq_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J9', $head->processing_code);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G10', $phone);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G11', $pr_no);
         
 
             $num=14;
             $x=1;
             foreach($this->super_model->select_row_where_order_by('rfq_details', 'rfq_id', $rfq_id, 'pr_details_id', 'ASC') AS $item){
-                $styleArray = array(
+                /*$styleArray = array(
                     'borders' => array(
                         'allborders' => array(
                           'style' => PHPExcel_Style_Border::BORDER_THIN
                         )
                     )
+                );*/
+                $styleArray = array(
+                    'borders' => array(
+                        'allBorders' => array(
+                            'borderStyle' => border::BORDER_THIN,
+                            'color' => ['rgb' => '000000'],
+                        )
+                    )
                 );
-                $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$num, $x);
-                $objPHPExcel->setActiveSheetIndex()->setCellValue('B'.$num, $item->quantity);
-                $objPHPExcel->setActiveSheetIndex()->setCellValue('C'.$num, $item->uom);
-                $objPHPExcel->setActiveSheetIndex()->setCellValue('D'.$num, $item->item_desc.", ".$this->get_pn($item->pr_details_id));
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $item->quantity);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $item->uom);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, $item->item_desc.", ".$this->get_pn($item->pr_details_id));
                 $objPHPExcel->getActiveSheet()->mergeCells('D'.$num.':G'.$num);
                 $objPHPExcel->getActiveSheet()->mergeCells('H'.$num.':I'.$num);
                 $objPHPExcel->getActiveSheet()->mergeCells('J'.$num.':K'.$num);
-                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getNumberFormat()->setFormatCode(number_format::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':K'.$num)->applyFromArray($styleArray);
                 $num++;
                 $x++;
@@ -229,41 +258,41 @@ class Rfq extends CI_Controller {
             $objPHPExcel->getActiveSheet()->getStyle('A'.$g)->getAlignment()->setIndent(10);
             $objPHPExcel->getActiveSheet()->getStyle('A'.$h)->getAlignment()->setIndent(7);
             $objPHPExcel->getActiveSheet()->getStyle('A'.$dh)->getAlignment()->setIndent(9);
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$a, '1. Quotation must be submitted on or before '.$head->quotation_date);
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$b, 'Please Fill - Up :');
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$c, 'a. Price Validity');
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$d, 'b. Payment Terms');
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$e, 'c. Delivery Time');
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$f, "d. Item's Warranty");
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$g, 'e. In-land Freight');
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('F'.$c, '30 Days');
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('F'.$d, 'n30');
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('F'.$g, 'Included');
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('G'.$g, 'Not Included');
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$h, 'Prepared By:');
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('E'.$h, 'Noted By:');
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('H'.$h, 'Approved By:');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$a, '1. Quotation must be submitted on or before '.$head->quotation_date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$b, 'Please Fill - Up :');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$c, 'a. Price Validity');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$d, 'b. Payment Terms');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$e, 'c. Delivery Time');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$f, "d. Item's Warranty");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$g, 'e. In-land Freight');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$c, '30 Days');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$d, 'n30');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$g, 'Included');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$g, 'Not Included');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$h, 'Prepared By:');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$h, 'Noted By:');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$h, 'Approved By:');
             if($head->saved==0){
                 $fullname = $_SESSION['fullname'];
-                $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$dh, $fullname);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$dh, $fullname);
             }else {
-                $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$dh, $prepared);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$dh, $prepared);
             }
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('E'.$dh, $noted);
-            $objPHPExcel->setActiveSheetIndex()->setCellValue('H'.$dh, $approved);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$dh, $noted);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$dh, $approved);
 
             $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(30);
             $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(5);
-            $objPHPExcel->getActiveSheet()->getStyle('E'.$c.':G'.$c)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-            $objPHPExcel->getActiveSheet()->getStyle('B'.$bh.':C'.$bh)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-            $objPHPExcel->getActiveSheet()->getStyle('E'.$bh.':F'.$bh)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-            $objPHPExcel->getActiveSheet()->getStyle('H'.$bh.':I'.$bh)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('E'.$c.':G'.$c)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$bh.':C'.$bh)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('E'.$bh.':F'.$bh)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('H'.$bh.':I'.$bh)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->getStyle('E'.$c.':G'.$c)->applyFromArray($styleArray);
             $objPHPExcel->getActiveSheet()->getStyle('E'.$d.':G'.$d)->applyFromArray($styleArray);
-            $objPHPExcel->getActiveSheet()->getStyle('E'.$e.':G'.$e)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-            $objPHPExcel->getActiveSheet()->getStyle('E'.$f.':G'.$f)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('E'.$e.':G'.$e)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('E'.$f.':G'.$f)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->getStyle('E'.$g.':G'.$g)->applyFromArray($styleArray);
-            $objPHPExcel->getActiveSheet()->getStyle('G'.$g)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+            $objPHPExcel->getActiveSheet()->getStyle('G'.$g)->getAlignment()->setHorizontal(alignment::HORIZONTAL_RIGHT);
         }
         $objPHPExcel->getActiveSheet()->mergeCells('C1:H1');
         $objPHPExcel->getActiveSheet()->mergeCells('C2:H2');
@@ -281,32 +310,34 @@ class Rfq extends CI_Controller {
         $objPHPExcel->getActiveSheet()->mergeCells('H13:I13');
         $objPHPExcel->getActiveSheet()->mergeCells('J13:K13');
         $objPHPExcel->getActiveSheet()->getStyle('A13:K13')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A13:K13')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A13:K13')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle("C1")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle('A13:K13')->applyFromArray($styleArray);
-        $objPHPExcel->getActiveSheet()->getStyle('C1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('C2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('C3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('C4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('C5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('C6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('C7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('C9:D9')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('C10:D10')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('G9:H9')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('G10:H10')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('G11:H11')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('J9')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('C2')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('C3')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('C4')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('C5')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('C6')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('C7')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('C9:D9')->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C10:D10')->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('G9:H9')->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('G10:H10')->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('G11:H11')->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('J9')->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
+        /*$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
         unlink($exportfilename);
         $objWriter->save($exportfilename);
         unset($objPHPExcel);
         unset($objWriter);   
-        ob_end_clean();
+        ob_end_clean();*/
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="RFQ.xlsx"');
-        readfile($exportfilename);
+        //readfile($exportfilename);
+        $objWriter = io_factory::createWriter($objPHPExcel, 'Xlsx');
+        $objWriter->save('php://output');
     } 
 
 

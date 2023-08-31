@@ -1,6 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require FCPATH.'vendor\autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx as writerxlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as readerxlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing as drawing; // Instead PHPExcel_Worksheet_Drawing
+use PhpOffice\PhpSpreadsheet\Style\Alignment as alignment; // Instead alignment
+use PhpOffice\PhpSpreadsheet\Style\Border as border;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat as number_format;
+use PhpOffice\PhpSpreadsheet\Style\Fill as fill; // Instead fill
+use PhpOffice\PhpSpreadsheet\Style\Color as color; //Instead PHPExcel_Style_Color
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup as pagesetup; // Instead PHPExcel_Worksheet_PageSetup
+use PhpOffice\PhpSpreadsheet\IOFactory as io_factory; // Instead PHPExcel_IOFactory
+use PhpOffice\PhpSpreadsheet\Shared\Date as date; //Instead of PHPExcel_Shared_Date
 class Pr extends CI_Controller {
 
 	function __construct(){
@@ -359,12 +372,12 @@ class Pr extends CI_Controller {
         }
 
     public function readExcel_pr(){
-        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
-        $objPHPExcel = new PHPExcel();
+        //require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new Spreadsheet();
         $inputFileName =realpath(APPPATH.'../uploads/excel/PurchaseRequest.xlsx');
         try {
-            $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
-            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $inputFileType = io_factory::identify($inputFileName);
+            $objReader = io_factory::createReader($inputFileType);
             $objPHPExcel = $objReader->load($inputFileName);
         } catch(Exception $e) {
             die('Error loading file"'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
@@ -377,15 +390,15 @@ class Pr extends CI_Controller {
             $pr_id=$maxid+1;
         }
         //$year=date('Y');
-        $pr = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue());
-        $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
+        $pr = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue() ?? '');
+        $date_prepared = (!empty($objPHPExcel->getActiveSheet()->getCell('C8')->getValue())) ? date('Y-m-d', date::excelToTimestamp($objPHPExcel->getActiveSheet()->getCell('C8')->getValue())) : '';
         /*$date_issued = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());*/
-        $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue());
-        $enduse = trim($objPHPExcel->getActiveSheet()->getCell('C12')->getValue());
-        $department = trim($objPHPExcel->getActiveSheet()->getCell('I7')->getValue());
-        $dept_code = trim($objPHPExcel->getActiveSheet()->getCell('I8')->getValue());
-        $requestor = trim($objPHPExcel->getActiveSheet()->getCell('I9')->getValue());
-        $urgency_no = trim($objPHPExcel->getActiveSheet()->getCell('I10')->getValue());
+        $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue() ?? '');
+        $enduse = trim($objPHPExcel->getActiveSheet()->getCell('C12')->getValue() ?? '');
+        $department = trim($objPHPExcel->getActiveSheet()->getCell('I7')->getValue() ?? '');
+        $dept_code = trim($objPHPExcel->getActiveSheet()->getCell('I8')->getValue() ?? '');
+        $requestor = trim($objPHPExcel->getActiveSheet()->getCell('I9')->getValue() ?? '');
+        $urgency_no = trim($objPHPExcel->getActiveSheet()->getCell('I10')->getValue() ?? '');
         $year= date("Y", strtotime($date_prepared));
         $year_short = date("y",strtotime($date_prepared));
         $series_rows = $this->super_model->count_rows_where("pr_series","year",$year);
@@ -397,7 +410,7 @@ class Pr extends CI_Controller {
             $pr_series=$max_series+1;
             $pr_no = $dept_code.$year_short."-".$pr_series;
         }
-//series per year
+        //series per year
         // $series_rows = $this->super_model->count_custom_where("pr_head","date_prepared LIKE '%$year%'");
         // if($series_rows==0){
         //     $pr_series=1000;
@@ -437,12 +450,13 @@ class Pr extends CI_Controller {
             $highestRow = $objPHPExcel->getActiveSheet()->getHighestRow(); 
             $z=1;
             for($x=14;$x<=$highestRow;$x++){
-                $qty = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
-                $uom = trim($objPHPExcel->getActiveSheet()->getCell('C'.$x)->getValue());
-                $part_no = trim($objPHPExcel->getActiveSheet()->getCell('D'.$x)->getValue());
-                $description = trim($objPHPExcel->getActiveSheet()->getCell('E'.$x)->getValue());
-                $date_needed = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue()));
-                $wh_stock = trim($objPHPExcel->getActiveSheet()->getCell('I'.$x)->getValue());
+                $qty = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue() ?? '');
+                $uom = trim($objPHPExcel->getActiveSheet()->getCell('C'.$x)->getValue() ?? '');
+                $part_no = trim($objPHPExcel->getActiveSheet()->getCell('D'.$x)->getValue() ?? '');
+                $description = trim($objPHPExcel->getActiveSheet()->getCell('E'.$x)->getValue() ?? '');
+                $date_needed = (!empty($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue())) ? date('Y-m-d', date::excelToTimestamp($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue())) : '';
+                //$date_needed = date('Y-m-d', \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue() ?? ''));
+                $wh_stock = trim($objPHPExcel->getActiveSheet()->getCell('I'.$x)->getValue() ?? '');
                 if(!empty($qty)){
                     $data_items = array(
                         'pr_id'=>$pr_id,

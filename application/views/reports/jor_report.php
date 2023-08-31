@@ -315,8 +315,8 @@
                                                 <td ><span style='font-size:11px'><?php echo $p['revised_qty']."<br>".$p['current_qty']; ?></span></td>
                                                 <td><?php echo $p['uom']; ?></td>
                                                 <td><?php echo $p['grouping_id']; ?></td>
-                                                <td><?php echo nl2br($p['scope_of_work']); ?></td> 
-                                                <td><?php echo nl2br($p['materials_offer']); ?></td>                                         
+                                                <td><?php echo nl2br($p['scope_of_work'] ?? ''); ?></td> 
+                                                <td><?php echo nl2br($p['materials_offer'] ?? ''); ?></td>                                         
                                                 <td><?php echo $p['materials_qty']; ?></td>                                         
                                                 <td><?php echo $p['materials_unit']; ?></td>                                         
                                                 <td><?php echo ($p['jor_status_remarks']!='') ? $p['jor_status_remarks'] : $p['status_remarks']; ?></td>                                         

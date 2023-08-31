@@ -1,6 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require FCPATH.'vendor\autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx as writerxlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as readerxlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing as drawing; // Instead PHPExcel_Worksheet_Drawing
+use PhpOffice\PhpSpreadsheet\Style\Alignment as alignment; // Instead alignment
+use PhpOffice\PhpSpreadsheet\Style\Border as border;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat as number_format;
+use PhpOffice\PhpSpreadsheet\Style\Fill as fill; // Instead fill
+use PhpOffice\PhpSpreadsheet\Style\Color as color; //Instead PHPExcel_Style_Color
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup as pagesetup; // Instead PHPExcel_Worksheet_PageSetup
+use PhpOffice\PhpSpreadsheet\IOFactory as io_factory; // Instead PHPExcel_IOFactory
+use PhpOffice\PhpSpreadsheet\Shared\Date as date; //Instead of PHPExcel_Shared_Date
 class Joaoq extends CI_Controller {
 
 	function __construct(){
@@ -959,8 +972,8 @@ class Joaoq extends CI_Controller {
     }
 
     public function export_aoq_prnt(){
-        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
-        $objPHPExcel = new PHPExcel();
+        //require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new Spreadsheet();
         $exportfilename="AOQ.xlsx";
         $aoq_id=$this->uri->segment(3);
         /*$noted_id=$this->super_model->select_column_where("aoq_head", "noted_by", "aoq_id", $aoq_id);
@@ -969,7 +982,7 @@ class Joaoq extends CI_Controller {
         foreach($this->super_model->select_row_where("jor_aoq_head", "jor_aoq_id", $aoq_id) AS $head){
             $noted=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->noted_by);
             $approved=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
-            $pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $head->pr_id);
+            //$pr_no=$this->super_model->select_column_where('pr_head','pr_no','pr_id', $head->pr_id);
             $jo=$this->super_model->select_column_where("jor_head", "jo_no", "jor_id", $head->jor_id);
             if($jo!=''){
                 $jo_no=$jo;
@@ -1019,8 +1032,8 @@ class Joaoq extends CI_Controller {
                 $delivery=$this->super_model->select_column_where('jo_rfq_head','delivery_date','jo_rfq_id', $rfq->jor_rfq_id);*/
                 $styleArray = array(
                     'borders' => array(
-                        'allborders' => array(
-                          'style' => PHPExcel_Style_Border::BORDER_THIN
+                        'allBorders' => array(
+                          'borderStyle' => border::BORDER_THIN
                         )
                     )
                 );
@@ -1081,31 +1094,31 @@ class Joaoq extends CI_Controller {
                         )
                     );
 
-                    $phpColor = new PHPExcel_Style_Color();
+                    $phpColor = new color();
                     $phpColor->setRGB('FF0000'); 
                     $objPHPExcel->getActiveSheet()->getStyle($col.$q)->getFont()->setColor($phpColor);
 
                     if($allrfq->unit_price==$min){
                         $col2 = chr(ord($col) + 3);
-                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f4e542');
+                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(fill::FILL_SOLID)->getStartColor()->setRGB('f4e542');
                     }
 
                     if($allrfq->vendor_id==$supplier_id && $allrfq->recommended==1 || $allrfq->vendor_id==$supplier_id && $allrfq->materials_recommended==1){
                         $col2 = chr(ord($col) + 4);
-                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
+                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
                     }
                     $objPHPExcel->getActiveSheet()->fromArray($sheet, null, $col.$q);
-                    $objPHPExcel->getActiveSheet()->getStyle('C'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('F'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('C'.$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('F'.$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
                     /*$objPHPExcel->getActiveSheet()->getStyle('K'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);*/
-                    $objPHPExcel->getActiveSheet()->getStyle('P'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('P'.$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getNumberFormat()->setFormatCode(number_format::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getNumberFormat()->setFormatCode(number_format::FORMAT_NUMBER_COMMA_SEPARATED1);
 
-                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getNumberFormat()->setFormatCode(number_format::FORMAT_NUMBER_COMMA_SEPARATED1);
                   
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$q.":V".$q)->applyFromArray($styleArray);
                     $q++;
@@ -1139,37 +1152,37 @@ class Joaoq extends CI_Controller {
                         )
                     );
 
-                    $phpColor = new PHPExcel_Style_Color();
+                    $phpColor = new color();
                     $phpColor->setRGB('FF0000'); 
                     $objPHPExcel->getActiveSheet()->getStyle($col.$q)->getFont()->setColor($phpColor);
 
                     if($allrfq->materials_unitprice==$minmaterials){
                         $col2 = chr(ord($col) + 3);
-                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f4e542');
+                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(fill::FILL_SOLID)->getStartColor()->setRGB('f4e542');
                     }
 
                     if($allrfq->vendor_id==$supplier_id && $allrfq->materials_recommended==1){
                         $col2 = chr(ord($col) + 4);
-                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
+                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
                     }
 
                     if($allrfq->vendor_id==$supplier_id && $allrfq->materials_recommended==1){
                         $col2 = chr(ord($col) + 4);
-                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
+                        $objPHPExcel->getActiveSheet()->getStyle($col2.$q)->getFill()->setFillType(fill::FILL_SOLID)->getStartColor()->setRGB('92D050');
                     }
 
                     $objPHPExcel->getActiveSheet()->fromArray($sheet, null, $col.$q);
-                    $objPHPExcel->getActiveSheet()->getStyle('C'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('F'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('C'.$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('F'.$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
                     //$objPHPExcel->getActiveSheet()->getStyle('K'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('P'.$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('P'.$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$q.":I".$q)->getNumberFormat()->setFormatCode(number_format::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('M'.$q.":O".$q)->getNumberFormat()->setFormatCode(number_format::FORMAT_NUMBER_COMMA_SEPARATED1);
 
-                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle('S'.$q.":U".$q)->getNumberFormat()->setFormatCode(number_format::FORMAT_NUMBER_COMMA_SEPARATED1);
                    
                   
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$q.":V".$q)->applyFromArray($styleArray);
@@ -1181,7 +1194,7 @@ class Joaoq extends CI_Controller {
                 for($i=0;$i<5; $i++) {
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($col.$one, "$supplier\n$contact\n$phone");
                     $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':V'.$one)->applyFromArray($styleArray);
-                    $objPHPExcel->getActiveSheet()->getStyle($col.$one)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $objPHPExcel->getActiveSheet()->getStyle($col.$one)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
                     $objPHPExcel->getActiveSheet()->getRowDimension('7')->setRowHeight(50);
                     $objPHPExcel->getActiveSheet()->getStyle('E'.$one.':V'.$one)->getAlignment()->setWrapText(true);
                     $objPHPExcel->getActiveSheet()->mergeCells('E'.$one.':J'.$one);
@@ -1231,23 +1244,23 @@ class Joaoq extends CI_Controller {
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$c, $delivery);
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$d, $warranty);
             $objPHPExcel->getActiveSheet()->setCellValue($cols.$e, $freight);
-            $objPHPExcel->getActiveSheet()->getStyle($cols.$a)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-            $objPHPExcel->getActiveSheet()->getStyle($cols.$b)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-            $objPHPExcel->getActiveSheet()->getStyle($cols.$c)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-            $objPHPExcel->getActiveSheet()->getStyle($cols.$d)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-            $objPHPExcel->getActiveSheet()->getStyle($cols.$e)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet()->getStyle($cols.$a)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet()->getStyle($cols.$b)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet()->getStyle($cols.$c)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet()->getStyle($cols.$d)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet()->getStyle($cols.$e)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
             for($y=0;$y<4;$y++){
                 
-                $objPHPExcel->getActiveSheet()->getStyle($cols.$a)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+                $objPHPExcel->getActiveSheet()->getStyle($cols.$a)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
                 
-                $objPHPExcel->getActiveSheet()->getStyle($cols.$b)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+                $objPHPExcel->getActiveSheet()->getStyle($cols.$b)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
 
                 
-                $objPHPExcel->getActiveSheet()->getStyle($cols.$c)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+                $objPHPExcel->getActiveSheet()->getStyle($cols.$c)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
 
-                $objPHPExcel->getActiveSheet()->getStyle($cols.$d)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+                $objPHPExcel->getActiveSheet()->getStyle($cols.$d)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
 
-                $objPHPExcel->getActiveSheet()->getStyle($cols.$e)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+                $objPHPExcel->getActiveSheet()->getStyle($cols.$e)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
                 $cols++;
             }
             $cols++;
@@ -1269,39 +1282,39 @@ class Joaoq extends CI_Controller {
             $objPHPExcel->getActiveSheet()->setCellValue('O'.$h, $noted);
             
             $objPHPExcel->getActiveSheet()->setCellValue('B'.$f, "Prepared by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('B'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$g)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
 
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$f, "Reviewed and Checked by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('D'.$g.':E'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('D'.$g.':E'.$g)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->mergeCells('D'.$f.':E'.$f);
             $objPHPExcel->getActiveSheet()->mergeCells('D'.$g.':E'.$g);
             $objPHPExcel->getActiveSheet()->mergeCells('D'.$h.':E'.$h);
 
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$f, "Award Recommended by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('G'.$g.':I'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('G'.$g.':I'.$g)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->mergeCells('G'.$f.':I'.$f);
             
 
             $objPHPExcel->getActiveSheet()->setCellValue('K'.$f, "Recommending Approval: ");
-            $objPHPExcel->getActiveSheet()->getStyle('K'.$g.':M'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$g.':M'.$g)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->mergeCells('K'.$f.':M'.$f);
             $objPHPExcel->getActiveSheet()->mergeCells('K'.$g.':M'.$g);
 
              $objPHPExcel->getActiveSheet()->setCellValue('O'.$f, "Approved by: ");
-            $objPHPExcel->getActiveSheet()->getStyle('O'.$g)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('O'.$g)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
 
-            $objPHPExcel->getActiveSheet()->getStyle('E'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('G'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('I'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('K'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('E'.$g)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('G'.$g)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('I'.$g)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('K'.$g)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('E'.$h)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('G'.$h)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('I'.$h)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('K'.$h)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('E'.$f)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('G'.$f)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('I'.$f)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$f)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('E'.$g)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('G'.$g)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('I'.$g)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$g)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('E'.$h)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('G'.$h)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('I'.$h)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('K'.$h)->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
         }
 
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(false);
@@ -1343,17 +1356,20 @@ class Joaoq extends CI_Controller {
     
 
         $objPHPExcel->getActiveSheet()->getStyle('A8:V8')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A8:V8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objPHPExcel->getActiveSheet()->getStyle('A8:V8')->getAlignment()->setHorizontal(alignment::HORIZONTAL_CENTER);
+        /*$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
                 unlink($exportfilename);
         $objWriter->save($exportfilename);
         unset($objPHPExcel);
         unset($objWriter);   
-        ob_end_clean();
+        ob_end_clean();*/
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="AOQ.xlsx"');
-        readfile($exportfilename);
+        //readfile($exportfilename);
+        $objWriter = io_factory::createWriter($objPHPExcel, 'Xlsx');
+        $objWriter->save('php://output');
+        //ob_end_clean();
 
     }
 

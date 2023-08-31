@@ -1,6 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require FCPATH.'vendor\autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx as writerxlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as readerxlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing as drawing; // Instead PHPExcel_Worksheet_Drawing
+use PhpOffice\PhpSpreadsheet\Style\Alignment as alignment; // Instead alignment
+use PhpOffice\PhpSpreadsheet\Style\Border as border;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat as number_format;
+use PhpOffice\PhpSpreadsheet\Style\Fill as fill; // Instead fill
+use PhpOffice\PhpSpreadsheet\Style\Color as color; //Instead PHPExcel_Style_Color
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup as pagesetup; // Instead PHPExcel_Worksheet_PageSetup
+use PhpOffice\PhpSpreadsheet\IOFactory as io_factory; // Instead PHPExcel_IOFactory
+use PhpOffice\PhpSpreadsheet\Shared\Date as date; //Instead of PHPExcel_Shared_Date
 class Jor extends CI_Controller {
 
 	function __construct(){
@@ -633,12 +646,12 @@ class Jor extends CI_Controller {
     }
 
     public function readExcel_jor(){
-        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
-        $objPHPExcel = new PHPExcel();
+        //require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new Spreadsheet();
         $inputFileName =realpath(APPPATH.'../uploads/excel/JORequestForm.xlsx');
         try {
-            $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
-            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $inputFileType = io_factory::identify($inputFileName);
+            $objReader = io_factory::createReader($inputFileType);
             $objPHPExcel = $objReader->load($inputFileName);
         } catch(Exception $e) {
             die('Error loading file"'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
@@ -652,16 +665,19 @@ class Jor extends CI_Controller {
             $jor_id=$maxid+1;
         }
 
-        $jo_request = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue());
-        $date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
-        $department = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue());
-        $user_jo_no = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue());
-        $requested_by = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue());
-        $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C12')->getValue());
-        $duration = trim($objPHPExcel->getActiveSheet()->getCell('I7')->getValue());
-        $completion_date = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('I8')->getValue()));
-        $delivery_date = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('I9')->getValue()));
-        $urgency_no = trim($objPHPExcel->getActiveSheet()->getCell('I10')->getValue());
+        $jo_request = trim($objPHPExcel->getActiveSheet()->getCell('C7')->getValue() ?? '');
+        //$date_prepared = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('C8')->getValue()));
+        $date_prepared = (!empty($objPHPExcel->getActiveSheet()->getCell('C8')->getValue())) ? date('Y-m-d', date::excelToTimestamp($objPHPExcel->getActiveSheet()->getCell('C8')->getValue())) : '';
+        $department = trim($objPHPExcel->getActiveSheet()->getCell('C9')->getValue() ?? '');
+        $user_jo_no = trim($objPHPExcel->getActiveSheet()->getCell('C10')->getValue() ?? '');
+        $requested_by = trim($objPHPExcel->getActiveSheet()->getCell('C11')->getValue() ?? '');
+        $purpose = trim($objPHPExcel->getActiveSheet()->getCell('C12')->getValue() ?? '');
+        $duration = trim($objPHPExcel->getActiveSheet()->getCell('I7')->getValue() ?? '');
+        //$completion_date = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('I8')->getValue()));
+        $completion_date = (!empty($objPHPExcel->getActiveSheet()->getCell('I8')->getValue())) ? date('Y-m-d', date::excelToTimestamp($objPHPExcel->getActiveSheet()->getCell('I8')->getValue())) : '';
+        //$delivery_date = date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($objPHPExcel->getActiveSheet()->getCell('I9')->getValue()));
+        $delivery_date = (!empty($objPHPExcel->getActiveSheet()->getCell('I9')->getValue())) ? date('Y-m-d', date::excelToTimestamp($objPHPExcel->getActiveSheet()->getCell('I9')->getValue())) : '';
+        $urgency_no = trim($objPHPExcel->getActiveSheet()->getCell('I10')->getValue() ?? '');
 
         $exp = explode("-",$date_prepared);
         $year = $exp[0];
@@ -713,14 +729,14 @@ class Jor extends CI_Controller {
 
                 
                 $highestRow = $objPHPExcel->getActiveSheet()->getHighestRow(); 
-                $general_desc = trim($objPHPExcel->getActiveSheet()->getCell('A14')->getValue());
+                $general_desc = trim($objPHPExcel->getActiveSheet()->getCell('A14')->getValue()) ?? '';
                 for($x=15;$x<=$highestRow;$x++){   
-                    $item_no = trim($objPHPExcel->getActiveSheet()->getCell('A'.$x)->getValue());
-                    $scope_work = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
-                    $qty = trim($objPHPExcel->getActiveSheet()->getCell('G'.$x)->getValue());
-                    $uom = trim($objPHPExcel->getActiveSheet()->getCell('H'.$x)->getValue());
-                    $unit_cost = trim($objPHPExcel->getActiveSheet()->getCell('I'.$x)->getValue());
-                    $total_cost = trim($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue());
+                    $item_no = trim($objPHPExcel->getActiveSheet()->getCell('A'.$x)->getValue() ?? '');
+                    $scope_work = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue() ?? '');
+                    $qty = trim($objPHPExcel->getActiveSheet()->getCell('G'.$x)->getValue() ?? '');
+                    $uom = trim($objPHPExcel->getActiveSheet()->getCell('H'.$x)->getValue() ?? '');
+                    $unit_cost = trim($objPHPExcel->getActiveSheet()->getCell('I'.$x)->getValue() ?? '');
+                    $total_cost = trim($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue() ?? '');
                     $scope=str_replace("~", "\n ", $scope_work);
                     if($item_no!='' && $item_no!='Notes:'){
                         $data_ji = array(
@@ -739,7 +755,7 @@ class Jor extends CI_Controller {
 
                     /*$num1=$x+3;
                     $num2=$num1+2;*/
-                    $notes = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
+                    $notes = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue() ?? '');
                     if(($item_no=='' || $item_no=='Notes:') && $notes!=''){
                         $data_notes = array(
                             'jor_id'=>$jor_id,

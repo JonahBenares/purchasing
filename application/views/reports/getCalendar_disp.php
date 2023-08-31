@@ -154,20 +154,20 @@
                                     <td><?php echo $pc['supplier']; ?></td>
                                     <td><?php echo $pc['status_remarks']; ?></td>
                                     <td><?php echo $pc['status']; ?></td>
-                                    <td align="right"><?php echo number_format($pc['unit_price'],2); ?></td>
-                                    <td align="right"><?php echo number_format($pc['estimated_price'],2); ?></td>
-                                    <td align="right"><?php echo number_format($pc['estimated_total_price'],2); ?></td>
-                                    <td align="right"><?php echo number_format($pc['actual_price'],2); ?></td>
-                                    <td align="right"><?php echo number_format($pc['actual_total_price'],2); ?></td>
+                                    <td align="right"><?php echo number_format((float)$pc['unit_price'],2); ?></td>
+                                    <td align="right"><?php echo number_format((float)$pc['estimated_price'],2); ?></td>
+                                    <td align="right"><?php echo number_format((float)$pc['estimated_total_price'],2); ?></td>
+                                    <td align="right"><?php echo number_format((float)$pc['actual_price'],2); ?></td>
+                                    <td align="right"><?php echo number_format((float)$pc['actual_total_price'],2); ?></td>
                                 </tr>
                                 <?php  } ?> 
                                 <tr>
                                     <td colspan="11" align="right">Total:</td>
-                                    <td colspan="1" align="right"><?php echo number_format($pc['total_unit'],2); ?></td>
-                                    <td colspan="1" align="right"><?php echo number_format($pc['total_est'],2); ?></td>
-                                    <td colspan="1" align="right"><?php echo number_format($pc['total_ep'],2); ?></td>
-                                    <td colspan="1" align="right"><?php echo number_format($pc['total_actual'],2); ?></td>
-                                    <td colspan="1" align="right"><?php echo number_format($pc['total_actualp'],2); ?></td>
+                                    <td colspan="1" align="right"><?php echo number_format((float)$pc['total_unit'],2); ?></td>
+                                    <td colspan="1" align="right"><?php echo number_format((float)$pc['total_est'],2); ?></td>
+                                    <td colspan="1" align="right"><?php echo number_format((float)$pc['total_ep'],2); ?></td>
+                                    <td colspan="1" align="right"><?php echo number_format((float)$pc['total_actual'],2); ?></td>
+                                    <td colspan="1" align="right"><?php echo number_format((float)$pc['total_actualp'],2); ?></td>
                                 </tr>
                                 <?php } ?>
                             </table>
