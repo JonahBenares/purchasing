@@ -1221,14 +1221,14 @@ class Aoq extends CI_Controller {
             }else {
                 $date = date('F j, Y',strtotime($delivery));
             }*/
-            $objPHPExcel->getActiveSheet(00)->setCellValue($cols.$c, $delivery);
-            $objPHPExcel->getActiveSheet(00)->setCellValue($cols.$d, $warranty);
-            $objPHPExcel->getActiveSheet(00)->setCellValue($cols.$e, $freight);
-            $objPHPExcel->getActiveSheet(00)->getStyle($cols.$a)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
-            $objPHPExcel->getActiveSheet(00)->getStyle($cols.$b)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
-            $objPHPExcel->getActiveSheet(00)->getStyle($cols.$c)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
-            $objPHPExcel->getActiveSheet(00)->getStyle($cols.$d)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
-            $objPHPExcel->getActiveSheet(00)->getStyle($cols.$e)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet(0)->setCellValue($cols.$c, $delivery);
+            $objPHPExcel->getActiveSheet(0)->setCellValue($cols.$d, $warranty);
+            $objPHPExcel->getActiveSheet(0)->setCellValue($cols.$e, $freight);
+            $objPHPExcel->getActiveSheet(0)->getStyle($cols.$a)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet(0)->getStyle($cols.$b)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet(0)->getStyle($cols.$c)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet(0)->getStyle($cols.$d)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
+            $objPHPExcel->getActiveSheet(0)->getStyle($cols.$e)->getAlignment()->setHorizontal(alignment::HORIZONTAL_LEFT);
             for($y=0;$y<4;$y++){
                 
                 $objPHPExcel->getActiveSheet(0)->getStyle($cols.$a)->getBorders()->getBottom()->setBorderStyle(border::BORDER_THIN);
