@@ -2569,6 +2569,7 @@ class Po extends CI_Controller {
             $series = $max+1;
         }*/
 
+        $year = date("Y",strtotime($this->input->post('po_date')));
         $rows_series = $this->super_model->count_custom_where("po_series","year ='$year'");
         if($rows_series==0){
             $series=1000;
@@ -2588,11 +2589,11 @@ class Po extends CI_Controller {
             $dr_no = $max + 1;
         }
 
-        $data_series = array(
+        /*$data_series = array(
             'series'=>$series,
             'year'=>$year
         );
-        $this->super_model->insert_into("po_series", $data_series);
+        $this->super_model->insert_into("po_series", $data_series);*/
 
         foreach($this->super_model->select_row_where("po_dr","po_id",$po_id) AS $drs){
             $data_dr=array(
