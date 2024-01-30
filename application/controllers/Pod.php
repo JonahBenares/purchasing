@@ -1218,23 +1218,23 @@ class Pod extends CI_Controller {
         }
 
         $y=1;
-        foreach($this->super_model->select_row_where("po_tc","po_id",$po_id) AS $potc){
-            $data_tci = array(
-                "po_tc_id"=>$potc->po_tc_id,
-                "po_id"=>$po_id,
-                "tc_desc"=>$this->input->post('terms'.$y),
-                //"notes"=>$this->input->post('notes'),
-            );
-            if($this->super_model->insert_into("po_tc_temp", $data_tci)){
-                $data_notes = array(
-                    "notes"=>$this->input->post('notes'),
-                );
-                $this->super_model->update_where("po_tc_temp", $data_notes, "po_tc_id", $potc->po_tc_id);
-            }
+        // foreach($this->super_model->select_row_where("po_tc","po_id",$po_id) AS $potc){
+        //     $data_tci = array(
+        //         "po_tc_id"=>$potc->po_tc_id,
+        //         "po_id"=>$po_id,
+        //         "tc_desc"=>$this->input->post('terms'.$y),
+        //         //"notes"=>$this->input->post('notes'),
+        //     );
+        //     if($this->super_model->insert_into("po_tc_temp", $data_tci)){
+        //         $data_notes = array(
+        //             "notes"=>$this->input->post('notes'),
+        //         );
+        //         $this->super_model->update_where("po_tc_temp", $data_notes, "po_tc_id", $potc->po_tc_id);
+        //     }
 
 
-            $y++;
-        }
+        //     $y++;
+        // }
 
         $data_head = array(
             'revised'=>1
@@ -1286,10 +1286,10 @@ class Pod extends CI_Controller {
             $dr_no = $max + 1;
         }
 
-        $data_series = array(
-            'series'=>$series
-        );
-        $this->super_model->insert_into("po_series", $data_series);
+        // $data_series = array(
+        //     'series'=>$series
+        // );
+        // $this->super_model->insert_into("po_series", $data_series);
 
         foreach($this->super_model->select_row_where("po_dr","po_id",$po_id) AS $drs){
             $data_dr=array(
@@ -1434,21 +1434,33 @@ class Pod extends CI_Controller {
             $this->super_model->insert_into("po_tc_revised", $data_potc);
         }
 
-        $data_tcn =array(
-            'revision_no'=>$revision_no
-        );
+        // $data_tcn =array(
+        //     'revision_no'=>$revision_no
+        // );
 
-        $this->super_model->update_where("po_tc", $data_tcn, "po_id", $po_id);
+        // $this->super_model->update_where("po_tc", $data_tcn, "po_id", $po_id);
+
+        // foreach($this->super_model->select_row_where("po_tc_temp","po_id",$po_id) AS $potcr){
+        //     $data_rev = array(
+        //         "po_tc_id"=>$potcr->po_tc_id,
+        //         "po_id"=>$popr->po_id,
+        //         "tc_desc"=>$potcr->tc_desc,
+        //         "notes"=>$potcr->notes,
+        //         "revision_no"=>$potcr->revision_no,
+        //     );
+        //     $this->super_model->update_where("po_tc", $data_rev, "po_tc_id", $potcr->po_tc_id);
+        // }
 
         foreach($this->super_model->select_row_where("po_tc_temp","po_id",$po_id) AS $potcr){
             $data_rev = array(
-                "po_tc_id"=>$potcr->po_tc_id,
+              
                 "po_id"=>$popr->po_id,
                 "tc_desc"=>$potcr->tc_desc,
                 "notes"=>$potcr->notes,
                 "revision_no"=>$potcr->revision_no,
             );
-            $this->super_model->update_where("po_tc", $data_rev, "po_tc_id", $potcr->po_tc_id);
+         
+          $this->super_model->insert_into("po_tc", $data_rev);
         }
 
        
