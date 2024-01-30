@@ -1108,8 +1108,10 @@ class Pod extends CI_Controller {
             $data['delivery_time']= $this->super_model->select_column_custom_where('aoq_vendors', 'delivery_date', "aoq_id = '$ppr->aoq_id' AND vendor_id='$vendor_id'");
         }
         //$data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
-        $data['tc_notes'] = $this->super_model->select_column_where("po_tc_temp",'notes',"po_id",$po_id);
-        $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        // $data['tc_notes'] = $this->super_model->select_column_where("po_tc_temp",'notes',"po_id",$po_id);
+        // $data['tc'] = $this->super_model->select_row_where("po_tc", "po_id", $po_id);
+        $data['tc_notes'] = $this->super_model->select_custom_where("po_tc","po_id='$po_id' AND notes is not NULL");
+        $data['tc'] = $this->super_model->select_custom_where("po_tc", "po_id='$po_id' AND tc_desc is not NULL");
         $data['tc_temp'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
         //$data['tc'] = $this->super_model->select_row_where("po_tc_temp", "po_id", $po_id);
         $data['shipping_temp'] = $this->super_model->select_column_where('po_head_temp', 'shipping', 'po_id', $po_id);
@@ -1158,6 +1160,10 @@ class Pod extends CI_Controller {
             $max = $this->super_model->get_max("po_tc", "po_tc_id");
             $po_tc_id = $max+1;
         }
+
+        $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
+        $revision_no = $max_revision+1;
+        
         $data = array(
             'po_tc_id'=>$po_tc_id,
             'po_id'=>$this->input->post('po_id'),
