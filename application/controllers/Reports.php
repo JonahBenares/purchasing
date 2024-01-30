@@ -267,7 +267,7 @@ class Reports extends CI_Controller {
             $po_id = '1523';
 */
 
-            //echo $pr_details_id . " - " . $controller_name . " - " . $po_id . "<br>";
+           
             $statuss='';
             $status='';
             $status_remarks='';
@@ -298,7 +298,9 @@ class Reports extends CI_Controller {
 
             if($controller_name=='po_report'){
                 // $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id' AND ph.po_id = '$po_id'"); // gets the total received qty of the item
-                $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id' AND pi.pr_id = '$pr_id'"); // gets the total received qty of the item
+               // $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id' AND pi.pr_id = '$pr_id'"); // gets the total received qty of the item
+
+                $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_dr_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id' AND pi.pr_id = '$pr_id' AND pi.po_id='$po_id'");
             }else{
                 $sum_received_qty = $this->super_model->custom_query_single("total","SELECT sum(quantity) AS total FROM po_items pi INNER JOIN po_head ph ON  ph.po_id = pi.po_id WHERE ph.cancelled = '0' AND pi.pr_details_id = '$pr_details_id'");
             }
@@ -346,6 +348,8 @@ class Reports extends CI_Controller {
                     $status_remarks =  "<span style='color:red'>".$cancel_reason ." " . date('m.d.y', strtotime($cancel_date))."</span>";
                 }
             } */
+
+          
 
             if($pr_qty > $sum_received_qty || $sum_received_qty == 0){
             
@@ -525,6 +529,7 @@ class Reports extends CI_Controller {
                             //echo $sum_delivered_qty ."<". $sum_received_qty;
                             if($controller_name=='po_report'){
                                 //echo $po_id ." - " . $pr_qty ." ,". $sum_delivered_qty . " = ". $sum_received_qty ."<br>";
+                               
                                 if($sum_delivered_qty > $sum_received_qty){
 
                                     //$status="Partially Delivered";
@@ -545,6 +550,9 @@ class Reports extends CI_Controller {
                                     $status = 'Fully Delivered';
                                 }
                             }else{
+
+                                //echo $pr_details_id . " - " . $controller_name . " - " . $po_id . ", " . $pr_qty . ", " . $po_qty . ", " . $sum_received_qty  .", " . $sum_delivered_qty . ", " .  $controller_name ."<br>";
+                                $canrem  = $this->super_model->select_column_where("pr_details", "cancel_remarks","pr_details_id",$pr_details_id); 
                                 if($sum_delivered_qty < $sum_received_qty || $pr_qty > $sum_received_qty){
                                     if($controller_name=='po_report'){
                                         if($po_qty != $sum_received_qty){
@@ -554,9 +562,9 @@ class Reports extends CI_Controller {
                                         }
                                     }else {
                                         //if($po_rec_qty!=0){
-                                        if($pr_qty != $sum_received_qty){
+                                        if($pr_qty != $sum_received_qty && empty($canrem)){
                                             $status = 'Partially Delivered';
-                                        }else if($pr_qty == $sum_received_qty){
+                                        }else if($pr_qty == $sum_received_qty || !empty($canrem)){
                                             $status = 'Fully Delivered';
                                         }else{
                                             $uom = $this->super_model->select_column_where("pr_details", "uom","pr_details_id",$pr_details_id);

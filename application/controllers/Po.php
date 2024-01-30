@@ -2569,6 +2569,7 @@ class Po extends CI_Controller {
             $series = $max+1;
         }*/
 
+        $year = date("Y",strtotime($this->input->post('po_date')));
         $rows_series = $this->super_model->count_custom_where("po_series","year ='$year'");
         if($rows_series==0){
             $series=1000;
@@ -2588,11 +2589,11 @@ class Po extends CI_Controller {
             $dr_no = $max + 1;
         }
 
-        $data_series = array(
+        /*$data_series = array(
             'series'=>$series,
             'year'=>$year
         );
-        $this->super_model->insert_into("po_series", $data_series);
+        $this->super_model->insert_into("po_series", $data_series);*/
 
         foreach($this->super_model->select_row_where("po_dr","po_id",$po_id) AS $drs){
             $data_dr=array(
@@ -3172,7 +3173,7 @@ class Po extends CI_Controller {
     public function item_balance($pr_details_id,$po_id){
       /*  echo "SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id='$po_id'";*/
         $pr_qty = $this->super_model->custom_query_single("quantity","SELECT quantity FROM pr_details pd INNER JOIN pr_head ph ON pd.pr_id = ph.pr_id WHERE pr_details_id = '$pr_details_id' AND saved='1'");
-        $po_qty = $this->super_model->custom_query_single("delivered_quantity","SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id!='$po_id'");
+        $po_qty = $this->super_model->custom_query_single("delivered_quantity","SELECT delivered_quantity FROM po_items pi INNER JOIN po_head ph ON pi.po_id = ph.po_id WHERE pr_details_id = '$pr_details_id' AND saved='1' AND pi.po_id!='$po_id' AND ph.cancelled = '0'");
         $balance = $pr_qty - $po_qty;
         return $balance;
     }
