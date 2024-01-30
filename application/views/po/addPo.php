@@ -48,10 +48,17 @@
                                     <?php
                                     $x=1;
                                     if(!empty($items)){
-                                     foreach($items AS $i){ ?>
+                                     foreach($items AS $i){ 
+                                        
+                                        if($i['balance']<0){
+                                            $balance=0;
+                                        } else { 
+                                            $balance = $i['balance']; 
+                                        }
+                                    ?>
                                     
                                     <tr>
-                                          <td style="padding: 0px!important"><select class="form-control" id = "pr_details_id<?php echo $x; ?>" name='pr_details_id<?php echo $x; ?>' onchange='getqty(this,<?php echo $x; ?>)'>
+                                          <td style="padding: 0px!important"><select class="form-control" id = "pr_details_id<?php echo $x; ?>" name='pr_details_id<?php echo $x; ?>' onchange='getqty(this,<?php echo $x; ?>,<?php echo $i["vendor_id"]; ?>)'>
                                             <option value='' selected>-Choose Item-</option>
                                             <?php foreach($pr_det AS $det){ ?>
                                                 <option value="<?php echo $det['pr_details_id']; ?>"><?php echo $det['item_description']; ?></option>
@@ -59,7 +66,7 @@
                                             <?php } ?>
 
                                         </select></td>
-                                        <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" onblur="check_prdet(<?php echo $x; ?>);" onkeyup='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px'></td>
+                                        <td style="padding: 0px!important"><input type="text" name="quantity<?php echo $x; ?>" id="quantity<?php echo $x; ?>" onblur="check_prdet(<?php echo $x; ?>);" onkeyup='changePrice(<?php echo $x; ?>,0)'  onkeypress="return isNumberKey(this, event)" class="form-control emphasis" style='border:0px' max="<?php echo $i['balance'] ?>"></td>
                                         <td><input type='text' disabled name='qty<?php echo $x; ?>' id='qty<?php echo $x; ?>' style='width:80px'> </td>
                                         <td><?php echo $i['uom']; ?></td>
                                         <td><?php echo $i['offer']; ?></td>
@@ -96,14 +103,14 @@
     </div>
 </div>
 <script>
-  function getqty(id, count){
+  function getqty(id, count, vendor_id){
     var loc= document.getElementById("baseurl").value;
     var pr_details_id = id.value;
     
       $.ajax({
             type: 'POST',
             url: loc+'po/quantity_of_pr',
-            data: 'id='+pr_details_id,
+            data: 'id='+pr_details_id+'&vendor_id='+vendor_id,
             success: function(data){
              
                 document.getElementById("qty"+count).value =  data;
