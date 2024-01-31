@@ -2152,6 +2152,7 @@ class Po extends CI_Controller {
                 }
                 //$pr_details_id = $this->super_model->select_column_where('pr_details', 'pr_details_id', 'pr_id', $item->pr_id);
                 $quantity = $this->super_model->select_column_where('pr_details', 'quantity', 'pr_details_id', $item->pr_details_id);
+                $balance = $this->item_checker($item->pr_details_id, $vendor_id);
                 $data['items'][] = array(
                     'pr_no'=>$pr_no,
                     'pr_details_id'=>$item->pr_details_id,
@@ -2161,7 +2162,9 @@ class Po extends CI_Controller {
                     'quantity'=>$quantity,
                     'uom'=>$item->uom,
                     'price'=>$item->unit_price,
-                    'amount'=>$item->amount
+                    'amount'=>$item->amount,
+                    'balance'=>$balance,
+                    'vendor_id'=>$vendor_id,
                 );
             }
       
@@ -3167,7 +3170,9 @@ class Po extends CI_Controller {
 
     public function quantity_of_pr(){
        $pr_details_id = $_POST['id'];
-       $quantity = $this->super_model->select_column_where("pr_details", "quantity", "pr_details_id", $pr_details_id);
+       $vendor_id = $_POST['vendor_id'];
+       $quantity = $this->item_checker($pr_details_id, $vendor_id);
+    //    $quantity = $this->super_model->select_column_where("pr_details", "quantity", "pr_details_id", $pr_details_id);
        echo $quantity;
     }
     public function item_balance($pr_details_id,$po_id){
