@@ -112,7 +112,6 @@
             url: loc+'po/quantity_of_pr',
             data: 'id='+pr_details_id+'&vendor_id='+vendor_id,
             success: function(data){
-             
                 document.getElementById("qty"+count).value =  data;
            }
      }); 
@@ -126,11 +125,14 @@
         }
 
         var pr_qty = parseFloat(document.getElementById("qty"+count).value);
+        var disable_btn=document.getElementById("save");
         if(qty>pr_qty){
             alert("PR quantity is less than your PO quantity!");
             $("#save").hide();
+            disable_btn.disabled = true;
         }else{
             $("#save").show();
+            disable_btn.disabled = false;
         }
     }
 
