@@ -1141,13 +1141,18 @@ class Pod extends CI_Controller {
             $max = $this->super_model->get_max("po_tc", "po_tc_id");
             $po_tc_id = $max+1;
         }
+
+        $max_revision = $this->super_model->get_max_where("po_head", "revision_no","po_id = '$po_id'");
+        $revision_no = $max_revision+1;
+
         $data = array(
             'po_tc_id'=>$po_tc_id,
             'po_id'=>$this->input->post('po_id'),
             'tc_desc'=>$this->input->post('tc_desc'),
+            'revision_no'=>$revision_no
         );
-        if($this->super_model->insert_into("po_tc", $data)){
-            redirect(base_url().'po/purchase_order_rev/'.$po_id, 'refresh');
+        if($this->super_model->insert_into("po_tc_temp", $data)){
+            redirect(base_url().'poc/purchase_order_rev/'.$po_id, 'refresh');
         }
     }
 
@@ -1168,9 +1173,10 @@ class Pod extends CI_Controller {
             'po_tc_id'=>$po_tc_id,
             'po_id'=>$this->input->post('po_id'),
             'notes'=>$this->input->post('notes'),
+            'revision_no'=>$revision_no
         );
-        if($this->super_model->insert_into("po_tc", $data)){
-            redirect(base_url().'po/purchase_order_rev/'.$po_id, 'refresh');
+        if($this->super_model->insert_into("po_tc_temp", $data)){
+            redirect(base_url().'pod/purchase_order_rev/'.$po_id, 'refresh');
         }
     }
     
