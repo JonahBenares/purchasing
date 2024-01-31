@@ -577,7 +577,8 @@
 		    				</div>
 		    			</td>
 		    		</tr>
-		    		<tr><td colspan="20" style="padding: 10px!important">
+		    		<tr>
+		    			<td colspan="20" style="padding: 10px!important">
 		    				<?php  if($revised==0){ ?>
 			    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 									Add Other Instruction
@@ -593,7 +594,8 @@
 								foreach($tc_temp AS $tt){ ?><span style = "color:blue;"><?php echo nl2br($tt->notes)."<br>";?></span><?php } ?>
 
 							<?php } ?>
-			    		</td></tr>
+			    		</td>
+			    	</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				<?php if($revised==0){ ?>
