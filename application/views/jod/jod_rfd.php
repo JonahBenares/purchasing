@@ -506,6 +506,7 @@
 	    	<input type='hidden' name='mtotal_amount' id = "mtotal_amount" value='<?php echo $mtotal; ?>'>
 	    	<input type='hidden' name='sum_amount' id = "sum_amount" value='<?php echo $sum_amount; ?>'>
 	    	<input type='hidden' name='discount_deduct' id = "discount_deduct" value='<?php echo $discount; ?>'>
+	    	<input type='hidden' name='vatt' id = "vatt" value='<?php echo $vatt; ?>'>
     	</form>
     </div>
     <script type="text/javascript">
