@@ -87,12 +87,13 @@ function changePrice_rfd(){
     var sum_amount = document.getElementById("sum_amount").value;
     var payment_amount = document.getElementById("payment_amount").value;
     var discount = document.getElementById("discount_deduct").value;
+    var vat = document.getElementById("vatt").value;
     if(sum_amount!=''){
-      var totalamdue =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(sum_amount) - parseFloat(discount);
+      var totalamdue =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(sum_amount) - parseFloat(discount) + parseFloat(vat);
       var balnet =  parseFloat(totalamdue) - parseFloat(payment_amount);
       //var balnet =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(payment_amount) - parseFloat(sum_amount);
     }else{
-      var totalamdue =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(discount);
+      var totalamdue =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(discount) + parseFloat(vat);
       var balnet =  parseFloat(totalamdue) - parseFloat(payment_amount);
       //var balnet =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(payment_amount);
     }
