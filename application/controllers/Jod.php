@@ -1014,7 +1014,7 @@ class Jod extends CI_Controller {
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
         ); 
-        if($this->super_model->update_where("joi_tc", $update, "joi_tc_id",$joi_tc_id)){
+        if($this->super_model->update_where("joi_tc", $update, "joi_tc_id",$tc_id)){
             redirect(base_url().'jod/jo_direct/'.$joi_id);
         }
     }
