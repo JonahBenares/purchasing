@@ -183,6 +183,7 @@ class Pod extends CI_Controller {
                 'contact'=>$this->super_model->select_column_where('vendor_head', 'contact_person', 'vendor_id', $h->vendor_id),
             );
             $data['saved']=$h->saved;
+            $data['draft']=$h->draft;
             $data['shipping']=$h->shipping;
             $data['discount']=$h->discount;
             $data['packing']=$h->packing_fee;
@@ -363,6 +364,9 @@ class Pod extends CI_Controller {
 
     public function update_notes(){
         $po_id = $this->input->post('po_id');
+        $pr_id = $this->input->post('pr_id');
+        $group_id = $this->input->post('group_id');
+        $url = $this->input->post('url');
         $tc_id = $this->input->post('tc_id');
         $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
         $saved = $this->super_model->select_column_where("po_head", "saved", "po_id", $po_id);
@@ -371,11 +375,40 @@ class Pod extends CI_Controller {
         ); 
         if($this->super_model->update_where("po_tc", $update, "po_tc_id",$tc_id)){
             if($saved==0 && $draft==0){
+                redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
+            } else if($saved!=0 && $url!='purchase_order_rev'){
                 redirect(base_url().'pod/po_direct/'.$po_id, 'refresh');
-            } else if($saved!=0){
-                redirect(base_url().'pod/po_direct_saved/'.$po_id, 'refresh');
+                // redirect(base_url().'pod/po_direct_saved/'.$po_id, 'refresh');
             }else if($draft==1){
-                redirect(base_url().'pod/po_direct_draft/'.$po_id, 'refresh');
+                redirect(base_url().'pod/po_direct_draft/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
+            }else if($saved!=0 && $url=='purchase_order_rev'){
+                redirect(base_url().'pod/purchase_order_rev/'.$po_id, 'refresh');
+            }
+            //redirect(base_url().'po/purchase_order/'.$po_id);
+        }
+    }
+
+    public function update_notes_temp(){
+        $po_id = $this->input->post('po_id');
+        $pr_id = $this->input->post('pr_id');
+        $group_id = $this->input->post('group_id');
+        $url = $this->input->post('url');
+        $tc_id = $this->input->post('tc_id');
+        $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
+        $saved = $this->super_model->select_column_where("po_head", "saved", "po_id", $po_id);
+        $update = array(
+            'notes'=>$this->input->post('notes'),
+        ); 
+        if($this->super_model->update_where("po_tc_temp", $update, "po_tc_id",$tc_id)){
+            if($saved==0 && $draft==0){
+                redirect(base_url().'pod/po_direct/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
+            } else if($saved!=0 && $url!='purchase_order_rev'){
+                redirect(base_url().'pod/po_direct/'.$po_id, 'refresh');
+                // redirect(base_url().'pod/po_direct_saved/'.$po_id, 'refresh');
+            }else if($draft==1){
+                redirect(base_url().'pod/po_direct_draft/'.$po_id.'/'.$pr_id.'/'.$group_id, 'refresh');
+            }else if($saved!=0 && $url=='purchase_order_rev'){
+                redirect(base_url().'pod/purchase_order_rev/'.$po_id, 'refresh');
             }
             //redirect(base_url().'po/purchase_order/'.$po_id);
         }
@@ -384,20 +417,45 @@ class Pod extends CI_Controller {
     public function delete_inst(){
         $id=$this->uri->segment(3);
         $po_id=$this->uri->segment(4);
+        $url=$this->uri->segment(5);
         $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
         $saved = $this->super_model->select_column_where("po_head", "saved", "po_id", $po_id);
         if($this->super_model->delete_where('po_tc', 'po_tc_id', $id)){
             if($saved==0 && $draft==0){
                 echo "<script>alert('Succesfully Deleted');</script>";
                 redirect(base_url().'pod/po_direct/'.$po_id, 'refresh');
-            }else if($saved!=0){
+            }else if($saved!=0 && $url!='purchase_order_rev'){
                 echo "<script>alert('Succesfully Deleted');</script>";
                 redirect(base_url().'pod/po_direct_saved/'.$po_id, 'refresh');
             }else if($draft==1){
                 echo "<script>alert('Succesfully Deleted');</script>";
                 redirect(base_url().'pod/po_direct_draft/'.$po_id, 'refresh');
+            }else if($saved!=0 && $url=='purchase_order_rev'){
+                redirect(base_url().'pod/purchase_order_rev/'.$po_id, 'refresh');
             }
 
+        }
+    }
+
+    public function delete_inst_temp(){
+        $id=$this->uri->segment(3);
+        $po_id=$this->uri->segment(4);
+        $url=$this->uri->segment(5);
+        $draft = $this->super_model->select_column_where("po_head", "draft", "po_id", $po_id);
+        $saved = $this->super_model->select_column_where("po_head", "saved", "po_id", $po_id);
+        if($this->super_model->delete_where('po_tc_temp', 'po_tc_id', $id)){
+            if($saved==0 && $draft==0){
+                echo "<script>alert('Succesfully Deleted');</script>";
+                redirect(base_url().'pod/po_direct/'.$po_id, 'refresh');
+            }else if($saved!=0 && $url!='purchase_order_rev'){
+                echo "<script>alert('Succesfully Deleted');</script>";
+                redirect(base_url().'pod/po_direct_saved/'.$po_id, 'refresh');
+            }else if($draft==1){
+                echo "<script>alert('Succesfully Deleted');</script>";
+                redirect(base_url().'pod/po_direct_draft/'.$po_id, 'refresh');
+            }else if($saved!=0 && $url=='purchase_order_rev'){
+                redirect(base_url().'pod/purchase_order_rev/'.$po_id, 'refresh');
+            }
         }
     }
 
@@ -793,6 +851,28 @@ class Pod extends CI_Controller {
         }
     }
 
+    public function update_condition_revise(){
+        $po_id = $this->input->post('po_id');
+        $po_tc_id = $this->input->post('tc_id');
+        $update = array(
+            'tc_desc'=>$this->input->post('condition'),
+        ); 
+        if($this->super_model->update_where("po_tc", $update, "po_tc_id",$po_tc_id)){
+            redirect(base_url().'pod/purchase_order_rev/'.$po_id);
+        }
+    }
+
+    public function update_condition_revise_temp(){
+        $po_id = $this->input->post('po_id');
+        $po_tc_id = $this->input->post('tc_id');
+        $update = array(
+            'tc_desc'=>$this->input->post('condition'),
+        ); 
+        if($this->super_model->update_where("po_tc_temp", $update, "po_tc_id",$po_tc_id)){
+            redirect(base_url().'pod/purchase_order_rev/'.$po_id);
+        }
+    }
+
     public function update_condition_draft(){
         $po_id = $this->input->post('po_id');
         $pr_id = $this->input->post('pr_id');
@@ -1047,11 +1127,13 @@ class Pod extends CI_Controller {
       public function purchase_order_rev(){
 
         $po_id=$this->uri->segment(3); 
+        $data['url']=$this->uri->segment(2); 
         $data['currency1']='';
         foreach($this->super_model->select_row_where("po_head", "po_id",$po_id) AS $head){
             $data['approved_by']=$this->super_model->select_column_where('employees','employee_name','employee_id', $head->approved_by);
             $data['prepared_by']=$this->super_model->select_column_where('users','fullname','user_id', $head->user_id);
             $data['revised']=$head->revised;
+            $data['saved']=$head->saved;
         }
 
         foreach($this->super_model->select_row_where("po_head_temp", "po_id",$po_id) AS $head_temp){
@@ -1134,11 +1216,11 @@ class Pod extends CI_Controller {
     public function add_tc_temp(){
         $po_id = $this->input->post('po_id');
 
-        $rows_head = $this->super_model->count_rows("po_tc");
+        $rows_head = $this->super_model->count_rows("po_tc_temp");
         if($rows_head==0){
             $po_tc_id=1;
         } else {
-            $max = $this->super_model->get_max("po_tc", "po_tc_id");
+            $max = $this->super_model->get_max("po_tc_temp", "po_tc_id");
             $po_tc_id = $max+1;
         }
 
@@ -1152,17 +1234,17 @@ class Pod extends CI_Controller {
             'revision_no'=>$revision_no
         );
         if($this->super_model->insert_into("po_tc_temp", $data)){
-            redirect(base_url().'poc/purchase_order_rev/'.$po_id, 'refresh');
+            redirect(base_url().'pod/purchase_order_rev/'.$po_id, 'refresh');
         }
     }
 
     public function add_otherins_temp(){
         $po_id = $this->input->post('po_id');
-        $rows_head = $this->super_model->count_rows("po_tc");
+        $rows_head = $this->super_model->count_rows("po_tc_temp");
         if($rows_head==0){
             $po_tc_id=1;
         } else {
-            $max = $this->super_model->get_max("po_tc", "po_tc_id");
+            $max = $this->super_model->get_max("po_tc_temp", "po_tc_id");
             $po_tc_id = $max+1;
         }
 

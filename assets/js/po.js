@@ -145,11 +145,27 @@ $(document).on("click", "#updateTermRep", function () {
   
 });
 
+$(document).on("click", "#updateTermTemp", function () {
+    var tc_id = $(this).attr("data-id");
+    var terms = $(this).attr("data-name");
+    $("#tc_id_temps").val(tc_id);
+    $("#termstemp").val(terms);
+  
+});
+
 $(document).on("click", "#edits", function () {
     var tc_id = $(this).attr("data-id");
     var notes = $(this).attr("data-name");
     $("#tc1_id").val(tc_id);
     $("#notes").val(notes);
+  
+});
+
+$(document).on("click", "#editstemp", function () {
+    var tc_id = $(this).attr("data-id");
+    var notes = $(this).attr("data-name");
+    $("#tc1_id_temp").val(tc_id);
+    $("#notestemp").val(notes);
   
 });
 

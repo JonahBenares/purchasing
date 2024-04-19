@@ -427,6 +427,14 @@ $(document).on("click", "#updateTerm", function () {
   
 });
 
+$(document).on("click", "#updateTermTemp", function () {
+  var tc_id = $(this).attr("data-id");
+  var terms = $(this).attr("data-name");
+  $("#tc_id_temps").val(tc_id);
+  $("#termstemp").val(terms);
+
+});
+
 
 $(document).on("click", "#jo", function () {
     var joi_id1 = $(this).attr("data-id");

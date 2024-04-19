@@ -585,29 +585,38 @@ tr:nth-child(4) td {
                             <br>
 		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				echo $x."."; ?> Payment term: <?php echo nl2br($payment_terms); ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>" data-target="#Edit">
+		    				echo $x."."; ?> Payment term: <?php echo ($saved==1) ? nl2br($payment_terms)."<br>" : nl2br($payment_terms); ?> 
+							<?php if($saved==0){ ?>
+							<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
-		    				<?php $x++; } ?>	
+		    				<?php } $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    				echo $x."."; ?> Item Warranty: <?php echo nl2br($item_warranty); ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn"  data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>" data-target="#Edit">
+		    				echo $x."."; ?> Item Warranty: <?php echo ($saved==1) ? nl2br($item_warranty)."<br>" : nl2br($item_warranty); ?> 
+							<?php if($saved==0){ ?>
+							<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn"  data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
-		    				<?php $x++; } ?>
+		    				<?php } $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Work Duration: <?php echo nl2br($delivery_time); ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn"  data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>" data-target="#Edit">
+		    				echo $x."."; ?> Work Duration: <?php echo ($saved==1) ? nl2br($delivery_time)."<br>" : nl2br($delivery_time) ; ?> 
+							<?php if($saved==0){ ?>
+							<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn"  data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
-		    				<?php $x++; } ?>
+		    				<?php } $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				echo $x."."; ?> In-land Freight: <?php echo nl2br($freight); ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn"  data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>" data-target="#Edit">
+		    				echo $x."."; ?> In-land Freight: <?php echo ($saved==1) ? nl2br($freight)."<br>" : nl2br($freight); ?> 
+							<?php if($saved==0){ ?>
+							<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn"  data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
-		    				<?php $x++; } ?>
+		    				<?php } $x++; } ?>
 		    				<?php 
 		    					//$no=8;
 		    					foreach($tc AS $t){ 
 		    						if(!empty($t->tc_desc)){
+										if($saved==0){
 			    						echo $x.". " . nl2br($t->tc_desc);
 			    			?>
 			    				<a class='btn btn-primary btn-xs' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->joi_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
@@ -615,6 +624,9 @@ tr:nth-child(4) td {
 			    				</a>
 			    				<br>
 			    				<?php
+										}else{
+											echo $x.". " . nl2br($t->tc_desc)."<br>";
+										}
 			    						$x++; 
 			    					}
 		    					} 

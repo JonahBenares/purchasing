@@ -660,6 +660,8 @@
 							</div>
 						</div>
 						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+						<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+						<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
 						<div class="modal-footer">
 							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 						</div>
@@ -687,6 +689,8 @@
 						</div>
 					</div>
 					<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+					<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+					<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
 					<input type='hidden' name='tc_id' id = "tc_id">
 					<div class="modal-footer">
 						<input type="submit" class="btn btn-primary btn-block" value="Save changes">

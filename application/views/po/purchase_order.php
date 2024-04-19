@@ -293,10 +293,10 @@
 		    		<input type='hidden' name='aoq_id<?php echo $x; ?>' value="<?php echo $it['aoq_id']; ?>">
 		    		<input type='hidden' name='aoq_offer_id<?php echo $x; ?>' value="<?php echo $it['aoq_offer_id']; ?>">
 		    		<input type='hidden' name='aoq_items_id<?php echo $x; ?>' value="<?php echo $it['aoq_items_id']; ?>">
-		    		<input type='text' name='pr_details_id<?php echo $x; ?>' value="<?php echo $it['pr_details_id']; ?>">
+		    		<input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $it['pr_details_id']; ?>">
 		    		<textarea hidden  name='offer<?php echo $x; ?>'><?php echo $it['offer']; ?></textarea>
 		    		<input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>">
-		    		<input type='text' name='balance<?php echo $x; ?>' id='balance<?php echo $x; ?>' value="<?php echo (($it['balance']<0) ? 0 : $it['balance']); ?>">
+		    		<input type='hidden' name='balance<?php echo $x; ?>' id='balance<?php echo $x; ?>' value="<?php echo (($it['balance']<0) ? 0 : $it['balance']); ?>">
 			    		<?php 
 			    		$x++; 
 		    				} 

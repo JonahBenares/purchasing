@@ -85,3 +85,10 @@ $(document).on("click", "#edits", function () {
     $("#notes").val(notes);
   
 });
+$(document).on("click", "#editstemp", function () {
+    var tc_id = $(this).attr("data-id");
+    var notes = $(this).attr("data-name");
+    $("#tc1_id").val(tc_id);
+    $("#notestemp").val(notes);
+  
+});

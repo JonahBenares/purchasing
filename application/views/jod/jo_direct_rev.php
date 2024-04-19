@@ -182,6 +182,62 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="UpdateTerms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Terms & Condition
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>jod/update_condition_revise">
+						<div class="modal-body">
+							<div class="form-group">
+								Terms & Conditions:
+								<input type="text" class="form-control" name="condition" autocomplete="off" id = "terms">
+							</div>
+						</div>
+						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
+						<input type='hidden' name='tc_id' id = "tc_id">
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="UpdateTermsTemp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Terms & Condition
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>jod/update_condition_revise_temp">
+						<div class="modal-body">
+							<div class="form-group">
+								Terms & Conditions:
+								<input type="text" class="form-control" name="condition" autocomplete="off" id = "termstemp">
+							</div>
+						</div>
+						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>
+						<input type='hidden' name='tc_id' id = "tc_id_temps">
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
 <body onload="changePrice()">
     <div  class="pad">
     	<form method='POST' action='<?php echo base_url(); ?>jod/save_change_order'>  
@@ -738,13 +794,26 @@
 		    					if($revised==0){
 		    						foreach($tc AS $t){ 
 		    							if(!empty($t->tc_desc)){
+											echo $x.". " . $t->tc_desc;
 			    			?>
-			    				<?php echo $x.". "; ?><input type = "text" style='color:red;width: 90%' name = "terms<?php echo $y; ?>" value = "<?php echo $t->tc_desc; ?>"><br>
-			    			<?php
-				    					}
-				    					$x++;
-				    					$y++;
-			    					} 
+			    				<!-- <?php echo $x.". "; ?><input type = "text" style='color:red;width: 90%' name = "terms<?php echo $y; ?>" value = "<?php echo $t->tc_desc; ?>"><br> -->
+								<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->joi_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+									<span class = 'fa fa-edit'></span>
+								</a>
+								<br>
+			    			<?php }$x++;$y++;} ?>
+							<?php
+								foreach($tc_temp AS $t){ 
+		    							if(!empty($t->tc_desc)){
+											echo $x.". " . $t->tc_desc;
+			    			?>
+			    				<!-- <?php echo $x.". "; ?><input type = "text" style='color:red;width: 90%' name = "terms<?php echo $y; ?>" value = "<?php echo $t->tc_desc; ?>"><br> -->
+								<a class='btn btn-primary btn-xs prnt' id = "updateTermTemp" data-toggle='modal' data-target='#UpdateTermsTemp' data-id = '<?php echo $t->joi_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+									<span class = 'fa fa-edit'></span>
+								</a>
+								<br>
+			    			<?php }$x++;$y++;} ?>
+							<?php
 		    					}else { 
 		    						foreach($tc AS $t){ 
 			    						if(!empty($t->tc_desc)){
@@ -752,6 +821,13 @@
 				    						$x++; 
 				    					}
 			    					} 
+
+									foreach($tc_temp AS $t){ 
+			    						if(!empty($t->tc_desc)){
+				    						echo $x.". " . nl2br($t->tc_desc)."<br>";
+				    						$x++; 
+				    					}
+			    					}
 			    				}
 		    				?>
 		    			</td>

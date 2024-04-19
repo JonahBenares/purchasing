@@ -498,18 +498,20 @@
 							 Add Other Instruction
 							</button><br>
 							<?php } ?>
+							<?php if(!empty($tc)){ ?>
 							Other Instructions:
+							<?php } ?>
 		    				<?php foreach($tc AS $t){ 
 		    					if(!empty($t->notes)) { ?>
 								<p style = "color:blue;"><?php echo nl2br($t->notes);?>
-									<?php if(!empty($t->notes)){ ?>
+									<?php if(!empty($t->notes)){ if($saved==0){ ?>
 										<a class='btn btn-primary btn-xs prnt' id = "edits" data-toggle='modal' data-target='#EditIns' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
 					    					<span class = 'fa fa-edit'></span>
 					    				</a>
 					    				<a href="<?php echo base_url(); ?>index.php/pod/delete_inst/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>" class="btn btn-custon-three btn-danger btn-xs" id = "prnt_btn" onclick="confirmationDelete(this);return false;">
 		                                    <span class="fa fa-times"></span>
 		                                </a>
-	                            	<?php } ?>	
+	                            	<?php } } ?>	
 								</p>
 							<?php } } ?>	
 		    			</td>
@@ -539,13 +541,14 @@
 		    					$no=4;
 			    				foreach($tc AS $t){ 
 			    					if(!empty($t->tc_desc)){
-				    					echo $no.". " . $t->tc_desc;
+										if($saved==0){
+											echo $no.". " . $t->tc_desc;
 				    		?>
 				    		<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
 		    					<span class = 'fa fa-edit'></span>
 		    				</a>
 		    				<br>
-				    		<?php $no++; } } ?>	  	
+				    		<?php }else{ echo $no.". " . $t->tc_desc."<br>"; } $no++; } } ?>	  	
 		    			</td>
 		    		</tr>
 		    		<tr><td colspan="20"><br></td></tr>

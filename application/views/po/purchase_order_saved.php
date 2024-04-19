@@ -539,14 +539,14 @@
 		    			<td colspan="20" style="padding: 10px!important">
 		    				Other Instructions:<br><?php foreach($tc AS $t){ ?>
 		    					<p style = "color:blue;"><?php echo nl2br($t->notes);?> 
-		    						<?php if(!empty($t->notes)){ ?>
+		    						<?php if(!empty($t->notes)){ if($saved==0){ ?>
 			    						<a class='btn btn-primary btn-xs' id = "edits" data-toggle='modal' data-target='#EditIns' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
 					    					<span class = 'fa fa-edit'></span>
 					    				</a>
 					    				<a href="<?php echo base_url(); ?>index.php/po/delete_inst/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>" class="btn btn-custon-three btn-danger btn-xs prnt" onclick="confirmationDelete(this);return false;">
 		                                    <span class="fa fa-times"></span>
 		                                </a>
-	                            	<?php } ?>
+	                            	<?php } } ?>
 	                            </p>
 	                        <?php } ?>
 		    			</td>
@@ -560,36 +560,49 @@
                             <br>
 		    				<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				echo $x."."; ?> Payment term: <?php echo $payment_terms; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> Payment term: <?php echo ($saved!=0) ? $payment_terms."<br>" : $payment_terms; ?> 
+							<?php if($saved==0){ ?>
+							<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
-		    				<?php $x++; } ?>	
+		    				<?php  } $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    				echo $x."."; ?> Item Warranty: <?php echo $item_warranty; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> Item Warranty: <?php echo ($saved!=0) ? $item_warranty."<br>" : $item_warranty; ?> 
+							<?php if($saved==0){ ?>
+							<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
-		    				<?php $x++; } ?>
+		    				<?php } $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Delivery Time: <?php echo $delivery_time; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> Delivery Time: <?php echo ($saved!=0) ? $delivery_time."<br>" : $delivery_time; ?> 
+							<?php if($saved==0){ ?>
+							<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
-		    				<?php $x++; } ?>
+		    				<?php } $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				echo $x."."; ?> In-land Freight: <?php echo $freight; ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> In-land Freight: <?php echo ($saved!=0) ? $freight."<br>" : $freight; ?> 
+							<?php if($saved==0){ ?>
+							<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
-		    				<?php $x++; } ?>
+		    				<?php } $x++; } ?>
 		    				<?php 
 		    					//$no=8;
 		    					foreach($tc AS $t){ 
 		    						if(!empty($t->tc_desc)){
-			    						echo $x.". " . $t->tc_desc;
+			    						
+										if($saved==0){
+											echo $x.". " . $t->tc_desc;
 			    			?>
 			    				<a class='btn btn-primary btn-xs' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
 			    					<span class = 'fa fa-edit'></span>
 			    				</a>
 			    				<br>
 			    				<?php
+										}else{
+											echo $x.". " . $t->tc_desc."<br>";
+										}
 			    						$x++; 
 			    					}
 		    					} 

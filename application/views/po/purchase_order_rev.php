@@ -549,15 +549,50 @@
 			    				<button type="button" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#otherins">
 									Add Other Instruction
 								</button><br> 
-								<?php foreach($tc_notes AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes)."<br>";?></span><?php } ?>
-								<?php $xs = 1; foreach($tc_temp AS $t){ if(!empty($t->notes)){ ?>
-									<textarea type = "text" style='color:blue;width:92%' rows = '1' class="form-control" name = "notes<?php echo $xs; ?>"><?php echo $t->notes; ?></textarea><!-- <span style = "color:blue;"><?php echo $t->notes;?></span> --><?php } $xs++; } ?>
+								<?php if(!empty($tc_notes)){ ?>
+									Other Instructions:
+								<?php 
+									}
+									foreach($tc_notes AS $t){ 
+								?>
+									<p style = "color:blue;">
+										<?php echo nl2br($t->notes);?>
+										<a class='btn btn-primary btn-xs prnt' id = "edits" data-toggle='modal' data-target='#EditIns' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
+											<span class = 'fa fa-edit'></span>
+										</a>
+										<a href="<?php echo base_url(); ?>index.php/po/delete_inst/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>/purchase_order_rev" class="btn btn-custon-three btn-danger btn-xs" id = "prnt_btn" onclick="confirmationDelete(this);return false;">
+											<span class="fa fa-times"></span>
+										</a>
+										<br>
+									</p>
+								<?php } ?>
+								<?php 
+									$xs = 1; 
+									foreach($tc_temp AS $t){ if(!empty($t->notes)){ 
+								?>
+									<!-- <textarea type = "text" style='color:blue;width:92%' rows = '1' class="form-control" name = "notes<?php echo $xs; ?>"><?php echo $t->notes; ?></textarea> -->
+									<p style = "color:blue;">
+										<?php echo $t->notes; ?>
+										<a class='btn btn-primary btn-xs prnt' id = "editstemp" data-toggle='modal' data-target='#EditInsTemp' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->notes; ?>'>
+											<span class = 'fa fa-edit'></span>
+										</a>
+										<a href="<?php echo base_url(); ?>index.php/po/delete_inst_temp/<?php echo $t->po_tc_id;?>/<?php echo $t->po_id;?>/purchase_order_rev" class="btn btn-custon-three btn-danger btn-xs" id = "prnt_btn" onclick="confirmationDelete(this);return false;">
+											<span class="fa fa-times"></span>
+										</a>
+										<br>
+									</p>
+								<?php } $xs++; } ?>
 							<?php }else{
 								
 							 ?>
 								Other Instructions:<br><?php 
-								foreach($tc_notes AS $t){ ?><span style = "color:blue;"><?php echo nl2br($t->notes)."<br>";?></span><?php }
-								foreach($tc_temp AS $tt){ ?><span style = "color:blue;"><?php echo nl2br($tt->notes)."<br>";?></span><?php } ?>
+								foreach($tc_notes AS $t){ ?>
+									<p style = "color:blue;"><?php echo (!empty($t->notes)) ? nl2br($t->notes)."<br>" : '';?></p>
+								<?php } ?>
+								<?php
+									foreach($tc_temp AS $tt){ ?>
+									<p style = "color:blue;"><?php echo (!empty(!empty($tt->notes))) ? nl2br($tt->notes)."<br>" : '';?></p>
+								<?php } ?>
 
 							<?php } ?>
 			    		</td>
@@ -603,13 +638,23 @@
 		    					$y = 1;
 		    					$x = 4;
 		    					if($revised==0){
-									 foreach($tc AS $t){ echo $x.". "; ?><span style = "color:blue;"><?php echo nl2br($t->tc_desc)."<br>";?></span><?php $x++; } 
-		    						foreach($tc_temp AS $t){ 
-		    							if(!empty($t->tc_desc)){
-			    						//echo $no.". " . $t->tc_desc."<br>";
-			    						//$no++; 
+									 foreach($tc AS $t){
+							?>
+								<?php echo $x.". ".nl2br($t->tc_desc);?>
+								<a class='btn btn-primary btn-xs prnt' id = "updateTerm" data-toggle='modal' data-target='#UpdateTerms' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+									<span class = 'fa fa-edit'></span>
+								</a>
+								<br>
+							<?php $x++; } 
+								foreach($tc_temp AS $t){ 
+									if(!empty($t->tc_desc)){
 			    			?>
-			    				<?php echo $x.". "; ?><input type = "text" style='color:red;width: 90%' name = "terms<?php echo $y; ?>" value = "<?php echo $t->tc_desc; ?>"><br>
+			    				<!-- <?php echo $x.". "; ?><input type = "text" style='color:red;width: 90%' name = "terms<?php echo $y; ?>" value = "<?php echo $t->tc_desc; ?>"><br> -->
+								<?php echo $x.". ".nl2br($t->tc_desc);?>
+								<a class='btn btn-primary btn-xs prnt' id = "updateTermTemp" data-toggle='modal' data-target='#UpdateTermsTemp' data-id = '<?php echo $t->po_tc_id; ?>' data-name = '<?php echo $t->tc_desc; ?>'>
+									<span class = 'fa fa-edit'></span>
+								</a>
+								<br>
 			    			<?php
 								$x++;
 				    					}
@@ -624,7 +669,7 @@
 				    						$x++; 
 				    					}
 			    					} 
-									foreach($tc_temp AS $tt){ if(!empty($tt->tc_desc)){ echo $x.". "; ?><span style = "color:blue;"><?php echo nl2br($tt->tc_desc)."<br>";?></span><?php $x++; } }
+									foreach($tc_temp AS $tt){ if(!empty($tt->tc_desc)){ echo $x.". "; ?><?php echo nl2br($tt->tc_desc)."<br>";?><?php $x++; } }
 			    				}
 		    				?>
 
@@ -746,6 +791,122 @@
 						</div>
 						<div class="modal-footer">
 							<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="EditIns" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Other Instructions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>po/update_notes">
+						<div class="modal-body">
+							<div class="form-group">
+								Other Instructions:
+								<textarea class="form-control" rows="5" name = "notes" id="notes"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+							<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+							<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
+							<input type='hidden' name='url' value='<?php echo $url; ?>'>
+							<input type='hidden' name='tc_id' id = "tc1_id">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="EditInsTemp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Other Instructions
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>po/update_notes_temp">
+						<div class="modal-body">
+							<div class="form-group">
+								Other Instructions:
+								<textarea class="form-control" rows="5" name = "notes" id="notestemp"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+							<input type='hidden' name='pr_id' value='<?php echo $pr_id; ?>'>
+							<input type='hidden' name='group_id' value='<?php echo $group_id; ?>'>
+							<input type='hidden' name='url' value='<?php echo $url; ?>'>
+							<input type='hidden' name='tc_id' id = "tc1_id_temp">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="UpdateTerms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Terms & Condition
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>po/update_condition_revise">
+						<div class="modal-body">
+							<div class="form-group">
+								Terms & Conditions:
+								<input type="text" class="form-control" name="condition" autocomplete="off" id = "terms">
+							</div>
+						</div>
+						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+						<input type='hidden' name='tc_id' id = "tc_id">
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="UpdateTermsTemp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Update Terms & Condition
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</h5>
+						
+					</div>
+					<form method="POST" action="<?php echo base_url(); ?>po/update_condition_revise_temp">
+						<div class="modal-body">
+							<div class="form-group">
+								Terms & Conditions:
+								<input type="text" class="form-control" name="condition" autocomplete="off" id = "termstemp">
+							</div>
+						</div>
+						<input type='hidden' name='po_id' value='<?php echo $po_id; ?>'>
+						<input type='hidden' name='tc_id' id = "tc_id_temps">
+						<div class="modal-footer">
 							<input type="submit" class="btn btn-primary btn-block" value="Save changes">
 						</div>
 

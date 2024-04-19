@@ -545,22 +545,22 @@
                             <br>
 			    			<?php $x=4; ?>
 		    				<?php if(!empty($payment_terms)){ 
-		    				echo $x."."; ?> Payment term: <?php echo nl2br($payment_terms) ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> Payment term: <?php echo nl2br($payment_terms) ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit" data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>	
 		    				<?php if(!empty($item_warranty)){ 
-		    				echo $x."."; ?> Item Warranty: <?php echo nl2br($item_warranty); ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> Item Warranty: <?php echo nl2br($item_warranty); ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit" data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($delivery_time)){ 
-		    				echo $x."."; ?> Work Duration: <?php echo nl2br($delivery_time); ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> Work Duration: <?php echo nl2br($delivery_time); ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit" data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>
 		    				<?php if(!empty($freight)){ 
-		    				echo $x."."; ?> In-land Freight: <?php echo nl2br($freight); ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit">
+		    				echo $x."."; ?> In-land Freight: <?php echo nl2br($freight); ?> <button type="button" class="btn btn-primary btn-xs " data-toggle="modal" id = "prnt_btn" data-target="#Edit" data-payment = '<?php echo nl2br($payment_terms); ?>' data-warranty = "<?php echo nl2br($item_warranty); ?>" data-delivery = "<?php echo nl2br($delivery_time); ?>" data-freight="<?php echo nl2br($freight); ?>">
 							 <span class = "fa fa-edit"></span>
 							</button><br>
 		    				<?php $x++; } ?>
@@ -758,13 +758,13 @@
 						<div class="modal-body">
 							<div class="form-group">
 								Payment:
-								<textarea type="text" class="form-control" name="payments" autocomplete="off" value = "<?php echo $payment_terms;?>" rows='3'></textarea>
+								<textarea type="text" class="form-control" name="payments" id = "payment" autocomplete="off" value = "<?php echo $payment_terms;?>" rows='3'></textarea>
 								Item Warranty:
-								<textarea type="text" class="form-control" name="item_war" autocomplete="off" value = "<?php echo $item_warranty;?>" rows='3'></textarea>
+								<textarea type="text" class="form-control" name="item_war" id="warranty" autocomplete="off" value = "<?php echo $item_warranty;?>" rows='3'></textarea>
 								Work Duration:
-								<textarea type="text" class="form-control" name="del_itm" autocomplete="off" value = "<?php echo $delivery_time;?>" rows='3'></textarea>
+								<textarea type="text" class="form-control" name="del_itm" id="delivery" autocomplete="off" value = "<?php echo $delivery_time;?>" rows='3'></textarea>
 								Freight:
-								<textarea type="text" class="form-control" name="freigh" autocomplete="off" value = "<?php echo $freight;?>" rows='3'></textarea>
+								<textarea type="text" class="form-control" name="freigh" id="freight" autocomplete="off" value = "<?php echo $freight;?>" rows='3'></textarea>
 							</div>
 						</div>
 						<input type='hidden' name='joi_id' value='<?php echo $joi_id; ?>'>

@@ -1010,12 +1010,40 @@ class Jod extends CI_Controller {
 
     public function update_condition(){
         $joi_id = $this->input->post('joi_id');
+        $jor_id = $this->input->post('jor_id');
+        $group_id = $this->input->post('group_id');
         $tc_id = $this->input->post('tc_id');
         $update = array(
             'tc_desc'=>$this->input->post('condition'),
         ); 
         if($this->super_model->update_where("joi_tc", $update, "joi_tc_id",$tc_id)){
-            redirect(base_url().'jod/jo_direct/'.$joi_id);
+            redirect(base_url().'jod/jo_direct/'.$joi_id.'/'.$jor_id.'/'.$group_id);
+        }
+    }
+
+    public function update_condition_revise(){
+        $joi_id = $this->input->post('joi_id');
+        $jor_id = $this->input->post('jor_id');
+        $group_id = $this->input->post('group_id');
+        $tc_id = $this->input->post('tc_id');
+        $update = array(
+            'tc_desc'=>$this->input->post('condition'),
+        ); 
+        if($this->super_model->update_where("joi_tc", $update, "joi_tc_id",$tc_id)){
+            redirect(base_url().'jod/jo_direct_rev/'.$joi_id);
+        }
+    }
+
+    public function update_condition_revise_temp(){
+        $joi_id = $this->input->post('joi_id');
+        $jor_id = $this->input->post('jor_id');
+        $group_id = $this->input->post('group_id');
+        $tc_id = $this->input->post('tc_id');
+        $update = array(
+            'tc_desc'=>$this->input->post('condition'),
+        ); 
+        if($this->super_model->update_where("joi_tc_temp", $update, "joi_tc_id",$tc_id)){
+            redirect(base_url().'jod/jo_direct_rev/'.$joi_id);
         }
     }
 
@@ -1376,6 +1404,7 @@ class Jod extends CI_Controller {
 
     public function jo_direct_rev(){
 
+        $data['url']=$this->uri->segment(2); 
         $joi_id=$this->uri->segment(3); 
         $data['currency1']='';
         $data['supplier']=$this->super_model->select_all_order_by("vendor_head", "vendor_name", "ASC");
@@ -1703,25 +1732,25 @@ class Jod extends CI_Controller {
         );
         $this->super_model->update_where("joi_items_temp", $data_items, "joi_items_id", $joi_items_id);*/
 
-        $y=1;
-        foreach($this->super_model->select_row_where("joi_tc","joi_id",$joi_id) AS $jotc){
-            $data_tci = array(
-                "joi_tc_id"=>$jotc->joi_tc_id,
-                "joi_id"=>$joi_id,
-                "tc_desc"=>$jotc->tc_desc,
-            );
-            $this->super_model->insert_into("joi_tc_temp", $data_tci);
-            $y++;
-        }
+        // $y=1;
+        // foreach($this->super_model->select_row_where("joi_tc","joi_id",$joi_id) AS $jotc){
+        //     $data_tci = array(
+        //         "joi_tc_id"=>$jotc->joi_tc_id,
+        //         "joi_id"=>$joi_id,
+        //         "tc_desc"=>$jotc->tc_desc,
+        //     );
+        //     $this->super_model->insert_into("joi_tc_temp", $data_tci);
+        //     $y++;
+        // }
 
-        $count_notes=$this->input->post('count_notes');
-        for($z=1; $z<$count_notes;$z++){
-            $joi_tc_id = $this->input->post('joi_tc_id'.$z);
-            $data_notes=array(
-                "notes"=>$this->input->post('joi_notes'.$z),
-            );
-            $this->super_model->update_where("joi_tc_temp", $data_notes, "joi_tc_id", $joi_tc_id);
-        }
+        // $count_notes=$this->input->post('count_notes');
+        // for($z=1; $z<$count_notes;$z++){
+        //     $joi_tc_id = $this->input->post('joi_tc_id'.$z);
+        //     $data_notes=array(
+        //         "notes"=>$this->input->post('joi_notes'.$z),
+        //     );
+        //     $this->super_model->update_where("joi_tc_temp", $data_notes, "joi_tc_id", $joi_tc_id);
+        // }
 
         $data_head = array(
             'revised'=>1
@@ -1756,10 +1785,10 @@ class Jod extends CI_Controller {
             $series = $max+1;
         }*/
 
-        $data_series = array(
-            'series'=>$series
-        );
-        $this->super_model->insert_into("joi_series", $data_series);
+        // $data_series = array(
+        //     'series'=>$series
+        // );
+        // $this->super_model->insert_into("joi_series", $data_series);
 
         foreach($this->super_model->select_row_where("joi_dr","joi_id",$joi_id) AS $drs){
             $data_dr=array(
@@ -1940,23 +1969,26 @@ class Jod extends CI_Controller {
                 "notes"=>$potc->notes,
                 "revision_no"=>$potc->revision_no,
             );
-            if($this->super_model->insert_into("joi_tc_revised", $data_potc)){
-                $data_tcn =array(
-                    'revision_no'=>$revision_no
-                );
+            $this->super_model->insert_into("joi_tc_revised", $data_potc);
+            // if($this->super_model->insert_into("joi_tc_revised", $data_potc)){
+            //     $data_tcn =array(
+            //         'revision_no'=>$revision_no
+            //     );
 
-                $this->super_model->update_where("joi_tc", $data_tcn, "joi_id", $joi_id);
-            }
+            //     $this->super_model->update_where("joi_tc", $data_tcn, "joi_id", $joi_id);
+            // }
         }
 
         foreach($this->super_model->select_row_where("joi_tc_temp","joi_id",$joi_id) AS $potcr){
             $data_rev = array(
-                "joi_tc_id"=>$potcr->joi_tc_id,
+                // "joi_tc_id"=>$potcr->joi_tc_id,
                 "joi_id"=>$popr->joi_id,
                 "tc_desc"=>$potcr->tc_desc,
                 "notes"=>$potcr->notes,
+                "revision_no"=>$potcr->revision_no,
             );
-            $this->super_model->update_where("joi_tc", $data_rev, "joi_tc_id", $potcr->joi_tc_id);
+            $this->super_model->insert_into("joi_tc", $data_rev);
+            // $this->super_model->update_where("joi_tc", $data_rev, "joi_tc_id", $potcr->joi_tc_id);
         }
 
         foreach($this->super_model->custom_query("SELECT joi_items_id FROM joi_items WHERE joi_items_id NOT IN (SELECT joi_items_id FROM joi_items_temp WHERE joi_id='$joi_id')  AND joi_id = '$joi_id'") AS $omit){
@@ -2099,11 +2131,11 @@ class Jod extends CI_Controller {
     public function add_tc_temp(){
         $joi_id = $this->input->post('joi_id');
 
-        $rows_head = $this->super_model->count_rows("joi_tc");
+        $rows_head = $this->super_model->count_rows("joi_tc_temp");
         if($rows_head==0){
             $joi_tc_id=1;
         } else {
-            $max = $this->super_model->get_max("joi_tc", "joi_tc_id");
+            $max = $this->super_model->get_max("joi_tc_temp", "joi_tc_id");
             $joi_tc_id = $max+1;
         }
         $data = array(
@@ -2111,7 +2143,7 @@ class Jod extends CI_Controller {
             'joi_id'=>$this->input->post('joi_id'),
             'tc_desc'=>$this->input->post('terms'),
         );
-        if($this->super_model->insert_into("joi_tc", $data)){
+        if($this->super_model->insert_into("joi_tc_temp", $data)){
             redirect(base_url().'jod/jo_direct_rev/'.$joi_id, 'refresh');
         }
     }
