@@ -370,8 +370,10 @@
 		    		$percent=$ewt/100;
 		    		$materials_percent=1/100;
 		    		if($vat==1){
-		    			$less= ($stotal/1.12)*$percent;
-		    			$materials_less= ($mattotal/1.12)*$materials_percent;
+		    			// $less= ($stotal/1.12)*$percent;
+		    			$less= ($stotal)*$percent;
+		    			// $materials_less= ($mattotal/1.12)*$materials_percent;
+		    			$materials_less= ($mattotal)*$materials_percent;
 		    			$gtotal = $stotal-$less;
 		    			$mtotal = $mattotal-$materials_less;
 		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
