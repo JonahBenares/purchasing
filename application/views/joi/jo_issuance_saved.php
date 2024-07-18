@@ -418,7 +418,7 @@ tr:nth-child(4) td {
 		    		<tr>
 		    		
 		    			<td colspan="20">
-		    				<table class="table-bordsered" width="100%">
+		    				<table class="table-bordesred" width="100%">
 		    					<tr>
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="5%" class="f13" align="center"><b>Qty</b></td>
@@ -548,7 +548,7 @@ tr:nth-child(4) td {
 		    						<td align="right"></span> <?php echo number_format($sumvat,2); ?></td>
 		    					</tr>
 		    					<?php } ?>
-		    					<tr>
+		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
@@ -563,6 +563,22 @@ tr:nth-child(4) td {
 		    						<td></td>
 		    						<td align="right">Less Discount:</td>
 		    						<td align="right"><?php echo number_format($discount,2);?></td>
+		    					</tr> -->
+								<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Labor:</td>
+		    						<td align="right"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Material:</td>
+		    						<td align="right"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>

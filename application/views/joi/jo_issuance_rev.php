@@ -416,7 +416,7 @@
 		    		<tr>
 		    		
 		    			<td colspan="20">
-		    				<table class="table-bordedred" width="100%">
+		    				<table class="table-borderded" width="100%">
 		    					<tr>
 		    						<td width="40%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
@@ -424,7 +424,6 @@
 		    						<td width="10%" class="f13" align="center"><b>Currency</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Unit Cost</b></td>
 		    						<td width="15%" class="f13" align="center"><b>Total Cost</b></td>
-		    						<td width="5%" class="f13" align="center"></td>
 		    					</tr>
 		    					<?php if($revised==0){ ?>
 		    					<tr>
@@ -604,8 +603,9 @@
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="right"></td>
+		    						<td class="f13" align="right"></td>
 		    					</tr>
-		    					<tr><td colspan="5" class="p-5"></td></tr>
+		    					<tr><td colspan="6" class="p-5"></td></tr>
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
@@ -613,10 +613,6 @@
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13" align="center"></td>
 		    						<td class="f13 p-l-5" align="left"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
 		    					</tr>
 		    					<?php 
 		    						if($revised==0){ 
@@ -658,7 +654,7 @@
 		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent;?>" style="width:60px;border-bottom: 1px solid #000"></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $sumvat;?>" style='text-align: right;'></td>
 		    					</tr>
-		    					<tr>
+		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
@@ -674,7 +670,7 @@
 		    						<td align="right">Less Discount:</td>
 		    						
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount;?>" onblur='changePrice()' style='text-align: right;'></td>
-		    					</tr>
+		    					</tr> -->
 		    					<?php } else { 
 		    						$sum_cost = array_sum($gtotal2);
 		    						$matsum_cost = array_sum($mattotal);
@@ -714,7 +710,7 @@
 		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent_temp;?>" style="width: 60px;border-bottom: 1px solid #000;"></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $sumvat_temp;?>" style='text-align: right;'></td>
 		    					</tr>
-		    					<tr>
+		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
@@ -729,8 +725,25 @@
 		    						<td></td>
 		    						<td align="right">Less Discount:</td>		    						
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount_temp;?>" onblur='changePrice()' style='text-align: right;'></td>
-		    					</tr>
+		    					</tr> -->
 		    					<?php } ?>
+
+								<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Labor:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" readonly="readonly" style='text-align: right;'></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Material:</td>		    						
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" style='text-align: right;'></td>
+		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>

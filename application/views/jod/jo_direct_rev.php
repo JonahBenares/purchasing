@@ -649,7 +649,7 @@
 		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent;?>" style="width:30px;border-bottom:1px solid #000"></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_amount;?>" style="width: 100%;text-align: right"></td>
 		    					</tr>
-		    					<tr>
+		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
@@ -663,6 +663,24 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right">Less Discount:</td>
+		    						
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount;?>" onblur='changePrice()' style="width: 100%;text-align: right"></td>
+		    					</tr> -->
+
+								<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Labor:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" value="<?php echo $subtotal;?>" style="width: 100%;text-align: right"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Materials:</td>
 		    						
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount;?>" onblur='changePrice()' style="width: 100%;text-align: right"></td>
 		    					</tr>
@@ -700,7 +718,7 @@
 		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent_temp;?>" style="width:30px;border-bottom:1px solid red"></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $vat_temp;?>" style="width: 100%;text-align: right"></td>
 		    					</tr>
-		    					<tr>
+		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
@@ -714,6 +732,23 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right">Less Discount:</td>
+		    						
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount_temp;?>" onblur='changePrice()' style="width: 100%;text-align: right"></td>
+		    					</tr> -->
+								<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Labor:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" value="<?php echo $subtotal;?>" style="width: 100%;text-align: right"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Materials:</td>
 		    						
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount_temp;?>" onblur='changePrice()' style="width: 100%;text-align: right"></td>
 		    					</tr>

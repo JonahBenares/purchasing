@@ -318,7 +318,7 @@
 			    	</tr> -->		    		
 		    		<tr>
 		    			<td colspan="20">
-		    				<table class="table-borderesd" width="100%">
+		    				<table class="table-bordessred" width="100%">
 		    					<tr>
 		    						<td width="40%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
@@ -499,22 +499,38 @@
 		    						<td align="right">VAT %: <input class="nobord" style="width:60px;border-bottom:1px solid black" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" style="text-align: right;width: 100%;"></td>
 		    					</tr>
-		    					<tr>
+		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right">Subtotal:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" style="text-align: right;width: 100%;"></td>
-		    					</tr>
+		    					</tr> -->
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td><!-- <input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent'> --></td>
+		    						<td align="right">Discount Labor:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" style="text-align: right;width: 100%;"></td>
+		    					</tr>
+								<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Material:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text"  style="text-align: right;width: 100%;"></td>
+		    					</tr>
+		    					<!-- <tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
 		    						<td align="right">Less Discount:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount'  onblur='changePrice()' style="text-align: right;width: 100%;"></td>
-		    					</tr>
+		    					</tr> -->
 		    					<tr>
 		    						<td></td>
 		    						<td></td>

@@ -503,7 +503,12 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td  align="right">Total Labor:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo array_sum($gtotal); ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
+		    						<td class="bor-btm" align="right">
+										<div style="display:flex; justify-content: space-between;">
+											<span class="pull-left"><?php echo $currency; ?></span>
+											<input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo array_sum($gtotal); ?>" readonly="readonly" style="width: 100%;text-align: right;">
+										</div>
+									</td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
@@ -511,7 +516,12 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td  align="right">Total Materials:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
+		    						<td class="bor-btm" align="right">
+										<div style="display:flex; justify-content: space-between;">
+											<span class="pull-left"><?php echo $currency; ?></span>
+											<input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly" style="width: 100%;text-align: right;">
+										</div>
+									</td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
@@ -519,31 +529,78 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' value="<?php echo $vat_percent;?>" onblur='changePrice()' style="width:30px;border-bottom: 1px solid #000;"></td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo $vat;?>" style="width: 100%;text-align: right;"></td>
+		    						<td class="bor-btm" align="right">
+										<div style="display:flex; justify-content: space-between;">
+											<span class="pull-left"><?php echo $currency; ?></span>
+											<input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo $vat;?>" style="width: 100%;text-align: right;">
+										</div>	
+									</td>
 		    					</tr>
 		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td  align="right">Discount Labor:</td>
+		    						<td class="bor-btm" align="right">
+										<div style="display:flex; justify-content: space-between;">
+											<!-- <span class="pull-left"><?php echo $currency; ?></span> -->
+											<input class="nobord" type="text" readonly="readonly" style="width: 100%;text-align: right;">
+										</div>
+									</td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Materials:</td>
+		    						<td class="bor-btm" align="right">
+										<div style="display:flex; justify-content: space-between;">
+											<!-- <span class="pull-left"><?php echo $currency; ?></span> -->
+											<input class="nobord" type="text" style="width: 100%;text-align: right;">
+										</div>
+									</td>
+		    					</tr>
+
+								<!-- <tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td  align="right">Subtotal:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="subtotal" id='subtotal' value="<?php echo $subtotal; ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
+		    						<td class="bor-btm" align="right">
+										<div style="display:flex; justify-content: space-between;">
+											<span class="pull-left"><?php echo $currency; ?></span>
+											<input class="nobord" type="text" name="subtotal" id='subtotal' value="<?php echo $subtotal; ?>" readonly="readonly" style="width: 100%;text-align: right;">
+										</div>
+									</td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td><!-- <input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent'> --></td>
+		    						<td></td>
 		    						<td align="right">Less Discount:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount; ?>" onblur='changePrice()' style="width: 100%;text-align: right;"></td>
-		    					</tr>
+		    						<td class="bor-btm" align="right">
+										<div style="display:flex; justify-content: space-between;">
+											<span class="pull-left"><?php echo $currency; ?></span>
+											<input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount; ?>" onblur='changePrice()' style="width: 100%;text-align: right;">
+										</div>
+									</td>
+		    					</tr> -->
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right">GRAND TOTAL:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="net" id='net' value="<?php echo $grandtotal; ?>" readonly="readonly" style="width: 100%;text-align: right;"></td>
+		    						<td class="bor-btm" align="right">
+										<div style="display:flex; justify-content: space-between;">
+											<span class="pull-left"><?php echo $currency; ?></span>
+											<input class="nobord" type="text" name="net" id='net' value="<?php echo $grandtotal; ?>" readonly="readonly" style="width: 100%;text-align: right;">
+										</div>
+									</td>
 		    					</tr>
 		    				
 		    					

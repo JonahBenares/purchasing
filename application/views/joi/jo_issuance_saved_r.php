@@ -344,7 +344,7 @@
 		    		<tr>
 		    		
 		    			<td colspan="20">
-		    				<table class="table-borsdered" width="100%">
+		    				<table class="table-bordsered" width="100%">
 		    					<tr>
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
@@ -394,7 +394,7 @@
 		    					</tr>
 		    					<?php } } }else { $gtotal=array(); } ?>
 		    					<!--MATERIALS-->
-		    					<tr><td colspan="5" class="p-5"></td></tr>
+		    					<tr><td colspan="6" class="p-5"></td></tr>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
 		    							<b>Notes:</b>		    						
@@ -436,33 +436,60 @@
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Amount:</td>
+		    						<td></td>
+									<td></td>
+		    						<td align="right">Amount:</td>
 		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
 		    					</tr>
 		    					<?php if($vat!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'><?php echo $vat_percent; ?>% VAT:</td>
+		    						<td></td>
+									<td></td>
+		    						<td align="right"><?php echo $vat_percent; ?>% VAT:</td>
 		    						<td align="right"><?php echo number_format($vat,2); ?></td>
 		    					</tr>
 		    					<?php } ?>
-		    					<tr>
+		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Sub Total:</td>
+		    						<td></td>
+									<td></td>
+		    						<td align="right">Sub Total:</td>
 		    						<td align="right"><?php echo number_format($subtotal,2);?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Less Discount:</td>
+		    						<td></td>
+									<td></td>
+		    						<td align="right">Less Discount:</td>
+		    						<td align="right"><?php echo number_format($discount,2);?></td>
+		    					</tr> -->
+
+								<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+									<td></td>
+		    						<td align="right">Discount Labor:</td>
+		    						<td align="right"><?php echo number_format($subtotal,2);?></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+									<td></td>
+		    						<td align="right">Discount Material:</td>
 		    						<td align="right"><?php echo number_format($discount,2);?></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Grand Total:</td>
+		    						<td></td>
+									<td></td>
+		    						<td align="right">Grand Total:</td>
 		    						<td align="right"><?php echo number_format($grandtotal,2); ?></td>
 		    					</tr>
 		    				</table>

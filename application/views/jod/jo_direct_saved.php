@@ -488,7 +488,7 @@
 		    						<td align="right"><?php echo number_format($vat,2); ?>&nbsp;&nbsp;</td>
 		    					</tr>
 		    					<?php } ?>
-		    					<tr>
+		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
@@ -503,6 +503,23 @@
 		    						<td></td>
 		    						<td align="right">Less Discount:</td>
 		    						<td align="right"><?php echo number_format($discount,2);?>&nbsp;&nbsp;</td>
+		    					</tr> -->
+
+								<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Labor:</td>
+		    						<td align="right"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Materials:</td>
+		    						<td align="right"></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>

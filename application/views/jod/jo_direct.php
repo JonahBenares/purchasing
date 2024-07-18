@@ -475,7 +475,7 @@
 		    						</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" style='text-align:right;width: 100%;'></td>
 		    					</tr>
-		    					<tr>
+		    					<!-- <tr>
 		    						<td colspan="4" ></td>
 		    						<td align="right">Subtotal:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" style='text-align:right;width: 100%;'></td>
@@ -484,6 +484,17 @@
 		    						<td colspan="4" ></td>
 		    						<td align="right">Less Discount:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount'  onblur='changePrice()' style='text-align:right;width: 100%;'></td>
+		    					</tr> -->
+
+								<tr>
+		    						<td colspan="4" ></td>
+		    						<td align="right">Discount Labor:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" style='text-align:right;width: 100%;'></td>
+		    					</tr>
+		    					<tr>
+		    						<td colspan="4" ></td>
+		    						<td align="right">Discount Materials:</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount"   style='text-align:right;width: 100%;'></td>
 		    					</tr>
 		    					<tr>
 		    						<td colspan="4" ></td>

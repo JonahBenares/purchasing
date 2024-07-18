@@ -348,7 +348,7 @@
 			    	</tr> -->		    		
 		    		<tr>
 		    			<td colspan="20">
-		    				<table class="table-borsdered" width="100%">
+		    				<table class="table-bosdered" width="100%">
 		    					<tr>
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
@@ -400,7 +400,7 @@
 		    					</tr>
 		    					<input type='hidden' name='joi_items_id<?php echo $x; ?>' value="<?php echo $it->joi_items_id; ?>">
 		    					<?php $x++; } }else{ $gtotal=array(); } ?>
-		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
+		    					<!-- <input type='hidden' name='count_item' value="<?php echo $x; ?>"> -->
 		    					<!--ITEMS-->
 		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
@@ -452,7 +452,7 @@
 		    					<input type='hidden' name='joi_items_id<?php echo $y; ?>' value="<?php echo $it->joi_items_id; ?>">
 		    					<?php $y++; $b++; } } }else{ $gtotal=array(); $mattotal=array(); } ?>
 		    					<!--MATERIALS-->
-		    					<tr><td colspan="5" class="p-5"></td></tr>
+		    					<tr><td colspan="6" class="p-5"></td></tr>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
 		    							<b>Notes:</b>		    						
@@ -503,11 +503,13 @@
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
+		    						<td></td>
 		    						<td colspan='2'>Total Labor:</td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo array_sum($gtotal); ?>" readonly="readonly"></td>
 		    					</tr>
 		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
+		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Total Materials:</td>
@@ -519,11 +521,13 @@
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
+		    						<td></td>
 		    						<td>VAT %:</td>
 		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' value="<?php echo $vat_percent;?>" onblur='changePrice()'></td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo number_format($sumvat,2);?>"></td>
 		    					</tr>
-		    					<tr>
+		    					<!-- <tr>
+		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Subtotal:</td>
@@ -532,11 +536,29 @@
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
+		    						<td></td>
 		    						<td>Less Discount:</td>
-		    						<td><!-- <input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent'> --></td>
+		    						<td></td>
+		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount; ?>" onblur='changePrice()'></td>
+		    					</tr> -->
+
+								<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='2'>Discount Labor:</td>
+		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="subtotal" id='subtotal' value="<?php echo number_format($subtotal,2); ?>" readonly="readonly"></td>
+		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td>Discount Material:</td>
+		    						<td></td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount; ?>" onblur='changePrice()'></td>
 		    					</tr>
 		    					<tr>
+		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td>GRAND TOTAL:</td>

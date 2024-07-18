@@ -333,7 +333,7 @@
 		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt);
 		    			$mattotal = array_sum($materials_subtotal);
 		    		?>
-		    		<tr>
+		    		<!-- <tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Labor SubTotal:</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
@@ -348,8 +348,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format(array_sum($materials_subtotal),2); ?></span>
 		    			</td>
 		    		</tr>
-		    		<?php } ?>
-		    		</tr>
+		    		<?php } ?> -->
 		    		<!-- <tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Less Discount"; ?></b></td>
 		    			<td align="right" colspan="3">
@@ -357,7 +356,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($discount,2); ?></span>
 		    			</td>
 		    		</tr> -->
-		    		</tr>
+		    		<!-- </tr>
 		    			<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Net: "; ?></b></td>
 		    			<td align="right" colspan="3">
@@ -365,7 +364,7 @@
 		    				<span class="nomarg" id=''><?php echo number_format($nettotal,2); ?></span>
 		    			</td>
 		    		</tr>
-		    		<?php 
+		    		 <?php 
 		    		$baltotal=array();
 		    		$payments ='';
 		    		$payments_desc ='';
@@ -390,7 +389,7 @@
 		    			$mtotal = $mattotal-$materials_less;
 		    			$overtotal = ($gtotal+$mtotal) - $discount;
 		    			$btotal = ($gtotal+$mtotal)-array_sum($baltotal) - $discount;
-		    		} ?>
+		    		} ?> 
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% Labor EWT</b></td>
 		    			<td align="right" colspan="3">
@@ -468,7 +467,57 @@
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($btotal,2); ?></b></span>
 		    			</td>
 		    		</tr>
-		    		<?php }  ?>
+		    		<?php }  ?> -->
+					<tr>
+			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount of JO</b></td>
+			    		<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"></b></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+						<td  colspan="16"  align="right" class="">
+							<button class="btn btn-xs btn-primary">
+								<span class="fa fa-plus"></span>
+							</button>
+							<button class="btn btn-xs btn-danger">
+								<span class="fa fa-times"></span>
+							</button>
+						</td>
+		    			<td align="right"class="bor-right">
+							<b class="nomarg">
+								<input type="text" name="payment_desc" value="" placeholder="Description">
+							</b>
+						</td>
+		    			<td align="right" colspan="3">
+		    				<span class="nomarg" id=''>
+								<b style="font-weight: 900">
+									<input type="text" style="text-align: right;" onblur="check_rfd()" onchange='changePrice_rfd();' name="payment_amount" id="payment_amount" placeholder="Amount">
+								</b>
+							</span>
+		    			</td>
+		    		</tr>
+					<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Partial Billing</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg" id='balaft'></span></b>
+		    			</td>
+		    		</tr>
+					<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: 2% EWT</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg" id='balaft'></span></b>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount Due</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg" id='balaft'></span></b>
+		    			</td>
+		    		</tr>
 		    		<tr>
 		    			<td align="left" colspan="7" ><b class="nomarg">Notes: </b>
 		    				<?php if($rows_rfd==0){ ?>
