@@ -201,7 +201,7 @@ function changePrice(count){
         $("#vat").val(new_vat);
         document.getElementById("grandtotal").innerHTML  =grandtotal+new_vat;
         document.getElementById("orig_amount").value  =grandtotal;
-        document.getElementById("grandtotal").innerHTML  =grandtotal;
+        // document.getElementById("grandtotal").innerHTML  =grandtotal;
     }
 }
 

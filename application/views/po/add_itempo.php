@@ -26,7 +26,7 @@
                                     <?php foreach($items AS $it){ ?>
                                     <tr>
                                         <td><input type="checkbox" class="form-control item_list" name="reco[]" value="<?php echo $it['reco_id']; ?>"></td>
-                                        <td style="padding-left:5px"><input type='number' name='quantity' style='width:80px' value="<?php echo $it['quantity']; ?>"></td>
+                                        <td style="padding-left:5px"><input type='number'  step="any" min='0' name='quantity' style='width:80px' value="<?php echo $it['quantity']; ?>"></td>
                                         <td style="padding-left:5px"><?php echo number_format($it['price'],4); ?></td>
                                         <td style="padding-left:5px"><?php echo $it['offer'].", " . $it['item']. " " . $it['item_specs']; ?></td>
                                     </tr>
