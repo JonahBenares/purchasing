@@ -491,14 +491,6 @@
 		    					<?php }else{ ?>
 		    						<input class="nobord" type="hidden" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly" style="text-align: right;width: 100%;">
 		    					<?php } ?>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">VAT %: <input class="nobord" style="width:60px;border-bottom:1px solid black" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" style="text-align: right;width: 100%;"></td>
-		    					</tr>
 		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
@@ -513,16 +505,20 @@
 		    						<td></td>
 		    						<td><!-- <input class="nobord" type="text" placeholder="Discount %" name="less_percent" id='less_percent'> --></td>
 		    						<td align="right">Discount Labor:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" style="text-align: right;width: 100%;"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="discount_lab" id='discount_lab' onblur='changePrice()' onkeypress="return isNumberKey(this, event)" style="text-align: right;width: 100%;"></td>
 		    					</tr>
+		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 								<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right">Discount Material:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text"  style="text-align: right;width: 100%;"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text"  name="discount_mat" id='discount_mat' onblur='changePrice()' onkeypress="return isNumberKey(this, event)" style="text-align: right;width: 100%;"></td>
 		    					</tr>
+		    					<?php }else{ ?>
+		    						<input class="nobord" type="hidden" name="discount_mat" id='discount_mat' value="0" readonly="readonly" style="text-align: right;width: 100%;">
+		    					<?php } ?>
 		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
@@ -531,6 +527,14 @@
 		    						<td align="right">Less Discount:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount'  onblur='changePrice()' style="text-align: right;width: 100%;"></td>
 		    					</tr> -->
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">VAT %: <input class="nobord" style="width:60px;border-bottom:1px solid black" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" style="text-align: right;width: 100%;"></td>
+		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>

@@ -469,12 +469,6 @@
 		    							<?php }else { echo number_format($it['materials_amount'],2); } ?>
 		    						</td>
 		    					</tr>
-		    					<tr>
-		    						<td colspan="4"></td>
-		    						<td  align="right">VAT %: <input style="text-align: center; border-bottom:1px solid #000 ;width:60px" class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'>
-		    						</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" style='text-align:right;width: 100%;'></td>
-		    					</tr>
 		    					<!-- <tr>
 		    						<td colspan="4" ></td>
 		    						<td align="right">Subtotal:</td>
@@ -489,12 +483,18 @@
 								<tr>
 		    						<td colspan="4" ></td>
 		    						<td align="right">Discount Labor:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" style='text-align:right;width: 100%;'></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="discount_lab" id='discount_lab' onblur='changePrice()' onkeypress="return isNumberKey(this, event)" style='text-align:right;width: 100%;'></td>
 		    					</tr>
 		    					<tr>
 		    						<td colspan="4" ></td>
 		    						<td align="right">Discount Materials:</td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount"   style='text-align:right;width: 100%;'></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="discount_mat" id='discount_mat' onblur='changePrice()' onkeypress="return isNumberKey(this, event)" style='text-align:right;width: 100%;'></td>
+		    					</tr>
+		    					<tr>
+		    						<td colspan="4"></td>
+		    						<td  align="right">VAT %: <input style="text-align: center; border-bottom:1px solid #000 ;width:60px" class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()'>
+		    						</td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" style='text-align:right;width: 100%;'></td>
 		    					</tr>
 		    					<tr>
 		    						<td colspan="4" ></td>

@@ -19,6 +19,27 @@
 		     $("#rfd_id").val(rfd_id);
 
 		});
+
+		var sa = 1;
+        $("body").on("click", ".addPayment", function() {
+            sa++;
+            document.getElementById("count_payment").value = sa;
+            var $append = $(this).parents('.append');
+            var nextHtml = $append.clone().find("input").val("").end();
+            // var nextHtml = $append.clone().find("textarea").val("").end();
+            nextHtml.attr('id', 'append' + sa);
+            var hasRmBtn = $('.remPayment', nextHtml).length > 0;
+            if (!hasRmBtn) {
+                var rm_4 = "<button class='btn btn-xs btn-danger remPayment' style='color:white'><span class='fa fa-times'></span></button>"
+                $('.addmorepayment', nextHtml).append(rm_4);
+            }
+            $append.after(nextHtml);
+
+        });
+
+        $("body").on("click", ".remPayment", function() {
+            $(this).parents('.append').remove();
+        });
 	</script>
   	<style type="text/css">
         html, body{
@@ -221,29 +242,40 @@
                         <td align="right" colspan="3"></td>
                     </tr>
                     <!--ITEMS-->
-    				<?php
-			    		$subtotal=array();
-			    		$materials_subtotal=array();
-			    		if(!empty($items)){
-			    		foreach($items AS $i){ 
-			    			$subtotal[] = $i['total'];
-			    			$materials_subtotal[] = $i['materials_amount'];
-		    		?>
 		    		<tr>
-		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></td>
-		    			<td align="right" colspan="1"><?php echo $i['quantity']; ?></td>
+		    			<td align="left" colspan="17" >
+		    				<?php
+					    		$subtotal=array();
+					    		$materials_subtotal=array();
+					    		if(!empty($items)){
+					    		foreach($items AS $i){ 
+					    			$subtotal[] = $i['total'];
+					    			$materials_subtotal[] = $i['materials_amount'];
+				    		?>
+		    					<?php echo " - ".nl2br($i['offer'])."<br><br>"; ?>
+		    				<?php } } else { $subtotal=array();$materials_subtotal=array(); } ?>
+		    				</td>
+		    			<!-- <td align="right" colspan="1"><?php echo $i['quantity']; ?></td>
 		    			<td align="right" colspan="2"><?php echo $i['uom']; ?></td>
 		    			<td align="right" colspan="2" class="bor-right"><?php echo number_format($i['price'],2); ?></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><?php echo number_format($i['total'],2); ?></span>
+		    			</td> -->
+		    			<td align="right" colspan="3" class="bor-left" style="vertical-align: top;border-left: 1px solid #000">
+		    				<!-- <span class="pull-left nomarg">₱</span>
+		    				<?php if($grand_total != 0) { ?>
+		    					<span class="nomarg" id=''><?php echo number_format($grand_total,2); ?></span>
+		    				<?php }else{ ?> 
+		    					<span class="nomarg" id=''><?php echo number_format($net_total,2); ?></span>
+		    				<?php } ?> -->
 		    			</td>
 		    		</tr>
-		    		<?php } } else { $subtotal=array();$materials_subtotal=array(); } ?>
+		    		
 		    		<!--ITEMS-->
 		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
-						<td colspan="17" class="bor-right"><br> <b>&nbsp;&nbsp;Materials:</b></td>
+						<!-- <td colspan="17" class="bor-right"><br> <b>&nbsp;&nbsp;Materials:</b></td> -->
 					</tr>
 					<?php } ?>
 		    		<!--MATERIALS-->
@@ -256,7 +288,7 @@
 			    			$materials_subtotal[] = $i['materials_amount'];
 			    			if($i['materials_offer']!=''){
 		    		?>
-		    		<tr>
+		    		<!-- <tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['materials_offer'])."<br><br>"; ?></td>
 		    			<td align="right" colspan="1"><?php echo $i['materials_qty']; ?></td>
 		    			<td align="right" colspan="2"><?php echo $i['materials_unit']; ?></td>
@@ -265,7 +297,7 @@
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><?php echo number_format($i['materials_amount'],2); ?></span>
 		    			</td>
-		    		</tr>
+		    		</tr> -->
 		    		<?php } } } else { $subtotal=array();$materials_subtotal=array(); } ?>
 		    		<!--MATERIALS-->
 		    		<tr>
@@ -311,47 +343,72 @@
 		    				<span class="nomarg" id=''><?php echo number_format($discount,2); ?></span>
 		    			</td>
 		    		</tr> -->
-		    		<!-- </tr>
+		    		 <!-- </tr>
 		    			<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Net: "; ?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><?php echo number_format($nettotal,2); ?></span>
 		    			</td>
-		    		</tr>
+		    		</tr> -->
 		    		<?php 
+		    		$baltotal=array();
+		    		foreach($payment AS $pay){
+		    			$baltotal[] = $pay->payment_amount;
+		    		}
 		    		$percent=$ewt/100;
 		    		$materials_percent=1/100;
 		    		if($vat==1){
-		    			$less= ($stotal/1.12)*$percent;
-		    			$materials_less= ($mattotal/1.12)*$materials_percent;
+		    			// $less= ($stotal/1.12)*$percent;
+		    			$less= ($stotal)*$percent;
+		    			// $materials_less= ($mattotal/1.12)*$materials_percent;
+		    			$materials_less= ($mattotal)*$materials_percent;
 		    			$gtotal = $stotal-$less;
 		    			$mtotal = $mattotal-$materials_less;
-		    			$totalamt=($gtotal + $mtotal + $vatt) - $discount;
+		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
+		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
+		    			// $totalamt=($gtotal + $mtotal + $vatt) - $discount;
+		    			$remaining_bal = $overtotal - $sum_amount;
 		    		} else {
 		    			$less= $stotal*$percent;
 		    			$materials_less= $mattotal*$materials_percent;
 		    			$gtotal = $stotal-$less;
 		    			$mtotal = $mattotal-$materials_less;
-		    			$totalamt=($gtotal + $mtotal + $vatt) - $discount;
+		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
+		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
+		    			// $totalamt=($gtotal + $mtotal + $vatt) - $discount;
+		    			$remaining_bal = $overtotal - $sum_amount;
 		    		} ?>
+		    		<tr>
+			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount of JO</b></td>
+			    		<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<?php if($grand_total != 0) { ?>
+		    					<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($grand_total,2); ?></b></span>
+		    				<?php }else{ ?> 
+		    					<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($overtotal,2); ?></b></span>
+		    				<?php } ?>
+		    			</td>
+		    		</tr>
+		    		<?php if($ewt!=0 && $grand_total == 0){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% Labor EWT</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><?php echo number_format($less,2); ?></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($less,2); ?></b></span>
 		    			</td>
 		    		</tr>
-		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
+		    		<?php } ?>
+		    		<?php if($materials_offer!='' && $materials_qty!=0 && $grand_total == 0){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo '1'; ?>% Materials EWT</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><?php echo number_format($materials_less,2); ?></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($materials_less,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
-		    		<tr>
+		    		<!--<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Balance Labor Amount Due</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
@@ -414,39 +471,54 @@
 		    				<b style="font-weight: 900"><span class="nomarg" id='balaft'></span></b>
 		    			</td>
 		    		</tr> -->
-
-
-							
+		    		<?php 
+                        if(!empty($payment)){
+                        foreach($payment AS $p){
+                    ?>
 					<tr>
-			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount of JO</b></td>
-			    		<td align="right" colspan="3">
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $p->payment_desc; ?></b></td>
+		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"></b></span>
+		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($p->payment_amount,2); ?></span></b>
 		    			</td>
 		    		</tr>
-		    		<tr>
-						<td  colspan="16"  align="right" class="">
-							<button class="btn btn-xs btn-primary">
+		    		 <?php } } ?>
+		    		<?php 
+                        if(!empty($rfd_payment)){
+                        foreach($rfd_payment AS $rp){
+                    ?>
+					<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $rp->payment_description; ?></b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($rp->payment_amount,2); ?></span></b>
+		    			</td>
+		    		</tr>
+		    		 <?php } } ?>
+		    		<tr class="append">
+						<td  colspan="16"  align="right" class="addmorepayment">
+							<button type="button" id="btn" class="btn btn-xs btn-primary addPayment">
 								<span class="fa fa-plus"></span>
 							</button>
-							<button class="btn btn-xs btn-danger">
+							<!-- <button class="btn btn-xs btn-danger">
 								<span class="fa fa-times"></span>
-							</button>
+							</button> -->
 						</td>
 		    			<td align="right"class="bor-right">
 							<b class="nomarg">
-								<input type="text" name="payment_desc" value="" placeholder="Description">
+								<input type="text" name="payment_desc[]" value="" placeholder="Description">
 							</b>
 						</td>
 		    			<td align="right" colspan="3">
 		    				<span class="nomarg" id=''>
 								<b style="font-weight: 900">
-									<input type="text" style="text-align: right;" onblur="check_rfd()" onchange='changePrice_rfd();' name="payment_amount" id="payment_amount" placeholder="Amount">
+									<input type="text" style="text-align: right;" onkeypress="return isNumberKey(this, event)" class="payment_amount" onblur="check_rfd()" onchange='changePrice_rfd();' name="payment_amount[]" id="payment_amount" placeholder="Amount">
+									<input type="hidden" name="count_payment" id="count_payment" value='1'>
 								</b>
 							</span>
 		    			</td>
 		    		</tr>
-					<tr>
+<!-- 					<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Partial Billing</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
@@ -459,12 +531,27 @@
 		    				<span class="pull-left nomarg">₱</span>
 		    				<b style="font-weight: 900"><span class="nomarg" id='balaft'></span></b>
 		    			</td>
-		    		</tr>
+		    		</tr> -->
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount Due</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<b style="font-weight: 900"><span class="nomarg" id='balaft'></span></b>
+		    				<?php if($grand_total != 0) { ?>
+		    					<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($sum_rfd_payment,2); ?></span></b>
+			    			<?php }else{ ?>
+			    				<b style="font-weight: 900"><span class="nomarg" id='old_balaft'><?php echo number_format($sum_amount,2); ?></span></b>
+			    			<?php } ?>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Remaining Balance</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<?php if($grand_total != 0) { ?>
+		    					<b style="font-weight: 900"><span class="nomarg" id='new_rem_bal'><?php echo number_format($new_remaining_balance,2); ?></span></b>
+			    			<?php }else{ ?>
+			    				<b style="font-weight: 900"><span class="nomarg" id='old_rem_bal'><?php echo number_format($btotal,2); ?></span></b>
+			    			<?php } ?>
 		    			</td>
 		    		</tr>
 
@@ -498,13 +585,13 @@
 		    			<td colspan="3"><b class="nomarg"><?php echo $_SESSION['fullname']; ?></b></td>
 		    			<td colspan="3">
 		    			<b>
-					    			<select name='checked' class="select-des emphasis" required style="width:90%">
-					    			<option value=''>-Select Employee-</option>
-					    			<?php foreach($employee AS $emp){ ?>
-					    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
-					    			<?php } ?>
-				    				</select>
-					    	</b>
+			    			<select name='checked' class="select-des emphasis" required style="width:90%">
+				    			<option value=''>-Select Employee-</option>
+				    			<?php foreach($employee AS $emp){ ?>
+				    				<option value='<?php echo $emp->employee_id; ?>'><?php echo $emp->employee_name; ?></option>
+				    			<?php } ?>
+		    				</select>
+				    	</b>
 		    			</td>
 		    			<td colspan="3">
 		    			<b>
@@ -558,12 +645,34 @@
 	    	<input type='hidden' name='total_amount' id = "total_amount" value='<?php echo $gtotal; ?>'>
 	    	<input type='hidden' name='mtotal_amount' id = "mtotal_amount" value='<?php echo $mtotal; ?>'>
 	    	<input type='hidden' name='sum_amount' id = "sum_amount" value='<?php echo $sum_amount; ?>'>
+	    	<input type='hidden' name='sum_rfd_payment' id = "sum_rfd_payment" value='<?php echo $sum_rfd_payment; ?>'>
+	    	<!-- <input type='hidden' name='all_payment' id = "all_payment" value='<?php echo $all_payment; ?>'> -->
 	    	<input type='hidden' name='discount_deduct' id = "discount_deduct" value='<?php echo $discount; ?>'>
 	    	<input type='hidden' name='vatt' id = "vatt" value='<?php echo $vatt; ?>'>
+	    	<!-- <input type='hidden' name='nettotal' id = "nettotal" value='<?php echo $overtotal; ?>'> -->
+	    	<input type='hidden' name='grand_total' id = "grand_total" value='<?php echo $grand_total; ?>'>
+	    	<input type='hidden' name='totalamt' id = "totalamt" value='<?php echo $overtotal; ?>'>
     	</form>
     </div>
     <script type="text/javascript">
     	function printPage() {
 		  window.print();
+		}
+
+		function isNumberKey(txt, evt){
+		   var charCode = (evt.which) ? evt.which : evt.keyCode;
+		    if (charCode == 46) {
+		        //Check if the text already contains the . character
+		        if (txt.value.indexOf('.') === -1) {
+		            return true;
+		        } else {
+		            return false;
+		        }
+		    } else {
+		        if (charCode > 31
+		             && (charCode < 48 || charCode > 57))
+		            return false;
+		    }
+		    return true;
 		}
     </script>

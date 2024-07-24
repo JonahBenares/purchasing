@@ -596,5 +596,12 @@ class super_model extends CI_Model
         $response = $q->result_array();
         return $response;
     }
+
+    public function insert_return_id($table, $data){
+       $this->db->insert($table, $data);
+       $insert_id = $this->db->insert_id();
+
+       return  $insert_id;
+    } 
 }
 ?>
