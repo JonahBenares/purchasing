@@ -2303,10 +2303,11 @@ class Jod extends CI_Controller {
             );
         }
 
+        $data['rfd_max'] = $this->super_model->get_max_where("joi_rfd_payment", "rfd_no","joi_id = '$joi_id'");
         $rfd_max = $this->super_model->get_max_where("joi_rfd_payment", "rfd_no","joi_id = '$joi_id'");
         $grand_total = $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
         if($rfd_max != 0){
-            $data['rfd_payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd_payment WHERE rfd_no = '$rfd_max' AND joi_id = '$joi_id' ORDER BY rfd_date ASC");
+            $data['rfd_payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd_payment WHERE joi_id = '$joi_id' ORDER BY rfd_date ASC");
             $data['sum_rfd_payment'] = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "rfd_no = '$rfd_max' AND joi_id = '$joi_id'");
             $sum_rfd_payment = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "rfd_no = '$rfd_max' AND joi_id = '$joi_id'");
             $data['remaining_balance'] = $grand_total - $sum_rfd_payment;
