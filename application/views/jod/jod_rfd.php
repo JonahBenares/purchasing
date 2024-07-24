@@ -486,7 +486,7 @@
 		    		<?php 
                         if(!empty($rfd_payment)){
                         foreach($rfd_payment AS $rp){
-                        	if($rfd_max == $rp->rfd_no){
+                        	// if($rfd_max == $rp->rfd_no){
                     ?>
 					<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $rp->payment_description; ?></b></td>
@@ -495,7 +495,7 @@
 		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($rp->payment_amount,2); ?></span></b>
 		    			</td>
 		    		</tr>
-		    		 <?php } } } ?>
+		    		 <?php } } ?>
 		    		<tr class="append">
 						<td  colspan="16"  align="right" class="addmorepayment">
 							<button type="button" id="btn" class="btn btn-xs btn-primary addPayment">
