@@ -258,7 +258,7 @@
 		    		<tr>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
 
-		    			<td colspan="" class="bor-right v-align" align="center"><b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['quantity']; ?>' max='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><input type='number' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['quantity']; ?>' step="any" min='0' max='<?php echo $it['quantity']; ?>' style='width:50px; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onchange='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></b></td>
 
 		    			<!-- <td colspan="" class="bor-right v-align" align="center"><b><?php //echo $it['uom']; ?></b></td> -->
 		    			<td colspan="" class="bor-right v-align" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value='<?php echo $it['uom']; ?>' style = "width:100%;"></b></td>
