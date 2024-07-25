@@ -267,7 +267,7 @@ $(document).on("click", "#approve_rev", function () {
                                                     <?php } ?>
 
 
-                                                    <?php if($h['saved']==0 && $h['joi_type']==0 && $h['revised']==0){ ?>
+                                                    <?php if($h['saved']==0 && $h['joi_type']==0 && $h['draft']==0 && $h['revised']==0){ ?>
                                                     <a href="<?php echo base_url(); ?>joi/jo_issuance/<?php echo $h['joi_id']?>" class="btn btn-custon-three btn-warning btn-xs">
                                                         <span class="fa fa-eye"></span>
                                                     </a>
