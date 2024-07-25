@@ -558,7 +558,7 @@
 		    						<td class="bor-btm" align="right">
 										<div style="display:flex; justify-content: space-between;">
 											<span class="pull-left"><?php echo $currency; ?></span>
-											<input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo $vat;?>" style="width: 100%;text-align: right;">
+											<input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo number_format($vat,2);?>" style="width: 100%;text-align: right;">
 										</div>	
 									</td>
 		    					</tr>

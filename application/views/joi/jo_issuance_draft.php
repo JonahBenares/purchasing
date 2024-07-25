@@ -539,7 +539,7 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td colspan='2'>Discount Labor:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="discount_lab" id='discount_lab' value="<?php echo number_format($discount_lab,2); ?>" onblur='changePrice()'></td>
+		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="discount_lab" id='discount_lab' value="<?php echo $discount_lab; ?>" onblur='changePrice()'></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>
@@ -547,7 +547,7 @@
 		    						<td></td>
 		    						<td>Discount Material:</td>
 		    						<td></td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="discount_mat" id='discount_mat' value="<?php echo number_format($discount_mat,2); ?>" onblur='changePrice()'></td>
+		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="discount_mat" id='discount_mat' value="<?php echo $discount_mat; ?>" onblur='changePrice()'></td>
 		    					</tr>
 		    					<tr>
 		    						<td></td>

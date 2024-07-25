@@ -525,7 +525,7 @@
 						</td>
 		    			<td align="right"class="bor-right">
 							<b class="nomarg">
-								<input type="text" name="payment_desc[]" value="" placeholder="Description">
+								<input type="text" name="payment_desc[]" value="" placeholder="Description" required>
 							</b>
 						</td>
 		    			<td align="right" colspan="3">

@@ -581,7 +581,7 @@ tr:nth-child(4) td {
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right"><?php echo $vat_percent; ?>% VAT:</td>
-		    						<td align="right"></span> <?php echo number_format($sumvat,2); ?></td>
+		    						<td align="right"></span> <?php echo number_format($vat,2); ?></td>
 		    					</tr>
 		    					<?php } ?>
 		    					<tr>
