@@ -230,7 +230,7 @@ $(document).ready(function(){
         var percent=vat/100;
         var new_vat = parseFloat(percent)* (parseFloat(total) + parseFloat(shipping) + parseFloat(packing));
         $("#vat").val(new_vat);
-        var new_total=parseFloat(total)+parseFloat(new_vat);
+        var new_total=(parseFloat(total) + parseFloat(shipping) + parseFloat(packing)) + parseFloat(new_vat);
         document.getElementById("grandtotal").innerHTML  =new_total;
     });
 });

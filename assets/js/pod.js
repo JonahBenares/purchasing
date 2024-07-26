@@ -23,7 +23,7 @@ function changePrice(count){
     var percent=vat/100;
     var new_vat = parseFloat(percent)*parseFloat(grandtotal);
     $("#vat").val(new_vat);
-    document.getElementById("grandtotal").innerHTML  =grandtotal;
+    // document.getElementById("grandtotal").innerHTML  =grandtotal;
     document.getElementById("orig_amount").value  =grandtotal;
     document.getElementById("grandtotal").innerHTML  =grandtotal+new_vat;
 }

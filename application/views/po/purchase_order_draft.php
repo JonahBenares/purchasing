@@ -264,7 +264,6 @@
 		    		
 		    		<?php 
 		    		$x++; } ?>
-		    		<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>    
 		    		<input type='hidden' name='po_id' value="<?php echo $po_id; ?>">
 		    		<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    		<tr>
@@ -346,6 +345,7 @@
 		    		<?php $grtotal =array_sum($gtotal);
 		    		$grandtotal = ($grtotal+$shipping+$packing+$vat)-$discount;
 		    		?>
+					<input type='hidden' id='orig_amount' value='<?php echo array_sum($gtotal); ?>'>    
 		    		<tr>
 		    			<td colspan="17" class="all-border" align="right"><b class="nomarg">GRAND TOTAL</b></td>
 		    			<td colspan="3" class="all-border" align="right"><b class="nomarg"><span class="pull-left"><?php echo $currency; ?></span><span id='grandtotal'><?php echo number_format($grandtotal,2); ?></span></b></td>
