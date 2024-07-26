@@ -263,7 +263,7 @@
                     <!--ITEMS-->
     				
 		    		<tr>
-		    			<td align="left" colspan="17" >
+		    			<td align="left" colspan="17" class="bor-right">
 		    				<?php
 					    		$subtotal=array();
 					    		$materials_subtotal=array();
