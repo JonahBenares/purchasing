@@ -240,7 +240,8 @@ window.onload=function() {
     var total = document.getElementById("orig_amount").value;
     var shipping = document.getElementById("shipping").value;
     var packing = document.getElementById("packing").value;
-    var new_total = parseFloat(total) + parseFloat(shipping) + parseFloat(packing)+parseFloat(vat);
+    var discount = document.getElementById("discount").value;
+    var new_total = (parseFloat(total) + parseFloat(shipping) + parseFloat(packing)+parseFloat(vat))-parseFloat(discount);
     document.getElementById("grandtotal").innerHTML=new_total;
 };
 
