@@ -238,7 +238,9 @@ $(document).ready(function(){
 window.onload=function() {
     var vat = document.getElementById("vat").value;
     var total = document.getElementById("orig_amount").value;
-    var new_total = (parseFloat(total)+parseFloat(vat));
+    var shipping = document.getElementById("shipping").value;
+    var packing = document.getElementById("packing").value;
+    var new_total = parseFloat(total) + parseFloat(shipping) + parseFloat(packing)+parseFloat(vat);
     document.getElementById("grandtotal").innerHTML=new_total;
 };
 
