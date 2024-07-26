@@ -206,25 +206,29 @@ function changePrice(count){
 }
 
 function additionalCost(){
-  var total = document.getElementById("orig_amount").value;
-//var total = document.getElementById("it_").value;
-
-   var shipping = document.getElementById("shipping").value;
+    var total = document.getElementById("orig_amount").value;
+    //var total = document.getElementById("it_").value; 
+    var shipping = document.getElementById("shipping").value;
     var discount = document.getElementById("discount").value;
     var packing = document.getElementById("packing").value;
-    var vat = document.getElementById("vat").value;
-
-   var new_total = (parseFloat(total)+parseFloat(shipping)+parseFloat(packing)+parseFloat(vat))-parseFloat(discount);
- 
+    // var vat = document.getElementById("vat").value;
+    var vat_percent = document.getElementById("vat_percent").value;
+    var percent=vat_percent/100;
+    var new_vat= (parseFloat(total) + parseFloat(shipping) + parseFloat(packing)) * percent;
+    var new_total = (parseFloat(total)+parseFloat(shipping)+parseFloat(packing)+parseFloat(new_vat))-parseFloat(discount);
+    // var new_total = (parseFloat(total)+parseFloat(shipping)+parseFloat(packing)+parseFloat(vat))-parseFloat(discount);
     document.getElementById("grandtotal").innerHTML  =new_total;
+    document.getElementById("vat").value  =new_vat;
 }
 
 $(document).ready(function(){
     $('#vat_percent').keyup( function(){
         var vat = document.getElementById("vat_percent").value;
         var total = document.getElementById("orig_amount").value;
+        var shipping = document.getElementById("shipping").value;
+        var packing = document.getElementById("packing").value;
         var percent=vat/100;
-        var new_vat = parseFloat(percent)*parseFloat(total);
+        var new_vat = parseFloat(percent)* (parseFloat(total) + parseFloat(shipping) + parseFloat(packing));
         $("#vat").val(new_vat);
         var new_total=parseFloat(total)+parseFloat(new_vat);
         document.getElementById("grandtotal").innerHTML  =new_total;
