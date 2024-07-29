@@ -666,19 +666,6 @@
 		    					<?php }else{ ?>
 		    						<input class="nobord" type="hidden" name="discount_mat" id='discount_mat' value="0" readonly="readonly" style="text-align: right;width: 100%;">
 		    					<?php } ?>
-		    					<?php if($vat_percent!=0 && $sumvat!=0){ ?>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>		    						
-		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent;?>" style="width:60px;border-bottom: 1px solid #000"></td>
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $sumvat;?>" style='text-align: right;'></td>
-		    					</tr>
-		    					<?php }else{ ?>
-		    						<input class="nobord" type="hidden" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="0" style="width:60px;border-bottom: 1px solid #000">
-		    						<input class="nobord" type="hidden" name="vat_amount" id='vat_amount' readonly="readonly" value="0" style='text-align: right;'>
-		    					<?php } ?>
 		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
@@ -696,6 +683,14 @@
 		    						
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount;?>" onblur='changePrice()' style='text-align: right;'></td>
 		    					</tr> -->
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>		    						
+		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent;?>" style="width:60px;border-bottom: 1px solid #000"></td>
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $sumvat;?>" style='text-align: right;'></td>
+		    					</tr>
 		    					<?php } else { 
 		    						$sum_cost = array_sum($gtotal2);
 		    						$matsum_cost = array_sum($mattotal);
@@ -728,7 +723,7 @@
 		    						<input class="nobord" type="hidden" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo $matsum_cost;?>" readonly="readonly" style='text-align: right;'>
 		    					<?php }?>
 
-		    					<?php if($discount_lab_temp!=0){ ?>
+		    					<!-- <?php if($discount_lab_temp!=0){ ?> -->
 								<tr>
 		    						<td></td>
 		    						<td></td>
@@ -737,10 +732,10 @@
 		    						<td align="right">Discount Labor:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" name="discount_lab" id='discount_lab' onblur='changePrice()' value="<?php echo $discount_lab_temp;?>" type="text" onkeypress="return isNumberKey(this, event)" style='text-align: right;'></td>
 		    					</tr>
-		    					<?php }else{ ?>
+		    					<!-- <?php }else{ ?>
 		    						<input class="nobord" type="hidden" name="discount_lab" id='discount_lab' value="0" readonly="readonly" style="text-align: right;width: 100%;">
-		    					<?php } ?>
-		    					<?php if($discount_mat_temp!=0){ ?>
+		    					<?php } ?> -->
+		    					<?php if($materials_offer_temp!='' && $materials_qty_temp!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -752,7 +747,6 @@
 		    					<?php }else{ ?>
 		    						<input class="nobord" type="hidden" name="discount_mat" id='discount_mat' value="0" readonly="readonly" style="text-align: right;width: 100%;">
 		    					<?php } ?>
-		    					<?php if($vat_percent_temp!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -761,10 +755,6 @@
 		    						<td align="right">VAT %: <input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="<?php echo $vat_percent_temp;?>" style="width: 60px;border-bottom: 1px solid #000;"></td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="vat_amount" id='vat_amount' readonly="readonly" value="<?php echo $sumvat_temp;?>" style='text-align: right;'></td>
 		    					</tr>
-		    					<?php }else{ ?>
-		    						<input class="nobord" type="hidden" placeholder="0%" name="vat_percent" id='vat_percent' onblur='changePrice()' value="0" style="width: 60px;border-bottom: 1px solid #000;">
-		    						<input class="nobord" type="hidden" name="vat_amount" id='vat_amount' readonly="readonly" value="0" style='text-align: right;'>
-		    					<?php } ?>
 		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>

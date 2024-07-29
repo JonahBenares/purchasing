@@ -400,7 +400,7 @@
 		    					</tr>
 		    					<input type='hidden' name='joi_items_id<?php echo $x; ?>' value="<?php echo $it->joi_items_id; ?>">
 		    					<?php $x++; } }else{ $gtotal=array(); } ?>
-		    					<!-- <input type='hidden' name='count_item' value="<?php echo $x; ?>"> -->
+		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    					<!--ITEMS-->
 		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
