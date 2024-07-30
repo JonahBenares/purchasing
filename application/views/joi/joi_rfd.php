@@ -376,7 +376,10 @@
 		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
 		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
 		    			$totalamt=($gtotal + $mtotal + $vatt) - $discount;
-		    			$remaining_bal = $overtotal - $sum_amount;
+		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
+		    			$remaining_bal = $overtotal - $overall_amount_due;
+		    			// $remaining_bal = $overtotal - $sum_amount;
+		    			// $new_rem_bal = $overtotal - ($sum_amount + $new_remaining_balance);
 		    		} else {
 		    			$less= $stotal*$percent;
 		    			$materials_less= $mattotal*$materials_percent;
@@ -385,7 +388,10 @@
 		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
 		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
 		    			// $totalamt=($gtotal + $mtotal + $vatt) - $discount;
-		    			$remaining_bal = $overtotal - $sum_amount;
+		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
+		    			$remaining_bal = $overtotal - $overall_amount_due;
+		    			// $remaining_bal = $overtotal - $sum_amount;
+		    			// $new_rem_bal = $overtotal - ($sum_amount + $new_remaining_balance);
 		    		} ?>
 		    		
 		    		<tr>
@@ -541,28 +547,25 @@
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount Due</b></td>
 		    			<td align="right" colspan="3">
-		    				<span class="pull-left nomarg">₱</span>
+		    				<!-- <span class="pull-left nomarg">₱</span>
 		    				<?php if($grand_total != 0) { ?>
 		    					<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($sum_rfd_payment,2); ?></span></b>
 			    			<?php }else{ ?>
-			    				<b style="font-weight: 900"><span class="nomarg" id='old_balaft'><?php echo number_format($sum_amount,2); ?></span></b>
-			    			<?php } ?>
+			    				<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($sum_amount,2); ?></span></b>
+			    			<?php } ?> -->
+			    			<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($overall_amount_due,2); ?></span></b>
 		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Remaining Balance</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<?php if($grand_total != 0) { ?>
-		    					<b style="font-weight: 900"><span class="nomarg" id='new_rem_bal'><?php echo number_format($new_remaining_balance,2); ?></span></b>
+		    				<!-- <?php if($grand_total != 0) { ?>
+		    					<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($new_rem_bal,2); ?></span></b>
 			    			<?php }else{ ?>
-			    				<b style="font-weight: 900"><span class="nomarg" id='old_rem_bal'><?php echo number_format($btotal,2); ?></span></b>
-			    			<?php } ?>
-		    				<!-- <?php if($sum_rfd_payment != '') { ?>
-		    					<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo $sum_rfd_payment; ?></span></b>
-			    			<?php }else{ ?>
-			    				<b style="font-weight: 900"><span class="nomarg" id='balaft'></span></b>
+			    				<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($btotal,2); ?></span></b>
 			    			<?php } ?> -->
+			    			<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($remaining_bal,2); ?></span></b>
 		    			</td>
 		    		</tr>
 		    		<tr>
