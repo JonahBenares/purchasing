@@ -413,7 +413,7 @@
 		    		<tr>
 			    		<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<?php if($grand_total == 0 && strtotime($joi_date) <= strtotime('2024-06-20')) { ?>
+		    				<?php if($grand_total == 0 && strtotime($joi_date) <= '2024-06-20') { ?>
 		    					<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($totalamt,2); ?></b></span>
 		    				<?php } else if($grand_total != 0) { ?>
 		    					<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($grand_total,2); ?></b></span>
@@ -422,7 +422,7 @@
 		    				<?php } ?>
 		    			</td>
 		    		</tr>
-		    		<?php if($ewt!=0 && $grand_total == 0 && strtotime($joi_date) <= strtotime('2024-06-20')){ ?>
+		    		<?php if($ewt!=0 && $grand_total == 0 && strtotime($joi_date) <= '2024-06-20'){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% Labor EWT</b></td>
 		    			<td align="right" colspan="3">
@@ -431,7 +431,7 @@
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
-		    		<?php if($materials_offer!='' && $materials_qty!=0 && $grand_total == 0 && strtotime($joi_date) <= strtotime('2024-06-20')){ ?>
+		    		<?php if($materials_offer!='' && $materials_qty!=0 && $grand_total == 0 && strtotime($joi_date) <= '2024-06-20'){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo '1'; ?>% Materials EWT</b></td>
 		    			<td align="right" colspan="3">
@@ -589,7 +589,7 @@
 			    			<?php }else{ ?>
 			    				<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($btotal,2); ?></span></b>
 			    			<?php } ?> -->
-			    			<?php if($grand_total == 0 && strtotime($joi_date) <= strtotime('2024-06-20')) { ?>
+			    			<?php if($grand_total == 0 && strtotime($joi_date) <= '2024-06-20') { ?>
 		    					<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($remaining_bal,2); ?></span></b>
 		    				<?php } else if($grand_total != 0) { ?>
 		    					<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($latest_remaining_bal,2); ?></span></b>
