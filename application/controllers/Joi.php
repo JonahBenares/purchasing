@@ -2153,7 +2153,8 @@ class Joi extends CI_Controller {
 
     public function joi_rfd(){   
         $joi_id = $this->uri->segment(3);
-        $data['joi_id'] = $joi_id;   
+        $data['joi_id'] = $joi_id;
+        $data['joi_date']=$this->super_model->select_column_where('joi_head', 'joi_date', 'joi_id', $joi_id);
         $data['revised']=$this->super_model->select_column_where('joi_head', 'revised', 'joi_id', $joi_id);
         $data['revision_no']=$this->super_model->select_column_where('joi_head', 'revision_no', 'joi_id', $joi_id);
         $data['saved']= $this->super_model->select_column_where("joi_rfd", "saved", "joi_id", $joi_id);
@@ -2301,7 +2302,8 @@ class Joi extends CI_Controller {
         $joi_id = $this->uri->segment(3);
         $joi_rfd_id = $this->uri->segment(4);
         $rfd_date = str_replace('%20', ' ', $this->uri->segment(5));
-        $data['joi_id'] = $joi_id;   
+        $data['joi_id'] = $joi_id;
+        $data['joi_date']=$this->super_model->select_column_where('joi_head', 'joi_date', 'joi_id', $joi_id);
         $data['revised']=$this->super_model->select_column_where('joi_head', 'revised', 'joi_id', $joi_id);
         $data['revision_no']=$this->super_model->select_column_where('joi_head', 'revision_no', 'joi_id', $joi_id);
         $data['saved']= $this->super_model->select_column_where("joi_rfd", "saved", "joi_id", $joi_id);

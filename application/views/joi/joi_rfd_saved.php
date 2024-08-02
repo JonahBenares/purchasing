@@ -383,6 +383,7 @@
 		    		}
 		    		$percent=$ewt/100;
 		    		$materials_percent=1/100;
+		    		// date('Y',strtotime($details->create_date))==date('Y')
 		    		if($vat==1){
 		    			// $less= ($stotal/1.12)*$percent;
 		    			$less= ($stotal)*$percent;
@@ -393,8 +394,11 @@
 		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
 		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
 		    			// $totalamt=($gtotal + $mtotal + $vatt) - $discount;
+		    			$over_total = $stotal+$mattotal+$vatt;
 		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
 		    			$remaining_bal = $overtotal - $overall_amount_due;
+		    			$new_remaining_bal = $over_total - $overall_amount_due;
+		    			$latest_remaining_bal = $grand_total - $overall_amount_due;
 		    			// $remaining_bal = $overtotal - $sum_amount;
 		    			// $new_rem_bal = $overtotal - ($sum_amount + $new_remaining_balance);
 		    		} else {
@@ -406,8 +410,11 @@
 		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
 		    			// $totalamt=($gtotal + $mtotal + $vatt) - $discount;
 		    			// $remaining_bal = $overtotal - $sum_amount;
+		    			$over_total = $stotal+$mattotal+$vatt;
 		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
 		    			$remaining_bal = $overtotal - $overall_amount_due;
+		    			$new_remaining_bal = $over_total - $overall_amount_due;
+		    			$latest_remaining_bal = $grand_total - $overall_amount_due;
 		    			// $remaining_bal = $overtotal - $sum_amount;
 		    			// $new_rem_bal = $overtotal - ($sum_amount + $new_remaining_balance);
 		    		} ?> 
@@ -415,14 +422,16 @@
 			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount of JO</b></td>
 			    		<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<?php if($grand_total != 0) { ?>
+		    				<?php if($grand_total == 0 && strtotime($joi_date) <= strtotime('2024-06-20')) { ?>
+		    					<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($overtotal,2); ?></b></span>
+		    				<?php } else if($grand_total != 0) { ?>
 		    					<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($grand_total,2); ?></b></span>
-		    				<?php }else{ ?>
-		    					<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($overtotal,2);?></b></span>
+		    				<?php }else{ ?> 
+		    					<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($over_total,2); ?></b></span>
 		    				<?php } ?>
 		    			</td>
 		    		</tr>
-		    		<?php if($ewt != 0 && $grand_total == 0) { ?>
+		    		<?php if($ewt != 0 && $grand_total == 0 && strtotime($joi_date) <= strtotime('2024-06-20')) { ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% Labor EWT</b></td>
 		    			<td align="right" colspan="3">
@@ -431,7 +440,7 @@
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
-		    		<?php if($materials_offer!='' && $materials_qty!=0 && $grand_total == 0){ ?>
+		    		<?php if($materials_offer!='' && $materials_qty!=0 && $grand_total == 0 && strtotime($joi_date) <= strtotime('2024-06-20')){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo '1'; ?>% Materials EWT</b></td>
 		    			<td align="right" colspan="3">
@@ -576,7 +585,13 @@
 			    			<?php }else{ ?>
 			    				<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($btotal,2); ?></span></b>
 			    			<?php } ?> -->
-			    			<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($remaining_bal,2); ?></span></b>
+			    			<?php if($grand_total == 0 && strtotime($joi_date) <= strtotime('2024-06-20')) { ?>
+		    					<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($remaining_bal,2); ?></span></b>
+		    				<?php } else if($grand_total != 0) { ?>
+		    					<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($latest_remaining_bal,2); ?></span></b>
+		    				<?php }else{ ?> 
+		    					<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($new_remaining_bal,2); ?></span></b>
+		    				<?php } ?>
 		    			</td>
 		    		</tr>
 		    		<tr>

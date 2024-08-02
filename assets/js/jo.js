@@ -109,6 +109,7 @@ function changePrice_rfd(){
     var vat = document.getElementById("vatt").value;
     // var all_payment = document.getElementById("all_payment").value;
     var nettotal = document.getElementById("totalamt").value;
+    var new_total = document.getElementById("newtotal").value;
     // if(sum_amount!=''){
     //   var totalamdue =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(sum_amount) - parseFloat(discount) + parseFloat(vat);
     //   var balnet =  parseFloat(totalamdue) - parseFloat(payment_amount);
@@ -129,17 +130,28 @@ function changePrice_rfd(){
 
     if(grand_total != 0){
        if(sum_rfd_payment!=0 && sum_rfd_payment!=''){
-      var new_balnet =  parseFloat(sum_rfd_payment) + final;
-      var new_remaining_balance =  parseFloat(grand_total) - (parseFloat(sum_rfd_payment) + final);
+      var latest_balnet =  parseFloat(sum_rfd_payment) + final;
+      var latest_remaining_balance =  parseFloat(grand_total) - (parseFloat(sum_rfd_payment) + final);
       }else{
-        var new_balnet =  final;
-        var new_remaining_balance =  parseFloat(grand_total) - final;
+        var latest_balnet =  final;
+        var latest_remaining_balance =  parseFloat(grand_total) - final;
       }
 
       // document.getElementById("balaft").innerHTML  = balnet.toFixed(2);
-      document.getElementById("new_balaft").innerHTML = new_balnet.toFixed(2);
-      document.getElementById("new_rem_bal").innerHTML = new_remaining_balance.toFixed(2);
+      document.getElementById("new_balaft").innerHTML = latest_balnet.toFixed(2);
+      document.getElementById("rem_bal").innerHTML = latest_remaining_balance.toFixed(2);
       //document.getElementById("totalamdue").innerHTML  = totalamdue.toFixed(2);
+
+    }else if(new_total != 0 && new_total != ''){
+      if(sum_rfd_payment!=0 && sum_rfd_payment!=''){
+      var new_balnet =  parseFloat(sum_rfd_payment) + final;
+      var new_remaining_balance =  parseFloat(new_total) - (parseFloat(sum_rfd_payment) + final);
+      }else{
+        var new_balnet =  final;
+        var new_remaining_balance =  parseFloat(new_total) - final;
+      }
+      document.getElementById("new_balaft").innerHTML = new_balnet.toFixed(2);
+      document.getElementById("rem_bal").innerHTML = new_remaining_balance.toFixed(2);
     }else{
       if(sum_amount!=0 && sum_amount !=''){
         var old_balnet =  parseFloat(sum_amount) + final;
@@ -149,8 +161,8 @@ function changePrice_rfd(){
         var old_remaining_balance =  parseFloat(nettotal) - final;
       }
 
-      document.getElementById("old_balaft").innerHTML = old_balnet.toFixed(2);
-      document.getElementById("old_rem_bal").innerHTML = old_remaining_balance.toFixed(2).replace('-0', '0');
+      document.getElementById("new_balaft").innerHTML = old_balnet.toFixed(2);
+      document.getElementById("rem_bal").innerHTML = old_remaining_balance.toFixed(2).replace('-0', '0');
     }
 }
 
