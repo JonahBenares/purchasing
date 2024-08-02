@@ -485,15 +485,7 @@
 		    						<td></td>
 		    						<td align="right">Sub Total:</td>
 		    						<td align="right"><?php echo number_format($subtotal,2);?>&nbsp;&nbsp;</td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Less Discount:</td>
-		    						<td align="right"><?php echo number_format($discount,2);?>&nbsp;&nbsp;</td>
-		    					</tr> -->
+		    					</tr>-->
 		    					<?php if($discount_lab!=0){ ?>
 								<tr>
 		    						<td></td>
@@ -513,6 +505,16 @@
 		    						<td align="right">Discount Materials:</td>
 		    						<td align="right"><?php echo number_format($discount_mat,2); ?>&nbsp;&nbsp;</td>
 		    					</tr>
+		    					<?php } ?>
+		    					<?php if($grand_total==0){ ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Less Discount:</td>
+		    						<td align="right"><?php echo number_format($discount,2);?>&nbsp;&nbsp;</td>
+		    					</tr> 
 		    					<?php } ?>
 		    					<?php if($vat!=0){ ?>
 		    					<tr>

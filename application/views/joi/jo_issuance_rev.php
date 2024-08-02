@@ -673,7 +673,8 @@
 		    						<td></td>
 		    						<td align="right">Subtotal:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" value="<?php echo $subtotal;?>" style='text-align: right;'></td>
-		    					</tr>
+		    					</tr> -->
+		    					<?php if($grand_total!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -682,7 +683,8 @@
 		    						<td align="right">Less Discount:</td>
 		    						
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount;?>" onblur='changePrice()' style='text-align: right;'></td>
-		    					</tr> -->
+		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -747,6 +749,16 @@
 		    					<?php }else{ ?>
 		    						<input class="nobord" type="hidden" name="discount_mat" id='discount_mat' value="0" readonly="readonly" style="text-align: right;width: 100%;">
 		    					<?php } ?>
+		    					<?php if($grand_total_temp!=0){ ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Less Discount:</td>		    						
+		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount_temp;?>" onblur='changePrice()' style='text-align: right;'></td>
+		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -762,15 +774,8 @@
 		    						<td></td>
 		    						<td align="right">Subtotal:</td>
 		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="subtotal" id='subtotal' readonly="readonly" value="<?php echo $subtotal;?>" style='text-align: right;'></td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Less Discount:</td>		    						
-		    						<td class="bor-btm" align="right"><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount_temp;?>" onblur='changePrice()' style='text-align: right;'></td>
 		    					</tr> -->
+		    					
 		    					<?php } ?>
 		    					<tr>
 		    						<td></td>

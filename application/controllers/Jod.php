@@ -2587,6 +2587,9 @@ class Jod extends CI_Controller {
             $data['packing']=$h->packing_fee;
             $data['vat']=$h->vat;
             $data['vat_percent']=$h->vat_percent;
+            $data['grand_total']=$h->grand_total;
+            $data['discount_lab']=$h->discount_labor;
+            $data['discount_mat']=$h->discount_material;
             $data['saved']=$h->saved;
             $data['draft']=$h->draft;
             $data['conforme']= $h->conforme;

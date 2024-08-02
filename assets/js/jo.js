@@ -103,6 +103,7 @@ function changePrice_rfd(){
     var mtotal = document.getElementById("mtotal_amount").value;
     var sum_amount = document.getElementById("sum_amount").value;
     var sum_rfd_payment = document.getElementById("sum_rfd_payment").value;
+    var overall_amount_due = document.getElementById("overall_amount_due").value;
     var grand_total = document.getElementById("grand_total").value;
     var payment_amount = document.getElementById("payment_amount").value;
     var discount = document.getElementById("discount_deduct").value;
@@ -129,9 +130,9 @@ function changePrice_rfd(){
     
 
     if(grand_total != 0){
-       if(sum_rfd_payment!=0 && sum_rfd_payment!=''){
-      var latest_balnet =  parseFloat(sum_rfd_payment) + final;
-      var latest_remaining_balance =  parseFloat(grand_total) - (parseFloat(sum_rfd_payment) + final);
+       if(overall_amount_due!=0 && overall_amount_due!=''){
+      var latest_balnet =  parseFloat(overall_amount_due) + final;
+      var latest_remaining_balance =  parseFloat(grand_total) - (parseFloat(overall_amount_due) + final);
       }else{
         var latest_balnet =  final;
         var latest_remaining_balance =  parseFloat(grand_total) - final;
@@ -143,9 +144,9 @@ function changePrice_rfd(){
       //document.getElementById("totalamdue").innerHTML  = totalamdue.toFixed(2);
 
     }else if(new_total != 0 && new_total != ''){
-      if(sum_rfd_payment!=0 && sum_rfd_payment!=''){
-      var new_balnet =  parseFloat(sum_rfd_payment) + final;
-      var new_remaining_balance =  parseFloat(new_total) - (parseFloat(sum_rfd_payment) + final);
+      if(overall_amount_due!=0 && overall_amount_due!=''){
+      var new_balnet =  parseFloat(overall_amount_due) + final;
+      var new_remaining_balance =  parseFloat(new_total) - (parseFloat(overall_amount_due) + final);
       }else{
         var new_balnet =  final;
         var new_remaining_balance =  parseFloat(new_total) - final;
@@ -153,9 +154,9 @@ function changePrice_rfd(){
       document.getElementById("new_balaft").innerHTML = new_balnet.toFixed(2);
       document.getElementById("rem_bal").innerHTML = new_remaining_balance.toFixed(2);
     }else{
-      if(sum_amount!=0 && sum_amount !=''){
-        var old_balnet =  parseFloat(sum_amount) + final;
-        var old_remaining_balance =  parseFloat(nettotal) - (parseFloat(sum_amount) + final);
+      if(overall_amount_due!=0 && overall_amount_due !=''){
+        var old_balnet =  parseFloat(overall_amount_due) + final;
+        var old_remaining_balance =  parseFloat(nettotal) - (parseFloat(overall_amount_due) + final);
       }else{
         var old_balnet =  final;
         var old_remaining_balance =  parseFloat(nettotal) - final;

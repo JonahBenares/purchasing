@@ -537,16 +537,7 @@
 		    						<td></td>
 		    						<td colspan='1'>Subtotal:</td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="subtotal" id='subtotal' value="<?php echo number_format($subtotal,2); ?>" readonly="readonly"></td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td>Less Discount:</td>
-		    						<td></td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount; ?>" onblur='changePrice()'></td>
 		    					</tr> -->
-
 								<tr>
 		    						<td></td>
 		    						<td></td>
@@ -573,6 +564,16 @@
 			    						</div>
 		    						</td>
 		    					</tr>
+		    					<?php if($grand_total != 0){ ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td>Less Discount:</td>
+		    						<td></td>
+		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount; ?>" onblur='changePrice()'></td>
+		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>

@@ -368,7 +368,7 @@
 		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
 		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
 		    			// $totalamt=($gtotal + $mtotal + $vatt) - $discount;
-		    			$over_total = $stotal+$mattotal+$vatt;
+		    			$over_total = ($stotal+$mattotal+$vatt) - $discount;
 		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
 		    			$remaining_bal = $overtotal - $overall_amount_due;
 		    			$new_remaining_bal = $over_total - $overall_amount_due;
@@ -383,7 +383,7 @@
 		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
 		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
 		    			// $totalamt=($gtotal + $mtotal + $vatt) - $discount;
-		    			$over_total = $stotal+$mattotal+$vatt;
+		    			$over_total = ($stotal+$mattotal+$vatt) - $discount;
 		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
 		    			$remaining_bal = $overtotal - $overall_amount_due;
 		    			$new_remaining_bal = $over_total - $overall_amount_due;
@@ -669,6 +669,7 @@
 	    	<input type='hidden' name='mtotal_amount' id = "mtotal_amount" value='<?php echo $mtotal; ?>'>
 	    	<input type='hidden' name='sum_amount' id = "sum_amount" value='<?php echo $sum_amount; ?>'>
 	    	<input type='hidden' name='sum_rfd_payment' id = "sum_rfd_payment" value='<?php echo $sum_rfd_payment; ?>'>
+	    	<input type='hidden' name='overall_amount_due' id = "overall_amount_due" value='<?php echo $overall_amount_due; ?>'>
 	    	<!-- <input type='hidden' name='all_payment' id = "all_payment" value='<?php echo $all_payment; ?>'> -->
 	    	<input type='hidden' name='discount_deduct' id = "discount_deduct" value='<?php echo $discount; ?>'>
 	    	<input type='hidden' name='vatt' id = "vatt" value='<?php echo $vatt; ?>'>

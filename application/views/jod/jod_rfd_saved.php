@@ -387,7 +387,7 @@
 		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
 		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
 		    			$totalamt=($gtotal + $mtotal + $vatt) - $discount;
-		    			$over_total = $stotal+$mattotal+$vatt;
+		    			$over_total = ($stotal+$mattotal+$vatt) - $discount;
 		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
 		    			$remaining_bal = $overtotal - $overall_amount_due;
 		    			$new_remaining_bal = $over_total - $overall_amount_due;
@@ -402,7 +402,7 @@
 		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
 		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
 		    			$totalamt=($gtotal + $mtotal + $vatt) - $discount;
-		    			$over_total = $stotal+$mattotal+$vatt;
+		    			$over_total = ($stotal+$mattotal+$vatt) - $discount;
 		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
 		    			$remaining_bal = $overtotal - $overall_amount_due;
 		    			$new_remaining_bal = $over_total - $overall_amount_due;
