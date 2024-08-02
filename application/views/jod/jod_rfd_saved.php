@@ -411,6 +411,7 @@
 		    			// $new_rem_bal = $overtotal - ($sum_amount + $new_remaining_balance);
 		    		} ?>
 		    		<tr>
+						<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount of JO</b></td>
 			    		<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<?php if($grand_total == 0 && strtotime($joi_date) <= '2024-06-20') { ?>
