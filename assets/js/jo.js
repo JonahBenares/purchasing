@@ -139,7 +139,11 @@ function changePrice_rfd(){
     
 
     if(grand_total != 0){
-      var sub_total =  parseFloat(grand_total) - parseFloat(rfd_payment);
+      if(sum_amount != 0 && sum_amount != ''){
+        var sub_total =  (parseFloat(grand_total) - parseFloat(sum_amount))  - parseFloat(rfd_payment);
+      }else{
+        var sub_total =  parseFloat(grand_total) - parseFloat(rfd_payment);
+      }
       var amount_due = parseFloat(rfd_payment) - parseFloat(ewt_amount);
       var new_remaining_balance =  parseFloat(grand_total) - (parseFloat(overall_amount_due) + parseFloat(rfd_payment));
 
@@ -162,7 +166,11 @@ function changePrice_rfd(){
       //document.getElementById("totalamdue").innerHTML  = totalamdue.toFixed(2);
 
     }else if(new_total != 0 && new_total != ''){
-      var sub_total =  parseFloat(new_total) - parseFloat(rfd_payment);
+      if(sum_amount != 0 && sum_amount != ''){
+        var sub_total =  (parseFloat(new_total) - parseFloat(sum_amount))  - parseFloat(rfd_payment);
+      }else{
+        var sub_total =  parseFloat(new_total) - parseFloat(rfd_payment);
+      }
       var amount_due = parseFloat(rfd_payment) - parseFloat(ewt_amount);
       var new_remaining_balance =  parseFloat(new_total) - (parseFloat(overall_amount_due) +  parseFloat(rfd_payment));
 
@@ -180,7 +188,11 @@ function changePrice_rfd(){
       // document.getElementById("new_balaft").innerHTML = new_balnet.toFixed(2);
       // document.getElementById("rem_bal").innerHTML = new_remaining_balance.toFixed(2);
     }else{
-      var sub_total =  parseFloat(nettotal) - parseFloat(rfd_payment);
+      if(sum_amount != 0 && sum_amount != ''){
+        var sub_total =  (parseFloat(nettotal) - parseFloat(sum_amount))  - parseFloat(rfd_payment);
+      }else{
+        var sub_total =  parseFloat(nettotal) - parseFloat(rfd_payment);
+      }
       var amount_due = parseFloat(rfd_payment) - parseFloat(ewt_amount);
       var new_remaining_balance =  parseFloat(nettotal) - (parseFloat(overall_amount_due) +  parseFloat(rfd_payment));
 
