@@ -2393,6 +2393,9 @@ class Joi extends CI_Controller {
             // $data['old_remaining_balance'] = ($sum_labor +  $sum_materials) - $all_payment;
 
             $data['sub_total'] = $this->super_model->select_column_where("joi_rfd_payment", "sub_total", "joi_rfd_id", $joi_rfd_id);
+            $data['payment_a'] = $this->super_model->select_column_where("joi_rfd_payment", "payment_amount", "joi_rfd_id", $joi_rfd_id);
+            $data['ewt_amount'] = $this->super_model->select_column_where("joi_rfd_payment", "ewt_amount", "joi_rfd_id", $joi_rfd_id);
+            $data['retention_amount'] = $this->super_model->select_column_where("joi_rfd_payment", "retention_amount", "joi_rfd_id", $joi_rfd_id);
             $data['rfd_payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd_payment WHERE rfd_date <= '$rfd_date' AND joi_id = '$joi_id' ORDER BY rfd_date ASC");
             $data['sum_rfd_payment'] = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "rfd_date <= '$rfd_date' AND joi_id = '$joi_id'");
             $sum_rfd_payment = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "rfd_date <= '$rfd_date' AND joi_id = '$joi_id'");

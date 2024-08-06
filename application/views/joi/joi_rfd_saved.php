@@ -396,6 +396,7 @@
 		    			// $totalamt=($gtotal + $mtotal + $vatt) - $discount;
 		    			$over_total = ($stotal+$mattotal+$vatt) - $discount;
 		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
+		    			$total_amount_due = $payment_a - ($ewt_amount + $retention_amount);
 		    			$remaining_bal = $overtotal - $overall_amount_due;
 		    			$new_remaining_bal = $over_total - $overall_amount_due;
 		    			$latest_remaining_bal = $grand_total - $overall_amount_due;
@@ -412,6 +413,7 @@
 		    			// $remaining_bal = $overtotal - $sum_amount;
 		    			$over_total = ($stotal+$mattotal+$vatt) - $discount;
 		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
+		    			$total_amount_due = $payment_a - ($ewt_amount + $retention_amount);
 		    			$remaining_bal = $overtotal - $overall_amount_due;
 		    			$new_remaining_bal = $over_total - $overall_amount_due;
 		    			$latest_remaining_bal = $grand_total - $overall_amount_due;
@@ -616,7 +618,11 @@
 			    				<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($sum_amount,2); ?></span></b>
 			    			<?php } ?> -->
 			    			<span class="pull-left nomarg">₱</span>
-			    			<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($overall_amount_due,2); ?></span></b>
+			    			<?php if($grand_total == 0) { ?>
+			    				<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($overall_amount_due,2); ?></span></b>
+		    				<?php }else{ ?> 
+	    							<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($total_amount_due,2); ?></span></b>
+		    				<?php } ?>
 		    			</td>
 		    		</tr>
 		    		<tr>
