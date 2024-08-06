@@ -272,7 +272,7 @@
 					    			$subtotal[] = $i['total'];
 					    			$materials_subtotal[] = $i['materials_amount'];
 				    		?>
-		    				<div><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></div>
+		    				<!-- <div><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></div> -->
 		    				<?php } } else { $subtotal=array();$materials_subtotal=array(); } ?>
 		    			</td>
 		    			<!-- <td align="right" colspan="1" style="vertical-align:top;"><?php echo $i['quantity']; ?></td>
