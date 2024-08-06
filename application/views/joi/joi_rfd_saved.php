@@ -550,12 +550,43 @@
                         foreach($rfd_payment AS $rp){
                     ?>
 					<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $rp->payment_description; ?></b></td>
+						<?php if($sub_total == 0){ ?>
+							<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $rp->payment_description; ?> <?php echo $rp->rfd_notes; ?></b></td>
+						<?php }else{ ?>
+							<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $rp->payment_description; ?></b></td>
+						<?php } ?>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($rp->payment_amount,2); ?></span></b>
 		    			</td>
 		    		</tr>
+		    		<?php if($sub_total != 0){ ?>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Sub Total</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($rp->payment_amount,2); ?></span></b>
+		    			</td>
+		    		</tr>
+		    		<?php } ?>
+		    		<?php if($rp->ewt_percent != 0){ ?>
+		    			<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">EWT <?php echo ($rp->ewt_vat == 1) ? 'Vat' : 'Non-vat'; ?> <?php echo $rp->ewt_percent; ?>%</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($rp->ewt_amount,2); ?></span></b>
+		    			</td>
+		    		</tr>
+		    		<?php } ?>
+		    		<?php if($rp->retention_percent != 0){ ?>
+		    			<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Retention <?php echo $rp->retention_percent; ?>%</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($rp->retention_amount,2); ?></span></b>
+		    			</td>
+		    		</tr>
+		    		<?php } ?>
 		    		 <?php } } ?>
 					<!-- <tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: 2% EWT</b></td>
@@ -564,6 +595,17 @@
 		    				<b style="font-weight: 900"><span class="nomarg" id='balaft'></span></b>
 		    			</td>
 		    		</tr> -->
+		    		<!-- <?php 
+                        if(empty($rfd_payment)){
+                    ?>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Sub Total</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+			    			<b style="font-weight: 900"><span class="nomarg" id='sub_total'><?php echo number_format($rp->retention_amount,2); ?></span></b>
+		    			</td>
+		    		</tr>
+		    		<?php } ?> -->
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount Due</b></td>
 		    			<td align="right" colspan="3">
@@ -573,6 +615,7 @@
 			    			<?php }else{ ?>
 			    				<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($sum_amount,2); ?></span></b>
 			    			<?php } ?> -->
+			    			<span class="pull-left nomarg">₱</span>
 			    			<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($overall_amount_due,2); ?></span></b>
 		    			</td>
 		    		</tr>

@@ -2237,8 +2237,8 @@ class Joi extends CI_Controller {
             );
         }
 
-        $data['rfd_max'] = $this->super_model->get_max_where("joi_rfd_payment", "rfd_no","joi_id = '$joi_id'");
-        $rfd_max = $this->super_model->get_max_where("joi_rfd_payment", "rfd_no","joi_id = '$joi_id'");
+        // $data['rfd_max'] = $this->super_model->get_max_where("joi_rfd_payment", "rfd_no","joi_id = '$joi_id'");
+        // $rfd_max = $this->super_model->get_max_where("joi_rfd_payment", "rfd_no","joi_id = '$joi_id'");
         $grand_total = $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
         // if($rfd_max != 0){
         //     $data['rfd_payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd_payment WHERE joi_id = '$joi_id' ORDER BY rfd_date ASC");
@@ -2260,16 +2260,14 @@ class Joi extends CI_Controller {
         $sum_amount= $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $joi_id);
         // $data['old_remaining_balance'] = ($sum_labor +  $sum_materials) - $sum_amount;
 
-        $data['rfd_payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd_payment WHERE rfd_no = '$rfd_max' AND joi_id = '$joi_id' ORDER BY rfd_date ASC");
-        $data['sum_rfd_payment'] = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "rfd_no = '$rfd_max' AND joi_id = '$joi_id'");
-        $sum_rfd_payment = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "rfd_no = '$rfd_max' AND joi_id = '$joi_id'");
+        $data['rfd_payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd_payment WHERE joi_id = '$joi_id' ORDER BY rfd_date ASC");
+        $data['sum_rfd_payment'] = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "joi_id = '$joi_id'");
+        $sum_rfd_payment = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "joi_id = '$joi_id'");
         $data['new_remaining_balance'] = $grand_total - $sum_rfd_payment;
-
         // $data['count_old_payment'] = $this->super_model->count_custom_where("joi_rfd","joi_id = '$joi_id' AND payment_amount !='0.00'");
         $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id' AND payment_amount !='0.00'");
 
         foreach($this->super_model->select_row_where('joi_rfd', 'joi_id', $joi_id) AS $r){
-
             // $data['all_payment'] = $this->super_model->select_sum_where("joi_rfd", "payment_amount", "joi_id = '$joi_id' AND rfd_date <= '$r->rfd_date'");
             // $all_payment = $this->super_model->select_sum_where("joi_rfd", "payment_amount", "joi_id = '$joi_id' AND rfd_date <= '$r->rfd_date'");
             
@@ -2394,10 +2392,10 @@ class Joi extends CI_Controller {
             // $all_payment = $this->super_model->select_sum_where("joi_rfd", "payment_amount", "joi_id = '$joi_id' AND rfd_date <= '$rfd_date'");
             // $data['old_remaining_balance'] = ($sum_labor +  $sum_materials) - $all_payment;
 
-
-            $data['rfd_payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd_payment WHERE joi_rfd_id = '$joi_rfd_id' AND joi_id = '$joi_id' ORDER BY rfd_date ASC");
-            $data['sum_rfd_payment'] = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "joi_rfd_id = '$joi_rfd_id' AND joi_id = '$joi_id'");
-            $sum_rfd_payment = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "joi_rfd_id = '$joi_rfd_id' AND joi_id = '$joi_id'");
+            $data['sub_total'] = $this->super_model->select_column_where("joi_rfd_payment", "sub_total", "joi_rfd_id", $joi_rfd_id);
+            $data['rfd_payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd_payment WHERE rfd_date <= '$rfd_date' AND joi_id = '$joi_id' ORDER BY rfd_date ASC");
+            $data['sum_rfd_payment'] = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "rfd_date <= '$rfd_date' AND joi_id = '$joi_id'");
+            $sum_rfd_payment = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "rfd_date <= '$rfd_date' AND joi_id = '$joi_id'");
             $grand_total = $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
             $data['new_remaining_balance'] = $grand_total - $sum_rfd_payment;
 
@@ -2581,64 +2579,91 @@ class Joi extends CI_Controller {
         $joi_rfd_id= $this->super_model->insert_return_id("joi_rfd", $data);
 
 
-       $count_rfd=$this->super_model->count_rows_where("joi_rfd_payment","joi_id",$joi_id);
-       if($count_rfd==0){
-            $rfd_no = 1;
-            $prev_rfd_no = 0;
-        } else {
-            $rfd_max = $this->super_model->get_max_where("joi_rfd_payment", "rfd_no","joi_id = '$joi_id'");
-            $rfd_no = $rfd_max+1;
-            if($rfd_no == 1){
-                $prev_rfd_no = $rfd_no;
-            }else if($rfd_no > 1){
-                $prev_rfd_no = $rfd_no-1;
-            }else{
-                $prev_rfd_no = 0;
-            }
+       // $count_rfd=$this->super_model->count_rows_where("joi_rfd_payment","joi_id",$joi_id);
+       // if($count_rfd==0){
+       //      $rfd_no = 1;
+       //      $prev_rfd_no = 0;
+       //  } else {
+       //      $rfd_max = $this->super_model->get_max_where("joi_rfd_payment", "rfd_no","joi_id = '$joi_id'");
+       //      $rfd_no = $rfd_max+1;
+       //      if($rfd_no == 1){
+       //          $prev_rfd_no = $rfd_no;
+       //      }else if($rfd_no > 1){
+       //          $prev_rfd_no = $rfd_no-1;
+       //      }else{
+       //          $prev_rfd_no = 0;
+       //      }
             
-        }
+       //  }
 
-        if($prev_rfd_no != 0){
-            foreach($this->super_model->select_custom_where("joi_rfd_payment", "rfd_no = '$prev_rfd_no' AND joi_id = '$joi_id'") AS $jrp){
-                $data_pay_prev = array(
-                    'joi_rfd_id'=>$joi_rfd_id,
-                    'joi_id'=>$jrp->joi_id,
-                    'rfd_no'=>$rfd_no,
-                    'rfd_date'=>$jrp->rfd_date,
-                    'payment_description'=>$jrp->payment_description,
-                    'payment_amount'=>$jrp->payment_amount,
-                    'user_id'=>$_SESSION['user_id'],
-                    'date_created'=>date("Y-m-d H:i:s"),
-                    );
-                    $this->super_model->insert_into("joi_rfd_payment", $data_pay_prev);
-            }
-        }
+       //  if($prev_rfd_no != 0){
+       //      foreach($this->super_model->select_custom_where("joi_rfd_payment", "rfd_no = '$prev_rfd_no' AND joi_id = '$joi_id'") AS $jrp){
+       //          $data_pay_prev = array(
+       //              'joi_rfd_id'=>$joi_rfd_id,
+       //              'joi_id'=>$jrp->joi_id,
+       //              'rfd_no'=>$rfd_no,
+       //              'rfd_date'=>$jrp->rfd_date,
+       //              'payment_description'=>$jrp->payment_description,
+       //              'payment_amount'=>$jrp->payment_amount,
+       //              'user_id'=>$_SESSION['user_id'],
+       //              'date_created'=>date("Y-m-d H:i:s"),
+       //              );
+       //              $this->super_model->insert_into("joi_rfd_payment", $data_pay_prev);
+       //      }
+       //  }
         
 
-        if($this->input->post('payment_desc')!=''){
-            $count_payment = count($this->input->post('payment_desc'));
+        // if($this->input->post('payment_desc')!=''){
+        //     $count_payment = count($this->input->post('payment_desc'));
+        // }else{
+        //     $count_payment = 0;
+        // }
+
+        // for($x=0; $x<$count_payment;$x++){
+        //     $payment_description = $this->input->post('payment_desc['.$x.']');
+        //     $payment_amount = $this->input->post('payment_amount['.$x.']');
+
+        if(!empty($this->input->post('sub_total_amount'))){
+            $sub_total = $this->input->post('sub_total_amount');
         }else{
-            $count_payment = 0;
+            $sub_total = 0;
         }
-
-        for($x=0; $x<$count_payment;$x++){
-            $payment_description = $this->input->post('payment_desc['.$x.']');
-            $payment_amount = $this->input->post('payment_amount['.$x.']');
-
-            if($payment_description != ''){
-                $data_pay = array(
+        //     if($payment_description != ''){
+               $data_pay = array(
                 'joi_rfd_id'=>$joi_rfd_id,
                 'joi_id'=>$joi_id,
-                'rfd_no'=>$rfd_no,
+                // 'rfd_no'=>$rfd_no,
                 'rfd_date'=>$rfd_date,
-                'payment_description'=>$payment_description,
-                'payment_amount'=>$payment_amount,
+                'payment_description'=>$this->input->post('payment_desc'),
+                'payment_amount'=>$this->input->post('payment_amount'),
+                'sub_total'=> $sub_total,
+                'ewt_vat'=>$this->input->post('ewt_vat'),
+                'ewt_percent'=>$this->input->post('ewt_percent'),
+                'ewt_amount'=>$this->input->post('ewt_amount'),
+                'retention_percent'=>$this->input->post('retention_percent'),
+                'retention_amount'=>$this->input->post('retention_amount'),
                 'user_id'=>$_SESSION['user_id'],
                 'date_created'=>date("Y-m-d H:i:s"),
                 );
                 $this->super_model->insert_into("joi_rfd_payment", $data_pay);
-            }
+        //     }
             
+        // }
+
+        if($this->input->post('payment_details')!=''){
+            $count_payment_dets = count($this->input->post('payment_details'));
+        }else{
+            $count_payment_dets = 0;
+        }
+
+        for($x=0; $x<$count_payment_dets;$x++){
+            $payment_details = $this->input->post('payment_details['.$x.']');
+            $rfd_payment_id = $this->input->post('rfd_payment_id['.$x.']');
+
+        $payment_details = array(
+            'rfd_notes'=>$payment_details
+        );
+        $this->super_model->update_where("joi_rfd_payment", $payment_details, "joi_rfd_payment_id",$rfd_payment_id);
         }
 
 

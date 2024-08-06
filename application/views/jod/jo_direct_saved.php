@@ -506,7 +506,7 @@
 		    						<td align="right"><?php echo number_format($discount_mat,2); ?>&nbsp;&nbsp;</td>
 		    					</tr>
 		    					<?php } ?>
-		    					<?php if($grand_total==0){ ?>
+		    					<?php if($discount!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
