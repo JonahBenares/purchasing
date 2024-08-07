@@ -536,7 +536,7 @@
 		    			</td>
 		    		</tr> -->
 		    		<?php 
-                        if(!empty($rfd_payment)){
+                        if(!empty($payment)){
                         foreach($payment AS $p){
                     ?>
 					<tr>
