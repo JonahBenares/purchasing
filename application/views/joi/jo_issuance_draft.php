@@ -564,7 +564,7 @@
 			    						</div>
 		    						</td>
 		    					</tr>
-		    					<?php if($grand_total != 0){ ?>
+		    					<?php if($grand_total == 0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
