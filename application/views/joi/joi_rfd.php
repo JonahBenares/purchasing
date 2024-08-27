@@ -193,7 +193,7 @@
 		    			<td colspan="9" class="bor-btm"><b class="nomarg"><?php echo $vendor; ?></b></td>
 		    			<td colspan="3" align="right"><b class="nomarg">Date:</b></td>
 		    			<td colspan="5" class="bor-btm">
-		    				<input type="date" style="width:100%" name="rfd_date" ></td>
+		    				<input type="date" style="width:100%" name="rfd_date" required></td>
 		    			</td>
 		    		</tr>
 		    		<tr>
