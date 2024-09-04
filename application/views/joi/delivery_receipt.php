@@ -276,6 +276,7 @@
 		    			<td colspan="6"><b>Witnessed by:</b></td>
 		    			<td colspan="2"></td>
 		    		</tr>
+		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td></td>
 		    			<!-- <td colspan="6" class="bor-btm"><?php echo $requested_by; ?></td> -->
