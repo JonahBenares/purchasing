@@ -277,7 +277,8 @@
 		    		</tr>
 		    		<tr>
 		    			<td></td>
-		    			<td colspan="6" class="bor-btm"><?php echo $requested_by; ?></td>
+		    			<!-- <td colspan="6" class="bor-btm"><?php echo $requested_by; ?></td> -->
+		    			<td colspan="6" class="bor-btm"></td>
 		    			<td colspan="5"></td>
 		    			<td colspan="6" class="bor-btm"></td>
 		    			<td colspan="2"></td>
