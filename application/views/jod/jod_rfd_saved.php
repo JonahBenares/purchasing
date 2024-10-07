@@ -238,7 +238,8 @@
 		    					<input type="date" style="width:100%" name="check_due" >
 		    				<?php } else { 
 		    					echo ($check_due!='') ? date('F j, Y', strtotime($check_due)) : '';
-		    				} ?></td>
+		    				} ?>
+		    			</td>
 		    		</tr>
 		    		<tr>
 		    			<td colspan="20"><br></td>
@@ -260,29 +261,41 @@
                         <td align="right" colspan="3"></td>
                     </tr>
                     <!--ITEMS-->
-    				<?php
-			    		$subtotal=array();
-			    		$materials_subtotal=array();
-			    		if(!empty($items)){
-			    		foreach($items AS $i){ 
-			    			$subtotal[] = $i['total'];
-			    			$materials_subtotal[] = $i['materials_amount'];
-		    		?>
+    				
 		    		<tr>
-		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></td>
-		    			<td align="right" colspan="1" style="vertical-align:top;"><?php echo $i['quantity']; ?></td>
+		    			<td align="left" colspan="17" class="bor-right">
+		    				<?php
+					    		$subtotal=array();
+					    		$materials_subtotal=array();
+					    		if(!empty($items)){
+					    		foreach($items AS $i){ 
+					    			$subtotal[] = $i['total'];
+					    			$materials_subtotal[] = $i['materials_amount'];
+				    		?>
+		    				<!-- <div><?php echo " - ".nl2br($i['offer'])."<br><br>"; ?></div> -->
+		    				<?php } } else { $subtotal=array();$materials_subtotal=array(); } ?>
+		    			</td>
+		    			<!-- <td align="right" colspan="1" style="vertical-align:top;"><?php echo $i['quantity']; ?></td>
 		    			<td align="right" colspan="2" style="vertical-align:top;"><?php echo $i['uom']; ?></td>
 		    			<td align="right" colspan="2" class="bor-right" style="vertical-align:top;"><?php echo number_format($i['price'],2); ?></td>
 		    			<td align="right" colspan="3" style="vertical-align:top;">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><?php echo number_format($i['total'],2); ?></span>
-		    			</td>
+		    			</td> -->
 		    		</tr>
-		    		<?php } } else { $subtotal=array();$materials_subtotal=array(); } ?>
+		    		<td align="right" colspan="3" class="bor-left" style="vertical-align: top;border-left: 1px solid #000">
+	    				<!-- <span class="pull-left nomarg">₱</span>
+	    				<?php if($grand_total != 0) { ?>
+	    					<span class="nomarg" id=''><?php echo number_format($grand_total,2); ?></span>
+	    				<?php }else{ ?> 
+	    					<span class="nomarg" id=''><?php echo number_format($net_total,2); ?></span>
+	    				<?php } ?> -->
+	    			</td>
+		    		
 		    		<!--ITEMS-->
 		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    		<tr>
-						<td colspan="17" class="bor-right"><br> <b>&nbsp;&nbsp;Materials:</b></td>
+						<!-- <td colspan="17" class="bor-right"><br> <b>&nbsp;&nbsp;Materials:</b></td> -->
 					</tr>
 					<?php } ?>
 		    		<!--MATERIALS-->
@@ -295,7 +308,7 @@
 			    			$materials_subtotal[] = $i['materials_amount'];
 			    			if($i['materials_offer']!=''){
 		    		?>
-		    		<tr>
+		    		<!-- <tr>
 		    			<td align="left" colspan="12" ><?php echo " - ".nl2br($i['materials_offer'])."<br><br>"; ?></td>
 		    			<td align="right" colspan="1" style="vertical-align:top;"><?php echo $i['materials_qty']; ?></td>
 		    			<td align="right" colspan="2" style="vertical-align:top;"><?php echo $i['materials_unit']; ?></td>
@@ -304,7 +317,7 @@
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><?php echo number_format($i['materials_amount'],2); ?></span>
 		    			</td>
-		    		</tr>
+		    		</tr> -->
 		    		<?php } } } else { $subtotal=array();$materials_subtotal=array(); } ?>
 		    		<!--MATERIALS-->
 		    		<tr>
@@ -317,7 +330,7 @@
 		    			<td align="right" colspan="10" class="bor-right"><br><br><br></td>
 		    			<td align="right" colspan="3"></td>
 		    		</tr>
-		    		<!-- <?php 
+		    		 <?php 
 
 		    			/*$nettotal = (array_sum($subtotal) + array_sum($materials_subtotal) + $shipping+$packing+$vatt);
 		    			$stotal = (array_sum($subtotal) + $shipping+$packing+$vatt);
@@ -326,7 +339,7 @@
 		    			$stotal = (array_sum($subtotal) + $shipping + $packing);
 		    			$mattotal = (array_sum($materials_subtotal) + $shipping + $packing);
 		    		?>
-		    		<tr>
+		    		<!--<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Labor SubTotal:</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
@@ -349,22 +362,18 @@
 		    				<span class="nomarg" id=''><?php echo number_format($discount,2); ?></span>
 		    			</td>
 		    		</tr> -->
-		    		<!-- </tr>
+		    		 <!-- </tr>
 		    			<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo "Net: "; ?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
 		    				<span class="nomarg" id=''><?php echo number_format($nettotal,2); ?></span>
 		    			</td>
-		    		</tr>
+		    		</tr> -->
 		    		<?php 
 		    		$baltotal=array();
-		    		$payments ='';
-		    		$payments_desc ='';
 		    		foreach($payment AS $pay){
 		    			$baltotal[] = $pay->payment_amount;
-		    			$payments.=$pay->payment_amount; 
-		    			$payments_desc.=$pay->payment_desc; 
 		    		}
 		    		$percent=$ewt/100;
 		    		$materials_percent=1/100;
@@ -377,6 +386,15 @@
 		    			$mtotal = $mattotal-$materials_less;
 		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
 		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
+		    			$totalamt=($gtotal + $mtotal + $vatt) - $discount;
+		    			$over_total = ($stotal+$mattotal+$vatt) - $discount;
+		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
+		    			$total_amount_due = $payment_a - ($ewt_amount + $retention_amount);
+		    			$remaining_bal = $overtotal - $overall_amount_due;
+		    			$new_remaining_bal = $over_total - $overall_amount_due;
+		    			$latest_remaining_bal = $grand_total - $overall_amount_due;
+		    			// $remaining_bal = $overtotal - $sum_amount;
+		    			// $new_rem_bal = $overtotal - ($sum_amount + $new_remaining_balance);
 		    		} else {
 		    			$less= $stotal*$percent;
 		    			$materials_less= $mattotal*$materials_percent;
@@ -384,24 +402,48 @@
 		    			$mtotal = $mattotal-$materials_less;
 		    			$overtotal = ($gtotal+$mtotal+$vatt) - $discount;
 		    			$btotal = ($gtotal+$mtotal+$vatt)-array_sum($baltotal) - $discount;
+		    			$totalamt=($gtotal + $mtotal + $vatt) - $discount;
+		    			$over_total = ($stotal+$mattotal+$vatt) - $discount;
+		    			$overall_amount_due = $sum_amount + $sum_rfd_payment;
+		    			$total_amount_due = $payment_a - ($ewt_amount + $retention_amount);
+		    			$remaining_bal = $overtotal - $overall_amount_due;
+		    			$new_remaining_bal = $over_total - $overall_amount_due;
+		    			$latest_remaining_bal = $grand_total - $overall_amount_due;
+		    			// $remaining_bal = $overtotal - $sum_amount;
+		    			// $new_rem_bal = $overtotal - ($sum_amount + $new_remaining_balance);
 		    		} ?>
+		    		<tr>
+						<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount of JO</b></td>
+			    		<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<?php if($grand_total == 0 && strtotime($joi_date) < '2024-06-20') { ?>
+		    					<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($totalamt,2); ?></b></span>
+		    				<?php } else if($grand_total != 0) { ?>
+		    					<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($grand_total,2); ?></b></span>
+		    				<?php }else{ ?> 
+		    					<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($over_total,2); ?></b></span>
+		    				<?php } ?>
+		    			</td>
+		    		</tr>
+		    		<?php if($ewt!=0 && $grand_total == 0 && strtotime($joi_date) < '2024-06-20'){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo number_format($ewt); ?>% Labor EWT</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><?php echo number_format($less,2); ?></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($less,2); ?></b></span>
 		    			</td>
 		    		</tr>
-		    		<?php if($materials_offer!='' && $materials_qty!=0){ ?>
+		    		<?php } ?>
+		    		<?php if($materials_offer!='' && $materials_qty!=0 && $grand_total == 0 && strtotime($joi_date) < '2024-06-20'){ ?>
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo '1'; ?>% Materials EWT</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"></span>
-		    				<span class="nomarg" id=''><?php echo number_format($materials_less,2); ?></span>
+		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($materials_less,2); ?></b></span>
 		    			</td>
 		    		</tr>
 		    		<?php } ?>
-		    		<tr>
+		    		<!--<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo ($rows_rfd!=0 && $payments!='0.0000' && $payment_amount!='0.000') ? 'Balance Labor Amount Due' : 'Total Labor Amount Due';?></b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
@@ -469,14 +511,62 @@
 		    			</td>
 		    		</tr>
 		    		<?php } ?> -->
+		    		<?php 
+                         if(!empty($payment)){
+                        foreach($payment AS $p){
+                    ?>
 					<tr>
-			    		<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount of JO</b></td>
-			    		<td align="right" colspan="3">
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $p->payment_desc; ?></b></td>
+		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<span class="nomarg" id=''><b style="font-weight: 900"></b></span>
+		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($p->payment_amount,2); ?></span></b>
 		    			</td>
 		    		</tr>
+		    		<?php } } ?>
+		    		<?php 
+                        if(!empty($rfd_payment)){
+                        foreach($rfd_payment AS $rp){
+                    ?>
+					<tr>
+		    			<?php if($sub_total == 0){ ?>
+							<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $rp->payment_description; ?> <?php echo $rp->rfd_notes; ?></b></td>
+						<?php }else{ ?>
+							<td align="right" colspan="17" class="bor-right"><b class="nomarg"><?php echo $rp->payment_description; ?></b></td>
+						<?php } ?>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($rp->payment_amount,2); ?></span></b>
+		    			</td>
+		    		</tr>
+		    		<?php if($sub_total != 0){ ?>
 		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Sub Total</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($rp->payment_amount,2); ?></span></b>
+		    			</td>
+		    		</tr>
+		    		<?php } ?>
+		    		<?php if($rp->ewt_percent != 0){ ?>
+		    			<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">EWT <?php echo ($rp->ewt_vat == 1) ? 'Vat' : 'Non-vat'; ?> <?php echo $rp->ewt_percent; ?>%</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($rp->ewt_amount,2); ?></span></b>
+		    			</td>
+		    		</tr>
+		    		<?php } ?>
+		    		<?php if($rp->retention_percent != 0){ ?>
+		    			<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Retention <?php echo $rp->retention_percent; ?>%</b></td>
+		    			<td align="right" colspan="3">
+		    				<span class="pull-left nomarg">₱</span>
+		    				<b style="font-weight: 900"><span class="nomarg"><?php echo number_format($rp->retention_amount,2); ?></span></b>
+		    			</td>
+		    		</tr>
+		    		<?php } ?>
+		    		 <?php } } ?>
+		    		<!-- <tr>
 						<td  colspan="16"  align="right" class="">
 							<button class="btn btn-xs btn-primary">
 								<span class="fa fa-plus"></span>
@@ -497,8 +587,8 @@
 								</b>
 							</span>
 		    			</td>
-		    		</tr>
-					<tr>
+		    		</tr> -->
+					<!-- <tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Partial Billing</b></td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
@@ -511,12 +601,40 @@
 		    				<span class="pull-left nomarg">₱</span>
 		    				<b style="font-weight: 900"><span class="nomarg" id='balaft'></span></b>
 		    			</td>
-		    		</tr>
+		    		</tr> -->
 		    		<tr>
 		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Total Amount Due</b></td>
 		    			<td align="right" colspan="3">
+		    				<!-- <span class="pull-left nomarg">₱</span>
+		    				<?php if($grand_total != 0) { ?>
+		    					<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($sum_rfd_payment,2); ?></span></b>
+			    			<?php }else{ ?>
+			    				<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($sum_amount,2); ?></span></b>
+			    			<?php } ?> -->
+			    			<span class="pull-left nomarg">₱</span>
+			    			<?php if($grand_total == 0 && strtotime($joi_date) < '2024-06-20') { ?>
+			    				<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($overall_amount_due,2); ?></span></b>
+		    				<?php }else{ ?> 
+	    							<b style="font-weight: 900"><span class="nomarg" id='new_balaft'><?php echo number_format($total_amount_due,2); ?></span></b>
+		    				<?php } ?>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Remaining Balance</b></td>
+		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg">₱</span>
-		    				<b style="font-weight: 900"><span class="nomarg" id='balaft'></span></b>
+		    				<!-- <?php if($grand_total != 0) { ?>
+		    					<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($new_rem_bal,2); ?></span></b>
+			    			<?php }else{ ?>
+			    				<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($btotal,2); ?></span></b>
+			    			<?php } ?> -->
+			    			<?php if($grand_total == 0 && strtotime($joi_date) < '2024-06-20') { ?>
+		    					<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($remaining_bal,2); ?></span></b>
+		    				<?php } else if($grand_total != 0) { ?>
+		    					<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($latest_remaining_bal,2); ?></span></b>
+		    				<?php }else{ ?> 
+		    					<b style="font-weight: 900"><span class="nomarg" id='rem_bal'><?php echo number_format($new_remaining_bal,2); ?></span></b>
+		    				<?php } ?>
 		    			</td>
 		    		</tr>
 		    		<tr>

@@ -348,7 +348,7 @@
 			    	</tr> -->		    		
 		    		<tr>
 		    			<td colspan="20">
-		    				<table class="table-bosdered" width="100%">
+		    				<table class="table-bosrdered" width="100%">
 		    					<tr>
 		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
 		    						<td width="10%" class="f13" align="center"><b>Qty</b></td>
@@ -400,7 +400,7 @@
 		    					</tr>
 		    					<input type='hidden' name='joi_items_id<?php echo $x; ?>' value="<?php echo $it->joi_items_id; ?>">
 		    					<?php $x++; } }else{ $gtotal=array(); } ?>
-		    					<!-- <input type='hidden' name='count_item' value="<?php echo $x; ?>"> -->
+		    					<input type='hidden' name='count_item' value="<?php echo $x; ?>">
 		    					<!--ITEMS-->
 		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
@@ -504,35 +504,67 @@
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Total Labor:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo array_sum($gtotal); ?>" readonly="readonly"></td>
+		    						<td></td>
+		    						<td colspan='1'>Total Labor:</td>
+		    						<td class="bor-btm" align="right">
+		    							<div class="d-flex justify-content-between">
+			    							<span class="pull-left"><?php echo $currency; ?></span>
+			    							<input class="nobord" type="text" name="sum_cost" id='sum_cost' value="<?php echo array_sum($gtotal); ?>" readonly="readonly" style="width:100px;text-align:right;">
+			    						</div>
+		    						</td>
 		    					</tr>
 		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Total Materials:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly"></td>
+		    						<td></td>
+		    						<td colspan='1'>Total Materials:</td>
+		    						<td class="bor-btm" align="right">
+		    							<div class="d-flex justify-content-between">
+			    							<span class="pull-left"><?php echo $currency; ?></span>
+			    							<input class="nobord" type="text" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly" style="width:100px;text-align:right;">
+			    						</div>
+		    						</td>
 		    					</tr>
 		    					<?php }else { ?>
 		    						<input class="nobord" type="hidden" name="mat_sum_cost" id='mat_sum_cost' value="<?php echo array_sum($mattotal); ?>" readonly="readonly">
 		    					<?php } ?>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td>VAT %:</td>
-		    						<td><input class="nobord" type="text" placeholder="0%" name="vat_percent" id='vat_percent' value="<?php echo $vat_percent;?>" onblur='changePrice()'></td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo number_format($sumvat,2);?>"></td>
-		    					</tr>
 		    					<!-- <tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td colspan='2'>Subtotal:</td>
+		    						<td></td>
+		    						<td colspan='1'>Subtotal:</td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="subtotal" id='subtotal' value="<?php echo number_format($subtotal,2); ?>" readonly="readonly"></td>
+		    					</tr> -->
+								<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td colspan='1'>Discount Labor:</td>
+		    						<td class="bor-btm" align="right">
+		    							<div class="d-flex justify-content-between">
+			    							<span class="pull-left"><?php echo $currency; ?></span>
+			    							<input class="nobord" type="text" name="discount_lab" id='discount_lab' value="<?php echo $discount_lab; ?>" onblur='changePrice()' style="width:100px;text-align:right;">
+			    						</div>
+		    						</td>
 		    					</tr>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td>Discount Material:</td>
+		    						<td class="bor-btm" align="right">
+		    							<div class="d-flex justify-content-between">
+			    							<span class="pull-left"><?php echo $currency; ?></span>
+			    							<input class="nobord" type="text" name="discount_mat" id='discount_mat' value="<?php echo $discount_mat; ?>" onblur='changePrice()' style="width:100px;text-align:right;">
+			    						</div>
+		    						</td>
+		    					</tr>
+		    					<?php if($grand_total == 0){ ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -540,33 +572,43 @@
 		    						<td>Less Discount:</td>
 		    						<td></td>
 		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount; ?>" onblur='changePrice()'></td>
-		    					</tr> -->
-
-								<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td colspan='2'>Discount Labor:</td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="subtotal" id='subtotal' value="<?php echo number_format($subtotal,2); ?>" readonly="readonly"></td>
 		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td>Discount Material:</td>
 		    						<td></td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount; ?>" onblur='changePrice()'></td>
+		    						<td class="d-flex justify-content-between">VAT %:<input class="nobord" style="width:100px;text-align:right;" type="text" placeholder="0%" name="vat_percent" id='vat_percent' value="<?php echo $vat_percent;?>" onblur='changePrice()'></td>
+		    						<td class="bor-btm" align="right">
+    									<div class="d-flex justify-content-between">
+		    								<span class="pull-left"><?php echo $currency; ?></span>
+		    								<input class="nobord" type="text" name="vat_amount" id='vat_amount' value="<?php echo number_format($vat,2);?>" style="width:100px;text-align:right;">
+		    							</div>
+		    						</td>
 		    					</tr>
 		    					<tr>
+		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td>GRAND TOTAL:</td>
-		    						<td></td>
-		    						<td class="bor-btm" align="right"><span class="pull-left"><?php echo $currency; ?></span><input class="nobord" type="text" name="net" id='net' value="<?php echo number_format($grandtotal,2); ?>" readonly="readonly"></td>
+		    						<?php if($grand_total != 0){ ?>
+		    							<td class="bor-btm" align="right">
+		    								<div class="d-flex justify-content-between">
+		    									<span class="pull-left"><?php echo $currency; ?></span>
+		    									<input class="nobord" type="text" name="net" id='net' value="<?php echo number_format($grand_total,2); ?>" readonly="readonly" style="width:100px;text-align:right;">
+		    								</div>
+		    							</td>
+		    						<?php }else{ ?>
+		    							<td class="bor-btm" align="right">
+		    								<div class="d-flex justify-content-between">
+		    									<span class="pull-left"><?php echo $currency; ?></span>
+		    									<input class="nobord" type="text" name="net" id='net' value="<?php echo number_format($grandtotal,2); ?>" readonly="readonly" style="width:100px;text-align:right;">
+		    								</div>
+		    							</td>
+		    						<?php } ?>
 		    					</tr>
-		    				
-		    					
 		    				</table>
 		    			</td>
 		    		</tr>
@@ -633,7 +675,11 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
+		    			<?php if($grand_total != 0){ ?>
+		    				<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grand_total,2); ?></span></b></h4></td>
+			    		<?php }else{ ?>
+			    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
+			    		<?php } ?>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>		    			
 		    		</tr>

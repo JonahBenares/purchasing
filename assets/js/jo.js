@@ -46,24 +46,40 @@ function changePrice(){
    var sum_cost =document.getElementById("sum_cost").value;
    var mat_sum_cost =document.getElementById("mat_sum_cost").value;
 
+    var dis_lab =document.getElementById("discount_lab").value;
+    var dis_mat =document.getElementById("discount_mat").value;
+
+    var total_lab = parseFloat(sum_cost)-parseFloat(dis_lab);
+    var total_mat = parseFloat(mat_sum_cost)-parseFloat(dis_mat);
+
     var vat_percent = document.getElementById("vat_percent").value;
     var vat = vat_percent/100;
-    var total= parseFloat(sum_cost)+parseFloat(mat_sum_cost);
-    var sumvat=parseFloat(total)*parseFloat(vat);
+    // var total= parseFloat(sum_cost)+parseFloat(mat_sum_cost);
+    // var sumvat=parseFloat(total)*parseFloat(vat);
     //var vat_amount = parseFloat(sum_cost) * parseFloat(vat);
+    var total= parseFloat(total_lab)+parseFloat(total_mat);
+    var sumvat=parseFloat(total)*parseFloat(vat);
     var vat_amount = total * parseFloat(sumvat);
     //document.getElementById("vat_amount").value  =vat_amount.toFixed(2);;
+
     document.getElementById("vat_amount").value  =sumvat.toFixed(2);
-    var subtotal = parseFloat(sum_cost) + parseFloat(mat_sum_cost) + parseFloat(sumvat);
-    document.getElementById("subtotal").value  =subtotal.toFixed(2);
+    // var subtotal = parseFloat(sum_cost) + parseFloat(mat_sum_cost) + parseFloat(sumvat);
+    var subtotal = parseFloat(total_lab) + parseFloat(total_mat) + parseFloat(sumvat);
+    // document.getElementById("subtotal").value  =subtotal.toFixed(2);
 
   /*var less_percent = document.getElementById("less_percent").value;
    var less = less_percent/100;*/
-   var less =document.getElementById("less_amount").value;
+
    /*var less_amount = parseFloat(subtotal) - parseFloat(less);*/
 
-   var net =  parseFloat(subtotal) - parseFloat(less);
+   // var net =  parseFloat(subtotal) - parseFloat(less);
    /*document.getElementById("less_amount").value  =less.toFixed(2);*/
+    
+    // var less =document.getElementById("less_amount").value;
+    // var net =  parseFloat(subtotal) - parseFloat(less);
+    var net =  parseFloat(subtotal);
+
+
    document.getElementById("net").value  =net.toFixed(2);
 
 
@@ -82,29 +98,129 @@ function changePrice(){
 }
 
 function changePrice_rfd(){
+    // var count_payment = document.getElementById("count_payment").value;
     var gtotal = document.getElementById("total_amount").value;
     var mtotal = document.getElementById("mtotal_amount").value;
     var sum_amount = document.getElementById("sum_amount").value;
-    var payment_amount = document.getElementById("payment_amount").value;
+    var sum_rfd_payment = document.getElementById("sum_rfd_payment").value;
+    var overall_amount_due = document.getElementById("overall_amount_due").value;
+    var grand_total = document.getElementById("grand_total").value;
+    // var payment_amount = document.getElementById("payment_amount").value;
     var discount = document.getElementById("discount_deduct").value;
     var vat = document.getElementById("vatt").value;
-    if(sum_amount!=''){
-      var totalamdue =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(sum_amount) - parseFloat(discount) + parseFloat(vat);
-      var balnet =  parseFloat(totalamdue) - parseFloat(payment_amount);
-      //var balnet =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(payment_amount) - parseFloat(sum_amount);
+    // var all_payment = document.getElementById("all_payment").value;
+    var nettotal = document.getElementById("totalamt").value;
+    var new_total = document.getElementById("newtotal").value;
+    var rfd_payment = document.getElementById("payment_amount").value;
+    var ewtamount = document.getElementById("ewt_amount").value;
+    var remaining_bal = document.getElementById("rem_bal").value;
+    // if(sum_amount!=''){
+    //   var totalamdue =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(sum_amount) - parseFloat(discount) + parseFloat(vat);
+    //   var balnet =  parseFloat(totalamdue) - parseFloat(payment_amount);
+    //   //var balnet =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(payment_amount) - parseFloat(sum_amount);
+    // }else{
+    //   var totalamdue =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(discount) + parseFloat(vat);
+    //   var balnet =  parseFloat(totalamdue) - parseFloat(payment_amount);
+    //   //var balnet =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(payment_amount);
+    // }
+    
+    // var final = 0;
+    // for(var x=0; x<count_payment; x++){
+    //   // var total_payment =  document.getElementById("payment_amount"+x).value;
+    //   var total_payment =  document.getElementsByClassName("payment_amount")[x].value;
+    //   final += parseFloat(total_payment);
+    // }
+
+    if(ewtamount != 0 || ewtamount != ''){
+      var ewt_amount = document.getElementById("ewt_amount").value;
     }else{
-      var totalamdue =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(discount) + parseFloat(vat);
-      var balnet =  parseFloat(totalamdue) - parseFloat(payment_amount);
-      //var balnet =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(payment_amount);
+      var ewt_amount = 0;
+    }
+    
+
+    if(grand_total != 0){
+      if(sum_amount != 0 && sum_amount != ''){
+        var sub_total =  (parseFloat(grand_total) - parseFloat(sum_amount))  - parseFloat(rfd_payment);
+      }else{
+        var sub_total =  parseFloat(grand_total) - parseFloat(rfd_payment);
+      }
+      var amount_due = parseFloat(rfd_payment) - parseFloat(ewt_amount);
+      var new_remaining_balance =  parseFloat(grand_total) - (parseFloat(overall_amount_due) + parseFloat(rfd_payment));
+
+
+      document.getElementById("sub_total").innerHTML  = sub_total.toFixed(2);
+      document.getElementById("sub_total_amount").value  = sub_total;
+      document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
+      document.getElementById("rem_bal").innerHTML  = new_remaining_balance.toFixed(2).replace('-0', '0');
+      //  if(overall_amount_due!=0 && overall_amount_due!=''){
+      // var latest_balnet =  parseFloat(overall_amount_due) + rfd_payment;
+      // var latest_remaining_balance =  parseFloat(grand_total) - (parseFloat(overall_amount_due) + rfd_payment);
+      // }else{
+      //   var latest_balnet =  rfd_payment;
+      //   var latest_remaining_balance =  parseFloat(grand_total) - rfd_payment;
+      // }
+
+      // // document.getElementById("balaft").innerHTML  = balnet.toFixed(2);
+      // document.getElementById("new_balaft").innerHTML = latest_balnet.toFixed(2);
+      // document.getElementById("rem_bal").innerHTML = latest_remaining_balance.toFixed(2);
+      //document.getElementById("totalamdue").innerHTML  = totalamdue.toFixed(2);
+
+    }else if(new_total != 0 && new_total != ''){
+      if(sum_amount != 0 && sum_amount != ''){
+        var sub_total =  (parseFloat(new_total) - parseFloat(sum_amount))  - parseFloat(rfd_payment);
+      }else{
+        var sub_total =  parseFloat(new_total) - parseFloat(rfd_payment);
+      }
+      var amount_due = parseFloat(rfd_payment) - parseFloat(ewt_amount);
+      var new_remaining_balance =  parseFloat(new_total) - (parseFloat(overall_amount_due) +  parseFloat(rfd_payment));
+
+      document.getElementById("sub_total").innerHTML  = sub_total.toFixed(2);
+      document.getElementById("sub_total_amount").value  = sub_total;
+      document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
+      document.getElementById("rem_bal").innerHTML  = new_remaining_balance.toFixed(2).replace('-0', '0');
+      // if(overall_amount_due!=0 && overall_amount_due!=''){
+      // var new_balnet =  parseFloat(overall_amount_due) + rfd_payment;
+      // var new_remaining_balance =  parseFloat(new_total) - (parseFloat(overall_amount_due) + rfd_payment);
+      // }else{
+      //   var new_balnet =  rfd_payment;
+      //   var new_remaining_balance =  parseFloat(new_total) - rfd_payment;
+      // }
+      // document.getElementById("new_balaft").innerHTML = new_balnet.toFixed(2);
+      // document.getElementById("rem_bal").innerHTML = new_remaining_balance.toFixed(2);
+    }else{
+      if(sum_amount != 0 && sum_amount != ''){
+        var sub_total =  (parseFloat(nettotal) - parseFloat(sum_amount))  - parseFloat(rfd_payment);
+      }else{
+        var sub_total =  parseFloat(nettotal) - parseFloat(rfd_payment);
+      }
+      var amount_due = parseFloat(rfd_payment) - parseFloat(ewt_amount);
+      var new_remaining_balance =  parseFloat(nettotal) - (parseFloat(overall_amount_due) +  parseFloat(rfd_payment));
+
+      document.getElementById("sub_total").innerHTML  = sub_total.toFixed(2);
+      document.getElementById("sub_total_amount").value  = sub_total;
+      document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
+      document.getElementById("rem_bal").innerHTML  = new_remaining_balance.toFixed(2).replace('-0', '0');
+      // if(overall_amount_due!=0 && overall_amount_due !=''){
+      //   var old_balnet =  parseFloat(overall_amount_due) + rfd_payment;
+      //   var old_remaining_balance =  parseFloat(nettotal) - (parseFloat(overall_amount_due) + rfd_payment);
+      // }else{
+      //   var old_balnet =  rfd_payment;
+      //   var old_remaining_balance =  parseFloat(nettotal) - rfd_payment;
+      // }
+
+      // document.getElementById("new_balaft").innerHTML = old_balnet.toFixed(2);
+      // document.getElementById("rem_bal").innerHTML = old_remaining_balance.toFixed(2).replace('-0', '0');
     }
 
-
-    document.getElementById("balaft").innerHTML  = balnet.toFixed(2);
-    //document.getElementById("totalamdue").innerHTML  = totalamdue.toFixed(2);
 }
 
 function check_rfd(){
+// var count_payment = document.getElementById("count_payment").value;
+  // for(var x=0; x<count_payment; x++){
+  //   // var payment_amount = document.getElementById("payment_amount"+x).value;
+    // var payment_amount = document.getElementsByClassName("payment_amount")[x].value;
     var payment_amount = document.getElementById("payment_amount").value;
+  // }
     var rows_rfd = document.getElementById("rows_rfd").value;
     if(payment_amount==0 && rows_rfd !=0){
       alert('Sorry Payment Amount cannot be zero!');
@@ -112,11 +228,77 @@ function check_rfd(){
     }else{
       $('#submit').removeAttr('disabled');
     }
+
 }
 
+function ChangeEWTAmount(){
+  var rfd_payment = document.getElementById("payment_amount").value;
+  var ewt_percent = document.getElementById("ewt_percent").value;
+  var vat = document.getElementById("ewt_vat").value;
+  var retentionamount = document.getElementById("retention_amount").value;
+  var percent=ewt_percent/100;
+
+  if(vat == 1){
+    var ewtamount = (parseFloat(rfd_payment)/1.12) * percent;
+  }else{
+    var ewtamount = parseFloat(rfd_payment) * percent;
+  }
+  document.getElementById("ewt_amount").value  = ewtamount.toFixed(2);
+
+  if(retentionamount != 0 || retentionamount != ''){
+    var retention_amount = document.getElementById("retention_amount").value;
+  }else{
+    var retention_amount = 0;
+  }
+
+  var amount_due = parseFloat(rfd_payment) - (parseFloat(ewtamount) + parseFloat(retention_amount));
+  document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
+
+}
+
+function ChangeRetentionAmount(){
+  var rfd_payment = document.getElementById("payment_amount").value;
+  var retention_percent = document.getElementById("retention_percent").value;
+  var ewtamount = document.getElementById("ewt_amount").value;
+  var percent=retention_percent/100;
+  var retentionamount = parseFloat(rfd_payment) * percent;
+  
+  
+  document.getElementById("retention_amount").value  = retentionamount.toFixed(2);
+
+  if(ewtamount != 0 || ewtamount != ''){
+    var ewt_amount = document.getElementById("ewt_amount").value;
+  }else{
+    var ewt_amount = 0;
+  }
+  var amount_due = parseFloat(rfd_payment) - (parseFloat(retentionamount) + parseFloat(ewt_amount));
+  document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
+
+}
+
+function ChangeAmountDue(){
+  var rfd_payment = document.getElementById("payment_amount").value;
+  var ewtamount = document.getElementById("ewt_amount").value;
+  var retentionamount = document.getElementById("retention_amount").value;
+
+  if(ewtamount != 0 || ewtamount != ''){
+    var ewt_amount = document.getElementById("ewt_amount").value;
+  }else{
+    var ewt_amount = 0;
+  }
+
+  if(retentionamount != 0 || retentionamount != ''){
+    var retention_amount = document.getElementById("retention_amount").value;
+  }else{
+    var retention_amount = 0;
+  }
 
 
+  var amount_due = parseFloat(rfd_payment) - (parseFloat(ewt_amount) + parseFloat(retention_amount));
+  
+  document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
 
+}
 
 function changePrice_JO(count){
   //alert(count);
@@ -151,19 +333,29 @@ function changePrice_JO(count){
      var sum_cost =document.getElementById("sum_cost").value;
      var mat_sum_cost =document.getElementById("mat_sum_cost").value;
 
+    var dis_lab =document.getElementById("discount_lab").value;
+    var dis_mat =document.getElementById("discount_mat").value;
+
+    var total_lab = parseFloat(sum_cost)-parseFloat(dis_lab);
+    var total_mat = parseFloat(mat_sum_cost)-parseFloat(dis_mat);
+
     var vat_percent = document.getElementById("vat_percent").value;
     var vat = vat_percent/100;
-    var total=parseFloat(sum_cost)+parseFloat(mat_sum_cost);
+    // var total=parseFloat(sum_cost)+parseFloat(mat_sum_cost);
+    var total= parseFloat(total_lab)+parseFloat(total_mat);
     var sumvat=total*vat;
     var vat_amount = parseFloat(total) * parseFloat(sumvat);
-    document.getElementById("vat_amount").value  =sumvat.toFixed(2);;
-     var subtotal = parseFloat(sum_cost)  + parseFloat(mat_sum_cost) + parseFloat(sumvat);
-       document.getElementById("subtotal").value  =subtotal.toFixed(2);;
 
-       var less =document.getElementById("less_amount").value;
+    document.getElementById("vat_amount").value  =sumvat.toFixed(2);;
+     // var subtotal = parseFloat(sum_cost)  + parseFloat(mat_sum_cost) + parseFloat(sumvat);
+     var subtotal = parseFloat(total_lab) + parseFloat(total_mat) + parseFloat(sumvat);
+       // document.getElementById("subtotal").value  =subtotal.toFixed(2);
+
+       // var less =document.getElementById("less_amount").value;
    /*var less_amount = parseFloat(subtotal) - parseFloat(less);*/
 
-   var net =  parseFloat(subtotal) - parseFloat(less);
+   // var net =  parseFloat(subtotal) - parseFloat(less);
+   var net =  parseFloat(subtotal);
 
   /*  document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
      document.getElementById("net").value  =net;*/
@@ -210,17 +402,29 @@ function changematerialsPrice_JO(count,countb){
      var mat_sum_cost =document.getElementById("mat_sum_cost").value;
      var sum_cost =document.getElementById("sum_cost").value;
 
+    var dis_lab =document.getElementById("discount_lab").value;
+    var dis_mat =document.getElementById("discount_mat").value;
+
+    var total_lab = parseFloat(sum_cost)-parseFloat(dis_lab);
+    var total_mat = parseFloat(mat_sum_cost)-parseFloat(dis_mat);
+
     var vat_percent = document.getElementById("vat_percent").value;
     var vat = vat_percent/100;
     var vat_amount = parseFloat(mat_sum_cost) * parseFloat(vat);
-    document.getElementById("vat_amount").value  =vat_amount.toFixed(2);;
-     var subtotal = parseFloat(sum_cost) + parseFloat(mat_sum_cost) + parseFloat(vat_amount);
-       document.getElementById("subtotal").value  =subtotal.toFixed(2);;
 
-       var less =document.getElementById("less_amount").value;
+    var total= parseFloat(total_lab)+parseFloat(total_mat);
+    var sumvat=parseFloat(total)*parseFloat(vat);
+
+    document.getElementById("vat_amount").value  =vat_amount.toFixed(2);
+     // var subtotal = parseFloat(sum_cost) + parseFloat(mat_sum_cost) + parseFloat(vat_amount);
+     var subtotal = parseFloat(total_lab) + parseFloat(total_mat) + parseFloat(sumvat);
+       // document.getElementById("subtotal").value  =subtotal.toFixed(2);
+
+       // var less =document.getElementById("less_amount").value;
    /*var less_amount = parseFloat(subtotal) - parseFloat(less);*/
 
-   var net =  parseFloat(subtotal) - parseFloat(less);
+   // var net =  parseFloat(subtotal) - parseFloat(less);
+   var net =  parseFloat(subtotal);
 
   /*  document.getElementById("grandtotal1").innerHTML  = net.toFixed(2);
      document.getElementById("net").value  =net;*/
@@ -263,19 +467,32 @@ function changesinglePrice_JO(){
     });
    
     document.getElementById("mat_sum_cost").value  =grandtotal1;
-
+    
      var mat_sum_cost =document.getElementById("mat_sum_cost").value;
+     var sum_cost =document.getElementById("sum_cost").value;
+
+    var dis_lab =document.getElementById("discount_lab").value;
+    var dis_mat =document.getElementById("discount_mat").value;
+
+    var total_lab = parseFloat(sum_cost)-parseFloat(dis_lab);
+    var total_mat = parseFloat(mat_sum_cost)-parseFloat(dis_mat);
 
     var vat_percent = document.getElementById("vat_percent").value;
     var vat = vat_percent/100;
     var vat_amount = parseFloat(mat_sum_cost) * parseFloat(vat);
+
+    var total= parseFloat(total_lab)+parseFloat(total_mat);
+    var sumvat=parseFloat(total)*parseFloat(vat);
+
     document.getElementById("vat_amount").value  =vat_amount.toFixed(2);
-     var subtotal = parseFloat(sum_cost) + parseFloat(mat_sum_cost) + parseFloat(vat_amount);
-       document.getElementById("subtotal").value  =subtotal.toFixed(2);
-  var less =document.getElementById("less_amount").value;
-  var net =  parseFloat(subtotal) - parseFloat(less);
-  document.getElementById("net").value  =net.toFixed(2);;
-  document.getElementById("gtotal").innerHTML  = net.toFixed(2);
+      // var subtotal = parseFloat(sum_cost) + parseFloat(mat_sum_cost) + parseFloat(vat_amount);
+      var subtotal = parseFloat(total_lab) + parseFloat(total_mat) + parseFloat(sumvat);
+      // document.getElementById("subtotal").value  =subtotal.toFixed(2);
+      // var less =document.getElementById("less_amount").value;
+      // var net =  parseFloat(subtotal) - parseFloat(less);
+      var net =  parseFloat(subtotal);
+      document.getElementById("net").value  =net.toFixed(2);;
+      document.getElementById("gtotal").innerHTML  = net.toFixed(2);
 }
 
 $(document).on("click", ".approverev", function () {

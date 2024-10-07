@@ -478,6 +478,44 @@
 		    						<td align="right"><?php echo number_format(array_sum($mattotal),2); ?>&nbsp;&nbsp;</td>
 		    					</tr>
 		    					<?php } ?>
+		    					<!-- <tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Sub Total:</td>
+		    						<td align="right"><?php echo number_format($subtotal,2);?>&nbsp;&nbsp;</td>
+		    					</tr>-->
+		    					<?php if($discount_lab!=0){ ?>
+								<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Labor:</td>
+		    						<td align="right"><?php echo number_format($discount_lab,2); ?>&nbsp;&nbsp;</td>
+		    					</tr>
+		    					<?php } ?>
+		    					<?php if($discount_mat!=0){ ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Discount Materials:</td>
+		    						<td align="right"><?php echo number_format($discount_mat,2); ?>&nbsp;&nbsp;</td>
+		    					</tr>
+		    					<?php } ?>
+		    					<?php if($discount!=0){ ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Less Discount:</td>
+		    						<td align="right"><?php echo number_format($discount,2);?>&nbsp;&nbsp;</td>
+		    					</tr> 
+		    					<?php } ?>
 		    					<?php if($vat!=0){ ?>
 		    					<tr>
 		    						<td></td>
@@ -488,48 +526,21 @@
 		    						<td align="right"><?php echo number_format($vat,2); ?>&nbsp;&nbsp;</td>
 		    					</tr>
 		    					<?php } ?>
-		    					<!-- <tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Sub Total:</td>
-		    						<td align="right"><?php echo number_format($subtotal,2);?>&nbsp;&nbsp;</td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Less Discount:</td>
-		    						<td align="right"><?php echo number_format($discount,2);?>&nbsp;&nbsp;</td>
-		    					</tr> -->
-
-								<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Discount Labor:</td>
-		    						<td align="right"></td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Discount Materials:</td>
-		    						<td align="right"></td>
-		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td align="right">Grand Total:</td>
-		    						<td align="right"><?php echo number_format($grandtotal,2); ?>&nbsp;&nbsp;</td>
+		    						<?php if($grand_total!=0){ ?>
+			    						<td align="right"><?php echo number_format($grand_total,2); ?>&nbsp;&nbsp;</td>
+			    						<input type = "hidden" id="sum_cost" value="<?php echo $grand_total; ?>">
+		    						<?php }else{ ?>
+		    							<td align="right"><?php echo number_format($grandtotal,2); ?>&nbsp;&nbsp;</td>
+		    							<input type = "hidden" id="sum_cost" value="<?php echo $grandtotal; ?>">
+		    						<?php } ?>
 		    					</tr>
-		    					<input type = "hidden" id="sum_cost" value="<?php echo $grandtotal; ?>">
+		    					
 		    				</table>
 		    			</td>
 		    		</tr>
@@ -581,7 +592,11 @@
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>
 		    		<tr>
 		    			<td class="f13 p-l-5" colspan="3">Total Project Cost:</td>
-		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
+		    			<?php if($grand_total!=0){ ?>
+		    			<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grand_total,2); ?></span></b></h4></td>
+		    			<?php }else{ ?>
+		    				<td class="f13 bor-btm" colspan="7" align="right"><h4 style="margin: 0px"><b><span class="pull-left"><?php echo $currency; ?></span><span id='gtotal'><?php echo number_format($grandtotal,2); ?></span></b></h4></td>
+		    			<?php } ?>
 		    			<td class="f13" colspan="7"></td>
 		    			<td class="f13" colspan="3"></td>
 		    		</tr>

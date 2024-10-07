@@ -936,6 +936,9 @@ class Jod extends CI_Controller {
                 'discount'=>$this->input->post('less_amount'),
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat_amount'),
+                'discount_labor'=>$this->input->post('discount_lab'),
+                'discount_material'=>$this->input->post('discount_mat'),
+                'grand_total'=>$this->input->post('net'),
                 'conforme'=>$this->input->post('conforme'),
                 'vat_percent'=>$this->input->post('vat_percent'),
                 'checked_by'=>$this->input->post('checked_by'),
@@ -956,6 +959,9 @@ class Jod extends CI_Controller {
                 'discount'=>$this->input->post('less_amount'),
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat_amount'),
+                'discount_labor'=>$this->input->post('discount_lab'),
+                'discount_material'=>$this->input->post('discount_mat'),
+                'grand_total'=>$this->input->post('net'),
                 'conforme'=>$this->input->post('conforme'),
                 'vat_percent'=>$this->input->post('vat_percent'),
                 'checked_by'=>$this->input->post('checked_by'),
@@ -1146,6 +1152,9 @@ class Jod extends CI_Controller {
             $data['discount']=$h->discount;
             $data['packing']=$h->packing_fee;
             $data['vat']=$h->vat;
+            $data['discount_lab']=$h->discount_labor;
+            $data['discount_mat']=$h->discount_material;
+            $data['grand_total']=$h->grand_total;
             $data['vat_percent']=$h->vat_percent;
             $data['saved']=$h->saved;
             $data['draft']=$h->draft;
@@ -1228,6 +1237,9 @@ class Jod extends CI_Controller {
             $data['discount']=$h->discount;
             $data['packing']=$h->packing_fee;
             $data['vat']=$h->vat;
+            $data['discount_lab']=$h->discount_labor;
+            $data['discount_mat']=$h->discount_material;
+            $data['grand_total']=$h->grand_total;
             $data['vat_percent']=$h->vat_percent;
             $data['saved']=$h->saved;
             $data['draft']=$h->draft;
@@ -1364,6 +1376,9 @@ class Jod extends CI_Controller {
                 'discount'=>$this->input->post('less_amount'),
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat_amount'),
+                'discount_labor'=>$this->input->post('discount_lab'),
+                'discount_material'=>$this->input->post('discount_mat'),
+                'grand_total'=>$this->input->post('net'),
                 'conforme'=>$this->input->post('conforme'),
                 'vat_percent'=>$this->input->post('vat_percent'),
                 'checked_by'=>$this->input->post('checked_by'),
@@ -1385,6 +1400,9 @@ class Jod extends CI_Controller {
                 'discount'=>$this->input->post('less_amount'),
                 'packing_fee'=>$this->input->post('packing'),
                 'vat'=>$this->input->post('vat_amount'),
+                'discount_labor'=>$this->input->post('discount_lab'),
+                'discount_material'=>$this->input->post('discount_mat'),
+                'grand_total'=>$this->input->post('net'),
                 'conforme'=>$this->input->post('conforme'),
                 'vat_percent'=>$this->input->post('vat_percent'),
                 'checked_by'=>$this->input->post('checked_by'),
@@ -1444,6 +1462,9 @@ class Jod extends CI_Controller {
             $data['discount']= $h->discount;
             $data['vat_percent']= $h->vat_percent;
             $data['vat_amount']= $h->vat;
+            $data['discount_lab']= $h->discount_labor;
+            $data['discount_mat']= $h->discount_material;
+            $data['grand_total']= $h->grand_total;
             $data['conforme']= $h->conforme;
             $data['verified_by']= $h->verified_by;
             $data['cancelled']= $h->cancelled;
@@ -1519,6 +1540,9 @@ class Jod extends CI_Controller {
         $data['vat_in_ex_temp'] = $this->super_model->select_column_where('joi_head_temp', 'vat_in_ex', 'joi_id', $joi_id);
         $data['conforme_temp'] = $this->super_model->select_column_where('joi_head_temp', 'conforme', 'joi_id', $joi_id);
         $data['vat_percent_temp'] = $this->super_model->select_column_where('joi_head_temp', 'vat_percent', 'joi_id', $joi_id);
+        $data['discount_lab_temp']= $this->super_model->select_column_where('joi_head_temp', 'discount_labor', 'joi_id', $joi_id);
+        $data['discount_mat_temp']= $this->super_model->select_column_where('joi_head_temp', 'discount_material', 'joi_id', $joi_id);
+        $data['grand_total_temp']= $this->super_model->select_column_where('joi_head_temp', 'grand_total', 'joi_id', $joi_id);
 
         /*$datarfd = array(
             'saved'=>0
@@ -1674,7 +1698,10 @@ class Jod extends CI_Controller {
                 "user_id"=>$_SESSION['user_id'],
                 "vat_percent"=>$this->input->post('vat_percent'),
                 "vat"=>$this->input->post('vat_amount'),
-                "discount"=>$this->input->post('less_amount'),
+                "discount_labor"=>$this->input->post('discount_lab'),
+                "discount_material"=>$this->input->post('discount_mat'),
+                "grand_total"=>$this->input->post('net'),
+                // "discount"=>$this->input->post('less_amount'),
                 'vat_in_ex'=>$this->input->post('vat_in_ex'),
                 "cancelled"=>$johead->cancelled,
                 "cancelled_by"=>$johead->cancelled_by,
@@ -1881,6 +1908,9 @@ class Jod extends CI_Controller {
                 "cancel_reason"=>$head->cancel_reason,
                 "cancelled_date"=>$head->cancelled_date,
                 "vat"=>$head->vat,
+                "discount_labor"=>$head->discount_labor,
+                "discount_material"=>$head->discount_material,
+                "grand_total"=>$head->grand_total,
                 "vat_percent"=>$head->vat_percent,
                 "vat_in_ex"=>$head->vat_in_ex,
                 "approved_by"=>$head->approved_by,
@@ -1899,6 +1929,9 @@ class Jod extends CI_Controller {
                         "shipping"=>$headt->shipping,
                         "packing_fee"=>$headt->packing_fee,
                         "vat"=>$headt->vat,
+                        "discount_labor"=>$headt->discount_labor,
+                        "discount_material"=>$headt->discount_material,
+                        "grand_total"=>$headt->grand_total,
                         "vat_percent"=>$headt->vat_percent,
                         "vat_in_ex"=>$headt->vat_in_ex,
                         "discount"=>$headt->discount,
@@ -2168,6 +2201,7 @@ class Jod extends CI_Controller {
         public function jod_rfd(){   
         $joi_id = $this->uri->segment(3);
         $data['joi_id'] = $joi_id;   
+        $data['joi_date']=$this->super_model->select_column_where('joi_head', 'joi_date', 'joi_id', $joi_id);
         $data['revised']=$this->super_model->select_column_where('joi_head', 'revised', 'joi_id', $joi_id);
         $data['revision_no']=$this->super_model->select_column_where('joi_head', 'revision_no', 'joi_id', $joi_id);
         $data['saved']= $this->super_model->select_column_where("joi_rfd", "saved", "joi_rfd_id", $joi_id);
@@ -2270,8 +2304,40 @@ class Jod extends CI_Controller {
             );
         }
 
+        $data['rfd_max'] = $this->super_model->get_max_where("joi_rfd_payment", "rfd_no","joi_id = '$joi_id'");
+        $rfd_max = $this->super_model->get_max_where("joi_rfd_payment", "rfd_no","joi_id = '$joi_id'");
+        $grand_total = $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
+        // if($rfd_max != 0){
+        //     $data['rfd_payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd_payment WHERE joi_id = '$joi_id' ORDER BY rfd_date ASC");
+        //     $data['sum_rfd_payment'] = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "rfd_no = '$rfd_max' AND joi_id = '$joi_id'");
+        //     $sum_rfd_payment = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "rfd_no = '$rfd_max' AND joi_id = '$joi_id'");
+        //     $data['remaining_balance'] = $grand_total - $sum_rfd_payment;
+        // }else{
+        //     $data['rfd_payment'] = '';
+        //     $data['sum_rfd_payment'] = '0';
+        //     $data['remaining_balance'] = $grand_total;
+        // }
+
+        $sum_labor = $this->super_model->select_sum_where("joi_items", "amount", "joi_id = '$joi_id'");
+        $sum_materials = $this->super_model->select_sum_where("joi_items", "materials_amount", "joi_id = '$joi_id'");
+        $data['net_total'] = $sum_labor +  $sum_materials;
+        $grand_total = $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
+        $sum_amount= $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $joi_id);
+        // $data['old_remaining_balance'] = ($sum_labor +  $sum_materials) - $sum_amount;
+
+        $data['rfd_payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd_payment WHERE joi_id = '$joi_id' ORDER BY rfd_date ASC");
+        $data['sum_rfd_payment'] = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "joi_id = '$joi_id'");
+        $sum_rfd_payment = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "joi_id = '$joi_id'");
+        $data['new_remaining_balance'] = $grand_total - $sum_rfd_payment;
+
+
+        // $data['count_old_payment'] = $this->super_model->count_custom_where("joi_rfd","joi_id = '$joi_id' AND payment_amount !='0.00'");
         $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id' AND payment_amount !='0.00'");
+        
         foreach($this->super_model->select_row_where('joi_rfd', 'joi_id', $joi_id) AS $r){
+
+            // $data['all_payment'] = $this->super_model->select_sum_where("joi_rfd", "payment_amount", "joi_id = '$joi_id' AND rfd_date <= '$r->rfd_date'");
+            // $all_payment = $this->super_model->select_sum_where("joi_rfd", "payment_amount", "joi_id = '$joi_id' AND rfd_date <= '$r->rfd_date'");
 
             
             $data['company']=$r->company;
@@ -2302,7 +2368,8 @@ class Jod extends CI_Controller {
         $joi_id = $this->uri->segment(3);
         $joi_rfd_id = $this->uri->segment(4);
         $rfd_date = str_replace('%20', ' ', $this->uri->segment(5));
-        $data['joi_id'] = $joi_id;   
+        $data['joi_id'] = $joi_id;
+        $data['joi_date']=$this->super_model->select_column_where('joi_head', 'joi_date', 'joi_id', $joi_id);
         $data['revised']=$this->super_model->select_column_where('joi_head', 'revised', 'joi_id', $joi_id);
         $data['revision_no']=$this->super_model->select_column_where('joi_head', 'revision_no', 'joi_id', $joi_id);
         $data['saved']= $this->super_model->select_column_where("joi_rfd", "saved", "joi_id", $joi_id);
@@ -2316,7 +2383,8 @@ class Jod extends CI_Controller {
         $data['discount']= $this->super_model->select_column_where("joi_head", "discount", "joi_id", $joi_id);
         $data['packing']= $this->super_model->select_column_where("joi_head", "packing_fee", "joi_id", $joi_id);
         $data['vatt']= $this->super_model->select_column_where("joi_head", "vat", "joi_id", $joi_id);
-        $data['sum_amount']= $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $joi_id);
+        // $data['sum_amount']= $this->super_model->select_sum("joi_rfd", "payment_amount", "joi_id", $joi_id);
+        $data['sum_amount'] = $this->super_model->select_sum_where("joi_rfd", "payment_amount", "joi_id = '$joi_id' AND rfd_date <= '$rfd_date' AND payment_amount !='0.00'");
         $data['vat_percent']= $this->super_model->select_column_where("joi_head", "vat_percent", "joi_id", $joi_id);
         $data['total_cost']= $this->super_model->select_column_where("joi_head", "total_cost", "joi_id", $joi_id);
         $data['grand_total']= $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
@@ -2414,10 +2482,27 @@ class Jod extends CI_Controller {
             );
         }
 
-        $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id' AND rfd_date <= '$rfd_date'");
-        foreach($this->super_model->select_custom_where('joi_rfd', "joi_id='$joi_id' AND joi_rfd_id = '$joi_rfd_id'") AS $r){
-            
+        $sum_labor = $this->super_model->select_sum_where("joi_items", "amount", "joi_id = '$joi_id'");
+        $sum_materials = $this->super_model->select_sum_where("joi_items", "materials_amount", "joi_id = '$joi_id'");
+        $data['net_total'] = $sum_labor +  $sum_materials;
+        // $data['all_payment'] = $this->super_model->select_sum_where("joi_rfd", "payment_amount", "joi_id = '$joi_id' AND rfd_date <= '$rfd_date''");
+        // $all_payment = $this->super_model->select_sum_where("joi_rfd", "payment_amount", "joi_id = '$joi_id' AND rfd_date <= '$rfd_date''");
+        // $data['old_remaining_balance'] = ($sum_labor +  $sum_materials) - $all_payment;
 
+        $data['sub_total'] = $this->super_model->select_column_where("joi_rfd_payment", "sub_total", "joi_rfd_id", $joi_rfd_id);
+        $data['payment_a'] = $this->super_model->select_column_where("joi_rfd_payment", "payment_amount", "joi_rfd_id", $joi_rfd_id);
+        $data['ewt_amount'] = $this->super_model->select_column_where("joi_rfd_payment", "ewt_amount", "joi_rfd_id", $joi_rfd_id);
+        $data['retention_amount'] = $this->super_model->select_column_where("joi_rfd_payment", "retention_amount", "joi_rfd_id", $joi_rfd_id);
+        $data['rfd_payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd_payment WHERE rfd_date <= '$rfd_date' AND joi_id = '$joi_id' ORDER BY rfd_date ASC");
+        $data['sum_rfd_payment'] = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "rfd_date <= '$rfd_date' AND joi_id = '$joi_id'");
+        $sum_rfd_payment = $this->super_model->select_sum_where("joi_rfd_payment", "payment_amount", "joi_rfd_id = '$joi_rfd_id' AND joi_id = '$joi_id'");
+        $grand_total = $this->super_model->select_column_where("joi_head", "grand_total", "joi_id", $joi_id);
+        $data['new_remaining_balance'] = $grand_total - $sum_rfd_payment;
+
+        // $data['count_old_payment'] = $this->super_model->count_custom_where("joi_rfd","joi_id = '$joi_id' AND payment_amount !='0.00'");
+        $data['payment'] = $this->super_model->custom_query("SELECT * FROM joi_rfd WHERE joi_id = '$joi_id' AND rfd_date <= '$rfd_date' AND payment_amount !='0.00'");
+        
+        foreach($this->super_model->select_custom_where('joi_rfd', "joi_id='$joi_id' AND joi_rfd_id = '$joi_rfd_id'") AS $r){
 /*            $data['payment'][]=array(
                 'pdesc'=>$r->payment_desc,
                 'pamount'=>$r->payment_amount,
@@ -2505,6 +2590,9 @@ class Jod extends CI_Controller {
             $data['packing']=$h->packing_fee;
             $data['vat']=$h->vat;
             $data['vat_percent']=$h->vat_percent;
+            $data['grand_total']=$h->grand_total;
+            $data['discount_lab']=$h->discount_labor;
+            $data['discount_mat']=$h->discount_material;
             $data['saved']=$h->saved;
             $data['draft']=$h->draft;
             $data['conforme']= $h->conforme;
@@ -2551,13 +2639,13 @@ class Jod extends CI_Controller {
     public function save_jod_rfd(){
         $joi_id= $this->input->post('joi_id');
         //$joi_rfd_id= $this->input->post('joi_rfd_id');
-        $rows_rfd = $this->super_model->count_rows("joi_rfd");
-        if($rows_rfd==0){
-            $joi_rfd_id = 1;
-        } else {
-            $maxid = $this->super_model->get_max("joi_rfd", "joi_rfd_id");
-            $joi_rfd_id = $maxid+1;
-        }
+        // $rows_rfd = $this->super_model->count_rows("joi_rfd");
+        // if($rows_rfd==0){
+        //     $joi_rfd_id = 1;
+        // } else {
+        //     $maxid = $this->super_model->get_max("joi_rfd", "joi_rfd_id");
+        //     $joi_rfd_id = $maxid+1;
+        // }
         $rfd_date=$this->input->post('rfd_date')." ".date("H:i:s");;
       /*  $dr_data = array(
             'dr_date'=>$this->input->post('rfd_date')
@@ -2571,8 +2659,8 @@ class Jod extends CI_Controller {
             'check_due'=>$this->input->post('check_due'),
             'company'=>$this->input->post('company'),
             'pay_to'=>$this->input->post('pay_to'),
-            'payment_amount'=>$this->input->post('payment_amount'),
-            'payment_desc'=>$this->input->post('payment_desc'),
+            // 'payment_amount'=>$this->input->post('payment_amount'),
+            // 'payment_desc'=>$this->input->post('payment_desc'),
             'check_name'=>$this->input->post('check_name'),
             'cash_check'=>$this->input->post('cash'),
             'bank_no'=>$this->input->post('bank_no'),
@@ -2588,7 +2676,100 @@ class Jod extends CI_Controller {
             'saved'=>1
         );
 
-         if($this->super_model->insert_into("joi_rfd", $data)){
+            $joi_rfd_id= $this->super_model->insert_return_id("joi_rfd", $data);
+
+
+       // $count_rfd=$this->super_model->count_rows_where("joi_rfd_payment","joi_id",$joi_id);
+       // if($count_rfd==0){
+       //      $rfd_no = 1;
+       //      $prev_rfd_no = 0;
+       //  } else {
+       //      $rfd_max = $this->super_model->get_max_where("joi_rfd_payment", "rfd_no","joi_id = '$joi_id'");
+       //      $rfd_no = $rfd_max+1;
+       //      if($rfd_no == 1){
+       //          $prev_rfd_no = $rfd_no;
+       //      }else if($rfd_no > 1){
+       //          $prev_rfd_no = $rfd_no-1;
+       //      }else{
+       //          $prev_rfd_no = 0;
+       //      }
+            
+       //  }
+
+       //  if($prev_rfd_no != 0){
+       //      foreach($this->super_model->select_custom_where("joi_rfd_payment", "rfd_no = '$prev_rfd_no' AND joi_id = '$joi_id'") AS $jrp){
+       //          $data_pay_prev = array(
+       //              'joi_rfd_id'=>$joi_rfd_id,
+       //              'joi_id'=>$jrp->joi_id,
+       //              'rfd_no'=>$rfd_no,
+       //              'rfd_date'=>$jrp->rfd_date,
+       //              'payment_description'=>$jrp->payment_description,
+       //              'payment_amount'=>$jrp->payment_amount,
+       //              'user_id'=>$_SESSION['user_id'],
+       //              'date_created'=>date("Y-m-d H:i:s"),
+       //              );
+       //              $this->super_model->insert_into("joi_rfd_payment", $data_pay_prev);
+       //      }
+       //  }
+        
+
+        // if($this->input->post('payment_desc')!=''){
+        //     $count_payment = count($this->input->post('payment_desc'));
+        // }else{
+        //     $count_payment = 0;
+        // }
+
+        // for($x=0; $x<$count_payment;$x++){
+        //     $payment_description = $this->input->post('payment_desc['.$x.']');
+        //     $payment_amount = $this->input->post('payment_amount['.$x.']');
+
+        if(!empty($this->input->post('sub_total_amount'))){
+            $sub_total = $this->input->post('sub_total_amount');
+        }else{
+            $sub_total = 0;
+        }
+
+            // if($payment_description != ''){
+                $data_pay = array(
+                'joi_rfd_id'=>$joi_rfd_id,
+                'joi_id'=>$joi_id,
+                // 'rfd_no'=>$rfd_no,
+                'rfd_date'=>$rfd_date,
+                'payment_description'=>$this->input->post('payment_desc'),
+                'payment_amount'=>$this->input->post('payment_amount'),
+                'sub_total'=>$sub_total,
+                'ewt_vat'=>$this->input->post('ewt_vat'),
+                'ewt_percent'=>$this->input->post('ewt_percent'),
+                'ewt_amount'=>$this->input->post('ewt_amount'),
+                'retention_percent'=>$this->input->post('retention_percent'),
+                'retention_amount'=>$this->input->post('retention_amount'),
+                'user_id'=>$_SESSION['user_id'],
+                'date_created'=>date("Y-m-d H:i:s"),
+                );
+                $this->super_model->insert_into("joi_rfd_payment", $data_pay);
+            // }
+            
+        // }
+
+        if($this->input->post('payment_details')!=''){
+            $count_payment_dets = count($this->input->post('payment_details'));
+        }else{
+            $count_payment_dets = 0;
+        }
+
+        for($x=0; $x<$count_payment_dets;$x++){
+            $payment_details = $this->input->post('payment_details['.$x.']');
+            $rfd_payment_id = $this->input->post('rfd_payment_id['.$x.']');
+
+        $payment_details = array(
+            'rfd_notes'=>$payment_details
+        );
+        $this->super_model->update_where("joi_rfd_payment", $payment_details, "joi_rfd_payment_id",$rfd_payment_id);
+        }
+
+
+         // if($this->super_model->insert_into("joi_rfd", $data)){
+        if($joi_rfd_id != 0 || $joi_rfd_id != ''){
             redirect(base_url().'jod/jod_rfd_saved/'.$joi_id.'/'.$joi_rfd_id.'/'.$rfd_date, 'refresh');
         }
     }

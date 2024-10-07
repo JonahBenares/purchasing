@@ -300,7 +300,7 @@
 		    		<tr>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
 
-		    			<td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type='number' step="any" name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' max='<?php echo $it['balance']; ?>' style='width:50px; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"><?php }else { echo $it['quantity']; } ?></b></td>
+		    			<td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type='number' step="any" min='0' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' max='<?php echo $it['balance']; ?>' style='width:50px; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onchange='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"><?php }else { echo $it['quantity']; } ?></b></td>
 
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type = "text" style='width:50px; color:red' name='uom<?php echo $x; ?>' value = "<?php echo $it['uom']; ?>"><?php } else { echo $it['uom']; }?></b></td>
 
@@ -320,6 +320,7 @@
 
 		    		</tr>
 		    		<!-- <input type='hidden' name='uom<?php echo $x; ?>' value="<?php echo $it['uom']; ?>"> -->
+		    		<input type='hidden' name='balance<?php echo $x; ?>' id='balance<?php echo $x; ?>' value="<?php echo (($it['balance']<0) ? 0 : $it['balance']); ?>">
 		    		<input type='hidden' name='pr_details_id<?php echo $x; ?>' value="<?php echo $it['pr_details_id']; ?>">
 		    		<?php 
 		    			$x++; } } 
