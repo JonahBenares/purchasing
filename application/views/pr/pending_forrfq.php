@@ -20,7 +20,35 @@
             $("#pr_id").val(pr_id);
             $("#group").val(group);
         });
+        $(document).ready(function(){
+            var supplier = document.getElementById("supplier").value;
+            $("select.selectpicker").focus(function(){
+                if(supplier==''){
+                    $(this).next(".bootstrap-select").find('.selectpicker').focus();
+                }
+            });
+        });
     </script>
+    <style>
+        .bootstrap-select button.dropdown-toggle:focus {
+            outline: none !important;
+        }
+        .selectpicker:focus {
+            border-color: #FAA0A0!important;
+            box-shadow: 0 0 0 0.2rem #FAA0A0;
+        } 
+        select.selectpicker {
+            display: block !important;
+            float: left;
+            overflow: hidden; 
+            height: 34px;
+            width: 0;
+            border: 0; 
+            padding: 0; 
+            box-shadow: none; 
+            color: white; 
+        }
+    </style>
     <div class="breadcome-area mg-b-30 small-dn">
         <div class="container-fluid">
             <div class="row">
@@ -157,7 +185,7 @@
                         <input type="date" name="po_date" value = "<?php echo date('Y-m-d'); ?>" style = "pointer-events: none;" class="form-control" >
                         <br>
                         Vendor:
-                        <select class="form-control selectpicker" name = "vendor" data-show-subtext="true" data-live-search="true">
+                        <select class="form-control selectpicker" id="supplier" name = "vendor" data-show-subtext="true" data-live-search="true" required style="display:none">
                             <option value = ''>--Select Supplier--</option>
                             <?php foreach($supplier AS $sup){ ?>
                             <option value = "<?php echo $sup->vendor_id; ?>"><?php echo $sup->vendor_name; ?></option>
