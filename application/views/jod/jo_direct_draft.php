@@ -549,6 +549,21 @@
 										</div>
 									</td>
 		    					</tr>
+		    					<?php if($grand_total == 0){ ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td align="right">Less Discount:</td>
+		    						<td class="bor-btm" align="right">
+										<div style="display:flex; justify-content: space-between;">
+											<span class="pull-left"><?php echo $currency; ?></span>
+											<input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount; ?>" onblur='changePrice()' style="width: 100%;text-align: right;">
+										</div>
+									</td>
+		    					</tr>
+		    					<?php } ?>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
@@ -573,19 +588,6 @@
 										<div style="display:flex; justify-content: space-between;">
 											<span class="pull-left"><?php echo $currency; ?></span>
 											<input class="nobord" type="text" name="subtotal" id='subtotal' value="<?php echo $subtotal; ?>" readonly="readonly" style="width: 100%;text-align: right;">
-										</div>
-									</td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Less Discount:</td>
-		    						<td class="bor-btm" align="right">
-										<div style="display:flex; justify-content: space-between;">
-											<span class="pull-left"><?php echo $currency; ?></span>
-											<input class="nobord" type="text" name="less_amount" id='less_amount' value="<?php echo $discount; ?>" onblur='changePrice()' style="width: 100%;text-align: right;">
 										</div>
 									</td>
 		    					</tr> -->

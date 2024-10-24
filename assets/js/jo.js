@@ -98,17 +98,22 @@ function changePrice(){
 }
 
 function changePrice_rfd(){
-    var count_payment = document.getElementById("count_payment").value;
+    // var count_payment = document.getElementById("count_payment").value;
     var gtotal = document.getElementById("total_amount").value;
     var mtotal = document.getElementById("mtotal_amount").value;
     var sum_amount = document.getElementById("sum_amount").value;
     var sum_rfd_payment = document.getElementById("sum_rfd_payment").value;
+    var overall_amount_due = document.getElementById("overall_amount_due").value;
     var grand_total = document.getElementById("grand_total").value;
-    var payment_amount = document.getElementById("payment_amount").value;
+    // var payment_amount = document.getElementById("payment_amount").value;
     var discount = document.getElementById("discount_deduct").value;
     var vat = document.getElementById("vatt").value;
     // var all_payment = document.getElementById("all_payment").value;
     var nettotal = document.getElementById("totalamt").value;
+    var new_total = document.getElementById("newtotal").value;
+    var rfd_payment = document.getElementById("payment_amount").value;
+    var ewtamount = document.getElementById("ewt_amount").value;
+    var remaining_bal = document.getElementById("rem_bal").value;
     // if(sum_amount!=''){
     //   var totalamdue =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(sum_amount) - parseFloat(discount) + parseFloat(vat);
     //   var balnet =  parseFloat(totalamdue) - parseFloat(payment_amount);
@@ -119,47 +124,103 @@ function changePrice_rfd(){
     //   //var balnet =  parseFloat(gtotal) + parseFloat(mtotal) - parseFloat(payment_amount);
     // }
     
-    var final = 0;
-    for(var x=0; x<count_payment; x++){
-      // var total_payment =  document.getElementById("payment_amount"+x).value;
-      var total_payment =  document.getElementsByClassName("payment_amount")[x].value;
-      final += parseFloat(total_payment);
+    // var final = 0;
+    // for(var x=0; x<count_payment; x++){
+    //   // var total_payment =  document.getElementById("payment_amount"+x).value;
+    //   var total_payment =  document.getElementsByClassName("payment_amount")[x].value;
+    //   final += parseFloat(total_payment);
+    // }
+
+    if(ewtamount != 0 || ewtamount != ''){
+      var ewt_amount = document.getElementById("ewt_amount").value;
+    }else{
+      var ewt_amount = 0;
     }
     
 
     if(grand_total != 0){
-       if(sum_rfd_payment!=0 && sum_rfd_payment!=''){
-      var new_balnet =  parseFloat(sum_rfd_payment) + final;
-      var new_remaining_balance =  parseFloat(grand_total) - (parseFloat(sum_rfd_payment) + final);
+      if(sum_amount != 0 && sum_amount != ''){
+        var sub_total =  (parseFloat(grand_total) - parseFloat(sum_amount))  - parseFloat(rfd_payment);
       }else{
-        var new_balnet =  final;
-        var new_remaining_balance =  parseFloat(grand_total) - final;
+        var sub_total =  parseFloat(grand_total) - parseFloat(rfd_payment);
       }
+      var amount_due = parseFloat(rfd_payment) - parseFloat(ewt_amount);
+      var new_remaining_balance =  parseFloat(grand_total) - (parseFloat(overall_amount_due) + parseFloat(rfd_payment));
 
-      // document.getElementById("balaft").innerHTML  = balnet.toFixed(2);
-      document.getElementById("new_balaft").innerHTML = new_balnet.toFixed(2);
-      document.getElementById("new_rem_bal").innerHTML = new_remaining_balance.toFixed(2);
+
+      document.getElementById("sub_total").innerHTML  = sub_total.toFixed(2);
+      document.getElementById("sub_total_amount").value  = sub_total;
+      document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
+      document.getElementById("rem_bal").innerHTML  = new_remaining_balance.toFixed(2).replace('-0', '0');
+      //  if(overall_amount_due!=0 && overall_amount_due!=''){
+      // var latest_balnet =  parseFloat(overall_amount_due) + rfd_payment;
+      // var latest_remaining_balance =  parseFloat(grand_total) - (parseFloat(overall_amount_due) + rfd_payment);
+      // }else{
+      //   var latest_balnet =  rfd_payment;
+      //   var latest_remaining_balance =  parseFloat(grand_total) - rfd_payment;
+      // }
+
+      // // document.getElementById("balaft").innerHTML  = balnet.toFixed(2);
+      // document.getElementById("new_balaft").innerHTML = latest_balnet.toFixed(2);
+      // document.getElementById("rem_bal").innerHTML = latest_remaining_balance.toFixed(2);
       //document.getElementById("totalamdue").innerHTML  = totalamdue.toFixed(2);
-    }else{
-      if(sum_amount!=0 && sum_amount !=''){
-        var old_balnet =  parseFloat(sum_amount) + final;
-        var old_remaining_balance =  parseFloat(nettotal) - (parseFloat(sum_amount) + final);
-      }else{
-        var old_balnet =  final;
-        var old_remaining_balance =  parseFloat(nettotal) - final;
-      }
 
-      document.getElementById("old_balaft").innerHTML = old_balnet.toFixed(2);
-      document.getElementById("old_rem_bal").innerHTML = old_remaining_balance.toFixed(2).replace('-0', '0');
+    }else if(new_total != 0 && new_total != ''){
+      if(sum_amount != 0 && sum_amount != ''){
+        var sub_total =  (parseFloat(new_total) - parseFloat(sum_amount))  - parseFloat(rfd_payment);
+      }else{
+        var sub_total =  parseFloat(new_total) - parseFloat(rfd_payment);
+      }
+      var amount_due = parseFloat(rfd_payment) - parseFloat(ewt_amount);
+      var new_remaining_balance =  parseFloat(new_total) - (parseFloat(overall_amount_due) +  parseFloat(rfd_payment));
+
+      document.getElementById("sub_total").innerHTML  = sub_total.toFixed(2);
+      document.getElementById("sub_total_amount").value  = sub_total;
+      document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
+      document.getElementById("rem_bal").innerHTML  = new_remaining_balance.toFixed(2).replace('-0', '0');
+      // if(overall_amount_due!=0 && overall_amount_due!=''){
+      // var new_balnet =  parseFloat(overall_amount_due) + rfd_payment;
+      // var new_remaining_balance =  parseFloat(new_total) - (parseFloat(overall_amount_due) + rfd_payment);
+      // }else{
+      //   var new_balnet =  rfd_payment;
+      //   var new_remaining_balance =  parseFloat(new_total) - rfd_payment;
+      // }
+      // document.getElementById("new_balaft").innerHTML = new_balnet.toFixed(2);
+      // document.getElementById("rem_bal").innerHTML = new_remaining_balance.toFixed(2);
+    }else{
+      if(sum_amount != 0 && sum_amount != ''){
+        var sub_total =  (parseFloat(nettotal) - parseFloat(sum_amount))  - parseFloat(rfd_payment);
+      }else{
+        var sub_total =  parseFloat(nettotal) - parseFloat(rfd_payment);
+      }
+      var amount_due = parseFloat(rfd_payment) - parseFloat(ewt_amount);
+      var new_remaining_balance =  parseFloat(nettotal) - (parseFloat(overall_amount_due) +  parseFloat(rfd_payment));
+
+      document.getElementById("sub_total").innerHTML  = sub_total.toFixed(2);
+      document.getElementById("sub_total_amount").value  = sub_total;
+      document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
+      document.getElementById("rem_bal").innerHTML  = new_remaining_balance.toFixed(2).replace('-0', '0');
+      // if(overall_amount_due!=0 && overall_amount_due !=''){
+      //   var old_balnet =  parseFloat(overall_amount_due) + rfd_payment;
+      //   var old_remaining_balance =  parseFloat(nettotal) - (parseFloat(overall_amount_due) + rfd_payment);
+      // }else{
+      //   var old_balnet =  rfd_payment;
+      //   var old_remaining_balance =  parseFloat(nettotal) - rfd_payment;
+      // }
+
+      // document.getElementById("new_balaft").innerHTML = old_balnet.toFixed(2);
+      // document.getElementById("rem_bal").innerHTML = old_remaining_balance.toFixed(2).replace('-0', '0');
     }
+
 }
 
 function check_rfd(){
-var count_payment = document.getElementById("count_payment").value;
-  for(var x=0; x<count_payment; x++){
-    // var payment_amount = document.getElementById("payment_amount"+x).value;
-    var payment_amount = document.getElementsByClassName("payment_amount")[x].value;
-  }
+// var count_payment = document.getElementById("count_payment").value;
+  // for(var x=0; x<count_payment; x++){
+  //   // var payment_amount = document.getElementById("payment_amount"+x).value;
+    // var payment_amount = document.getElementsByClassName("payment_amount")[x].value;
+    var payment_amount = document.getElementById("payment_amount").value;
+  // }
     var rows_rfd = document.getElementById("rows_rfd").value;
     if(payment_amount==0 && rows_rfd !=0){
       alert('Sorry Payment Amount cannot be zero!');
@@ -170,9 +231,74 @@ var count_payment = document.getElementById("count_payment").value;
 
 }
 
+function ChangeEWTAmount(){
+  var rfd_payment = document.getElementById("payment_amount").value;
+  var ewt_percent = document.getElementById("ewt_percent").value;
+  var vat = document.getElementById("ewt_vat").value;
+  var retentionamount = document.getElementById("retention_amount").value;
+  var percent=ewt_percent/100;
+
+  if(vat == 1){
+    var ewtamount = (parseFloat(rfd_payment)/1.12) * percent;
+  }else{
+    var ewtamount = parseFloat(rfd_payment) * percent;
+  }
+  document.getElementById("ewt_amount").value  = ewtamount.toFixed(2);
+
+  if(retentionamount != 0 || retentionamount != ''){
+    var retention_amount = document.getElementById("retention_amount").value;
+  }else{
+    var retention_amount = 0;
+  }
+
+  var amount_due = parseFloat(rfd_payment) - (parseFloat(ewtamount) + parseFloat(retention_amount));
+  document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
+
+}
+
+function ChangeRetentionAmount(){
+  var rfd_payment = document.getElementById("payment_amount").value;
+  var retention_percent = document.getElementById("retention_percent").value;
+  var ewtamount = document.getElementById("ewt_amount").value;
+  var percent=retention_percent/100;
+  var retentionamount = parseFloat(rfd_payment) * percent;
+  
+  
+  document.getElementById("retention_amount").value  = retentionamount.toFixed(2);
+
+  if(ewtamount != 0 || ewtamount != ''){
+    var ewt_amount = document.getElementById("ewt_amount").value;
+  }else{
+    var ewt_amount = 0;
+  }
+  var amount_due = parseFloat(rfd_payment) - (parseFloat(retentionamount) + parseFloat(ewt_amount));
+  document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
+
+}
+
+function ChangeAmountDue(){
+  var rfd_payment = document.getElementById("payment_amount").value;
+  var ewtamount = document.getElementById("ewt_amount").value;
+  var retentionamount = document.getElementById("retention_amount").value;
+
+  if(ewtamount != 0 || ewtamount != ''){
+    var ewt_amount = document.getElementById("ewt_amount").value;
+  }else{
+    var ewt_amount = 0;
+  }
+
+  if(retentionamount != 0 || retentionamount != ''){
+    var retention_amount = document.getElementById("retention_amount").value;
+  }else{
+    var retention_amount = 0;
+  }
 
 
+  var amount_due = parseFloat(rfd_payment) - (parseFloat(ewt_amount) + parseFloat(retention_amount));
+  
+  document.getElementById("new_balaft").innerHTML  = amount_due.toFixed(2);
 
+}
 
 function changePrice_JO(count){
   //alert(count);

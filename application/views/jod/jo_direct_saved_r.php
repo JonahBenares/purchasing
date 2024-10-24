@@ -434,6 +434,44 @@
 		    						<td>Amount:</td>
 		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
 		    					</tr>
+		    					<!-- <tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td>Sub Total:</td>
+		    						<td align="right"><?php echo number_format($subtotal,2);?></td>
+		    					</tr> -->
+		    					<?php if($discount_lab!=0){ ?>
+								<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td>Discount Labor:</td>
+		    						<td align="right"><?php echo number_format($discount_lab,2);?></td>
+		    					</tr>
+		    					<?php } ?>
+		    					<?php if($discount_mat!=0){ ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td>Discount Materials:</td>
+		    						<td align="right"><?php echo number_format($discount_mat,2);?></td>
+		    					</tr>
+		    					<?php } ?>
+		    					<?php if($grand_total==0){ ?>
+		    					<tr>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td></td>
+		    						<td>Less Discount:</td>
+		    						<td align="right"><?php echo number_format($discount,2);?></td>
+		    					</tr>
+		    					<?php } ?>
 		    					<?php if($vat!=0){ ?>
 		    					<tr>
 		    						<td></td>
@@ -444,46 +482,17 @@
 		    						<td align="right"><?php echo number_format($vat,2); ?></td>
 		    					</tr>
 		    					<?php } ?>
-		    					<!-- <tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td>Sub Total:</td>
-		    						<td align="right"><?php echo number_format($subtotal,2);?></td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td>Less Discount:</td>
-		    						<td align="right"><?php echo number_format($discount,2);?></td>
-		    					</tr> -->
-
-								<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td>Discount Labor:</td>
-		    						<td align="right"><?php echo number_format($subtotal,2);?></td>
-		    					</tr>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td>Discount Materials:</td>
-		    						<td align="right"><?php echo number_format($discount,2);?></td>
-		    					</tr>
 		    					<tr>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
 		    						<td>Grand Total:</td>
-		    						<td align="right"><?php echo number_format($grandtotal,2); ?></td>
+		    						<?php if($grand_total!=0){ ?>
+		    							<td align="right"><?php echo number_format($grand_total,2); ?></td>
+		    						<?php }else{ ?>
+		    							<td align="right"><?php echo number_format($grandtotal,2); ?></td>
+		    						<?php } ?>
 		    					</tr>
 		    				</table>
 		    			</td>
