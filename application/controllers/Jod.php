@@ -241,7 +241,8 @@ class Jod extends CI_Controller {
         }
 
 
-        $year=date('Y');
+        // $year=date('Y');
+        $year = date("Y",strtotime($this->super_model->select_column_where('joi_head', 'joi_date', 'joi_id', $joi_id)));
         $dr_count = $this->super_model->count_custom_where("joi_dr","joi_dr_date LIKE '%$year%'");
         if($dr_count==0){
             $joi_dr_no = 1000;
