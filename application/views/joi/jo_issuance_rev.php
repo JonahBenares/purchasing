@@ -497,7 +497,7 @@
 		    					<!--MATERIALS-->
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<b>Notes:</b>		    						
+		    							<!-- <b>Notes:</b>		    						 -->
 		    						</td>
 		    						<td></td>
 		    						<td></td>
@@ -505,7 +505,7 @@
 		    						<td></td>
 		    						<td></td>
 		    					</tr>
-		    					<?php 
+		    					<!-- <?php 
 		    						$y=1; 
 		    						foreach($tc AS $n){ 
 		    							if($n->notes!=''){
@@ -522,7 +522,7 @@
 		    					</tr>
 		    					<input type='hidden' name='joi_tc_id<?php echo $y; ?>' value="<?php echo $n->joi_tc_id; ?>">
 		    					<?php $y++; } } ?>
-		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
+		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>"> -->
 
 		    					<?php }else { $gtotal2=array(); $mattotal=array(); } }else {
 		    					?>

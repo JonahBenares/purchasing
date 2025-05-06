@@ -458,7 +458,7 @@
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<b>Notes:</b>		    						
+		    							<!-- <b>Notes:</b>		    						 -->
 		    						</td>
 		    						<td></td>
 		    						<td></td>
@@ -466,7 +466,7 @@
 		    						<td></td>
 		    						<td></td>
 		    					</tr>
-		    					<?php 
+		    					<!-- <?php 
 		    						$y=1; 
 		    						foreach($tc AS $n){ 
 		    							if($n->notes!=''){
@@ -483,7 +483,7 @@
 		    					</tr>
 		    					
 		    					<?php $y++; } } ?>
-		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>">
+		    					<input type='hidden' name='count_notes' value="<?php echo $y; ?>"> -->
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>

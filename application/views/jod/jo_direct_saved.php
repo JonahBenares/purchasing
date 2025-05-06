@@ -423,7 +423,7 @@
 		    					<tr><td colspan="5" class="p-5"></td></tr>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<b>Notes:</b>		    						
+		    							<!-- <b>Notes:</b>		    						 -->
 		    						</td>
 		    						<td></td>
 		    						<td></td>
@@ -431,7 +431,7 @@
 		    						<td></td>
 		    						<td></td>
 		    					</tr>
-		    					<?php 
+		    					<!-- <?php 
 		    						$y=1; 
 		    						foreach($joi_tc AS $n){ 
 		    							if($n->notes!=''){
@@ -446,7 +446,7 @@
 		    						<td></td>
 		    						<td></td>
 		    					</tr>
-		    					<?php $y++; } } ?>
+		    					<?php $y++; } } ?> -->
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>

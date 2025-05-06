@@ -477,7 +477,7 @@ tr:nth-child(4) td {
 		    					<tr><td colspan="6" class="p-5"></td></tr>
 		    					<tr>
 		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<b>Notes:</b>		    						
+		    							<!-- <b>Notes:</b>		    						 -->
 		    						</td>
 		    						<td></td>
 		    						<td></td>
@@ -485,7 +485,7 @@ tr:nth-child(4) td {
 		    						<td></td>
 		    						<td></td>
 		    					</tr>
-		    					<?php 
+		    					<!-- <?php 
 		    						$y=1; 
 		    						foreach($tc AS $n){ 
 		    							if($n->notes!=''){
@@ -500,7 +500,7 @@ tr:nth-child(4) td {
 		    						<td></td>
 		    						<td></td>
 		    					</tr>
-		    					<?php $y++; } } ?>
+		    					<?php $y++; } } ?> -->
 		    					<tr>
 		    						<td class="f13 p-l-5" align="left"></td>
 		    						<td class="f13" align="center"></td>
