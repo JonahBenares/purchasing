@@ -852,11 +852,13 @@ class Joi extends CI_Controller {
         }
 
         $date_format = date("Y");
-        $rows_ar = $this->super_model->count_rows("joi_ar");
+        // $rows_ar = $this->super_model->count_rows("joi_ar");
+        $rows_ar = $this->super_model->count_rows("joi_ar","year LIKE 'AR $date_format%'");
         if($rows_ar==0){
             $ar_no= "AR ".$date_format."-01";
         } else {
-            $max = $this->super_model->get_max("joi_ar", "series");
+            // $max = $this->super_model->get_max("joi_ar", "series");
+            $max = $this->super_model->get_max_where("joi_ar", "series", "year LIKE 'AR $date_format%'");
             $nexts = $max+1;
             $nxts = str_pad($nexts, 2, "0", STR_PAD_LEFT);
             $ar_no = "AR ".$date_format."-".$nxts;
@@ -876,11 +878,13 @@ class Joi extends CI_Controller {
 
 
         $date_coc = date("Y");
-        $rows_coc = $this->super_model->count_rows("joi_coc");
+        // $rows_coc = $this->super_model->count_rows("joi_coc");
+        $rows_coc = $this->super_model->count_custom_where("joi_coc","year LIKE 'COC-$date_coc%'");
         if($rows_coc==0){
             $coc_no= "COC-".$date_coc."_01";
         } else {
-            $max = $this->super_model->get_max("joi_coc", "series");
+            // $max = $this->super_model->get_max("joi_coc", "series");
+            $max = $this->super_model->get_max_where("joi_coc", "series", "year LIKE 'COC-$date_coc%'");
             $nexts = $max+1;
             $nxts = str_pad($nexts, 2, "0", STR_PAD_LEFT);
             $coc_no = "COC-".$date_coc."_".$nxts;
