@@ -344,7 +344,7 @@
 
 			    		<tr>
 			    			<td class="f13" colspan="4">Date Prepared:</td>
-			    			<td class="f13 bor-btm" colspan="7"><input type="date" name="date_prepared" value="<?php echo $date_prepared;?>" style = "width: 100%"></td>
+			    			<td class="f13 bor-btm" colspan="7"><input type="date" name="date_prepared" value="<?php echo date('Y-m-d');?>" style = "width: 100%" readonly></td>
 			    			<td class="f13" colspan="1"></td>
 			    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JOR No.:</td>
 			    			<td class="f13 bor-btm" colspan="5"><b><input type="text" name="cenjo_no" value="<?php echo $cenjo_no;?>" style = "width: 100%"></b></td>
@@ -390,7 +390,7 @@
 
 			    		<tr>
 			    			<td class="f13" colspan="4">Date Prepared:</td>
-			    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_prepared));?></td>
+			    			<td class="f13 bor-btm" colspan="7"><?php echo date('F j, Y', strtotime($date_prepared_temp));?></td>
 			    			<td class="f13" colspan="1"></td>
 			    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JO No.:</td>
 			    			<td class="f13 bor-btm" colspan="5"><b><?php echo $cenjo_no_temp; ?></b></td>

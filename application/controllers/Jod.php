@@ -1529,6 +1529,7 @@ class Jod extends CI_Controller {
         $data['tc'] = $this->super_model->select_row_where("joi_tc", "joi_id", $joi_id);
         $data['tc_temp'] = $this->super_model->select_row_where("joi_tc_temp", "joi_id", $joi_id);
         $data['date_needed_temp'] = $this->super_model->select_column_where('joi_head_temp', 'date_needed', 'joi_id', $joi_id);
+        $data['date_prepared_temp'] = $this->super_model->select_column_where('joi_head_temp', 'date_prepared', 'joi_id', $joi_id);
         $data['start_of_work_temp'] = $this->super_model->select_column_where('joi_head_temp', 'start_of_work', 'joi_id', $joi_id);
         $data['completion_date_temp'] = $this->super_model->select_column_where('joi_head_temp', 'completion_date', 'joi_id', $joi_id);
         $data['general_desc_temp'] = $this->super_model->select_column_where('joi_head_temp', 'general_desc', 'joi_id', $joi_id);
@@ -1938,6 +1939,7 @@ class Jod extends CI_Controller {
                         "discount"=>$headt->discount,
                         "user_id"=>$headt->user_id,
                         "date_needed"=>$headt->date_needed,
+                        "date_prepared"=>$headt->date_prepared,
                         "completion_date"=>$headt->completion_date,
                         "general_desc"=>$headt->general_desc,
                         "cenpri_jo_no"=>$headt->cenpri_jo_no,
