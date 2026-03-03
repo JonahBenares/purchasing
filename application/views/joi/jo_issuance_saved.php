@@ -17,11 +17,14 @@
   	<style type="text/css">
         html, body{
             background: #2d2c2c!important;
-            font-size:12px!important;
+            
         }
         .pad{
         	padding:0px 250px 0px 250px
         }
+		tr, td{
+			font-size: 14px
+		}
         @media print{
         	.pad{
         	padding:0px 0px 0px 0px
@@ -33,6 +36,9 @@
         	background-size: contain!important;
         	background-position: center center!important;
         }
+		.text-top{
+			vertical-align: top;
+		}
         .table-bordered>tbody>tr>td, 
         .table-bordered>tbody>tr>th, 
         .table-bordered>tfoot>tr>td, 
@@ -43,7 +49,7 @@
 		    border: 1px solid #000!important;
 		}
 		.f13{
-			font-size:13px!important;
+			font-size:14px!important;
 		}
 		.bor-btm{
 			border-bottom: 1px solid #000;
@@ -52,6 +58,27 @@
 			border: 0px!important;
 		}
 		@media print{
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			/* Allow normal rows to break */
+			tr {
+				page-break-inside: auto;
+				break-inside: auto;
+			}
+
+			/* Prevent totals from breaking */
+			.no-break-row {
+				page-break-inside: avoid !important;
+				break-inside: avoid !important;
+			}
+
+			/* td {
+				vertical-align: top;
+				word-break: break-word;
+			} */
 			#prnt_btn, #printnotes, #updateTerm{
 				display: none;
 			}
@@ -68,6 +95,9 @@
 	        	background-size: contain!important;
 	        	background-position: center center!important;
 	        }
+		}
+		.pt-3{
+			padding-top:10px
 		}
 		.text-white{
 			color: #fff;
@@ -362,7 +392,7 @@ tr:nth-child(4) td {
 			    			</center>
 		    			</td>
 		    		</tr>
-		    		<tr><td colspan="20" align="center"><h4><b>JOB ORDER</b></h4></td></tr>
+		    		<tr><td colspan="20" align="center" class="pt-3"><h4><b>JOB ORDER</b></h4></td></tr>
 		    		<?php foreach($head AS $h){ ?>
 		    		<tr>
 		    			<td class="f13" colspan="3" style="vertical-align:top">TO:</td>
@@ -378,25 +408,25 @@ tr:nth-child(4) td {
 		    		</tr>
 		    		
 		    		<tr>
-		    			<td class="f13" colspan="4">Date Needed:</td>
+		    			<td class="f13" colspan="3">Date Needed:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['date_needed']; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">Completion of Work:</td>
+		    			<td class="f13" colspan="4">Completion of Work:</td>
 		    			<td class="f13 bor-btm" colspan="5"><?php echo $h['completion_date']; ?></td>
 		    		</tr>
 
 		    		<tr>
-		    			<td class="f13" colspan="4">Date Prepared:</td>
+		    			<td class="f13" colspan="3">Date Prepared:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['date_prepared']; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3"><?php echo JO_NAME;?> JOR No.:</td>
+		    			<td class="f13" colspan="4"><?php echo JO_NAME;?> JOR No.:</td>
 		    			<td class="f13 bor-btm" colspan="5"><b><?php echo $h['cenpri_jo_no']; ?></b></td>
 		    		</tr>
 		    		<tr>
-		    			<td class="f13" colspan="4">Start of Work:</td>
+		    			<td class="f13" colspan="3">Start of Work:</td>
 		    			<td class="f13 bor-btm" colspan="7"><?php echo $h['start_of_work']; ?></td>
 		    			<td class="f13" colspan="1"></td>
-		    			<td class="f13" colspan="3">JO No.:</td>
+		    			<td class="f13" colspan="4">JO No.:</td>
 		    			<td class="f13 bor-btm" colspan="5"><?php echo $h['joi_no']."-".COMPANY. (($revision_no!=0) ? ".r".$revision_no : ""); ?></td>
 		    		</tr>	
 		    		<!-- <tr>
@@ -415,195 +445,142 @@ tr:nth-child(4) td {
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
 		    		<?php } ?>	    		
-		    		<tr>
-		    		
-		    			<td colspan="20">
-		    				<table class="table-bordesred" width="100%">
-		    					<tr>
-		    						<td width="55%" class="f13 p-l-5" align="left"><b>Scope of Work:</b></td>
-		    						<td width="5%" class="f13" align="center"><b>Qty</b></td>
-		    						<td width="5%" class="f13" align="center"><b>UM</b></td>
-		    						<td width="11%" class="f13" align="center"><b>Currency</b></td>
-		    						<td width="12%" class="f13" align="center"><b>Unit Cost</b></td>
-		    						<td width="12%" class="f13" align="center"><b>Total Cost</b></td>
-		    					</tr>
-		    					<tr>
-                                    <td class="f13 p-l-5" align="left"><b><?php echo $h['general_desc']; ?></b></td>
-                                </tr>
-                                <!--ITEMS-->
-		    					<?php
-					    		$gtotal=array();
-					    		$mattotal=array();
-					    		if(!empty($items)){
-					    		foreach($items AS $it){ 
-					    			$gtotal[] = $it->amount;
-					    			$mattotal[] = $it->materials_amount;
-				    			?>
-		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->offer)."<br><br>"; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->delivered_quantity,2); ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->uom; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->currency; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->unit_price,4); ?></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($it->amount,4); ?></td>
-		    					</tr>
-		    					<?php } }else { $gtotal=array(); $mattotal=array(); } ?>
-		    					<!--ITEMS-->
-		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
-		    					<tr>
-		    						<td width="55%" class="f13 p-l-5" align="left"><b>Materials:</b></td>
-		    					</tr>
-		    					<?php } ?>
-		    					<!--MATERIALS-->
-		    					<?php
-					    		$gtotal=array();
-					    		$mattotal=array();
-					    		if(!empty($items)){
-					    		foreach($items AS $it){ 
-					    			$gtotal[] = $it->amount;
-					    			$mattotal[] = $it->materials_amount;
-					    			if($it->materials_offer!='' && $it->materials_qty!=0){
-				    			?>
-		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left"><?php echo nl2br($it->materials_offer)."<br><br>"; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->materials_qty,2); ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_unit; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo $it->materials_currency; ?></td>
-		    						<td class="f13" align="center" style="vertical-align:top;"><?php echo number_format($it->materials_unitprice,4); ?></td>
-		    						<td class="f13" align="right" style="vertical-align:top;"><?php echo number_format($it->materials_amount,4); ?></td>
-		    					</tr>
-		    					<?php } } }else { $gtotal=array(); $mattotal=array(); } ?>
-		    					<!--MATERIALS-->
-		    					<tr><td colspan="6" class="p-5"></td></tr>
-		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<!-- <b>Notes:</b>		    						 -->
-		    						</td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    					</tr>
-		    					<!-- <?php 
-		    						$y=1; 
-		    						foreach($tc AS $n){ 
-		    							if($n->notes!=''){
-		    					?>
-		    					<tr>
-		    						<td class="f13" style="padding-left: 5px" align="left">
-		    							<?php echo nl2br($n->notes)."<br><br>"; ?>
-		    						</td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    					</tr>
-		    					<?php $y++; } } ?> -->
-		    					<tr>
-		    						<td class="f13 p-l-5" align="left"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
-		    						<td class="f13" align="center"></td>
-		    					</tr>
-		    					<?php 
-		    						$grtotal =array_sum($gtotal);
-		    						$gmtotal=array_sum($mattotal);
-		    						$percent=$vat_percent/100;
-		    						$total=$grtotal+$gmtotal;
-		    						$sumvat=($total*$percent);
-		    						$subtotal=$total+$sumvat;
-		    						$grandtotal = ($grtotal+$gmtotal+$sumvat)-$discount;
-		    						//$subtotal=$grtotal+$gmtotal+$vat;
-		    						//$grandtotal = ($grtotal+$gmtotal+$vat)-$discount;
-		    					?>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Total Labor:</td>
-		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
-		    					</tr>
-		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Total Materials:</td>
-		    						<td align="right"><?php echo number_format(array_sum($mattotal),2); ?></td>
-		    					</tr>
-		    					<?php } ?>
-		    					<!-- <tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Sub Total:</td>
-		    						<td align="right"><?php echo number_format($subtotal,2);?></td>
-		    					</tr> -->
-		    					<?php if($discount_lab!=0){ ?>
-								<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Discount Labor:</td>
-		    						<td align="right"></span><?php echo number_format($discount_lab,2); ?></td>
-		    					</tr>
-		    					<?php } ?>
-		    					<?php if($discount_mat!=0){ ?>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Discount Material:</td>
-		    						<td align="right"><?php echo number_format($discount_mat,2); ?></td>
-		    					</tr>
-		    					<?php } ?>
-		    					<?php if($discount!=0){ ?>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Less Discount:</td>
-		    						<td align="right"><?php echo number_format($discount,2);?></td>
-		    					</tr>
-		    					<?php } ?>
-		    					<?php if($vat!=0){ ?>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right"><?php echo $vat_percent; ?>% VAT:</td>
-		    						<td align="right"></span> <?php echo number_format($vat,2); ?></td>
-		    					</tr>
-		    					<?php } ?>
-		    					<tr>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td></td>
-		    						<td align="right">Grand Total:</td>
-		    						<?php if($grand_total!=0){ ?>
-		    							<td align="right"><?php echo number_format($grand_total,2); ?></td>
-		    							<input type = "hidden" id="sum_cost" value="<?php echo $grand_total; ?>">
-		    						<?php }else{ ?>
-		    							<td align="right"><?php echo number_format($grandtotal,2); ?></td>
-		    							<input type = "hidden" id="sum_cost" value="<?php echo $grandtotal; ?>">
-		    						<?php } ?>
-		    					</tr>
-		    					
-		    				</table>
-		    			</td>
-		    		</tr>
+		    		<!-- SCOPE HEADER -->
+					<tr>
+						<td colspan="11" class="f13 p-l-5"><b>Scope of Work:</b></td>
+						<td colspan="1" class="f13" align="center"><b>Qty</b></td>
+						<td colspan="1" class="f13" align="center"><b>UM</b></td>
+						<td colspan="2" class="f13" align="center"><b>Currency</b></td>
+						<td colspan="2" class="f13" align="center"><b>Unit Cost</b></td>
+						<td colspan="3" class="f13" align="right"><b>Total Cost</b></td>
+					</tr>
+
+					<!-- GENERAL DESCRIPTION -->
+					<tr>
+						<td colspan="11" class="f13 p-l-5">
+							<b><?php echo $h['general_desc']; ?></b>
+						</td>
+						<td colspan="9"></td>
+					</tr>
+
+					<?php
+					$gtotal = array();
+					$mattotal = array();
+
+					if(!empty($items)){
+					foreach($items AS $it){
+
+						$gtotal[] = $it->amount;
+						$mattotal[] = $it->materials_amount;
+					?>
+
+					<!-- LABOR ITEMS -->
+					<tr>
+						<td colspan="11" class="f13 p-l-5">
+								<?php echo nl2br($it->offer); ?>
+						</td>
+						<td colspan="1" align="center" class="text-top"><?php echo number_format($it->delivered_quantity,2); ?></td>
+						<td colspan="1" align="center" class="text-top"><?php echo $it->uom; ?></td>
+						<td colspan="2" align="center" class="text-top"><?php echo $it->currency; ?></td>
+						<td colspan="2" align="center" class="text-top"><?php echo number_format($it->unit_price,4); ?></td>
+						<td colspan="3" align="right" class="text-top"><?php echo number_format($it->amount,4); ?></td>
+					</tr>
+
+					<?php
+					}} 
+					?>
+
+					<!-- MATERIALS HEADER -->
+					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
+					<tr>
+						<td colspan="20" class="f13 p-l-5"><b>Materials:</b></td>
+					</tr>
+					<?php } ?>
+
+					<?php
+					if(!empty($items)){
+					foreach($items AS $it){
+					if($it->materials_offer!='' && $it->materials_qty!=0){
+					?>
+
+					<!-- MATERIAL ITEMS -->
+					<tr>
+						<td colspan="11" class="f13 p-l-5">
+							<?php echo nl2br($it->materials_offer); ?>
+						</td>
+						<td colspan="1" align="center"><?php echo number_format($it->materials_qty,2); ?></td>
+						<td colspan="1" align="center"><?php echo $it->materials_unit; ?></td>
+						<td colspan="2" align="center"><?php echo $it->materials_currency; ?></td>
+						<td colspan="2" align="center"><?php echo number_format($it->materials_unitprice,4); ?></td>
+						<td colspan="3" align="right"><?php echo number_format($it->materials_amount,4); ?></td>
+					</tr>
+
+					<?php
+					}}}
+					?>
+
+					<?php
+					$grtotal = array_sum($gtotal);
+					$gmtotal = array_sum($mattotal);
+					$percent = $vat_percent/100;
+					$total = $grtotal + $gmtotal;
+					$sumvat = ($total * $percent);
+					$grandtotal = ($grtotal + $gmtotal + $sumvat) - $discount;
+					?>
+
+					<!-- SPACING -->
+					<tr><td colspan="20"><br></td></tr>
+
+					<!-- TOTAL LABOR -->
+					<tr class="no-break-row">
+						<td class="border" colspan="15"></td>
+						<td class="border" colspan="3" align="right">Total Labor:</td>
+						<td class="border" colspan="2" align="right"><?php echo number_format($grtotal,2); ?></td>
+					</tr>
+
+					<!-- TOTAL MATERIAL -->
+					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
+					<tr class="no-break-row">
+						<td colspan="15"></td>
+						<td colspan="3" align="right">Total Materials:</td>
+						<td colspan="2" align="right"><?php echo number_format($gmtotal,2); ?></td>
+					</tr>
+					<?php } ?>
+
+					<!-- DISCOUNTS -->
+					<?php if($discount!=0){ ?>
+					<tr class="no-break-row">
+						<td colspan="15"></td>
+						<td colspan="3" align="right">Less Discount:</td>
+						<td colspan="2" align="right"><?php echo number_format($discount,2); ?></td>
+					</tr>
+					<?php } ?>
+
+					<!-- VAT -->
+					<?php if($vat!=0){ ?>
+					<tr class="no-break-row">
+						<td colspan="15"></td>
+						<td colspan="3" align="right"><?php echo $vat_percent; ?>% VAT:</td>
+						<td colspan="2" align="right"><?php echo number_format($vat,2); ?></td>
+					</tr>
+					<?php } ?>
+
+					<!-- GRAND TOTAL -->
+					<tr class="no-break-row">
+						<td colspan="15"></td>
+						<td colspan="3" align="right"><b>Grand Total:</b></td>
+						<td colspan="2" align="right">
+							<b>
+							<?php 
+							if($grand_total!=0){
+								echo number_format($grand_total,2);
+							} else {
+								echo number_format($grandtotal,2);
+							}
+							?>
+							</b>
+						</td>
+					</tr>
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				Terms & Conditions:<br>
