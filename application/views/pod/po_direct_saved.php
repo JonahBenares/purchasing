@@ -267,7 +267,7 @@
 
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php echo $it['item'].", ".$CI->get_pn($it['pr_details_id']);?></b></td>
 
-		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it['price'],4); ?></b></td>
+		    			<td colspan="2" class="bor-right v-align" align="center"><b><?php echo number_format($it['price'],6); ?></b></td>
 		    			<td width="10%" class="bor-right v-align" align="center">
 		    				<?php if($saved==0 && $draft==0){ ?>
 				    		<select style="width: 100%" name='currency<?php echo $x; ?>'>

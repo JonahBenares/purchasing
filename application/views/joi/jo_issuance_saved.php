@@ -525,7 +525,7 @@ tr:nth-child(4) td {
 		    						<td></td>
 		    						<td></td>
 		    						<td></td>
-		    						<td align="right">Total Labor:</td>
+		    						<td align="right">Total Labor: <?php echo $materials_qty ?></td>
 		    						<td align="right"><?php echo number_format(array_sum($gtotal),2); ?></td>
 		    					</tr>
 		    					<?php if($materials_offer!='' && $materials_qty!=0){ ?>
