@@ -444,8 +444,7 @@ tr:nth-child(4) td {
 		    		</tr>
 		    		<tr><td class="f13" colspan="20" align="center"><i><small>PROJECT TITLE/DESCRIPTION</small></i></td></tr>		    		
 		    		<tr><td class="f13" colspan="20" align="center"><br></td></tr>	
-		    		<?php } ?>	    		
-<<<<<<< HEAD
+		    		<?php } ?>
 		    		<tr>
 		    		
 		    			<td colspan="20">
@@ -635,7 +634,6 @@ tr:nth-child(4) td {
 		    				</table>
 		    			</td>
 		    		</tr>
-=======
 		    		<!-- SCOPE HEADER -->
 					<tr>
 						<td colspan="11" class="f13 p-l-5"><b>Scope of Work:</b></td>
@@ -772,7 +770,6 @@ tr:nth-child(4) td {
 							</b>
 						</td>
 					</tr>
->>>>>>> 0b6cc4f9d57722d67d7a75cd7b8d1a0a6320a428
 		    		<tr>
 		    			<td colspan="20" style="padding: 10px!important">
 		    				Terms & Conditions:<br>
