@@ -714,6 +714,7 @@
 			</div>
 		</div>
     </div>
+    
     <script type="text/javascript">
     	function printPage() {
 		  window.print();
