@@ -320,7 +320,8 @@
 					    				$total_amount[] = $it['amount']; ?>
 					    		<tr>
 					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $x; ?></b></td>
-					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['quantity']; ?></b></td>
+									<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo number_format($it['quantity'],2); ?></b></td>
+					    			<!-- <td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['quantity']; ?></b></td> -->
 					    			<td colspan="" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo $it['uom']; ?></b></td>
 					    			<td colspan="12" class="bor-right" align="left"><b><?php echo $it['offer']; ?></b></td>
 					    			<td colspan="2" class="bor-right" align="center" style='vertical-align: text-top;'><b><?php echo number_format($it['price'],6); ?></b></td>

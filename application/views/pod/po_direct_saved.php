@@ -261,7 +261,8 @@
 		    		<tr>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
 
-		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it['quantity']; ?></b></td>
+		    			<!-- <td colspan="" class="bor-right v-align" align="center"><b><?php echo $it['quantity']; ?></b></td> -->
+						<td colspan="" class="bor-right v-align" align="center"><b><?php echo number_format($it['quantity'],2); ?></b></td>
 
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $it['uom']; ?></b></td>
 

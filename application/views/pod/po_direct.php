@@ -300,9 +300,9 @@
 		    		<tr>
 		    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
 
-		    			<td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type='number' step="any" min='0' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' max='<?php echo $it['balance']; ?>' style='width:50px; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onchange='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"><?php }else { echo $it['quantity']; } ?></b></td>
-
-		    			<td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type = "text" style='width:50px; color:red' name='uom<?php echo $x; ?>' value = "<?php echo $it['uom']; ?>"><?php } else { echo $it['uom']; }?></b></td>
+		    			<!-- <td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type='number' step="any" min='0' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo $it['balance']; ?>' max='<?php echo $it['balance']; ?>' style='width:50px; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onchange='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"><?php }else { echo $it['quantity']; } ?></b></td> -->
+						<td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type='number' step="any" min='0' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' class='quantity' value='<?php echo number_format($it['balance'],2); ?>' max='<?php echo $it['balance']; ?>' style='width:50px; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onchange='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"><?php }else { echo number_format($it['quantity'],2); } ?></b></td>
+						<td colspan="" class="bor-right v-align" align="center"><b><?php if($saved==0){ ?><input type = "text" style='width:50px; color:red' name='uom<?php echo $x; ?>' value = "<?php echo $it['uom']; ?>"><?php } else { echo $it['uom']; }?></b></td>
 
 		    			<td colspan="12" class="bor-right v-align" align="left"><b class="nomarg"><?php if($saved==0){ ?><textarea class = "form-control" name='item<?php echo $x; ?>'><?php echo $it['item'].", ".$CI->get_pn($it['pr_details_id']); ?></textarea><?php } else { echo $it['item']; }?></b></td>
 

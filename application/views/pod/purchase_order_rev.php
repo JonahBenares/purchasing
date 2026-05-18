@@ -393,7 +393,8 @@
 							    				} ?>
 								    		<tr>
 								    			<td colspan="" class="bor-right v-align" align="center"><b><?php echo $x; ?></b></td>
-								    			<td colspan="2" class="bor-right v-align" align="center"><input type='number' step='any' min='0' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' max="<?php echo $balance; ?>" class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:100%; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onchange='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
+												<td colspan="2" class="bor-right v-align" align="center"><input type='number' step='any' min='0' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' max="<?php echo $balance; ?>" class='quantity' value='<?php echo number_format($it->delivered_quantity,2); ?>' style='width:100%; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onchange='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td>
+								    			<!-- <td colspan="2" class="bor-right v-align" align="center"><input type='number' step='any' min='0' name='quantity<?php echo $x; ?>' id='quantity<?php echo $x; ?>' max="<?php echo $balance; ?>" class='quantity' value='<?php echo $it->delivered_quantity; ?>' style='width:100%; color:red' onkeyup='changePrice(<?php echo $x; ?>)' onchange='changePrice(<?php echo $x; ?>)' onkeypress="return isNumberKey(this, event)"></td> -->
 								    			<!-- <td colspan="" class="bor-right v-align" align="center"><b><?php echo $it->uom; ?></b></td> -->
 								    			<td colspan="" class="bor-right v-align" align="center"><b><input type='text' name='uom<?php echo $x; ?>' id='uom<?php echo $x; ?>' class='uom' value='<?php echo $it->uom; ?>' style = "width:100%;"></b></td>
 								    			<td colspan="11" class="bor-right v-align" align="left"><input type='text' style='width:100%' name='offer<?php echo $x; ?>' value='<?php echo utf8_encode($offer); ?>'></td>
@@ -428,7 +429,8 @@
 							    				} ?>
 								    		<tr>
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $x; ?></b></td>
-								    			<td colspan="2" class="bor-right" align="center"><?php echo $it->delivered_quantity; ?></td>
+												<td colspan="2" class="bor-right" align="center"><?php echo number_format($it->delivered_quantity,2); ?></td>
+								    			<!-- <td colspan="2" class="bor-right" align="center"><?php echo $it->delivered_quantity; ?></td> -->
 								    			<td colspan="" class="bor-right" align="center"><b><?php echo $it->uom; ?></b></td>
 								    			<td colspan="11" class="bor-right" align="left"><?php echo utf8_encode($offer); ?></td>
 								    			<td colspan="2" class="bor-right" align="center"><?php echo number_format($it->unit_price,6); ?></td>
