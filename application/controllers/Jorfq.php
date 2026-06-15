@@ -248,6 +248,8 @@ class Jorfq extends CI_Controller {
                 $data['items'][]=array(
                     "item_no"=>$item_no,
                     "scope_of_work"=>$as->scope_of_work,
+                    "quantity"=>$as->quantity,
+                    "uom"=>$as->uom,
                 );
             }
         }

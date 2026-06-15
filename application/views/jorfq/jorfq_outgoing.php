@@ -254,18 +254,28 @@
 							  <span class="fa fa-plus"></span> Add Scope
 							</button>		    			
 			    		</td>
-			    	</tr> -->		    		
-		    		<tr>
-		    			<td colspan="10">
-		    				<div style="margin: 10px">
-			    				<b>Scope of Work:</b>
+			    	</tr> -->	
+					<tr>
+						<td colspan="10">
+	 					<b>Scope of Work:</b>
 			    				<br>
 			    				<?php echo $general_desc;?>
 			    				<br>
-			    				<?php foreach($items AS $i){ ?>
-			    				<?php echo "<b>".$i['item_no'].".</b> ".nl2br($i['scope_of_work'])."<br>"; ?><br>
-			    				<?php } ?>
-							</div>
+						</td>
+					</tr>
+
+		    		<tr>
+		    			<td colspan="10">
+							<table width = "100%">
+								<?php foreach($items AS $i){ ?>
+								<tr>
+									<td><b><?php echo $i['item_no']; ?>.</b></td>
+									<td><?php echo nl2br($i['scope_of_work']); ?></td>
+									<td></td>
+									<td><?php echo $i['quantity']; ?> <?php echo $i['uom']; ?></td>
+								</tr>
+								<?php } ?>
+							</table> 	
 		    			</td>
 		    			<td class="bor-btm" colspan="9">
 		    				<div style="margin: 10px; vertical-align: bottom;"></div>
