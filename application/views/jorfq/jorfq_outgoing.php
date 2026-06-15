@@ -272,7 +272,7 @@
 									<td><b><?php echo $i['item_no']; ?>.</b></td>
 									<td><?php echo nl2br($i['scope_of_work']); ?></td>
 									<td></td>
-									<td><?php echo $i['quantity']; ?> <?php echo $i['uom']; ?></td>
+									<td width= "10%"><?php echo $i['quantity']; ?> <?php echo $i['uom']; ?></td>
 								</tr>
 								<?php } ?>
 							</table> 	
