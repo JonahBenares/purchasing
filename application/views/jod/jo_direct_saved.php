@@ -68,6 +68,18 @@
 	        	background-size: contain!important;
 	        	background-position: center center!important;
 	        }
+	        table {
+		        page-break-inside: auto !important;
+		    }
+
+		    tr {
+		        page-break-inside: auto !important;
+		        page-break-after: auto !important;
+		    }
+
+		    td {
+		        page-break-inside: auto !important;
+		    }
 		}
 		.text-white{
 			color: #fff;
