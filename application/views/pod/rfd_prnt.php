@@ -310,7 +310,10 @@
 		    			$gtotal = $stotal-$less;
 		    		} ?>
 		    		<tr>
-		    			<td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: <?php echo number_format($ewt); ?>% EWT</b></td>
+		    			<!-- <td align="right" colspan="17" class="bor-right"><b class="nomarg">Less: <?php echo number_format($ewt); ?>% EWT</b></td> -->
+		    			<td align="right" colspan="17" class="bor-right">
+						    <b class="nomarg">Less: <?php echo rtrim(rtrim(number_format($ewt, 2, '.', ','), '0'), '.'); ?>% EWT</b>
+						</td>
 		    			<td align="right" colspan="3">
 		    				<span class="pull-left nomarg"><?php echo $currency; ?></span>
 		    				<span class="nomarg" id=''><b style="font-weight: 900"><?php echo number_format($less,2); ?></b></span>
